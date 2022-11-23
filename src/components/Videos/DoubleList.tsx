@@ -19,7 +19,7 @@ export function DoubleVideosList<Data = unknown>(props: DoubleVideosListProps<Da
 		<div class="space-y-4">
 			{props.label}
 
-			<div class="grid grid-cols-1 2xl:grid-cols-2 2xl:gap-x-12 3xl:gap-x-24 gap-y-3 md:gap-y-1">
+			<div class="grid grid-cols-1 2xl:grid-cols-2 2xl:gap-x-12 3xl:gap-x-24 gap-y-3 md:gap-y-1.5">
 				<Show
 					when={props.showWhenLoading || !props.isLoading}
 					fallback={<For each={Array(10)}>{() => <Video.ListSkeleton />}</For>}
