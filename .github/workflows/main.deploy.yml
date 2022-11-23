@@ -1,13 +1,10 @@
-name: dev-deploy
+name: main-deploy
 on:
     push:
         branches:
-            - "development"
-        paths:
-            - "frontend/**"
+            - "main"
 jobs:
     deploy:
-        environment: web
         runs-on: windows-latest
         steps:
             - uses: actions/checkout@v2
@@ -23,11 +20,9 @@ jobs:
                   run_install: false
 
             - name: Install Deps
-              working-directory: ./frontend
               run: pnpm i
 
             - name: Build
-              working-directory: ./frontend
               run: pnpm build
               env:
                   VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
@@ -37,7 +32,7 @@ jobs:
             - name: Deploy
               uses: wangyucode/sftp-upload-action@v1.4.8
               with:
-                  localDir: ./frontend/dist/
+                  localDir: ./dist/
                   exclude: "**/*.png" # TODO fix this, slows down upload: https://github.com/wangyucode/sftp-upload-action/issues/11
                   host: ${{ secrets.FTP_HOST }}
                   username: ${{ secrets.FTP_USERNAME }}
