@@ -19,14 +19,12 @@ export const VideoListBigSkeleton: Component = () => {
 			<div class="sm:w-[20rem] w-full">
 				<VideoThumbnailBigSkeleton />
 			</div>
-			<div class="flex flex-col space-y-4 w-full px-2 py-3">
-				<div class="max-w-[32rem] h-5 rounded-full bg-neutral-800 animate-pulse" />
-				<div class="flex flex-col space-y-1">
-					<div class="max-w-[8rem] h-4 rounded-full bg-neutral-800 animate-pulse" />
-					<div class="flex-row-center space-x-2 text-sm">
-						<ChannelThumbnailSkeleton />
-						<div class="w-full max-w-[8rem] h-4 rounded-full bg-neutral-800 animate-pulse" />
-					</div>
+			<div class="flex flex-col space-y-2 w-full px-2 py-3">
+				<div class="max-w-[32rem] h-4 rounded-full bg-neutral-800 animate-pulse" />
+				<div class="max-w-[8rem] h-4 rounded-full bg-neutral-800 animate-pulse" />
+				<div class="flex-row-center space-x-2 text-sm">
+					<ChannelThumbnailSkeleton />
+					<div class="w-full max-w-[8rem] h-3 rounded-full bg-neutral-800 animate-pulse" />
 				</div>
 			</div>
 		</div>

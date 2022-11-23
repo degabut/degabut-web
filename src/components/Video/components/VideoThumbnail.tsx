@@ -21,7 +21,7 @@ export const VideoThumbnail: Component<Props> = (props) => {
 export const VideoThumbnailBig: Component<Props> = (props) => {
 	return (
 		<div class={`relative flex bg-black rounded ${props.extraContainerClass}`}>
-			<div class="sm:w-[16rem] sm:h-[10rem] mx-auto">
+			<div class="sm:w-[16rem] sm:h-[9rem] mx-auto">
 				<img
 					src={props.video.thumbnails.at(-1)?.url}
 					alt={props.video.title}
