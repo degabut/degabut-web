@@ -77,19 +77,12 @@ export const Recommendation: Component = () => {
 				</div>
 
 				<Show when={recommendation.channelRelated().data.length || recommendation.channelRelated().loading}>
-					<Videos.Double
-						label={<Title>{queue.data()?.voiceChannel.name || "Channel"} Recommendations</Title>}
+					<ExpandableVideoList
+						double
+						label={`${queue.data()?.voiceChannel.name || "Channel"} Recommendations`}
 						isLoading={recommendation.channelRelated().loading}
-						data={recommendation.channelRelated().data}
-						videoProps={(video) => ({
-							video,
-							contextMenu: getVideoContextMenu({
-								appStore: app,
-								queueStore: queue,
-								navigate,
-								video,
-							}),
-						})}
+						videos={recommendation.channelRelated().data}
+						onClickMore={() => setShowMoreType(ShowMoreType.ChannelRelated)}
 					/>
 				</Show>
 

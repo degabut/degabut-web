@@ -12,6 +12,7 @@ import { Component, createMemo } from "solid-js";
 export enum ShowMoreType {
 	MostPlayed = 1,
 	RecentlyPlayed = 2,
+	ChannelRelated = 3,
 }
 
 type Props = {
@@ -29,18 +30,47 @@ export const ShowMoreModal: Component<Props> = (props) => {
 	const navigate = useNavigate();
 
 	const params = createMemo(() => {
-		return props.type === ShowMoreType.MostPlayed
-			? {
+		switch (props.type) {
+			case ShowMoreType.MostPlayed:
+				return {
 					userId: props.initialUserId,
 					days: 30,
 					count: 20,
-			  }
-			: props.type === ShowMoreType.RecentlyPlayed
-			? {
+				};
+
+			case ShowMoreType.RecentlyPlayed:
+				return {
 					userId: props.initialUserId,
 					last: 20,
-			  }
-			: null;
+				};
+
+			case ShowMoreType.ChannelRelated:
+				return {
+					userId: props.initialUserId,
+					voiceChannel: true,
+					days: 14,
+					count: 20,
+				};
+
+			default:
+				return null;
+		}
+	});
+
+	const label = createMemo(() => {
+		switch (props.type) {
+			case ShowMoreType.MostPlayed:
+				return "Most Played";
+
+			case ShowMoreType.RecentlyPlayed:
+				return "Recently Played";
+
+			case ShowMoreType.ChannelRelated:
+				return `${queue.data()?.voiceChannel.name || "Channel"} Recommendations`;
+
+			default:
+				return null;
+		}
 	});
 
 	const videos = useVideos(params);
@@ -54,9 +84,7 @@ export const ShowMoreModal: Component<Props> = (props) => {
 		>
 			<div class="flex flex-col h-full">
 				<div class="py-4 md:py-8 !pb-0 z-10">
-					<div class="text-xl font-medium text-center mb-4 md:mb-6">
-						{props.type === ShowMoreType.MostPlayed ? "Most Played" : "Recently Played"}
-					</div>
+					<div class="text-xl font-medium text-center mb-4 md:mb-6">{label()}</div>
 					<Divider />
 				</div>
 				<div class="pb-8 pt-4 md:pt-6 px-2 md:px-8 overflow-auto">
