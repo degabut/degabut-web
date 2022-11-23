@@ -41,7 +41,7 @@ export const FloatingContextMenu: Component<Props> = (props) => {
 				left: props.params.x + "px",
 				top: props.params.y + "px",
 			}}
-			class={`fixed bg-neutral-900 z-50 min-w-[12rem] w-max p-1.5 rounded ${props.params.extraContainerClass}`}
+			class={`fixed bg-neutral-950 z-50 min-w-[12rem] w-max p-1.5 rounded ${props.params.extraContainerClass}`}
 		>
 			<For each={props.params.items}>
 				{(itemItems, i) => (
