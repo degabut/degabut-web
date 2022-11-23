@@ -1,3 +1,4 @@
+import { App } from "@components/App";
 import { Landing, Login, OAuth } from "@views";
 import { RootApp } from "@views/App/App";
 import { PlaylistDetail, Playlists } from "@views/App/Playlist";
@@ -7,9 +8,16 @@ import { Search } from "@views/App/Search";
 import { Settings } from "@views/App/Settings";
 import { VideoDetail } from "@views/App/VideoDetail";
 import { Route, Routes } from "solid-app-router";
-import { Component } from "solid-js";
+import { Component, onMount } from "solid-js";
+import { IS_DESKTOP } from "../constants";
 
 export const Main: Component = () => {
+	onMount(() => {
+		if (IS_DESKTOP && import.meta.env.PROD) {
+			document.addEventListener("contextmenu", (e) => e.preventDefault());
+		}
+	});
+
 	return (
 		<>
 			<div class="flex flex-col h-full">
@@ -31,6 +39,7 @@ export const Main: Component = () => {
 					</Routes>
 				</div>
 			</div>
+			<App.UpdateModal />
 		</>
 	);
 };

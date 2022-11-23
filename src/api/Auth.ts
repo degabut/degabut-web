@@ -1,20 +1,31 @@
+import { GetAccessToken, SetAccessToken } from "@go/app/App";
 import { AxiosInstance } from "axios";
+import { IS_BROWSER } from "../constants";
 
 export class AuthManager {
 	constructor(private client: AxiosInstance) {}
 
 	public async setAccessToken(accessToken: string): Promise<void> {
+		if (!IS_BROWSER) SetAccessToken(accessToken);
 		localStorage.setItem("access_token", accessToken);
 
 		this.client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 	}
 
 	public async getAccessToken(): Promise<string> {
-		return localStorage.getItem("access_token") || "";
+		if (IS_BROWSER) {
+			return localStorage.getItem("access_token") || "";
+		} else {
+			return GetAccessToken() || localStorage.getItem("access_token") || "";
+		}
 	}
 
 	public async resetAccessToken(): Promise<void> {
-		localStorage.removeItem("access_token");
+		if (IS_BROWSER) {
+			localStorage.removeItem("access_token");
+		} else {
+			SetAccessToken("");
+		}
 	}
 }
 

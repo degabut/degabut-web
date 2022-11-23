@@ -1,12 +1,27 @@
 import { Link } from "@components/Link";
 import { useApi } from "@hooks/useApi";
-import { Component, onMount } from "solid-js";
+import * as runtime from "@runtime";
+import { useNavigate } from "solid-app-router";
+import { Component, onCleanup, onMount } from "solid-js";
+import { IS_DESKTOP } from "../constants";
 
 export const Login: Component = () => {
 	const api = useApi();
+	const navigate = useNavigate();
 
 	onMount(() => {
 		api.authManager.resetAccessToken();
+
+		if (IS_DESKTOP) {
+			runtime.EventsOnce("oauth", (token: string) => {
+				api.authManager.setAccessToken(token);
+				navigate("/app/queue");
+			});
+		}
+	});
+
+	onCleanup(() => {
+		if (IS_DESKTOP) runtime.EventsOff("oauth");
 	});
 
 	return (
