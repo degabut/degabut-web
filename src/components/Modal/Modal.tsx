@@ -1,6 +1,7 @@
 import { Icon } from "@components/Icon";
 import { clickOutside } from "@directives/clickOutside";
 import { useHashState } from "@hooks/useHashState";
+import { useLocation } from "solid-app-router";
 import { createEffect, onCleanup, onMount, ParentComponent, Show } from "solid-js";
 
 clickOutside;
@@ -10,17 +11,26 @@ type Props = {
 	extraContainerClass?: string;
 	closeOnEscape?: boolean;
 	hideCloseButton?: boolean;
+	disableHashState?: boolean;
+	closeOnPathChange?: boolean;
 	onClickOutside?: () => void;
 };
 
 export const Modal: ParentComponent<Props> = (props) => {
+	const location = useLocation();
+	const hash = useHashState({ onPopState: () => props.onClickOutside?.() });
 	let parentContainer!: HTMLDivElement;
-	const hash = useHashState({
-		onPopState: () => props.onClickOutside?.(),
+
+	createEffect(() => {
+		if (props.disableHashState !== true) {
+			props.isOpen ? hash.push() : hash.back();
+		}
 	});
 
 	createEffect(() => {
-		props.isOpen ? hash.push() : hash.back();
+		if (props.closeOnPathChange && location.pathname) {
+			props.onClickOutside?.();
+		}
 	});
 
 	onMount(() => {

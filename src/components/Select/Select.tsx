@@ -11,7 +11,7 @@ type Props<Item = unknown> = {
 	hideOptionOnClickOutside?: boolean;
 	children: (item: Item, isSelected: boolean, index: number) => JSX.Element;
 	bottomLabel?: JSX.Element;
-	onSelect: (item: Item, index: number) => void;
+	onSelect: (item: Item, index: number, e: KeyboardEvent | MouseEvent) => void;
 };
 
 export function Select<Item = unknown>(props: Props<Item>) {
@@ -36,7 +36,7 @@ export function Select<Item = unknown>(props: Props<Item>) {
 			setSelectedIndex(newIndex % props.options.length);
 		} else if (e.key === "Enter") {
 			e.preventDefault();
-			props.onSelect(props.options[selectedIndex()], selectedIndex());
+			props.onSelect(props.options[selectedIndex()], selectedIndex(), e);
 		}
 	};
 
@@ -77,7 +77,7 @@ export function Select<Item = unknown>(props: Props<Item>) {
 				<div ref={optionList} class={`absolute overflow-y-scroll w-full ${props.extraResultContainerClass}`}>
 					<For each={props.options}>
 						{(item, index) => (
-							<div onClick={() => props.onSelect(item, index())}>
+							<div onClick={(e) => props.onSelect(item, index(), e)}>
 								{props.children(item, selectedIndex() === index(), index())}
 							</div>
 						)}

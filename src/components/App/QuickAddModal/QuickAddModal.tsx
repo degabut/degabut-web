@@ -32,7 +32,6 @@ export const QuickAddModal: Component = () => {
 		if (
 			tagName !== "INPUT" &&
 			tagName !== "TEXTAREA" &&
-			queue.data() &&
 			!isModalOpen() &&
 			(e.key.toLowerCase() === "p" || (e.key.toLowerCase() === "k" && e.ctrlKey))
 		) {
@@ -57,9 +56,12 @@ export const QuickAddModal: Component = () => {
 		addToQueue();
 	};
 
-	const onSelect = async (item: IVideoCompact | IPlaylistCompact) => {
-		if ("duration" in item) await addToQueue(item); // video
-		else {
+	const onSelect = async (item: IVideoCompact | IPlaylistCompact, _: number, e?: KeyboardEvent | MouseEvent) => {
+		if ("duration" in item) {
+			// video
+			if (e?.shiftKey) navigate("/app/video/" + item.id);
+			else await addToQueue(item);
+		} else {
 			// playlist
 			app.setConfirmation({
 				title: "Add Playlist",
@@ -96,10 +98,12 @@ export const QuickAddModal: Component = () => {
 
 	return (
 		<Modal
-			extraContainerClass="absolute bg-neutral-900 w-[42rem] top-[15vh]"
+			extraContainerClass="absolute bg-neutral-900 w-[48rem] top-[15vh]"
 			isOpen={isModalOpen()}
 			hideCloseButton
 			closeOnEscape
+			closeOnPathChange
+			disableHashState
 			onClickOutside={() => setIsModalOpen(false)}
 		>
 			<form onSubmit={onSubmit} class="m-4">
@@ -128,9 +132,17 @@ export const QuickAddModal: Component = () => {
 								</div>
 
 								<div class="flex-row-center space-x-2">
+									<div class="border border-neutral-300 px-3 py-0.5 rounded">Shift</div>
 									<div class="border border-neutral-300 px-3 py-0.5 rounded">Enter</div>
-									<div class="text-neutral-300">Add to Queue</div>
+									<div class="text-neutral-300">Open</div>
 								</div>
+
+								<Show when={queue.data()}>
+									<div class="flex-row-center space-x-2">
+										<div class="border border-neutral-300 px-3 py-0.5 rounded">Enter</div>
+										<div class="text-neutral-300">Add to Queue</div>
+									</div>
+								</Show>
 							</div>
 						</Show>
 					}
