@@ -43,6 +43,7 @@ const QueueView: Component = () => {
 								<div class="text-xl font-normal">Now Playing</div>
 								<Video.ListBig
 									{...track}
+									onClick={() => navigate(`/app/video/${track.video.id}`)}
 									contextMenu={getVideoContextMenu({
 										video: track.video,
 										appStore: app,

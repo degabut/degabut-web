@@ -8,7 +8,6 @@ type Props = {
 	playlist: IPlaylistCompact;
 	queueStore: QueueContextStore;
 	appStore: AppContextStore;
-	disableOpenWithClick?: boolean;
 	modifyContextMenuItems?: (current: IContextMenuItem[][]) => IContextMenuItem[][];
 };
 
@@ -54,7 +53,6 @@ export const getYouTubePlaylistContextMenu = (props: Props) => {
 
 	return {
 		items: items(),
-		openWithClick: !props.disableOpenWithClick,
 		header: (
 			<div class="flex-col-center justify-center py-4 space-y-1">
 				<div class="w-[16rem] h-[9rem] text-center my-4">

@@ -1,13 +1,13 @@
-import { IVideo } from "@api";
 import { Container } from "@components/Container";
 import { Divider } from "@components/Divider";
-import { getVideoContextMenu, Video } from "@components/Video";
+import { getVideoContextMenu } from "@components/Video";
 import { Videos } from "@components/Videos";
 import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { useVideo } from "@hooks/useVideo";
 import { useNavigate, useParams } from "solid-app-router";
-import { Component, createMemo, onMount, Show } from "solid-js";
+import { Component, createEffect, createMemo, onMount, Show } from "solid-js";
+import { MainVideo, MainVideoSkeleton } from "./components";
 
 export const VideoDetail: Component = () => {
 	const app = useApp();
@@ -19,30 +19,25 @@ export const VideoDetail: Component = () => {
 	const video = useVideo({ videoId });
 
 	onMount(() => {
-		app.setTitle("Related Video");
+		app.setTitle("");
+	});
+
+	createEffect(() => {
+		if (videoId()) video.mutate(null);
 	});
 
 	return (
-		<Container extraClass="flex flex-col">
-			<Show when={video.data()} fallback={<Video.ListBigSkeleton />} keyed>
-				{(v) => (
-					<Video.ListBig
-						video={v as IVideo}
-						contextMenu={getVideoContextMenu({
-							video: v,
-							appStore: app,
-							queueStore: queue,
-							navigate,
-						})}
-					/>
-				)}
+		<Container size="md">
+			<Show when={video.data()} fallback={<MainVideoSkeleton />} keyed>
+				{(v) => <MainVideo video={v} />}
 			</Show>
 
-			<Divider extraClass="my-6" />
+			<Divider extraClass="my-8" />
 
 			<Show when={video.data()} fallback={<Videos.List data={[]} isLoading />} keyed>
 				{(v) => (
 					<Videos.List
+						label={<div class="font-medium">Similar Videos</div>}
 						data={v.related || []}
 						videoProps={(video) => ({
 							video,

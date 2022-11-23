@@ -13,9 +13,9 @@ export const ContextMenuButton: Component<Props> = (props) => {
 	return (
 		<div
 			use:buttonContextMenu={props.contextMenu}
-			class="flex-row-center cursor-pointer text-neutral-400 fill-current px-2 py-3"
+			class="flex-row-center cursor-pointer text-neutral-400 hover:text-neutral-50 px-2 py-3"
 		>
-			<Icon name="ellipsis" extraClass="w-4 h-4" />
+			<Icon name="ellipsis" extraClass="w-4 h-4 fill-current" />
 		</div>
 	);
 };

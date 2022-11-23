@@ -69,6 +69,7 @@ export const Search: Component = () => {
 									<Video.ListResponsive
 										big={screen().gte.lg}
 										video={item}
+										onClick={() => navigate(`/app/video/${item.id}`)}
 										contextMenu={getVideoContextMenu({
 											video: item,
 											appStore: app,

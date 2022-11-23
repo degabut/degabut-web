@@ -1,4 +1,5 @@
 import { Video, VideoListProps } from "@components/Video";
+import { useNavigate } from "solid-app-router";
 import { createMemo, For, JSX, Show } from "solid-js";
 
 type VideosListProps<Data> = {
@@ -10,6 +11,8 @@ type VideosListProps<Data> = {
 };
 
 export function VideosList<Data = unknown>(props: VideosListProps<Data>) {
+	const navigate = useNavigate();
+
 	const videoProps = createMemo(() => {
 		const processor = props.videoProps;
 		if (!processor) return [];
@@ -23,7 +26,9 @@ export function VideosList<Data = unknown>(props: VideosListProps<Data>) {
 
 			<div class="space-y-4 md:space-y-1.5">
 				<Show when={props.showWhenLoading || !props.isLoading}>
-					<For each={videoProps()}>{(props) => <Video.List {...props} />}</For>
+					<For each={videoProps()}>
+						{(props) => <Video.List {...props} onClick={() => navigate(`/app/video/${props.video.id}`)} />}
+					</For>
 				</Show>
 				<Show when={props.isLoading}>
 					<For each={Array(5)}>{() => <Video.ListSkeleton />}</For>

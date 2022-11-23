@@ -145,7 +145,6 @@ export const QuickAddModal: Component = () => {
 										appStore: app,
 										queueStore: queue,
 										navigate,
-										disableOpenWithClick: true,
 									})}
 									extraContainerClass="cursor-pointer px-2 py-1"
 									extraContainerClassList={{ "!bg-white/10": isSelected }}
@@ -166,7 +165,6 @@ export const QuickAddModal: Component = () => {
 											appStore: app,
 											queueStore: queue,
 											playlist: item,
-											disableOpenWithClick: true,
 										})}
 										extraContainerClass="cursor-pointer px-2 py-1"
 										extraContainerClassList={{ "!bg-white/10": isSelected }}
