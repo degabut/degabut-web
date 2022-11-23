@@ -4,5 +4,7 @@ dist
 public/netlify.toml
 .netlify
 
+package.json.md5
+
 .env*
 !.env.example

@@ -2,6 +2,7 @@ import { App } from "@components/App";
 import { AppProvider } from "@providers/AppProvider";
 import { ContextMenuProvider } from "@providers/ContextMenuProvider";
 import { QueueProvider } from "@providers/QueueProvider";
+import { RPCProvider } from "@providers/RPCProvider";
 import { requestPermission } from "@utils";
 import { Outlet, useLocation, useNavigate } from "solid-app-router";
 import { Component, onMount } from "solid-js";
@@ -11,7 +12,9 @@ export const RootApp: Component = () => {
 		<AppProvider>
 			<ContextMenuProvider>
 				<QueueProvider>
-					<ProvidedApp />
+					<RPCProvider>
+						<ProvidedApp />
+					</RPCProvider>
 				</QueueProvider>
 			</ContextMenuProvider>
 		</AppProvider>
