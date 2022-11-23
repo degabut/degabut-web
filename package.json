@@ -1,0 +1,35 @@
+{
+	"name": "frontend",
+	"version": "0.0.0",
+	"description": "",
+	"scripts": {
+		"start": "vite",
+		"dev": "vite",
+		"build": "vite build --mode prod",
+		"serve": "vite preview",
+		"lint": "prettier --write src && eslint . --fix"
+	},
+	"license": "MIT",
+	"devDependencies": {
+		"@types/node": "^17.0.35",
+		"@typescript-eslint/eslint-plugin": "^5.30.4",
+		"@typescript-eslint/parser": "^5.30.4",
+		"eslint": "^8.19.0",
+		"eslint-plugin-solid": "^0.7.0",
+		"prettier": "^2.6.2",
+		"typescript": "^4.8.4",
+		"vite": "^3.2.3",
+		"vite-plugin-pwa": "^0.13.3",
+		"vite-plugin-solid": "^2.4.0"
+	},
+	"dependencies": {
+		"autoprefixer": "^10.4.7",
+		"axios": "^0.27.2",
+		"dayjs": "^1.11.6",
+		"events": "^3.3.0",
+		"postcss": "^8.4.14",
+		"solid-app-router": "^0.4.1",
+		"solid-js": "^1.6.1",
+		"tailwindcss": "^3.0.24"
+	}
+}

@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+	font-family: opificio;
+	src: url("/font/opificio.ttf");
+	font-display: swap;
+}
+
+body {
+	font-family: "Poppins", sans-serif;
+	@apply h-full;
+	@apply m-0;
+	@apply text-neutral-100 font-light;
+	@apply select-none;
+}
+
+html {
+	@apply bg-gradient-to-b from-neutral-800 to-neutral-900 h-full;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	-webkit-tap-highlight-color: transparent;
+	scrollbar-color: rgb(82 82 82), transparent;
+}
+
+b {
+	@apply font-semibold;
+}
+
+#root {
+	@apply h-full;
+}
+
+.font-brand {
+	font-family: "opificio";
+}
+
+::-webkit-scrollbar {
+	@apply w-1 md:w-2 h-1 md:h-2;
+}
+
+::-webkit-scrollbar-track {
+	@apply bg-opacity-0;
+}
+
+::-webkit-scrollbar-thumb {
+	@apply bg-neutral-600;
+}
+
+.flex-row-center {
+	@apply flex flex-row items-center;
+}
+
+.flex-col-center {
+	@apply flex flex-col items-center;
+}

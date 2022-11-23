@@ -1,0 +1,47 @@
+name: dev-deploy
+on:
+    push:
+        branches:
+            - "development"
+        paths:
+            - "frontend/**"
+jobs:
+    deploy:
+        environment: web
+        runs-on: windows-latest
+        steps:
+            - uses: actions/checkout@v2
+            - uses: actions/setup-node@v1
+              with:
+                  node-version: "16.x"
+                  registry-url: "https://registry.npmjs.org"
+
+            - uses: pnpm/action-setup@v2.0.1
+              id: pnpm-install
+              with:
+                  version: 7
+                  run_install: false
+
+            - name: Install Deps
+              working-directory: ./frontend
+              run: pnpm i
+
+            - name: Build
+              working-directory: ./frontend
+              run: pnpm build
+              env:
+                  VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
+                  VITE_WS_URL: ${{ secrets.VITE_WS_URL}}
+                  VITE_OAUTH_URL: ${{ secrets.VITE_OAUTH_URL }}
+
+            - name: Deploy
+              uses: wangyucode/sftp-upload-action@v1.4.8
+              with:
+                  localDir: ./frontend/dist/
+                  exclude: "**/*.png" # TODO fix this, slows down upload: https://github.com/wangyucode/sftp-upload-action/issues/11
+                  host: ${{ secrets.FTP_HOST }}
+                  username: ${{ secrets.FTP_USERNAME }}
+                  password: ${{ secrets.FTP_PASSWORD }}
+                  remoteDir: ${{ secrets.VOLUME_PATH }}
+                  removeExtraFilesOnServer: true
+                  dryRun: false

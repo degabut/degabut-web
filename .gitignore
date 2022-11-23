@@ -1,0 +1,8 @@
+node_modules
+dist
+
+public/netlify.toml
+.netlify
+
+.env*
+!.env.example
