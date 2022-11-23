@@ -109,7 +109,7 @@ export const useRecommendation = (params: UseRecommendationParams) => {
 		const excludedVideos = [...mostPlayed().data, ...lastPlayed().data];
 		const videos = channelRelatedVideos.data() || [];
 		return {
-			data: videos.filter((v) => !excludedVideos.some((m) => m.id === v.id)),
+			data: videos.filter((v) => !excludedVideos.some((m) => m.id === v.id)).slice(0, 10),
 			loading: channelRelatedVideos.data.loading,
 		};
 	});
