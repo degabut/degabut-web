@@ -10,7 +10,7 @@ export const ChannelThumbnail: Component<Props> = (props) => {
 
 	return (
 		<Show when={thumbnail()}>
-			<img src={thumbnail()} class="w-8 h-8 rounded-full" alt={props.video.channel.name} />
+			<img src={thumbnail()} class="w-8 h-8 rounded-full" alt="" />
 		</Show>
 	);
 };
