@@ -1,6 +1,6 @@
 import { IVideoCompact } from "@api";
 import { ContextMenuButton } from "@components/ContextMenu";
-import { getVideoContextMenu } from "@components/Video";
+import { getVideoContextMenu, Video } from "@components/Video";
 import { ChannelThumbnail } from "@components/Video/components";
 import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
@@ -18,7 +18,7 @@ export const MainVideo: Component<Props> = (props) => {
 
 	return (
 		<div class="flex flex-col space-y-3">
-			<iframe class="w-full aspect-video" src={`https://www.youtube.com/embed/${props.video.id}`} />
+			<Video.Embed video={props.video} />
 
 			<div class="flex flex-col flex-grow flex-shrink">
 				<div class="flex flex-row items-center justify-between">
