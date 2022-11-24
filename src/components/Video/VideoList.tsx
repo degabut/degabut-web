@@ -22,7 +22,7 @@ export type VideoListProps = {
 export const VideoList: Component<VideoListProps> = (props) => {
 	return (
 		<div
-			class={`flex-row-center space-x-3 w-full md:p-1.5 hover:bg-white/5 rounded ${props.extraContainerClass}`}
+			class={`flex-row-center w-full min-w-0 md:p-1.5 hover:bg-white/5 rounded ${props.extraContainerClass}`}
 			classList={{
 				"cursor-pointer": !!props.onClick,
 				...props.extraContainerClassList,
@@ -31,7 +31,7 @@ export const VideoList: Component<VideoListProps> = (props) => {
 			onClick={() => props.onClick?.(props.video)}
 		>
 			<VideoThumbnail video={props.video} extraContainerClass="flex-shrink-0" />
-			<div class="flex flex-col flex-grow flex-shrink space-y-0.5 truncate">
+			<div class="flex flex-col flex-grow  space-y-0.5 truncate ml-3">
 				<div
 					class={`truncate ${props.extraTitleClass}`}
 					title={`${props.video.title} - ${props.video.channel.name}`}
