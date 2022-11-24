@@ -59,7 +59,7 @@ export const QuickAddModal: Component = () => {
 	const onSelect = async (item: IVideoCompact | IPlaylistCompact, _: number, e?: KeyboardEvent | MouseEvent) => {
 		if ("duration" in item) {
 			// video
-			if (e?.shiftKey) navigate("/app/video/" + item.id);
+			if (!queue.data() || e?.shiftKey) navigate("/app/video/" + item.id);
 			else await addToQueue(item);
 		} else {
 			// playlist
