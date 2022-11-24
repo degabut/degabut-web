@@ -7,7 +7,6 @@ import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { useScreen } from "@hooks/useScreen";
 import { useSearchYouTube } from "@hooks/useSearchYouTube";
-import { debounce } from "@utils";
 import { useNavigate, useSearchParams } from "solid-app-router";
 import { Component, For, onMount, Show } from "solid-js";
 
@@ -44,7 +43,7 @@ export const Search: Component = () => {
 
 	const onInput = (ev: InputEvent) => {
 		const value = (ev.target as HTMLInputElement).value;
-		search.debouncedSetKeyword(value);
+		search.setKeyword(value);
 		setQuery({ keyword: value });
 	};
 
@@ -57,7 +56,7 @@ export const Search: Component = () => {
 				focusOnMount={!query.keyword}
 				class="md:max-w-[32rem]"
 				value={initialKeyword}
-				onInput={debounce(onInput, 250)}
+				onInput={onInput}
 			/>
 
 			<div class="lg:space-y-8 space-y-4 md:space-y-1.5">

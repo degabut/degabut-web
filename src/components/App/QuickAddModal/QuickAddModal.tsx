@@ -44,7 +44,7 @@ export const QuickAddModal: Component = () => {
 		const value = (e.target as HTMLInputElement).value;
 		search.videos.mutate([]);
 		search.playlists.mutate([]);
-		search.debouncedSetKeyword(value);
+		search.setKeyword(value);
 	};
 
 	const onClickSubmit = (e: MouseEvent) => {

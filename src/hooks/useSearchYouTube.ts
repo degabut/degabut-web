@@ -1,5 +1,5 @@
 import { debounce } from "@utils";
-import { createMemo, createSignal } from "solid-js";
+import { createEffect, createMemo, createSignal } from "solid-js";
 import { useVideos } from "./useVideos";
 import { useYouTubePlaylists } from "./useYouTubePlaylists";
 
@@ -11,13 +11,15 @@ type Params = {
 
 export const useSearchYouTube = (params: Params = {}) => {
 	const [keyword, setKeyword] = createSignal("");
-	const videos = useVideos(keyword);
-	const playlists = useYouTubePlaylists(keyword);
+	const [debouncedKeyword, _setDebouncedKeyword] = createSignal("");
+	const videos = useVideos(debouncedKeyword);
+	const playlists = useYouTubePlaylists(debouncedKeyword);
 	const [playlistStartIndex, setPlaylistStartIndex] = createSignal(-1);
 	const [playlistEndIndex, setPlaylistEndIndex] = createSignal(-1);
 	const [playlistCount, setPlaylistCount] = createSignal(-1);
 
-	const debouncedSetKeyword = debounce((v: string) => setKeyword(v), 350);
+	const setDebouncedKeyword = debounce((v: string) => _setDebouncedKeyword(v), params.debounce || 350);
+	createEffect(() => setDebouncedKeyword(keyword()));
 
 	const result = createMemo(() => {
 		if (videos.data()?.length && !videos.data.loading && playlists.data()?.length && !playlists.data.loading) {
@@ -40,7 +42,7 @@ export const useSearchYouTube = (params: Params = {}) => {
 	return {
 		keyword,
 		setKeyword,
-		debouncedSetKeyword,
+		debouncedKeyword,
 		result,
 		playlistStartIndex,
 		playlistEndIndex,
