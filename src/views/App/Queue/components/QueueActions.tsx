@@ -6,11 +6,21 @@ import { SettingsButton } from "./SettingsButton";
 import { ShuffleToggleButton } from "./ShuffleToggleButton";
 import { SkipButton } from "./SkipButton";
 
-export const QueueActions: Component = () => {
+type Props = {
+	hideSettings?: boolean;
+	full: boolean;
+};
+
+export const QueueActions: Component<Props> = (props) => {
 	const queue = useQueue();
 
 	return (
-		<div class="flex-row-center justify-evenly md:justify-start space-x-4">
+		<div
+			class="flex-row-center justify-evenly"
+			classList={{
+				"md:justify-start space-x-4": !props.full,
+			}}
+		>
 			<SkipButton
 				onClick={() => queue.skipTrack()}
 				disabled={queue.isTrackFreezed() || !queue.data()?.nowPlaying}
@@ -25,7 +35,7 @@ export const QueueActions: Component = () => {
 				onChange={(t) => queue.changeLoopType(t)}
 				disabled={queue.isQueueFreezed()}
 			/>
-			<Show when={queue.data()?.nowPlaying}>
+			<Show when={queue.data()?.nowPlaying && !props.hideSettings}>
 				<SettingsButton onClearQueue={queue.clear} />
 			</Show>
 		</div>
