@@ -21,6 +21,7 @@ export { default as play } from "./play.svg";
 export { default as plus } from "./plus.svg";
 export { default as search } from "./search.svg";
 export { default as shuffle } from "./shuffle.svg";
+export { default as sixDots } from "./six-dots.svg";
 export { default as snooze } from "./snooze.svg";
 export { default as sortArrows } from "./sort-arrows.svg";
 export { default as soundFull } from "./sound-full.svg";

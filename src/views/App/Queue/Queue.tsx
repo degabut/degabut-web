@@ -1,4 +1,3 @@
-import { LoopType } from "@api";
 import { Container } from "@components/Container";
 import { Icon } from "@components/Icon";
 import { TabLabel, Tabs } from "@components/Tabs";
@@ -7,15 +6,8 @@ import { Videos } from "@components/Videos";
 import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { useNavigate } from "solid-app-router";
-import { Component, createMemo, onMount, Show } from "solid-js";
-import {
-	LoopToggleButton,
-	QueuePlayHistory,
-	QueueTrackList,
-	SettingsButton,
-	ShuffleToggleButton,
-	SkipButton,
-} from "./components";
+import { Component, onMount, Show } from "solid-js";
+import { QueueActions, QueuePlayHistory, QueueTrackList } from "./components";
 
 const QueueNotFound: Component = () => {
 	return (
@@ -30,8 +22,6 @@ const QueueView: Component = () => {
 	const app = useApp();
 	const queue = useQueue();
 	const navigate = useNavigate();
-
-	const tracks = createMemo(() => queue.data()?.tracks || []);
 
 	return (
 		<Container>
@@ -56,25 +46,7 @@ const QueueView: Component = () => {
 						)}
 					</Show>
 
-					<div class="flex-row-center justify-evenly md:justify-start space-x-4">
-						<SkipButton
-							onClick={() => queue.skipTrack()}
-							disabled={queue.isTrackFreezed() || !queue.data()?.nowPlaying}
-						/>
-						<ShuffleToggleButton
-							defaultValue={!!queue.data()?.shuffle}
-							onChange={() => queue.toggleShuffle()}
-							disabled={queue.isQueueFreezed()}
-						/>
-						<LoopToggleButton
-							defaultValue={queue.data()?.loopType || LoopType.DISABLED}
-							onChange={(t) => queue.changeLoopType(t)}
-							disabled={queue.isQueueFreezed()}
-						/>
-						<Show when={queue.data()?.nowPlaying}>
-							<SettingsButton onClearQueue={queue.clear} />
-						</Show>
-					</div>
+					<QueueActions />
 				</div>
 
 				<Tabs
@@ -87,38 +59,18 @@ const QueueView: Component = () => {
 								<TabLabel icon="audioPlaylist" label="Track List" isActive={props.isActive} />
 							),
 							element: () => (
-								<>
-									{queue.isInitialLoading() ? (
-										<Videos.List data={[]} isLoading />
-									) : (
-										<QueueTrackList
-											tracks={tracks()}
-											nowPlaying={queue.data()?.nowPlaying || null}
-											isFreezed={queue.isTrackFreezed()}
-											onPlayTrack={queue.playTrack}
-											onRemoveTrack={queue.removeTrack}
-											onAddToQueue={queue.addTrack}
-											onAddToQueueAndPlay={queue.addAndPlayTrack}
-										/>
-									)}
-								</>
+								<Show when={!queue.isInitialLoading()} fallback={<Videos.List data={[]} isLoading />}>
+									<QueueTrackList />
+								</Show>
 							),
 						},
 						{
 							id: "queueHistory",
 							label: (props) => <TabLabel icon="history" label="History" isActive={props.isActive} />,
 							element: () => (
-								<>
-									{queue.isInitialLoading() ? (
-										<Videos.List data={[]} isLoading />
-									) : (
-										<QueuePlayHistory
-											tracks={queue.data()?.history.slice(1) || []}
-											onAddToQueue={queue.addTrack}
-											onAddToQueueAndPlay={queue.addAndPlayTrack}
-										/>
-									)}
-								</>
+								<Show when={!queue.isInitialLoading()} fallback={<Videos.List data={[]} isLoading />}>
+									<QueuePlayHistory />
+								</Show>
 							),
 						},
 					]}

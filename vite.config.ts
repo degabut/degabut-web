@@ -37,4 +37,7 @@ export default defineConfig({
 			"@go": path.resolve("./src/wailsjs/go"),
 		},
 	},
+	optimizeDeps: {
+		extensions: ["jsx"],
+	},
 });

@@ -1,4 +1,3 @@
-import { ITrack, IVideoCompact } from "@api";
 import { ContextMenuItem } from "@components/ContextMenu";
 import { Icon } from "@components/Icon";
 import { RouterLink } from "@components/Link";
@@ -24,61 +23,54 @@ const EmptyTrack: Component = () => {
 	);
 };
 
-type Props = {
-	tracks: ITrack[];
-	nowPlaying?: ITrack | null;
-	isFreezed: boolean;
-	onPlayTrack?: (track: ITrack) => void;
-	onRemoveTrack?: (track: ITrack) => void;
-	onDragTrackStart?: () => void;
-	onDragTrackEnd?: () => void;
-	onChangeTrackOrder?: (fromIndex: number, toIndex: number, id: string) => void;
-	onAddToQueue?: (video: IVideoCompact) => Promise<void>;
-	onAddToQueueAndPlay?: (video: IVideoCompact) => Promise<void>;
-};
-
-export const QueueTrackList: Component<Props> = (props) => {
+export const QueueTrackList: Component = () => {
 	const app = useApp();
 	const queue = useQueue();
 	const navigate = useNavigate();
 
+	const tracks = () => queue.data()?.tracks || [];
+
 	return (
-		<Show when={props.tracks.length} fallback={<EmptyTrack />} keyed>
-			<div classList={{ "opacity-50 pointer-events-none": props.isFreezed }}>
-				<Videos.List
-					data={props.tracks}
-					videoProps={(t) => {
-						const isActive = props.nowPlaying?.id === t.id;
+		<Show when={tracks().length} fallback={<EmptyTrack />} keyed>
+			<div classList={{ "opacity-50 pointer-events-none": queue.isTrackFreezed() }}>
+				<Videos.SortableList
+					data={tracks()}
+					onSort={({ to }, data) => queue.changeTrackOrder(data.id, to)}
+					sortableProps={(t) => {
+						const isActive = queue.data()?.nowPlaying?.id === t.id;
 						return {
-							video: t.video,
-							requestedBy: t.requestedBy,
-							extraTitleClass: isActive ? "text-brand-600" : undefined,
-							contextMenu: getVideoContextMenu({
+							id: t.id,
+							videoProps: {
 								video: t.video,
-								appStore: app,
-								queueStore: queue,
-								navigate,
-								modifyContextMenuItems: (c) => {
-									const contextMenu = [
-										{
-											element: () => (
-												<ContextMenuItem icon="trashBin" label="Remove from Queue" />
-											),
-											onClick: () => t && props.onRemoveTrack?.(t),
-										},
-									];
+								requestedBy: t.requestedBy,
+								extraTitleClass: isActive ? "text-brand-600" : undefined,
+								contextMenu: getVideoContextMenu({
+									video: t.video,
+									appStore: app,
+									queueStore: queue,
+									navigate,
+									modifyContextMenuItems: (c) => {
+										const contextMenu = [
+											{
+												element: () => (
+													<ContextMenuItem icon="trashBin" label="Remove from Queue" />
+												),
+												onClick: () => queue.removeTrack(t),
+											},
+										];
 
-									if (!isActive) {
-										contextMenu.unshift({
-											element: () => <ContextMenuItem icon="play" label="Play" />,
-											onClick: () => t && props.onPlayTrack?.(t),
-										});
-									}
+										if (!isActive) {
+											contextMenu.unshift({
+												element: () => <ContextMenuItem icon="play" label="Play" />,
+												onClick: () => queue.playTrack(t),
+											});
+										}
 
-									c[0] = contextMenu;
-									return c;
-								},
-							}),
+										c[0] = contextMenu;
+										return c;
+									},
+								}),
+							},
 						};
 					}}
 				/>
