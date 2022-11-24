@@ -8,7 +8,7 @@ import { SkipButton } from "./SkipButton";
 
 type Props = {
 	hideSettings?: boolean;
-	full: boolean;
+	full?: boolean;
 };
 
 export const QueueActions: Component<Props> = (props) => {
