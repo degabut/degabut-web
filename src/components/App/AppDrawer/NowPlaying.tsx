@@ -31,7 +31,7 @@ export const NowPlaying: Component = () => {
 				)}
 			</Show>
 
-			<QueueActions full hideSettings />
+			<QueueActions hideSettings />
 		</div>
 	);
 };

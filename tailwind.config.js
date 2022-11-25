@@ -5,6 +5,9 @@ module.exports = {
 			screens: {
 				"3xl": "2048px",
 			},
+			maxWidth: {
+				"8xl": "1408px",
+			},
 			colors: {
 				brand: {
 					DEFAULT: "#ECE350",

@@ -8,19 +8,14 @@ import { SkipButton } from "./SkipButton";
 
 type Props = {
 	hideSettings?: boolean;
-	full?: boolean;
+	extraClass?: string;
 };
 
 export const QueueActions: Component<Props> = (props) => {
 	const queue = useQueue();
 
 	return (
-		<div
-			class="flex-row-center justify-evenly"
-			classList={{
-				"md:justify-start space-x-4": !props.full,
-			}}
-		>
+		<div class={`flex-row-center justify-evenly space-x-4 ${props.extraClass}`}>
 			<SkipButton
 				onClick={() => queue.skipTrack()}
 				disabled={queue.isTrackFreezed() || !queue.data()?.nowPlaying}

@@ -42,7 +42,7 @@ const ProvidedApp: Component = () => {
 
 					<App.BackgroundLogo />
 
-					<div class="h-full overflow-y-auto py-8 px-3 md:px-8 pb-32">
+					<div class="h-full overflow-y-auto">
 						<Outlet />
 					</div>
 
