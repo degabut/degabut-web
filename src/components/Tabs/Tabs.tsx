@@ -15,6 +15,7 @@ type Props = {
 	items: Item[];
 	extraTabsClass?: string;
 	extraContainerClass?: string;
+	extraContentContainerClass?: string;
 	onChange?: (item: Item) => void;
 };
 
@@ -34,14 +35,14 @@ export const Tabs: Component<Props> = (props) => {
 		<Show when={activeItem()} keyed>
 			{(activeItem) => {
 				return (
-					<div class="flex flex-col">
+					<div class={`flex flex-col ${props.extraContainerClass}`}>
 						<div class={`flex-row-center w-full border-b border-neutral-700 ${props.extraTabsClass}`}>
 							<For each={props.items}>
 								{(item) => <Tab item={item} onClick={onChange} isActive={item.id === activeItem.id} />}
 							</For>
 						</div>
 
-						<div class={props.extraContainerClass}>
+						<div class={props.extraContentContainerClass}>
 							<div class="flex-1">{activeItem.element}</div>
 						</div>
 					</div>

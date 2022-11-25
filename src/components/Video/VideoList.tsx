@@ -15,6 +15,7 @@ export type VideoListProps = {
 	disableContextMenu?: boolean;
 	extraContainerClass?: string;
 	extraContainerClassList?: Record<string, boolean>;
+	extraThumbnailClass?: string;
 	extraTitleClass?: string;
 	onClick?: (video: IVideoCompact) => void;
 };
@@ -30,7 +31,7 @@ export const VideoList: Component<VideoListProps> = (props) => {
 			use:contextMenu={props.disableContextMenu ? undefined : props.contextMenu}
 			onClick={() => props.onClick?.(props.video)}
 		>
-			<VideoThumbnail video={props.video} extraContainerClass="flex-shrink-0" />
+			<VideoThumbnail video={props.video} extraClass={`flex-shrink-0 ${props.extraThumbnailClass}`} />
 			<div class="flex flex-col flex-grow  space-y-0.5 truncate ml-3">
 				<div
 					class={`truncate ${props.extraTitleClass}`}
@@ -66,7 +67,7 @@ export const VideoListBig: Component<VideoListProps> = (props) => {
 			use:contextMenu={props.disableContextMenu ? undefined : props.contextMenu}
 			onClick={() => props.onClick?.(props.video)}
 		>
-			<VideoThumbnailBig video={props.video} />
+			<VideoThumbnailBig video={props.video} extraClass={props.extraThumbnailClass} />
 			<div class="flex flex-col sm:space-y-2 w-full truncate px-2 pb-2 sm:pt-1">
 				<div class="flex-row-center truncate">
 					<div
