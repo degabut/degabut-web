@@ -1,5 +1,6 @@
 import { Container } from "@components/Container";
 import { Icon } from "@components/Icon";
+import { RouterLink } from "@components/Link";
 import { TabLabel, Tabs } from "@components/Tabs";
 import { getVideoContextMenu, Video } from "@components/Video";
 import { Videos } from "@components/Videos";
@@ -18,64 +19,79 @@ const QueueNotFound: Component = () => {
 	);
 };
 
+const EmptyNowPlaying: Component = () => {
+	return (
+		<div class="flex flex-row items-center space-x-4 md:p-1.5">
+			<div class="!w-16 !h-16 md:!w-20 md:!h-20 rounded border border-neutral-600" />
+			<RouterLink href="/app/recommendation" class="text-neutral-400">
+				It's lonely here..
+			</RouterLink>
+		</div>
+	);
+};
+
 const QueueView: Component = () => {
 	const app = useApp();
 	const queue = useQueue();
 	const navigate = useNavigate();
 
 	return (
-		<Container>
-			<div class="flex flex-col space-y-6">
-				<div class="flex flex-col space-y-3">
-					<Show when={queue.data()?.nowPlaying} keyed fallback={<div />}>
-						{(track) => (
-							<div class="space-y-4">
-								<div class="text-xl font-normal">Now Playing</div>
-								<Video.ListBig
-									{...track}
-									onClick={() => navigate(`/app/video/${track.video.id}`)}
-									contextMenu={getVideoContextMenu({
-										video: track.video,
-										appStore: app,
-										queueStore: queue,
-										navigate,
-									})}
-									extraContainerClass="!bg-transparent"
-								/>
-							</div>
+		<Container extraClass="space-y-4 md:space-y-6">
+			<div class="flex flex-col lg:flex-row lg:space-x-4 space-y-4 lg:space-y-0">
+				<div class="flex-grow">
+					<Show when={queue.data()?.nowPlaying} keyed fallback={<EmptyNowPlaying />}>
+						{({ video, requestedBy }) => (
+							<Video.List
+								video={video}
+								requestedBy={requestedBy}
+								onClick={() => navigate(`/app/video/${video.id}`)}
+								extraThumbnailClass="!w-16 !h-16"
+								extraContainerClass="hover:!bg-white/0"
+								extraTitleClass="text-lg font-medium"
+								contextMenu={getVideoContextMenu({
+									modifyContextMenuItems: (items) => {
+										items.shift();
+										return items;
+									},
+									video: video,
+									appStore: app,
+									queueStore: queue,
+									navigate,
+								})}
+							/>
 						)}
 					</Show>
-
-					<QueueActions />
 				</div>
 
-				<Tabs
-					extraContainerClass="pt-4 md:pt-6"
-					extraTabsClass="w-full"
-					items={[
-						{
-							id: "trackList",
-							label: (props) => (
-								<TabLabel icon="audioPlaylist" label="Track List" isActive={props.isActive} />
-							),
-							element: () => (
-								<Show when={!queue.isInitialLoading()} fallback={<Videos.List data={[]} isLoading />}>
-									<QueueTrackList />
-								</Show>
-							),
-						},
-						{
-							id: "queueHistory",
-							label: (props) => <TabLabel icon="history" label="History" isActive={props.isActive} />,
-							element: () => (
-								<Show when={!queue.isInitialLoading()} fallback={<Videos.List data={[]} isLoading />}>
-									<QueuePlayHistory />
-								</Show>
-							),
-						},
-					]}
-				/>
+				<QueueActions extraClass="space-x-6" />
 			</div>
+
+			<Tabs
+				extraContentContainerClass="pt-4 md:pt-6"
+				extraTabsClass="w-full"
+				items={[
+					{
+						id: "trackList",
+						label: (props) => (
+							<TabLabel icon="audioPlaylist" label="Track List" isActive={props.isActive} />
+						),
+						element: () => (
+							<Show when={!queue.isInitialLoading()} fallback={<Videos.List data={[]} isLoading />}>
+								<QueueTrackList />
+							</Show>
+						),
+					},
+					{
+						id: "queueHistory",
+						label: (props) => <TabLabel icon="history" label="History" isActive={props.isActive} />,
+						element: () => (
+							<Show when={!queue.isInitialLoading()} fallback={<Videos.List data={[]} isLoading />}>
+								<QueuePlayHistory />
+							</Show>
+						),
+					},
+				]}
+			/>
 		</Container>
 	);
 };
