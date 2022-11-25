@@ -109,7 +109,7 @@ export const Recommendation: Component = () => {
 
 			<ShowMoreModal
 				isOpen={!!showMoreType()}
-				initialUserId={params.id}
+				initialUserId={params.id || "me"}
 				type={showMoreType()}
 				onClose={() => setShowMoreType(null)}
 				onAddToQueue={queue.addTrack}
