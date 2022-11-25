@@ -57,7 +57,7 @@ export const Playlists: Component = () => {
 											onConfirm: () => playlists.deletePlaylist(p.id),
 										})
 									}
-									onClick={() => navigate("/app/u/me/playlists/" + p.id)}
+									onClick={() => navigate("/app/playlist/" + p.id)}
 									playlist={p}
 								/>
 							)}

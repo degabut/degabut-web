@@ -23,7 +23,7 @@ export const Recommendation: Component = () => {
 	const queue = useQueue();
 	const navigate = useNavigate();
 	const params = useParams<{ id: string }>();
-	const recommendation = useRecommendation({ userId: () => params.id, onLoad: () => attemptLoadNext() });
+	const recommendation = useRecommendation({ userId: () => params.id || "me", onLoad: () => attemptLoadNext() });
 	const [showMoreType, setShowMoreType] = createSignal<ShowMoreType | null>(null);
 	let containerElement!: HTMLDivElement;
 

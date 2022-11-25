@@ -30,9 +30,10 @@ export const Main: Component = () => {
 							<Route path="/" element={<Queue />} />
 							<Route path="/queue" element={<Queue />} />
 							<Route path="/video/:id" element={<VideoDetail />} />
-							<Route path="/u/:id/videos" element={<Recommendation />} />
-							<Route path="/u/me/playlists" element={<Playlists />} />
-							<Route path="/u/me/playlists/:id" element={<PlaylistDetail />} />
+							<Route path="/recommendation" element={<Recommendation />} />
+							<Route path="/recommendation/:id?" element={<Recommendation />} />
+							<Route path="/playlist" element={<Playlists />} />
+							<Route path="/playlist/:id" element={<PlaylistDetail />} />
 							<Route path="/search" element={<Search />} />
 							<Route path="/settings" element={<Settings />} />
 						</Route>

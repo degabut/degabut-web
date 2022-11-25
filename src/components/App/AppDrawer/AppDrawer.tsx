@@ -28,8 +28,8 @@ export const AppDrawer: Component = () => {
 			<div class="flex-grow text-lg space-y-1.5 mx-2">
 				<Link icon="degabutThin" label="Queue" path="/app/queue" onClick={onLinkClick} />
 				<Link icon="search" label="Search" path="/app/search" onClick={onLinkClick} />
-				<Link icon="audioPlaylist" label="Playlist" path="/app/u/me/playlists" onClick={onLinkClick} />
-				<Link icon="heart" label="For You" path="/app/u/me/videos" onClick={onLinkClick} />
+				<Link icon="audioPlaylist" label="Playlist" path="/app/playlist" onClick={onLinkClick} />
+				<Link icon="heart" label="For You" path="/app/recommendation" onClick={onLinkClick} />
 			</div>
 
 			<div class="space-y-2 pb-8 mx-2">
