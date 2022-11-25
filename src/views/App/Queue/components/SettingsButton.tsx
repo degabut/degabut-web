@@ -38,10 +38,10 @@ export const SettingsButton: Component<Props> = (props) => {
 				),
 				openWithClick: true,
 			}}
-			class="p-2"
+			class="p-2 fill-neutral-300 hover:fill-white"
 			title="Settings"
 		>
-			<Icon name="gear" extraClass="w-5 h-5 fill-neutral-300 hover:fill-white" />
+			<Icon name="gear" extraClass="w-5 h-5" />
 		</button>
 	);
 };

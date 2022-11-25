@@ -22,17 +22,19 @@ export const LoopToggleButton: Component<Props> = (props) => {
 	createEffect(() => setLoopType(props.defaultValue));
 
 	return (
-		<button onClick={onClick} class="p-2" title="Loop" disabled={props.disabled}>
-			<Icon
-				name={loopType() === LoopType.SONG ? "loopOne" : "loop"}
-				extraClass="w-5 h-5"
-				extraClassList={{
-					"fill-brand-600 hover:fill-brand-500": loopType() !== LoopType.DISABLED && !props.disabled,
-					"fill-brand-800": loopType() !== LoopType.DISABLED && props.disabled,
-					"fill-neutral-300 hover:fill-white": loopType() === LoopType.DISABLED && !props.disabled,
-					"fill-neutral-500": loopType() === LoopType.DISABLED && props.disabled,
-				}}
-			/>
+		<button
+			onClick={onClick}
+			class="p-2"
+			title="Loop"
+			disabled={props.disabled}
+			classList={{
+				"fill-brand-600 hover:fill-brand-400": loopType() !== LoopType.DISABLED && !props.disabled,
+				"fill-brand-800": loopType() !== LoopType.DISABLED && props.disabled,
+				"fill-neutral-300 hover:fill-white": loopType() === LoopType.DISABLED && !props.disabled,
+				"fill-neutral-500": loopType() === LoopType.DISABLED && props.disabled,
+			}}
+		>
+			<Icon name={loopType() === LoopType.SONG ? "loopOne" : "loop"} extraClass="w-5 h-5" />
 		</button>
 	);
 };
