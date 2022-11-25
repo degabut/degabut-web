@@ -22,7 +22,7 @@ const QueueNotFound: Component = () => {
 const EmptyNowPlaying: Component = () => {
 	return (
 		<div class="flex flex-row items-center space-x-4 md:p-1.5">
-			<div class="!w-16 !h-16 md:!w-20 md:!h-20 rounded border border-neutral-600" />
+			<div class="!w-16 !h-16 rounded border border-neutral-600" />
 			<RouterLink href="/app/recommendation" class="text-neutral-400">
 				It's lonely here..
 			</RouterLink>
