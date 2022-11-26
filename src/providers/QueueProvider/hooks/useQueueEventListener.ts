@@ -109,6 +109,7 @@ export const useQueueEventListener = ({ actions, emitter }: Params) => {
 	const setNowPlaying = (track: ITrack | null) => {
 		actions.mutate((q) => {
 			if (!q) return;
+			if (track) track.playedAt = null;
 			q.nowPlaying = track;
 			return { ...q };
 		});

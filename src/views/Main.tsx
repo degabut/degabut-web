@@ -2,7 +2,7 @@ import { App } from "@components/App";
 import { Landing, Login, OAuth } from "@views";
 import { RootApp } from "@views/App/App";
 import { PlaylistDetail, Playlists } from "@views/App/Playlist";
-import { Queue } from "@views/App/Queue";
+import { Lyric, Queue } from "@views/App/Queue";
 import { Recommendation } from "@views/App/Recommendation";
 import { Search } from "@views/App/Search";
 import { Settings } from "@views/App/Settings";
@@ -29,6 +29,7 @@ export const Main: Component = () => {
 						<Route path="/app" element={<RootApp />}>
 							<Route path="/" element={<Queue />} />
 							<Route path="/queue" element={<Queue />} />
+							<Route path="/queue/lyric" element={<Lyric />} />
 							<Route path="/video/:id" element={<VideoDetail />} />
 							<Route path="/recommendation" element={<Recommendation />} />
 							<Route path="/recommendation/:id?" element={<Recommendation />} />

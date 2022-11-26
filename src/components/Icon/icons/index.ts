@@ -13,6 +13,7 @@ export { default as list } from "./list-square-bullet.svg";
 export { default as loopOne } from "./loop-one.svg";
 export { default as loop } from "./loop.svg";
 export { default as menu } from "./menu.svg";
+export { default as microphone } from "./microphone.svg";
 export { default as minus } from "./minus.svg";
 export { default as musicNote } from "./music-note.svg";
 export { default as musicOff } from "./music-off.svg";

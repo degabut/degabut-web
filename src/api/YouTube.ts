@@ -39,6 +39,13 @@ export type IChannel = {
 	thumbnails: IThumbnail[];
 };
 
+export interface ITranscript {
+	start: number;
+	end: number;
+	duration: number;
+	text: string;
+}
+
 export class YouTube {
 	constructor(private client: AxiosInstance) {}
 
@@ -57,6 +64,14 @@ export class YouTube {
 
 		const response = await this.client.get("/youtube/videos/" + id);
 		if (response.status !== 200) throw new Error(response.data.message);
+		return response.data;
+	};
+
+	getVideoTranscript = async (id: string): Promise<ITranscript[] | null> => {
+		if (!id) return null;
+
+		const response = await this.client.get(`/youtube/videos/${id}/transcript`);
+		if (response.status !== 200) null;
 		return response.data;
 	};
 
