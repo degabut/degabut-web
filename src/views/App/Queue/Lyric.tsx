@@ -54,7 +54,7 @@ export const Lyric: Component = () => {
 		const initialIndex = data.findIndex((t) => elapsed <= t.end) - 1;
 		const next = data[initialIndex + 1];
 		if (!next) return;
-		const delay = next.start - elapsed;
+		const delay = Math.max(next.start - elapsed, 0);
 
 		setCurrentActiveIndex(initialIndex);
 		updateTimeout = setTimeout(updateActiveIndex, delay + 500);
@@ -71,13 +71,13 @@ export const Lyric: Component = () => {
 		const next = data.at(currentActiveIndex() + 1);
 
 		if (!next) return;
-		const delay = next.start - elapsed;
+		const delay = Math.max(next.start - elapsed, 0);
 		updateTimeout = setTimeout(updateActiveIndex, delay + 500);
 	};
 
 	return (
 		<Container size="full" extraClass="h-full" padless>
-			<div class="h-full overflow-y-auto px-3 md:px-8 py-8 space-y-12" ref={container}>
+			<div class="h-full overflow-y-auto px-3 md:px-8 py-8 pb-32 space-y-12" ref={container}>
 				<For each={transcripts.data()}>
 					{(t, i) => (
 						<div
