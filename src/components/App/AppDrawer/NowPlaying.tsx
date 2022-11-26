@@ -31,7 +31,7 @@ export const NowPlaying: Component = () => {
 				)}
 			</Show>
 
-			<QueueActions hideSettings />
+			<QueueActions extraClass="justify-evenly" hideSettings />
 		</div>
 	);
 };

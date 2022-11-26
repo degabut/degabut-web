@@ -32,7 +32,7 @@ const ProvidedApp: Component = () => {
 
 	return (
 		<>
-			<div class="flex flex-col md:flex-row h-full">
+			<div class="flex flex-col md:flex-row h-full ">
 				<App.Drawer />
 
 				<div class="relative h-full flex-grow flex flex-col overflow-x-hidden">
@@ -46,14 +46,13 @@ const ProvidedApp: Component = () => {
 						<Outlet />
 					</div>
 
-					<div class="md:hidden relative block w-full z-10">
+					<div class="md:hidden block w-full z-10">
 						<App.MobileDrawer />
 					</div>
 				</div>
 
 				<App.MemberListDrawer />
 			</div>
-
 			<App.CatJamManager />
 			<App.QuickAddModal />
 		</>

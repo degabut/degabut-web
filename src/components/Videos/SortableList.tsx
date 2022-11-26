@@ -76,7 +76,7 @@ export function SortableVideosList<Data = unknown>(props: VideosListProps<Data>)
 		<div class="space-y-6 md:space-y-4">
 			{props.label}
 
-			<div class="space-y-4 md:space-y-1.5">
+			<div class="space-y-1.5">
 				<Show when={props.showWhenLoading || !props.isLoading}>
 					<DragDropProvider onDragStart={onDragStart} onDragEnd={onDragEnd} collisionDetector={closestCenter}>
 						<DragDropSensors />

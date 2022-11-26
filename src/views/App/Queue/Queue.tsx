@@ -1,4 +1,5 @@
 import { Container } from "@components/Container";
+import { Divider } from "@components/Divider";
 import { Icon } from "@components/Icon";
 import { RouterLink } from "@components/Link";
 import { TabLabel, Tabs } from "@components/Tabs";
@@ -23,7 +24,7 @@ const EmptyNowPlaying: Component = () => {
 	return (
 		<RouterLink
 			href="/app/recommendation"
-			class="flex flex-row items-center space-x-4 md:p-1.5 outline outline-1 outline-neutral-700 rounded hover:bg-white/[2.5%]"
+			class="flex flex-row items-center w-full space-x-4 p-1.5 hover:bg-white/[2.5%] rounded"
 		>
 			<div class="!w-16 !h-16 rounded border border-neutral-600" />
 			<div class="text-neutral-400">It's lonely here...</div>
@@ -37,39 +38,37 @@ const QueueView: Component = () => {
 	const navigate = useNavigate();
 
 	return (
-		<Container extraClass="space-y-4 md:space-y-6">
-			<div class="flex flex-col lg:flex-row lg:space-x-4 space-y-4 lg:space-y-0">
-				<div class="flex-grow">
-					<Show when={queue.data()?.nowPlaying} keyed fallback={<EmptyNowPlaying />}>
-						{({ video, requestedBy }) => (
-							<Video.List
-								video={video}
-								requestedBy={requestedBy}
-								onClick={() => navigate(`/app/video/${video.id}`)}
-								extraThumbnailClass="!w-16 !h-16"
-								extraContainerClass="hover:!bg-white/0"
-								extraTitleClass="text-lg font-medium"
-								contextMenu={getVideoContextMenu({
-									modifyContextMenuItems: (items) => {
-										items.shift();
-										return items;
-									},
-									video: video,
-									appStore: app,
-									queueStore: queue,
-									navigate,
-								})}
-							/>
-						)}
-					</Show>
-				</div>
+		<Container extraClass="space-y-4">
+			<div class="flex flex-col lg:items-start space-y-2 p-2 border border-neutral-700 rounded">
+				<Show when={queue.data()?.nowPlaying} keyed fallback={<EmptyNowPlaying />}>
+					{({ video, requestedBy }) => (
+						<Video.List
+							video={video}
+							requestedBy={requestedBy}
+							onClick={() => navigate(`/app/video/${video.id}`)}
+							extraThumbnailClass="!w-16 !h-16"
+							extraTitleClass="text-lg font-medium"
+							contextMenu={getVideoContextMenu({
+								modifyContextMenuItems: (items) => {
+									items.shift();
+									return items;
+								},
+								video,
+								appStore: app,
+								queueStore: queue,
+								navigate,
+							})}
+						/>
+					)}
+				</Show>
 
-				<QueueActions extraClass="space-x-6" />
+				<Divider extraClass="w-full" />
+
+				<QueueActions extraClass="flex-wrap justify-evenly md:justify-start w-full space-x-8 px-2" />
 			</div>
 
 			<Tabs
 				extraContentContainerClass="pt-4 md:pt-6"
-				extraTabsClass="w-full"
 				items={[
 					{
 						id: "trackList",

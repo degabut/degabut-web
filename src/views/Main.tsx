@@ -20,27 +20,23 @@ export const Main: Component = () => {
 
 	return (
 		<>
-			<div class="flex flex-col h-full">
-				<div class="flex-grow overflow-x-auto overflow-y-auto w-full">
-					<Routes>
-						<Route path="/" element={<Landing />} />
-						<Route path="/login" element={<Login />} />
-						<Route path="/oauth" element={<OAuth />} />
-						<Route path="/app" element={<RootApp />}>
-							<Route path="/" element={<Queue />} />
-							<Route path="/queue" element={<Queue />} />
-							<Route path="/queue/lyric" element={<Lyric />} />
-							<Route path="/video/:id" element={<VideoDetail />} />
-							<Route path="/recommendation" element={<Recommendation />} />
-							<Route path="/recommendation/:id?" element={<Recommendation />} />
-							<Route path="/playlist" element={<Playlists />} />
-							<Route path="/playlist/:id" element={<PlaylistDetail />} />
-							<Route path="/search" element={<Search />} />
-							<Route path="/settings" element={<Settings />} />
-						</Route>
-					</Routes>
-				</div>
-			</div>
+			<Routes>
+				<Route path="/" element={<Landing />} />
+				<Route path="/login" element={<Login />} />
+				<Route path="/oauth" element={<OAuth />} />
+				<Route path="/app" element={<RootApp />}>
+					<Route path="/" element={<Queue />} />
+					<Route path="/queue" element={<Queue />} />
+					<Route path="/queue/lyric" element={<Lyric />} />
+					<Route path="/video/:id" element={<VideoDetail />} />
+					<Route path="/recommendation" element={<Recommendation />} />
+					<Route path="/recommendation/:id?" element={<Recommendation />} />
+					<Route path="/playlist" element={<Playlists />} />
+					<Route path="/playlist/:id" element={<PlaylistDetail />} />
+					<Route path="/search" element={<Search />} />
+					<Route path="/settings" element={<Settings />} />
+				</Route>
+			</Routes>
 			<App.UpdateModal />
 		</>
 	);

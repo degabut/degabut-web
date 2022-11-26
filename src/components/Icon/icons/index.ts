@@ -7,6 +7,7 @@ export { default as ellipsis } from "./ellipsis.svg";
 export { default as forward } from "./forward.svg";
 export { default as gear } from "./gear.svg";
 export { default as heartBroken } from "./heart-broken.svg";
+export { default as heartLine } from "./heart-line.svg";
 export { default as heart } from "./heart.svg";
 export { default as history } from "./history-line.svg";
 export { default as list } from "./list-square-bullet.svg";

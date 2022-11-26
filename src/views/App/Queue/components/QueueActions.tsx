@@ -18,7 +18,7 @@ export const QueueActions: Component<Props> = (props) => {
 	const navigate = useNavigate();
 
 	return (
-		<div class={`flex-row-center justify-evenly ${props.extraClass}`}>
+		<div class={`flex-row-center ${props.extraClass}`}>
 			<SkipButton
 				onClick={() => queue.skipTrack()}
 				disabled={queue.isTrackFreezed() || !queue.data()?.nowPlaying}
