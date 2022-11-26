@@ -1,23 +1,12 @@
-import { IGuildMember } from "@api";
+import { IGuildMember, IJam, IJamCollection } from "@api";
 import { useQueue } from "@hooks/useQueue";
 import { countedThrottle } from "@utils";
 import { Component, onCleanup, onMount } from "solid-js";
 import { render } from "solid-js/web";
 
-type JamCollection = {
-	requestedBy: IGuildMember;
-	jams: Jam[];
-};
-
-type Jam = {
-	xOffset: number;
-	ySpeed: number;
-	jamSpeed: number;
-};
-
 type CatJamProps = {
-	requestedBy: IGuildMember;
-} & Jam;
+	member: IGuildMember;
+} & IJam;
 
 export const CatJam: Component<CatJamProps> = (props) => {
 	let element!: HTMLDivElement;
@@ -52,8 +41,8 @@ export const CatJam: Component<CatJamProps> = (props) => {
 		>
 			<img src={url()} class="w-16 h-16 mx-auto" />
 			<div class="flex-row-center space-x-0.5">
-				<img src={props.requestedBy.avatar || "/img/avatar.png"} class="w-4 h-4 rounded-full" />
-				<div class="text-sm">{props.requestedBy.displayName}</div>
+				<img src={props.member.avatar || "/img/avatar.png"} class="w-4 h-4 rounded-full" />
+				<div class="text-sm">{props.member.displayName}</div>
 			</div>
 		</div>
 	);
@@ -73,10 +62,10 @@ export const CatJamManager: Component = () => {
 		document.removeEventListener("keydown", onKeyDown);
 	});
 
-	const onJam = async (collection: JamCollection) => {
+	const onJam = async (collection: IJamCollection) => {
 		const length = collection.jams.length;
 		for (const j of collection.jams) {
-			spawnJam({ ...j, requestedBy: collection.requestedBy });
+			spawnJam({ ...j, member: collection.member });
 			await new Promise((r) => setTimeout(r, 350 / length));
 		}
 	};

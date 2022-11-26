@@ -11,14 +11,15 @@ import {
 	onMount,
 	ParentComponent,
 } from "solid-js";
-import { useQueueActions, useQueueEvents, useQueueNotification } from "./hooks";
+import TypedEventEmitter from "typed-emitter";
+import { QueueEvents, useQueueActions, useQueueEventListener, useQueueEvents, useQueueNotification } from "./hooks";
 
 export type QueueContextStore = {
 	data: Accessor<IQueue | null>;
 	isInitialLoading: Accessor<boolean>;
 	isQueueFreezed: Accessor<boolean>;
 	isTrackFreezed: Accessor<boolean>;
-	emitter: EventEmitter;
+	emitter: TypedEventEmitter<QueueEvents>;
 } & ReturnType<typeof useQueueActions>;
 
 export const QueueContext = createContext<QueueContextStore>({
@@ -43,9 +44,11 @@ export const QueueProvider: ParentComponent = (props) => {
 		}
 	};
 
-	const [queue, actions] = createResource([], () => initialFetcher());
+	const [queue, actions] = createResource(() => initialFetcher());
 	const queueActions = useQueueActions({ queue, setIsQueueFreezed, setIsTrackFreezed });
-	const queueEvents = useQueueEvents({ actions });
+	const queueEvents = useQueueEvents();
+
+	useQueueEventListener({ actions, emitter: queueEvents.emitter });
 	useQueueNotification({ emitter: queueEvents.emitter });
 
 	onMount(() => {

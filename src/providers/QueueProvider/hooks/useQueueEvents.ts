@@ -1,36 +1,64 @@
-import { IQueue } from "@api";
+import { IJamCollection, IMember, IQueue, ITrack } from "@api";
 import { useApi } from "@hooks/useApi";
 import { EventEmitter } from "events";
 import { onCleanup } from "solid-js";
-import { ResourceActions } from "solid-js/types/reactive/signal";
+import TypedEmitter from "typed-emitter";
 
-type Params = {
-	actions: ResourceActions<IQueue | undefined>;
+type Message = {
+	event: keyof QueueEvents;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	data: any;
 };
 
-type Message<T = unknown> = {
-	event: string;
-	data: T;
+type TrackAction = {
+	track: ITrack;
+	member: IMember;
 };
 
-export const useQueueEvents = ({ actions }: Params) => {
+type TracksAction = {
+	tracks: ITrack[];
+	member: IMember;
+};
+
+export type QueueEvents = {
+	"member-jammed": (data: IJamCollection) => void;
+	"member-added": (data: IMember) => void;
+	"member-removed": (data: IMember) => void;
+	"member-updated": (data: IMember) => void;
+	"queue-destroyed": (data: IQueue) => void;
+	"queue-pause-state-changed": (data: IQueue) => void;
+	"queue-loop-type-changed": (data: IQueue) => void;
+	"queue-shuffle-toggled": (data: IQueue) => void;
+	"queue-created": (data: IQueue) => void;
+	"track-added": (data: TrackAction) => void;
+	"track-removed": (data: TrackAction) => void;
+	"track-skipped": (data: TrackAction) => void;
+	"track-order-changed": (data: string[]) => void;
+	"track-audio-started": (data: ITrack) => void;
+	"queue-processed": (data: ITrack) => void;
+	"tracks-added": (data: TracksAction) => void;
+	"queue-cleared": (data: TracksAction) => void;
+	"queue-joined": (data: void) => void;
+	"queue-left": (data: void) => void;
+};
+
+export const useQueueEvents = () => {
 	const api = useApi();
 	let ws: WebSocket;
 	let reconnectTimeout: NodeJS.Timeout;
-	const emitter = new EventEmitter();
+	const emitter = new EventEmitter() as TypedEmitter<QueueEvents>;
 
 	const listen = () => {
 		ws = new WebSocket(import.meta.env.VITE_WS_URL);
 		ws.onmessage = ({ data }) => {
 			try {
 				const message = JSON.parse(data) as Message;
-				onEvent(message.event, message.data);
+				emitter.emit(message.event, message.data);
 			} catch {
 				// ignore
 			}
 		};
 		ws.onopen = async () => {
-			actions.refetch();
 			send("identify", { token: await api.authManager.getAccessToken() });
 		};
 		ws.onclose = (ev) => {
@@ -45,20 +73,13 @@ export const useQueueEvents = ({ actions }: Params) => {
 		ws.onmessage = null;
 		ws.onopen = null;
 		ws.onclose = null;
+		emitter.removeAllListeners();
 		clearTimeout(reconnectTimeout);
 	});
 
 	const send = (event: string, data: unknown) => {
 		const message = JSON.stringify({ event, data });
 		ws.send(message);
-	};
-
-	const onEvent = (event: string, data: unknown) => {
-		emitter.emit(event, data);
-		if (event === "identify" || event === "member-jammed") return;
-		else if (event === "queue-destroyed" || event === "queue-left") return actions.mutate(undefined);
-		else if (event === "queue-joined") return;
-		else actions.mutate(data as IQueue);
 	};
 
 	return { listen, close, emitter };

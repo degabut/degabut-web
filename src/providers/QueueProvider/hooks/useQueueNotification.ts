@@ -1,4 +1,4 @@
-import { IQueue } from "@api";
+import { ITrack } from "@api";
 import { useApp } from "@hooks/useApp";
 import { notify } from "@utils";
 import EventEmitter from "events";
@@ -15,10 +15,8 @@ export const useQueueNotification = ({ emitter }: Params) => {
 		emitter.on("queue-processed", onQueueProcessed);
 	});
 
-	const onQueueProcessed = async (queue: IQueue) => {
+	const onQueueProcessed = async (nowPlaying: ITrack | null) => {
 		if (!app.settings().notification) return;
-
-		const nowPlaying = queue.nowPlaying;
 		if (!nowPlaying) return;
 
 		const notification = await notify("Now Playing", {
