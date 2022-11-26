@@ -48,7 +48,7 @@ export const Lyric: Component = () => {
 		const nowPlaying = queue.data()?.nowPlaying;
 		if (!nowPlaying?.playedAt) return;
 
-		const elapsed = Date.now() - new Date(nowPlaying.playedAt).getTime();
+		const elapsed = transcripts.getFixedTime() - new Date(nowPlaying.playedAt).getTime();
 		const data = transcripts.data();
 
 		let initialIndex = data.findIndex((t) => elapsed <= t.end);
@@ -76,7 +76,7 @@ export const Lyric: Component = () => {
 
 		setCurrentActiveIndex((v) => v + 1);
 
-		const elapsed = Date.now() - new Date(nowPlaying.playedAt).getTime();
+		const elapsed = transcripts.getFixedTime() - new Date(nowPlaying.playedAt).getTime();
 		const data = transcripts.data();
 		const next = data.at(currentActiveIndex() + 1);
 
