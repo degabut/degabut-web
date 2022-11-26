@@ -51,13 +51,23 @@ export const Lyric: Component = () => {
 		const elapsed = Date.now() - new Date(nowPlaying.playedAt).getTime();
 		const data = transcripts.data();
 
-		const initialIndex = data.findIndex((t) => elapsed <= t.end) - 1;
-		const next = data[initialIndex + 1];
-		if (!next) return;
-		const delay = Math.max(next.start - elapsed, 0);
+		let initialIndex = data.findIndex((t) => elapsed <= t.end);
+		const transcript = data.at(initialIndex);
+		if (!transcript) return;
 
+		let delay = 0;
+		if (elapsed >= transcript.start) {
+			// current
+			delay = transcript.end - elapsed;
+		} else {
+			// next
+			const next = data[initialIndex];
+			initialIndex--;
+			if (!next) return;
+			delay = next.start - elapsed;
+		}
 		setCurrentActiveIndex(initialIndex);
-		updateTimeout = setTimeout(updateActiveIndex, delay + 500);
+		updateTimeout = setTimeout(updateActiveIndex, delay);
 	};
 
 	const updateActiveIndex = () => {
@@ -72,7 +82,7 @@ export const Lyric: Component = () => {
 
 		if (!next) return;
 		const delay = Math.max(next.start - elapsed, 0);
-		updateTimeout = setTimeout(updateActiveIndex, delay + 500);
+		updateTimeout = setTimeout(updateActiveIndex, delay);
 	};
 
 	return (
