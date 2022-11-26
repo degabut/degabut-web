@@ -87,18 +87,18 @@ export const Lyric: Component = () => {
 
 	return (
 		<Container size="full" extraClass="h-full" padless>
-			<div class="h-full overflow-y-auto px-3 md:px-8 py-8 pb-32 space-y-12" ref={container}>
+			<div class="h-full overflow-y-auto px-3 md:px-8 py-8 pb-32 space-y-8" ref={container}>
 				<For each={transcripts.data()}>
 					{(t, i) => (
 						<div
-							class="space-y-2"
+							class="space-y-1"
 							classList={{
-								"text-neutral-400": i() < currentActiveIndex(),
-								"text-neutral-600": i() > currentActiveIndex(),
-								"!text-neutral-400": i() === currentActiveIndex() + 1,
-								"!text-neutral-500": i() === currentActiveIndex() + 2,
-								"text-lg md:text-xl": i() !== currentActiveIndex(),
-								"font-semibold text-xl md:text-2xl !text-neutral-100": i() === currentActiveIndex(),
+								"text-neutral-300": i() < currentActiveIndex(),
+								"text-neutral-500": i() > currentActiveIndex(),
+								"!text-neutral-300": i() === currentActiveIndex() + 1,
+								"!text-neutral-400": i() === currentActiveIndex() + 2,
+								"text-xl md:text-2xl": i() !== currentActiveIndex(),
+								"font-semibold text-2xl md:text-3xl !text-neutral-100": i() === currentActiveIndex(),
 							}}
 						>
 							<For each={t.texts}>{(text) => <div>{text}</div>}</For>
