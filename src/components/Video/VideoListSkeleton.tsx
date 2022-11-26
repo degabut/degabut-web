@@ -4,7 +4,7 @@ import { ChannelThumbnailSkeleton, VideoThumbnailBigSkeleton, VideoThumbnailSkel
 
 export const VideoListSkeleton: Component = () => {
 	return (
-		<div class="flex-row-center space-x-1.5 md:space-x-3 w-full md:p-1.5">
+		<div class="flex-row-center space-x-1.5 md:space-x-3 w-full p-1.5">
 			<VideoThumbnailSkeleton />
 			<div class="flex flex-col flex-grow flex-shrink space-y-2 py-1">
 				<Skeleton.Text extraClass="max-w-[32rem] h-4" />
