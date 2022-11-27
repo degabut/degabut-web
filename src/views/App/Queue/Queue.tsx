@@ -45,7 +45,7 @@ const QueueView: Component = () => {
 						<div class="w-full">
 							<img
 								src={video.thumbnails.at(0)?.url}
-								class="absolute top-0 left-0 h-[150%] w-full blur-3xl opacity-50 md:opacity-40 -z-[1000] pointer-events-none"
+								class="absolute top-0 left-0 h-[150%] w-full blur-3xl opacity-25 -z-[1000] pointer-events-none"
 							/>
 
 							<Video.List
