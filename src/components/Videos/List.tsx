@@ -27,7 +27,7 @@ export function VideosList<Data = unknown>(props: VideosListProps<Data>) {
 			<div class="space-y-1.5">
 				<Show when={props.showWhenLoading || !props.isLoading}>
 					<For each={videoProps()}>
-						{(props) => <Video.List {...props} onClick={() => navigate(`/app/video/${props.video.id}`)} />}
+						{(props) => <Video.List onClick={() => navigate(`/app/video/${props.video.id}`)} {...props} />}
 					</For>
 				</Show>
 				<Show when={props.isLoading}>
