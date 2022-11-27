@@ -39,30 +39,37 @@ const QueueView: Component = () => {
 
 	return (
 		<Container extraClass="space-y-4">
-			<div class="flex flex-col lg:items-start space-y-2 p-2 border border-neutral-700 rounded">
+			<div class="relative flex flex-col lg:items-start space-y-2 p-2 border border-neutral-600 rounded">
 				<Show when={queue.data()?.nowPlaying} keyed fallback={<EmptyNowPlaying />}>
 					{({ video, requestedBy }) => (
-						<Video.List
-							video={video}
-							requestedBy={requestedBy}
-							onClick={() => navigate(`/app/video/${video.id}`)}
-							extraThumbnailClass="!w-16 !h-16"
-							extraTitleClass="text-lg font-medium"
-							contextMenu={getVideoContextMenu({
-								modifyContextMenuItems: (items) => {
-									items.shift();
-									return items;
-								},
-								video,
-								appStore: app,
-								queueStore: queue,
-								navigate,
-							})}
-						/>
+						<div class="w-full">
+							<img
+								src={video.thumbnails.at(0)?.url}
+								class="absolute -top-16 left-0 h-[200%] w-full blur-[128px] opacity-20 -z-[1000] pointer-events-none"
+							/>
+
+							<Video.List
+								video={video}
+								requestedBy={requestedBy}
+								onClick={() => navigate(`/app/video/${video.id}`)}
+								extraThumbnailClass="!w-16 !h-16"
+								extraTitleClass="text-lg font-medium bg-opacity-10"
+								contextMenu={getVideoContextMenu({
+									modifyContextMenuItems: (items) => {
+										items.shift();
+										return items;
+									},
+									video,
+									appStore: app,
+									queueStore: queue,
+									navigate,
+								})}
+							/>
+						</div>
 					)}
 				</Show>
 
-				<Divider extraClass="w-full" />
+				<Divider light extraClass="w-full" />
 
 				<QueueActions extraClass="flex-wrap justify-evenly md:justify-start w-full space-x-8 px-2" />
 			</div>
