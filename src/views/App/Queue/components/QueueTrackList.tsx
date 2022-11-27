@@ -14,8 +14,8 @@ export const QueueTrackList: Component = () => {
 	const tracks = () => queue.data()?.tracks || [];
 
 	return (
-		<div class="space-y-1.5">
-			<Show when={tracks().length} keyed>
+		<Show when={tracks().length} keyed>
+			<div class="space-y-1.5">
 				<div classList={{ "opacity-50 pointer-events-none": queue.isTrackFreezed() }}>
 					<Videos.SortableList
 						data={tracks()}
@@ -59,7 +59,7 @@ export const QueueTrackList: Component = () => {
 						}}
 					/>
 				</div>
-			</Show>
-		</div>
+			</div>
+		</Show>
 	);
 };
