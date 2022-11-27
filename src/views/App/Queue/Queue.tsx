@@ -38,13 +38,13 @@ const QueueView: Component = () => {
 	const navigate = useNavigate();
 
 	return (
-		<Container size="full" extraClass="space-y-4">
+		<Container size="full">
 			<img
 				src={queue.data()?.nowPlaying?.video.thumbnails.at(0)?.url}
 				class="absolute top-0 left-0 h-full w-full blur-[96px] opacity-20 -z-[1000] pointer-events-none"
 			/>
 
-			<div class="max-w-6xl 3xl:max-w-7xl">
+			<div class="max-w-6xl 3xl:max-w-7xl space-y-4">
 				<div class="relative flex flex-col lg:items-start space-y-2 p-2 border border-neutral-600 rounded">
 					<Show when={queue.data()?.nowPlaying} keyed fallback={<EmptyNowPlaying />}>
 						{({ video, requestedBy }) => (
