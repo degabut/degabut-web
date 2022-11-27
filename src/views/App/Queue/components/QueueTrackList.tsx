@@ -1,32 +1,10 @@
 import { ContextMenuItem } from "@components/ContextMenu";
-import { Icon, Icons } from "@components/Icon";
-import { RouterLink } from "@components/Link";
 import { getVideoContextMenu } from "@components/Video";
 import { Videos } from "@components/Videos";
 import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { useNavigate } from "solid-app-router";
 import { Component, Show } from "solid-js";
-
-type Props = {
-	icon: Icons;
-	href: string;
-	label: string;
-};
-
-const HintItem: Component<Props> = (props) => {
-	return (
-		<RouterLink
-			href={props.href}
-			class="flex flex-row items-center w-full space-x-3 p-1.5 hover:bg-white/5 rounded"
-		>
-			<div class="!w-12 !h-12 flex-shrink-0 flex items-center justify-center rounded border border-neutral-500">
-				<Icon name={props.icon} size="lg" extraClass="fill-neutral-500" />
-			</div>
-			<div class="text-neutral-400">{props.label}</div>
-		</RouterLink>
-	);
-};
 
 export const QueueTrackList: Component = () => {
 	const app = useApp();
@@ -82,16 +60,6 @@ export const QueueTrackList: Component = () => {
 					/>
 				</div>
 			</Show>
-
-			<div
-				class="space-y-2"
-				classList={{
-					"ml-[1.35rem]": !!tracks().length,
-				}}
-			>
-				<HintItem label="Search for a song" icon="search" href="/app/search" />
-				<HintItem label="Look at recommendations" icon="heartLine" href="/app/recommendation" />
-			</div>
 		</div>
 	);
 };

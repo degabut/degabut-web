@@ -10,6 +10,7 @@ import { useQueue } from "@hooks/useQueue";
 import { useNavigate } from "solid-app-router";
 import { Component, onMount, Show } from "solid-js";
 import { QueueActions, QueuePlayHistory, QueueTrackList } from "./components";
+import { QueueHint } from "./components/QueueHint";
 
 const QueueNotFound: Component = () => {
 	return (
@@ -84,7 +85,10 @@ const QueueView: Component = () => {
 						),
 						element: () => (
 							<Show when={!queue.isInitialLoading()} fallback={<Videos.List data={[]} isLoading />}>
-								<QueueTrackList />
+								<div class="space-y-1.5">
+									<QueueTrackList />
+									<QueueHint />
+								</div>
 							</Show>
 						),
 					},

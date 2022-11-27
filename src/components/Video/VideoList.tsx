@@ -3,7 +3,7 @@ import { ContextMenuButton } from "@components/ContextMenu";
 import { contextMenu } from "@directives/contextMenu";
 import { ContextMenuDirectiveParams } from "@providers/ContextMenuProvider";
 import { secondsToTime } from "@utils";
-import { Component, Show } from "solid-js";
+import { Component, JSX, Show } from "solid-js";
 import { ChannelThumbnail, VideoThumbnail, VideoThumbnailBig } from "./components";
 
 contextMenu;
@@ -13,10 +13,12 @@ export type VideoListProps = {
 	contextMenu?: ContextMenuDirectiveParams;
 	requestedBy?: IGuildMember;
 	disableContextMenu?: boolean;
+	hideContextMenuButton?: boolean;
 	extraContainerClass?: string;
 	extraContainerClassList?: Record<string, boolean>;
 	extraThumbnailClass?: string;
 	extraTitleClass?: string;
+	right?: JSX.Element;
 	onClick?: (video: IVideoCompact) => void;
 };
 
@@ -49,9 +51,10 @@ export const VideoList: Component<VideoListProps> = (props) => {
 					</div>
 				</div>
 			</div>
-			<Show when={!props.disableContextMenu}>
+			<Show when={!props.disableContextMenu && !props.hideContextMenuButton}>
 				<ContextMenuButton contextMenu={props.contextMenu} />
 			</Show>
+			{props.right}
 		</div>
 	);
 };
@@ -77,7 +80,7 @@ export const VideoListBig: Component<VideoListProps> = (props) => {
 						{props.video.title}
 					</div>
 
-					<Show when={!props.disableContextMenu}>
+					<Show when={!props.disableContextMenu && !props.hideContextMenuButton}>
 						<ContextMenuButton contextMenu={props.contextMenu} />
 					</Show>
 				</div>
