@@ -37,6 +37,7 @@ export const Main: Component = () => {
 					<Route path="/settings" element={<Settings />} />
 				</Route>
 			</Routes>
+			<App.InstallPrompt />
 			<App.UpdateModal />
 		</>
 	);

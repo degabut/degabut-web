@@ -2,6 +2,7 @@ import { AppDrawer, MobileAppDrawer } from "./AppDrawer";
 import { AppHeader } from "./AppHeader";
 import { BackgroundLogo } from "./BackgroundLogo";
 import { CatJamManager } from "./CatJam";
+import { InstallPrompt } from "./InstallPrompt";
 import { MemberListDrawer } from "./MemberListDrawer";
 import { QuickAddModal } from "./QuickAddModal";
 import { UpdateModal } from "./UpdateModal";
@@ -12,6 +13,7 @@ export const App = {
 	Header: AppHeader,
 	CatJamManager,
 	UpdateModal,
+	InstallPrompt,
 	QuickAddModal,
 	MemberListDrawer,
 	BackgroundLogo,
