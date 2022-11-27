@@ -7,7 +7,7 @@ import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { useQueueRecommendation } from "@hooks/useQueueRecommendation";
 import { useNavigate } from "solid-app-router";
-import { Component, createMemo } from "solid-js";
+import { Component } from "solid-js";
 
 type HintItemProps = {
 	icon: Icons;
@@ -54,7 +54,7 @@ export const QueueHint: Component = () => {
 	const app = useApp();
 	const queue = useQueue();
 	const navigate = useNavigate();
-	const tracks = createMemo(() => queue.data()?.tracks || []);
+	const tracks = () => queue.data()?.tracks || [];
 
 	const recommendation = useQueueRecommendation({ tracks });
 
