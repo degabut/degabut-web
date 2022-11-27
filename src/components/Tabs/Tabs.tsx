@@ -36,7 +36,7 @@ export const Tabs: Component<Props> = (props) => {
 			{(activeItem) => {
 				return (
 					<div class={`flex flex-col ${props.extraContainerClass}`}>
-						<div class={`flex-row-center w-full border-b border-neutral-700 ${props.extraTabsClass}`}>
+						<div class={`flex-row-center w-full border-b border-neutral-600 ${props.extraTabsClass}`}>
 							<For each={props.items}>
 								{(item) => <Tab item={item} onClick={onChange} isActive={item.id === activeItem.id} />}
 							</For>
