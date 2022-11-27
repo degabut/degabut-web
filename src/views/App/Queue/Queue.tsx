@@ -38,67 +38,69 @@ const QueueView: Component = () => {
 	const navigate = useNavigate();
 
 	return (
-		<Container extraClass="space-y-4">
-			<div class="relative flex flex-col lg:items-start space-y-2 p-2 border border-neutral-600 rounded">
-				<Show when={queue.data()?.nowPlaying} keyed fallback={<EmptyNowPlaying />}>
-					{({ video, requestedBy }) => (
-						<div class="w-full">
-							<img
-								src={video.thumbnails.at(0)?.url}
-								class="absolute top-0 left-0 h-[200%] w-full blur-3xl opacity-60 sm:opacity-50 md:opacity-40 -z-[1000] pointer-events-none"
-							/>
-
-							<Video.List
-								video={video}
-								requestedBy={requestedBy}
-								onClick={() => navigate(`/app/video/${video.id}`)}
-								extraThumbnailClass="!w-16 !h-16"
-								extraTitleClass="text-lg font-medium bg-opacity-10"
-								contextMenu={getVideoContextMenu({
-									modifyContextMenuItems: (items) => {
-										items.shift();
-										return items;
-									},
-									video,
-									appStore: app,
-									queueStore: queue,
-									navigate,
-								})}
-							/>
-						</div>
-					)}
-				</Show>
-
-				<Divider light extraClass="w-full" />
-
-				<QueueActions extraClass="flex-wrap justify-between md:justify-start w-full md:space-x-8 px-2" />
-			</div>
-
-			<Tabs
-				extraContentContainerClass="pt-4 md:pt-6"
-				items={[
-					{
-						id: "trackList",
-						label: (props) => (
-							<TabLabel icon="audioPlaylist" label="Track List" isActive={props.isActive} />
-						),
-						element: () => (
-							<Show when={!queue.isInitialLoading()} fallback={<Videos.List data={[]} isLoading />}>
-								<QueueTrackList />
-							</Show>
-						),
-					},
-					{
-						id: "queueHistory",
-						label: (props) => <TabLabel icon="history" label="History" isActive={props.isActive} />,
-						element: () => (
-							<Show when={!queue.isInitialLoading()} fallback={<Videos.List data={[]} isLoading />}>
-								<QueuePlayHistory />
-							</Show>
-						),
-					},
-				]}
+		<Container size="full" extraClass="space-y-4">
+			<img
+				src={queue.data()?.nowPlaying?.video.thumbnails.at(0)?.url}
+				class="absolute top-0 left-0 h-full w-full blur-[96px] opacity-20 -z-[1000] pointer-events-none"
 			/>
+
+			<div class="max-w-6xl 3xl:max-w-7xl">
+				<div class="relative flex flex-col lg:items-start space-y-2 p-2 border border-neutral-600 rounded">
+					<Show when={queue.data()?.nowPlaying} keyed fallback={<EmptyNowPlaying />}>
+						{({ video, requestedBy }) => (
+							<div class="w-full">
+								<Video.List
+									video={video}
+									requestedBy={requestedBy}
+									onClick={() => navigate(`/app/video/${video.id}`)}
+									extraThumbnailClass="!w-16 !h-16"
+									extraTitleClass="text-lg font-medium bg-opacity-10"
+									contextMenu={getVideoContextMenu({
+										modifyContextMenuItems: (items) => {
+											items.shift();
+											return items;
+										},
+										video,
+										appStore: app,
+										queueStore: queue,
+										navigate,
+									})}
+								/>
+							</div>
+						)}
+					</Show>
+
+					<Divider light extraClass="w-full" />
+
+					<QueueActions extraClass="flex-wrap justify-between md:justify-start w-full md:space-x-8 px-2" />
+				</div>
+
+				<Tabs
+					extraContentContainerClass="pt-4 md:pt-6"
+					items={[
+						{
+							id: "trackList",
+							label: (props) => (
+								<TabLabel icon="audioPlaylist" label="Track List" isActive={props.isActive} />
+							),
+							element: () => (
+								<Show when={!queue.isInitialLoading()} fallback={<Videos.List data={[]} isLoading />}>
+									<QueueTrackList />
+								</Show>
+							),
+						},
+						{
+							id: "queueHistory",
+							label: (props) => <TabLabel icon="history" label="History" isActive={props.isActive} />,
+							element: () => (
+								<Show when={!queue.isInitialLoading()} fallback={<Videos.List data={[]} isLoading />}>
+									<QueuePlayHistory />
+								</Show>
+							),
+						},
+					]}
+				/>
+			</div>
 		</Container>
 	);
 };
