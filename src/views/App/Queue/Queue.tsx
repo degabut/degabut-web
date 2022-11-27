@@ -71,7 +71,7 @@ const QueueView: Component = () => {
 
 				<Divider light extraClass="w-full" />
 
-				<QueueActions extraClass="flex-wrap justify-evenly md:justify-start w-full space-x-8 px-2" />
+				<QueueActions extraClass="flex-wrap justify-between md:justify-start w-full md:space-x-8 px-2" />
 			</div>
 
 			<Tabs
