@@ -1,32 +1,19 @@
 import { ITranscript } from "@api";
-import axios from "axios";
 import { Accessor, createMemo, createResource } from "solid-js";
 import { useApi } from "./useApi";
 
 type IUseTranscriptProps = Accessor<string>;
 
-type FormattedTranscript = Omit<ITranscript, "text"> & {
+export type FormattedTranscript = Omit<ITranscript, "text"> & {
 	texts: string[];
-};
-
-// TODO
-const getDelay = async () => {
-	const start = Date.now();
-	const time = await axios.get("https://worldtimeapi.org/api/ip");
-	const end = Date.now();
-	const current = new Date(time.data.datetime).getTime() - (end - start) / 2;
-	const difference = end - current;
-	if (difference > 0) return difference;
-	else return difference;
 };
 
 export const useVideoTranscript = (videoId: IUseTranscriptProps) => {
 	const api = useApi();
 	const [_data, { refetch, mutate }] = createResource(videoId, api.youtube.getVideoTranscript);
-	const [delay] = createResource(getDelay);
 
 	const data = createMemo(() => {
-		if (_data.loading || !delay()) return [];
+		if (_data.loading) return [];
 
 		const formatted: FormattedTranscript[] = [];
 
@@ -49,11 +36,8 @@ export const useVideoTranscript = (videoId: IUseTranscriptProps) => {
 		return formatted;
 	});
 
-	const getFixedTime = () => Date.now() - (delay() || 0);
-
 	return {
 		data,
-		getFixedTime,
 		mutate,
 		refetch,
 	};
