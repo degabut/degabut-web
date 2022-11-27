@@ -13,16 +13,24 @@ export const NowPlayingMobile: Component = () => {
 				<div class="bg-neutral-900 w-full p-1.5">
 					<SolidLink
 						href="/app/queue"
-						class="flex-row-center space-x-3 p-2 rounded bg-gray-800 cursor-pointer"
+						class="relative overflow-hidden flex-row-center p-2 z-10 rounded cursor-pointer"
 						title={video.title}
 					>
-						<VideoThumbnail video={video} />
-						<div class="flex flex-col truncate">
-							<div class="truncate">{video.title}</div>
-							<div class="truncate text-sm text-neutral-400">{video.channel.name}</div>
+						<img
+							src={video.thumbnails.at(0)?.url}
+							class="absolute top-0 left-0 h-full w-full blur-3xl -z-10 pointer-events-none"
+						/>
+
+						<div class="flex-row-center space-x-3">
+							<VideoThumbnail video={video} />
+
+							<div class="flex flex-col truncate">
+								<div class="truncate">{video.title}</div>
+								<div class="truncate text-sm text-neutral-400">{video.channel.name}</div>
+							</div>
 						</div>
 
-						<Icon name="musicNote" extraClass="absolute right-4 w-12 h-12 fill-white/10" />
+						<Icon name="musicNote" extraClass="absolute right-2 w-12 h-12 fill-white/10" />
 					</SolidLink>
 				</div>
 			)}
