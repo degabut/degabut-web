@@ -59,7 +59,7 @@ export const QueueHint: Component = () => {
 	const recommendation = useQueueRecommendation({ tracks });
 
 	return (
-		<div class="space-y-4">
+		<div class="space-y-2">
 			<div
 				class="space-y-1.5"
 				classList={{
@@ -75,15 +75,15 @@ export const QueueHint: Component = () => {
 					"md:ml-[1.35rem]": !!tracks().length,
 				}}
 			>
-				<div class="flex-row-center space-x-3 py-2">
-					<div class="text-neutral-300">Quick Add</div>
+				<div class="flex-row-center space-x-3 py-2 text-sm">
+					<div class="text-neutral-400">Quick Add</div>
 					<Divider extraClass="flex-grow" light />
 					<button
-						class="flex-row-center space-x-1 text-neutral-300 hover:text-neutral-100"
+						class="flex-row-center space-x-1 text-neutral-400 hover:text-neutral-200"
 						onClick={() => recommendation.reset()}
 					>
 						<Icon name="update" size="sm" extraClass="fill-current" />
-						<div class="text-sm">Refresh</div>
+						<div>Refresh</div>
 					</button>
 				</div>
 
