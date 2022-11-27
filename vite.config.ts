@@ -7,6 +7,9 @@ import svgString from "./plugins/svgString";
 const pwa = VitePWA({
 	registerType: "autoUpdate",
 	injectRegister: "auto",
+	devOptions: {
+		enabled: true,
+	},
 	workbox: {
 		clientsClaim: true,
 		skipWaiting: true,
