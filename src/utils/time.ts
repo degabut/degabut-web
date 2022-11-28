@@ -17,7 +17,6 @@ export const secondsToTime = (totalSeconds: number): string => {
 
 export const getRelativeTime = (time: Date | string): string => {
 	const dayDifference = Math.abs(dayjs(time).diff(dayjs(), "day"));
-	console.log(dayDifference);
 	if (dayDifference >= 7) {
 		return "on " + dayjs(time).format("D MMM YYYY");
 	} else {
