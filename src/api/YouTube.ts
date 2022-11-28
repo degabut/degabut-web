@@ -36,7 +36,7 @@ export type IPlaylistCompact = {
 export type IChannel = {
 	id: string;
 	name: string;
-	thumbnails: IThumbnail[];
+	thumbnails?: IThumbnail[];
 };
 
 export interface ITranscript {
