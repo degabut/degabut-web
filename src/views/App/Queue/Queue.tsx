@@ -39,7 +39,7 @@ const QueueView: Component = () => {
 	const navigate = useNavigate();
 
 	return (
-		<Container extraClass="space-y-4">
+		<Container extraClass="space-y-8 md:space-y-4">
 			<div class="relative flex flex-col lg:items-start space-y-2 p-2 border border-neutral-600 rounded">
 				<Show when={queue.data()?.nowPlaying} keyed fallback={<EmptyNowPlaying />}>
 					{({ video, requestedBy }) => (
@@ -85,7 +85,7 @@ const QueueView: Component = () => {
 						),
 						element: () => (
 							<Show when={!queue.isInitialLoading()} fallback={<Videos.List data={[]} isLoading />}>
-								<div class="space-y-1.5">
+								<div class="space-y-4 md:space-y-1.5">
 									<QueueTrackList />
 									<QueueHint />
 								</div>

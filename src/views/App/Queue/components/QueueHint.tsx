@@ -59,7 +59,7 @@ export const QueueHint: Component = () => {
 	const recommendation = useQueueRecommendation({ tracks });
 
 	return (
-		<div class="space-y-2">
+		<div class="space-y-8 md:space-y-2">
 			<div
 				class="space-y-1.5"
 				classList={{
