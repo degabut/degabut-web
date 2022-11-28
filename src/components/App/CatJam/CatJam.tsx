@@ -16,7 +16,9 @@ export const CatJam: Component<CatJamProps> = (props) => {
 			? "/img/cat-jam-slow.gif"
 			: props.jamSpeed < 0.95
 			? "/img/cat-jam-fast.gif"
-			: "/img/cat-jam-rainbow.gif";
+			: props.jamSpeed < 0.99
+			? "/img/cat-jam-rainbow.gif"
+			: "/img/cat-jam-super-fast.gif";
 
 	onMount(() => {
 		const screenHeight = window.innerHeight;
