@@ -24,6 +24,9 @@ export const useQueueNotification = ({ emitter }: Params) => {
 		});
 
 		if (!notification) return;
-		notification.onclick = () => window.open("/app/queue");
+		notification.onclick = () => {
+			window.focus();
+			notification.close();
+		};
 	};
 };
