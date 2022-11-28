@@ -18,7 +18,7 @@ export const MobileLink: Component<Props> = (props) => {
 			class="flex-col-center flex-grow space-y-1 py-2 transition-colors"
 			classList={{
 				"text-neutral-400": !isActive(),
-				"text-neutral-100 bg-white/5 font-medium": !!isActive(),
+				"text-neutral-100 bg-white/10 font-medium": !!isActive(),
 			}}
 		>
 			<div class="pt-1">
