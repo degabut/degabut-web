@@ -18,8 +18,7 @@ const getDelay = async () => {
 	const end = Date.now();
 	const current = new Date(time.data.datetime).getTime() - (end - start) / 2;
 	const difference = end - current;
-	if (difference > 0) return difference;
-	else return difference;
+	return difference;
 };
 
 export const useTranscript = (params: Accessor<Params>) => {
