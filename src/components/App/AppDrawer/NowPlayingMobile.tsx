@@ -27,11 +27,11 @@ export const NowPlayingMobile: Component = () => {
 							<div
 								class="flex flex-col truncate"
 								style={{
-									"text-shadow": "1px 1px 2px black",
+									"text-shadow": "1px 1px 4px black",
 								}}
 							>
 								<div class="truncate">{video.title}</div>
-								<div class="truncate text-sm text-neutral-200">{video.channel.name}</div>
+								<div class="truncate text-sm text-neutral-300">{video.channel.name}</div>
 							</div>
 						</div>
 
