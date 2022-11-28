@@ -18,15 +18,20 @@ export const NowPlayingMobile: Component = () => {
 					>
 						<img
 							src={video.thumbnails.at(0)?.url}
-							class="absolute top-0 left-0 h-full w-full blur-xl -z-10 pointer-events-none"
+							class="absolute top-0 left-0 h-full w-full blur-2xl -z-10 pointer-events-none"
 						/>
 
 						<div class="flex-row-center space-x-3 truncate">
 							<VideoThumbnail video={video} />
 
-							<div class="flex flex-col truncate">
+							<div
+								class="flex flex-col truncate"
+								style={{
+									"text-shadow": "1px 1px 2px black",
+								}}
+							>
 								<div class="truncate">{video.title}</div>
-								<div class="truncate text-sm text-neutral-400">{video.channel.name}</div>
+								<div class="truncate text-sm text-neutral-200">{video.channel.name}</div>
 							</div>
 						</div>
 
