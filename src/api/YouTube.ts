@@ -71,7 +71,7 @@ export class YouTube {
 		if (!id) return null;
 
 		const response = await this.client.get(`/youtube/videos/${id}/transcript`);
-		if (response.status !== 200) null;
+		if (response.status !== 200) return null;
 		return response.data;
 	};
 
