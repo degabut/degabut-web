@@ -21,6 +21,7 @@ type TracksAction = {
 };
 
 export type QueueEvents = {
+	identify: () => void;
 	"member-jammed": (data: IJamCollection) => void;
 	"member-added": (data: IMember) => void;
 	"member-removed": (data: IMember) => void;

@@ -13,6 +13,7 @@ export const useQueueEventListener = ({ actions, emitter }: Params) => {
 		emitter.on("queue-destroyed", () => actions.mutate(undefined));
 		emitter.on("queue-left", () => actions.mutate(undefined));
 		emitter.on("queue-joined", () => actions.refetch());
+		emitter.on("identify", () => actions.refetch());
 		emitter.on("member-added", addMember);
 		emitter.on("member-removed", removeMember);
 		emitter.on("member-updated", updateMember);
