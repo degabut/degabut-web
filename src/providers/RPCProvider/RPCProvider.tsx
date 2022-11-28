@@ -15,7 +15,7 @@ export const RPCProvider: ParentComponent = (props) => {
 	const app = useApp();
 	const queue = useQueue();
 	let connected = false;
-	let previousQueue: IQueue | null = null;
+	let connecting = false;
 
 	onMount(() => {
 		const isEnabled = app.settings().discordRpc;
@@ -23,10 +23,15 @@ export const RPCProvider: ParentComponent = (props) => {
 	});
 
 	const start = async () => {
+		if (connected || connecting) return;
+
+		connecting = true;
 		const error = await rpc.Connect();
-		if (error) return;
-		connected = true;
-		updateListeningActivity();
+		if (!error) {
+			connected = true;
+			updateListeningActivity(queue.data());
+		}
+		connecting = false;
 	};
 
 	const stop = () => {
@@ -41,23 +46,13 @@ export const RPCProvider: ParentComponent = (props) => {
 	});
 
 	createEffect(() => {
-		const queueData = queue.data();
-
-		if (
-			!queueData ||
-			queueData.nowPlaying?.id !== previousQueue?.nowPlaying?.id ||
-			queueData.voiceChannel.members.length !== previousQueue?.voiceChannel.members.length
-		) {
-			previousQueue = queueData;
-			updateListeningActivity();
-		}
+		updateListeningActivity(queue.data());
 	});
 
-	const updateListeningActivity = async () => {
+	const updateListeningActivity = async (queue: IQueue | null) => {
 		if (!connected) return;
-		const queueData = queue.data();
 
-		if (!queueData?.nowPlaying) {
+		if (!queue?.nowPlaying) {
 			await rpc.SetActivity({
 				details: "Not listening to anything",
 				state: "💤",
@@ -67,7 +62,7 @@ export const RPCProvider: ParentComponent = (props) => {
 				},
 			} as models.rpc.Activity);
 		} else {
-			const { nowPlaying, voiceChannel } = queueData;
+			const { nowPlaying, voiceChannel } = queue;
 
 			const title = nowPlaying.video.title;
 			const channelName = nowPlaying.video.channel.name;
