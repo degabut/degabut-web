@@ -18,7 +18,7 @@ export const NowPlayingMobile: Component = () => {
 					>
 						<img
 							src={video.thumbnails.at(0)?.url}
-							class="absolute top-0 left-0 h-full w-full blur-3xl -z-10 pointer-events-none"
+							class="absolute top-0 left-0 h-full w-full blur-xl -z-10 pointer-events-none"
 						/>
 
 						<div class="flex-row-center space-x-3 truncate">
