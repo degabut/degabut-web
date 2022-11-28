@@ -32,6 +32,7 @@ export const QueueContext = createContext<QueueContextStore>({
 
 export const QueueProvider: ParentComponent = (props) => {
 	const api = useApi();
+	let lastVisibilityRefetch = 0;
 	const [isInitialLoading, setIsInitialLoading] = createSignal(true);
 	const [isQueueFreezed, setIsQueueFreezed] = createSignal(true);
 	const [isTrackFreezed, setIsTrackFreezed] = createSignal(true);
@@ -52,11 +53,13 @@ export const QueueProvider: ParentComponent = (props) => {
 	useQueueNotification({ emitter: queueEvents.emitter });
 
 	onMount(() => {
+		document.addEventListener("visibilitychange", onVisibilityChange);
 		actions.refetch();
 		queueEvents.listen();
 	});
 
 	onCleanup(() => {
+		document.removeEventListener("visibilitychange", onVisibilityChange);
 		queueEvents.close();
 	});
 
@@ -66,6 +69,14 @@ export const QueueProvider: ParentComponent = (props) => {
 			setIsQueueFreezed(false);
 		}
 	});
+
+	const onVisibilityChange = () => {
+		// refetch if > 60 seconds after last refetch
+		if (document.visibilityState === "visible" && Date.now() - lastVisibilityRefetch > 60 * 1000) {
+			lastVisibilityRefetch = Date.now();
+			actions.refetch();
+		}
+	};
 
 	const store: QueueContextStore = {
 		data: () => queue() || null,
