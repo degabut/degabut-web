@@ -59,7 +59,7 @@ export const Search: Component = () => {
 				onInput={onInput}
 			/>
 
-			<div class="lg:space-y-8 space-y-4 md:space-y-1.5">
+			<div class="lg:space-y-8 space-y-1.5">
 				<Show when={!search.isLoading()} fallback={<SearchResultSkeleton isSmall={screen().lte.md} />}>
 					<For each={search.result()}>
 						{(item) => {
