@@ -74,6 +74,7 @@ const ProvidedApp: Component = () => {
 			</div>
 			<App.CatJamManager />
 			<App.QuickAddModal />
+			<App.ExternalDragDrop />
 		</>
 	);
 };
