@@ -8,6 +8,8 @@ export const ExternalDragDrop = () => {
 	const queue = useQueue();
 	const app = useApp();
 	const [dragCounter, setDragCounter] = createSignal(0);
+	let dropContainer!: HTMLDivElement;
+	let containerDragCounter = 0;
 	const [isLoading, setIsLoading] = createSignal(false);
 
 	onMount(() => {
@@ -41,35 +43,51 @@ export const ExternalDragDrop = () => {
 	const onDrop = async (e: DragEvent) => {
 		e.preventDefault();
 
+		if (!dropContainer.contains(e.target as Node)) return setDragCounter(0);
+
 		const url = e.dataTransfer?.getData("URL");
-		if (url) {
-			const videoId = new URL(url).searchParams.get("v");
-			if (!videoId) {
-				app.setConfirmation({
-					title: "Invalid URL",
-					message: "The URL you dropped is not a valid YouTube URL.",
-					isAlert: true,
-				});
-			} else {
-				setIsLoading(true);
-				await queue.addTrackById(videoId);
-				setIsLoading(false);
-			}
-		} else {
-			app.setConfirmation({
-				title: "Invalid URL",
-				message: "The URL you dropped is not a valid YouTube URL.",
-				isAlert: true,
-			});
+		if (!url) {
+			showAlert();
+			return setDragCounter(0);
 		}
 
+		const videoId = new URL(url).searchParams.get("v");
+		if (!videoId) {
+			showAlert();
+			return setDragCounter(0);
+		}
+
+		setIsLoading(true);
+		await queue.addTrackById(videoId);
+		setIsLoading(false);
 		setDragCounter(0);
+	};
+
+	const onContainerDragEnter = () => {
+		++containerDragCounter && dropContainer.classList.add("bg-white/10");
+	};
+
+	const onContainerDragLeave = () => {
+		--containerDragCounter || dropContainer.classList.remove("bg-white/10");
+	};
+
+	const showAlert = () => {
+		app.setConfirmation({
+			title: "Invalid URL",
+			message: "The URL you dropped is not a valid YouTube URL.",
+			isAlert: true,
+		});
 	};
 
 	return (
 		<Show when={dragCounter() > 0 && queue.data()}>
 			<div class="fixed w-screen h-screen top-0 left-0 z-[1000] flex items-center justify-center bg-black/90">
-				<div class="flex flex-col space-y-2 items-center border-4 border-dashed rounded border-neutral-500 py-8 px-24">
+				<div
+					ref={dropContainer}
+					onDragEnter={onContainerDragEnter}
+					onDragLeave={onContainerDragLeave}
+					class="flex flex-col space-y-2 items-center border-4 border-dashed rounded border-neutral-500 py-8 px-24"
+				>
 					<Show when={!isLoading()} fallback={<Spinner size="2xl" />}>
 						<Icon name="youtube" extraClass="fill-neutral-500 w-24 h-24" />
 					</Show>
