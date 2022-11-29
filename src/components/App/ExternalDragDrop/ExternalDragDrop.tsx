@@ -67,7 +67,7 @@ export const ExternalDragDrop = () => {
 	};
 
 	return (
-		<Show when={dragCounter() > 0}>
+		<Show when={dragCounter() > 0 && queue.data()}>
 			<div class="fixed w-screen h-screen top-0 left-0 z-[1000] flex items-center justify-center bg-black/90">
 				<div class="flex flex-col space-y-2 items-center border-4 border-dashed rounded border-neutral-500 py-8 px-24">
 					<Show when={!isLoading()} fallback={<Spinner size="2xl" />}>
