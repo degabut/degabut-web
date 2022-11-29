@@ -1,10 +1,11 @@
 import { Button } from "@components/Button";
 import { Modal } from "@components/Modal";
-import { Component, createSignal, JSX, onCleanup, onMount } from "solid-js";
+import { Component, createSignal, JSX, onCleanup, onMount, Show } from "solid-js";
 
 type Props = {
 	title: JSX.Element;
 	message?: JSX.Element;
+	isAlert: boolean;
 	isOpen: boolean;
 	onConfirm: () => void | Promise<void>;
 	onClose: () => void;
@@ -43,12 +44,14 @@ export const ConfirmationModal: Component<Props> = (props) => {
 				<div class="text-center">{props.message}</div>
 
 				<div class="flex-row-center justify-evenly w-full">
-					<div class="underline underline-offset-2 cursor-pointer" onClick={() => props.onClose()}>
-						Cancel
-					</div>
+					<Show when={!props.isAlert}>
+						<div class="underline underline-offset-2 cursor-pointer" onClick={() => props.onClose()}>
+							Cancel
+						</div>
+					</Show>
 
 					<Button type="submit" rounded disabled={isLoading()} onClick={onConfirm} class="px-8">
-						Confirm
+						{props.isAlert ? "Ok" : "Confirm"}
 					</Button>
 				</div>
 			</div>

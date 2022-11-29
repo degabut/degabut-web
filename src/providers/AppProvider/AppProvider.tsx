@@ -9,6 +9,7 @@ import { defaultSettings, Settings, useSettings } from "./hooks";
 type Confirmation = {
 	title: JSX.Element;
 	message?: JSX.Element;
+	isAlert?: boolean;
 	onConfirm?: () => void | Promise<void>;
 };
 
@@ -81,6 +82,7 @@ export const AppProvider: ParentComponent = (props) => {
 				isOpen={!!confirmation()}
 				title={confirmation()?.title || ""}
 				message={confirmation()?.message}
+				isAlert={!!confirmation()?.isAlert}
 				onConfirm={async () => {
 					await confirmation()?.onConfirm?.();
 					setConfirmation(null);
