@@ -40,13 +40,13 @@ const QueueView: Component = () => {
 
 	return (
 		<Container extraClass="space-y-8 md:space-y-4">
-			<div class="relative flex flex-col lg:items-start space-y-2 p-2 border border-neutral-600 rounded">
+			<div class="relative flex flex-col lg:items-start space-y-3 p-2 border border-neutral-600 rounded bg-black/[25%] text-shadow">
 				<Show when={queue.data()?.nowPlaying} keyed fallback={<EmptyNowPlaying />}>
 					{({ video, requestedBy }) => (
 						<div class="w-full">
 							<img
 								src={video.thumbnails.at(0)?.url}
-								class="absolute top-0 left-0 h-[150%] w-full blur-3xl opacity-25 -z-[1000] pointer-events-none"
+								class="absolute top-0 left-0 h-full w-full blur-3xl opacity-50 -z-[1000] pointer-events-none"
 							/>
 
 							<Video.List
