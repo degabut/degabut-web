@@ -4,7 +4,7 @@ import { contextMenu } from "@directives/contextMenu";
 import { ContextMenuDirectiveParams } from "@providers/ContextMenuProvider";
 import { secondsToTime } from "@utils";
 import { Component, JSX, Show } from "solid-js";
-import { ChannelThumbnail, VideoThumbnail, VideoThumbnailBig } from "./components";
+import { ChannelThumbnail, LiveBadge, VideoThumbnail, VideoThumbnailBig } from "./components";
 
 contextMenu;
 
@@ -42,7 +42,9 @@ export const VideoList: Component<VideoListProps> = (props) => {
 					{props.video.title}
 				</div>
 				<div class="flex flex-row space-x-3 text-sm align-bottom">
-					<div class="text-neutral-400">{secondsToTime(props.video.duration)}</div>
+					<Show when={props.video.duration > 0} fallback={<LiveBadge />}>
+						<div class="text-neutral-400">{secondsToTime(props.video.duration)}</div>
+					</Show>
 					<div class="text-neutral-400 truncate">
 						<span class="text-neutral-300">{props.video.channel.name}</span>
 						{props.requestedBy && (
@@ -93,6 +95,9 @@ export const VideoListBig: Component<VideoListProps> = (props) => {
 						<div>{props.video.channel.name}</div>
 					</div>
 				</div>
+				<Show when={!props.video.duration}>
+					<LiveBadge />
+				</Show>
 
 				{props.requestedBy && <div class="my-auto">Requested by {props.requestedBy.displayName}</div>}
 			</div>

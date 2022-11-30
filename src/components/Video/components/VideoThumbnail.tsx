@@ -1,6 +1,6 @@
 import { IVideoCompact } from "@api";
 import { secondsToTime } from "@utils";
-import { Component } from "solid-js";
+import { Component, Show } from "solid-js";
 
 type Props = {
 	video: IVideoCompact;
@@ -28,9 +28,11 @@ export const VideoThumbnailBig: Component<Props> = (props) => {
 					class={`h-full w-full relative object-cover rounded ${props.extraClass}`}
 				/>
 			</div>
-			<div class="absolute bottom-0 right-0 text-sm bg-black/90 py-1 px-2 rounded-br">
-				{secondsToTime(props.video.duration)}
-			</div>
+			<Show when={props.video.duration > 0}>
+				<div class="absolute bottom-0 right-0 text-sm bg-black/90 py-1 px-2 rounded-br">
+					<div class="text-neutral-400">{secondsToTime(props.video.duration)}</div>
+				</div>
+			</Show>
 		</div>
 	);
 };
