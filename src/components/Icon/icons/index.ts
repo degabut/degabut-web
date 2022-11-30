@@ -18,6 +18,7 @@ export { default as microphone } from "./microphone.svg";
 export { default as minus } from "./minus.svg";
 export { default as musicNote } from "./music-note.svg";
 export { default as musicOff } from "./music-off.svg";
+export { default as pause } from "./pause.svg";
 export { default as people } from "./people.svg";
 export { default as play } from "./play.svg";
 export { default as plus } from "./plus.svg";
