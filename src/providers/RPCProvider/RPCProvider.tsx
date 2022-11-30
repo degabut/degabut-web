@@ -49,7 +49,7 @@ export const RPCProvider: ParentComponent = (props) => {
 		updateListeningActivity(queue.data());
 	});
 
-	const updateListeningActivity = async (queue: IQueue | null) => {
+	const updateListeningActivity = async (queue?: IQueue) => {
 		if (!connected) return;
 
 		if (!queue?.nowPlaying) {

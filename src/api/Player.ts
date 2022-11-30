@@ -18,8 +18,8 @@ export class Player {
 		await this.client.post(`/players/${queueId}/skip`);
 	};
 
-	seek = async (queueId: string, seek: number): Promise<void> => {
-		await this.client.post(`/players/${queueId}/seek`, { seek });
+	seek = async (queueId: string, position: number): Promise<void> => {
+		await this.client.post(`/players/${queueId}/seek`, { position });
 	};
 
 	pause = async (queueId: string): Promise<void> => {

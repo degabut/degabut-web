@@ -21,7 +21,7 @@ type TracksAction = {
 };
 
 type TrackSeededData = {
-	seek: number;
+	position: number;
 	member: IGuildMember;
 };
 

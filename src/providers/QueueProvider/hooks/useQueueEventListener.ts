@@ -21,6 +21,7 @@ export const useQueueEventListener = ({ actions, emitter }: Params) => {
 		emitter.on("queue-loop-type-changed", partialUpdateQueue);
 		emitter.on("queue-shuffle-toggled", partialUpdateQueue);
 		emitter.on("queue-created", updateQueue);
+		emitter.on("player-pause-state-changed", ({ isPaused }) => partialUpdateQueue({ isPaused }));
 		emitter.on("track-added", ({ track }) => appendTrack(track));
 		emitter.on("tracks-added", ({ tracks }) => appendTrack(tracks));
 		emitter.on("track-removed", ({ track }) => removeTrack(track));
