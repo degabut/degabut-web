@@ -3,7 +3,7 @@ import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { useTranscript } from "@hooks/useTranscript";
 import { useVideoTranscript } from "@hooks/useVideoTranscript";
-import { Component, createEffect, createMemo, For, onCleanup, onMount } from "solid-js";
+import { Component, createEffect, createMemo, For, onMount } from "solid-js";
 
 export const Lyric: Component = () => {
 	let container!: HTMLDivElement;
@@ -11,26 +11,12 @@ export const Lyric: Component = () => {
 	const app = useApp();
 	const currentId = createMemo(() => queue.data()?.nowPlaying?.video.id || "");
 	const videoTranscripts = useVideoTranscript(currentId);
-	const transcripts = useTranscript(() => {
-		const nowPlaying = queue.data()?.nowPlaying;
-		return {
-			startedAt: nowPlaying?.playedAt ? new Date(nowPlaying.playedAt) : null,
-			transcripts: videoTranscripts.data() || [],
-		};
-	});
+	const transcripts = useTranscript(() => ({
+		elapsed: queue.data()?.position || 0,
+		transcripts: videoTranscripts.data() || [],
+	}));
 
-	onMount(() => {
-		app.setTitle("Lyric");
-		queue.emitter.on("track-audio-started", transcripts.start);
-	});
-
-	onCleanup(() => {
-		queue.emitter.off("track-audio-started", transcripts.start);
-	});
-
-	createEffect(() => {
-		if (videoTranscripts.data()) transcripts.start();
-	});
+	onMount(() => app.setTitle("Lyric"));
 
 	createEffect(() => {
 		if (transcripts.index() === -1) {

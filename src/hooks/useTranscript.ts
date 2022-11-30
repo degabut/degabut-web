@@ -1,50 +1,26 @@
-import axios from "axios";
-import { Accessor, createResource, createSignal, onCleanup } from "solid-js";
-import { clearTimeout as wtClearTimeout, setTimeout as wtSetTimeout } from "worker-timers";
-import { IS_DESKTOP } from "../constants";
+import { setTimeout } from "@utils/timers";
+import { Accessor, createEffect, createSignal } from "solid-js";
+import { clearTimeout } from "worker-timers";
 import { FormattedTranscript } from "./useVideoTranscript";
 
 type Params = {
 	transcripts: FormattedTranscript[];
-	startedAt: Date | null;
-};
-
-const bcSetTimeout = IS_DESKTOP ? setTimeout : wtSetTimeout;
-const bcClearTimeout = IS_DESKTOP ? clearTimeout : wtClearTimeout;
-
-const getDelay = async () => {
-	const start = Date.now();
-	const time = await axios.get("https://worldtimeapi.org/api/ip");
-	const end = Date.now();
-	const current = new Date(time.data.datetime).getTime() - (end - start) / 2;
-	const difference = end - current;
-	return difference;
+	elapsed: number;
 };
 
 export const useTranscript = (params: Accessor<Params>) => {
-	let updateTimeout: number | null = null;
-	const [delay] = createResource(getDelay);
 	const [index, setIndex] = createSignal(-1);
+	let optimisticUpdateTimeout: number | null = null;
 
-	onCleanup(() => {
-		updateTimeout && bcClearTimeout(updateTimeout);
-	});
+	createEffect(() => {
+		optimisticUpdateTimeout && clearTimeout(optimisticUpdateTimeout);
+		optimisticUpdateTimeout = null;
 
-	const currentTime = () => Date.now() - (delay() || 0);
-
-	const start = () => {
-		updateTimeout && bcClearTimeout(updateTimeout);
-		updateTimeout = null;
-		setIndex(-1);
-
-		const startedAt = params().startedAt;
-		if (!startedAt) return;
-
-		const elapsed = currentTime() - new Date(startedAt).getTime();
+		const elapsed = params().elapsed;
 		const data = params().transcripts;
 
-		let initialIndex = data.findIndex((t) => elapsed <= t.end);
-		const transcript = data.at(initialIndex);
+		let index = data.findIndex((t) => elapsed <= t.end);
+		const transcript = data.at(index);
 		if (!transcript) return;
 
 		let delay = 0;
@@ -53,32 +29,22 @@ export const useTranscript = (params: Accessor<Params>) => {
 			delay = transcript.end - elapsed;
 		} else {
 			// next
-			const next = data[initialIndex];
-			initialIndex--;
+			const next = data[index];
+			index--;
 			if (!next) return;
 			delay = next.start - elapsed;
 		}
-		setIndex(initialIndex);
 
-		updateTimeout = bcSetTimeout(updateActiveIndex, delay);
-	};
+		const last = data.at(-1);
+		if (last && elapsed >= last.end) setIndex(data.length - 1);
+		else setIndex(index);
 
-	const updateActiveIndex = () => {
-		const startedAt = params().startedAt;
-		if (!startedAt) return;
-
-		setIndex((v) => v + 1);
-		const elapsed = currentTime() - new Date(startedAt).getTime();
-		const data = params().transcripts;
-		const next = data.at(index() + 1);
-
-		if (!next) return;
-		const delay = Math.max(next.start - elapsed, 0);
-		updateTimeout = bcSetTimeout(updateActiveIndex, delay);
-	};
+		if (delay < 1000 && elapsed < data[data.length - 1].end) {
+			optimisticUpdateTimeout = setTimeout(() => setIndex((v) => v + 1), delay);
+		}
+	});
 
 	return {
-		start,
 		index,
 	};
 };

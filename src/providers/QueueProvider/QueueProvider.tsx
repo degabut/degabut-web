@@ -12,10 +12,17 @@ import {
 	ParentComponent,
 } from "solid-js";
 import TypedEventEmitter from "typed-emitter";
-import { QueueEvents, useQueueActions, useQueueEventListener, useQueueEvents, useQueueNotification } from "./hooks";
+import {
+	QueueEvents,
+	usePlayer,
+	useQueueActions,
+	useQueueEventListener,
+	useQueueEvents,
+	useQueueNotification,
+} from "./hooks";
 
 export type QueueContextStore = {
-	data: Accessor<(IQueue & IPlayer) | null>;
+	data: Accessor<QueueResource>;
 	isInitialLoading: Accessor<boolean>;
 	isQueueFreezed: Accessor<boolean>;
 	isTrackFreezed: Accessor<boolean>;
@@ -23,7 +30,7 @@ export type QueueContextStore = {
 } & ReturnType<typeof useQueueActions>;
 
 export const QueueContext = createContext<QueueContextStore>({
-	data: () => null,
+	data: () => undefined,
 	isInitialLoading: () => true,
 	isQueueFreezed: () => false,
 	isTrackFreezed: () => false,
@@ -60,6 +67,7 @@ export const QueueProvider: ParentComponent = (props) => {
 	const queueActions = useQueueActions({ queue, setIsQueueFreezed, setIsTrackFreezed });
 	const queueEvents = useQueueEvents();
 
+	const player = usePlayer({ queue, actions, emitter: queueEvents.emitter });
 	useQueueEventListener({ actions, emitter: queueEvents.emitter });
 	useQueueNotification({ emitter: queueEvents.emitter });
 
@@ -86,11 +94,12 @@ export const QueueProvider: ParentComponent = (props) => {
 		if (document.visibilityState === "visible" && Date.now() - lastVisibilityRefetch > 60 * 1000) {
 			lastVisibilityRefetch = Date.now();
 			actions.refetch();
+			player.refetch();
 		}
 	};
 
 	const store: QueueContextStore = {
-		data: () => queue() || null,
+		data: () => queue() || undefined,
 		isInitialLoading,
 		isQueueFreezed,
 		isTrackFreezed,
