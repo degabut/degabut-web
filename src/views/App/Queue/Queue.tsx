@@ -9,7 +9,7 @@ import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { useNavigate } from "solid-app-router";
 import { Component, onMount, Show } from "solid-js";
-import { QueueActions, QueuePlayHistory, QueueTrackList } from "./components";
+import { QueueActions, QueuePlayHistory, QueueTrackList, SeekSlider } from "./components";
 import { QueueHint } from "./components/QueueHint";
 
 const QueueNotFound: Component = () => {
@@ -70,7 +70,25 @@ const QueueView: Component = () => {
 					)}
 				</Show>
 
-				<Divider light extraClass="w-full" />
+				<div class="w-full">
+					<Show
+						when={queue.data()?.nowPlaying}
+						keyed
+						fallback={
+							<div class="h-8 px-2">
+								<Divider light extraClass="h-4" />
+							</div>
+						}
+					>
+						{({ video }) => (
+							<SeekSlider
+								max={video.duration}
+								value={(queue.data()?.position || 0) / 1000}
+								onChange={(value) => queue.seek(value * 1000)}
+							/>
+						)}
+					</Show>
+				</div>
 
 				<QueueActions extraClass="flex-wrap justify-between md:justify-start w-full md:space-x-8 px-2" />
 			</div>
