@@ -21,11 +21,11 @@ export const useQueueActions = ({ queue, setIsQueueFreezed, setIsTrackFreezed }:
 	};
 
 	const pause = () => {
-		return modifyQueue((queueId) => api.queue.pause(queueId));
+		return modifyQueue((queueId) => api.player.pause(queueId));
 	};
 
 	const unpause = () => {
-		return modifyQueue((queueId) => api.queue.unpause(queueId));
+		return modifyQueue((queueId) => api.player.unpause(queueId));
 	};
 
 	const changeTrackOrder = (trackId: string, toIndex: number) => {
@@ -33,7 +33,11 @@ export const useQueueActions = ({ queue, setIsQueueFreezed, setIsTrackFreezed }:
 	};
 
 	const skipTrack = () => {
-		return modifyTrack((queueId) => api.queue.skipTrack(queueId));
+		return modifyTrack((queueId) => api.player.skipTrack(queueId));
+	};
+
+	const seek = (seek: number) => {
+		return modifyTrack((queueId) => api.player.seek(queueId, seek));
 	};
 
 	const playTrack = (track: ITrack) => {
@@ -127,6 +131,7 @@ export const useQueueActions = ({ queue, setIsQueueFreezed, setIsTrackFreezed }:
 		addAndPlayTrack,
 		addPlaylist,
 		addYouTubePlaylist,
+		seek,
 		clear,
 		pause,
 		unpause,

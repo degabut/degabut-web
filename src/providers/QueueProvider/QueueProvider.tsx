@@ -1,4 +1,4 @@
-import { IQueue } from "@api";
+import { IPlayer, IQueue } from "@api";
 import { useApi } from "@hooks/useApi";
 import EventEmitter from "events";
 import {
@@ -15,7 +15,7 @@ import TypedEventEmitter from "typed-emitter";
 import { QueueEvents, useQueueActions, useQueueEventListener, useQueueEvents, useQueueNotification } from "./hooks";
 
 export type QueueContextStore = {
-	data: Accessor<IQueue | null>;
+	data: Accessor<(IQueue & IPlayer) | null>;
 	isInitialLoading: Accessor<boolean>;
 	isQueueFreezed: Accessor<boolean>;
 	isTrackFreezed: Accessor<boolean>;
@@ -30,6 +30,8 @@ export const QueueContext = createContext<QueueContextStore>({
 	emitter: new EventEmitter(),
 } as QueueContextStore);
 
+export type QueueResource = (IQueue & IPlayer) | undefined;
+
 export const QueueProvider: ParentComponent = (props) => {
 	const api = useApi();
 	let lastVisibilityRefetch = 0;
@@ -39,7 +41,16 @@ export const QueueProvider: ParentComponent = (props) => {
 
 	const initialFetcher = async () => {
 		try {
-			return await api.user.getSelfQueue();
+			const queue = await api.user.getSelfQueue();
+			if (!queue) return;
+
+			const player = await api.player.getPlayer(queue.voiceChannel.id);
+			if (!player) return;
+
+			return {
+				...queue,
+				...player,
+			};
 		} finally {
 			setIsInitialLoading(false);
 		}

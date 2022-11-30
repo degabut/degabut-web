@@ -1,10 +1,11 @@
 import { IMember, IQueue, ITrack } from "@api";
 import { onMount, ResourceActions } from "solid-js";
 import TypedEventEmitter from "typed-emitter";
+import { QueueResource } from "../QueueProvider";
 import { QueueEvents } from "./useQueueEvents";
 
 type Params = {
-	actions: ResourceActions<IQueue | undefined>;
+	actions: ResourceActions<QueueResource>;
 	emitter: TypedEventEmitter<QueueEvents>;
 };
 
@@ -17,9 +18,8 @@ export const useQueueEventListener = ({ actions, emitter }: Params) => {
 		emitter.on("member-added", addMember);
 		emitter.on("member-removed", removeMember);
 		emitter.on("member-updated", updateMember);
-		emitter.on("queue-pause-state-changed", (q) => updateQueue(q, true));
-		emitter.on("queue-loop-type-changed", (q) => updateQueue(q, true));
-		emitter.on("queue-shuffle-toggled", (q) => updateQueue(q, true));
+		emitter.on("queue-loop-type-changed", partialUpdateQueue);
+		emitter.on("queue-shuffle-toggled", partialUpdateQueue);
 		emitter.on("queue-created", updateQueue);
 		emitter.on("track-added", ({ track }) => appendTrack(track));
 		emitter.on("tracks-added", ({ tracks }) => appendTrack(tracks));
@@ -56,15 +56,18 @@ export const useQueueEventListener = ({ actions, emitter }: Params) => {
 		});
 	};
 
-	const updateQueue = (queue: IQueue, partial?: boolean) => {
-		if (partial) {
-			actions.mutate((q) => {
-				if (!q) return;
-				return { ...q, ...queue };
-			});
-		} else {
-			actions.mutate(queue);
-		}
+	const updateQueue = (queue: IQueue) => {
+		actions.mutate((q) => {
+			if (!q) return { ...queue, position: -1, isPaused: false };
+			return { ...q, ...queue };
+		});
+	};
+
+	const partialUpdateQueue = (queue: Partial<QueueResource>) => {
+		actions.mutate((q) => {
+			if (!q) return;
+			return { ...q, ...queue };
+		});
 	};
 
 	const appendTrack = (tracks: ITrack | ITrack[]) => {

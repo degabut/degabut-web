@@ -1,5 +1,6 @@
 export * from "./Auth";
 export * from "./Jam";
+export * from "./Player";
 export * from "./Playlist";
 export * from "./Queue";
 export * from "./User";

@@ -1,4 +1,4 @@
-import { IJamCollection, IMember, IQueue, ITrack } from "@api";
+import { IGuildMember, IJamCollection, IMember, IPlayer, IQueue, ITrack } from "@api";
 import { useApi } from "@hooks/useApi";
 import { EventEmitter } from "events";
 import { onCleanup } from "solid-js";
@@ -20,6 +20,11 @@ type TracksAction = {
 	member: IMember;
 };
 
+type TrackSeededData = {
+	seek: number;
+	member: IGuildMember;
+};
+
 export type QueueEvents = {
 	identify: () => void;
 	"member-jammed": (data: IJamCollection) => void;
@@ -27,13 +32,14 @@ export type QueueEvents = {
 	"member-removed": (data: IMember) => void;
 	"member-updated": (data: IMember) => void;
 	"queue-destroyed": (data: IQueue) => void;
-	"queue-pause-state-changed": (data: IQueue) => void;
 	"queue-loop-type-changed": (data: IQueue) => void;
 	"queue-shuffle-toggled": (data: IQueue) => void;
 	"queue-created": (data: IQueue) => void;
+	"player-pause-state-changed": (data: IPlayer) => void;
 	"track-added": (data: TrackAction) => void;
 	"track-removed": (data: TrackAction) => void;
 	"track-skipped": (data: TrackAction) => void;
+	"track-seeked": (data: TrackSeededData) => void;
 	"track-order-changed": (data: string[]) => void;
 	"track-audio-started": (data: ITrack) => void;
 	"queue-processed": (data: ITrack) => void;

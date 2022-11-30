@@ -11,7 +11,6 @@ export interface IQueue {
 	tracks: ITrack[];
 	history: ITrack[];
 	shuffle: boolean;
-	isPaused: boolean;
 	loopType: LoopType;
 	nowPlaying: ITrack | null;
 	voiceChannel: IVoiceChannel;
@@ -75,10 +74,6 @@ export class Queue {
 		await this.client.patch(`/queues/${queueId}/tracks/${trackId}`, { to });
 	};
 
-	skipTrack = async (queueId: string): Promise<void> => {
-		await this.client.post(`/queues/${queueId}/skip`);
-	};
-
 	playTrack = async (queueId: string, trackId: string): Promise<void> => {
 		await this.client.post(`/queues/${queueId}/tracks/${trackId}/play`);
 	};
@@ -97,14 +92,6 @@ export class Queue {
 
 	toggleShuffle = async (queueId: string): Promise<void> => {
 		await this.client.patch(`/queues/${queueId}/shuffle`);
-	};
-
-	pause = async (queueId: string): Promise<void> => {
-		await this.client.post(`/queues/${queueId}/pause`);
-	};
-
-	unpause = async (queueId: string): Promise<void> => {
-		await this.client.post(`/queues/${queueId}/unpause`);
 	};
 
 	jam = async (queueId: string, count: number): Promise<void> => {
