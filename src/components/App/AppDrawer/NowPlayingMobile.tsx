@@ -24,12 +24,7 @@ export const NowPlayingMobile: Component = () => {
 						<div class="flex-row-center space-x-3 truncate">
 							<VideoThumbnail video={video} />
 
-							<div
-								class="flex flex-col truncate"
-								style={{
-									"text-shadow": "1px 1px 4px black",
-								}}
-							>
+							<div class="flex flex-col truncate text-shadow">
 								<div class="truncate">{video.title}</div>
 								<div class="truncate text-sm text-neutral-300">{video.channel.name}</div>
 							</div>

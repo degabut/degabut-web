@@ -34,6 +34,10 @@ b {
 	font-family: "opificio";
 }
 
+.text-shadow {
+	text-shadow: 1px 1px 4px black;
+}
+
 ::-webkit-scrollbar {
 	@apply w-1 md:w-2 h-1 md:h-2;
 }
