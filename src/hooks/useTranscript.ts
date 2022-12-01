@@ -39,7 +39,7 @@ export const useTranscript = (params: Accessor<Params>) => {
 		if (last && elapsed >= last.end) setIndex(data.length - 1);
 		else setIndex(index);
 
-		if (delay < 1000 && elapsed < data[data.length - 1].end) {
+		if (delay < 500 && elapsed < data[data.length - 1].end) {
 			optimisticUpdateTimeout = setTimeout(() => setIndex((v) => v + 1), delay);
 		}
 	});
