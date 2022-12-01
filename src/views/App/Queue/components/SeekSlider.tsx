@@ -13,7 +13,7 @@ export const SeekSlider: Component<Props> = (props) => {
 	const [value, setValue] = createSignal(0);
 
 	createEffect(() => {
-		if (!isSeeking) setValue(props.value);
+		if (props.value > -1 && !isSeeking) setValue(props.value);
 	});
 
 	const backgroundStyle = () => {
