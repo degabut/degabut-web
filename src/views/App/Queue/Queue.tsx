@@ -40,7 +40,7 @@ const QueueView: Component = () => {
 
 	return (
 		<Container extraClass="space-y-8 md:space-y-4">
-			<div class="relative flex flex-col lg:items-start space-y-3 p-2 border border-neutral-600 rounded bg-black/[25%] text-shadow">
+			<div class="relative flex flex-col lg:items-start space-y-1.5 p-2 border border-neutral-600 rounded bg-black/[25%] text-shadow">
 				<Show when={queue.data()?.nowPlaying} keyed fallback={<EmptyNowPlaying />}>
 					{({ video, requestedBy }) => (
 						<div class="w-full">
@@ -87,7 +87,7 @@ const QueueView: Component = () => {
 					</Show>
 				</div>
 
-				<QueueActions extraClass="flex-wrap justify-between md:justify-start w-full md:space-x-8 px-2" />
+				<QueueActions extraClass="flex-wrap justify-between md:justify-start w-full md:space-x-8 px-2 pt-1.5" />
 			</div>
 
 			<Tabs
