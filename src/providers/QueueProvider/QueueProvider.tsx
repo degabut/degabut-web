@@ -12,14 +12,7 @@ import {
 	ParentComponent,
 } from "solid-js";
 import TypedEventEmitter from "typed-emitter";
-import {
-	QueueEvents,
-	usePlayer,
-	useQueueActions,
-	useQueueEventListener,
-	useQueueEvents,
-	useQueueNotification,
-} from "./hooks";
+import { QueueEvents, useQueueActions, useQueueEventListener, useQueueEvents, useQueueNotification } from "./hooks";
 
 export type QueueContextStore = {
 	data: Accessor<QueueResource>;
@@ -67,7 +60,6 @@ export const QueueProvider: ParentComponent = (props) => {
 	const queueActions = useQueueActions({ queue, setIsQueueFreezed, setIsTrackFreezed });
 	const queueEvents = useQueueEvents();
 
-	const player = usePlayer({ queue, actions, emitter: queueEvents.emitter });
 	useQueueEventListener({ actions, emitter: queueEvents.emitter });
 	useQueueNotification({ emitter: queueEvents.emitter });
 
@@ -94,7 +86,6 @@ export const QueueProvider: ParentComponent = (props) => {
 		if (document.visibilityState === "visible" && Date.now() - lastVisibilityRefetch > 60 * 1000) {
 			lastVisibilityRefetch = Date.now();
 			actions.refetch();
-			player.refetch();
 		}
 	};
 
