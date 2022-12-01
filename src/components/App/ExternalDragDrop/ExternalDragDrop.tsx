@@ -81,18 +81,20 @@ export const ExternalDragDrop = () => {
 
 	return (
 		<Show when={dragCounter() > 0 && queue.data()}>
-			<div class="fixed w-screen h-screen top-0 left-0 z-[1000] flex items-center justify-center bg-black/90">
+			<div class="fixed w-screen h-screen top-0 left-0 z-[1000] flex items-center justify-center bg-black/90 text-center">
 				<div
 					ref={dropContainer}
 					onDragEnter={onContainerDragEnter}
 					onDragLeave={onContainerDragLeave}
-					class="flex flex-col space-y-2 items-center border-4 border-dashed rounded border-neutral-500 py-8 px-24"
+					class="flex flex-col space-y-8 min-w-[50vw] min-h-[50vh] justify-center items-center border-4 border-dashed rounded border-neutral-500 p-8"
 				>
-					<Show when={!isLoading()} fallback={<Spinner size="2xl" />}>
-						<Icon name="youtube" extraClass="fill-neutral-500 w-24 h-24" />
+					<Show when={!isLoading()} fallback={<Spinner size="3xl" />}>
+						<Icon name="youtube" extraClass="fill-neutral-400 w-32 h-32" />
 					</Show>
-					<div class="text-3xl text-neutral-300">Drop Here</div>
-					<div class="text-lg text-neutral-300">Drop a YouTube video URL to add it to the Queue</div>
+					<div class="space-y-4">
+						<div class="text-4xl font-medium text-neutral-300">Drop Here</div>
+						<div class="text-xl text-neutral-400">Drop a YouTube video URL to add it to the Queue</div>
+					</div>
 				</div>
 			</div>
 		</Show>

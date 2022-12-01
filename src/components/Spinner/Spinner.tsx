@@ -1,7 +1,7 @@
 import { Component } from "solid-js";
 
 type Props = {
-	size?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
+	size?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
 };
 
 export const Spinner: Component<Props> = (props) => {
@@ -17,6 +17,8 @@ export const Spinner: Component<Props> = (props) => {
 				return "w-16 h-16 border-4";
 			case "2xl":
 				return "w-24 h-24 border-8";
+			case "3xl":
+				return "w-32 h-32 border-8";
 			default:
 				return "w-8 h-8 border-4";
 		}

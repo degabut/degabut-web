@@ -8,7 +8,7 @@ type Props = {
 export const SkeletonImage: Component<Props> = (props) => {
 	return (
 		<div
-			class={`bg-neutral-800 animate-pulse ${props.extraClass}`}
+			class={`bg-neutral-700 animate-pulse ${props.extraClass}`}
 			classList={{
 				"rounded-full": props.rounded,
 				rounded: !props.rounded,

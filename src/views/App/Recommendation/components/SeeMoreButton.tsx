@@ -19,7 +19,7 @@ export const SeeMoreTextButton: Component<Props> = (props) => {
 
 export const SeeMoreButton: Component<Props> = (props) => {
 	return (
-		<Button class={`border-neutral-700 w-full !py-1.5 ${props.extraClass}`} onClick={() => props.onClick()}>
+		<Button class={`border-neutral-700 w-full !py-2 ${props.extraClass}`} onClick={() => props.onClick()}>
 			<div>See More</div>
 		</Button>
 	);

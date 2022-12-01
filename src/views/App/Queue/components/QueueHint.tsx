@@ -39,7 +39,7 @@ const VideoActionButton: Component<VideoActionButtonProps> = (props) => {
 	return (
 		<button
 			title={props.title}
-			class="!w-8 !h-8 flex-shrink-0 flex items-center justify-center rounded border border-neutral-500 fill-neutral-300 hover:fill-neutral-100 hover:bg-white/5"
+			class="w-8 h-8 flex-shrink-0 flex items-center justify-center rounded border border-neutral-500 fill-neutral-300 hover:fill-neutral-100 hover:bg-white/5"
 			onClick={(ev) => {
 				ev.stopImmediatePropagation();
 				props.onClick();
@@ -71,6 +71,7 @@ export const QueueHint: Component = () => {
 			</div>
 
 			<div
+				class="space-y-2 md:space-y-0"
 				classList={{
 					"md:ml-[1.35rem]": !!tracks().length,
 				}}
