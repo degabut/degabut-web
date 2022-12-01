@@ -1,10 +1,6 @@
-import { useNavigate } from "solid-app-router";
-import { Component, onMount } from "solid-js";
+import { Navigate } from "solid-app-router";
+import { Component } from "solid-js";
 
 export const Landing: Component = () => {
-	const navigate = useNavigate();
-
-	onMount(() => navigate("/app/queue"));
-
-	return <></>;
+	return <Navigate href={"/app/queue"} />;
 };
