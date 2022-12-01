@@ -72,21 +72,18 @@ const QueueView: Component = () => {
 
 				<div class="w-full">
 					<Show
-						when={queue.data()?.nowPlaying}
-						keyed
+						when={queue.data()?.nowPlaying?.video.duration}
 						fallback={
 							<div class="h-8 px-2">
-								<Divider light extraClass="h-4" />
+								<Divider light extraClass="h-7" />
 							</div>
 						}
 					>
-						{({ video }) => (
-							<SeekSlider
-								max={video.duration}
-								value={(queue.data()?.position || 0) / 1000}
-								onChange={(value) => queue.seek(value * 1000)}
-							/>
-						)}
+						<SeekSlider
+							max={queue.data()?.nowPlaying?.video.duration || 0}
+							value={(queue.data()?.position || 0) / 1000}
+							onChange={(value) => queue.seek(value * 1000)}
+						/>
 					</Show>
 				</div>
 
