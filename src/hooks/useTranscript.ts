@@ -1,6 +1,5 @@
-import { setTimeout } from "@utils/timers";
-import { Accessor, createEffect, createSignal } from "solid-js";
-import { clearTimeout } from "worker-timers";
+import { clearTimeout, setTimeout } from "@utils/timers";
+import { Accessor, createEffect, createSignal, onCleanup } from "solid-js";
 import { FormattedTranscript } from "./useVideoTranscript";
 
 type Params = {
@@ -12,9 +11,10 @@ export const useTranscript = (params: Accessor<Params>) => {
 	const [index, setIndex] = createSignal(-1);
 	let optimisticUpdateTimeout: number | null = null;
 
+	onCleanup(() => clearUpdateTimeout());
+
 	createEffect(() => {
-		optimisticUpdateTimeout && clearTimeout(optimisticUpdateTimeout);
-		optimisticUpdateTimeout = null;
+		clearUpdateTimeout();
 
 		const elapsed = params().elapsed;
 		const data = params().transcripts;
@@ -24,25 +24,22 @@ export const useTranscript = (params: Accessor<Params>) => {
 		if (!transcript) return;
 
 		let delay = 0;
-		if (elapsed >= transcript.start) {
-			// current
-			delay = transcript.end - elapsed;
-		} else {
-			// next
-			const next = data[index];
-			index--;
-			if (!next) return;
-			delay = next.start - elapsed;
-		}
+		const next = data.at(elapsed >= transcript.start ? index + 1 : index--);
+		if (next) delay = next.start - elapsed;
 
 		const last = data.at(-1);
 		if (last && elapsed >= last.end) setIndex(data.length - 1);
 		else setIndex(index);
 
-		if (delay < 500 && elapsed < data[data.length - 1].end) {
+		if (delay < 1000 && elapsed < data[data.length - 1].end) {
 			optimisticUpdateTimeout = setTimeout(() => setIndex((v) => v + 1), delay);
 		}
 	});
+
+	const clearUpdateTimeout = () => {
+		optimisticUpdateTimeout && clearTimeout(optimisticUpdateTimeout);
+		optimisticUpdateTimeout = null;
+	};
 
 	return {
 		index,
