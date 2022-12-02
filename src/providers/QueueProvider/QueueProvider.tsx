@@ -65,7 +65,6 @@ export const QueueProvider: ParentComponent = (props) => {
 
 	onMount(() => {
 		document.addEventListener("visibilitychange", onVisibilityChange);
-		actions.refetch();
 		queueEvents.listen();
 	});
 
