@@ -87,7 +87,7 @@ export class Queue {
 	};
 
 	changeLoopMode = async (queueId: string, loopMode: LoopMode): Promise<void> => {
-		await this.client.post(`/queues/${queueId}/loop-type`, { loopMode });
+		await this.client.post(`/queues/${queueId}/loop-mode`, { loopMode });
 	};
 
 	toggleShuffle = async (queueId: string): Promise<void> => {

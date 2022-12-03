@@ -18,7 +18,7 @@ export const useQueueEventListener = ({ actions, emitter }: Params) => {
 		emitter.on("member-added", addMember);
 		emitter.on("member-removed", removeMember);
 		emitter.on("member-updated", updateMember);
-		emitter.on("queue-loop-type-changed", partialUpdateQueue);
+		emitter.on("queue-loop-mode-changed", partialUpdateQueue);
 		emitter.on("queue-shuffle-toggled", partialUpdateQueue);
 		emitter.on("queue-created", updateQueue);
 		emitter.on("player-pause-state-changed", ({ isPaused }) => partialUpdateQueue({ isPaused }));
