@@ -8,7 +8,7 @@ export const VideoListSkeleton: Component = () => {
 			<VideoThumbnailSkeleton />
 			<div class="flex flex-col flex-grow flex-shrink space-y-2 py-1">
 				<Skeleton.Text extraClass="max-w-[32rem] h-4" />
-				<Skeleton.Text extraClass="max-w-[8rem] h-4" />
+				<Skeleton.Text extraClass="max-w-[8rem] h-3" />
 			</div>
 		</div>
 	);
