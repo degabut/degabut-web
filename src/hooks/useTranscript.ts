@@ -19,7 +19,14 @@ export const useTranscript = (params: Accessor<Params>) => {
 		const elapsed = params().elapsed;
 		const data = params().transcripts;
 
-		let index = data.findIndex((t) => elapsed <= t.end);
+		const indexes = [];
+		for (const [i, t] of data.entries()) {
+			if (t.start <= elapsed && t.end >= elapsed) indexes.push(i);
+		}
+
+		let index = indexes.length > 1 ? indexes[indexes.length - 1] : data.findIndex((t) => elapsed <= t.end);
+		if (index === -1) index = data.findIndex((t) => elapsed <= t.end);
+
 		const transcript = data.at(index);
 		if (!transcript) return;
 
