@@ -1,9 +1,9 @@
 import { AxiosInstance } from "axios";
 import { IVideoCompact } from "./YouTube";
 
-export enum LoopType {
+export enum LoopMode {
 	DISABLED = "DISABLED",
-	SONG = "SONG",
+	TRACK = "TRACK",
 	QUEUE = "QUEUE",
 }
 
@@ -11,7 +11,7 @@ export interface IQueue {
 	tracks: ITrack[];
 	history: ITrack[];
 	shuffle: boolean;
-	loopType: LoopType;
+	loopMode: LoopMode;
 	nowPlaying: ITrack | null;
 	voiceChannel: IVoiceChannel;
 }
@@ -71,7 +71,7 @@ export class Queue {
 	};
 
 	orderTrack = async (queueId: string, trackId: string, to: number): Promise<void> => {
-		await this.client.patch(`/queues/${queueId}/tracks/${trackId}`, { to });
+		await this.client.post(`/queues/${queueId}/tracks/${trackId}/order`, { to });
 	};
 
 	playTrack = async (queueId: string, trackId: string): Promise<void> => {
@@ -86,12 +86,12 @@ export class Queue {
 		await this.client.delete(`/queues/${queueId}/tracks`, { data: { includeNowPlaying } });
 	};
 
-	changeLoopType = async (queueId: string, loopType: LoopType): Promise<void> => {
-		await this.client.patch(`/queues/${queueId}/loop-type`, { loopType });
+	changeLoopMode = async (queueId: string, loopMode: LoopMode): Promise<void> => {
+		await this.client.post(`/queues/${queueId}/loop-type`, { loopMode });
 	};
 
 	toggleShuffle = async (queueId: string): Promise<void> => {
-		await this.client.patch(`/queues/${queueId}/shuffle`);
+		await this.client.post(`/queues/${queueId}/shuffle`);
 	};
 
 	jam = async (queueId: string, count: number): Promise<void> => {

@@ -1,4 +1,4 @@
-import { IQueue, ITrack, IVideoCompact, LoopType } from "@api";
+import { IQueue, ITrack, IVideoCompact, LoopMode } from "@api";
 import { useApi } from "@hooks/useApi";
 import { AxiosError } from "axios";
 import { Resource, Setter } from "solid-js";
@@ -16,8 +16,8 @@ export const useQueueActions = ({ queue, setIsQueueFreezed, setIsTrackFreezed }:
 		return modifyQueue((queueId) => api.queue.toggleShuffle(queueId));
 	};
 
-	const changeLoopType = (loopType: LoopType) => {
-		return modifyQueue((queueId) => api.queue.changeLoopType(queueId, loopType));
+	const changeLoopMode = (loopMode: LoopMode) => {
+		return modifyQueue((queueId) => api.queue.changeLoopMode(queueId, loopMode));
 	};
 
 	const pause = () => {
@@ -120,7 +120,7 @@ export const useQueueActions = ({ queue, setIsQueueFreezed, setIsTrackFreezed }:
 
 	return {
 		toggleShuffle,
-		changeLoopType,
+		changeLoopMode,
 		changeTrackOrder,
 		skipTrack,
 		playTrack,

@@ -1,4 +1,4 @@
-import { LoopType } from "@api";
+import { LoopMode } from "@api";
 import { useQueue } from "@hooks/useQueue";
 import { useNavigate } from "solid-app-router";
 import { Component, Show } from "solid-js";
@@ -35,8 +35,8 @@ export const QueueActions: Component<Props> = (props) => {
 				disabled={queue.isQueueFreezed()}
 			/>
 			<LoopToggleButton
-				defaultValue={queue.data()?.loopType || LoopType.DISABLED}
-				onChange={(t) => queue.changeLoopType(t)}
+				defaultValue={queue.data()?.loopMode || LoopMode.DISABLED}
+				onChange={(t) => queue.changeLoopMode(t)}
 				disabled={queue.isQueueFreezed()}
 			/>
 

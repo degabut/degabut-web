@@ -1,25 +1,25 @@
-import { LoopType } from "@api";
+import { LoopMode } from "@api";
 import { Icon } from "@components/Icon";
 import { Component, createEffect, createSignal } from "solid-js";
 
 type Props = {
-	defaultValue: LoopType;
-	onChange: (loopType: LoopType) => void;
+	defaultValue: LoopMode;
+	onChange: (loopMode: LoopMode) => void;
 	disabled: boolean;
 };
 
-const loopTypes = [LoopType.DISABLED, LoopType.QUEUE, LoopType.SONG];
+const loopModes = [LoopMode.DISABLED, LoopMode.QUEUE, LoopMode.TRACK];
 
 export const LoopToggleButton: Component<Props> = (props) => {
-	const [loopType, setLoopType] = createSignal<LoopType>(props.defaultValue);
+	const [loopMode, setLoopMode] = createSignal<LoopMode>(props.defaultValue);
 
 	const onClick = () => {
-		const nextLoopType = loopTypes[(loopTypes.indexOf(loopType()) + 1) % loopTypes.length];
-		setLoopType(nextLoopType);
-		props.onChange(nextLoopType);
+		const nextLoopMode = loopModes[(loopModes.indexOf(loopMode()) + 1) % loopModes.length];
+		setLoopMode(nextLoopMode);
+		props.onChange(nextLoopMode);
 	};
 
-	createEffect(() => setLoopType(props.defaultValue));
+	createEffect(() => setLoopMode(props.defaultValue));
 
 	return (
 		<button
@@ -28,13 +28,13 @@ export const LoopToggleButton: Component<Props> = (props) => {
 			title="Loop"
 			disabled={props.disabled}
 			classList={{
-				"fill-brand-600 hover:fill-brand-400": loopType() !== LoopType.DISABLED && !props.disabled,
-				"fill-brand-800": loopType() !== LoopType.DISABLED && props.disabled,
-				"fill-neutral-300 hover:fill-white": loopType() === LoopType.DISABLED && !props.disabled,
-				"fill-neutral-500": loopType() === LoopType.DISABLED && props.disabled,
+				"fill-brand-600 hover:fill-brand-400": loopMode() !== LoopMode.DISABLED && !props.disabled,
+				"fill-brand-800": loopMode() !== LoopMode.DISABLED && props.disabled,
+				"fill-neutral-300 hover:fill-white": loopMode() === LoopMode.DISABLED && !props.disabled,
+				"fill-neutral-500": loopMode() === LoopMode.DISABLED && props.disabled,
 			}}
 		>
-			<Icon name={loopType() === LoopType.SONG ? "loopOne" : "loop"} extraClass="w-5 h-5" />
+			<Icon name={loopMode() === LoopMode.TRACK ? "loopOne" : "loop"} extraClass="w-5 h-5" />
 		</button>
 	);
 };
