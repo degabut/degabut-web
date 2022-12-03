@@ -115,16 +115,6 @@ export const useQueueEventListener = ({ setQueue, fetchQueue, emitter }: Params)
 	};
 
 	const onTrackAudioStarted = (track: ITrack) => {
-		setQueue("tracks", (tracks) => {
-			if (!tracks) return tracks;
-
-			const trackIndex = tracks.findIndex((t) => t.id === track.id);
-			if (trackIndex === -1) return tracks;
-
-			tracks[trackIndex] = track;
-			return tracks;
-		});
-
 		setQueue("history", (history) => {
 			if (!history) return history;
 			history.unshift(track);
@@ -133,11 +123,11 @@ export const useQueueEventListener = ({ setQueue, fetchQueue, emitter }: Params)
 		});
 	};
 
-	const setNowPlaying = (track: ITrack | null) => {
-		setQueue("nowPlaying", track);
+	const setNowPlaying = (nowPlaying: ITrack | null) => {
+		setQueue({ nowPlaying });
 	};
 
 	const setTracks = (tracks: ITrack[]) => {
-		setQueue("tracks", tracks);
+		setQueue({ tracks });
 	};
 };
