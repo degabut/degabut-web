@@ -24,9 +24,9 @@ export const MemberListDrawer: Component = () => {
 			handleClose={() => app.setIsMemberOpen(false)}
 			extraContainerClass="right-0"
 		>
-			<div class="text-xl font-bold truncate px-4 py-6">{queue.data()?.voiceChannel.name}</div>
+			<div class="text-xl font-bold truncate px-4 py-6">{queue.data.voiceChannel?.name}</div>
 			<div class="overflow-y-auto overflow-x-hidden space-y-1.5 mx-2">
-				<For each={queue.data()?.voiceChannel.members || []}>
+				<For each={queue.data.voiceChannel?.members || []}>
 					{(member) => <Member member={member} onClickRecommendation={onClickRecommendation} />}
 				</For>
 			</div>

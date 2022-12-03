@@ -28,7 +28,7 @@ export const Recommendation: Component = () => {
 	let containerElement!: HTMLDivElement;
 
 	const targetUser = createMemo(() => {
-		return queue.data()?.voiceChannel.members.find((m) => m.id === params.id);
+		return queue.data.voiceChannel?.members.find((m) => m.id === params.id);
 	});
 
 	const attemptLoadNext = () => {
@@ -79,7 +79,7 @@ export const Recommendation: Component = () => {
 				<Show when={recommendation.channelRelated().data.length || recommendation.channelRelated().loading}>
 					<ExpandableVideoList
 						double
-						label={`${queue.data()?.voiceChannel.name || "Channel"} Recommendations`}
+						label={`${queue.data.voiceChannel?.name || "Channel"} Recommendations`}
 						isLoading={recommendation.channelRelated().loading}
 						videos={recommendation.channelRelated().data}
 						onClickMore={() => setShowMoreType(ShowMoreType.ChannelRelated)}

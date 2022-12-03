@@ -9,7 +9,7 @@ export const NowPlaying: Component = () => {
 
 	return (
 		<div class="hidden md:block space-y-1">
-			<Show when={queue.data()?.nowPlaying} keyed>
+			<Show when={queue.data.nowPlaying} keyed>
 				{({ video, requestedBy }) => (
 					<SolidLink
 						href="/app/queue"

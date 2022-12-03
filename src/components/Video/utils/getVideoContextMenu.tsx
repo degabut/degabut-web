@@ -18,7 +18,7 @@ type Props = {
 export const getVideoContextMenu = (props: Props) => {
 	const items = () => {
 		const i = [
-			props.queueStore.data()
+			!props.queueStore.data.empty
 				? [
 						{
 							element: () => <ContextMenuItem icon="plus" label="Add to Queue" />,

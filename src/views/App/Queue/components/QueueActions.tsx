@@ -22,27 +22,24 @@ export const QueueActions: Component<Props> = (props) => {
 		<div class={`flex-row-center ${props.extraClass}`}>
 			<PlayButton
 				onChange={(isPaused) => (isPaused ? queue.pause() : queue.unpause())}
-				defaultValue={!!queue.data()?.isPaused}
+				defaultValue={!!queue.data.isPaused}
 				disabled={queue.isQueueFreezed()}
 			/>
-			<SkipButton
-				onClick={() => queue.skipTrack()}
-				disabled={queue.isTrackFreezed() || !queue.data()?.nowPlaying}
-			/>
+			<SkipButton onClick={() => queue.skipTrack()} disabled={queue.isTrackFreezed() || !queue.data.nowPlaying} />
 			<ShuffleToggleButton
-				defaultValue={!!queue.data()?.shuffle}
+				defaultValue={!!queue.data.shuffle}
 				onChange={() => queue.toggleShuffle()}
 				disabled={queue.isQueueFreezed()}
 			/>
 			<LoopToggleButton
-				defaultValue={queue.data()?.loopMode || LoopMode.DISABLED}
+				defaultValue={queue.data.loopMode || LoopMode.DISABLED}
 				onChange={(t) => queue.changeLoopMode(t)}
 				disabled={queue.isQueueFreezed()}
 			/>
 
 			<LyricButton onClick={() => navigate("/app/queue/lyric")} />
 
-			<Show when={queue.data()?.nowPlaying && !props.hideSettings}>
+			<Show when={queue.data.nowPlaying && !props.hideSettings}>
 				<SettingsButton onClearQueue={queue.clear} />
 			</Show>
 		</div>

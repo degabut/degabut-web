@@ -99,7 +99,7 @@ export const useRecommendation = (params: UseRecommendationParams) => {
 		};
 	});
 	const channelRelated = createMemo(() => {
-		if (params.userId() !== "me" || !queue.data()) {
+		if (params.userId() !== "me" || queue.data.empty) {
 			return {
 				data: [],
 				loading: false,

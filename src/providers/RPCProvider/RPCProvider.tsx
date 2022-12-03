@@ -29,7 +29,7 @@ export const RPCProvider: ParentComponent = (props) => {
 		const error = await rpc.Connect();
 		if (!error) {
 			connected = true;
-			updateListeningActivity(queue.data());
+			if (!queue.data.empty) updateListeningActivity(queue.data);
 		}
 		connecting = false;
 	};
@@ -46,13 +46,13 @@ export const RPCProvider: ParentComponent = (props) => {
 	});
 
 	createEffect(() => {
-		updateListeningActivity(queue.data());
+		if (!queue.data.empty) updateListeningActivity(queue.data);
 	});
 
-	const updateListeningActivity = async (queue?: IQueue) => {
+	const updateListeningActivity = async (queue: IQueue) => {
 		if (!connected) return;
 
-		if (!queue?.nowPlaying) {
+		if (!queue.nowPlaying) {
 			await rpc.SetActivity({
 				details: "Not listening to anything",
 				state: "💤",

@@ -41,7 +41,7 @@ const QueueView: Component = () => {
 	return (
 		<Container extraClass="space-y-8 md:space-y-4">
 			<div class="relative flex flex-col lg:items-start space-y-1.5 p-2 border border-neutral-600 rounded bg-black/[25%] text-shadow">
-				<Show when={queue.data()?.nowPlaying} keyed fallback={<EmptyNowPlaying />}>
+				<Show when={queue.data.nowPlaying} keyed fallback={<EmptyNowPlaying />}>
 					{({ video, requestedBy }) => (
 						<div class="w-full">
 							<img
@@ -72,7 +72,7 @@ const QueueView: Component = () => {
 
 				<div class="w-full">
 					<Show
-						when={queue.data()?.nowPlaying?.video.duration}
+						when={queue.data.nowPlaying?.video.duration}
 						fallback={
 							<div class="h-8 px-2">
 								<Divider light extraClass="h-7" />
@@ -80,8 +80,8 @@ const QueueView: Component = () => {
 						}
 					>
 						<SeekSlider
-							max={queue.data()?.nowPlaying?.video.duration || 0}
-							value={(queue.data()?.position || 0) / 1000}
+							max={queue.data.nowPlaying?.video.duration || 0}
+							value={(queue.data.position || 0) / 1000}
 							onChange={(value) => queue.seek(value * 1000)}
 						/>
 					</Show>
@@ -129,7 +129,7 @@ export const Queue: Component = () => {
 	onMount(() => app.setTitle("Queue"));
 
 	return (
-		<Show when={queue.data() || queue.isInitialLoading()} fallback={<QueueNotFound />}>
+		<Show when={!queue.data.empty || queue.isInitialLoading()} fallback={<QueueNotFound />}>
 			<QueueView />
 		</Show>
 	);

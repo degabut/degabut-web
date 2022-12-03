@@ -9,10 +9,10 @@ export const Lyric: Component = () => {
 	let container!: HTMLDivElement;
 	const queue = useQueue();
 	const app = useApp();
-	const currentId = createMemo(() => queue.data()?.nowPlaying?.video.id || "");
+	const currentId = createMemo(() => queue.data.nowPlaying?.video.id || "");
 	const videoTranscripts = useVideoTranscript(currentId);
 	const transcripts = useTranscript(() => ({
-		elapsed: queue.data()?.position || 0,
+		elapsed: queue.data.position || 0,
 		transcripts: videoTranscripts.data() || [],
 	}));
 

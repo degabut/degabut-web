@@ -10,7 +10,7 @@ export const QueuePlayHistory: Component = () => {
 	const queue = useQueue();
 	const navigate = useNavigate();
 
-	const history = () => queue.data()?.history || [];
+	const history = () => queue.data.history || [];
 
 	return (
 		<>

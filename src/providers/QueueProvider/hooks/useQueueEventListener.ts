@@ -1,20 +1,30 @@
 import { IMember, IQueue, ITrack } from "@api";
-import { onMount, ResourceActions } from "solid-js";
+import { onMount } from "solid-js";
+import { SetStoreFunction } from "solid-js/store";
 import TypedEventEmitter from "typed-emitter";
 import { QueueResource } from "../QueueProvider";
 import { QueueEvents } from "./useQueueEvents";
 
 type Params = {
-	actions: ResourceActions<QueueResource>;
+	setQueue: SetStoreFunction<QueueResource>;
+	fetchQueue: () => Promise<void>;
 	emitter: TypedEventEmitter<QueueEvents>;
 };
 
-export const useQueueEventListener = ({ actions, emitter }: Params) => {
+/**
+ * ! NOTE
+ *
+ * Avoid mutating nested object using `setQueue`
+ * DON'T: setQueue("voiceChannel", "members", (members) => { members });
+ * DO: setQueue("voiceChannel", (voiceChannel) => { voiceChannel.mebers })
+ */
+
+export const useQueueEventListener = ({ setQueue, fetchQueue, emitter }: Params) => {
 	onMount(() => {
-		emitter.on("queue-destroyed", () => actions.mutate(undefined));
-		emitter.on("queue-left", () => actions.mutate(undefined));
-		emitter.on("queue-joined", () => actions.refetch());
-		emitter.on("identify", () => actions.refetch());
+		emitter.on("queue-destroyed", resetQueue);
+		emitter.on("queue-left", resetQueue);
+		emitter.on("queue-joined", fetchQueue);
+		emitter.on("identify", fetchQueue);
 		emitter.on("member-added", addMember);
 		emitter.on("member-removed", removeMember);
 		emitter.on("member-updated", updateMember);
@@ -32,100 +42,102 @@ export const useQueueEventListener = ({ actions, emitter }: Params) => {
 		emitter.on("queue-cleared", ({ tracks }) => setTracks(tracks));
 	});
 
+	const resetQueue = () => {
+		setQueue((q) => {
+			const newQueue: QueueResource = { empty: true };
+			const keys = Object.keys(q) as (keyof QueueResource)[];
+			for (const key of keys) {
+				newQueue[key] = undefined as never;
+			}
+			newQueue.empty = true;
+			return newQueue;
+		});
+	};
+
 	const addMember = (member: IMember) => {
-		actions.mutate((q) => {
-			if (!q) return;
-			q.voiceChannel.members.push(member);
-			return { ...q };
+		setQueue("voiceChannel", (vc) => {
+			if (!vc) return;
+			return { ...vc, members: [...vc.members, member] };
 		});
 	};
 
 	const removeMember = (member: IMember) => {
-		actions.mutate((q) => {
-			if (!q) return;
-			q.voiceChannel.members = q.voiceChannel.members.filter((m) => m.id !== member.id);
-			return { ...q };
+		setQueue("voiceChannel", (vc) => {
+			if (!vc) return;
+			return {
+				...vc,
+				members: vc.members.filter((m) => m.id !== member.id),
+			};
 		});
 	};
 
 	const updateMember = (member: IMember) => {
-		actions.mutate((q) => {
-			if (!q) return;
-			const index = q.voiceChannel.members.findIndex((m) => m.id === member.id);
-			if (index === -1) return { ...q };
-			q.voiceChannel.members[index] = member;
-			return { ...q };
+		setQueue("voiceChannel", (vc) => {
+			if (!vc) return;
+
+			const index = vc.members.findIndex((m) => m.id === member.id);
+			if (index === -1) return vc;
+
+			const members = [...vc.members];
+			members[index] = member;
+			return { ...vc, members };
 		});
 	};
 
 	const updateQueue = (queue: IQueue) => {
-		actions.mutate((q) => {
+		setQueue((q) => {
 			if (!q) return { ...queue, position: -1, isPaused: false };
 			return { ...q, ...queue };
 		});
 	};
 
 	const partialUpdateQueue = (queue: Partial<QueueResource>) => {
-		actions.mutate((q) => {
-			if (!q) return;
-			return { ...q, ...queue };
-		});
+		for (const [key, value] of Object.entries(queue)) {
+			setQueue(key as keyof QueueResource, value);
+		}
 	};
 
-	const appendTrack = (tracks: ITrack | ITrack[]) => {
-		actions.mutate((q) => {
-			if (!q) return;
+	const appendTrack = (newTracks: ITrack | ITrack[]) => {
+		setQueue("tracks", (tracks) => {
+			const newTracksArray = Array.isArray(newTracks) ? newTracks : [newTracks];
 
-			if (Array.isArray(tracks)) q.tracks.push(...tracks);
-			else q.tracks.push(tracks);
-
-			return { ...q };
+			if (!tracks) return newTracksArray;
+			return [...tracks, ...newTracksArray];
 		});
 	};
 
 	const removeTrack = (track: ITrack) => {
-		actions.mutate((q) => {
-			if (!q) return;
-			q.tracks = q.tracks.filter((t) => t.id !== track.id);
-			return { ...q };
-		});
+		setQueue("tracks", (tracks) => tracks?.filter((t) => t.id !== track.id));
 	};
 
 	const orderTrack = (trackIds: string[]) => {
-		actions.mutate((q) => {
-			if (!q) return;
-			q.tracks = q.tracks.sort((a, b) => trackIds.indexOf(a.id) - trackIds.indexOf(b.id));
-			return { ...q };
-		});
+		setQueue("tracks", (tracks) => tracks?.sort((a, b) => trackIds.indexOf(a.id) - trackIds.indexOf(b.id)));
 	};
 
 	const onTrackAudioStarted = (track: ITrack) => {
-		actions.mutate((q) => {
-			if (!q) return;
-			const trackIndex = q.tracks.findIndex((t) => t.id === track.id);
-			if (trackIndex === -1) return { ...q };
-			q.tracks[trackIndex] = track;
-			q.nowPlaying = track;
-			q.history.unshift(track);
-			q.history.splice(25);
-			return { ...q };
+		setQueue("tracks", (tracks) => {
+			if (!tracks) return tracks;
+
+			const trackIndex = tracks.findIndex((t) => t.id === track.id);
+			if (trackIndex === -1) return tracks;
+
+			tracks[trackIndex] = track;
+			return tracks;
+		});
+
+		setQueue("history", (history) => {
+			if (!history) return history;
+			history.unshift(track);
+			history.splice(25);
+			return history;
 		});
 	};
 
 	const setNowPlaying = (track: ITrack | null) => {
-		actions.mutate((q) => {
-			if (!q) return;
-			if (track) track.playedAt = null;
-			q.nowPlaying = track;
-			return { ...q };
-		});
+		setQueue("nowPlaying", track);
 	};
 
 	const setTracks = (tracks: ITrack[]) => {
-		actions.mutate((q) => {
-			if (!q) return;
-			q.tracks = tracks;
-			return { ...q };
-		});
+		setQueue("tracks", tracks);
 	};
 };

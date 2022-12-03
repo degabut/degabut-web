@@ -49,14 +49,7 @@ export function SortableVideosList<Data = unknown>(props: VideosListProps<Data>)
 	const ids = () => items().map((d) => d.id);
 
 	createEffect(() => {
-		// TODO remove this once queue changed to store
-		if (
-			sortableProps()
-				.map((d) => d.id)
-				.join() !== ids().join()
-		) {
-			setItems(sortableProps());
-		}
+		setItems(sortableProps());
 	});
 
 	const onDragStart: DragEventHandler = ({ draggable }) => {

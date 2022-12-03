@@ -1,10 +1,11 @@
-import { IQueue, ITrack, IVideoCompact, LoopMode } from "@api";
+import { ITrack, IVideoCompact, LoopMode } from "@api";
 import { useApi } from "@hooks/useApi";
 import { AxiosError } from "axios";
-import { Resource, Setter } from "solid-js";
+import { Setter } from "solid-js";
+import { QueueResource } from "../QueueProvider";
 
 type Params = {
-	queue: Resource<IQueue | null | undefined>;
+	queue: QueueResource;
 	setIsTrackFreezed: Setter<boolean>;
 	setIsQueueFreezed: Setter<boolean>;
 };
@@ -84,13 +85,15 @@ export const useQueueActions = ({ queue, setIsQueueFreezed, setIsTrackFreezed }:
 	};
 
 	const jam = async (count: number) => {
-		const queueId = queue()?.voiceChannel.id;
+		if (queue.empty) return;
+		const queueId = queue.voiceChannel.id;
 		if (!queueId) return;
 		await api.queue.jam(queueId, count);
 	};
 
 	const modifyTrack = async (fn: (queueId: string) => Promise<unknown>) => {
-		const queueId = queue()?.voiceChannel.id;
+		if (queue.empty) return;
+		const queueId = queue.voiceChannel.id;
 		if (!queueId) return;
 
 		setIsTrackFreezed(true);
@@ -110,8 +113,9 @@ export const useQueueActions = ({ queue, setIsQueueFreezed, setIsTrackFreezed }:
 	};
 
 	const modifyQueue = async (fn: (queueId: string) => Promise<unknown> | unknown) => {
-		const queueId = queue()?.voiceChannel.id;
-		if (!queueId) return;
+		if (queue.empty) return;
+
+		const queueId = queue.voiceChannel.id;
 
 		setIsQueueFreezed(true);
 		await fn(queueId);

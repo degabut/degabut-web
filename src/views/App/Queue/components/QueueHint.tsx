@@ -54,7 +54,7 @@ export const QueueHint: Component = () => {
 	const app = useApp();
 	const queue = useQueue();
 	const navigate = useNavigate();
-	const tracks = () => queue.data()?.tracks || [];
+	const tracks = () => queue.data.tracks || [];
 
 	const recommendation = useQueueRecommendation({ tracks });
 

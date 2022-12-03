@@ -8,7 +8,7 @@ export const NowPlayingMobile: Component = () => {
 	const queue = useQueue();
 
 	return (
-		<Show when={queue.data()?.nowPlaying} keyed>
+		<Show when={queue.data.nowPlaying} keyed>
 			{({ video }) => (
 				<div class="bg-neutral-900 w-full p-1.5">
 					<SolidLink

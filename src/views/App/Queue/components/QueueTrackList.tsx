@@ -11,7 +11,7 @@ export const QueueTrackList: Component = () => {
 	const queue = useQueue();
 	const navigate = useNavigate();
 
-	const tracks = () => queue.data()?.tracks || [];
+	const tracks = () => queue.data.tracks || [];
 
 	return (
 		<Show when={tracks().length} keyed>
@@ -20,7 +20,7 @@ export const QueueTrackList: Component = () => {
 					data={tracks()}
 					onSort={({ to }, data) => queue.changeTrackOrder(data.id, to)}
 					sortableProps={(t) => {
-						const isActive = queue.data()?.nowPlaying?.id === t.id;
+						const isActive = queue.data.nowPlaying?.id === t.id;
 						return {
 							id: t.id,
 							videoProps: {

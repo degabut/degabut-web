@@ -47,19 +47,22 @@ export const ExternalDragDrop = () => {
 
 		const url = e.dataTransfer?.getData("URL");
 		if (!url) {
-			showAlert();
+			showInvalidUrlAlert();
 			return setDragCounter(0);
 		}
 
 		const videoId = new URL(url).searchParams.get("v");
 		if (!videoId) {
-			showAlert();
+			showInvalidUrlAlert();
 			return setDragCounter(0);
 		}
 
-		setIsLoading(true);
-		await queue.addTrackById(videoId);
-		setIsLoading(false);
+		if (!queue.data.empty) {
+			setIsLoading(true);
+			await queue.addTrackById(videoId);
+			setIsLoading(false);
+		}
+
 		setDragCounter(0);
 	};
 
@@ -71,7 +74,7 @@ export const ExternalDragDrop = () => {
 		--containerDragCounter || dropContainer.classList.remove("bg-white/10");
 	};
 
-	const showAlert = () => {
+	const showInvalidUrlAlert = () => {
 		app.setConfirmation({
 			title: "Invalid URL",
 			message: "The URL you dropped is not a valid YouTube URL.",
@@ -80,7 +83,7 @@ export const ExternalDragDrop = () => {
 	};
 
 	return (
-		<Show when={dragCounter() > 0 && queue.data()}>
+		<Show when={dragCounter() > 0 && !queue.data.empty}>
 			<div class="fixed w-screen h-screen top-0 left-0 z-[1000] flex items-center justify-center bg-black/90 text-center">
 				<div
 					ref={dropContainer}

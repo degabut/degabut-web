@@ -19,7 +19,7 @@ export const playlistContextMenu = (props: Props) => {
 		},
 	];
 
-	if (queue.data()) {
+	if (!queue.data.empty) {
 		items.unshift({
 			element: () => <ContextMenuItem icon="plus" label="Add to Queue" />,
 			onClick: () => props.onAddToQueue?.(props.playlist),

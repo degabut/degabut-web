@@ -59,7 +59,7 @@ export const QuickAddModal: Component = () => {
 	const onSelect = async (item: IVideoCompact | IPlaylistCompact, _: number, e?: KeyboardEvent | MouseEvent) => {
 		if ("duration" in item) {
 			// video
-			if (!queue.data() || e?.shiftKey) navigate("/app/video/" + item.id);
+			if (queue.data.empty || e?.shiftKey) navigate("/app/video/" + item.id);
 			else await addToQueue(item);
 		} else {
 			// playlist
@@ -137,7 +137,7 @@ export const QuickAddModal: Component = () => {
 									<div class="text-neutral-300">Open</div>
 								</div>
 
-								<Show when={queue.data()}>
+								<Show when={!queue.data.empty}>
 									<div class="flex-row-center space-x-2">
 										<div class="border border-neutral-300 px-3 py-0.5 rounded">Enter</div>
 										<div class="text-neutral-300">Add to Queue</div>
