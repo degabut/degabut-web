@@ -33,7 +33,7 @@ export const useVideoTranscript = (videoId: IUseTranscriptProps) => {
 			}
 		}
 
-		return formatted;
+		return formatted.sort((a, b) => a.start - b.start);
 	});
 
 	return {

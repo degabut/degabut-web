@@ -25,8 +25,6 @@ export const useTranscript = (params: Accessor<Params>) => {
 		}
 
 		let index = indexes.length > 1 ? indexes[indexes.length - 1] : data.findIndex((t) => elapsed <= t.end);
-		if (index === -1) index = data.findIndex((t) => elapsed <= t.end);
-
 		const transcript = data.at(index);
 		if (!transcript) return;
 
