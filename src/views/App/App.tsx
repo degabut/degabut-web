@@ -1,80 +1,84 @@
-import { App } from "@components/App";
 import { Container } from "@components/Container";
 import { RouterLink } from "@components/Link";
 import { AppProvider } from "@providers/AppProvider";
-import { ContextMenuProvider } from "@providers/ContextMenuProvider";
 import { QueueProvider } from "@providers/QueueProvider";
 import { RPCProvider } from "@providers/RPCProvider";
 import { requestPermission } from "@utils";
-import { Outlet, useLocation, useNavigate } from "solid-app-router";
-import { Component, ErrorBoundary, onMount } from "solid-js";
+import { Outlet } from "solid-app-router";
+import { Component, ErrorBoundary } from "solid-js";
+import {
+	AppDrawer,
+	AppHeader,
+	BackgroundLogo,
+	CatJamManager,
+	ExternalDragDrop,
+	InstallPrompt,
+	MemberListDrawer,
+	MobileAppDrawer,
+	UpdateModal,
+} from "./components";
 
-export const RootApp: Component = () => {
+export const App: Component = () => {
 	return (
-		<AppProvider>
-			<ContextMenuProvider>
-				<QueueProvider>
-					<RPCProvider>
-						<ProvidedApp />
-					</RPCProvider>
-				</QueueProvider>
-			</ContextMenuProvider>
-		</AppProvider>
+		<QueueProvider>
+			<AppProvider>
+				<RPCProvider>
+					<ProvidedApp />
+				</RPCProvider>
+			</AppProvider>
+		</QueueProvider>
+	);
+};
+
+const Error: Component<{ error: unknown }> = (props) => {
+	// eslint-disable-next-line solid/reactivity
+	console.log(props.error);
+	return (
+		<Container extraClass="pt-32">
+			<div class="text-9xl">:(</div>
+			<div class="flex flex-col text-xl pt-16 space-y-4">
+				<div>Something went wrong, check console for error details.</div>
+				<RouterLink class="underline underline-offset-2" href="/">
+					Go back
+				</RouterLink>
+			</div>
+		</Container>
 	);
 };
 
 const ProvidedApp: Component = () => {
-	const navigate = useNavigate();
-	const location = useLocation();
-
-	onMount(() => {
-		requestPermission();
-		if (location.pathname === "/app") navigate("/app/queue");
-	});
+	requestPermission();
 
 	return (
 		<>
 			<div class="flex flex-col md:flex-row h-full ">
-				<App.Drawer />
+				<AppDrawer />
 
 				<div class="relative h-full flex-grow flex flex-col overflow-x-hidden">
 					<div class="flex-shrink-0">
-						<App.Header />
+						<AppHeader />
 					</div>
 
-					<App.BackgroundLogo />
+					<BackgroundLogo />
 
 					<div class="h-full overflow-y-auto">
-						<ErrorBoundary
-							fallback={(err) => {
-								console.log(err);
-								return (
-									<Container extraClass="pt-32">
-										<div class="text-9xl">:(</div>
-										<div class="flex flex-col text-xl pt-16 space-y-4">
-											<div>Something went wrong, check console for error details.</div>
-											<RouterLink class="underline underline-offset-2" href="/">
-												Go back
-											</RouterLink>
-										</div>
-									</Container>
-								);
-							}}
-						>
+						<ErrorBoundary fallback={(err) => <Error error={err} />}>
 							<Outlet />
 						</ErrorBoundary>
 					</div>
 
 					<div class="md:hidden block w-full z-10">
-						<App.MobileDrawer />
+						<MobileAppDrawer />
 					</div>
 				</div>
 
-				<App.MemberListDrawer />
+				<MemberListDrawer />
 			</div>
-			<App.CatJamManager />
-			<App.QuickAddModal />
-			<App.ExternalDragDrop />
+
+			<CatJamManager />
+			<ExternalDragDrop />
+			<InstallPrompt />
+			<UpdateModal />
 		</>
 	);
 };

@@ -1,5 +1,6 @@
 /* @refresh reload */
 import { ApiProvider } from "@providers/ApiProvider";
+import { ContextMenuProvider } from "@providers/ContextMenuProvider";
 import { ScreenProvider } from "@providers/ScreenProvider";
 import { Main } from "@views/Main";
 import { Router } from "solid-app-router";
@@ -10,9 +11,11 @@ render(
 	() => (
 		<Router>
 			<ScreenProvider>
-				<ApiProvider>
-					<Main />
-				</ApiProvider>
+				<ContextMenuProvider>
+					<ApiProvider>
+						<Main />
+					</ApiProvider>
+				</ContextMenuProvider>
 			</ScreenProvider>
 		</Router>
 	),

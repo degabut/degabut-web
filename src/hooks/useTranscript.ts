@@ -1,4 +1,3 @@
-import { clearTimeout, setTimeout } from "@utils/timers";
 import { Accessor, createEffect, createSignal, onCleanup } from "solid-js";
 import { FormattedTranscript } from "./useVideoTranscript";
 
@@ -9,7 +8,7 @@ type Params = {
 
 export const useTranscript = (params: Accessor<Params>) => {
 	const [index, setIndex] = createSignal(-1);
-	let optimisticUpdateTimeout: number | null = null;
+	let optimisticUpdateTimeout: NodeJS.Timeout | null = null;
 
 	onCleanup(() => clearUpdateTimeout());
 

@@ -8,6 +8,12 @@ export interface IPlayer {
 export class Player {
 	constructor(private client: AxiosInstance) {}
 
+	join = async (voiceChannelId: string): Promise<boolean> => {
+		const response = await this.client.post("/players", { voiceChannelId });
+		if (response.status !== 200) return false;
+		return true;
+	};
+
 	getPlayer = async (queueId: string): Promise<IPlayer | null> => {
 		const response = await this.client.get(`/players/${queueId}`);
 		if (response.status !== 200) return null;

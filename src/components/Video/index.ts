@@ -2,7 +2,6 @@ import { VideoEmbed } from "./VideoEmbed";
 import { VideoList, VideoListBig, VideoListResponsive } from "./VideoList";
 import { VideoListBigSkeleton, VideoListSkeleton } from "./VideoListSkeleton";
 
-export * from "./utils";
 export * from "./VideoList";
 export * from "./VideoListSkeleton";
 

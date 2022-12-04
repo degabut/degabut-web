@@ -21,7 +21,6 @@ specifiers:
   vite: ^3.2.3
   vite-plugin-pwa: ^0.13.3
   vite-plugin-solid: ^2.4.0
-  worker-timers: ^7.0.59
 
 dependencies:
   '@thisbeyond/solid-dnd': 0.7.3_solid-js@1.6.2
@@ -33,7 +32,6 @@ dependencies:
   solid-app-router: 0.4.1_solid-js@1.6.2
   solid-js: 1.6.2
   tailwindcss: 3.0.24
-  worker-timers: 7.0.59
 
 devDependencies:
   '@types/node': 17.0.35
@@ -1416,6 +1414,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.13.10
+    dev: true
 
   /@babel/template/7.16.7:
     resolution: {integrity: sha512-I8j/x8kHUrbYRTUxXrrMbfCa7jxkE7tZre39x3kjr9hvI82cK1FfqLygotcWN5kdPGWcLdWMHpSBavse5tWw3w==}
@@ -2856,14 +2855,6 @@ packages:
     resolution: {integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==}
     dev: true
 
-  /fast-unique-numbers/6.0.24:
-    resolution: {integrity: sha512-yykCFALMSP1/gLGw73OwoGQ2EhHYemhFp/7gbWY3DRKTFpdWbrEyRbaRsnLXPvBQ4vzIbKQaxni1SjpofrcdMA==}
-    engines: {node: '>=12.20.1'}
-    dependencies:
-      '@babel/runtime': 7.20.1
-      tslib: 2.4.1
-    dev: false
-
   /fastq/1.13.0:
     resolution: {integrity: sha512-YpkpUnK8od0o1hmeSc7UUs/eB/vIPWJYjKck2QKIzAf71Vm1AAQ3EbuZB3g2JIy+pg+ERD0vqI79KyZiB2e2Nw==}
     dependencies:
@@ -3718,6 +3709,7 @@ packages:
 
   /regenerator-runtime/0.13.10:
     resolution: {integrity: sha512-KepLsg4dU12hryUO7bp/axHAKvwGOCV0sGloQtpagJ12ai+ojVDqkeGSiRX1zlq+kjIMZ1t7gpze+26QqtdGqw==}
+    dev: true
 
   /regenerator-transform/0.15.0:
     resolution: {integrity: sha512-LsrGtPmbYg19bcPHwdtmXwbW+TqNvtY4riE3P83foeHRroMbH6/2ddFBfab3t7kbzc7v7p4wbkIecHImqt0QNg==}
@@ -4111,6 +4103,8 @@ packages:
 
   /tslib/2.4.1:
     resolution: {integrity: sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA==}
+    dev: true
+    optional: true
 
   /tsutils/3.21.0_typescript@4.8.4:
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}
@@ -4486,31 +4480,6 @@ packages:
       '@types/trusted-types': 2.0.2
       workbox-core: 6.5.4
     dev: true
-
-  /worker-timers-broker/6.0.79:
-    resolution: {integrity: sha512-ES8hkoQ7g43wsD0J4fPSnnhxCF37+PpAqigx++eJMlBxV5/XQRLliBt+CsfRwn1BEooqQVYVzzBmiLBeHV4KyA==}
-    dependencies:
-      '@babel/runtime': 7.20.1
-      fast-unique-numbers: 6.0.24
-      tslib: 2.4.1
-      worker-timers-worker: 7.0.45
-    dev: false
-
-  /worker-timers-worker/7.0.45:
-    resolution: {integrity: sha512-c9OE4lSFlyx3wep+pFVT62NxBpGGCHs3VzLnUgh/9JkyV2HRwEJMM0PGeLvEbEAvXe7owRdgz+ysqWFD7BBpvA==}
-    dependencies:
-      '@babel/runtime': 7.20.1
-      tslib: 2.4.1
-    dev: false
-
-  /worker-timers/7.0.59:
-    resolution: {integrity: sha512-edv7slxbQSbHvDQjA889MCfkHPSS3RAAy4mR0B3sbu/xZ9vUnjtHzUGPLPnobvDGa9IwZuxs/OESqQRLD3ZNaA==}
-    dependencies:
-      '@babel/runtime': 7.20.1
-      tslib: 2.4.1
-      worker-timers-broker: 6.0.79
-      worker-timers-worker: 7.0.45
-    dev: false
 
   /wrappy/1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}

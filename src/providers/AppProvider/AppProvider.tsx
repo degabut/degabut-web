@@ -2,8 +2,8 @@
 import { IVideoCompact } from "@api";
 import { useScreen } from "@hooks/useScreen";
 import { breakpoints } from "@providers/ScreenProvider/hooks";
-import { Accessor, createContext, createEffect, createSignal, JSX, ParentComponent, Setter } from "solid-js";
-import { AddPlaylistVideoModal, ConfirmationModal } from "./components";
+import { Accessor, createContext, createEffect, createSignal, JSX, onMount, ParentComponent, Setter } from "solid-js";
+import { AddPlaylistVideoModal, ConfirmationModal, QuickSearchModal } from "./components";
 import { defaultSettings, Settings, useSettings } from "./hooks";
 
 type Confirmation = {
@@ -20,6 +20,7 @@ export type AppContextStore = {
 	setConfirmation: (confirmation: Confirmation | null) => void;
 	isMenuOpen: Accessor<boolean>;
 	isMemberOpen: Accessor<boolean>;
+	setIsQuickSearchModalOpen: Setter<boolean>;
 	setIsMenuOpen: Setter<boolean>;
 	setIsMemberOpen: Setter<boolean>;
 	settings: Accessor<Settings>;
@@ -33,6 +34,7 @@ export const AppContext = createContext<AppContextStore>({
 	setConfirmation: () => {},
 	isMenuOpen: () => false,
 	isMemberOpen: () => false,
+	setIsQuickSearchModalOpen: () => false as any,
 	setIsMenuOpen: () => false as any,
 	setIsMemberOpen: () => false as any,
 	settings: () => defaultSettings,
@@ -48,7 +50,12 @@ export const AppProvider: ParentComponent = (props) => {
 	const [isMemberOpen, setIsMemberOpen] = createSignal(window.innerWidth > breakpoints["2xl"]);
 	const [title, setTitle] = createSignal("");
 	const [videoPlaylist, setVideoPlaylist] = createSignal<null | IVideoCompact>(null);
+	const [isQuickSearchModalOpen, setIsQuickSearchModalOpen] = createSignal(false);
 	const [confirmation, setConfirmation] = createSignal<Confirmation | null>(null);
+
+	onMount(() => {
+		document.addEventListener("keydown", onKeyDown);
+	});
 
 	createEffect(() => {
 		if (screen().gte.md) setIsMenuOpen(true);
@@ -58,6 +65,20 @@ export const AppProvider: ParentComponent = (props) => {
 		previousWidth = window.innerWidth;
 	});
 
+	const onKeyDown = (e: KeyboardEvent) => {
+		const target = e.target as Element | null;
+		const tagName = target?.tagName.toUpperCase();
+		if (
+			tagName !== "INPUT" &&
+			tagName !== "TEXTAREA" &&
+			!isQuickSearchModalOpen() &&
+			(e.key.toLowerCase() === "p" || (e.key.toLowerCase() === "k" && e.ctrlKey))
+		) {
+			e.preventDefault();
+			setIsQuickSearchModalOpen(true);
+		}
+	};
+
 	const store = {
 		title,
 		setTitle,
@@ -65,6 +86,7 @@ export const AppProvider: ParentComponent = (props) => {
 		setConfirmation,
 		isMenuOpen,
 		isMemberOpen,
+		setIsQuickSearchModalOpen,
 		setIsMenuOpen,
 		setIsMemberOpen,
 		...settings,
@@ -73,11 +95,15 @@ export const AppProvider: ParentComponent = (props) => {
 	return (
 		<AppContext.Provider value={store}>
 			{props.children}
+
+			<QuickSearchModal isOpen={isQuickSearchModalOpen()} onDone={() => setIsQuickSearchModalOpen(false)} />
+
 			<AddPlaylistVideoModal
 				video={videoPlaylist()}
 				isOpen={!!videoPlaylist()}
 				onClose={() => setVideoPlaylist(null)}
 			/>
+
 			<ConfirmationModal
 				isOpen={!!confirmation()}
 				title={confirmation()?.title || ""}

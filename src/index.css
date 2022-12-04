@@ -25,6 +25,10 @@ b {
 	@apply font-semibold;
 }
 
+button {
+	@apply font-light;
+}
+
 #root {
 	@apply h-full;
 }
