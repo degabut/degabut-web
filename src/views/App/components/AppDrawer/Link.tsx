@@ -1,12 +1,13 @@
 import { Icon, Icons } from "@components/Icon";
 import { RouterLink } from "@components/Link";
 import { useMatch } from "solid-app-router";
-import { Component } from "solid-js";
+import { Component, Show } from "solid-js";
 
 type Props = {
 	icon: Icons;
 	label: string;
 	path: string;
+	minimized: boolean;
 	variant?: "normal" | "small";
 	onClick: () => void;
 };
@@ -23,11 +24,15 @@ export const Link: Component<Props> = (props) => {
 				"text-neutral-100 fill-neutral-100 bg-white/[7.5%] font-medium": !!isActive(),
 				"py-3.5 md:py-2.5": props.variant !== "normal",
 				"py-2 text-sm": props.variant === "small",
+				"md:py-2.5": !props.minimized,
+				"!py-4 justify-center": props.minimized,
 			}}
 			onClick={() => props.onClick()}
 		>
-			<Icon name={props.icon} size={props.variant === "small" ? "md" : "lg"} />
-			<div>{props.label}</div>
+			<Icon name={props.icon} size={props.variant === "small" ? "md" : "lg"} extraClass="shrink-0" />
+			<Show when={!props.minimized}>
+				<div class="truncate">{props.label}</div>
+			</Show>
 		</RouterLink>
 	);
 };

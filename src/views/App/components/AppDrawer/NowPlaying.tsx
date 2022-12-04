@@ -13,7 +13,7 @@ export const NowPlaying: Component = () => {
 				{({ video, requestedBy }) => (
 					<SolidLink
 						href="/app/queue"
-						class="flex flex-col py-4 px-2 space-y-3 cursor-pointer hover:bg-white/5 rounded"
+						class="flex flex-col py-4 px-2 space-y-3 hover:bg-white/5 rounded"
 						title={video.title}
 					>
 						<div class="text-lg font-medium">Now Playing</div>
@@ -32,6 +32,22 @@ export const NowPlaying: Component = () => {
 			</Show>
 
 			<QueueActions extraClass="justify-evenly" hideSettings />
+		</div>
+	);
+};
+
+export const MinimizedNowPlaying: Component = () => {
+	const queue = useQueue();
+
+	return (
+		<div>
+			<Show when={queue.data.nowPlaying} keyed>
+				{({ video }) => (
+					<SolidLink href="/app/queue" class="flex flex-col p-2 hover:bg-white/5 rounded" title={video.title}>
+						<VideoThumbnail video={video} extraClass="!w-full !h-auto aspect-square" />
+					</SolidLink>
+				)}
+			</Show>
 		</div>
 	);
 };

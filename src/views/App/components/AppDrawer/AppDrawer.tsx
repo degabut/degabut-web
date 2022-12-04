@@ -3,9 +3,9 @@ import { Drawer } from "@components/Drawer";
 import { Icon } from "@components/Icon";
 import { useApp } from "@hooks/useApp";
 import { useScreen } from "@hooks/useScreen";
-import { Component } from "solid-js";
+import { Component, For, Show } from "solid-js";
 import { Link } from "./Link";
-import { NowPlaying } from "./NowPlaying";
+import { MinimizedNowPlaying, NowPlaying } from "./NowPlaying";
 
 const MusicNoteIcon: Component<{ extraClass: string }> = (props) => (
 	<Icon name="musicNote" extraClass={`w-24 h-24 fill-white/10 pointer-events-none ${props.extraClass}`} />
@@ -19,24 +19,64 @@ export const AppDrawer: Component = () => {
 		if (screen().lte.sm) app.setIsMenuOpen(false);
 	};
 
+	const links = [
+		{ icon: "degabutThin", label: "Queue", path: "/app/queue" },
+		{ icon: "search", label: "Search", path: "/app/search" },
+		{ icon: "audioPlaylist", label: "Playlist", path: "/app/playlist" },
+		{ icon: "heart", label: "For You", path: "/app/recommendation" },
+	] as const;
+
 	return (
-		<Drawer isOpen={app.isMenuOpen()} handleClose={() => app.setIsMenuOpen(false)}>
-			<MusicNoteIcon extraClass="absolute top-0 left-2" />
+		<Drawer
+			resizeable
+			initialSize={app.settings().appDrawerSize}
+			onResize={(appDrawerSize) => app.setSettings({ appDrawerSize })}
+			isOpen={app.isMenuOpen()}
+			handleClose={() => app.setIsMenuOpen(false)}
+		>
+			{(size) => {
+				const minimized = size <= 120;
+				return (
+					<>
+						<Show
+							when={!minimized}
+							fallback={
+								<div class="flex justify-center py-8">
+									<img class="w-8 h-auto" src="/favicon-32x32.png" />
+								</div>
+							}
+						>
+							<MusicNoteIcon extraClass="absolute top-0 left-2" />
+							<div class="px-6 font-brand font-semibold text-3xl truncate py-8">degabut</div>
+						</Show>
 
-			<div class="px-6 font-brand font-semibold text-3xl truncate py-8">degabut</div>
+						<div class="flex-grow text-lg mx-2 space-y-1.5">
+							<For each={links}>
+								{(link) => <Link {...link} onClick={onLinkClick} minimized={minimized} />}
+							</For>
+						</div>
 
-			<div class="flex-grow text-lg space-y-1.5 mx-2">
-				<Link icon="degabutThin" label="Queue" path="/app/queue" onClick={onLinkClick} />
-				<Link icon="search" label="Search" path="/app/search" onClick={onLinkClick} />
-				<Link icon="audioPlaylist" label="Playlist" path="/app/playlist" onClick={onLinkClick} />
-				<Link icon="heart" label="For You" path="/app/recommendation" onClick={onLinkClick} />
-			</div>
+						<div class="space-y-2 pb-8 mx-2">
+							<Show when={size > 220}>
+								<NowPlaying />
+								<Divider dark extraClass="hidden md:block" />
+							</Show>
 
-			<div class="space-y-2 pb-8 mx-2">
-				<NowPlaying />
-				<Divider dark extraClass="hidden md:block" />
-				<Link icon="gear" label="Settings" path="/app/settings" variant="small" onClick={onLinkClick} />
-			</div>
+							<Show when={minimized}>
+								<MinimizedNowPlaying />
+							</Show>
+
+							<Link
+								icon="gear"
+								label="Settings"
+								path="/app/settings"
+								onClick={onLinkClick}
+								minimized={minimized}
+							/>
+						</div>
+					</>
+				);
+			}}
 		</Drawer>
 	);
 };
