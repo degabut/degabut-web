@@ -1,5 +1,5 @@
 import { ITrack } from "@api";
-import { useApp } from "@hooks/useApp";
+import { useSettings } from "@hooks/useSettings";
 import { notify } from "@utils";
 import EventEmitter from "events";
 import { onMount } from "solid-js";
@@ -9,14 +9,14 @@ type Params = {
 };
 
 export const useQueueNotification = ({ emitter }: Params) => {
-	const app = useApp();
+	const { settings } = useSettings();
 
 	onMount(() => {
 		emitter.on("queue-processed", onQueueProcessed);
 	});
 
 	const onQueueProcessed = async (nowPlaying: ITrack | null) => {
-		if (!app.settings().notification) return;
+		if (!settings.notification) return;
 		if (!nowPlaying) return;
 
 		const notification = await notify("Now Playing", {

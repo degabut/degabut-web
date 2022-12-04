@@ -4,7 +4,6 @@ import { useScreen } from "@hooks/useScreen";
 import { breakpoints } from "@providers/ScreenProvider/hooks";
 import { Accessor, createContext, createEffect, createSignal, JSX, onMount, ParentComponent, Setter } from "solid-js";
 import { AddPlaylistVideoModal, ConfirmationModal, QuickSearchModal } from "./components";
-import { defaultSettings, Settings, useSettings } from "./hooks";
 
 type Confirmation = {
 	title: JSX.Element;
@@ -23,8 +22,6 @@ export type AppContextStore = {
 	setIsQuickSearchModalOpen: Setter<boolean>;
 	setIsMenuOpen: Setter<boolean>;
 	setIsMemberOpen: Setter<boolean>;
-	settings: Accessor<Settings>;
-	setSettings: (settings: Partial<Settings>) => void;
 };
 
 export const AppContext = createContext<AppContextStore>({
@@ -37,14 +34,11 @@ export const AppContext = createContext<AppContextStore>({
 	setIsQuickSearchModalOpen: () => false as any,
 	setIsMenuOpen: () => false as any,
 	setIsMemberOpen: () => false as any,
-	settings: () => defaultSettings,
-	setSettings: () => {},
 });
 
 export const AppProvider: ParentComponent = (props) => {
 	let previousWidth = window.screenX;
 	const screen = useScreen();
-	const settings = useSettings();
 
 	const [isMenuOpen, setIsMenuOpen] = createSignal(window.innerWidth > breakpoints.md);
 	const [isMemberOpen, setIsMemberOpen] = createSignal(window.innerWidth > breakpoints["2xl"]);
@@ -89,7 +83,6 @@ export const AppProvider: ParentComponent = (props) => {
 		setIsQuickSearchModalOpen,
 		setIsMenuOpen,
 		setIsMemberOpen,
-		...settings,
 	};
 
 	return (

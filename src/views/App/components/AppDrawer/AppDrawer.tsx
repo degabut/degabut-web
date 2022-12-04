@@ -3,6 +3,7 @@ import { Drawer } from "@components/Drawer";
 import { Icon } from "@components/Icon";
 import { useApp } from "@hooks/useApp";
 import { useScreen } from "@hooks/useScreen";
+import { useSettings } from "@hooks/useSettings";
 import { Component, For, Show } from "solid-js";
 import { Link } from "./Link";
 import { MinimizedNowPlaying, NowPlaying } from "./NowPlaying";
@@ -13,6 +14,7 @@ const MusicNoteIcon: Component<{ extraClass: string }> = (props) => (
 
 export const AppDrawer: Component = () => {
 	const app = useApp();
+	const { settings, setSettings } = useSettings();
 	const screen = useScreen();
 
 	const onLinkClick = () => {
@@ -29,8 +31,8 @@ export const AppDrawer: Component = () => {
 	return (
 		<Drawer
 			resizeable
-			initialSize={app.settings().appDrawerSize}
-			onResize={(appDrawerSize) => app.setSettings({ appDrawerSize })}
+			initialSize={settings.appDrawerSize}
+			onResize={(appDrawerSize) => setSettings({ appDrawerSize })}
 			isOpen={app.isMenuOpen()}
 			handleClose={() => app.setIsMenuOpen(false)}
 		>

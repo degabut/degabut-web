@@ -1,8 +1,8 @@
 import { IQueue } from "@api";
 import * as models from "@go/models";
 import * as rpc from "@go/rpc/Client";
-import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
+import { useSettings } from "@hooks/useSettings";
 import { createContext, createEffect, onMount, ParentComponent } from "solid-js";
 import { IS_BROWSER } from "../../constants";
 
@@ -12,13 +12,13 @@ export const RPCProvider: ParentComponent = (props) => {
 	// eslint-disable-next-line solid/components-return-once
 	if (IS_BROWSER) return <>{props.children}</>;
 
-	const app = useApp();
+	const { settings } = useSettings();
 	const queue = useQueue();
 	let connected = false;
 	let connecting = false;
 
 	onMount(() => {
-		const isEnabled = app.settings().discordRpc;
+		const isEnabled = settings.discordRpc;
 		if (isEnabled) start();
 	});
 
@@ -40,7 +40,7 @@ export const RPCProvider: ParentComponent = (props) => {
 	};
 
 	createEffect(() => {
-		const isEnabled = app.settings().discordRpc;
+		const isEnabled = settings.discordRpc;
 		if (isEnabled && !connected) start();
 		else if (!isEnabled && connected) stop();
 	});

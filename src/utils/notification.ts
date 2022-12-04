@@ -9,7 +9,7 @@ export const notify = async (title: string, options?: NotificationOptions): Prom
 	return new Notification(title, options);
 };
 
-export const requestPermission = async (): Promise<NotificationPermission | undefined> => {
+export const requestNotificationPermission = async (): Promise<NotificationPermission | undefined> => {
 	if (!("Notification" in window) || Notification.permission === "denied") return;
 	const permission = await Notification.requestPermission();
 	return permission;

@@ -2,6 +2,7 @@ import { Button } from "@components/Button";
 import { Container } from "@components/Container";
 import { Divider } from "@components/Divider";
 import { useApp } from "@hooks/useApp";
+import { useSettings } from "@hooks/useSettings";
 import { useNavigate } from "solid-app-router";
 import { Component, onMount, Show } from "solid-js";
 import { IS_DESKTOP } from "../../constants";
@@ -9,6 +10,7 @@ import { SwitchItem } from "./components";
 
 export const Settings: Component = () => {
 	const app = useApp();
+	const { settings, setSettings } = useSettings();
 	const navigate = useNavigate();
 
 	onMount(() => {
@@ -33,8 +35,8 @@ export const Settings: Component = () => {
 						<div class="text-xl font-medium">Notification</div>
 						<SwitchItem
 							label="Enable Notification"
-							checked={app.settings().notification}
-							onChange={() => app.setSettings({ notification: !app.settings().notification })}
+							checked={settings.notification}
+							onChange={() => setSettings({ notification: !settings.notification })}
 						/>
 					</div>
 				</Show>
@@ -45,8 +47,8 @@ export const Settings: Component = () => {
 						<SwitchItem
 							label="Enable Rich Presence"
 							description="Show what you are currently listening to on Discord"
-							checked={app.settings().discordRpc}
-							onChange={() => app.setSettings({ discordRpc: !app.settings().discordRpc })}
+							checked={settings.discordRpc}
+							onChange={() => setSettings({ discordRpc: !settings.discordRpc })}
 						/>
 					</div>
 				</Show>

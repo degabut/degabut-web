@@ -3,7 +3,8 @@ import { RouterLink } from "@components/Link";
 import { AppProvider } from "@providers/AppProvider";
 import { QueueProvider } from "@providers/QueueProvider";
 import { RPCProvider } from "@providers/RPCProvider";
-import { requestPermission } from "@utils";
+import { SettingsProvider } from "@providers/SettingsProvider";
+import { requestNotificationPermission } from "@utils";
 import { Outlet } from "solid-app-router";
 import { Component, ErrorBoundary } from "solid-js";
 import {
@@ -20,13 +21,15 @@ import {
 
 export const App: Component = () => {
 	return (
-		<QueueProvider>
-			<AppProvider>
-				<RPCProvider>
-					<ProvidedApp />
-				</RPCProvider>
-			</AppProvider>
-		</QueueProvider>
+		<SettingsProvider>
+			<QueueProvider>
+				<AppProvider>
+					<RPCProvider>
+						<ProvidedApp />
+					</RPCProvider>
+				</AppProvider>
+			</QueueProvider>
+		</SettingsProvider>
 	);
 };
 
@@ -47,7 +50,7 @@ const Error: Component<{ error: unknown }> = (props) => {
 };
 
 const ProvidedApp: Component = () => {
-	requestPermission();
+	requestNotificationPermission();
 
 	return (
 		<>
