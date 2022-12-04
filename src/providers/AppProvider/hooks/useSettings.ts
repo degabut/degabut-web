@@ -1,27 +1,27 @@
-import { createSignal, onMount } from "solid-js";
+import { createSignal } from "solid-js";
 
 export type Settings = {
 	notification: boolean;
 	discordRpc: boolean;
+	appDrawerSize: number;
 };
 
 export const defaultSettings: Settings = {
 	notification: true,
 	discordRpc: true,
+	appDrawerSize: 256,
 };
 
 export const useSettings = () => {
 	const [settings, _setSettings] = createSignal<Settings>(defaultSettings);
 
-	onMount(() => {
-		const settings = localStorage.getItem("settings");
-		if (settings) _setSettings(JSON.parse(settings));
-		else _setSettings(defaultSettings);
-	});
+	const storedSettings = localStorage.getItem("settings");
+	if (storedSettings) _setSettings({ ...defaultSettings, ...JSON.parse(storedSettings) });
+	else _setSettings(defaultSettings);
 
-	const setSettings = (settings: Partial<Settings>) => {
-		_setSettings((d) => ({ ...d, ...settings }));
-		localStorage.setItem("settings", JSON.stringify(settings));
+	const setSettings = (partialSettings: Partial<Settings>) => {
+		_setSettings((s) => ({ ...s, ...partialSettings }));
+		localStorage.setItem("settings", JSON.stringify(settings()));
 	};
 
 	return {
