@@ -42,7 +42,7 @@ export const MinimizedNowPlaying: Component = () => {
 	return (
 		<Show when={queue.data.nowPlaying} keyed>
 			{({ video }) => (
-				<SolidLink href="/app/queue" class="flex flex-col hover:bg-white/5 rounded" title={video.title}>
+				<SolidLink href="/app/queue" class="flex flex-col p-1 hover:bg-white/5 rounded" title={video.title}>
 					<VideoThumbnail video={video} extraClass="!w-full !h-auto aspect-square" />
 				</SolidLink>
 			)}
