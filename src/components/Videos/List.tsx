@@ -7,6 +7,7 @@ type VideosListProps<Data> = {
 	label?: JSX.Element;
 	isLoading?: boolean;
 	showWhenLoading?: boolean;
+	skeletonCount?: number;
 	videoProps?: (data: Data) => VideoListProps;
 };
 
@@ -31,7 +32,7 @@ export function VideosList<Data = unknown>(props: VideosListProps<Data>) {
 					</For>
 				</Show>
 				<Show when={props.isLoading}>
-					<For each={Array(5)}>{() => <Video.ListSkeleton />}</For>
+					<For each={Array(props.skeletonCount || 5)}>{() => <Video.ListSkeleton />}</For>
 				</Show>
 			</div>
 		</div>

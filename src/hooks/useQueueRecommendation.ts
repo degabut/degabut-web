@@ -1,5 +1,6 @@
 import { ITrack, IVideoCompact } from "@api";
 import { Accessor, createEffect, createMemo, createSignal } from "solid-js";
+import { useVideo } from "./useVideo";
 import { useVideos } from "./useVideos";
 
 type Params = {
@@ -12,10 +13,15 @@ export const useQueueRecommendation = (params: Params) => {
 	const recentMostPlayed = useVideos(() => ({ userId: "me", days: 14, count: 20 }));
 	const mostPlayed = useVideos(() => ({ userId: "me", days: 90, count: 20 }));
 
+	const [randomVideoId, setRandomVideoId] = createSignal<string>("");
+	const randomVideo = useVideo({ videoId: randomVideoId });
+
 	const [blacklistedVideo, setBlacklistedVideo] = createSignal<IVideoCompact[]>([]);
 	const [randomVideos, setRandomVideos] = createSignal<IVideoCompact[]>([]);
 
 	const videos = createMemo(() => {
+		if (lastPlayed.data.loading || recentMostPlayed.data.loading || mostPlayed.data.loading) return [];
+
 		const allVideos = [
 			...(lastPlayed.data() || []),
 			...(recentMostPlayed.data() || []),
@@ -42,6 +48,13 @@ export const useQueueRecommendation = (params: Params) => {
 			const videos = shuffled.filter((video) => !v.find((v) => v.id === video.id));
 			return [...current, ...videos.slice(0, left)];
 		});
+
+		if (randomVideo)
+			setRandomVideoId((randomVideoId) => {
+				const filtered = shuffled.filter((v) => v.id !== randomVideoId);
+				const randomVideo = filtered[Math.floor(Math.random() * filtered.length)];
+				return randomVideo?.id || "";
+			});
 	});
 
 	const blacklist = (video: IVideoCompact) => {
@@ -57,6 +70,7 @@ export const useQueueRecommendation = (params: Params) => {
 	return {
 		videos,
 		randomVideos,
+		randomVideo,
 		blacklist,
 		reset,
 	};

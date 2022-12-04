@@ -58,7 +58,7 @@ export const QueueHint: Component = () => {
 	const navigate = useNavigate();
 	const tracks = () => queue.data.tracks || [];
 
-	const recommendation = useQueueRecommendation({ tracks });
+	const recommendation = useQueueRecommendation({ tracks, limit: 4 });
 
 	return (
 		<div class="space-y-8 md:space-y-2">
@@ -94,10 +94,15 @@ export const QueueHint: Component = () => {
 				}}
 			>
 				<div class="flex-row-center space-x-3 py-2 text-sm">
-					<div class="text-neutral-400">Quick Add</div>
+					<div class="text-neutral-300">Quick Add</div>
 					<Divider extraClass="flex-grow" light />
 					<button
-						class="flex-row-center space-x-1 text-neutral-400 hover:text-neutral-200"
+						class="flex-row-center space-x-1"
+						classList={{
+							"text-neutral-300 hover:text-neutral-100": !recommendation.randomVideo.data.loading,
+							"text-neutral-500": recommendation.randomVideo.data.loading,
+						}}
+						disabled={recommendation.randomVideo.data.loading}
 						onClick={() => recommendation.reset()}
 					>
 						<Icon name="update" size="sm" extraClass="fill-current" />
@@ -107,6 +112,32 @@ export const QueueHint: Component = () => {
 
 				<Videos.List
 					data={recommendation.randomVideos()}
+					videoProps={(video) => ({
+						video,
+						hideContextMenuButton: true,
+						contextMenu: getVideoContextMenu({
+							video,
+							appStore: app,
+							queueStore: queue,
+							navigate,
+						}),
+						right: () => (
+							<div class="flex flex-row space-x-2 pl-2">
+								<VideoActionButton
+									title="Remove"
+									onClick={() => recommendation.blacklist(video)}
+									icon="closeLine"
+								/>
+								<VideoActionButton title="Add" onClick={() => queue.addTrack(video)} icon="plus" />
+							</div>
+						),
+					})}
+				/>
+
+				<Videos.List
+					data={recommendation.randomVideo.data()?.related?.slice(0, 3) || []}
+					isLoading={recommendation.randomVideo.data.loading}
+					skeletonCount={3}
 					videoProps={(video) => ({
 						video,
 						hideContextMenuButton: true,
