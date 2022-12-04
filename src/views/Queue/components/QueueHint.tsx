@@ -5,6 +5,7 @@ import { Videos } from "@components/Videos";
 import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { useQueueRecommendation } from "@hooks/useQueueRecommendation";
+import { useScreen } from "@hooks/useScreen";
 import { getVideoContextMenu } from "@utils";
 import { useNavigate } from "solid-app-router";
 import { Component, JSX } from "solid-js";
@@ -52,6 +53,7 @@ const VideoActionButton: Component<VideoActionButtonProps> = (props) => {
 
 export const QueueHint: Component = () => {
 	const app = useApp();
+	const screen = useScreen();
 	const queue = useQueue();
 	const navigate = useNavigate();
 	const tracks = () => queue.data.tracks || [];
@@ -70,11 +72,13 @@ export const QueueHint: Component = () => {
 					label={
 						<div class="flex-row-center space-x-4">
 							<div>Search for a song</div>
-							<KeyboardHint small combination={["Ctrl", "K"]} kbdExtraClass="!border-neutral-500" />
+							<div class="hidden md:block">
+								<KeyboardHint small combination={["Ctrl", "K"]} kbdExtraClass="!border-neutral-500" />
+							</div>
 						</div>
 					}
 					icon="search"
-					onClick={() => app.setIsQuickSearchModalOpen(true)}
+					onClick={() => (screen().gte.md ? app.setIsQuickSearchModalOpen(true) : navigate("/app/search"))}
 				/>
 				<HintItem
 					label="Look at recommendations"
