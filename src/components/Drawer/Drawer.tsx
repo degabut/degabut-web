@@ -13,7 +13,7 @@ type Props = {
 };
 
 export const Drawer: Component<Props> = (props) => {
-	const [size, setSize] = createSignal(props.initialSize || 256);
+	const [size, setSize] = createSignal(props.initialSize ?? 256);
 	const [isDragging, setIsDragging] = createSignal(false);
 
 	onCleanup(() => cleanup());
@@ -37,7 +37,7 @@ export const Drawer: Component<Props> = (props) => {
 	};
 
 	const handleMouseMove = throttle((ev: MouseEvent) => {
-		setSize(props.right ? window.innerWidth - ev.clientX : ev.clientX);
+		setSize(Math.max(props.right ? window.innerWidth - ev.clientX : ev.clientX, 0));
 	}, 50);
 
 	return (
