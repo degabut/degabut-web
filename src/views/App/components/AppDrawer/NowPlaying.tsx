@@ -40,14 +40,12 @@ export const MinimizedNowPlaying: Component = () => {
 	const queue = useQueue();
 
 	return (
-		<div>
-			<Show when={queue.data.nowPlaying} keyed>
-				{({ video }) => (
-					<SolidLink href="/app/queue" class="flex flex-col p-2 hover:bg-white/5 rounded" title={video.title}>
-						<VideoThumbnail video={video} extraClass="!w-full !h-auto aspect-square" />
-					</SolidLink>
-				)}
-			</Show>
-		</div>
+		<Show when={queue.data.nowPlaying} keyed>
+			{({ video }) => (
+				<SolidLink href="/app/queue" class="flex flex-col hover:bg-white/5 rounded" title={video.title}>
+					<VideoThumbnail video={video} extraClass="!w-full !h-auto aspect-square" />
+				</SolidLink>
+			)}
+		</Show>
 	);
 };
