@@ -28,6 +28,7 @@ export const ExternalDragDrop = () => {
 
 	const onDragEnter = (e: DragEvent) => {
 		e.preventDefault();
+		if (!e.dataTransfer?.types.includes("text/uri-list")) return;
 		if (e.currentTarget === window) setDragCounter((v) => v + 1);
 	};
 
@@ -37,7 +38,7 @@ export const ExternalDragDrop = () => {
 
 	const onDragLeave = (e: DragEvent) => {
 		e.preventDefault();
-		if (e.currentTarget === window) setDragCounter((v) => v - 1);
+		if (e.currentTarget === window) setDragCounter((v) => Math.max(v - 1, 0));
 	};
 
 	const onDrop = async (e: DragEvent) => {
