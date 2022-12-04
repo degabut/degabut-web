@@ -27,7 +27,7 @@ export type QueueResource = (FullQueue & { empty: false }) | (Partial<FullQueue>
 
 export const QueueProvider: ParentComponent = (props) => {
 	const api = useApi();
-	let lastVisibilityRefetch = 0;
+	let lastHidden = 0;
 	const [isInitialLoading, setIsInitialLoading] = createSignal(true);
 	const [isQueueFreezed, setIsQueueFreezed] = createSignal(true);
 	const [isTrackFreezed, setIsTrackFreezed] = createSignal(true);
@@ -77,8 +77,8 @@ export const QueueProvider: ParentComponent = (props) => {
 
 	const onVisibilityChange = () => {
 		// refetch if > 60 seconds after last refetch
-		if (document.visibilityState === "visible" && Date.now() - lastVisibilityRefetch > 60 * 1000) {
-			lastVisibilityRefetch = Date.now();
+		if (document.visibilityState === "hidden") lastHidden = Date.now();
+		if (document.visibilityState === "visible" && Date.now() - lastHidden > 60 * 1000) {
 			fetchQueue();
 		}
 	};
