@@ -86,8 +86,8 @@ export const useQueueEventListener = ({ setQueue, fetchQueue, emitter }: Params)
 
 	const updateQueue = (queue: IQueue) => {
 		setQueue((q) => {
-			if (!q) return { ...queue, position: -1, isPaused: false };
-			return { ...q, ...queue };
+			if (!q) return { ...queue, position: -1, isPaused: false, empty: false };
+			return { ...q, ...queue, empty: false };
 		});
 	};
 
