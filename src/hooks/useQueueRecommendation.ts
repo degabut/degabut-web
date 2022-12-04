@@ -41,6 +41,7 @@ export const useQueueRecommendation = (params: Params) => {
 
 	createEffect(() => {
 		const shuffled = videos().sort(() => 0.5 - Math.random());
+		if (!randomVideoId()) randomlySetRandomVideoId();
 
 		setRandomVideos((v) => {
 			const current = v.filter((video) => shuffled.find((v) => v.id === video.id));
@@ -48,13 +49,6 @@ export const useQueueRecommendation = (params: Params) => {
 			const videos = shuffled.filter((video) => !v.find((v) => v.id === video.id));
 			return [...current, ...videos.slice(0, left)];
 		});
-
-		if (randomVideo)
-			setRandomVideoId((randomVideoId) => {
-				const filtered = shuffled.filter((v) => v.id !== randomVideoId);
-				const randomVideo = filtered[Math.floor(Math.random() * filtered.length)];
-				return randomVideo?.id || "";
-			});
 	});
 
 	const blacklist = (video: IVideoCompact) => {
@@ -65,6 +59,16 @@ export const useQueueRecommendation = (params: Params) => {
 	const reset = () => {
 		setRandomVideos([]);
 		setBlacklistedVideo([]);
+		randomlySetRandomVideoId();
+	};
+
+	const randomlySetRandomVideoId = () => {
+		const shuffled = videos().sort(() => 0.5 - Math.random());
+		setRandomVideoId((randomVideoId) => {
+			const filtered = shuffled.filter((v) => v.id !== randomVideoId);
+			const randomVideo = filtered[Math.floor(Math.random() * filtered.length)];
+			return randomVideo?.id || "";
+		});
 	};
 
 	return {
