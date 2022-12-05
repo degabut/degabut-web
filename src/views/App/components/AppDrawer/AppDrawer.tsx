@@ -59,7 +59,7 @@ export const AppDrawer: Component = () => {
 						</div>
 
 						<div class="space-y-2 pb-8 mx-2">
-							<Show when={size > 220}>
+							<Show when={size > 180}>
 								<NowPlaying />
 								<Divider dark extraClass="hidden md:block" />
 							</Show>
