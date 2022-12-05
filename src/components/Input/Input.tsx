@@ -3,6 +3,7 @@ import { Component, JSX, onCleanup, onMount } from "solid-js";
 export type InputProps = Omit<JSX.InputHTMLAttributes<HTMLInputElement>, "prefix"> & {
 	rounded?: boolean;
 	outlined?: boolean;
+	dense?: boolean;
 	focusOnMount?: boolean;
 	prefix?: JSX.Element;
 	suffix?: JSX.Element;
@@ -44,11 +45,13 @@ export const Input: Component<InputProps> = (props) => {
 				ref={input}
 				{...props}
 				prefix={undefined}
-				class="outline-0 py-2 px-4 flex-grow w-full bg-transparent"
+				class="outline-0 flex-grow w-full bg-transparent"
 				classList={{
 					"rounded-full": !!props.rounded,
 					"!pl-3": !!props.prefix,
 					"!pr-3": !!props.suffix,
+					"py-2 px-4": !props.dense,
+					"py-1 px-2": props.dense,
 				}}
 			/>
 			{props.suffix}
