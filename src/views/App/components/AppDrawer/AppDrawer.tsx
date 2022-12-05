@@ -1,6 +1,7 @@
 import { Divider } from "@components/Divider";
 import { Drawer } from "@components/Drawer";
 import { Icon } from "@components/Icon";
+import { RouterLink } from "@components/Link";
 import { useApp } from "@hooks/useApp";
 import { useScreen } from "@hooks/useScreen";
 import { useSettings } from "@hooks/useSettings";
@@ -39,9 +40,9 @@ export const AppDrawer: Component = () => {
 						<Show
 							when={!minimized}
 							fallback={
-								<div class="flex justify-center py-8">
+								<RouterLink href="/app/queue" class="flex justify-center py-8">
 									<img class="w-8 h-auto" src="/favicon-32x32.png" />
-								</div>
+								</RouterLink>
 							}
 						>
 							<Icon
