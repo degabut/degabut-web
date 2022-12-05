@@ -66,7 +66,7 @@ export class YouTube {
 	searchVideos = async (keyword: string): Promise<IVideoCompact[]> => {
 		if (!keyword) return [];
 
-		const response = await this.client.get("/youtube/videos", {
+		const response = await this.client.get("/videos", {
 			params: { keyword },
 		});
 		if (response.status === 200) return response.data;
@@ -76,7 +76,7 @@ export class YouTube {
 	getVideo = async (id: string): Promise<IVideo | null> => {
 		if (!id) return null;
 
-		const response = await this.client.get("/youtube/videos/" + id);
+		const response = await this.client.get("/videos/" + id);
 		if (response.status !== 200) throw new Error(response.data.message);
 		return response.data;
 	};
@@ -84,7 +84,7 @@ export class YouTube {
 	getVideoTranscript = async (id: string): Promise<ITranscript[] | null> => {
 		if (!id) return null;
 
-		const response = await this.client.get(`/youtube/videos/${id}/transcript`);
+		const response = await this.client.get(`/videos/${id}/transcript`);
 		if (response.status !== 200) return null;
 		return response.data;
 	};
@@ -92,7 +92,7 @@ export class YouTube {
 	searchPlaylists = async (keyword: string): Promise<IPlaylistCompact[]> => {
 		if (!keyword) return [];
 
-		const response = await this.client.get("/youtube/playlists", {
+		const response = await this.client.get("/playlists", {
 			params: { keyword },
 		});
 		if (response.status === 200) return response.data;
@@ -102,13 +102,13 @@ export class YouTube {
 	getPlaylist = async (id: string): Promise<IYoutubePlaylist | IMixPlaylist | null> => {
 		if (!id) return null;
 
-		const response = await this.client.get("/youtube/playlists/" + id);
+		const response = await this.client.get("/playlists/" + id);
 		if (response.status !== 200) throw new Error(response.data.message);
 		return response.data;
 	};
 
 	getPlaylistVideosContinuation = async (token: string): Promise<Continuable<IVideoCompact>> => {
-		const response = await this.client.get("/youtube/continuation/playlists-videos", {
+		const response = await this.client.get("/continuation/playlists-videos", {
 			params: { token },
 		});
 		if (response.status !== 200) throw new Error(response.data.message);
