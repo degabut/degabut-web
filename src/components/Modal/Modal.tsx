@@ -55,7 +55,8 @@ export const Modal: ParentComponent<Props> = (props) => {
 				class="fixed w-screen h-screen top-0 left-0 flex items-center justify-center bg-black/75 z-30"
 			>
 				<div
-					class={`max-w-[calc(100vw-1.5rem)] rounded-lg ${props.extraContainerClass}`}
+					class="max-w-[calc(100vw-1.5rem)] rounded-lg"
+					classList={{ [props.extraContainerClass || ""]: !!props.extraContainerClass }}
 					use:clickOutside={{
 						handler: props.onClickOutside,
 						target: parentContainer,

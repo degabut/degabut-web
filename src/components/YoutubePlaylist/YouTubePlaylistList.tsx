@@ -19,14 +19,18 @@ export type YouTubePlaylistListProps = {
 export const YouTubePlaylistList: Component<YouTubePlaylistListProps> = (props) => {
 	return (
 		<div
-			class={`flex-row-center space-x-3 w-full md:p-1.5 hover:bg-white/5 rounded ${props.extraContainerClass}`}
-			classList={props.extraContainerClassList}
+			class="flex-row-center space-x-3 w-full md:p-1.5 hover:bg-white/5 rounded"
+			classList={{
+				...props.extraContainerClassList,
+				[props.extraContainerClass || ""]: !!props.extraContainerClass,
+			}}
 			use:contextMenu={props.disableContextMenu ? undefined : props.contextMenu}
 		>
 			<PlaylistThumbnail playlist={props.playlist} extraContainerClass="flex-shrink-0" />
 			<div class="flex flex-col flex-grow flex-shrink space-y-0.5 truncate">
 				<div
-					class={`truncate ${props.extraTitleClass}`}
+					class="truncate"
+					classList={{ [props.extraTitleClass || ""]: !!props.extraTitleClass }}
 					title={`${props.playlist.title} - ${props.playlist.channel?.name}`}
 				>
 					{props.playlist.title}
@@ -52,15 +56,19 @@ export const YouTubePlaylistList: Component<YouTubePlaylistListProps> = (props) 
 export const YouTubePlaylistListBig: Component<YouTubePlaylistListProps> = (props) => {
 	return (
 		<div
-			class={`flex flex-col sm:flex-row sm:space-x-2 space-y-2 md:space-y-0 hover:bg-white/5 rounded ${props.extraContainerClass}`}
-			classList={props.extraContainerClassList}
+			class="flex flex-col sm:flex-row sm:space-x-2 space-y-2 md:space-y-0 hover:bg-white/5 rounded"
+			classList={{
+				...props.extraContainerClassList,
+				[props.extraContainerClass || ""]: !!props.extraContainerClass,
+			}}
 			use:contextMenu={props.disableContextMenu ? undefined : props.contextMenu}
 		>
 			<PlaylistThumbnailBig playlist={props.playlist} />
 			<div class="flex flex-col space-y-2 w-full truncate p-2">
 				<div class="flex-row-center truncate">
 					<div
-						class={`flex-grow font-medium truncate ${props.extraTitleClass}`}
+						class="flex-grow font-medium truncate"
+						classList={{ [props.extraTitleClass || ""]: !!props.extraTitleClass }}
 						title={`${props.playlist.title} - ${props.playlist.channel?.name}`}
 					>
 						{props.playlist.title}

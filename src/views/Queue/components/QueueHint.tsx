@@ -73,7 +73,7 @@ export const QueueHint: Component = () => {
 						<div class="flex-row-center space-x-4">
 							<div>Search for a song</div>
 							<div class="hidden md:block">
-								<KeyboardHint small combination={["Ctrl", "K"]} kbdExtraClass="!border-neutral-500" />
+								<KeyboardHint small combination={["Ctrl", "K"]} extraKbdClass="!border-neutral-500" />
 							</div>
 						</div>
 					}

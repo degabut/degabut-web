@@ -19,7 +19,7 @@ export const QueueActions: Component<Props> = (props) => {
 	const navigate = useNavigate();
 
 	return (
-		<div class={`flex-row-center ${props.extraClass}`}>
+		<div class="flex-row-center" classList={{ [props.extraClass || ""]: !!props.extraClass }}>
 			<PlayButton
 				onChange={(isPaused) => (isPaused ? queue.pause() : queue.unpause())}
 				defaultValue={!!queue.data.isPaused}

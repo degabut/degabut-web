@@ -26,7 +26,7 @@ export const Input: Component<InputProps> = (props) => {
 
 	return (
 		<div
-			class={`flex flex-row items-center ${props.class}`}
+			class="flex flex-row items-center"
 			classList={{
 				"bg-transparent border border-neutral-400 text-neutral-100 rounded": props.outlined,
 				"bg-white text-black": !props.outlined,
@@ -36,6 +36,7 @@ export const Input: Component<InputProps> = (props) => {
 				"pl-3": !!props.prefix,
 				"pr-3": !!props.suffix,
 				...props.classList,
+				[props.class || ""]: !!props.class,
 			}}
 		>
 			{props.prefix}

@@ -9,7 +9,8 @@ type Props = {
 export const SeeMoreTextButton: Component<Props> = (props) => {
 	return (
 		<div
-			class={`text-sm hover:underline underline-offset-2 cursor-pointer max-w-max px-3 ${props.extraClass}`}
+			class="text-sm hover:underline underline-offset-2 cursor-pointer max-w-max px-3"
+			classList={{ [props.extraClass || ""]: !!props.extraClass }}
 			onClick={() => props.onClick()}
 		>
 			See More
@@ -19,7 +20,11 @@ export const SeeMoreTextButton: Component<Props> = (props) => {
 
 export const SeeMoreButton: Component<Props> = (props) => {
 	return (
-		<Button class={`border-neutral-700 w-full !py-2 ${props.extraClass}`} onClick={() => props.onClick()}>
+		<Button
+			class="border-neutral-700 w-full !py-2"
+			classList={{ [props.extraClass || ""]: !!props.extraClass }}
+			onClick={() => props.onClick()}
+		>
 			<div>See More</div>
 		</Button>
 	);

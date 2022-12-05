@@ -35,14 +35,22 @@ export const Tabs: Component<Props> = (props) => {
 		<Show when={activeItem()} keyed>
 			{(activeItem) => {
 				return (
-					<div class={`flex flex-col ${props.extraContainerClass}`}>
-						<div class={`flex-row-center w-full border-b border-neutral-600 ${props.extraTabsClass}`}>
+					<div
+						class="flex flex-col"
+						classList={{ [props.extraContainerClass || ""]: !!props.extraContainerClass }}
+					>
+						<div
+							class="flex-row-center w-full border-b border-neutral-600"
+							classList={{ [props.extraTabsClass || ""]: !!props.extraTabsClass }}
+						>
 							<For each={props.items}>
 								{(item) => <Tab item={item} onClick={onChange} isActive={item.id === activeItem.id} />}
 							</For>
 						</div>
 
-						<div class={props.extraContentContainerClass}>
+						<div
+							classList={{ [props.extraContentContainerClass || ""]: !!props.extraContentContainerClass }}
+						>
 							<div class="flex-1">{activeItem.element}</div>
 						</div>
 					</div>

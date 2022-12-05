@@ -74,7 +74,11 @@ export function Select<Item = unknown>(props: Props<Item>) {
 			{props.bottomLabel}
 
 			<Show when={props.options.length && isShowOptionList()}>
-				<div ref={optionList} class={`absolute overflow-y-scroll w-full ${props.extraResultContainerClass}`}>
+				<div
+					ref={optionList}
+					class="absolute overflow-y-scroll w-full"
+					classList={{ [props.extraResultContainerClass || ""]: !!props.extraResultContainerClass }}
+				>
 					<For each={props.options}>
 						{(item, index) => (
 							<div onClick={(e) => props.onSelect(item, index(), e)}>

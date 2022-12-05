@@ -13,19 +13,24 @@ export const VideoThumbnail: Component<Props> = (props) => {
 		<img
 			src={props.video.thumbnails[0]?.url}
 			alt={props.video.title}
-			class={`h-12 w-12 object-cover rounded ${props.extraClass}`}
+			class="h-12 w-12 object-cover rounded"
+			classList={{ [props.extraClass || ""]: !!props.extraClass }}
 		/>
 	);
 };
 
 export const VideoThumbnailBig: Component<Props> = (props) => {
 	return (
-		<div class={`relative flex bg-black rounded ${props.extraContainerClass}`}>
+		<div
+			class="relative flex bg-black rounded"
+			classList={{ [props.extraContainerClass || ""]: !!props.extraContainerClass }}
+		>
 			<div class="sm:w-[16rem] sm:h-[9rem] mx-auto">
 				<img
 					src={props.video.thumbnails.at(-1)?.url}
 					alt={props.video.title}
-					class={`h-full w-full relative object-cover rounded ${props.extraClass}`}
+					class="h-full w-full relative object-cover rounded"
+					classList={{ [props.extraClass || ""]: !!props.extraClass }}
 				/>
 			</div>
 			<Show when={props.video.duration > 0}>

@@ -14,7 +14,6 @@ type Props = {
 export const Icon: Component<Props> = (props) => {
 	return (
 		<svg
-			class={props.extraClass}
 			classList={{
 				"w-2 h-2": props.size === "xs",
 				"w-3 h-3": props.size === "sm",
@@ -24,6 +23,7 @@ export const Icon: Component<Props> = (props) => {
 				"w-8 h-8": props.size === "2xl",
 				"w-10 h-10": props.size === "3xl",
 				...props.extraClassList,
+				[props.extraClass || ""]: !!props.extraClass,
 			}}
 			// eslint-disable-next-line solid/no-innerhtml
 			innerHTML={icons[props.name]}

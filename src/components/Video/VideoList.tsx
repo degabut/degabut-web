@@ -25,10 +25,11 @@ export type VideoListProps = {
 export const VideoList: Component<VideoListProps> = (props) => {
 	return (
 		<div
-			class={`flex-row-center w-full min-w-0 p-1.5 hover:bg-white/5 rounded ${props.extraContainerClass}`}
+			class="flex-row-center w-full min-w-0 p-1.5 hover:bg-white/5 rounded"
 			classList={{
 				"cursor-pointer": !!props.onClick,
 				...props.extraContainerClassList,
+				[props.extraContainerClass || ""]: !!props.extraContainerClass,
 			}}
 			use:contextMenu={props.disableContextMenu ? undefined : props.contextMenu}
 			onClick={() => props.onClick?.(props.video)}
@@ -36,7 +37,8 @@ export const VideoList: Component<VideoListProps> = (props) => {
 			<VideoThumbnail video={props.video} extraClass={`flex-shrink-0 ${props.extraThumbnailClass}`} />
 			<div class="flex flex-col flex-grow space-y-0.5 truncate ml-3">
 				<div
-					class={`truncate ${props.extraTitleClass}`}
+					class="truncate"
+					classList={{ [props.extraTitleClass || ""]: !!props.extraTitleClass }}
 					title={`${props.video.title} - ${props.video.channel.name}`}
 				>
 					{props.video.title}
@@ -64,10 +66,11 @@ export const VideoList: Component<VideoListProps> = (props) => {
 export const VideoListBig: Component<VideoListProps> = (props) => {
 	return (
 		<div
-			class={`flex flex-col sm:flex-row sm:space-x-2 space-y-2 md:space-y-0 hover:bg-white/5 rounded ${props.extraContainerClass}`}
+			class="flex flex-col sm:flex-row sm:space-x-2 space-y-2 md:space-y-0 hover:bg-white/5 rounded"
 			classList={{
 				"cursor-pointer": !!props.onClick,
 				...props.extraContainerClassList,
+				[props.extraContainerClass || ""]: !!props.extraContainerClass,
 			}}
 			use:contextMenu={props.disableContextMenu ? undefined : props.contextMenu}
 			onClick={() => props.onClick?.(props.video)}
@@ -76,7 +79,8 @@ export const VideoListBig: Component<VideoListProps> = (props) => {
 			<div class="flex flex-col sm:space-y-2 w-full truncate px-2 pb-2 sm:pt-1">
 				<div class="flex-row-center truncate">
 					<div
-						class={`flex-grow font-medium truncate ${props.extraTitleClass}`}
+						class="flex-grow font-medium truncate"
+						classList={{ [props.extraTitleClass || ""]: !!props.extraTitleClass }}
 						title={`${props.video.title} - ${props.video.channel.name}`}
 					>
 						{props.video.title}

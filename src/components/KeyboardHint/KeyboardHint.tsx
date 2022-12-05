@@ -5,10 +5,11 @@ type KbdProps = { key: string; small?: boolean; extraClass?: string };
 const Kbd: Component<KbdProps> = (props) => {
 	return (
 		<kbd
-			class={`border rounded border-neutral-300 ${props.extraClass}`}
+			class="border rounded border-neutral-300"
 			classList={{
 				"px-2.5 py-0.5 ": !props.small,
 				"px-1.5 py-0.5 text-xs": props.small,
+				[props.extraClass || ""]: !!props.extraClass,
 			}}
 		>
 			{props.key}
@@ -20,7 +21,7 @@ type Props = {
 	key?: string;
 	keys?: string[];
 	combination?: string[];
-	kbdExtraClass?: string;
+	extraKbdClass?: string;
 	label?: string;
 	small?: boolean;
 };
@@ -29,10 +30,10 @@ export const KeyboardHint: Component<Props> = (props) => {
 	return (
 		<div class="flex-row-center space-x-2">
 			<Show when={props.key} keyed>
-				{(key) => <Kbd small={props.small} key={key} extraClass={props.kbdExtraClass} />}
+				{(key) => <Kbd small={props.small} key={key} extraClass={props.extraKbdClass} />}
 			</Show>
 			<For each={props.keys}>
-				{(key) => <Kbd small={props.small} key={key} extraClass={props.kbdExtraClass} />}
+				{(key) => <Kbd small={props.small} key={key} extraClass={props.extraKbdClass} />}
 			</For>
 
 			<Show when={props.combination}>
@@ -45,7 +46,7 @@ export const KeyboardHint: Component<Props> = (props) => {
 										+
 									</div>
 								</Show>
-								<Kbd small={props.small} key={key} extraClass={props.kbdExtraClass} />
+								<Kbd small={props.small} key={key} extraClass={props.extraKbdClass} />
 							</>
 						)}
 					</For>

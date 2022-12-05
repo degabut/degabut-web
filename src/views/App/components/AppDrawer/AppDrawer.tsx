@@ -8,10 +8,6 @@ import { Component, For, Show } from "solid-js";
 import { Link } from "./Link";
 import { MinimizedNowPlaying, NowPlaying } from "./NowPlaying";
 
-const MusicNoteIcon: Component<{ extraClass: string }> = (props) => (
-	<Icon name="musicNote" extraClass={`w-24 h-24 fill-white/10 pointer-events-none ${props.extraClass}`} />
-);
-
 export const AppDrawer: Component = () => {
 	const app = useApp();
 	const { settings, setSettings } = useSettings();
@@ -48,7 +44,10 @@ export const AppDrawer: Component = () => {
 								</div>
 							}
 						>
-							<MusicNoteIcon extraClass="absolute top-0 left-2" />
+							<Icon
+								name="musicNote"
+								extraClass="w-24 h-24 fill-white/10 pointer-events-none absolute top-0 left-2"
+							/>
 							<div class="px-6 font-brand font-semibold text-3xl truncate py-8">degabut</div>
 						</Show>
 

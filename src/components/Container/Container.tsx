@@ -11,7 +11,7 @@ type Props = {
 export const Container: ParentComponent<Props> = (props) => {
 	return (
 		<div
-			class={`w-full ${props.extraClass}`}
+			class="w-full"
 			classList={{
 				"py-8 px-3 md:px-8 pb-32": !props.padless,
 				"max-w-2xl 3xl:max-w-3xl": props.size === "sm",
@@ -20,6 +20,7 @@ export const Container: ParentComponent<Props> = (props) => {
 				"max-w-7xl 3xl:max-w-8xl": props.size === "xl",
 				"mx-auto": props.centered,
 				...props.extraClassList,
+				[props.extraClass || ""]: !!props.extraClass,
 			}}
 		>
 			{props.children}

@@ -38,13 +38,18 @@ export const PlaylistList: Component<Props> = (props) => {
 
 	return (
 		<div
-			class={`flex-row-center space-x-1.5 md:space-x-3 w-full h-[3.625rem] md:pr-2 bg-white/5 hover:bg-white/10 rounded cursor-pointer ${props.extraContainerClass}`}
-			classList={props.extraContainerClassList}
+			class="flex-row-center space-x-1.5 md:space-x-3 w-full h-[3.625rem] md:pr-2 bg-white/5 hover:bg-white/10 rounded cursor-pointer"
+			classList={{
+				...props.extraContainerClassList,
+				[props.extraContainerClass || ""]: !!props.extraContainerClass,
+			}}
 			onClick={() => props.onClick?.(props.playlist)}
 			use:contextMenu={props.disableContextMenu ? undefined : contextMenuProps()}
 		>
 			<div class="flex flex-col flex-grow flex-shrink space-y-0.5 py-1.5 px-3 truncate">
-				<div class={`truncate ${props.extraTitleClass}`}>{props.playlist.name}</div>
+				<div class="truncate" classList={{ [props.extraTitleClass || ""]: !!props.extraTitleClass }}>
+					{props.playlist.name}
+				</div>
 				<div class="items-center text-sm text-neutral-400">
 					<Show when={props.playlist.videoCount > 0}>
 						<span>{videoCountLabel()}</span>
