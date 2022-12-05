@@ -64,7 +64,7 @@ export const ExternalDragDrop = () => {
 		}
 
 		const searchParams = new URL(url).searchParams;
-		const videoId = searchParams.get("v");
+		const videoId = searchParams.get("v") || url.split("youtu.be/")[1]?.split("?")[0]?.split("&")[0];
 		const playlistId = searchParams.get("list");
 
 		if (!videoId && !playlistId) {
