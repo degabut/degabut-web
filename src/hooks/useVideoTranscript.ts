@@ -36,8 +36,11 @@ export const useVideoTranscript = (videoId: IUseTranscriptProps) => {
 		return formatted.sort((a, b) => a.start - b.start);
 	});
 
+	const isLoading = () => _data.loading;
+
 	return {
 		data,
+		isLoading,
 		mutate,
 		refetch,
 	};

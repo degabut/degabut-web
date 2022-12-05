@@ -1,9 +1,19 @@
 import { Container } from "@components/Container";
+import { Icon } from "@components/Icon";
 import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { useTranscript } from "@hooks/useTranscript";
 import { useVideoTranscript } from "@hooks/useVideoTranscript";
-import { Component, createEffect, createMemo, For, onMount } from "solid-js";
+import { Component, createEffect, createMemo, For, onMount, Show } from "solid-js";
+
+const LyricNotFound: Component = () => {
+	return (
+		<div class="flex-col-center w-full h-full justify-center space-y-4">
+			<Icon name="microphone" extraClass="fill-neutral-500 w-24 h-24" />
+			<div class="text-xl md:text-2xl text-center text-neutral-300">No Lyric Found</div>
+		</div>
+	);
+};
 
 export const Lyric: Component = () => {
 	let container!: HTMLDivElement;
@@ -31,23 +41,28 @@ export const Lyric: Component = () => {
 	return (
 		<Container size="full" extraClass="h-full" padless>
 			<div class="h-full px-3 md:px-8 py-8 pb-32 space-y-8 overflow-y-auto" ref={container}>
-				<For each={videoTranscripts.data()}>
-					{(t, i) => (
-						<div
-							class="space-y-1"
-							classList={{
-								"text-neutral-300": i() < transcripts.index(),
-								"text-neutral-500": i() > transcripts.index(),
-								"!text-neutral-300": i() === transcripts.index() + 1,
-								"!text-neutral-400": i() === transcripts.index() + 2,
-								"text-xl md:text-2xl": i() !== transcripts.index(),
-								"font-semibold text-2xl md:text-3xl !text-neutral-100": i() === transcripts.index(),
-							}}
-						>
-							<For each={t.texts}>{(text) => <div>{text}</div>}</For>
-						</div>
-					)}
-				</For>
+				<Show
+					when={videoTranscripts.data().length || videoTranscripts.isLoading()}
+					fallback={<LyricNotFound />}
+				>
+					<For each={videoTranscripts.data()}>
+						{(t, i) => (
+							<div
+								class="space-y-1"
+								classList={{
+									"text-neutral-300": i() < transcripts.index(),
+									"text-neutral-500": i() > transcripts.index(),
+									"!text-neutral-300": i() === transcripts.index() + 1,
+									"!text-neutral-400": i() === transcripts.index() + 2,
+									"text-xl md:text-2xl": i() !== transcripts.index(),
+									"font-semibold text-2xl md:text-3xl !text-neutral-100": i() === transcripts.index(),
+								}}
+							>
+								<For each={t.texts}>{(text) => <div>{text}</div>}</For>
+							</div>
+						)}
+					</For>
+				</Show>
 			</div>
 		</Container>
 	);
