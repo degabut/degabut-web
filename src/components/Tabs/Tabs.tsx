@@ -13,6 +13,7 @@ export type Item = {
 
 type Props = {
 	items: Item[];
+	slotEnd?: JSX.Element | ((item: Item) => JSX.Element);
 	extraTabsClass?: string;
 	extraContainerClass?: string;
 	extraContentContainerClass?: string;
@@ -39,13 +40,23 @@ export const Tabs: Component<Props> = (props) => {
 						class="flex flex-col"
 						classList={{ [props.extraContainerClass || ""]: !!props.extraContainerClass }}
 					>
-						<div
-							class="flex-row-center w-full border-b border-neutral-600"
-							classList={{ [props.extraTabsClass || ""]: !!props.extraTabsClass }}
-						>
-							<For each={props.items}>
-								{(item) => <Tab item={item} onClick={onChange} isActive={item.id === activeItem.id} />}
-							</For>
+						<div class="flex flex-col md:flex-row md:border-b items-center border-neutral-600">
+							<div
+								class="flex-row-center h-full w-full border-b md:border-b-0 border-neutral-600"
+								classList={{ [props.extraTabsClass || ""]: !!props.extraTabsClass }}
+							>
+								<For each={props.items}>
+									{(item) => (
+										<Tab item={item} onClick={onChange} isActive={item.id === activeItem.id} />
+									)}
+								</For>
+							</div>
+
+							<Show when={props.slotEnd}>
+								<div class="flex w-full md:justify-end pt-4 md:py-0">
+									{typeof props.slotEnd === "function" ? props.slotEnd(activeItem) : props.slotEnd}
+								</div>
+							</Show>
 						</div>
 
 						<div
