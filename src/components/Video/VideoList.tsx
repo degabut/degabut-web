@@ -25,7 +25,7 @@ export type VideoListProps = {
 export const VideoList: Component<VideoListProps> = (props) => {
 	return (
 		<div
-			class="flex-row-center w-full min-w-0 p-1.5 hover:bg-white/5 rounded"
+			class="flex-row-center w-full p-1.5 hover:bg-white/5 rounded"
 			classList={{
 				"cursor-pointer": !!props.onClick,
 				...props.extraContainerClassList,

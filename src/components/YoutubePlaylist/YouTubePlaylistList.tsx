@@ -20,7 +20,7 @@ export type YouTubePlaylistListProps = {
 export const YouTubePlaylistList: Component<YouTubePlaylistListProps> = (props) => {
 	return (
 		<div
-			class="flex-row-center space-x-3 w-full md:p-1.5 hover:bg-white/5 rounded"
+			class="flex-row-center w-full p-1.5 hover:bg-white/5 rounded"
 			classList={{
 				"cursor-pointer": !!props.onClick,
 				...props.extraContainerClassList,
@@ -30,7 +30,7 @@ export const YouTubePlaylistList: Component<YouTubePlaylistListProps> = (props) 
 			onClick={() => props.onClick?.(props.playlist)}
 		>
 			<PlaylistThumbnail playlist={props.playlist} extraContainerClass="flex-shrink-0" />
-			<div class="flex flex-col flex-grow flex-shrink space-y-0.5 truncate">
+			<div class="flex flex-col flex-grow space-y-0.5 truncate ml-3">
 				<div
 					class="truncate"
 					classList={{ [props.extraTitleClass || ""]: !!props.extraTitleClass }}
