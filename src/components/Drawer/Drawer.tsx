@@ -58,7 +58,7 @@ export const Drawer: Component<Props> = (props) => {
 			)}
 
 			<div
-				class="relative flex flex-row h-full min-w-[4.25rem] max-w-[90vw] md:max-w-sm bg-black overflow-y-auto overflow-x-hidden"
+				class="relative flex flex-row h-full min-w-[4.25rem] max-w-[75vw] md:max-w-sm bg-black overflow-y-auto overflow-x-hidden"
 				classList={{
 					hidden: !props.isOpen,
 					[props.extraContainerClass || ""]: !!props.extraContainerClass,
