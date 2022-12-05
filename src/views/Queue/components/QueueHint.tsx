@@ -38,16 +38,18 @@ type VideoActionButtonProps = {
 
 const VideoActionButton: Component<VideoActionButtonProps> = (props) => {
 	return (
-		<button
-			title={props.title}
-			class="w-8 h-8 flex-shrink-0 flex items-center justify-center rounded border border-neutral-500 fill-neutral-300 hover:fill-neutral-100 hover:bg-white/5"
-			onClick={(ev) => {
-				ev.stopImmediatePropagation();
-				props.onClick();
-			}}
-		>
-			<Icon name={props.icon} size="sm" />
-		</button>
+		<div class="mx-1.5">
+			<button
+				title={props.title}
+				class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded border border-neutral-500 fill-neutral-300 hover:fill-neutral-100 hover:bg-white/5"
+				onClick={(ev) => {
+					ev.stopImmediatePropagation();
+					props.onClick();
+				}}
+			>
+				<Icon name={props.icon} size="sm" />
+			</button>
+		</div>
 	);
 };
 
@@ -58,10 +60,10 @@ export const QueueHint: Component = () => {
 	const navigate = useNavigate();
 	const tracks = () => queue.data.tracks || [];
 
-	const recommendation = useQueueRecommendation({ tracks, limit: 4 });
+	const recommendation = useQueueRecommendation({ tracks });
 
 	return (
-		<div class="space-y-8 md:space-y-2">
+		<div class="space-y-8 md:space-y-4">
 			<div
 				class="space-y-1.5"
 				classList={{
@@ -110,55 +112,43 @@ export const QueueHint: Component = () => {
 					</button>
 				</div>
 
-				<Videos.List
-					data={recommendation.randomVideos()}
-					videoProps={(video) => ({
-						video,
-						hideContextMenuButton: true,
-						contextMenu: getVideoContextMenu({
+				<div class="space-y-1">
+					<Videos.List
+						data={recommendation.randomVideos()}
+						videoProps={(video) => ({
 							video,
-							appStore: app,
-							queueStore: queue,
-							navigate,
-						}),
-						right: () => (
-							<div class="flex flex-row space-x-2 pl-2">
-								<VideoActionButton
-									title="Remove"
-									onClick={() => recommendation.blacklist(video)}
-									icon="closeLine"
-								/>
+							hideContextMenuButton: true,
+							contextMenu: getVideoContextMenu({
+								video,
+								appStore: app,
+								queueStore: queue,
+								navigate,
+							}),
+							right: () => (
 								<VideoActionButton title="Add" onClick={() => queue.addTrack(video)} icon="plus" />
-							</div>
-						),
-					})}
-				/>
+							),
+						})}
+					/>
 
-				<Videos.List
-					data={recommendation.randomVideo.data()?.related?.slice(0, 3) || []}
-					isLoading={recommendation.randomVideo.data.loading}
-					skeletonCount={3}
-					videoProps={(video) => ({
-						video,
-						hideContextMenuButton: true,
-						contextMenu: getVideoContextMenu({
+					<Videos.List
+						data={recommendation.randomVideo.data()?.related?.slice(0, 3) || []}
+						isLoading={recommendation.randomVideo.data.loading}
+						skeletonCount={3}
+						videoProps={(video) => ({
 							video,
-							appStore: app,
-							queueStore: queue,
-							navigate,
-						}),
-						right: () => (
-							<div class="flex flex-row space-x-2 pl-2">
-								<VideoActionButton
-									title="Remove"
-									onClick={() => recommendation.blacklist(video)}
-									icon="closeLine"
-								/>
+							hideContextMenuButton: true,
+							contextMenu: getVideoContextMenu({
+								video,
+								appStore: app,
+								queueStore: queue,
+								navigate,
+							}),
+							right: () => (
 								<VideoActionButton title="Add" onClick={() => queue.addTrack(video)} icon="plus" />
-							</div>
-						),
-					})}
-				/>
+							),
+						})}
+					/>
+				</div>
 			</div>
 		</div>
 	);
