@@ -49,7 +49,7 @@ export const Drawer: Component<Props> = (props) => {
 	}, 50);
 
 	return (
-		<div class="h-full absolute md:static top-0 z-20">
+		<div class="h-full absolute md:static top-0 z-20" classList={{ "right-0": props.right }}>
 			{props.isOpen && (
 				<div
 					class="block md:hidden fixed w-screen h-screen top-0 left-0 bg-black bg-opacity-50 -z-50"

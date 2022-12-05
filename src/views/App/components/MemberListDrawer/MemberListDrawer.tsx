@@ -20,6 +20,7 @@ export const MemberListDrawer: Component = () => {
 
 	return (
 		<Drawer
+			right
 			isOpen={app.isMemberOpen()}
 			handleClose={() => app.setIsMemberOpen(false)}
 			extraContainerClass="right-0"
