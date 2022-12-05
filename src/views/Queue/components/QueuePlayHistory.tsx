@@ -1,16 +1,31 @@
 import { Videos } from "@components/Videos";
 import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
+import { useSearchable } from "@hooks/useSearchable";
 import { getVideoContextMenu } from "@utils";
 import { useNavigate } from "solid-app-router";
 import { Component } from "solid-js";
 
-export const QueuePlayHistory: Component = () => {
+type Props = {
+	keyword: string;
+};
+
+export const QueuePlayHistory: Component<Props> = (props) => {
 	const app = useApp();
 	const queue = useQueue();
 	const navigate = useNavigate();
 
-	const history = () => queue.data.history || [];
+	const history = useSearchable({
+		keyword: () => props.keyword,
+		items: () => queue.data.history || [],
+		keys: ({ video, requestedBy }) => [
+			video.title,
+			video.channel.name,
+			requestedBy.displayName,
+			requestedBy.nickname,
+			requestedBy.username,
+		],
+	});
 
 	return (
 		<>

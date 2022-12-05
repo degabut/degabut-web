@@ -9,8 +9,8 @@ import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { getVideoContextMenu } from "@utils";
 import { useNavigate } from "solid-app-router";
-import { Component, onMount, Show } from "solid-js";
-import { QueueActions, QueuePlayHistory, QueueTrackList, SeekSlider } from "./components";
+import { Component, createSignal, onMount, Show } from "solid-js";
+import { QueueActions, QueuePlayHistory, QueueTrackList, SearchInput, SeekSlider } from "./components";
 import { QueueHint } from "./components/QueueHint";
 
 const QueueNotFound: Component = () => {
@@ -38,6 +38,7 @@ const QueueView: Component = () => {
 	const app = useApp();
 	const queue = useQueue();
 	const navigate = useNavigate();
+	const [keyword, setKeyword] = createSignal("");
 
 	return (
 		<Container extraClass="space-y-8 md:space-y-4">
@@ -96,6 +97,7 @@ const QueueView: Component = () => {
 
 			<Tabs
 				extraContentContainerClass="pt-4 md:pt-6"
+				slotEnd={<SearchInput keyword={keyword()} onInput={setKeyword} />}
 				items={[
 					{
 						id: "trackList",
@@ -105,7 +107,7 @@ const QueueView: Component = () => {
 						element: () => (
 							<Show when={!queue.isInitialLoading()} fallback={<Videos.List data={[]} isLoading />}>
 								<div class="space-y-4 md:space-y-1.5">
-									<QueueTrackList />
+									<QueueTrackList keyword={keyword()} />
 									<QueueHint />
 								</div>
 							</Show>
@@ -116,7 +118,7 @@ const QueueView: Component = () => {
 						label: (props) => <TabLabel icon="history" label="History" isActive={props.isActive} />,
 						element: () => (
 							<Show when={!queue.isInitialLoading()} fallback={<Videos.List data={[]} isLoading />}>
-								<QueuePlayHistory />
+								<QueuePlayHistory keyword={keyword()} />
 							</Show>
 						),
 					},

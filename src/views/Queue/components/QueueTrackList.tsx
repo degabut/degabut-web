@@ -2,16 +2,31 @@ import { ContextMenuItem } from "@components/ContextMenu";
 import { Videos } from "@components/Videos";
 import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
+import { useSearchable } from "@hooks/useSearchable";
 import { getVideoContextMenu } from "@utils";
 import { useNavigate } from "solid-app-router";
 import { Component, Show } from "solid-js";
 
-export const QueueTrackList: Component = () => {
+type Props = {
+	keyword: string;
+};
+
+export const QueueTrackList: Component<Props> = (props) => {
 	const app = useApp();
 	const queue = useQueue();
 	const navigate = useNavigate();
 
-	const tracks = () => queue.data.tracks || [];
+	const tracks = useSearchable({
+		keyword: () => props.keyword,
+		items: () => queue.data.tracks || [],
+		keys: ({ video, requestedBy }) => [
+			video.title,
+			video.channel.name,
+			requestedBy.displayName,
+			requestedBy.nickname,
+			requestedBy.username,
+		],
+	});
 
 	return (
 		<Show when={tracks().length} keyed>
