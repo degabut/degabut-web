@@ -88,7 +88,10 @@ const QueueView: Component = () => {
 					</Show>
 				</div>
 
-				<QueueActions extraClass="flex-wrap justify-between md:justify-start w-full md:space-x-8 px-2 pt-1.5" />
+				<QueueActions
+					extended
+					extraClass="flex-wrap justify-between md:justify-start w-full md:space-x-8 px-2 pt-1.5"
+				/>
 			</div>
 
 			<Tabs

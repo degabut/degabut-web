@@ -10,7 +10,7 @@ import { ShuffleToggleButton } from "./ShuffleToggleButton";
 import { SkipButton } from "./SkipButton";
 
 type Props = {
-	hideSettings?: boolean;
+	extended?: boolean;
 	extraClass?: string;
 };
 
@@ -37,9 +37,8 @@ export const QueueActions: Component<Props> = (props) => {
 				disabled={queue.isQueueFreezed()}
 			/>
 
-			<LyricButton onClick={() => navigate("/app/queue/lyric")} />
-
-			<Show when={queue.data.nowPlaying && !props.hideSettings}>
+			<Show when={props.extended}>
+				<LyricButton onClick={() => navigate("/app/queue/lyric")} />
 				<SettingsButton onClearQueue={queue.clear} />
 			</Show>
 		</div>
