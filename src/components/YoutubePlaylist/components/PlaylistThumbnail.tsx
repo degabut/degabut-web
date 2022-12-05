@@ -1,18 +1,24 @@
-import { IPlaylistCompact } from "@api";
+import { IMixPlaylist, IPlaylistCompact, IYoutubePlaylist } from "@api";
 import { Icon } from "@components/Icon";
 import { Component } from "solid-js";
 
 type Props = {
-	playlist: IPlaylistCompact;
+	playlist: IPlaylistCompact | IYoutubePlaylist | IMixPlaylist;
 	extraClass?: string;
 	extraContainerClass?: string;
 };
 
 export const PlaylistThumbnail: Component<Props> = (props) => {
+	const thumbnail = () => {
+		if ("thumbnails" in props.playlist) return props.playlist.thumbnails.at(0)?.url;
+		else if ("items" in props.playlist.videos) return props.playlist.videos.items.at(0)?.thumbnails.at(0)?.url;
+		else return props.playlist.videos.at(0)?.thumbnails.at(0)?.url;
+	};
+
 	return (
 		<div class="bg-black" classList={{ [props.extraContainerClass || ""]: !!props.extraContainerClass }}>
 			<img
-				src={props.playlist.thumbnails[0]?.url}
+				src={thumbnail()}
 				alt={props.playlist.title}
 				class="h-12 w-12 object-cover"
 				classList={{ [props.extraClass || ""]: !!props.extraClass }}
@@ -22,6 +28,12 @@ export const PlaylistThumbnail: Component<Props> = (props) => {
 };
 
 export const PlaylistThumbnailBig: Component<Props> = (props) => {
+	const thumbnail = () => {
+		if ("thumbnails" in props.playlist) return props.playlist.thumbnails.at(0)?.url;
+		else if ("items" in props.playlist.videos) return props.playlist.videos.items.at(0)?.thumbnails.at(0)?.url;
+		else return props.playlist.videos.at(0)?.thumbnails.at(0)?.url;
+	};
+
 	return (
 		<div
 			class="relative flex bg-black"
@@ -29,7 +41,7 @@ export const PlaylistThumbnailBig: Component<Props> = (props) => {
 		>
 			<div class="flex justify-center mx-auto sm:w-[16rem] sm:h-[10rem]">
 				<img
-					src={props.playlist.thumbnails.at(-1)?.url}
+					src={thumbnail()}
 					alt={props.playlist.title}
 					class="h-full object-cover"
 					classList={{ [props.extraClass || ""]: !!props.extraClass }}

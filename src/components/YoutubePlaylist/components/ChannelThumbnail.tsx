@@ -1,8 +1,8 @@
-import { IPlaylistCompact } from "@api";
+import { IMixPlaylist, IPlaylistCompact, IYoutubePlaylist } from "@api";
 import { Component, createMemo, Show } from "solid-js";
 
 type Props = {
-	playlist: IPlaylistCompact;
+	playlist: IPlaylistCompact | IYoutubePlaylist | IMixPlaylist;
 };
 
 export const ChannelThumbnail: Component<Props> = (props) => {

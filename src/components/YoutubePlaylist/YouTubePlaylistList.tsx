@@ -1,4 +1,4 @@
-import type { IPlaylistCompact } from "@api";
+import type { IMixPlaylist, IPlaylistCompact, IYoutubePlaylist } from "@api";
 import { ContextMenuButton } from "@components/ContextMenu";
 import { contextMenu } from "@directives/contextMenu";
 import { ContextMenuDirectiveParams } from "@providers/ContextMenuProvider";
@@ -8,12 +8,13 @@ import { ChannelThumbnail, PlaylistThumbnail, PlaylistThumbnailBig } from "./com
 contextMenu;
 
 export type YouTubePlaylistListProps = {
-	playlist: IPlaylistCompact;
+	playlist: IPlaylistCompact | IYoutubePlaylist | IMixPlaylist;
 	contextMenu?: ContextMenuDirectiveParams;
 	disableContextMenu?: boolean;
 	extraContainerClass?: string;
 	extraContainerClassList?: Record<string, boolean>;
 	extraTitleClass?: string;
+	onClick?: (playlist: IPlaylistCompact | IYoutubePlaylist | IMixPlaylist) => void;
 };
 
 export const YouTubePlaylistList: Component<YouTubePlaylistListProps> = (props) => {
@@ -21,10 +22,12 @@ export const YouTubePlaylistList: Component<YouTubePlaylistListProps> = (props) 
 		<div
 			class="flex-row-center space-x-3 w-full md:p-1.5 hover:bg-white/5 rounded"
 			classList={{
+				"cursor-pointer": !!props.onClick,
 				...props.extraContainerClassList,
 				[props.extraContainerClass || ""]: !!props.extraContainerClass,
 			}}
 			use:contextMenu={props.disableContextMenu ? undefined : props.contextMenu}
+			onClick={() => props.onClick?.(props.playlist)}
 		>
 			<PlaylistThumbnail playlist={props.playlist} extraContainerClass="flex-shrink-0" />
 			<div class="flex flex-col flex-grow flex-shrink space-y-0.5 truncate">
@@ -58,10 +61,12 @@ export const YouTubePlaylistListBig: Component<YouTubePlaylistListProps> = (prop
 		<div
 			class="flex flex-col sm:flex-row sm:space-x-2 space-y-2 md:space-y-0 hover:bg-white/5 rounded"
 			classList={{
+				"cursor-pointer": !!props.onClick,
 				...props.extraContainerClassList,
 				[props.extraContainerClass || ""]: !!props.extraContainerClass,
 			}}
 			use:contextMenu={props.disableContextMenu ? undefined : props.contextMenu}
+			onClick={() => props.onClick?.(props.playlist)}
 		>
 			<PlaylistThumbnailBig playlist={props.playlist} />
 			<div class="flex flex-col space-y-2 w-full truncate p-2">

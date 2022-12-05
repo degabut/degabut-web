@@ -6,6 +6,11 @@ export type IThumbnail = {
 	height: number;
 };
 
+export type Continuable<T> = {
+	token: string | null;
+	items: T[];
+};
+
 export interface IVideo {
 	id: string;
 	title: string;
@@ -32,6 +37,15 @@ export type IPlaylistCompact = {
 	thumbnails: IThumbnail[];
 	channel: IChannel | null;
 };
+
+export type IYoutubePlaylist = {
+	videos: Continuable<IVideoCompact>;
+} & Omit<IPlaylistCompact, "viewCount" | "thumbnails">;
+
+export type IMixPlaylist = {
+	videos: IVideoCompact[];
+	channel: undefined;
+} & Omit<IPlaylistCompact, "viewCount" | "channel" | "thumbnails">;
 
 export type IChannel = {
 	id: string;
@@ -83,5 +97,21 @@ export class YouTube {
 		});
 		if (response.status === 200) return response.data;
 		else return [];
+	};
+
+	getPlaylist = async (id: string): Promise<IYoutubePlaylist | IMixPlaylist | null> => {
+		if (!id) return null;
+
+		const response = await this.client.get("/youtube/playlists/" + id);
+		if (response.status !== 200) throw new Error(response.data.message);
+		return response.data;
+	};
+
+	getPlaylistVideosContinuation = async (token: string): Promise<Continuable<IVideoCompact>> => {
+		const response = await this.client.get("/youtube/continuation/playlists-videos", {
+			params: { token },
+		});
+		if (response.status !== 200) throw new Error(response.data.message);
+		return response.data;
 	};
 }
