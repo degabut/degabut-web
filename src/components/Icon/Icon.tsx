@@ -1,10 +1,10 @@
-import { Component } from "solid-js";
+import { Component, JSX } from "solid-js";
 import * as icons from "./icons";
 
 export type Icons = keyof typeof icons;
 export type IconSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
 
-type Props = {
+type Props = JSX.InputHTMLAttributes<SVGSVGElement> & {
 	name: Icons;
 	size?: IconSize;
 	extraClass?: string;
@@ -27,6 +27,7 @@ export const Icon: Component<Props> = (props) => {
 			}}
 			// eslint-disable-next-line solid/no-innerhtml
 			innerHTML={icons[props.name]}
+			{...props}
 		/>
 	);
 };
