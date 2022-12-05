@@ -111,7 +111,9 @@ export const useQueueEventListener = ({ setQueue, fetchQueue, emitter }: Params)
 	};
 
 	const orderTrack = (trackIds: string[]) => {
-		setQueue("tracks", (tracks) => tracks?.sort((a, b) => trackIds.indexOf(a.id) - trackIds.indexOf(b.id)));
+		setQueue("tracks", (tracks) => [
+			...(tracks?.sort((a, b) => trackIds.indexOf(a.id) - trackIds.indexOf(b.id)) || []),
+		]);
 	};
 
 	const onTrackAudioStarted = (track: ITrack) => {
