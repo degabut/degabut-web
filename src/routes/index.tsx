@@ -1,7 +1,7 @@
 import { App } from "@views/App";
 import { Join } from "@views/Join";
 import { Login } from "@views/Login";
-import { Lyric } from "@views/Lyric";
+import { Lyrics } from "@views/Lyrics";
 import { OAuth } from "@views/OAuth";
 import { PlaylistDetail } from "@views/PlaylistDetail";
 import { Playlists } from "@views/Playlists";
@@ -26,7 +26,7 @@ export const routes: RouteDefinition[] = [
 			{ path: "/", component: Default },
 			{ path: "/queue", component: () => <Queue /> },
 			{ path: "/join/:id", component: () => <Join /> },
-			{ path: "/queue/lyric", component: () => <Lyric /> },
+			{ path: "/queue/lyrics", component: () => <Lyrics /> },
 			{ path: "/video/:id", component: () => <VideoDetail /> },
 			{ path: "/recommendation", component: () => <Recommendation /> },
 			{ path: "/recommendation/:id?", component: () => <Recommendation /> },

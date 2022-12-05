@@ -5,9 +5,9 @@ type Props = {
 	onClick: () => void;
 };
 
-export const LyricButton: Component<Props> = (props) => {
+export const LyricsButton: Component<Props> = (props) => {
 	return (
-		<button onClick={() => props.onClick()} class="p-2 hover:fill-white fill-neutral-300" title="Lyric">
+		<button onClick={() => props.onClick()} class="p-2 hover:fill-white fill-neutral-300" title="Lyrics">
 			<Icon name="microphone" extraClass="w-5 h-5" />
 		</button>
 	);

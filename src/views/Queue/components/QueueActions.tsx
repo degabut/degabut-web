@@ -3,7 +3,7 @@ import { useQueue } from "@hooks/useQueue";
 import { useNavigate } from "solid-app-router";
 import { Component, Show } from "solid-js";
 import { LoopToggleButton } from "./LoopToggleButton";
-import { LyricButton } from "./LyricButton";
+import { LyricsButton } from "./LyricsButton";
 import { PlayButton } from "./PlayButton";
 import { SettingsButton } from "./SettingsButton";
 import { ShuffleToggleButton } from "./ShuffleToggleButton";
@@ -38,7 +38,7 @@ export const QueueActions: Component<Props> = (props) => {
 			/>
 
 			<Show when={props.extended}>
-				<LyricButton onClick={() => navigate("/app/queue/lyric")} />
+				<LyricsButton onClick={() => navigate("/app/queue/lyrics")} />
 				<SettingsButton onClearQueue={queue.clear} />
 			</Show>
 		</div>

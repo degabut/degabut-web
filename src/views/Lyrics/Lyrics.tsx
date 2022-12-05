@@ -6,16 +6,16 @@ import { useTranscript } from "@hooks/useTranscript";
 import { useVideoTranscript } from "@hooks/useVideoTranscript";
 import { Component, createEffect, createMemo, For, onMount, Show } from "solid-js";
 
-const LyricNotFound: Component = () => {
+const LyricsNotFound: Component = () => {
 	return (
 		<div class="flex-col-center w-full h-full justify-center space-y-4">
 			<Icon name="microphone" extraClass="fill-neutral-500 w-24 h-24" />
-			<div class="text-xl md:text-2xl text-center text-neutral-300">No Lyric Found</div>
+			<div class="text-xl md:text-2xl text-center text-neutral-300">No Lyrics Found</div>
 		</div>
 	);
 };
 
-export const Lyric: Component = () => {
+export const Lyrics: Component = () => {
 	let container!: HTMLDivElement;
 	const queue = useQueue();
 	const app = useApp();
@@ -26,7 +26,7 @@ export const Lyric: Component = () => {
 		transcripts: videoTranscripts.data() || [],
 	}));
 
-	onMount(() => app.setTitle("Lyric"));
+	onMount(() => app.setTitle("Lyrics"));
 
 	createEffect(() => {
 		if (transcripts.index() === -1) {
@@ -43,7 +43,7 @@ export const Lyric: Component = () => {
 			<div class="h-full px-3 md:px-8 py-8 pb-32 space-y-8 overflow-y-auto" ref={container}>
 				<Show
 					when={videoTranscripts.data().length || videoTranscripts.isLoading()}
-					fallback={<LyricNotFound />}
+					fallback={<LyricsNotFound />}
 				>
 					<For each={videoTranscripts.data()}>
 						{(t, i) => (
