@@ -1,16 +1,27 @@
+import { IMixPlaylist, IVideo, IYoutubePlaylist } from "@api/YouTube";
 import { Icon } from "@components/Icon";
 import { Spinner } from "@components/Spinner";
+import { useApi } from "@hooks/useApi";
 import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { createSignal, onCleanup, onMount, Show } from "solid-js";
+import { VideoPlaylistChooser } from "./components";
+
+type VideoPlaylistOption = null | {
+	video: IVideo;
+	playlist: IYoutubePlaylist | IMixPlaylist;
+};
 
 export const ExternalDragDrop = () => {
-	const queue = useQueue();
 	const app = useApp();
+	const api = useApi();
+	const queue = useQueue();
+
 	const [dragCounter, setDragCounter] = createSignal(0);
+	const [isLoading, setIsLoading] = createSignal(false);
+	const [videoPlaylistOption, setVideoPlaylistOption] = createSignal<VideoPlaylistOption>(null);
 	let dropContainer!: HTMLDivElement;
 	let containerDragCounter = 0;
-	const [isLoading, setIsLoading] = createSignal(false);
 
 	onMount(() => {
 		window.addEventListener("dragenter", onDragEnter);
@@ -52,15 +63,35 @@ export const ExternalDragDrop = () => {
 			return setDragCounter(0);
 		}
 
-		const videoId = new URL(url).searchParams.get("v");
-		if (!videoId) {
+		const searchParams = new URL(url).searchParams;
+		const videoId = searchParams.get("v");
+		const playlistId = searchParams.get("list");
+
+		if (!videoId && !playlistId) {
 			showInvalidUrlAlert();
 			return setDragCounter(0);
 		}
 
 		if (!queue.data.empty) {
 			setIsLoading(true);
-			await queue.addTrackById(videoId);
+
+			if (videoId && playlistId) {
+				const [video, playlist] = await Promise.all([
+					api.youtube.getVideo(videoId),
+					api.youtube.getPlaylist(playlistId),
+				]);
+
+				if (video && playlist) setVideoPlaylistOption({ video, playlist });
+				else if (video) await queue.addTrackById(video.id);
+				else if (playlist) showAddPlaylistConfirmation(playlist);
+			} else if (videoId) {
+				await queue.addTrackById(videoId);
+			} else if (playlistId) {
+				const playlist = await api.youtube.getPlaylist(playlistId);
+				if (!playlist) showInvalidUrlAlert();
+				else showAddPlaylistConfirmation(playlist);
+			}
+
 			setIsLoading(false);
 		}
 
@@ -83,24 +114,60 @@ export const ExternalDragDrop = () => {
 		});
 	};
 
-	return (
-		<Show when={dragCounter() > 0 && !queue.data.empty}>
-			<div class="fixed w-screen h-screen top-0 left-0 z-[1000] flex items-center justify-center bg-black/90 text-center">
-				<div
-					ref={dropContainer}
-					onDragEnter={onContainerDragEnter}
-					onDragLeave={onContainerDragLeave}
-					class="flex flex-col space-y-8 min-w-[50vw] min-h-[50vh] justify-center items-center border-4 border-dashed rounded border-neutral-500 p-8"
-				>
-					<Show when={!isLoading()} fallback={<Spinner size="3xl" />}>
-						<Icon name="youtube" extraClass="fill-neutral-400 w-32 h-32" />
-					</Show>
-					<div class="space-y-4">
-						<div class="text-4xl font-medium text-neutral-300">Drop Here</div>
-						<div class="text-xl text-neutral-400">Drop a YouTube video URL to add it to the Queue</div>
+	const showAddPlaylistConfirmation = (playlist: IYoutubePlaylist | IMixPlaylist) => {
+		app.setConfirmation({
+			title: "Add Playlist",
+			message: () => (
+				<div class="space-y-2">
+					<div>
+						Add playlist <b>{playlist.title}</b> to the queue?
+					</div>
+					<div class="text-sm">
+						This will add <b>{playlist.videoCount}</b> videos to the queue.
 					</div>
 				</div>
-			</div>
-		</Show>
+			),
+			onConfirm: () => queue.addYouTubePlaylist(playlist.id),
+		});
+	};
+
+	const addItemToQueue = (item: IVideo | IYoutubePlaylist | IMixPlaylist) => {
+		if ("videoCount" in item) showAddPlaylistConfirmation(item);
+		else queue.addTrackById(item.id);
+		setVideoPlaylistOption(null);
+	};
+
+	return (
+		<>
+			<Show when={videoPlaylistOption()} keyed>
+				{({ video, playlist }) => (
+					<VideoPlaylistChooser
+						video={video}
+						playlist={playlist}
+						onClose={() => setVideoPlaylistOption(null)}
+						onChoose={addItemToQueue}
+					/>
+				)}
+			</Show>
+
+			<Show when={dragCounter() > 0 && !queue.data.empty}>
+				<div class="fixed w-screen h-screen top-0 left-0 z-[1000] flex items-center justify-center bg-black/90 text-center">
+					<div
+						ref={dropContainer}
+						onDragEnter={onContainerDragEnter}
+						onDragLeave={onContainerDragLeave}
+						class="flex flex-col space-y-8 min-w-[50vw] min-h-[50vh] justify-center items-center border-4 border-dashed rounded border-neutral-500 p-8"
+					>
+						<Show when={!isLoading()} fallback={<Spinner size="3xl" />}>
+							<Icon name="youtube" extraClass="fill-neutral-400 w-32 h-32" />
+						</Show>
+						<div class="space-y-4">
+							<div class="text-4xl font-medium text-neutral-300">Drop Here</div>
+							<div class="text-xl text-neutral-400">Drop a YouTube video URL to add it to the Queue</div>
+						</div>
+					</div>
+				</div>
+			</Show>
+		</>
 	);
 };
