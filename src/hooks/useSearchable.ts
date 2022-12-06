@@ -9,12 +9,17 @@ type Props<T> = {
 export function useSearchable<T = unknown>(props: Props<T>) {
 	const result = createMemo(() => {
 		const items = props.items();
-		const keywords = props.keyword().toLowerCase().split(" ");
+		const keyword = props.keyword().toLowerCase();
 
-		return items.filter((item) => {
+		if (!keyword.length) return items;
+
+		const keywords = keyword.split(" ");
+		const result = items.filter((item) => {
 			const keys = props.keys(item).join(" ").toLowerCase();
 			return keywords.every((keywordValue) => keys.includes(keywordValue));
 		});
+
+		return result;
 	});
 
 	return result;

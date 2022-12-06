@@ -9,7 +9,7 @@ export enum LoopMode {
 
 export interface IQueue {
 	tracks: ITrack[];
-	history: ITrack[];
+	history: IHistoryTrack[];
 	shuffle: boolean;
 	loopMode: LoopMode;
 	nowPlaying: ITrack | null;
@@ -37,6 +37,8 @@ export interface ITrack {
 	requestedBy: IGuildMember;
 	playedAt: string | null;
 }
+
+export type IHistoryTrack = Omit<ITrack, "requestedBy"> & { requestedBy: IGuildMember | null };
 
 export interface IGuildMember {
 	id: string;

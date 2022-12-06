@@ -11,7 +11,7 @@ contextMenu;
 export type VideoListProps = {
 	video: IVideoCompact;
 	contextMenu?: ContextMenuDirectiveParams;
-	requestedBy?: IGuildMember;
+	requestedBy?: IGuildMember | null;
 	disableContextMenu?: boolean;
 	hideContextMenuButton?: boolean;
 	extraContainerClass?: string;

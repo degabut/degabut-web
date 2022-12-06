@@ -18,13 +18,11 @@ export const QueuePlayHistory: Component<Props> = (props) => {
 	const history = useSearchable({
 		keyword: () => props.keyword,
 		items: () => queue.data.history || [],
-		keys: ({ video, requestedBy }) => [
-			video.title,
-			video.channel.name,
-			requestedBy.displayName,
-			requestedBy.nickname,
-			requestedBy.username,
-		],
+		keys: ({ video, requestedBy }) => {
+			const keys = [video.title, video.channel.name];
+			if (requestedBy) keys.push(requestedBy.displayName, requestedBy.nickname, requestedBy.username);
+			return keys;
+		},
 	});
 
 	return (
