@@ -112,7 +112,7 @@ export const QueueHint: Component = () => {
 					</button>
 				</div>
 
-				<div class="space-y-1">
+				<div class="space-y-1.5">
 					<Videos.List
 						data={recommendation.randomVideos()}
 						videoProps={(video) => ({
