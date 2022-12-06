@@ -1,6 +1,7 @@
+import { ClickOutsideParams } from "@directives/clickOutside";
+import { ResizeableParams } from "@directives/resizeable";
+import { ContextMenuDirectiveParams } from "@providers/ContextMenuProvider";
 import "solid-js";
-import { ClickOutsideParams } from "./directives";
-import { ContextMenuDirectiveParams } from "./providers";
 
 declare module "solid-js" {
 	namespace JSX {
@@ -10,6 +11,7 @@ declare module "solid-js" {
 			doubleClick: () => void;
 			contextMenu: ContextMenuDirectiveParams;
 			buttonContextMenu: ContextMenuDirectiveParams;
+			resizeable: ResizeableParams;
 		}
 	}
 }
