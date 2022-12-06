@@ -52,7 +52,7 @@ export const resizeable = (el: HTMLElement, params?: Accessor<ResizeableParams>)
 		const x = "clientX" in ev ? ev.clientX : ev.touches[0].clientX;
 		const diff = x - startPosition;
 		const size = !isRight ? startWidth - diff : startWidth + diff;
-		setSize(size);
+		setSize(Math.max(size, 0));
 	}, 35);
 
 	const setSize = (size: number) => {
