@@ -50,7 +50,7 @@ export const Tabs: Component<Props> = (props) => {
 					>
 						<div class="flex flex-col md:flex-row md:border-b items-center border-neutral-600">
 							<div
-								class="flex-row-center h-full w-full border-b md:border-b-0 border-neutral-600"
+								class="flex-row-center shrink-0 h-full w-full md:w-max border-b md:border-b-0 border-neutral-600"
 								classList={{ [props.extraTabsClass || ""]: !!props.extraTabsClass }}
 							>
 								<For each={props.items}>
