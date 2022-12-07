@@ -3,6 +3,7 @@ import { Videos } from "@components/Videos";
 import { useQueue } from "@hooks/useQueue";
 import { Component, createSignal, Show } from "solid-js";
 import { QueueHint } from "./QueueHint";
+import { QueueInfo } from "./QueueInfo";
 import { QueuePlayHistory } from "./QueuePlayHistory";
 import { QueueTrackList } from "./QueueTrackList";
 import { SearchInput } from "./SearchInput";
@@ -13,7 +14,6 @@ export const QueueTabs: Component = () => {
 
 	return (
 		<Tabs
-			extraContentContainerClass="pt-4 md:pt-6"
 			end={<SearchInput keyword={keyword()} onInput={setKeyword} />}
 			items={[
 				{
@@ -22,6 +22,7 @@ export const QueueTabs: Component = () => {
 					icon: "audioPlaylist",
 					element: () => (
 						<Show when={!queue.isInitialLoading()} fallback={<Videos.List data={[]} isLoading />}>
+							<QueueInfo />
 							<div class="space-y-1.5">
 								<QueueTrackList keyword={keyword()} />
 								<QueueHint />
@@ -35,7 +36,9 @@ export const QueueTabs: Component = () => {
 					icon: "history",
 					element: () => (
 						<Show when={!queue.isInitialLoading()} fallback={<Videos.List data={[]} isLoading />}>
-							<QueuePlayHistory keyword={keyword()} />
+							<div class="pt-6">
+								<QueuePlayHistory keyword={keyword()} />
+							</div>
 						</Show>
 					),
 				},

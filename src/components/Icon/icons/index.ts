@@ -1,4 +1,5 @@
 export { default as audioPlaylist } from "./audio-playlist.svg";
+export { default as clock } from "./clock.svg";
 export { default as closeLine } from "./close-line.svg";
 export { default as degabutThin } from "./degabut-thin.svg";
 export { default as degabut } from "./degabut.svg";
@@ -17,6 +18,7 @@ export { default as menu } from "./menu.svg";
 export { default as microphone } from "./microphone.svg";
 export { default as minus } from "./minus.svg";
 export { default as musicNote } from "./music-note.svg";
+export { default as musicNotes } from "./music-notes.svg";
 export { default as musicOff } from "./music-off.svg";
 export { default as pause } from "./pause.svg";
 export { default as people } from "./people.svg";
