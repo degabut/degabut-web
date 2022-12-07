@@ -45,12 +45,16 @@ export const ConfirmationModal: Component<Props> = (props) => {
 
 				<div class="flex-row-center justify-evenly w-full">
 					<Show when={!props.isAlert}>
-						<div class="underline underline-offset-2 cursor-pointer" onClick={() => props.onClose()}>
+						<Button
+							flat
+							class="px-8 py-1.5 underline underline-offset-2 hover:bg-white/0"
+							onClick={() => props.onClose()}
+						>
 							Cancel
-						</div>
+						</Button>
 					</Show>
 
-					<Button type="submit" rounded disabled={isLoading()} onClick={onConfirm} class="px-8">
+					<Button type="submit" rounded disabled={isLoading()} onClick={onConfirm} class="px-8 py-1.5">
 						{props.isAlert ? "Ok" : "Confirm"}
 					</Button>
 				</div>

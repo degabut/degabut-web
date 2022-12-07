@@ -47,11 +47,16 @@ export const EditPlaylistModal: Component<EditPlaylistModalProps> = (props) => {
 				/>
 
 				<div class="flex-row-center justify-evenly w-full">
-					<div class="underline underline-offset-2 cursor-pointer" onClick={() => props.onClose()}>
+					<Button
+						flat
+						rounded
+						class="px-8 py-1.5 underline underline-offset-2 hover:bg-white/0"
+						onClick={() => props.onClose()}
+					>
 						Cancel
-					</div>
+					</Button>
 
-					<Button type="submit" rounded disabled={isSubmitting() || !name()} class="px-8">
+					<Button type="submit" rounded disabled={isSubmitting() || !name()} class="px-8 py-1.5">
 						Update
 					</Button>
 				</div>

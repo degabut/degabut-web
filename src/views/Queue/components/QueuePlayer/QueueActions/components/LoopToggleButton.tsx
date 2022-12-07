@@ -1,5 +1,5 @@
 import { LoopMode } from "@api";
-import { Icon } from "@components/Icon";
+import { Button } from "@components/Button";
 import { Component, createEffect, createSignal } from "solid-js";
 
 type Props = {
@@ -22,19 +22,18 @@ export const LoopToggleButton: Component<Props> = (props) => {
 	createEffect(() => setLoopMode(props.defaultValue));
 
 	return (
-		<button
+		<Button
+			flat
 			onClick={onClick}
-			class="p-2"
 			title="Loop"
+			icon={loopMode() === LoopMode.TRACK ? "loopOne" : "loop"}
+			iconSize="lg"
+			class="p-2"
 			disabled={props.disabled}
 			classList={{
-				"fill-brand-600 hover:fill-brand-400": loopMode() !== LoopMode.DISABLED && !props.disabled,
-				"fill-brand-800": loopMode() !== LoopMode.DISABLED && props.disabled,
-				"fill-neutral-300 hover:fill-white": loopMode() === LoopMode.DISABLED && !props.disabled,
-				"fill-neutral-500": loopMode() === LoopMode.DISABLED && props.disabled,
+				"text-brand-600 hover:text-brand-600": loopMode() !== LoopMode.DISABLED && !props.disabled,
+				"text-brand-800": loopMode() !== LoopMode.DISABLED && props.disabled,
 			}}
-		>
-			<Icon name={loopMode() === LoopMode.TRACK ? "loopOne" : "loop"} extraClass="w-5 h-5" />
-		</button>
+		/>
 	);
 };

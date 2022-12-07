@@ -2,12 +2,14 @@ import { LoopMode } from "@api";
 import { useQueue } from "@hooks/useQueue";
 import { useNavigate } from "solid-app-router";
 import { Component, Show } from "solid-js";
-import { LoopToggleButton } from "./LoopToggleButton";
-import { LyricsButton } from "./LyricsButton";
-import { PlayButton } from "./PlayButton";
-import { SettingsButton } from "./SettingsButton";
-import { ShuffleToggleButton } from "./ShuffleToggleButton";
-import { SkipButton } from "./SkipButton";
+import {
+	LoopToggleButton,
+	LyricsButton,
+	PlayButton,
+	SettingsButton,
+	ShuffleToggleButton,
+	SkipButton,
+} from "./components";
 
 type Props = {
 	extended?: boolean;
@@ -25,12 +27,15 @@ export const QueueActions: Component<Props> = (props) => {
 				defaultValue={!!queue.data.isPaused}
 				disabled={queue.isQueueFreezed()}
 			/>
+
 			<SkipButton onClick={() => queue.skipTrack()} disabled={queue.isTrackFreezed() || !queue.data.nowPlaying} />
+
 			<ShuffleToggleButton
 				defaultValue={!!queue.data.shuffle}
 				onChange={() => queue.toggleShuffle()}
 				disabled={queue.isQueueFreezed()}
 			/>
+
 			<LoopToggleButton
 				defaultValue={queue.data.loopMode || LoopMode.DISABLED}
 				onChange={(t) => queue.changeLoopMode(t)}
@@ -39,6 +44,7 @@ export const QueueActions: Component<Props> = (props) => {
 
 			<Show when={props.extended}>
 				<LyricsButton onClick={() => navigate("/app/queue/lyrics")} />
+
 				<SettingsButton onClearQueue={queue.clear} />
 			</Show>
 		</div>

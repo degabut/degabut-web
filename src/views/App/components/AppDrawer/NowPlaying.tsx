@@ -19,7 +19,7 @@ export const NowPlaying: Component = () => {
 						<div class="text-lg font-medium">Now Playing</div>
 						<VideoThumbnail video={video} extraContainerClass="!h-24" extraClass="!h-24 !w-full" />
 						<div class="flex flex-row space-x-2">
-							<div class="flex-grow flex flex-col truncate">
+							<div class="grow flex flex-col truncate">
 								<div class="truncate">{video.title}</div>
 								<div class="truncate text-sm text-neutral-400">{video.channel.name}</div>
 								<div class="truncate text-sm text-neutral-400">

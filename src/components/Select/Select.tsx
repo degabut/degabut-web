@@ -10,8 +10,8 @@ type Props<Item = unknown> = {
 	extraResultContainerClass?: string;
 	hideOptionOnClickOutside?: boolean;
 	children: (item: Item, isSelected: boolean, index: number) => JSX.Element;
-	bottomLabel?: JSX.Element;
 	onSelect: (item: Item, index: number, e: KeyboardEvent | MouseEvent) => void;
+	hint?: JSX.Element;
 };
 
 export function Select<Item = unknown>(props: Props<Item>) {
@@ -71,7 +71,7 @@ export function Select<Item = unknown>(props: Props<Item>) {
 			{/* eslint-disable-next-line solid/reactivity */}
 			<Input {...props.inputProps} onFocus={() => setIsShowOptionList(true)} />
 
-			{props.bottomLabel}
+			{props.hint}
 
 			<Show when={props.options.length && isShowOptionList()}>
 				<div

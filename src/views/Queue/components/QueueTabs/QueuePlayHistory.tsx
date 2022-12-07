@@ -4,7 +4,7 @@ import { useQueue } from "@hooks/useQueue";
 import { useSearchable } from "@hooks/useSearchable";
 import { getVideoContextMenu } from "@utils";
 import { useNavigate } from "solid-app-router";
-import { Component } from "solid-js";
+import { Component, Show } from "solid-js";
 
 type Props = {
 	keyword: string;
@@ -26,24 +26,20 @@ export const QueuePlayHistory: Component<Props> = (props) => {
 	});
 
 	return (
-		<>
-			{!history().length ? (
-				<div>Empty</div>
-			) : (
-				<Videos.List
-					data={history()}
-					videoProps={(t) => ({
+		<Show when={history().length} fallback={<div>Empty</div>}>
+			<Videos.List
+				data={history()}
+				videoProps={(t) => ({
+					video: t.video,
+					requestedBy: t.requestedBy,
+					contextMenu: getVideoContextMenu({
 						video: t.video,
-						requestedBy: t.requestedBy,
-						contextMenu: getVideoContextMenu({
-							video: t.video,
-							appStore: app,
-							queueStore: queue,
-							navigate,
-						}),
-					})}
-				/>
-			)}
-		</>
+						appStore: app,
+						queueStore: queue,
+						navigate,
+					}),
+				})}
+			/>
+		</Show>
 	);
 };

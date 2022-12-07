@@ -59,6 +59,7 @@ export const useQueueRecommendation = (params: Params) => {
 	const reset = () => {
 		setRandomVideos([]);
 		setBlacklistedVideo([]);
+		randomVideo.mutate(null);
 		randomlySetRandomVideoId();
 	};
 

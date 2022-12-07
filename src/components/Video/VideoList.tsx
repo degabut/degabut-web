@@ -1,5 +1,6 @@
 import type { IGuildMember, IVideoCompact } from "@api";
 import { ContextMenuButton } from "@components/ContextMenu";
+import { Text } from "@components/Text";
 import { contextMenu } from "@directives/contextMenu";
 import { ContextMenuDirectiveParams } from "@providers/ContextMenuProvider";
 import { secondsToTime } from "@utils";
@@ -18,6 +19,7 @@ export type VideoListProps = {
 	extraContainerClassList?: Record<string, boolean>;
 	extraThumbnailClass?: string;
 	extraTitleClass?: string;
+	left?: JSX.Element;
 	right?: JSX.Element;
 	onClick?: (video: IVideoCompact) => void;
 };
@@ -25,7 +27,7 @@ export type VideoListProps = {
 export const VideoList: Component<VideoListProps> = (props) => {
 	return (
 		<div
-			class="flex-row-center w-full p-1.5 hover:bg-white/5 rounded"
+			class="flex-row-center items-stretch w-full p-1.5 hover:bg-white/5 rounded"
 			classList={{
 				"cursor-pointer": !!props.onClick,
 				...props.extraContainerClassList,
@@ -34,23 +36,24 @@ export const VideoList: Component<VideoListProps> = (props) => {
 			use:contextMenu={props.disableContextMenu ? undefined : props.contextMenu}
 			onClick={() => props.onClick?.(props.video)}
 		>
-			<VideoThumbnail video={props.video} extraClass={`flex-shrink-0 ${props.extraThumbnailClass}`} />
-			<div class="flex flex-col flex-grow space-y-0.5 truncate ml-3">
-				<div
-					class="truncate"
+			{props.left}
+			<VideoThumbnail video={props.video} extraClass={`shrink-0 ${props.extraThumbnailClass}`} />
+			<div class="flex flex-col grow space-y-0.5 truncate ml-3">
+				<Text.Body1
+					truncate
 					classList={{ [props.extraTitleClass || ""]: !!props.extraTitleClass }}
 					title={`${props.video.title} - ${props.video.channel.name}`}
 				>
 					{props.video.title}
-				</div>
+				</Text.Body1>
 				<div class="flex flex-row space-x-3 text-sm align-bottom">
 					<Show when={props.video.duration > 0} fallback={<LiveBadge />}>
-						<div class="text-neutral-400">{secondsToTime(props.video.duration)}</div>
+						<Text.Caption1>{secondsToTime(props.video.duration)}</Text.Caption1>
 					</Show>
-					<div class="text-neutral-400 truncate">
-						<span class="text-neutral-300">{props.video.channel.name}</span>
+					<div class="truncate">
+						<Text.Body2 truncate>{props.video.channel.name}</Text.Body2>
 						{props.requestedBy && (
-							<span class="text-xs"> — Requested by {props.requestedBy.displayName}</span>
+							<Text.Caption2 truncate> — Requested by {props.requestedBy.displayName}</Text.Caption2>
 						)}
 					</div>
 				</div>
@@ -78,13 +81,14 @@ export const VideoListBig: Component<VideoListProps> = (props) => {
 			<VideoThumbnailBig video={props.video} extraClass={props.extraThumbnailClass} />
 			<div class="flex flex-col sm:space-y-2 w-full truncate px-2 pb-2 sm:pt-1">
 				<div class="flex-row-center truncate">
-					<div
-						class="flex-grow font-medium truncate"
+					<Text.H4
+						truncate
+						class="grow"
 						classList={{ [props.extraTitleClass || ""]: !!props.extraTitleClass }}
 						title={`${props.video.title} - ${props.video.channel.name}`}
 					>
 						{props.video.title}
-					</div>
+					</Text.H4>
 
 					<Show when={!props.disableContextMenu && !props.hideContextMenuButton}>
 						<ContextMenuButton contextMenu={props.contextMenu} />
@@ -92,18 +96,16 @@ export const VideoListBig: Component<VideoListProps> = (props) => {
 				</div>
 				<div class="space-y-1">
 					<Show when={props.video.viewCount} keyed>
-						{(c) => <div class="text-neutral-400 text-sm">{c.toLocaleString("en-US")} views</div>}
+						{(c) => <Text.Caption1>{c.toLocaleString("en-US")} views</Text.Caption1>}
 					</Show>
 					<div class="flex-row-center space-x-2 text-sm">
 						<ChannelThumbnail video={props.video} />
-						<div>{props.video.channel.name}</div>
+						<Text.Body2>{props.video.channel.name}</Text.Body2>
 					</div>
 				</div>
 				<Show when={!props.video.duration}>
 					<LiveBadge />
 				</Show>
-
-				{props.requestedBy && <div class="my-auto">Requested by {props.requestedBy.displayName}</div>}
 			</div>
 		</div>
 	);

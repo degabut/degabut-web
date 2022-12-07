@@ -1,3 +1,4 @@
+import { Text } from "@components/Text";
 import { JSX, ParentComponent } from "solid-js";
 
 type Props = {
@@ -7,7 +8,7 @@ type Props = {
 export const Title: ParentComponent<Props> = (props) => {
 	return (
 		<div class="flex flex-row justify-between items-end">
-			<div class="text-xl font-medium">{props.children}</div>
+			<Text.H2 class="text-xl font-medium">{props.children}</Text.H2>
 			{props.right}
 		</div>
 	);

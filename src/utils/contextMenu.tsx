@@ -1,5 +1,6 @@
-import { IVideoCompact } from "@api";
+import { IPlaylist, IVideoCompact } from "@api";
 import { ContextMenuItem } from "@components/ContextMenu";
+import { useQueue } from "@hooks/useQueue";
 import { AppContextStore } from "@providers/AppProvider";
 import { ContextMenuDirectiveParams, ContextMenuItem as IContextMenuItem } from "@providers/ContextMenuProvider";
 import { QueueContextStore } from "@providers/QueueProvider";
@@ -77,14 +78,14 @@ export const getVideoContextMenu = (props: VideoProps) => {
 	} as ContextMenuDirectiveParams;
 };
 
-type PlaylistProps = {
+type YouTubePlaylistProps = {
 	playlist: IPlaylistCompact;
 	queueStore: QueueContextStore;
 	appStore: AppContextStore;
 	modifyContextMenuItems?: (current: IContextMenuItem[][]) => IContextMenuItem[][];
 };
 
-export const getYouTubePlaylistContextMenu = (props: PlaylistProps) => {
+export const getYouTubePlaylistContextMenu = (props: YouTubePlaylistProps) => {
 	const promptAddPlaylist = (playlist: IPlaylistCompact) => {
 		props.appStore.setConfirmation({
 			title: "Add Playlist",
@@ -139,6 +140,41 @@ export const getYouTubePlaylistContextMenu = (props: PlaylistProps) => {
 							<div>{props.playlist.videoCount}</div>
 						</div>
 					</div>
+				</div>
+			</div>
+		),
+	} as ContextMenuDirectiveParams;
+};
+
+type PlaylistProps = {
+	playlist: IPlaylist;
+	onDelete?: (playlist: IPlaylist) => void;
+	onAddToQueue?: (playlist: IPlaylist) => void;
+};
+
+export const playlistContextMenu = (props: PlaylistProps) => {
+	const queue = useQueue();
+
+	const items = [
+		{
+			element: () => <ContextMenuItem icon="trashBin" label="Delete" />,
+			onClick: () => props.onDelete?.(props.playlist),
+		},
+	];
+
+	if (!queue.data.empty) {
+		items.unshift({
+			element: () => <ContextMenuItem icon="plus" label="Add to Queue" />,
+			onClick: () => props.onAddToQueue?.(props.playlist),
+		});
+	}
+
+	return {
+		items: [items],
+		header: (
+			<div class="flex-col-center justify-center pt-4 pb-8 space-y-1">
+				<div class="flex-col-center space-y-2">
+					<div class="font-medium text-center">{props.playlist.name}</div>
 				</div>
 			</div>
 		),

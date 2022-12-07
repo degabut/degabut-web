@@ -27,7 +27,7 @@ export const UpdateModal: Component = () => {
 					<div class="text-center text-2xl font-medium">New Update Found</div>
 					<div class="text-center mt-8">Restart Degabut to apply update</div>
 
-					<Button rounded onClick={() => setIsShowUpdateModal(false)}>
+					<Button class="px-8 py-1.5" rounded onClick={() => setIsShowUpdateModal(false)}>
 						OK
 					</Button>
 				</div>

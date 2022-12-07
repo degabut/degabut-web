@@ -1,4 +1,4 @@
-import { Icon } from "@components/Icon";
+import { Button } from "@components/Button";
 import { clickOutside } from "@directives/clickOutside";
 import { useHashState } from "@hooks/useHashState";
 import { useLocation } from "solid-app-router";
@@ -64,12 +64,12 @@ export const Modal: ParentComponent<Props> = (props) => {
 				>
 					<Show when={!props.hideCloseButton}>
 						<div class="sticky top-0 right-0 z-30">
-							<button
-								class="absolute right-4 top-4 p-1 cursor-pointer fill-neutral-500 hover:fill-neutral-200"
+							<Button
+								flat
+								icon="closeLine"
+								class="absolute right-4 top-4 p-2"
 								onClick={() => props.onClickOutside?.()}
-							>
-								<Icon name="closeLine" size="md" />
-							</button>
+							/>
 						</div>
 					</Show>
 					{props.children}

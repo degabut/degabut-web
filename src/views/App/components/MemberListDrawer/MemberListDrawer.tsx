@@ -23,7 +23,7 @@ export const MemberListDrawer: Component = () => {
 			right
 			isOpen={app.isMemberOpen()}
 			handleClose={() => app.setIsMemberOpen(false)}
-			extraContainerClass="right-0"
+			extraContainerClass="min-w-[4.25rem] max-w-[75vw] md:max-w-sm right-0"
 		>
 			<div class="text-xl font-bold truncate px-4 py-6">{queue.data.voiceChannel?.name}</div>
 			<div class="overflow-y-auto overflow-x-hidden space-y-1.5 mx-2">

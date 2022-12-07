@@ -1,9 +1,9 @@
 import { IPlaylist } from "@api";
 import { ContextMenuButton } from "@components/ContextMenu";
+import { Text } from "@components/Text";
 import { contextMenu } from "@directives/contextMenu";
-import { getRelativeTime } from "@utils";
+import { getRelativeTime, playlistContextMenu } from "@utils";
 import { Component, createMemo, Show } from "solid-js";
-import { playlistContextMenu } from "./utils";
 
 contextMenu;
 
@@ -46,17 +46,17 @@ export const PlaylistList: Component<Props> = (props) => {
 			onClick={() => props.onClick?.(props.playlist)}
 			use:contextMenu={props.disableContextMenu ? undefined : contextMenuProps()}
 		>
-			<div class="flex flex-col flex-grow flex-shrink space-y-0.5 py-1.5 px-3 truncate">
-				<div class="truncate" classList={{ [props.extraTitleClass || ""]: !!props.extraTitleClass }}>
+			<div class="flex flex-col grow shrink space-y-0.5 py-1.5 px-3 truncate">
+				<Text.Body1 truncate classList={{ [props.extraTitleClass || ""]: !!props.extraTitleClass }}>
 					{props.playlist.name}
-				</div>
-				<div class="items-center text-sm text-neutral-400">
+				</Text.Body1>
+				<div>
 					<Show when={props.playlist.videoCount > 0}>
-						<span>{videoCountLabel()}</span>
+						<Text.Caption1>{videoCountLabel()}</Text.Caption1>
 					</Show>
-					<span class="text-xs">
+					<Text.Caption2>
 						{props.playlist.videoCount > 0 && " — "} Created {getRelativeTime(props.playlist.createdAt)}
-					</span>
+					</Text.Caption2>
 				</div>
 			</div>
 			<Show when={!props.disableContextMenu}>{<ContextMenuButton contextMenu={contextMenuProps()} />}</Show>

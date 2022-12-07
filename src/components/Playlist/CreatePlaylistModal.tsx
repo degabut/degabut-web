@@ -48,11 +48,16 @@ export const CreatePlaylistModal: Component<CreatePlaylistModalProps> = (props) 
 				/>
 
 				<div class="flex-row-center justify-evenly w-full">
-					<div class="underline underline-offset-2 cursor-pointer" onClick={() => props.onClose()}>
+					<Button
+						flat
+						rounded
+						onClick={() => props.onClose()}
+						class="px-8 py-1.5 underline underline-offset-2 hover:bg-white/0"
+					>
 						Cancel
-					</div>
+					</Button>
 
-					<Button type="submit" rounded disabled={isSubmitting() || !name()} class="px-8">
+					<Button class="px-4 py-1" type="submit" rounded disabled={isSubmitting() || !name()}>
 						Create
 					</Button>
 				</div>

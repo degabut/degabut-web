@@ -1,3 +1,4 @@
+import { Icons } from "@components/Icon";
 import { Component, createSignal, For, JSX, onMount, Show } from "solid-js";
 import { Tab } from "./Tab";
 
@@ -7,13 +8,20 @@ type LabelProps = {
 
 export type Item = {
 	id: string;
-	label: (props: LabelProps) => JSX.Element;
 	element: JSX.Element;
-};
+} & (
+	| {
+			label: (props: LabelProps) => JSX.Element;
+	  }
+	| {
+			labelText: string;
+			icon: Icons;
+	  }
+);
 
 type Props = {
 	items: Item[];
-	slotEnd?: JSX.Element | ((item: Item) => JSX.Element);
+	end?: JSX.Element | ((item: Item) => JSX.Element);
 	extraTabsClass?: string;
 	extraContainerClass?: string;
 	extraContentContainerClass?: string;
@@ -52,9 +60,9 @@ export const Tabs: Component<Props> = (props) => {
 								</For>
 							</div>
 
-							<Show when={props.slotEnd}>
+							<Show when={props.end}>
 								<div class="flex w-full md:justify-end pt-4 md:py-0">
-									{typeof props.slotEnd === "function" ? props.slotEnd(activeItem) : props.slotEnd}
+									{typeof props.end === "function" ? props.end(activeItem) : props.end}
 								</div>
 							</Show>
 						</div>

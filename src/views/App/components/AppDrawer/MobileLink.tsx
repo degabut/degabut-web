@@ -1,4 +1,4 @@
-import { RouterLink } from "@components/Link";
+import { RouterLink } from "@components/A";
 import { useMatch } from "solid-app-router";
 import { Component } from "solid-js";
 import { Icon, Icons } from "../../../../components/Icon";
@@ -15,7 +15,7 @@ export const MobileLink: Component<Props> = (props) => {
 	return (
 		<RouterLink
 			href={props.path}
-			class="flex-col-center flex-grow space-y-1 py-2 transition-colors"
+			class="flex-col-center grow space-y-1 py-2 transition-colors"
 			classList={{
 				"text-neutral-400": !isActive(),
 				"text-neutral-100 bg-white/10 font-medium": !!isActive(),

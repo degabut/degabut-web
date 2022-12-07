@@ -4,7 +4,7 @@ import { IS_DESKTOP } from "../../constants";
 
 type Props = JSX.AnchorHTMLAttributes<HTMLAnchorElement>;
 
-export const Link: ParentComponent<Props> = (props) => {
+export const A: ParentComponent<Props> = (props) => {
 	const onClick = (e: MouseEvent) => {
 		if (IS_DESKTOP) {
 			e.preventDefault();

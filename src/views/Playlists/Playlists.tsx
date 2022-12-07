@@ -1,6 +1,5 @@
 import { Button } from "@components/Button";
 import { Container } from "@components/Container";
-import { Icon } from "@components/Icon";
 import { Playlist } from "@components/Playlist";
 import { useApp } from "@hooks/useApp";
 import { usePlaylists } from "@hooks/usePlaylists";
@@ -29,12 +28,12 @@ export const Playlists: Component = () => {
 			<Container size="md" extraClass="space-y-6">
 				<Button
 					rounded
-					class="space-x-3 !py-1.5"
+					icon="plus"
+					class="space-x-3 px-6 py-1.5"
 					disabled={(playlists.data()?.length || 0) >= 25}
 					onClick={() => setIsShowModalOpen(true)}
 				>
-					<Icon name="plus" size="md" extraClass="fill-white" />
-					<div>Create Playlist</div>
+					Create Playlist
 				</Button>
 
 				<div class="space-y-3">

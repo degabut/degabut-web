@@ -32,6 +32,7 @@ export const KeyboardHint: Component<Props> = (props) => {
 			<Show when={props.key} keyed>
 				{(key) => <Kbd small={props.small} key={key} extraClass={props.extraKbdClass} />}
 			</Show>
+
 			<For each={props.keys}>
 				{(key) => <Kbd small={props.small} key={key} extraClass={props.extraKbdClass} />}
 			</For>

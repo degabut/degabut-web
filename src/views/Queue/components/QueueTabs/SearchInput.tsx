@@ -1,5 +1,6 @@
 import { Icon } from "@components/Icon";
 import { Input } from "@components/Input";
+import { debounce } from "@utils";
 import { Component } from "solid-js";
 
 type Props = {
@@ -8,12 +9,16 @@ type Props = {
 };
 
 export const SearchInput: Component<Props> = (props) => {
+	const debouncedInput = debounce((v: string) => {
+		props.onInput(v);
+	}, 350);
+
 	return (
 		<Input
 			dense
 			outlined
 			value={props.keyword}
-			onInput={(e) => props.onInput(e.currentTarget.value)}
+			onInput={(e) => debouncedInput(e.currentTarget.value)}
 			onKeyDown={(e) => {
 				if (e.key !== "Escape") return;
 				props.onInput("");
@@ -28,7 +33,7 @@ export const SearchInput: Component<Props> = (props) => {
 					extraClassList={{ "cursor-pointer": !!props.keyword }}
 				/>
 			}
-			class="text-sm bg-neutral-400/10 flex-grow w-full md:max-w-[16rem] !border-neutral-500"
+			class="text-sm bg-neutral-400/10 grow w-full md:max-w-[16rem] !border-neutral-500"
 		/>
 	);
 };

@@ -11,7 +11,8 @@
 body {
 	font-family: "Poppins", sans-serif;
 	@apply h-full;
-	@apply text-neutral-100 font-light;
+	@apply text-neutral-100 font-light fill-neutral-100;
+	@apply select-none;
 }
 
 html {

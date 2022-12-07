@@ -11,7 +11,7 @@ export const AppHeader: Component = () => {
 				<Icon name="menu" size="lg" extraClass="fill-white" />
 			</div>
 
-			<div class="flex-grow text-lg font-medium truncate px-1">{app?.title()}</div>
+			<div class="grow text-lg font-medium truncate px-1">{app?.title()}</div>
 
 			<div class="cursor-pointer p-2" onClick={() => app.setIsMemberOpen((v) => !v)}>
 				<Icon name="people" size="lg" extraClass="fill-white" />

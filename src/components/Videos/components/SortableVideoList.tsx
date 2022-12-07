@@ -20,19 +20,21 @@ export const SortableVideoList: Component<Props> = (props) => {
 		<div
 			ref={sortable.ref}
 			style={transformStyle(sortable.transform)}
-			class="flex-row-center"
 			classList={{
 				"opacity-25": sortable.isActiveDraggable,
 				"transition-transform": !!state.active.draggable,
 			}}
 		>
-			<div
-				class="pl-0.5 pr-1 py-3 fill-neutral-400 hover:fill-neutral-100 hover:cursor-pointer touch-none"
-				{...sortable.dragActivators}
-			>
-				<Icon name="sixDots" size="md" />
-			</div>
 			<Video.List
+				extraContainerClass="pl-0.5"
+				left={
+					<div
+						class="flex pr-0.5 h-full fill-neutral-400 hover:fill-neutral-100 touch-none"
+						onClick={(e) => e.stopPropagation()}
+					>
+						<Icon {...sortable.dragActivators} name="sixDots" size="md" />
+					</div>
+				}
 				{...props.initialVideoProps}
 				onClick={() => navigate(`/app/video/${props.initialVideoProps.video.id}`)}
 			/>
@@ -43,10 +45,15 @@ export const SortableVideoList: Component<Props> = (props) => {
 export const DummySortableVideoList: Component<Omit<Props, "initialId">> = (props) => {
 	return (
 		<div class="flex-row-center max-w-[calc(100vw-1.5rem)]">
-			<div class="pl-0.5 pr-1 py-3 fill-neutral-400 hover:fill-neutral-100 hover:cursor-pointer">
-				<Icon name="sixDots" size="md" />
-			</div>
-			<Video.List {...props.initialVideoProps} />
+			<Video.List
+				extraContainerClass="pl-0.5"
+				left={
+					<div class="pr-0.5 py-3 fill-neutral-400 hover:fill-neutral-100 hover:cursor-pointer touch-none">
+						<Icon name="sixDots" size="md" />
+					</div>
+				}
+				{...props.initialVideoProps}
+			/>
 		</div>
 	);
 };

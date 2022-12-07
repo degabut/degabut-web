@@ -21,7 +21,7 @@ export const MainVideo: Component<Props> = (props) => {
 		<div class="flex flex-col space-y-3">
 			<Video.Embed video={props.video} />
 
-			<div class="flex flex-col flex-grow flex-shrink">
+			<div class="flex flex-col">
 				<div class="flex flex-row items-center justify-between">
 					<div
 						class="truncate text-lg font-medium"

@@ -1,4 +1,4 @@
-import { Icon } from "@components/Icon";
+import { Button } from "@components/Button";
 import { Component, createEffect, createSignal } from "solid-js";
 
 type Props = {
@@ -18,17 +18,13 @@ export const PlayButton: Component<Props> = (props) => {
 	createEffect(() => setIsPaused(props.defaultValue));
 
 	return (
-		<button
+		<Button
+			flat
 			disabled={props.disabled}
 			onClick={onClick}
+			class="p-2"
 			title={isPaused() ? "Resume" : "Pause"}
-			class="p-2.5 fill-neutral-800 rounded-full"
-			classList={{
-				"bg-neutral-300 hover:bg-white": !props.disabled,
-				"bg-neutral-500": props.disabled,
-			}}
-		>
-			<Icon name={isPaused() ? "play" : "pause"} size="md" />
-		</button>
+			icon={isPaused() ? "play" : "pause"}
+		/>
 	);
 };

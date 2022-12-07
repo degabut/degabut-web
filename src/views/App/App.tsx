@@ -1,5 +1,6 @@
+import { RouterLink } from "@components/A";
 import { Container } from "@components/Container";
-import { RouterLink } from "@components/Link";
+import { Text } from "@components/Text";
 import { AppProvider } from "@providers/AppProvider";
 import { QueueProvider } from "@providers/QueueProvider";
 import { RPCProvider } from "@providers/RPCProvider";
@@ -34,16 +35,24 @@ export const App: Component = () => {
 };
 
 const Error: Component<{ error: unknown }> = (props) => {
+	const copyToClipboard = () => navigator.clipboard.writeText(props.error as string);
+
 	// eslint-disable-next-line solid/reactivity
 	console.log(props.error);
 	return (
 		<Container extraClass="pt-32">
-			<div class="text-9xl">:(</div>
+			<Text.H1 class="text-9xl">:(</Text.H1>
+
 			<div class="flex flex-col text-xl pt-16 space-y-4">
-				<div>Something went wrong, check console for error details.</div>
+				<Text.H3>Something went wrong, check console for error details.</Text.H3>
+
 				<RouterLink class="underline underline-offset-2" href="/">
-					Go back
+					<Text.Body1>Go back</Text.Body1>
 				</RouterLink>
+
+				<Text.Caption2 class="hover:underline underline-offset-2 cursor-pointer" onClick={copyToClipboard}>
+					Copy Error to Clipboard
+				</Text.Caption2>
 			</div>
 		</Container>
 	);
@@ -57,8 +66,8 @@ const ProvidedApp: Component = () => {
 			<div class="flex flex-col md:flex-row h-full ">
 				<AppDrawer />
 
-				<div class="relative h-full flex-grow flex flex-col overflow-x-hidden">
-					<div class="flex-shrink-0">
+				<div class="relative h-full grow flex flex-col overflow-x-hidden">
+					<div class="shrink-0">
 						<AppHeader />
 					</div>
 

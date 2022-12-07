@@ -1,23 +1,38 @@
-import { Component, JSX } from "solid-js";
+import { Icon, Icons, IconSize } from "@components/Icon";
+import { Text } from "@components/Text";
+import { Component, JSX, Show } from "solid-js";
 
 type Props = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
 	rounded?: boolean;
+	flat?: boolean;
+	icon?: Icons;
+	iconSize?: IconSize;
 };
 
 export const Button: Component<Props> = (props) => {
 	return (
 		<button
 			{...props}
-			class="flex-row-center justify-center space-x-2 border rounded border-neutral-400 px-8 py-1"
+			class="flex-row-center"
 			classList={{
-				"bg-white/5 text-neutral-400 border-neutral-400": props.disabled,
-				"hover:bg-white/10": !props.disabled,
-				"!rounded-full": props.rounded,
+				"rounded-full": props.rounded,
+				rounded: !props.rounded,
+				"border border-neutral-400": !props.flat,
+				"text-neutral-500": props.disabled,
+				"hover:bg-white/[5%]": !props.disabled,
+				"hover:text-white": !props.disabled && props.flat,
+				"border-neutral-600 bg-white/5": props.disabled && !props.flat,
 				...props.classList,
 				[props.class || ""]: !!props.class,
 			}}
 		>
-			{props.children}
+			<Show when={props.icon} keyed>
+				{(icon) => <Icon name={icon} size={props.iconSize || "md"} class="fill-current shrink-0" />}
+			</Show>
+
+			<Show when={typeof props.children === "string"} fallback={props.children}>
+				<Text.Body1>{props.children}</Text.Body1>
+			</Show>
 		</button>
 	);
 };

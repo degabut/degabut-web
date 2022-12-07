@@ -1,4 +1,5 @@
-import { Icon } from "@components/Icon";
+import { Button } from "@components/Button";
+import { Text } from "@components/Text";
 import { Component } from "solid-js";
 
 type Props = {
@@ -32,20 +33,14 @@ export const MainPlaylist: Component<Props> = (props) => {
 	return (
 		<div class="space-y-4">
 			<div class="flex-row-center justify-between md:justify-start md:space-x-8">
-				<div title={props.name} class="text-2xl font-medium truncate">
+				<Text.H1 truncate title={props.name}>
 					{props.name}
-				</div>
-				<button onClick={() => props.onClickEdit()}>
-					<Icon
-						name="editPencil"
-						size="md"
-						extraClass="fill-neutral-300 hover:fill-neutral-100 cursor-pointer"
-					/>
-				</button>
+				</Text.H1>
+				<Button icon="editPencil" iconSize="md" flat rounded onClick={() => props.onClickEdit()} />
 			</div>
 			<div class="flex md:flex-row space-x-8">
-				<div>{videoCount()}</div>
-				<div>{duration()}</div>
+				<Text.Body1>{videoCount()}</Text.Body1>
+				<Text.Body1>{duration()}</Text.Body1>
 			</div>
 		</div>
 	);

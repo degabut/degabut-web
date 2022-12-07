@@ -102,13 +102,13 @@ export const QuickSearchModal: Component<Props> = (props) => {
 						onInput: onInput,
 						placeholder: "Search for a song",
 						focusOnMount: true,
-						prefix: <Icon name="search" size="lg" />,
+						prefix: <Icon name="search" size="lg" extraClass="fill-current" />,
 					}}
 					hideOptionOnClickOutside={false}
 					extraResultContainerClass="!static w-full !max-h-[50vh] bg-neutral-900 space-y-1.5"
 					options={search.result()}
 					onSelect={onSelect}
-					bottomLabel={
+					hint={
 						<Show when={search.result().length}>
 							<div class="flex flex-row justify-between px-4 text-sm">
 								<KeyboardHint keys={["↑", "↓"]} label="Navigate" />
@@ -131,7 +131,6 @@ export const QuickSearchModal: Component<Props> = (props) => {
 										queueStore: queue,
 										navigate,
 									})}
-									extraContainerClass="cursor-pointer px-2 py-1"
 									extraContainerClassList={{ "!bg-white/10": isSelected }}
 								/>
 							);
@@ -141,7 +140,7 @@ export const QuickSearchModal: Component<Props> = (props) => {
 									<Show when={i === search.playlistStartIndex()}>
 										<div class="flex-row-center w-full space-x-4 my-1">
 											<div class="text-sm text-neutral-400">Playlist</div>
-											<Divider dark extraClass="flex-grow" />
+											<Divider dark extraClass="grow" />
 										</div>
 									</Show>
 									<YouTubePlaylist.List
@@ -155,7 +154,7 @@ export const QuickSearchModal: Component<Props> = (props) => {
 										extraContainerClassList={{ "!bg-white/10": isSelected }}
 									/>
 									<Show when={i === search.playlistEndIndex()}>
-										<Divider dark extraClass="flex-grow my-2" />
+										<Divider dark extraClass="grow my-2" />
 									</Show>
 								</>
 							);

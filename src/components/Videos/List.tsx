@@ -4,7 +4,7 @@ import { createMemo, For, JSX, Show } from "solid-js";
 
 type VideosListProps<Data> = {
 	data: Data[];
-	label?: JSX.Element;
+	title?: JSX.Element;
 	isLoading?: boolean;
 	showWhenLoading?: boolean;
 	skeletonCount?: number;
@@ -23,7 +23,7 @@ export function VideosList<Data = unknown>(props: VideosListProps<Data>) {
 
 	return (
 		<div class="space-y-6 md:space-y-4">
-			{props.label}
+			{props.title}
 
 			<div class="space-y-1.5">
 				<Show when={props.showWhenLoading || !props.isLoading}>

@@ -4,7 +4,7 @@ import { createMemo, For, JSX, Show } from "solid-js";
 
 type DoubleVideosListProps<Data> = {
 	data: Data[];
-	label?: JSX.Element;
+	title?: JSX.Element;
 	isLoading?: boolean;
 	showWhenLoading?: boolean;
 	videoProps: (data: Data) => VideoListProps;
@@ -20,7 +20,7 @@ export function DoubleVideosList<Data = unknown>(props: DoubleVideosListProps<Da
 
 	return (
 		<div class="space-y-4">
-			{props.label}
+			{props.title}
 
 			<div class="grid grid-cols-1 2xl:grid-cols-2 2xl:gap-x-12 3xl:gap-x-24 gap-y-1.5">
 				<Show

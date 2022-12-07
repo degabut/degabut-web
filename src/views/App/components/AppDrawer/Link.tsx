@@ -1,5 +1,6 @@
-import { Icon, Icons } from "@components/Icon";
-import { RouterLink } from "@components/Link";
+import { RouterLink } from "@components/A";
+import { Button } from "@components/Button";
+import { Icons } from "@components/Icon";
 import { useMatch } from "solid-app-router";
 import { Component, Show } from "solid-js";
 
@@ -8,7 +9,6 @@ type Props = {
 	label: string;
 	path: string;
 	minimized: boolean;
-	variant?: "normal" | "small";
 	onClick: () => void;
 };
 
@@ -16,23 +16,24 @@ export const Link: Component<Props> = (props) => {
 	const isActive = useMatch(() => props.path);
 
 	return (
-		<RouterLink
-			href={props.path}
-			class="flex-row-center space-x-4 cursor-pointer px-4 rounded"
-			classList={{
-				"text-neutral-400 fill-neutral-400 hover:bg-white/5": !isActive(),
-				"text-neutral-100 fill-neutral-100 bg-white/[7.5%] font-medium": !!isActive(),
-				"py-3.5 md:py-2.5": props.variant !== "normal",
-				"py-2 text-sm": props.variant === "small",
-				"md:py-2.5": !props.minimized,
-				"!py-4 justify-center": props.minimized,
-			}}
-			onClick={() => props.onClick()}
-		>
-			<Icon name={props.icon} size={props.variant === "small" ? "md" : "lg"} extraClass="shrink-0" />
-			<Show when={!props.minimized}>
-				<div class="truncate">{props.label}</div>
-			</Show>
+		<RouterLink href={props.path} onClick={() => props.onClick()}>
+			<Button
+				flat
+				icon={props.icon}
+				title={props.minimized ? props.label : undefined}
+				iconSize="lg"
+				class="w-full space-x-4 px-4 py-3.5 md:py-2.5"
+				classList={{
+					"text-neutral-400 fill-neutral-400 hover:text-neutral-400": !isActive(),
+					"bg-white/[7.5%] hover:bg-white/[7.5%] fill-current font-medium": !!isActive(),
+					"md:py-2.5": !props.minimized,
+					"!py-4 justify-center": props.minimized,
+				}}
+			>
+				<Show when={!props.minimized}>
+					<div class="truncate">{props.label}</div>
+				</Show>
+			</Button>
 		</RouterLink>
 	);
 };

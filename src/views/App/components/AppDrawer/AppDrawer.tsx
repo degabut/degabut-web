@@ -1,7 +1,6 @@
+import { RouterLink } from "@components/A";
 import { Divider } from "@components/Divider";
 import { Drawer } from "@components/Drawer";
-import { Icon } from "@components/Icon";
-import { RouterLink } from "@components/Link";
 import { useApp } from "@hooks/useApp";
 import { useScreen } from "@hooks/useScreen";
 import { useSettings } from "@hooks/useSettings";
@@ -28,6 +27,7 @@ export const AppDrawer: Component = () => {
 	return (
 		<Drawer
 			resizeable
+			extraContainerClass="min-w-[4.25rem] max-w-[75vw] md:max-w-sm"
 			initialSize={settings.appDrawerSize}
 			onResize={(appDrawerSize) => setSettings({ appDrawerSize })}
 			isOpen={app.isMenuOpen()}
@@ -35,30 +35,27 @@ export const AppDrawer: Component = () => {
 		>
 			{(size) => {
 				const minimized = size <= 120;
-				return (
-					<>
-						<Show
-							when={!minimized}
-							fallback={
-								<RouterLink href="/app/queue" class="flex justify-center py-8">
-									<img class="w-8 h-auto" src="/favicon-32x32.png" />
-								</RouterLink>
-							}
-						>
-							<Icon
-								name="musicNote"
-								extraClass="w-24 h-24 fill-white/10 pointer-events-none absolute top-0 left-2"
-							/>
-							<div class="px-6 font-brand font-semibold text-3xl truncate py-8">degabut</div>
-						</Show>
 
-						<div class="flex-grow text-lg mx-2 space-y-1.5">
+				return (
+					<div class="flex flex-col mx-2 h-full">
+						<RouterLink
+							href="/app/queue"
+							class="flex"
+							classList={{
+								"justify-center py-8": minimized,
+								"px-2.5 py-4": !minimized,
+							}}
+						>
+							<img class="hover:animate-pulse w-8 h-auto" src="/favicon-32x32.png" />
+						</RouterLink>
+
+						<div class="flex flex-col grow text-lg space-y-1.5">
 							<For each={links}>
 								{(link) => <Link {...link} onClick={onLinkClick} minimized={minimized} />}
 							</For>
 						</div>
 
-						<div class="space-y-2 pb-8 mx-2">
+						<div class="flex flex-col space-y-2 pb-8">
 							<Show when={size > 180}>
 								<NowPlaying />
 								<Divider dark extraClass="hidden md:block" />
@@ -76,7 +73,7 @@ export const AppDrawer: Component = () => {
 								minimized={minimized}
 							/>
 						</div>
-					</>
+					</div>
 				);
 			}}
 		</Drawer>

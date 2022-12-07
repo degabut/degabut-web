@@ -1,5 +1,2 @@
-export * from "./QueueActions";
-export * from "./QueuePlayHistory";
-export * from "./QueueTrackList";
-export * from "./SearchInput";
-export * from "./SeekSlider";
+export * from "./QueuePlayer";
+export * from "./QueueTabs";

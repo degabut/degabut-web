@@ -37,7 +37,7 @@ export const VideoDetail: Component = () => {
 			<Show when={video.data()} fallback={<Videos.List data={[]} isLoading />} keyed>
 				{(v) => (
 					<Videos.List
-						label={<div class="font-medium">Similar Videos</div>}
+						title={<div class="font-medium">Similar Videos</div>}
 						data={v.related || []}
 						videoProps={(video) => ({
 							video,

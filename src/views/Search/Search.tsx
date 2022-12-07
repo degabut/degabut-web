@@ -1,4 +1,5 @@
 import { Container } from "@components/Container";
+import { Icon } from "@components/Icon";
 import { Input } from "@components/Input";
 import { Video } from "@components/Video";
 import { YouTubePlaylist } from "@components/YoutubePlaylist";
@@ -57,40 +58,37 @@ export const Search: Component = () => {
 				class="md:max-w-[32rem]"
 				value={initialKeyword}
 				onInput={onInput}
+				prefix={<Icon name="search" size="lg" extraClass="fill-current" />}
 			/>
 
 			<div class="lg:space-y-8 space-y-1.5">
 				<Show when={!search.isLoading()} fallback={<SearchResultSkeleton isSmall={screen().lte.md} />}>
 					<For each={search.result()}>
-						{(item) => {
-							if ("duration" in item) {
-								return (
-									<Video.ListResponsive
-										big={screen().gte.lg}
-										video={item}
-										onClick={() => navigate(`/app/video/${item.id}`)}
-										contextMenu={getVideoContextMenu({
-											video: item,
-											appStore: app,
-											queueStore: queue,
-											navigate,
-										})}
-									/>
-								);
-							} else {
-								return (
-									<YouTubePlaylist.ListResponsive
-										big={screen().gte.lg}
-										playlist={item}
-										contextMenu={getYouTubePlaylistContextMenu({
-											appStore: app,
-											queueStore: queue,
-											playlist: item,
-										})}
-									/>
-								);
-							}
-						}}
+						{(item) =>
+							"duration" in item ? (
+								<Video.ListResponsive
+									big={screen().gte.lg}
+									video={item}
+									onClick={() => navigate(`/app/video/${item.id}`)}
+									contextMenu={getVideoContextMenu({
+										video: item,
+										appStore: app,
+										queueStore: queue,
+										navigate,
+									})}
+								/>
+							) : (
+								<YouTubePlaylist.ListResponsive
+									big={screen().gte.lg}
+									playlist={item}
+									contextMenu={getYouTubePlaylistContextMenu({
+										appStore: app,
+										queueStore: queue,
+										playlist: item,
+									})}
+								/>
+							)
+						}
 					</For>
 				</Show>
 			</div>

@@ -19,7 +19,9 @@ export const Label: Component<LabelProps> = (props) => {
 		<Title
 			right={
 				<Show when={!props.isLoading}>
-					<SeeMoreTextButton extraClass="hidden md:block" onClick={() => props.onClickMore()} />
+					<div class="hidden md:block">
+						<SeeMoreTextButton onClick={() => props.onClickMore()} />
+					</div>
 				</Show>
 			}
 		>
@@ -57,7 +59,7 @@ export const ExpandableVideoList: Component<Props> = (props) => {
 				when={props.double}
 				fallback={
 					<Videos.List
-						label={<Label {...props} />}
+						title={<Label {...props} />}
 						isLoading={props.isLoading}
 						data={props.videos}
 						videoProps={videoProps}
@@ -65,7 +67,7 @@ export const ExpandableVideoList: Component<Props> = (props) => {
 				}
 			>
 				<Videos.Double
-					label={<Label {...props} />}
+					title={<Label {...props} />}
 					isLoading={props.isLoading}
 					data={props.videos}
 					videoProps={videoProps}
@@ -73,7 +75,9 @@ export const ExpandableVideoList: Component<Props> = (props) => {
 			</Show>
 
 			<Show when={!props.isLoading}>
-				<SeeMoreButton extraClass="md:hidden" onClick={() => props.onClickMore()} />
+				<div class="md:hidden">
+					<SeeMoreButton onClick={() => props.onClickMore()} />
+				</div>
 			</Show>
 		</div>
 	);

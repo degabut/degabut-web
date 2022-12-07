@@ -1,5 +1,6 @@
 import type { IMixPlaylist, IPlaylistCompact, IYoutubePlaylist } from "@api";
 import { ContextMenuButton } from "@components/ContextMenu";
+import { Text } from "@components/Text";
 import { contextMenu } from "@directives/contextMenu";
 import { ContextMenuDirectiveParams } from "@providers/ContextMenuProvider";
 import { Component, Show } from "solid-js";
@@ -29,23 +30,19 @@ export const YouTubePlaylistList: Component<YouTubePlaylistListProps> = (props) 
 			use:contextMenu={props.disableContextMenu ? undefined : props.contextMenu}
 			onClick={() => props.onClick?.(props.playlist)}
 		>
-			<PlaylistThumbnail playlist={props.playlist} extraContainerClass="flex-shrink-0" />
-			<div class="flex flex-col flex-grow space-y-0.5 truncate ml-3">
-				<div
-					class="truncate"
+			<PlaylistThumbnail playlist={props.playlist} extraContainerClass="shrink-0" />
+			<div class="flex flex-col grow space-y-0.5 truncate ml-3">
+				<Text.Body1
+					truncate
 					classList={{ [props.extraTitleClass || ""]: !!props.extraTitleClass }}
 					title={`${props.playlist.title} - ${props.playlist.channel?.name}`}
 				>
 					{props.playlist.title}
-				</div>
-				<div class="flex flex-row space-x-3 text-sm align-bottom">
-					<div class="text-neutral-400">{props.playlist.videoCount} videos</div>
+				</Text.Body1>
+				<div class="flex-row-center space-x-3 text-sm align-bottom">
+					<Text.Caption1>{props.playlist.videoCount} videos</Text.Caption1>
 					<Show when={props.playlist.channel} keyed>
-						{(c) => (
-							<div class="text-neutral-400 truncate">
-								<span class="text-neutral-300">{c.name}</span>
-							</div>
-						)}
+						{(c) => <Text.Body2 truncate>{c.name}</Text.Body2>}
 					</Show>
 				</div>
 			</div>
@@ -71,24 +68,25 @@ export const YouTubePlaylistListBig: Component<YouTubePlaylistListProps> = (prop
 			<PlaylistThumbnailBig playlist={props.playlist} />
 			<div class="flex flex-col space-y-2 w-full truncate p-2">
 				<div class="flex-row-center truncate">
-					<div
-						class="flex-grow font-medium truncate"
+					<Text.H4
+						truncate
+						class="grow"
 						classList={{ [props.extraTitleClass || ""]: !!props.extraTitleClass }}
 						title={`${props.playlist.title} - ${props.playlist.channel?.name}`}
 					>
 						{props.playlist.title}
-					</div>
+					</Text.H4>
 
 					<Show when={!props.disableContextMenu}>
 						<ContextMenuButton contextMenu={props.contextMenu} />
 					</Show>
 				</div>
 				<div class="space-y-1">
-					<div class="text-neutral-400 text-sm">{props.playlist.videoCount} videos</div>
-					<div class="flex-row-center space-x-2 text-sm">
+					<Text.Caption1>{props.playlist.videoCount} videos</Text.Caption1>
+					<div class="flex-row-center space-x-2">
 						<ChannelThumbnail playlist={props.playlist} />
 						<Show when={props.playlist.channel} keyed>
-							{(c) => <div>{c.name}</div>}
+							{(c) => <Text.Body2>{c.name}</Text.Body2>}
 						</Show>
 					</div>
 				</div>

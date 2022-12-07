@@ -1,17 +1,9 @@
 import { Container } from "@components/Container";
-import { Divider } from "@components/Divider";
 import { Icon } from "@components/Icon";
-import { RouterLink } from "@components/Link";
-import { TabLabel, Tabs } from "@components/Tabs";
-import { Video } from "@components/Video";
-import { Videos } from "@components/Videos";
 import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
-import { getVideoContextMenu } from "@utils";
-import { useNavigate } from "solid-app-router";
-import { Component, createSignal, onMount, Show } from "solid-js";
-import { QueueActions, QueuePlayHistory, QueueTrackList, SearchInput, SeekSlider } from "./components";
-import { QueueHint } from "./components/QueueHint";
+import { Component, onMount, Show } from "solid-js";
+import { QueuePlayer, QueueTabs } from "./components";
 
 const QueueNotFound: Component = () => {
 	return (
@@ -19,112 +11,6 @@ const QueueNotFound: Component = () => {
 			<Icon name="musicOff" extraClass="fill-neutral-400/10" />
 			<div class="text-xl md:text-2xl text-center text-neutral-300">No Queue Found</div>
 		</div>
-	);
-};
-
-const EmptyNowPlaying: Component = () => {
-	return (
-		<RouterLink
-			href="/app/recommendation"
-			class="flex flex-row items-center w-full space-x-4 p-1.5 hover:bg-white/[2.5%] rounded"
-		>
-			<div class="!w-16 !h-16 rounded border border-neutral-600" />
-			<div class="text-neutral-400">It's lonely here...</div>
-		</RouterLink>
-	);
-};
-
-const QueueView: Component = () => {
-	const app = useApp();
-	const queue = useQueue();
-	const navigate = useNavigate();
-	const [keyword, setKeyword] = createSignal("");
-
-	return (
-		<Container extraClass="space-y-8 md:space-y-4">
-			<div class="relative flex flex-col lg:items-start space-y-1.5 p-2 border border-neutral-600 rounded bg-black/[25%] text-shadow">
-				<Show when={queue.data.nowPlaying} keyed fallback={<EmptyNowPlaying />}>
-					{({ video, requestedBy }) => (
-						<div class="w-full">
-							<img
-								src={video.thumbnails.at(0)?.url}
-								class="absolute top-0 left-0 h-full w-full blur-3xl opacity-50 -z-[1000] pointer-events-none"
-							/>
-
-							<Video.List
-								video={video}
-								requestedBy={requestedBy}
-								onClick={() => navigate(`/app/video/${video.id}`)}
-								extraThumbnailClass="!w-16 !h-16"
-								extraTitleClass="text-lg font-medium bg-opacity-10"
-								contextMenu={getVideoContextMenu({
-									modifyContextMenuItems: (items) => {
-										items.shift();
-										return items;
-									},
-									video,
-									appStore: app,
-									queueStore: queue,
-									navigate,
-								})}
-							/>
-						</div>
-					)}
-				</Show>
-
-				<div class="w-full">
-					<Show
-						when={queue.data.nowPlaying?.video.duration}
-						fallback={
-							<div class="h-8 px-2">
-								<Divider light extraClass="h-7" />
-							</div>
-						}
-					>
-						<SeekSlider
-							max={queue.data.nowPlaying?.video.duration || 0}
-							value={(queue.data.position || 0) / 1000}
-							onChange={(value) => queue.seek(value * 1000)}
-						/>
-					</Show>
-				</div>
-
-				<QueueActions
-					extended
-					extraClass="flex-wrap justify-between md:justify-start w-full md:space-x-8 px-2 pt-1.5"
-				/>
-			</div>
-
-			<Tabs
-				extraContentContainerClass="pt-4 md:pt-6"
-				slotEnd={<SearchInput keyword={keyword()} onInput={setKeyword} />}
-				items={[
-					{
-						id: "trackList",
-						label: (props) => (
-							<TabLabel icon="audioPlaylist" label="Track List" isActive={props.isActive} />
-						),
-						element: () => (
-							<Show when={!queue.isInitialLoading()} fallback={<Videos.List data={[]} isLoading />}>
-								<div class="space-y-4 md:space-y-1.5">
-									<QueueTrackList keyword={keyword()} />
-									<QueueHint />
-								</div>
-							</Show>
-						),
-					},
-					{
-						id: "queueHistory",
-						label: (props) => <TabLabel icon="history" label="History" isActive={props.isActive} />,
-						element: () => (
-							<Show when={!queue.isInitialLoading()} fallback={<Videos.List data={[]} isLoading />}>
-								<QueuePlayHistory keyword={keyword()} />
-							</Show>
-						),
-					},
-				]}
-			/>
-		</Container>
 	);
 };
 
@@ -136,7 +22,10 @@ export const Queue: Component = () => {
 
 	return (
 		<Show when={!queue.data.empty || queue.isInitialLoading()} fallback={<QueueNotFound />}>
-			<QueueView />
+			<Container extraClass="space-y-8 md:space-y-4">
+				<QueuePlayer />
+				<QueueTabs />
+			</Container>
 		</Show>
 	);
 };

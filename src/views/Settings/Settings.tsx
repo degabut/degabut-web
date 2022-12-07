@@ -54,7 +54,11 @@ export const Settings: Component = () => {
 				</Show>
 				<Divider />
 
-				<Button rounded class="max-w-max text-red-500 border-red-500 hover:bg-red-500/10" onClick={onLogout}>
+				<Button
+					rounded
+					class="max-w-max text-red-500 border-red-500 hover:bg-red-500/10 px-8 py-1.5"
+					onClick={onLogout}
+				>
 					Logout
 				</Button>
 			</div>

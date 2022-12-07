@@ -89,7 +89,7 @@ export const Recommendation: Component = () => {
 				<Show when={recommendation.related().data.length || recommendation.related().loading}>
 					<div ref={containerElement}>
 						<Videos.List
-							label={<Title>Recommendations</Title>}
+							title={<Title>Recommendations</Title>}
 							isLoading={recommendation.related().loading}
 							showWhenLoading
 							data={recommendation.related().data}

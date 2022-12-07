@@ -1,5 +1,5 @@
+import { Button } from "@components/Button";
 import { ContextMenuItem } from "@components/ContextMenu";
-import { Icon } from "@components/Icon";
 import { contextMenu } from "@directives/contextMenu";
 import { useApp } from "@hooks/useApp";
 import { Component } from "solid-js";
@@ -26,7 +26,7 @@ export const SettingsButton: Component<Props> = (props) => {
 	];
 
 	return (
-		<button
+		<div
 			use:contextMenu={{
 				items: [contextMenuItems()],
 				header: () => (
@@ -38,10 +38,8 @@ export const SettingsButton: Component<Props> = (props) => {
 				),
 				openWithClick: true,
 			}}
-			class="p-2 fill-neutral-300 hover:fill-white"
-			title="Settings"
 		>
-			<Icon name="gear" extraClass="w-5 h-5" />
-		</button>
+			<Button flat class="p-2" icon="gear" iconSize="lg" title="Settings" />
+		</div>
 	);
 };
