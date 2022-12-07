@@ -12,6 +12,7 @@ type Props = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
 export const Button: Component<Props> = (props) => {
 	return (
 		<button
+			type="button"
 			{...props}
 			class="flex-row-center"
 			classList={{
