@@ -1,4 +1,5 @@
 import { Slider } from "@components/Slider";
+import { Text } from "@components/Text";
 import { secondsToTime } from "@utils";
 import { Component, createEffect, createSignal } from "solid-js";
 
@@ -32,10 +33,10 @@ export const SeekSlider: Component<Props> = (props) => {
 	};
 
 	return (
-		<div class="px-2 w-full text-xs text-neutral-300">
+		<div class="px-2 w-full text-xs">
 			<div class="flex-row-center justify-between">
-				<div>{secondsToTime(Math.round(value()))}</div>
-				<div>{secondsToTime(props.max)}</div>
+				<Text.Caption2 light>{secondsToTime(Math.round(value()))}</Text.Caption2>
+				<Text.Caption2 light>{secondsToTime(props.max)}</Text.Caption2>
 			</div>
 
 			<Slider

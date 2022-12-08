@@ -1,11 +1,12 @@
 import { JSX, ParentComponent } from "solid-js";
 
-type BaseHeadlineProps = JSX.InputHTMLAttributes<HTMLHeadingElement> & {
+type BaseHeadlineProps = JSX.HTMLAttributes<HTMLHeadingElement> & {
 	truncate?: boolean;
 };
 
-type BaseSpanProps = JSX.InputHTMLAttributes<HTMLSpanElement> & {
+type BaseSpanProps = JSX.HTMLAttributes<HTMLSpanElement> & {
 	truncate?: boolean;
+	light?: boolean;
 };
 
 export const H1: ParentComponent<BaseHeadlineProps> = (props) => {
@@ -141,8 +142,10 @@ export const Caption1: ParentComponent<BaseSpanProps> = (props) => {
 	return (
 		<span
 			{...props}
-			class="text-sm text-neutral-400"
+			class="text-sm"
 			classList={{
+				"text-neutral-300": props.light,
+				"text-neutral-400": !props.light,
 				truncate: props.truncate,
 				...props.classList,
 				[props.class || ""]: !!props.class,
@@ -157,8 +160,10 @@ export const Caption2: ParentComponent<BaseSpanProps> = (props) => {
 	return (
 		<span
 			{...props}
-			class="text-xs text-neutral-400"
+			class="text-xs"
 			classList={{
+				"text-neutral-300": props.light,
+				"text-neutral-400": !props.light,
 				truncate: props.truncate,
 				...props.classList,
 				[props.class || ""]: !!props.class,
