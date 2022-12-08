@@ -41,10 +41,12 @@ export const InstallPrompt: Component = () => {
 				<div class="text-center">Install Degabut on your device for a better experience.</div>
 
 				<div class="flex flex-row items-center space-x-8 py-2">
-					<div class="underline underline-offset-2 px-4 cursor-pointer" onClick={dismiss}>
+					<Button flat class="px-4 py-1.5 underline underline-offset-2" onClick={dismiss}>
 						Later
-					</div>
-					<Button onClick={promptInstall}>Install</Button>
+					</Button>
+					<Button class="px-4 py-1.5" onClick={promptInstall}>
+						Install
+					</Button>
 				</div>
 			</div>
 		</Show>
