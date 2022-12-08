@@ -26,10 +26,10 @@ export const SortableVideoList: Component<Props> = (props) => {
 			}}
 		>
 			<Video.List
-				extraContainerClass="pl-0.5"
+				extraContainerClass="!pl-0"
 				left={
 					<div
-						class="flex pr-0.5 h-full fill-neutral-400 hover:fill-neutral-100 touch-none"
+						class="px-0.5 py-4 fill-neutral-400 hover:fill-neutral-100 touch-none"
 						onClick={(e) => e.stopPropagation()}
 					>
 						<Icon {...sortable.dragActivators} name="sixDots" size="md" />
@@ -46,9 +46,9 @@ export const DummySortableVideoList: Component<Omit<Props, "initialId">> = (prop
 	return (
 		<div class="flex-row-center max-w-[calc(100vw-1.5rem)]">
 			<Video.List
-				extraContainerClass="pl-0.5"
+				extraContainerClass="!pl-0"
 				left={
-					<div class="pr-0.5 py-3 fill-neutral-400 hover:fill-neutral-100 hover:cursor-pointer touch-none">
+					<div class="px-0.5 fill-neutral-400 hover:fill-neutral-100 hover:cursor-pointer touch-none">
 						<Icon name="sixDots" size="md" />
 					</div>
 				}
