@@ -10,10 +10,10 @@ export const NowPlayingMobile: Component = () => {
 	return (
 		<Show when={queue.data.nowPlaying} keyed>
 			{({ video }) => (
-				<div class="bg-neutral-900 w-full p-1.5">
+				<div class="bg-neutral-900 w-full">
 					<SolidLink
 						href="/app/queue"
-						class="relative overflow-hidden flex-row-center p-2 z-10 rounded cursor-pointer bg-gray-800"
+						class="relative overflow-hidden flex-row-center m-1.5 p-2 z-10 rounded cursor-pointer bg-gray-800"
 						title={video.title}
 					>
 						<img
@@ -32,6 +32,12 @@ export const NowPlayingMobile: Component = () => {
 
 						<Icon name="musicNote" extraClass="absolute right-2 w-12 h-12 fill-white/10" />
 					</SolidLink>
+
+					<Show when={queue.data.position} keyed>
+						{(position) => (
+							<div class="bg-brand-500 h-1" style={{ width: `${position / 10 / video.duration}%` }} />
+						)}
+					</Show>
 				</div>
 			)}
 		</Show>
