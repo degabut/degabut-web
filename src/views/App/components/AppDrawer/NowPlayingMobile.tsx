@@ -35,7 +35,7 @@ export const NowPlayingMobile: Component = () => {
 
 					<Show when={queue.data.position} keyed>
 						{(position) => (
-							<div class="bg-brand-500 h-1" style={{ width: `${position / 10 / video.duration}%` }} />
+							<div class="bg-brand-500 h-0.5" style={{ width: `${position / 10 / video.duration}%` }} />
 						)}
 					</Show>
 				</div>
