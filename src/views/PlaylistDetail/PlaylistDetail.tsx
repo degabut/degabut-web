@@ -47,6 +47,7 @@ export const PlaylistDetail: Component = () => {
 					data={playlist.videos() || []}
 					videoProps={(pv) => ({
 						video: pv.video,
+						inQueue: queue.data.tracks?.some((t) => t.video.id === pv.video.id),
 						contextMenu: getVideoContextMenu({
 							video: pv.video,
 							appStore: app,

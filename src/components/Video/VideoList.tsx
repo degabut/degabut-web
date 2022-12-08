@@ -1,5 +1,6 @@
 import type { IGuildMember, IVideoCompact } from "@api";
 import { ContextMenuButton } from "@components/ContextMenu";
+import { Icon } from "@components/Icon";
 import { Text } from "@components/Text";
 import { contextMenu } from "@directives/contextMenu";
 import { ContextMenuDirectiveParams } from "@providers/ContextMenuProvider";
@@ -19,6 +20,7 @@ export type VideoListProps = {
 	extraContainerClassList?: Record<string, boolean>;
 	extraThumbnailClass?: string;
 	extraTitleClass?: string;
+	inQueue?: boolean;
 	left?: JSX.Element;
 	right?: JSX.Element;
 	onClick?: (video: IVideoCompact) => void;
@@ -37,7 +39,9 @@ export const VideoList: Component<VideoListProps> = (props) => {
 			onClick={() => props.onClick?.(props.video)}
 		>
 			{props.left}
+
 			<VideoThumbnail video={props.video} extraClass={`shrink-0 ${props.extraThumbnailClass}`} />
+
 			<div class="flex flex-col grow space-y-0.5 truncate ml-3">
 				<Text.Body1
 					truncate
@@ -46,11 +50,19 @@ export const VideoList: Component<VideoListProps> = (props) => {
 				>
 					{props.video.title}
 				</Text.Body1>
-				<div class="flex flex-row space-x-3 text-sm align-bottom">
+
+				<div class="flex-row-center text-sm align-bottom">
+					<Show when={props.inQueue}>
+						<div class="mr-1" title="In Queue">
+							<Icon name="degabut" class="fill-brand-600 w-3.5 h-3.5" />
+						</div>
+					</Show>
+
 					<Show when={props.video.duration > 0} fallback={<LiveBadge />}>
 						<Text.Caption1>{secondsToTime(props.video.duration)}</Text.Caption1>
 					</Show>
-					<div class="truncate">
+
+					<div class="truncate ml-3">
 						<Text.Body2 truncate>{props.video.channel.name}</Text.Body2>
 						{props.requestedBy && (
 							<Text.Caption2 truncate> — Requested by {props.requestedBy.displayName}</Text.Caption2>
@@ -58,10 +70,12 @@ export const VideoList: Component<VideoListProps> = (props) => {
 					</div>
 				</div>
 			</div>
+
+			{props.right}
+
 			<Show when={!props.disableContextMenu && !props.hideContextMenuButton}>
 				<ContextMenuButton contextMenu={props.contextMenu} />
 			</Show>
-			{props.right}
 		</div>
 	);
 };
@@ -78,7 +92,7 @@ export const VideoListBig: Component<VideoListProps> = (props) => {
 			use:contextMenu={props.disableContextMenu ? undefined : props.contextMenu}
 			onClick={() => props.onClick?.(props.video)}
 		>
-			<VideoThumbnailBig video={props.video} extraClass={props.extraThumbnailClass} />
+			<VideoThumbnailBig inQueue={props.inQueue} video={props.video} extraClass={props.extraThumbnailClass} />
 			<div class="flex flex-col sm:space-y-2 w-full truncate px-2 pb-2 sm:pt-1">
 				<div class="flex-row-center truncate">
 					<Text.H4

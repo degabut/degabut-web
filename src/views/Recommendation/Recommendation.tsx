@@ -95,6 +95,7 @@ export const Recommendation: Component = () => {
 							data={recommendation.related().data}
 							videoProps={(video) => ({
 								video,
+								inQueue: queue.data.tracks?.some((t) => t.video.id === video.id),
 								contextMenu: getVideoContextMenu({
 									appStore: app,
 									queueStore: queue,

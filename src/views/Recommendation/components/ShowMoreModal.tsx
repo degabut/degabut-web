@@ -93,6 +93,7 @@ export const ShowMoreModal: Component<Props> = (props) => {
 						isLoading={videos.data.loading}
 						videoProps={(video) => ({
 							video: video,
+							inQueue: queue.data.tracks?.some((t) => t.video.id === video.id),
 							contextMenu: getVideoContextMenu({
 								video,
 								appStore: app,

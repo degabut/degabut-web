@@ -125,6 +125,7 @@ export const QuickSearchModal: Component<Props> = (props) => {
 							return (
 								<Video.List
 									video={item}
+									inQueue={queue.data.tracks?.some((t) => t.video.id === item.id)}
 									contextMenu={getVideoContextMenu({
 										video: item,
 										appStore: app,

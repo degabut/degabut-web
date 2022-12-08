@@ -45,6 +45,7 @@ export const ExpandableVideoList: Component<Props> = (props) => {
 
 	const videoProps = (video: IVideoCompact) => ({
 		video,
+		inQueue: queue.data.tracks?.some((t) => t.video.id === video.id),
 		contextMenu: getVideoContextMenu({
 			appStore: app,
 			queueStore: queue,

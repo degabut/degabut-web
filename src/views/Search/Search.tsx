@@ -69,6 +69,7 @@ export const Search: Component = () => {
 								<Video.ListResponsive
 									big={screen().gte.lg}
 									video={item}
+									inQueue={queue.data.tracks?.some((t) => t.video.id === item.id)}
 									onClick={() => navigate(`/app/video/${item.id}`)}
 									contextMenu={getVideoContextMenu({
 										video: item,
