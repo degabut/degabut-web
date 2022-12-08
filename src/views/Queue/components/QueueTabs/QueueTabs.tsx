@@ -21,7 +21,14 @@ export const QueueTabs: Component = () => {
 					labelText: "Track List",
 					icon: "audioPlaylist",
 					element: () => (
-						<Show when={!queue.isInitialLoading()} fallback={<Videos.List data={[]} isLoading />}>
+						<Show
+							when={!queue.isInitialLoading()}
+							fallback={
+								<div class="pt-6">
+									<Videos.List data={[]} isLoading />
+								</div>
+							}
+						>
 							<QueueInfo />
 							<div class="space-y-1.5">
 								<QueueTrackList keyword={keyword()} />
