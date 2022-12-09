@@ -1,17 +1,18 @@
+import { RouterLink } from "@components/A";
 import { Icon } from "@components/Icon";
+import { Text } from "@components/Text";
 import { VideoThumbnail } from "@components/Video/components";
 import { useQueue } from "@hooks/useQueue";
-import { Link as SolidLink } from "solid-app-router";
 import { Component, Show } from "solid-js";
 
-export const NowPlayingMobile: Component = () => {
+export const QueuePlayer: Component = () => {
 	const queue = useQueue();
 
 	return (
 		<Show when={queue.data.nowPlaying} keyed>
 			{({ video }) => (
-				<div class="bg-neutral-900 w-full">
-					<SolidLink
+				<div class="bg-neutral-950 w-full">
+					<RouterLink
 						href="/app/queue"
 						class="relative overflow-hidden flex-row-center m-1.5 p-2 z-10 rounded cursor-pointer bg-gray-800"
 						title={video.title}
@@ -25,13 +26,13 @@ export const NowPlayingMobile: Component = () => {
 							<VideoThumbnail video={video} />
 
 							<div class="flex flex-col truncate text-shadow">
-								<div class="truncate">{video.title}</div>
-								<div class="truncate text-sm text-neutral-300">{video.channel.name}</div>
+								<Text.Body1 class="truncate">{video.title}</Text.Body1>
+								<Text.Body2 class="truncate text-sm text-neutral-300">{video.channel.name}</Text.Body2>
 							</div>
 						</div>
 
-						<Icon name="musicNote" extraClass="absolute right-2 w-12 h-12 fill-white/10" />
-					</SolidLink>
+						<Icon name="musicNotes" extraClass="absolute right-2 w-12 h-12 fill-white/10" />
+					</RouterLink>
 
 					<Show when={queue.data.position} keyed>
 						{(position) => (

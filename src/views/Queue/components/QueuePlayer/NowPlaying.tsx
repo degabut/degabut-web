@@ -1,5 +1,6 @@
 import { ITrack } from "@api";
 import { RouterLink } from "@components/A";
+import { ContextMenuItem } from "@components/ContextMenu";
 import { Video } from "@components/Video";
 import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
@@ -25,7 +26,12 @@ export const NowPlaying: Component<Props> = (props) => {
 			extraTitleClass="!text-lg font-medium bg-opacity-10"
 			contextMenu={getVideoContextMenu({
 				modifyContextMenuItems: (items) => {
-					items.shift();
+					items[0] = [
+						{
+							element: () => <ContextMenuItem icon="trashBin" label="Remove from Queue" />,
+							onClick: () => queue.removeTrack(props.track),
+						},
+					];
 					return items;
 				},
 				video: props.track.video,

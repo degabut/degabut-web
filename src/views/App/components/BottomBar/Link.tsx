@@ -1,7 +1,7 @@
 import { RouterLink } from "@components/A";
+import { Icon, Icons } from "@components/Icon";
 import { useMatch } from "solid-app-router";
 import { Component } from "solid-js";
-import { Icon, Icons } from "../../../../components/Icon";
 
 type Props = {
 	icon: Icons;
@@ -9,7 +9,7 @@ type Props = {
 	path: string;
 };
 
-export const MobileLink: Component<Props> = (props) => {
+export const Link: Component<Props> = (props) => {
 	const isActive = useMatch(() => props.path);
 
 	return (

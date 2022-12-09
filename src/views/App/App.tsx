@@ -12,11 +12,11 @@ import {
 	AppDrawer,
 	AppHeader,
 	BackgroundLogo,
+	BottomBar,
 	CatJamManager,
 	ExternalDragDrop,
 	InstallPrompt,
 	MemberListDrawer,
-	MobileAppDrawer,
 	UpdateModal,
 } from "./components";
 
@@ -62,35 +62,33 @@ const ProvidedApp: Component = () => {
 	requestNotificationPermission();
 
 	return (
-		<>
-			<div class="flex flex-col md:flex-row h-full ">
+		<div class="flex flex-col h-full">
+			<div class="flex h-full overflow-y-auto">
 				<AppDrawer />
 
-				<div class="relative h-full grow flex flex-col overflow-x-hidden">
+				<div class="relative h-full grow flex flex-col overflow-hidden">
 					<div class="shrink-0">
 						<AppHeader />
 					</div>
 
 					<BackgroundLogo />
 
-					<div class="h-full overflow-y-auto">
-						<ErrorBoundary fallback={(err) => <Error error={err} />}>
+					<ErrorBoundary fallback={(err) => <Error error={err} />}>
+						<div class="overflow-y-auto">
 							<Outlet />
-						</ErrorBoundary>
-					</div>
-
-					<div class="md:hidden block w-full z-10">
-						<MobileAppDrawer />
-					</div>
+						</div>
+					</ErrorBoundary>
 				</div>
 
 				<MemberListDrawer />
 			</div>
 
+			<BottomBar />
+
 			<CatJamManager />
 			<ExternalDragDrop />
 			<InstallPrompt />
 			<UpdateModal />
-		</>
+		</div>
 	);
 };

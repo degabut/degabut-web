@@ -2,7 +2,8 @@ import { RouterLink } from "@components/A";
 import { Icon, Icons } from "@components/Icon";
 import { useLocation, useMatch } from "solid-app-router";
 import { Component, For, Show } from "solid-js";
-import { NowPlayingMobile } from "./NowPlayingMobile";
+import { QueuePlayer } from "./QueuePlayer";
+import { QueuePlayerMd } from "./QueuePlayerMd";
 
 type Props = {
 	icon: Icons;
@@ -28,7 +29,7 @@ const Link: Component<Props> = (props) => {
 	);
 };
 
-export const MobileAppDrawer: Component = () => {
+export const BottomBar: Component = () => {
 	const location = useLocation();
 
 	const links = [
@@ -38,12 +39,17 @@ export const MobileAppDrawer: Component = () => {
 	] as const;
 
 	return (
-		<div class="flex flex-col w-full h-full">
+		<div class="flex flex-col w-full z-10">
 			<Show when={location.pathname !== "/app/queue"}>
-				<NowPlayingMobile />
+				<div class="md:hidden">
+					<QueuePlayer />
+				</div>
+				<div class="hidden md:block">
+					<QueuePlayerMd />
+				</div>
 			</Show>
 
-			<div class="flex-row-center flex-wrap bg-black h-full">
+			<div class="flex-row-center flex-wrap bg-black h-full md:hidden block">
 				<For each={links}>{(link) => <Link {...link} />}</For>
 			</div>
 		</div>

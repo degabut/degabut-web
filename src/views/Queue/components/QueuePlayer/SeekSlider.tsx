@@ -42,7 +42,7 @@ export const SeekSlider: Component<Props> = (props) => {
 				</div>
 			</Show>
 
-			<div class="flex-row-center space-x-2 mt-2.5 mb-1">
+			<div classList={{ "flex-row-center space-x-2": props.inline }}>
 				<Show when={props.inline}>
 					<Text.Caption2 light>{secondsToTime(Math.round(value()))}</Text.Caption2>
 				</Show>
