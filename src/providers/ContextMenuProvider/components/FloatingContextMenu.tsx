@@ -27,8 +27,8 @@ export const FloatingContextMenu: Component<Props> = (props) => {
 
 			const pos: { x?: number; y?: number } = {};
 
-			if (rect.x + rect.width > window.innerWidth) pos.x = window.innerWidth - rect.width;
-			if (rect.y + rect.height > window.innerHeight) pos.y = window.innerHeight - rect.height;
+			if (rect.x + rect.width > window.innerWidth) pos.x = props.params.x - rect.width;
+			if (rect.y + rect.height > window.innerHeight) pos.y = props.params.y - rect.height;
 			if (pos.x || pos.y) props.onPositionChange(pos);
 		}
 	});
