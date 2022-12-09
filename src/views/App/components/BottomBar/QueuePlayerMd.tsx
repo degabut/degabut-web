@@ -7,6 +7,7 @@ import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { getVideoContextMenu } from "@utils";
 import { QueueActions, SeekSlider } from "@views/Queue";
+import { LyricsButton } from "@views/Queue/components/QueuePlayer/QueueActions/components";
 import { useNavigate } from "solid-app-router";
 import { Component, Show } from "solid-js";
 
@@ -61,9 +62,9 @@ const Controls: Component = () => {
 	const queue = useQueue();
 
 	return (
-		<div class="flex-col-center w-full mx-auto">
+		<div class="flex-col-center justify-center">
 			<div class="space-y-1 w-full max-w-[36rem] 2xl:max-w-[42rem]">
-				<QueueActions extended extraClass="justify-center space-x-2 xl:space-x-4 2xl:space-x-6 w-full" />
+				<QueueActions extraClass="justify-center space-x-6" />
 				<Show
 					when={queue.data.nowPlaying?.video.duration}
 					fallback={
@@ -84,23 +85,34 @@ const Controls: Component = () => {
 	);
 };
 
-export const QueuePlayerMd: Component = () => {
+export const ExtraControls: Component = () => {
 	const app = useApp();
+	const navigate = useNavigate();
+
+	return (
+		<div class="flex items-center justify-end space-x-2">
+			<LyricsButton onClick={() => navigate("/app/queue/lyrics")} />
+			<Button
+				flat
+				title="Add Song"
+				icon="plus"
+				iconSize="lg"
+				class="text-neutral-300 p-2"
+				onClick={() => app.setIsQuickSearchModalOpen(true)}
+			/>
+		</div>
+	);
+};
+
+export const QueuePlayerMd: Component = () => {
 	const queue = useQueue();
 
 	return (
 		<Show when={!queue.data.empty} keyed>
-			<div class="flex-row-center space-x-8 bg-neutral-900 border-t border-neutral-700 p-2 z-10">
+			<div class="grid grid-cols-[minmax(0,1fr)_minmax(0,2fr)_minmax(0,1fr)] gap-x-8 bg-neutral-900 border-t border-neutral-700 p-2 z-10">
 				<NowPlaying />
 				<Controls />
-				<Button
-					flat
-					title="Add Song"
-					icon="plus"
-					iconSize="lg"
-					class="text-neutral-300 p-4"
-					onClick={() => app.setIsQuickSearchModalOpen(true)}
-				/>
+				<ExtraControls />
 			</div>
 		</Show>
 	);
