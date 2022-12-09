@@ -1,22 +1,9 @@
-import { RouterLink } from "@components/A";
 import { Divider } from "@components/Divider";
 import { useQueue } from "@hooks/useQueue";
 import { Component, Show } from "solid-js";
-import { NowPlaying } from "./NowPlaying";
+import { EmptyNowPlaying, NowPlaying } from "./NowPlaying";
 import { QueueActions } from "./QueueActions";
 import { SeekSlider } from "./SeekSlider";
-
-const EmptyNowPlaying: Component = () => {
-	return (
-		<RouterLink
-			href="/app/recommendation"
-			class="flex flex-row items-center w-full space-x-4 p-1.5 hover:bg-white/[2.5%] rounded"
-		>
-			<div class="!w-16 !h-16 rounded border border-neutral-600" />
-			<div class="text-neutral-400">It's lonely here...</div>
-		</RouterLink>
-	);
-};
 
 export const QueuePlayer: Component = () => {
 	const queue = useQueue();
@@ -24,7 +11,15 @@ export const QueuePlayer: Component = () => {
 	return (
 		<div class="relative flex flex-col lg:items-start space-y-1.5 p-2 border border-neutral-600 rounded bg-black/[25%] text-shadow">
 			<Show when={queue.data.nowPlaying} keyed fallback={<EmptyNowPlaying />}>
-				{(track) => <NowPlaying track={track} />}
+				{(track) => (
+					<div class="w-full">
+						<img
+							src={track.video.thumbnails.at(0)?.url}
+							class="absolute top-0 left-0 h-full w-full blur-3xl opacity-50 -z-[1000] pointer-events-none"
+						/>
+						<NowPlaying track={track} />
+					</div>
+				)}
 			</Show>
 
 			<div class="w-full">

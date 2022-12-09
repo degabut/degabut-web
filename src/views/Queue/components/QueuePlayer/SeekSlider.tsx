@@ -1,11 +1,12 @@
 import { Slider } from "@components/Slider";
 import { Text } from "@components/Text";
 import { secondsToTime } from "@utils";
-import { Component, createEffect, createSignal } from "solid-js";
+import { Component, createEffect, createSignal, Show } from "solid-js";
 
 type Props = {
 	max: number;
 	value: number;
+	inline?: boolean;
 	onChange: (value: number) => void;
 };
 
@@ -34,22 +35,32 @@ export const SeekSlider: Component<Props> = (props) => {
 
 	return (
 		<div class="px-2 w-full text-xs">
-			<div class="flex-row-center justify-between">
-				<Text.Caption2 light>{secondsToTime(Math.round(value()))}</Text.Caption2>
-				<Text.Caption2 light>{secondsToTime(props.max)}</Text.Caption2>
-			</div>
+			<Show when={!props.inline}>
+				<div class="flex-row-center justify-between">
+					<Text.Caption2 light>{secondsToTime(Math.round(value()))}</Text.Caption2>
+					<Text.Caption2 light>{secondsToTime(props.max)}</Text.Caption2>
+				</div>
+			</Show>
 
-			<Slider
-				class="w-full h-0.5 appearance-none accent-brand-600"
-				style={{
-					background: backgroundStyle(),
-				}}
-				min={0}
-				onInput={(v) => onInput(+v.currentTarget.value)}
-				onChange={(v) => onChange(+v.currentTarget.value)}
-				max={props.max}
-				value={value()}
-			/>
+			<div class="flex-row-center space-x-2 mt-2.5 mb-1">
+				<Show when={props.inline}>
+					<Text.Caption2 light>{secondsToTime(Math.round(value()))}</Text.Caption2>
+				</Show>
+				<Slider
+					class="w-full h-0.5 appearance-none accent-brand-600"
+					style={{
+						background: backgroundStyle(),
+					}}
+					min={0}
+					onInput={(v) => onInput(+v.currentTarget.value)}
+					onChange={(v) => onChange(+v.currentTarget.value)}
+					max={props.max}
+					value={value()}
+				/>
+				<Show when={props.inline}>
+					<Text.Caption2 light>{secondsToTime(props.max)}</Text.Caption2>
+				</Show>
+			</div>
 		</div>
 	);
 };
