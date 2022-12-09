@@ -59,11 +59,13 @@ export const VideoList: Component<VideoListProps> = (props) => {
 					</Show>
 
 					<Show when={props.video.duration > 0} fallback={<LiveBadge />}>
-						<Text.Caption1>{secondsToTime(props.video.duration)}</Text.Caption1>
+						<Text.Caption2 class="border border-neutral-600 rounded px-0.5 text-neutral-300">
+							{secondsToTime(props.video.duration)}
+						</Text.Caption2>
 					</Show>
 
-					<div class="truncate ml-3">
-						<Text.Body2 truncate>{props.video.channel.name}</Text.Body2>
+					<div class="truncate ml-2">
+						<Text.Caption1 truncate>{props.video.channel.name}</Text.Caption1>
 						{props.requestedBy && (
 							<Text.Caption2 truncate> — Requested by {props.requestedBy.displayName}</Text.Caption2>
 						)}
