@@ -1,6 +1,7 @@
 import { IGuild } from "@api";
 import { Button } from "@components/Button";
 import { Container } from "@components/Container";
+import { Divider } from "@components/Divider";
 import { Text } from "@components/Text";
 import { useApi } from "@hooks/useApi";
 import { useApp } from "@hooks/useApp";
@@ -64,6 +65,9 @@ export const QueueNotFound: Component = () => {
 	return (
 		<Container size="full" extraClass="flex-col-center mt-6 space-y-6">
 			<Text.H1>Queue Not Found</Text.H1>
+
+			<Divider extraClass="max-w-lg" />
+
 			<Show when={queue.voiceChannelHistory.length}>
 				<div class="flex-col-center text-center">
 					<Text.H3>Are you in one of these voice channels?</Text.H3>

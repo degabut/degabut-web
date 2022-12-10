@@ -32,9 +32,9 @@ export const VideoPlaylistChooser: Component<Props> = (props) => {
 					<Video.List disableContextMenu video={props.video} onClick={() => props.onChoose(props.video)} />
 
 					<div class="flex-row-center space-x-4">
-						<Divider light extraClass="w-full" />
+						<Divider light />
 						<div class="text-neutral-400">or</div>
-						<Divider light extraClass="w-full" />
+						<Divider light />
 					</div>
 
 					<YouTubePlaylist.List

@@ -36,7 +36,7 @@ export const InstallPrompt: Component = () => {
 					<div class="text-lg font-medium ">Install Degabut</div>
 				</div>
 
-				<Divider extraClass="w-full" />
+				<Divider />
 
 				<div class="text-center">Install Degabut on your device for a better experience.</div>
 
