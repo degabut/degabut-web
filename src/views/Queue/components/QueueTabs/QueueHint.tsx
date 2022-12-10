@@ -66,7 +66,7 @@ export const QueueHint: Component = () => {
 
 			<div class="space-y-2 md:space-y-0" classList={{ "md:ml-[0.875rem]": !!tracks().length }}>
 				<div class="flex-row-center space-x-3 py-2 text-sm">
-					<Text.Body2>Quick Add</Text.Body2>
+					<Text.Body2 class="shrink-0">Quick Add</Text.Body2>
 					<Divider extraClass="grow" light />
 					<Button
 						flat
