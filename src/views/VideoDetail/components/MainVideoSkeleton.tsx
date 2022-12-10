@@ -1,5 +1,5 @@
 import { Skeleton } from "@components/Skeleton";
-import { ChannelThumbnailSkeleton } from "@components/Video/components";
+import { ChannelThumbnailSkeleton } from "@components/Video";
 import { Component } from "solid-js";
 
 export const MainVideoSkeleton: Component = () => {

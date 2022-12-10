@@ -6,7 +6,8 @@ import { contextMenu } from "@directives/contextMenu";
 import { ContextMenuDirectiveParams } from "@providers/ContextMenuProvider";
 import { secondsToTime } from "@utils";
 import { Component, JSX, Show } from "solid-js";
-import { ChannelThumbnail, LiveBadge, VideoThumbnail, VideoThumbnailBig } from "./components";
+import { ChannelThumbnail, LiveBadge } from "../components";
+import { VideoListThumbnail, VideoListThumbnailBig } from "./components";
 
 contextMenu;
 
@@ -40,7 +41,7 @@ export const VideoList: Component<VideoListProps> = (props) => {
 		>
 			{props.left}
 
-			<VideoThumbnail video={props.video} extraClass={`shrink-0 ${props.extraThumbnailClass}`} />
+			<VideoListThumbnail video={props.video} extraClass={`shrink-0 ${props.extraThumbnailClass}`} />
 
 			<div class="flex flex-col grow space-y-0.5 truncate ml-3">
 				<Text.Body1
@@ -94,7 +95,7 @@ export const VideoListBig: Component<VideoListProps> = (props) => {
 			use:contextMenu={props.disableContextMenu ? undefined : props.contextMenu}
 			onClick={() => props.onClick?.(props.video)}
 		>
-			<VideoThumbnailBig inQueue={props.inQueue} video={props.video} extraClass={props.extraThumbnailClass} />
+			<VideoListThumbnailBig inQueue={props.inQueue} video={props.video} extraClass={props.extraThumbnailClass} />
 			<div class="flex flex-col sm:space-y-2 w-full truncate px-2 pb-2 sm:pt-1">
 				<div class="flex-row-center truncate">
 					<Text.H4

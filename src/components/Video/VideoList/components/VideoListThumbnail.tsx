@@ -11,7 +11,7 @@ type Props = {
 	extraContainerClass?: string;
 };
 
-export const VideoThumbnail: Component<Props> = (props) => {
+export const VideoListThumbnail: Component<Props> = (props) => {
 	return (
 		<img
 			src={props.video.thumbnails[0]?.url}
@@ -22,7 +22,7 @@ export const VideoThumbnail: Component<Props> = (props) => {
 	);
 };
 
-export const VideoThumbnailBig: Component<Props> = (props) => {
+export const VideoListThumbnailBig: Component<Props> = (props) => {
 	return (
 		<div
 			class="relative flex bg-black rounded"

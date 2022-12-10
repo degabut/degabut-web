@@ -1,7 +1,6 @@
 import { IVideoCompact } from "@api";
 import { ContextMenuButton } from "@components/ContextMenu";
-import { Video } from "@components/Video";
-import { ChannelThumbnail } from "@components/Video/components";
+import { ChannelThumbnail, Video } from "@components/Video";
 import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { getVideoContextMenu } from "@utils";

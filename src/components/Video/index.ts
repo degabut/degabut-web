@@ -1,9 +1,8 @@
 import { VideoEmbed } from "./VideoEmbed";
-import { VideoList, VideoListBig, VideoListResponsive } from "./VideoList";
-import { VideoListBigSkeleton, VideoListSkeleton } from "./VideoListSkeleton";
+import { VideoList, VideoListBig, VideoListBigSkeleton, VideoListResponsive, VideoListSkeleton } from "./VideoList";
 
+export * from "./components";
 export * from "./VideoList";
-export * from "./VideoListSkeleton";
 
 export const Video = {
 	List: VideoList,

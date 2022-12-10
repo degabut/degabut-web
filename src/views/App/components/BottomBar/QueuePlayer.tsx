@@ -1,7 +1,7 @@
 import { RouterLink } from "@components/A";
 import { Icon } from "@components/Icon";
 import { Text } from "@components/Text";
-import { VideoThumbnail } from "@components/Video/components";
+import { VideoListThumbnail } from "@components/Video";
 import { useQueue } from "@hooks/useQueue";
 import { Component, Show } from "solid-js";
 
@@ -23,7 +23,7 @@ export const QueuePlayer: Component = () => {
 						/>
 
 						<div class="flex-row-center space-x-3 truncate">
-							<VideoThumbnail video={video} />
+							<VideoListThumbnail video={video} />
 
 							<div class="flex flex-col truncate text-shadow">
 								<Text.Body1 class="truncate">{video.title}</Text.Body1>
