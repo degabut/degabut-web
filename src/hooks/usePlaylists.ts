@@ -3,7 +3,7 @@ import { useApi } from "./useApi";
 
 export const usePlaylists = () => {
 	const api = useApi();
-	const [data, { refetch, mutate }] = createResource([], api.playlist.getPlaylists);
+	const [data, { refetch, mutate }] = createResource([], api.me.getPlaylists);
 
 	const createPlaylist = async (name: string) => {
 		await api.playlist.createPlaylist(name);

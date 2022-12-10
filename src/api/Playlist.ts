@@ -44,13 +44,6 @@ export class Playlist {
 		else return undefined;
 	};
 
-	getPlaylists = async (): Promise<IPlaylist[]> => {
-		const response = await this.client.get("/users/me/playlists");
-
-		if (response.status === 200) return response.data;
-		else return [];
-	};
-
 	getPlaylistVideos = async (playlistId: string): Promise<IPlaylistVideo[]> => {
 		if (!playlistId) return [];
 

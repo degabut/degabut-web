@@ -33,11 +33,15 @@ export const useVideos = (props: IUseVideosProps) => {
 
 			const { guild, voiceChannel } = value;
 			const baseProps = { guild, voiceChannel };
-			if ("last" in value) {
-				return api.user.getVideoHistory(value.userId, { last: value.last, ...baseProps });
-			} else {
-				return api.user.getVideoHistory(value.userId, { count: value.count, days: value.days, ...baseProps });
-			}
+
+			const params =
+				"last" in value
+					? { last: value.last, ...baseProps }
+					: { count: value.count, days: value.days, ...baseProps };
+
+			return value.userId === "me"
+				? api.me.getPlayHistory(params)
+				: api.user.getPlayHistory(value.userId, params);
 		}
 	});
 

@@ -38,7 +38,7 @@ export const QueueProvider: ParentComponent = (props) => {
 
 	const fetchQueue = async () => {
 		try {
-			const queue = await api.user.getSelfQueue();
+			const queue = await api.me.getQueue();
 			if (!queue) return setQueue({ empty: true });
 
 			const player = await api.player.getPlayer(queue.voiceChannel.id);

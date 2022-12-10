@@ -1,4 +1,4 @@
-import { Auth, AuthManager, Player, Playlist, Queue, User, YouTube } from "@api";
+import { Auth, AuthManager, Me, Player, Playlist, Queue, User, YouTube } from "@api";
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 import { useNavigate } from "solid-app-router";
 import { createContext, ParentComponent } from "solid-js";
@@ -10,6 +10,7 @@ export type ApiContextStore = {
 	playlist: Playlist;
 	queue: Queue;
 	player: Player;
+	me: Me;
 	user: User;
 	youtube: YouTube;
 };
@@ -54,6 +55,7 @@ export const ApiProvider: ParentComponent = (props) => {
 
 	const auth = new Auth(client);
 	const authManager = new AuthManager(client);
+	const me = new Me(client);
 	const user = new User(client);
 	const youtube = new YouTube(youtubeClient);
 	const playlist = new Playlist(client);
@@ -69,6 +71,7 @@ export const ApiProvider: ParentComponent = (props) => {
 				playlist,
 				queue,
 				player,
+				me,
 				user,
 				youtube,
 			}}
