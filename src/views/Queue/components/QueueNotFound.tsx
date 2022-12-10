@@ -21,7 +21,7 @@ type Props = {
 
 const VoiceChannelList: Component<Props> = (props) => {
 	return (
-		<div class="flex-row-center px-2 py-1 space-x-2 w-full max-w-[24rem] bg-white/5 rounded">
+		<div class="flex-row-center px-2 py-1 space-x-2 w-full bg-white/5 rounded">
 			<div class="shrink-0 w-14 h-14 p-1 rounded-full">
 				<img src={props.guild.icon || ""} />
 			</div>
@@ -72,7 +72,7 @@ export const QueueNotFound: Component = () => {
 					</Text.Body2>
 				</div>
 
-				<div class="flex-col-center w-full space-y-4">
+				<div class="flex-col-center w-full space-y-4 max-w-lg">
 					<For each={queue.voiceChannelHistory}>
 						{(history) => <VoiceChannelList {...history} isLoading={isLoading()} onClick={join} />}
 					</For>
