@@ -1,11 +1,12 @@
 import { ITrack } from "@api";
 import { useSettings } from "@hooks/useSettings";
 import { notify } from "@utils";
-import EventEmitter from "events";
 import { onMount } from "solid-js";
+import TypedEventEmitter from "typed-emitter";
+import { QueueEvents } from "./useQueueEvents";
 
 type Params = {
-	emitter: EventEmitter;
+	emitter: TypedEventEmitter<QueueEvents>;
 };
 
 export const useQueueNotification = ({ emitter }: Params) => {
