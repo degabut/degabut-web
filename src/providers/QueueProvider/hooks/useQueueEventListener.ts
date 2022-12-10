@@ -117,6 +117,7 @@ export const useQueueEventListener = ({ setQueue, fetchQueue, emitter }: Params)
 	};
 
 	const onTrackAudioStarted = (track: ITrack) => {
+		setQueue("position", 0);
 		setQueue("history", (history) => {
 			if (!history) return history;
 			history.unshift(track);
