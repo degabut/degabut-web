@@ -14,6 +14,19 @@ export interface IQueue {
 	loopMode: LoopMode;
 	nowPlaying: ITrack | null;
 	voiceChannel: IVoiceChannel;
+	guild: IGuild;
+}
+
+export interface IVoiceChannel {
+	id: string;
+	name: string;
+	members: IMember[];
+}
+
+export interface IGuild {
+	id: string;
+	name: string;
+	icon: string | null;
 }
 
 export interface IVoiceChannel {

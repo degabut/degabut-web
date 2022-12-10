@@ -4,10 +4,19 @@ import EventEmitter from "events";
 import { Accessor, createContext, createEffect, createSignal, onCleanup, onMount, ParentComponent } from "solid-js";
 import { createStore } from "solid-js/store";
 import TypedEventEmitter from "typed-emitter";
-import { QueueEvents, useQueueActions, useQueueEventListener, useQueueEvents, useQueueNotification } from "./hooks";
+import {
+	IHistory,
+	QueueEvents,
+	useQueueActions,
+	useQueueEventListener,
+	useQueueEvents,
+	useQueueNotification,
+	useVoiceChannelHistory,
+} from "./hooks";
 
 export type QueueContextStore = {
 	data: QueueResource;
+	voiceChannelHistory: IHistory[];
 	isInitialLoading: Accessor<boolean>;
 	isQueueFreezed: Accessor<boolean>;
 	isTrackFreezed: Accessor<boolean>;
@@ -16,6 +25,7 @@ export type QueueContextStore = {
 
 export const QueueContext = createContext<QueueContextStore>({
 	data: { empty: true },
+	voiceChannelHistory: [] as IHistory[],
 	isInitialLoading: () => true,
 	isQueueFreezed: () => false,
 	isTrackFreezed: () => false,
@@ -31,10 +41,6 @@ export const QueueProvider: ParentComponent = (props) => {
 	const [isInitialLoading, setIsInitialLoading] = createSignal(true);
 	const [isQueueFreezed, setIsQueueFreezed] = createSignal(true);
 	const [isTrackFreezed, setIsTrackFreezed] = createSignal(true);
-
-	const [queue, setQueue] = createStore<QueueResource>({ empty: true });
-	const queueActions = useQueueActions({ queue, setIsQueueFreezed, setIsTrackFreezed });
-	const queueEvents = useQueueEvents();
 
 	const fetchQueue = async () => {
 		try {
@@ -54,12 +60,15 @@ export const QueueProvider: ParentComponent = (props) => {
 		}
 	};
 
+	const [queue, setQueue] = createStore<QueueResource>({ empty: true });
+	const queueActions = useQueueActions({ queue, setIsQueueFreezed, setIsTrackFreezed });
+	const queueEvents = useQueueEvents();
+	const voiceChannelHistory = useVoiceChannelHistory({ queue });
 	useQueueEventListener({ setQueue, fetchQueue, emitter: queueEvents.emitter });
 	useQueueNotification({ emitter: queueEvents.emitter });
 
 	onMount(() => {
 		document.addEventListener("visibilitychange", onVisibilityChange);
-		// fetchQueue();
 		queueEvents.listen();
 	});
 
@@ -85,6 +94,7 @@ export const QueueProvider: ParentComponent = (props) => {
 
 	const store: QueueContextStore = {
 		data: queue,
+		voiceChannelHistory,
 		isInitialLoading,
 		isQueueFreezed,
 		isTrackFreezed,

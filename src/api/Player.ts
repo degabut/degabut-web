@@ -10,7 +10,7 @@ export class Player {
 
 	join = async (voiceChannelId: string): Promise<boolean> => {
 		const response = await this.client.post("/players", { voiceChannelId });
-		if (response.status !== 200) return false;
+		if (response.status !== 201) return false;
 		return true;
 	};
 
