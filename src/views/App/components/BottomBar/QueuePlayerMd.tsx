@@ -29,7 +29,10 @@ const NowPlaying: Component = () => {
 	const navigate = useNavigate();
 
 	return (
-		<div class="relative z-10 overflow-hidden rounded text-shadow w-full max-w-md xl:max-w-lg bg-gray-800">
+		<div
+			class="relative z-10 overflow-hidden rounded text-shadow w-full max-w-md xl:max-w-lg"
+			classList={{ "bg-gray-800": !!queue.data.nowPlaying }}
+		>
 			<Show when={queue.data.nowPlaying} fallback={<EmptyNowPlaying />} keyed>
 				{(t) => (
 					<>
