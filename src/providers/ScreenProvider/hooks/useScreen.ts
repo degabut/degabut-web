@@ -1,18 +1,8 @@
+import { BreakpointKeys, breakpoints } from "@constants";
 import { throttle } from "@utils";
 import { onMount } from "solid-js";
 import { createStore } from "solid-js/store";
 
-export const breakpoints = {
-	"3xl": 2048,
-	"2xl": 1536,
-	xl: 1280,
-	lg: 1024,
-	md: 768,
-	sm: 640,
-	xs: 0,
-} as const;
-
-type BreakpointKeys = keyof typeof breakpoints;
 type BreakpointEntries = Record<BreakpointKeys, boolean>;
 export type Screen = BreakpointEntries & {
 	lte: BreakpointEntries;

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IVideoCompact } from "@api";
+import { breakpoints } from "@constants";
 import { useScreen } from "@hooks/useScreen";
-import { breakpoints } from "@providers/ScreenProvider/hooks";
 import { Accessor, createContext, createEffect, createSignal, JSX, onMount, ParentComponent, Setter } from "solid-js";
 import {
 	AddPlaylistVideoModal,
