@@ -38,10 +38,10 @@ export const AppDrawer: Component = () => {
 					<div class="flex flex-col mx-2 h-full">
 						<RouterLink
 							href="/app/queue"
-							class="flex"
+							class="flex py-4"
 							classList={{
-								"justify-center py-8": minimized,
-								"px-2.5 py-4": !minimized,
+								"justify-center": minimized,
+								"px-2.5": !minimized,
 							}}
 						>
 							<img class="hover:animate-pulse w-8 h-auto" src="/favicon-32x32.png" />

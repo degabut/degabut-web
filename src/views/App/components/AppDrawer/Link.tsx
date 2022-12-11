@@ -26,8 +26,7 @@ export const Link: Component<Props> = (props) => {
 				classList={{
 					"text-neutral-400 fill-neutral-400 hover:text-neutral-400": !isActive(),
 					"bg-white/[7.5%] hover:bg-white/[7.5%] fill-current font-medium": !!isActive(),
-					"md:py-2.5": !props.minimized,
-					"!py-4 justify-center": props.minimized,
+					"justify-center !py-3.5": props.minimized,
 				}}
 			>
 				<Show when={!props.minimized}>
