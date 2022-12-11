@@ -17,7 +17,7 @@ const EmptyNowPlaying: Component = () => {
 			href="/app/recommendation"
 			class="flex flex-row items-center w-full space-x-4 p-1.5 hover:bg-white/[2.5%] rounded"
 		>
-			<div class="!w-12 !h-12 rounded border border-neutral-600" />
+			<div class="!w-12 !h-12 shrink-0 rounded border border-neutral-600" />
 			<div class="text-neutral-400">It's lonely here...</div>
 		</RouterLink>
 	);
