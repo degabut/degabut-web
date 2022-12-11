@@ -8,7 +8,7 @@ type Props<Item> = {
 	items: Item[];
 	minWidth?: string | number;
 	cols: number | Partial<Record<BreakpointKeys, number>>;
-	children: (item: Item) => JSX.Element;
+	children: ((item: Item) => JSX.Element) | JSX.Element;
 };
 
 export function GridCol<Item = unknown>(props: Props<Item>) {
@@ -51,7 +51,9 @@ export function GridCol<Item = unknown>(props: Props<Item>) {
 				"grid-template-columns": `repeat(${col()?.count ?? 1}, minmax(${props.minWidth || 0}, 1fr))`,
 			}}
 		>
-			<For each={items()}>{props.children}</For>
+			<For each={items()}>
+				{(item) => (typeof props.children === "function" ? props.children(item) : props.children)}
+			</For>
 		</div>
 	);
 }
