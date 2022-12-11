@@ -19,7 +19,7 @@ export const SeekSlider: Component<Props> = (props) => {
 	});
 
 	const backgroundStyle = () => {
-		const percentage = (props.value / props.max) * 100;
+		const percentage = (Math.round(props.value) / props.max) * 100;
 		return `linear-gradient(to right, #ECE350 0%, #ECE350 ${percentage}%, #dedede ${percentage}%, #dedede 100%)`;
 	};
 
