@@ -31,8 +31,8 @@ export const MemberListDrawer: Component = () => {
 		<Drawer
 			right
 			resizeable
-			initialSize={settings.appDrawerSize}
-			onResize={(appDrawerSize) => setSettings({ appDrawerSize })}
+			initialSize={settings.memberDrawerSize}
+			onResize={(memberDrawerSize) => setSettings({ memberDrawerSize })}
 			isOpen={app.isMemberOpen()}
 			handleClose={() => app.setIsMemberOpen(false)}
 			extraContainerClass="min-w-[4.25rem] max-w-[75vw] md:max-w-xs right-0"
