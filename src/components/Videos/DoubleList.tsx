@@ -19,7 +19,7 @@ export function DoubleVideosList<Data = unknown>(props: DoubleVideosListProps<Da
 	});
 
 	return (
-		<div class="space-y-4">
+		<div class="space-y-6 md:space-y-4">
 			{props.title}
 
 			<div class="grid grid-cols-1 2xl:grid-cols-2 2xl:gap-x-12 3xl:gap-x-24 gap-y-1.5">
