@@ -67,7 +67,7 @@ export const ShowMoreModal: Component<Props> = (props) => {
 				return "Recently Played";
 
 			case ShowMoreType.ChannelRelated:
-				return `${queue.data.voiceChannel?.name || "Channel"} Recommendations`;
+				return "Queue Recommendations";
 
 			default:
 				return null;

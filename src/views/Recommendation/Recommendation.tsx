@@ -7,7 +7,7 @@ import { useRecommendation } from "@hooks/useRecommendation";
 import { getVideoContextMenu } from "@utils";
 import { useNavigate, useParams } from "solid-app-router";
 import { Component, createEffect, createMemo, createSignal, onCleanup, onMount, Show } from "solid-js";
-import { ExpandableVideoList, ShowMoreModal, ShowMoreType, Title } from "./components";
+import { ExpandableVideoGrid, ExpandableVideoList, ShowMoreModal, ShowMoreType, Title } from "./components";
 
 const RecommendationEmpty: Component = () => {
 	return (
@@ -43,7 +43,7 @@ export const Recommendation: Component = () => {
 
 	createEffect(() => {
 		const user = targetUser();
-		app.setTitle(user ? `${user.displayName} recommendation` : "For You");
+		app.setTitle(user ? `${user.displayName} recommendation` : "Recommendation");
 	});
 
 	onMount(() => document.addEventListener("scroll", attemptLoadNext, true));
@@ -55,31 +55,29 @@ export const Recommendation: Component = () => {
 				<RecommendationEmpty />
 			</Show>
 
-			<Container extraClass="space-y-12">
-				<div class="grid grid-cols-1 2xl:grid-cols-2 2xl:gap-x-12 3xl:gap-x-24 gap-y-8">
-					<Show when={recommendation.mostPlayed().data.length || recommendation.mostPlayed().loading}>
-						<ExpandableVideoList
-							label="Most Played"
-							videos={recommendation.mostPlayed().data}
-							isLoading={recommendation.mostPlayed().loading}
-							onClickMore={() => setShowMoreType(ShowMoreType.MostPlayed)}
-						/>
-					</Show>
+			<Container size="xl" extraClass="space-y-8">
+				<Show when={recommendation.mostPlayed().data.length || recommendation.mostPlayed().loading}>
+					<ExpandableVideoGrid
+						label="Most Played"
+						videos={recommendation.mostPlayed().data}
+						isLoading={recommendation.mostPlayed().loading}
+						onClickMore={() => setShowMoreType(ShowMoreType.MostPlayed)}
+					/>
+				</Show>
 
-					<Show when={recommendation.lastPlayed().data.length || recommendation.lastPlayed().loading}>
-						<ExpandableVideoList
-							label="Recently Played"
-							videos={recommendation.lastPlayed().data}
-							isLoading={recommendation.lastPlayed().loading}
-							onClickMore={() => setShowMoreType(ShowMoreType.RecentlyPlayed)}
-						/>
-					</Show>
-				</div>
+				<Show when={recommendation.lastPlayed().data.length || recommendation.lastPlayed().loading}>
+					<ExpandableVideoGrid
+						label="Recently Played"
+						videos={recommendation.lastPlayed().data}
+						isLoading={recommendation.lastPlayed().loading}
+						onClickMore={() => setShowMoreType(ShowMoreType.RecentlyPlayed)}
+					/>
+				</Show>
 
 				<Show when={recommendation.channelRelated().data.length || recommendation.channelRelated().loading}>
 					<ExpandableVideoList
 						double
-						label={`${queue.data.voiceChannel?.name || "Channel"} Recommendations`}
+						label="Queue Recommendations"
 						isLoading={recommendation.channelRelated().loading}
 						videos={recommendation.channelRelated().data}
 						onClickMore={() => setShowMoreType(ShowMoreType.ChannelRelated)}
@@ -89,7 +87,7 @@ export const Recommendation: Component = () => {
 				<Show when={recommendation.related().data.length || recommendation.related().loading}>
 					<div ref={containerElement}>
 						<Videos.List
-							title={<Title>Recommendations</Title>}
+							title={<Title>For You</Title>}
 							isLoading={recommendation.related().loading}
 							showWhenLoading
 							data={recommendation.related().data}
