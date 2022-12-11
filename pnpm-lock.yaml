@@ -1,7 +1,6 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@tailwindcss/line-clamp': ^0.4.2
   '@thisbeyond/solid-dnd': ^0.7.3
   '@types/node': ^17.0.35
   '@typescript-eslint/eslint-plugin': ^5.30.4
@@ -25,7 +24,6 @@ specifiers:
   vite-plugin-solid: ^2.4.0
 
 dependencies:
-  '@tailwindcss/line-clamp': 0.4.2_tailwindcss@3.0.24
   '@thisbeyond/solid-dnd': 0.7.3_solid-js@1.6.2
   autoprefixer: 10.4.7_postcss@8.4.14
   axios: 0.27.2
@@ -1684,14 +1682,6 @@ packages:
       magic-string: 0.25.9
       string.prototype.matchall: 4.0.8
     dev: true
-
-  /@tailwindcss/line-clamp/0.4.2_tailwindcss@3.0.24:
-    resolution: {integrity: sha512-HFzAQuqYCjyy/SX9sLGB1lroPzmcnWv1FHkIpmypte10hptf4oPUfucryMKovZh2u0uiS9U5Ty3GghWfEJGwVw==}
-    peerDependencies:
-      tailwindcss: '>=2.0.0 || >=3.0.0 || >=3.0.0-alpha.1'
-    dependencies:
-      tailwindcss: 3.0.24
-    dev: false
 
   /@thisbeyond/solid-dnd/0.7.3_solid-js@1.6.2:
     resolution: {integrity: sha512-mX9AE//jyNm9bz9+w60LPukMJ8nkYrUh+RPm8E5SiFdmSI8EoP1hhNgDHFTHbxauoAMLFosi1QBwpgeg/XijDQ==}
