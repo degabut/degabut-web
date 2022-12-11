@@ -4,9 +4,8 @@ import { Icon } from "@components/Icon";
 import { Text } from "@components/Text";
 import { contextMenu } from "@directives/contextMenu";
 import { ContextMenuDirectiveParams } from "@providers/ContextMenuProvider";
-import { secondsToTime } from "@utils";
 import { Component, JSX, Show } from "solid-js";
-import { ChannelThumbnail, LiveBadge } from "../components";
+import { ChannelThumbnail, DurationBadge, LiveBadge } from "../components";
 import { VideoListThumbnail, VideoListThumbnailBig } from "./components";
 
 contextMenu;
@@ -60,9 +59,7 @@ export const VideoList: Component<VideoListProps> = (props) => {
 					</Show>
 
 					<Show when={props.video.duration > 0} fallback={<LiveBadge />}>
-						<Text.Caption2 class="border border-neutral-600 rounded px-0.5 text-neutral-300">
-							{secondsToTime(props.video.duration)}
-						</Text.Caption2>
+						<DurationBadge video={props.video} />
 					</Show>
 
 					<div class="truncate ml-2">
