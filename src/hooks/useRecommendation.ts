@@ -80,7 +80,7 @@ export const useRecommendation = (params: UseRecommendationParams) => {
 			return acc;
 		}, []);
 		return {
-			data: unique.slice(0, 10),
+			data: unique.slice(0, 7),
 			loading: mostPlayedVideos.data.loading || recentMostPlayedVideos.data.loading,
 		};
 	});
@@ -89,7 +89,7 @@ export const useRecommendation = (params: UseRecommendationParams) => {
 		const excludedVideos = mostPlayed().data;
 		const videos = lastPlayedVideos.data() || [];
 		return {
-			data: videos.filter((v) => !excludedVideos.some((m) => m.id === v.id)).slice(0, 10),
+			data: videos.filter((v) => !excludedVideos.some((m) => m.id === v.id)).slice(0, 7),
 			loading: lastPlayedVideos.data.loading,
 		};
 	});
