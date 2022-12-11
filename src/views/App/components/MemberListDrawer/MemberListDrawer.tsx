@@ -1,14 +1,17 @@
 import { IMember } from "@api";
+import { Divider } from "@components/Divider";
 import { Drawer } from "@components/Drawer";
 import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { useScreen } from "@hooks/useScreen";
+import { useSettings } from "@hooks/useSettings";
 import { useNavigate } from "solid-app-router";
-import { Component, For } from "solid-js";
+import { Component, For, Show } from "solid-js";
 import { Member } from "./Member";
 
 export const MemberListDrawer: Component = () => {
 	const app = useApp();
+	const { settings, setSettings } = useSettings();
 	const screen = useScreen();
 	const queue = useQueue();
 	const navigate = useNavigate();
@@ -27,16 +30,48 @@ export const MemberListDrawer: Component = () => {
 	return (
 		<Drawer
 			right
+			resizeable
+			initialSize={settings.appDrawerSize}
+			onResize={(appDrawerSize) => setSettings({ appDrawerSize })}
 			isOpen={app.isMemberOpen()}
 			handleClose={() => app.setIsMemberOpen(false)}
-			extraContainerClass="min-w-[4.25rem] max-w-[75vw] md:max-w-sm right-0"
+			extraContainerClass="min-w-[4.25rem] max-w-[75vw] md:max-w-xs right-0"
 		>
-			<div class="text-xl font-bold truncate px-4 py-6">{queue.data.voiceChannel?.name}</div>
-			<div class="overflow-y-auto overflow-x-hidden space-y-1.5 mx-2">
-				<For each={sortedMembers()}>
-					{(member) => <Member member={member} onClickRecommendation={onClickRecommendation} />}
-				</For>
-			</div>
+			{(size) => {
+				const minimized = size <= 120;
+
+				return (
+					<>
+						<Show
+							when={!minimized || !queue.data.guild?.icon}
+							fallback={
+								<>
+									<img
+										title={queue.data.voiceChannel?.name}
+										src={queue.data.guild?.icon || ""}
+										class="w-10 h-10 mx-auto mt-2"
+									/>
+									<Divider dark extraClass="my-2" />
+								</>
+							}
+						>
+							<div class="text-xl font-bold truncate px-4 py-6">{queue.data.voiceChannel?.name}</div>
+						</Show>
+
+						<div class="overflow-y-auto overflow-x-hidden space-y-1.5 mx-2">
+							<For each={sortedMembers()}>
+								{(member) => (
+									<Member
+										minimized={minimized}
+										member={member}
+										onClickRecommendation={onClickRecommendation}
+									/>
+								)}
+							</For>
+						</div>
+					</>
+				);
+			}}
 		</Drawer>
 	);
 };

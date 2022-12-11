@@ -35,7 +35,9 @@ export const Drawer: Component<Props> = (props) => {
 			<div
 				class="relative flex flex-row h-full bg-black overflow-y-auto overflow-x-hidden"
 				style={{ width: `${size()}px` }}
-				use:resizeable={props.resizeable ? { dragHandler, position: "right", onResize } : undefined}
+				use:resizeable={
+					props.resizeable ? { dragHandler, position: props.right ? "left" : "right", onResize } : undefined
+				}
 				classList={{
 					hidden: !props.isOpen,
 					[props.extraContainerClass || ""]: !!props.extraContainerClass,

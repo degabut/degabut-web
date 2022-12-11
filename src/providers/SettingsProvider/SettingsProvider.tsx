@@ -6,12 +6,14 @@ type Settings = {
 	notification: boolean;
 	discordRpc: boolean;
 	appDrawerSize: number;
+	memberDrawerSize: number;
 };
 
 const defaultSettings: Settings = {
 	notification: true,
 	discordRpc: true,
 	appDrawerSize: 256,
+	memberDrawerSize: 256,
 };
 
 export type SettingsContextStore = {

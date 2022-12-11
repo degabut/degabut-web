@@ -1,7 +1,7 @@
 import { IMember } from "@api";
 import { Icon, Icons } from "@components/Icon";
 import { contextMenu } from "@directives/contextMenu";
-import { Component } from "solid-js";
+import { Component, Show } from "solid-js";
 
 contextMenu;
 
@@ -36,6 +36,7 @@ const Item: Component<ItemProps> = (props) => {
 
 type Props = {
 	member: IMember;
+	minimized: boolean;
 	onClickRecommendation: (member: IMember) => void;
 };
 
@@ -43,6 +44,7 @@ export const Member: Component<Props> = (props) => {
 	return (
 		<div
 			class="flex-row-center space-x-3 px-3 py-2 rounded cursor-pointer hover:bg-white/10"
+			classList={{ "justify-center": props.minimized }}
 			use:contextMenu={{
 				header: () => <Header member={props.member} />,
 				extraContainerClass: "bg-neutral-900",
@@ -58,7 +60,9 @@ export const Member: Component<Props> = (props) => {
 			}}
 		>
 			<img src={props.member.avatar || "/img/avatar.png"} class="w-8 h-8 rounded-full" />
-			<div class="truncate">{props.member.displayName}</div>
+			<Show when={!props.minimized}>
+				<div class="truncate">{props.member.displayName}</div>
+			</Show>
 		</div>
 	);
 };
