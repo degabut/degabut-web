@@ -50,10 +50,7 @@ export const Modal: ParentComponent<Props> = (props) => {
 
 	return (
 		<Show when={props.isOpen}>
-			<div
-				ref={parentContainer}
-				class="fixed w-screen h-screen top-0 left-0 flex items-center justify-center bg-black/75 z-30"
-			>
+			<div ref={parentContainer} class="fixed-screen flex items-center justify-center bg-black/75 z-30">
 				<div
 					class="max-w-[calc(100vw-1.5rem)] rounded-lg"
 					classList={{ [props.extraContainerClass || ""]: !!props.extraContainerClass }}
@@ -67,7 +64,7 @@ export const Modal: ParentComponent<Props> = (props) => {
 							<Button
 								flat
 								icon="closeLine"
-								class="absolute right-4 top-4 p-2"
+								class="absolute right-2 top-2 md:right-4 md:top-4 p-2"
 								onClick={() => props.onClickOutside?.()}
 							/>
 						</div>

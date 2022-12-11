@@ -1,6 +1,6 @@
+import { IS_BROWSER } from "@constants";
 import { GetAccessToken, SetAccessToken } from "@go/app/App";
 import { AxiosInstance } from "axios";
-import { IS_BROWSER } from "../constants";
 
 export class AuthManager {
 	constructor(private client: AxiosInstance) {}

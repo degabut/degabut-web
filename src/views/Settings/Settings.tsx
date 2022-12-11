@@ -1,11 +1,12 @@
 import { Button } from "@components/Button";
 import { Container } from "@components/Container";
 import { Divider } from "@components/Divider";
+import { Text } from "@components/Text";
+import { IS_DESKTOP } from "@constants";
 import { useApp } from "@hooks/useApp";
 import { useSettings } from "@hooks/useSettings";
 import { useNavigate } from "solid-app-router";
 import { Component, onMount, Show } from "solid-js";
-import { IS_DESKTOP } from "../../constants";
 import { SwitchItem } from "./components";
 
 export const Settings: Component = () => {
@@ -32,7 +33,7 @@ export const Settings: Component = () => {
 			<div class="flex flex-col space-y-8">
 				<Show when={!IS_DESKTOP}>
 					<div class="space-y-3">
-						<div class="text-xl font-medium">Notification</div>
+						<Text.H2>Notification</Text.H2>
 						<SwitchItem
 							label="Enable Notification"
 							checked={settings.notification}
@@ -43,7 +44,7 @@ export const Settings: Component = () => {
 
 				<Show when={IS_DESKTOP}>
 					<div class="space-y-3">
-						<div class="text-xl font-medium">Discord</div>
+						<Text.H2>Discord</Text.H2>
 						<SwitchItem
 							label="Enable Rich Presence"
 							description="Show what you are currently listening to on Discord"
@@ -52,6 +53,7 @@ export const Settings: Component = () => {
 						/>
 					</div>
 				</Show>
+
 				<Divider />
 
 				<Button

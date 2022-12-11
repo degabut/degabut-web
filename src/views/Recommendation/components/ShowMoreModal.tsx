@@ -1,6 +1,7 @@
 import { IVideoCompact } from "@api";
 import { Divider } from "@components/Divider";
 import { Modal } from "@components/Modal";
+import { Text } from "@components/Text";
 import { Videos } from "@components/Videos";
 import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
@@ -83,11 +84,11 @@ export const ShowMoreModal: Component<Props> = (props) => {
 			onClickOutside={() => props.onClose()}
 		>
 			<div class="flex flex-col h-full">
-				<div class="py-4 md:py-8 !pb-0 z-10">
-					<div class="text-xl font-medium text-center mb-4 md:mb-6">{label()}</div>
+				<div class="py-4 !pb-0 z-10">
+					<Text.H2 class="text-center mb-4">{label()}</Text.H2>
 					<Divider />
 				</div>
-				<div class="pb-8 pt-4 md:pt-6 px-2 md:px-8 overflow-auto">
+				<div class="pb-8 pt-4 px-2 md:px-8 overflow-auto">
 					<Videos.List
 						data={videos.data() || []}
 						isLoading={videos.data.loading}

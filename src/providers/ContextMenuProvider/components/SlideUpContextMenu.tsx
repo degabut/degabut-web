@@ -13,7 +13,7 @@ type Props = {
 
 export const SlideUpContextMenu: Component<Props> = (props) => {
 	return (
-		<div class="fixed w-screen h-screen top-0 left-0 bg-black/75 z-50">
+		<div class="fixed-screen bg-black/75 z-50">
 			<div
 				use:clickOutside={props.onClickOutside}
 				class="absolute bottom-0 w-full bg-neutral-900 pb-8 z-50 min-h-[50vh] max-h-full overflow-y-auto rounded-t-3xl"

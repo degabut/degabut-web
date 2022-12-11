@@ -1,3 +1,4 @@
+import { IPlaylist } from "@api";
 import { Button } from "@components/Button";
 import { Container } from "@components/Container";
 import { Playlist } from "@components/Playlist";
@@ -23,6 +24,18 @@ export const Playlists: Component = () => {
 		setIsShowModalOpen(false);
 	};
 
+	const promptDeletePlaylist = (playlist: IPlaylist) => {
+		app.setConfirmation({
+			title: "Delete Playlist",
+			message: (
+				<>
+					Are you sure you want to delete playlist <b>{playlist.name}</b>?
+				</>
+			),
+			onConfirm: () => playlists.deletePlaylist(playlist.id),
+		});
+	};
+
 	return (
 		<>
 			<Container size="md" extraClass="space-y-6">
@@ -45,17 +58,7 @@ export const Playlists: Component = () => {
 							{(p) => (
 								<Playlist.List
 									onAddToQueue={() => queue.addPlaylist(p.id)}
-									onDelete={() =>
-										app.setConfirmation({
-											title: "Delete Playlist",
-											message: (
-												<>
-													Are you sure you want to delete playlist <b>{p.name}</b>?
-												</>
-											),
-											onConfirm: () => playlists.deletePlaylist(p.id),
-										})
-									}
+									onDelete={promptDeletePlaylist}
 									onClick={() => navigate("/app/playlist/" + p.id)}
 									playlist={p}
 								/>

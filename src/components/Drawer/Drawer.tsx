@@ -26,10 +26,7 @@ export const Drawer: Component<Props> = (props) => {
 	return (
 		<div class="h-full absolute md:static top-0 z-20" classList={{ "right-0": props.right }}>
 			{props.isOpen && (
-				<div
-					class="block md:hidden fixed w-screen h-screen top-0 left-0 bg-black bg-opacity-50 -z-50"
-					onClick={props.handleClose}
-				/>
+				<div class="block md:hidden fixed-screen bg-black bg-opacity-50 -z-50" onClick={props.handleClose} />
 			)}
 
 			<div

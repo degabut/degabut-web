@@ -1,3 +1,4 @@
+import { Text } from "@components/Text";
 import { useApi } from "@hooks/useApi";
 import axios from "axios";
 import { useLocation, useNavigate } from "solid-app-router";
@@ -33,7 +34,7 @@ export const OAuth: Component = () => {
 
 	return (
 		<div class="flex-row-center justify-center h-full">
-			<div class="text-xl">{isAuthenticating() ? "Loading..." : "You can close this tab now :)"}</div>
+			<Text.H2>{isAuthenticating() ? "Loading..." : "You can close this tab now :)"}</Text.H2>
 		</div>
 	);
 };

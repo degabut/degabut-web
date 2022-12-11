@@ -44,7 +44,7 @@ export const ContextMenuProvider: ParentComponent = (props) => {
 		<ContextMenuContext.Provider value={{ show }}>
 			{isShowContextMenu() && (
 				<Show
-					when={screen().lte.sm}
+					when={screen.lte.sm}
 					fallback={
 						<FloatingContextMenu
 							params={params()}

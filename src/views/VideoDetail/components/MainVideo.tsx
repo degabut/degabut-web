@@ -1,5 +1,6 @@
 import { IVideoCompact } from "@api";
 import { ContextMenuButton } from "@components/ContextMenu";
+import { Text } from "@components/Text";
 import { ChannelThumbnail, Video } from "@components/Video";
 import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
@@ -22,12 +23,9 @@ export const MainVideo: Component<Props> = (props) => {
 
 			<div class="flex flex-col">
 				<div class="flex flex-row items-center justify-between">
-					<div
-						class="truncate text-lg font-medium"
-						title={`${props.video.title} - ${props.video.channel.name}`}
-					>
+					<Text.H3 truncate title={`${props.video.title} - ${props.video.channel.name}`}>
 						{props.video.title}
-					</div>
+					</Text.H3>
 
 					<ContextMenuButton
 						contextMenu={getVideoContextMenu({
@@ -41,12 +39,12 @@ export const MainVideo: Component<Props> = (props) => {
 
 				<div class="space-y-2">
 					<Show when={props.video.viewCount} keyed>
-						{(c) => <div class="text-neutral-400 text-sm">{c.toLocaleString("en-US")} views</div>}
+						{(c) => <Text.Caption1>{c.toLocaleString("en-US")} views</Text.Caption1>}
 					</Show>
 
 					<div class="flex-row-center space-x-2 text-sm">
 						<ChannelThumbnail video={props.video} />
-						<div>{props.video.channel.name}</div>
+						<Text.Body1>{props.video.channel.name}</Text.Body1>
 					</div>
 				</div>
 			</div>

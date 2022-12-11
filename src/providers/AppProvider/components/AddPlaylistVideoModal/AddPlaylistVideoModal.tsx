@@ -3,6 +3,7 @@ import { Divider } from "@components/Divider";
 import { Icon } from "@components/Icon";
 import { Modal } from "@components/Modal";
 import { Playlist } from "@components/Playlist";
+import { Text } from "@components/Text";
 import { Video } from "@components/Video";
 import { useApi } from "@hooks/useApi";
 import { usePlaylists } from "@hooks/usePlaylists";
@@ -66,23 +67,21 @@ export const AddPlaylistVideoModal: Component<Props> = (props) => {
 				{(v) => (
 					<div class="flex flex-col h-full">
 						<div class="bg-neutral-900 pt-4 md:pt-8 px-2 md:px-8">
-							<div class="text-xl font-medium text-center mb-4">Add to Playlist</div>
+							<Text.H2 class="text-center mb-4">Add to Playlist</Text.H2>
 							<Video.List disableContextMenu video={v} extraContainerClass={"hover:!bg-white/0"} />
 							<Divider extraClass="my-4" />
 						</div>
 
 						<div class="py-8 px-2 md:p-8 !pt-0 space-y-3 overflow-auto">
-							<div class="space-y-3">
-								<Show when={(playlists.data()?.length || 0) < 25 && !isInitialLoading()}>
-									<CreatePlaylistButton onClick={() => setIsCreateModalOpen(true)} />
-								</Show>
-								<For each={playlists.data() || []}>
-									{(p) => <Playlist.List disableContextMenu playlist={p} onClick={addToPlaylist} />}
-								</For>
-								<Show when={isInitialLoading()}>
-									<For each={Array(3)}>{() => <Playlist.ListSkeleton />}</For>
-								</Show>
-							</div>
+							<Show when={(playlists.data()?.length || 0) < 25 && !isInitialLoading()}>
+								<CreatePlaylistButton onClick={() => setIsCreateModalOpen(true)} />
+							</Show>
+							<For each={playlists.data() || []}>
+								{(p) => <Playlist.List disableContextMenu playlist={p} onClick={addToPlaylist} />}
+							</For>
+							<Show when={isInitialLoading()}>
+								<For each={Array(3)}>{() => <Playlist.ListSkeleton />}</For>
+							</Show>
 						</div>
 					</div>
 				)}

@@ -35,8 +35,6 @@ export const Search: Component = () => {
 		playlistStartIndex: 5,
 	});
 
-	const initialKeyword = query.keyword || "";
-
 	onMount(() => {
 		app.setTitle("Search");
 		search.setKeyword(query.keyword || "");
@@ -52,22 +50,22 @@ export const Search: Component = () => {
 		<Container extraClass="flex flex-col space-y-4 md:space-y-6">
 			<Input
 				type="text"
-				placeholder="Never gonna give you up"
+				placeholder="Search for a song"
 				rounded
 				focusOnMount={!query.keyword}
 				class="md:max-w-[32rem]"
-				value={initialKeyword}
+				value={query.keyword || ""}
 				onInput={onInput}
 				prefix={<Icon name="search" size="lg" extraClass="fill-current" />}
 			/>
 
 			<div class="lg:space-y-8 space-y-1.5">
-				<Show when={!search.isLoading()} fallback={<SearchResultSkeleton isSmall={screen().lte.md} />}>
+				<Show when={!search.isLoading()} fallback={<SearchResultSkeleton isSmall={screen.lte.md} />}>
 					<For each={search.result()}>
 						{(item) =>
 							"duration" in item ? (
 								<Video.ListResponsive
-									big={screen().gte.lg}
+									big={screen.gte.lg}
 									video={item}
 									inQueue={queue.data.tracks?.some((t) => t.video.id === item.id)}
 									onClick={() => navigate(`/app/video/${item.id}`)}
@@ -80,7 +78,7 @@ export const Search: Component = () => {
 								/>
 							) : (
 								<YouTubePlaylist.ListResponsive
-									big={screen().gte.lg}
+									big={screen.gte.lg}
 									playlist={item}
 									contextMenu={getYouTubePlaylistContextMenu({
 										appStore: app,

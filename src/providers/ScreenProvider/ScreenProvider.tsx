@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Accessor, createContext, ParentComponent } from "solid-js";
+import { createContext, ParentComponent } from "solid-js";
 import { defaultScreenValue, Screen, useScreen } from "./hooks";
 
-type ScreenContextStore = Accessor<Screen>;
-
-export const ScreenContext = createContext<ScreenContextStore>(() => defaultScreenValue);
+export const ScreenContext = createContext<Screen>(defaultScreenValue);
 
 export const ScreenProvider: ParentComponent = (props) => {
 	const screen = useScreen();

@@ -12,7 +12,7 @@ export const AppDrawer: Component = () => {
 	const screen = useScreen();
 
 	const onLinkClick = () => {
-		if (screen().lte.sm) app.setIsMenuOpen(false);
+		if (screen.lte.sm) app.setIsMenuOpen(false);
 	};
 
 	const links = [
@@ -25,7 +25,7 @@ export const AppDrawer: Component = () => {
 	return (
 		<Drawer
 			resizeable
-			extraContainerClass="min-w-[4.25rem] max-w-[75vw] md:max-w-sm"
+			extraContainerClass="min-w-[4.25rem] max-w-[75vw] md:max-w-sm pb-8"
 			initialSize={settings.appDrawerSize}
 			onResize={(appDrawerSize) => setSettings({ appDrawerSize })}
 			isOpen={app.isMenuOpen()}
@@ -53,15 +53,13 @@ export const AppDrawer: Component = () => {
 							</For>
 						</div>
 
-						<div class="pb-8">
-							<Link
-								icon="gear"
-								label="Settings"
-								path="/app/settings"
-								onClick={onLinkClick}
-								minimized={minimized}
-							/>
-						</div>
+						<Link
+							icon="gear"
+							label="Settings"
+							path="/app/settings"
+							onClick={onLinkClick}
+							minimized={minimized}
+						/>
 					</div>
 				);
 			}}

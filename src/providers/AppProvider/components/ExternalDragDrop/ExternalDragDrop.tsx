@@ -4,6 +4,7 @@ import { Spinner } from "@components/Spinner";
 import { useApi } from "@hooks/useApi";
 import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
+import { addPlaylistConfirmation } from "@utils";
 import { createSignal, onCleanup, onMount, Show } from "solid-js";
 import { VideoPlaylistChooser } from "./components";
 
@@ -115,20 +116,7 @@ export const ExternalDragDrop = () => {
 	};
 
 	const showAddPlaylistConfirmation = (playlist: IYoutubePlaylist | IMixPlaylist) => {
-		app.setConfirmation({
-			title: "Add Playlist",
-			message: () => (
-				<div class="space-y-2">
-					<div>
-						Add playlist <b>{playlist.title}</b> to the queue?
-					</div>
-					<div class="text-sm">
-						This will add <b>{playlist.videoCount}</b> videos to the queue.
-					</div>
-				</div>
-			),
-			onConfirm: () => queue.addYouTubePlaylist(playlist.id),
-		});
+		app.setConfirmation(addPlaylistConfirmation(playlist, () => queue.addYouTubePlaylist(playlist.id)));
 	};
 
 	const addItemToQueue = (item: IVideo | IYoutubePlaylist | IMixPlaylist) => {
@@ -151,7 +139,10 @@ export const ExternalDragDrop = () => {
 			</Show>
 
 			<Show when={dragCounter() > 0 && !queue.data.empty}>
-				<div class="fixed w-screen h-screen top-0 left-0 z-[1000] flex items-center justify-center bg-black/90 text-center">
+				<div
+					onClick={() => setDragCounter(0)}
+					class="fixed-screen z-[1000] flex items-center justify-center bg-black/90 text-center"
+				>
 					<div
 						ref={dropContainer}
 						onDragEnter={onContainerDragEnter}

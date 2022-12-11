@@ -1,5 +1,6 @@
 import { throttle } from "@utils";
-import { createSignal, onMount } from "solid-js";
+import { onMount } from "solid-js";
+import { createStore } from "solid-js/store";
 
 export const breakpoints = {
 	"3xl": 2048,
@@ -36,12 +37,11 @@ const fromEntries = (fn: (k: BreakpointKeys, i: number) => [BreakpointKeys, bool
 };
 
 export const useScreen = () => {
-	const [screen, setScreen] = createSignal<Screen>(defaultScreenValue);
+	const [screen, setScreen] = createStore<Screen>(defaultScreenValue);
 
 	const throttledResizeHandler = throttle(() => {
 		const size = window.innerWidth;
 		const breakpoint = (breakpointEntries.find(([, value]) => size >= value)?.[0] || "3xl") as BreakpointKeys;
-
 		setScreen({
 			size,
 			breakpoint,

@@ -2,8 +2,4 @@ export * from "./AppDrawer";
 export * from "./AppHeader";
 export * from "./BackgroundLogo";
 export * from "./BottomBar";
-export * from "./CatJam";
-export * from "./ExternalDragDrop";
-export * from "./InstallPrompt";
 export * from "./MemberListDrawer";
-export * from "./UpdateModal";

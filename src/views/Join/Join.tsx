@@ -1,3 +1,4 @@
+import { Text } from "@components/Text";
 import { useApi } from "@hooks/useApi";
 import { useNavigate, useParams } from "solid-app-router";
 import { Component, onMount } from "solid-js";
@@ -14,7 +15,7 @@ export const Join: Component = () => {
 
 	return (
 		<div class="flex-row-center justify-center h-full">
-			<div class="text-xl">Loading...</div>
+			<Text.H2 class="text-xl">Loading...</Text.H2>
 		</div>
 	);
 };

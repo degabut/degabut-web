@@ -84,6 +84,7 @@ export const useRecommendation = (params: UseRecommendationParams) => {
 			loading: mostPlayedVideos.data.loading || recentMostPlayedVideos.data.loading,
 		};
 	});
+
 	const lastPlayed = createMemo(() => {
 		const excludedVideos = mostPlayed().data;
 		const videos = lastPlayedVideos.data() || [];
@@ -92,12 +93,14 @@ export const useRecommendation = (params: UseRecommendationParams) => {
 			loading: lastPlayedVideos.data.loading,
 		};
 	});
+
 	const related = createMemo(() => {
 		return {
 			data: relatedVideos(),
 			loading: video.data.loading,
 		};
 	});
+
 	const channelRelated = createMemo(() => {
 		if (params.userId() !== "me" || queue.data.empty) {
 			return {

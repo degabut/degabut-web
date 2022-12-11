@@ -1,6 +1,6 @@
+import { IS_DESKTOP } from "@constants";
 import * as runtime from "@runtime";
 import { JSX, ParentComponent } from "solid-js";
-import { IS_DESKTOP } from "../../constants";
 
 type Props = JSX.AnchorHTMLAttributes<HTMLAnchorElement>;
 

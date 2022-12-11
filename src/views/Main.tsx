@@ -1,6 +1,6 @@
+import { IS_DESKTOP } from "@constants";
 import { useRoutes } from "solid-app-router";
 import { Component } from "solid-js";
-import { IS_DESKTOP } from "../constants";
 import { routes } from "../routes";
 
 export const Main: Component = () => {

@@ -1,9 +1,9 @@
 import { A } from "@components/A";
+import { IS_DESKTOP } from "@constants";
 import { useApi } from "@hooks/useApi";
 import * as runtime from "@runtime";
 import { useNavigate } from "solid-app-router";
 import { Component, onCleanup, onMount } from "solid-js";
-import { IS_DESKTOP } from "../../constants";
 
 export const Login: Component = () => {
 	const api = useApi();

@@ -17,7 +17,7 @@ export const MemberListDrawer: Component = () => {
 	const navigate = useNavigate();
 
 	const onClickRecommendation = (member: IMember) => {
-		if (screen().lte.sm) app.setIsMemberOpen(false);
+		if (screen.lte.sm) app.setIsMemberOpen(false);
 		navigate(`/app/recommendation/${member.id}`);
 	};
 

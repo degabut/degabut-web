@@ -9,7 +9,7 @@ import { YouTubePlaylist } from "@components/YoutubePlaylist";
 import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { useSearchYouTube } from "@hooks/useSearchYouTube";
-import { getVideoContextMenu, getYouTubePlaylistContextMenu } from "@utils";
+import { addPlaylistConfirmation, getVideoContextMenu, getYouTubePlaylistContextMenu } from "@utils";
 import { useNavigate } from "solid-app-router";
 import { Component, createSignal, Show } from "solid-js";
 
@@ -49,20 +49,7 @@ export const QuickSearchModal: Component<Props> = (props) => {
 			else await addToQueue(item);
 		} else {
 			// playlist
-			app.setConfirmation({
-				title: "Add Playlist",
-				message: (
-					<div class="space-y-2">
-						<div>
-							Add playlist <b>{item.title}</b> to the queue?{" "}
-						</div>
-						<div class="text-sm">
-							This will add <b>{item.videoCount}</b> videos to the queue.
-						</div>
-					</div>
-				),
-				onConfirm: () => addToQueue(item),
-			});
+			app.setConfirmation(addPlaylistConfirmation(item, () => addToQueue(item)));
 		}
 	};
 

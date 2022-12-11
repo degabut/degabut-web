@@ -1,5 +1,6 @@
 import { Container } from "@components/Container";
 import { Divider } from "@components/Divider";
+import { Text } from "@components/Text";
 import { Videos } from "@components/Videos";
 import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
@@ -32,12 +33,12 @@ export const VideoDetail: Component = () => {
 				{(v) => <MainVideo video={v} />}
 			</Show>
 
-			<Divider extraClass="my-8" />
+			<Divider extraClass="my-6" />
 
 			<Show when={video.data()} fallback={<Videos.List data={[]} isLoading />} keyed>
 				{(v) => (
 					<Videos.List
-						title={<div class="font-medium">Similar Videos</div>}
+						title={<Text.H4>Similar Videos</Text.H4>}
 						data={v.related || []}
 						videoProps={(video) => ({
 							video,

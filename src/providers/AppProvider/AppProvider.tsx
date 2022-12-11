@@ -3,7 +3,15 @@ import { IVideoCompact } from "@api";
 import { useScreen } from "@hooks/useScreen";
 import { breakpoints } from "@providers/ScreenProvider/hooks";
 import { Accessor, createContext, createEffect, createSignal, JSX, onMount, ParentComponent, Setter } from "solid-js";
-import { AddPlaylistVideoModal, ConfirmationModal, QuickSearchModal } from "./components";
+import {
+	AddPlaylistVideoModal,
+	CatJamManager,
+	ConfirmationModal,
+	ExternalDragDrop,
+	InstallPrompt,
+	QuickSearchModal,
+	UpdateModal,
+} from "./components";
 
 type Confirmation = {
 	title: JSX.Element;
@@ -52,8 +60,8 @@ export const AppProvider: ParentComponent = (props) => {
 	});
 
 	createEffect(() => {
-		if (screen().gte.md) setIsMenuOpen(true);
-		if (screen().gte["2xl"]) setIsMemberOpen(true);
+		if (screen.gte.md) setIsMenuOpen(true);
+		if (screen.gte["2xl"]) setIsMemberOpen(true);
 		if (window.innerWidth <= breakpoints.md && previousWidth > breakpoints.md) setIsMenuOpen(false);
 		if (window.innerWidth <= breakpoints["2xl"] && previousWidth > breakpoints["2xl"]) setIsMemberOpen(false);
 		previousWidth = window.innerWidth;
@@ -108,6 +116,11 @@ export const AppProvider: ParentComponent = (props) => {
 				}}
 				onClose={() => setConfirmation(null)}
 			/>
+
+			<CatJamManager />
+			<ExternalDragDrop />
+			<InstallPrompt />
+			<UpdateModal />
 		</AppContext.Provider>
 	);
 };

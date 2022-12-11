@@ -1,6 +1,7 @@
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
 import { Modal } from "@components/Modal";
+import { Text } from "@components/Text";
 import { Component, createEffect, createSignal } from "solid-js";
 
 type EditPlaylistModalProps = {
@@ -33,7 +34,7 @@ export const EditPlaylistModal: Component<EditPlaylistModalProps> = (props) => {
 			extraContainerClass="w-[24rem] max-h-[100vh] m-2 bg-neutral-900"
 		>
 			<form class="flex-col-center space-y-8 md:p-8 p-4" onSubmit={submit}>
-				<div class="text-center text-xl font-medium">Rename Playlist</div>
+				<Text.H2 class="text-center">Rename Playlist</Text.H2>
 
 				<Input
 					outlined

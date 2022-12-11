@@ -1,8 +1,9 @@
 import { Button } from "@components/Button";
 import { Modal } from "@components/Modal";
+import { Text } from "@components/Text";
+import { IS_DESKTOP } from "@constants";
 import * as runtime from "@runtime";
 import { Component, createSignal, onMount, Show } from "solid-js";
-import { IS_DESKTOP } from "../../../../constants";
 
 export const UpdateModal: Component = () => {
 	const [isShowUpdateModal, setIsShowUpdateModal] = createSignal(false);
@@ -19,13 +20,13 @@ export const UpdateModal: Component = () => {
 		<Show when={IS_DESKTOP}>
 			{/* Update Modal */}
 			<Modal
-				extraContainerClass="w-[24rem] max-h-[100vh] bg-neutral-900"
+				extraContainerClass="w-[24rem] bg-neutral-900"
 				isOpen={isShowUpdateModal()}
 				onClickOutside={() => setIsShowUpdateModal(false)}
 			>
-				<div class="flex-col-center space-y-8 md:p-8 p-4">
-					<div class="text-center text-2xl font-medium">New Update Found</div>
-					<div class="text-center mt-8">Restart Degabut to apply update</div>
+				<div class="flex-col-center text-center space-y-8 md:p-8 p-4">
+					<Text.H1>New Update Found</Text.H1>
+					<Text.Body1>Restart Degabut to apply update</Text.Body1>
 
 					<Button class="px-8 py-1.5" rounded onClick={() => setIsShowUpdateModal(false)}>
 						OK

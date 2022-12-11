@@ -55,7 +55,7 @@ export const QueueHint: Component = () => {
 						</div>
 					}
 					icon="search"
-					onClick={() => (screen().gte.md ? app.setIsQuickSearchModalOpen(true) : navigate("/app/search"))}
+					onClick={() => (screen.gte.md ? app.setIsQuickSearchModalOpen(true) : navigate("/app/search"))}
 				/>
 				<HintItem
 					label={<Text.Body1 class="text-neutral-400">Look at recommendations</Text.Body1>}

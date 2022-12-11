@@ -1,10 +1,10 @@
 import { IQueue } from "@api";
+import { IS_BROWSER } from "@constants";
 import * as models from "@go/models";
 import * as rpc from "@go/rpc/Client";
 import { useQueue } from "@hooks/useQueue";
 import { useSettings } from "@hooks/useSettings";
 import { createContext, createEffect, onMount, ParentComponent } from "solid-js";
-import { IS_BROWSER } from "../../constants";
 
 export const RPCContext = createContext();
 

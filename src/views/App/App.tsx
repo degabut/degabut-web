@@ -8,17 +8,7 @@ import { SettingsProvider } from "@providers/SettingsProvider";
 import { requestNotificationPermission } from "@utils";
 import { Outlet } from "solid-app-router";
 import { Component, ErrorBoundary } from "solid-js";
-import {
-	AppDrawer,
-	AppHeader,
-	BackgroundLogo,
-	BottomBar,
-	CatJamManager,
-	ExternalDragDrop,
-	InstallPrompt,
-	MemberListDrawer,
-	UpdateModal,
-} from "./components";
+import { AppDrawer, AppHeader, BackgroundLogo, BottomBar, MemberListDrawer } from "./components";
 
 export const App: Component = () => {
 	return (
@@ -84,11 +74,6 @@ const ProvidedApp: Component = () => {
 			</div>
 
 			<BottomBar />
-
-			<CatJamManager />
-			<ExternalDragDrop />
-			<InstallPrompt />
-			<UpdateModal />
 		</div>
 	);
 };
