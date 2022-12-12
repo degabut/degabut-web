@@ -20,7 +20,7 @@ const pwa = VitePWA({
 export default defineConfig({
 	plugins: [solidPlugin(), svgString(), pwa],
 	build: {
-		target: "es5",
+		target: "es6",
 	},
 	server: {
 		host: true,
