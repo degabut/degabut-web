@@ -21,7 +21,6 @@ export const ExpandableVideoGrid: Component<Props> = (props) => {
 
 	const videoProps = (video: IVideoCompact) => ({
 		video,
-		onClick: () => {},
 		inQueue: queue.data.tracks?.some((t) => t.video.id === video.id),
 		contextMenu: getVideoContextMenu({
 			appStore: app,
