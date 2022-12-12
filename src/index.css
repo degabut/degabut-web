@@ -30,6 +30,10 @@ button {
 	@apply font-light;
 }
 
+input:focus {
+	@apply outline-none;
+}
+
 #root {
 	@apply h-full;
 }
