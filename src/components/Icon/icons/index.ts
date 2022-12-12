@@ -33,6 +33,7 @@ export { default as soundFull } from "./sound-full.svg";
 export { default as soundMedium } from "./sound-medium.svg";
 export { default as soundOff } from "./sound-off.svg";
 export { default as squareLine } from "./square-line.svg";
+export { default as stars } from "./stars.svg";
 export { default as trashBin } from "./trash-bin.svg";
 export { default as update } from "./update.svg";
 export { default as youtube } from "./youtube.svg";

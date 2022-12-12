@@ -1,10 +1,13 @@
 import { Button } from "@components/Button";
+import { IconSize } from "@components/Icon";
 import { Component, createEffect, createSignal } from "solid-js";
 
 type Props = {
 	defaultValue: boolean;
 	onChange: (shuffle: boolean) => void;
 	disabled: boolean;
+	extraClass?: string;
+	iconSize?: IconSize;
 };
 
 export const ShuffleToggleButton: Component<Props> = (props) => {
@@ -24,11 +27,12 @@ export const ShuffleToggleButton: Component<Props> = (props) => {
 			title="Shuffle"
 			disabled={props.disabled}
 			icon="shuffle"
-			iconSize="lg"
+			iconSize={props.iconSize || "lg"}
 			class="p-2"
 			classList={{
 				"text-brand-600 hover:text-brand-600": shuffle() && !props.disabled,
 				"text-brand-800": shuffle() && props.disabled,
+				[props.extraClass || ""]: !!props.extraClass,
 			}}
 		/>
 	);

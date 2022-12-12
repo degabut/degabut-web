@@ -6,6 +6,7 @@ import { OAuth } from "@views/OAuth";
 import { PlaylistDetail } from "@views/PlaylistDetail";
 import { Playlists } from "@views/Playlists";
 import { Queue } from "@views/Queue";
+import { Zen } from "@views/Queue/Zen";
 import { Recommendation } from "@views/Recommendation";
 import { Search } from "@views/Search";
 import { Settings } from "@views/Settings";
@@ -25,8 +26,9 @@ export const routes: RouteDefinition[] = [
 		children: [
 			{ path: "/", component: Default },
 			{ path: "/queue", component: () => <Queue /> },
-			{ path: "/join/:id", component: () => <Join /> },
 			{ path: "/queue/lyrics", component: () => <Lyrics /> },
+			{ path: "/queue/zen", component: () => <Zen /> },
+			{ path: "/join/:id", component: () => <Join /> },
 			{ path: "/video/:id", component: () => <VideoDetail /> },
 			{ path: "/recommendation", component: () => <Recommendation /> },
 			{ path: "/recommendation/:id?", component: () => <Recommendation /> },

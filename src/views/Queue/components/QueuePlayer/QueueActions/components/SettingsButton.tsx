@@ -1,19 +1,28 @@
 import { Button } from "@components/Button";
 import { ContextMenuItem } from "@components/ContextMenu";
+import { IconSize } from "@components/Icon";
 import { contextMenu } from "@directives/contextMenu";
 import { useApp } from "@hooks/useApp";
+import { useNavigate } from "solid-app-router";
 import { Component } from "solid-js";
 
 contextMenu;
 
 type Props = {
 	onClearQueue: () => void;
+	extraClass?: string;
+	iconSize?: IconSize;
 };
 
 export const SettingsButton: Component<Props> = (props) => {
 	const app = useApp();
+	const navigate = useNavigate();
 
 	const contextMenuItems = () => [
+		{
+			element: () => <ContextMenuItem icon="stars" label="Zen Mode" />,
+			onClick: () => navigate("/app/queue/zen"),
+		},
 		{
 			element: () => <ContextMenuItem icon="trashBin" label="Clear Queue" />,
 			onClick: () =>
@@ -39,7 +48,16 @@ export const SettingsButton: Component<Props> = (props) => {
 				openWithClick: true,
 			}}
 		>
-			<Button flat class="p-2" icon="gear" iconSize="lg" title="Settings" />
+			<Button
+				flat
+				class="p-2"
+				icon="gear"
+				iconSize={props.iconSize || "lg"}
+				title="Settings"
+				classList={{
+					[props.extraClass || ""]: !!props.extraClass,
+				}}
+			/>
 		</div>
 	);
 };

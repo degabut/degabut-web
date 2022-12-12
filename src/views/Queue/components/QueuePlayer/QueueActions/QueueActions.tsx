@@ -1,4 +1,5 @@
 import { LoopMode } from "@api";
+import { IconSize } from "@components/Icon";
 import { useQueue } from "@hooks/useQueue";
 import { useNavigate } from "solid-app-router";
 import { Component, Show } from "solid-js";
@@ -14,6 +15,8 @@ import {
 type Props = {
 	extended?: boolean;
 	extraClass?: string;
+	extraButtonClass?: string;
+	iconSize?: IconSize;
 };
 
 export const QueueActions: Component<Props> = (props) => {
@@ -26,26 +29,45 @@ export const QueueActions: Component<Props> = (props) => {
 				onChange={(isPaused) => (isPaused ? queue.pause() : queue.unpause())}
 				defaultValue={!!queue.data.isPaused}
 				disabled={queue.isQueueFreezed()}
+				extraClass={props.extraButtonClass}
+				iconSize={props.iconSize}
 			/>
 
-			<SkipButton onClick={() => queue.skipTrack()} disabled={queue.isTrackFreezed() || !queue.data.nowPlaying} />
+			<SkipButton
+				onClick={() => queue.skipTrack()}
+				disabled={queue.isTrackFreezed() || !queue.data.nowPlaying}
+				extraClass={props.extraButtonClass}
+				iconSize={props.iconSize}
+			/>
 
 			<ShuffleToggleButton
 				defaultValue={!!queue.data.shuffle}
 				onChange={() => queue.toggleShuffle()}
 				disabled={queue.isQueueFreezed()}
+				extraClass={props.extraButtonClass}
+				iconSize={props.iconSize}
 			/>
 
 			<LoopToggleButton
 				defaultValue={queue.data.loopMode || LoopMode.DISABLED}
 				onChange={(t) => queue.changeLoopMode(t)}
 				disabled={queue.isQueueFreezed()}
+				extraClass={props.extraButtonClass}
+				iconSize={props.iconSize}
 			/>
 
 			<Show when={props.extended}>
-				<LyricsButton onClick={() => navigate("/app/queue/lyrics")} />
+				<LyricsButton
+					onClick={() => navigate("/app/queue/lyrics")}
+					extraClass={props.extraButtonClass}
+					iconSize={props.iconSize}
+				/>
 
-				<SettingsButton onClearQueue={queue.clear} />
+				<SettingsButton
+					onClearQueue={queue.clear}
+					extraClass={props.extraButtonClass}
+					iconSize={props.iconSize}
+				/>
 			</Show>
 		</div>
 	);
