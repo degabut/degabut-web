@@ -5,7 +5,6 @@ import { useQueue } from "@hooks/useQueue";
 import { getVideoContextMenu } from "@utils";
 import { useNavigate } from "solid-app-router";
 import { Component, Show } from "solid-js";
-import { SeeMoreButton } from "./SeeMoreButton";
 import { ShowMoreTitle } from "./Title";
 
 type Props = {
@@ -51,12 +50,6 @@ export const ExpandableVideoList: Component<Props> = (props) => {
 					data={props.videos}
 					videoProps={videoProps}
 				/>
-			</Show>
-
-			<Show when={!props.isLoading}>
-				<div class="md:hidden">
-					<SeeMoreButton onClick={() => props.onClickMore()} />
-				</div>
 			</Show>
 		</div>
 	);
