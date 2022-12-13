@@ -25,7 +25,14 @@ export const OAuth: Component = () => {
 				setIsAuthenticating(false);
 			} else {
 				api.authManager.setAccessToken(accessToken);
-				navigate("/");
+				const redirect = localStorage.getItem("redirect");
+
+				if (redirect) {
+					localStorage.removeItem("redirect");
+					navigate(redirect);
+				} else {
+					navigate("/app/queue");
+				}
 			}
 		} catch (err) {
 			navigate("/login");

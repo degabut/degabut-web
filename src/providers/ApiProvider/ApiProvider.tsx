@@ -1,6 +1,6 @@
 import { Auth, AuthManager, Me, Player, Playlist, Queue, User, YouTube } from "@api";
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
-import { useNavigate } from "solid-app-router";
+import { useLocation, useNavigate } from "solid-app-router";
 import { createContext, ParentComponent } from "solid-js";
 
 export type ApiContextStore = {
@@ -19,11 +19,16 @@ export const ApiContext = createContext<ApiContextStore>({} as ApiContextStore);
 
 export const ApiProvider: ParentComponent = (props) => {
 	const navigate = useNavigate();
+	const location = useLocation();
 
 	const validateStatus = (status: number) => {
 		if (status === 401) {
 			// redirect to login
-			navigate("/login");
+			const pathname = location.pathname;
+			if (!pathname.startsWith("/login")) {
+				navigate("/login?re=" + encodeURIComponent(location.pathname));
+			}
+
 			return false;
 		}
 		return true;

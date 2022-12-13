@@ -2,15 +2,19 @@ import { A } from "@components/A";
 import { IS_DESKTOP } from "@constants";
 import { useApi } from "@hooks/useApi";
 import * as runtime from "@runtime";
-import { useNavigate } from "solid-app-router";
+import { useLocation, useNavigate } from "solid-app-router";
 import { Component, onCleanup, onMount } from "solid-js";
 
 export const Login: Component = () => {
 	const api = useApi();
 	const navigate = useNavigate();
+	const location = useLocation();
 
 	onMount(() => {
 		api.authManager.resetAccessToken();
+
+		const redirect = new URLSearchParams(location.search).get("re");
+		if (redirect && redirect !== "/login") localStorage.setItem("redirect", redirect);
 
 		if (IS_DESKTOP) {
 			runtime.EventsOnce("oauth", (token: string) => {
