@@ -44,7 +44,7 @@ export const AppDrawer: Component = () => {
 								"px-2.5": !minimized,
 							}}
 						>
-							<img class="hover:animate-pulse w-8 h-auto" src="/favicon-32x32.png" />
+							<img class="hover:animate-pulse w-8 h-auto" src="/android-chrome-192x192.png" />
 						</RouterLink>
 
 						<div class="flex flex-col grow text-lg space-y-1.5">
