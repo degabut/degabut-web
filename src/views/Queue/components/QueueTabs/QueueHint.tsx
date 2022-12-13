@@ -90,8 +90,8 @@ export const QueueHint: Component = () => {
 						...(recommendation.randomVideo.data()?.related?.slice(0, 3) || []),
 					]}
 					showWhenLoading
-					isLoading={recommendation.randomVideo.data.loading}
-					skeletonCount={3}
+					isLoading={recommendation.randomVideo.data.loading || recommendation.isLoading()}
+					skeletonCount={recommendation.isLoading() ? 5 : 3}
 					videoProps={(video) => ({
 						video,
 						hideContextMenuButton: true,

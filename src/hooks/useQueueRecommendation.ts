@@ -72,10 +72,15 @@ export const useQueueRecommendation = (params: Params) => {
 		});
 	};
 
+	const isLoading = () => {
+		return lastPlayed.data.loading || recentMostPlayed.data.loading || mostPlayed.data.loading;
+	};
+
 	return {
 		videos,
 		randomVideos,
 		randomVideo,
+		isLoading,
 		blacklist,
 		reset,
 	};
