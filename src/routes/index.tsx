@@ -6,11 +6,11 @@ import { OAuth } from "@views/OAuth";
 import { PlaylistDetail } from "@views/PlaylistDetail";
 import { Playlists } from "@views/Playlists";
 import { Queue } from "@views/Queue";
-import { Zen } from "@views/Queue/Zen";
 import { Recommendation } from "@views/Recommendation";
 import { Search } from "@views/Search";
 import { Settings } from "@views/Settings";
 import { VideoDetail } from "@views/VideoDetail";
+import { Zen } from "@views/Zen";
 import { Navigate } from "solid-app-router";
 import { RouteDefinition } from "solid-app-router/dist/types";
 
