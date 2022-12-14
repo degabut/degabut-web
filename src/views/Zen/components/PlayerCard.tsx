@@ -6,7 +6,7 @@ import { Card } from "./Card";
 import { SwitchViewButton } from "./SwitchViewButton";
 
 type Props = {
-	isShowPlayer: boolean;
+	isShowTracks: boolean;
 	onSwitchView: () => void;
 };
 
@@ -14,8 +14,8 @@ export const PlayerCard: Component<Props> = (props) => {
 	const queue = useQueue();
 
 	return (
-		<Card extraClass="flex flex-col 2xl:!block" extraClassList={{ hidden: !props.isShowPlayer }}>
-			<SwitchViewButton isShowPlayer={props.isShowPlayer} onClick={() => props.onSwitchView()} />
+		<Card extraClassList={{ "hidden md:block": props.isShowTracks }}>
+			<SwitchViewButton isShowTracks={props.isShowTracks} onClick={() => props.onSwitchView()} />
 
 			<Show when={queue.data.nowPlaying} keyed>
 				{({ video }) => (

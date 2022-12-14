@@ -14,7 +14,7 @@ export const Card: ParentComponent<CardProps> = (props) => {
 				...props.extraClassList,
 			}}
 		>
-			{props.children}
+			<div class="flex flex-col space-y-4 h-full">{props.children}</div>
 		</div>
 	);
 };
