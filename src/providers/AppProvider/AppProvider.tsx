@@ -2,7 +2,9 @@
 import { IVideoCompact } from "@api";
 import { breakpoints } from "@constants";
 import { useScreen } from "@hooks/useScreen";
-import { Accessor, createContext, createEffect, createSignal, JSX, onMount, ParentComponent, Setter } from "solid-js";
+import { useShortcut } from "@hooks/useShortcut";
+import { useNavigate } from "solid-app-router";
+import { Accessor, createContext, createEffect, createSignal, JSX, ParentComponent, Setter } from "solid-js";
 import {
 	AddPlaylistVideoModal,
 	CatJamManager,
@@ -47,6 +49,7 @@ export const AppContext = createContext<AppContextStore>({
 export const AppProvider: ParentComponent = (props) => {
 	let previousWidth = window.screenX;
 	const screen = useScreen();
+	const navigate = useNavigate();
 
 	const [isMenuOpen, setIsMenuOpen] = createSignal(window.innerWidth > breakpoints.md);
 	const [isMemberOpen, setIsMemberOpen] = createSignal(window.innerWidth > breakpoints["2xl"]);
@@ -54,10 +57,6 @@ export const AppProvider: ParentComponent = (props) => {
 	const [videoPlaylist, setVideoPlaylist] = createSignal<null | IVideoCompact>(null);
 	const [isQuickSearchModalOpen, setIsQuickSearchModalOpen] = createSignal(false);
 	const [confirmation, setConfirmation] = createSignal<Confirmation | null>(null);
-
-	onMount(() => {
-		document.addEventListener("keydown", onKeyDown);
-	});
 
 	createEffect(() => {
 		if (screen.gte.md) setIsMenuOpen(true);
@@ -67,19 +66,13 @@ export const AppProvider: ParentComponent = (props) => {
 		previousWidth = window.innerWidth;
 	});
 
-	const onKeyDown = (e: KeyboardEvent) => {
-		const target = e.target as Element | null;
-		const tagName = target?.tagName.toUpperCase();
-		if (
-			tagName !== "INPUT" &&
-			tagName !== "TEXTAREA" &&
-			!isQuickSearchModalOpen() &&
-			(e.key.toLowerCase() === "p" || (e.key.toLowerCase() === "k" && e.ctrlKey))
-		) {
-			e.preventDefault();
-			setIsQuickSearchModalOpen(true);
-		}
-	};
+	useShortcut({
+		shortcuts: [
+			{ key: "k", ctrl: true, handler: () => setIsQuickSearchModalOpen(true) },
+			{ key: "p", handler: () => setIsQuickSearchModalOpen(true) },
+			{ key: "z", ctrl: true, handler: () => navigate("/app/queue/zen") },
+		],
+	});
 
 	const store = {
 		title,
