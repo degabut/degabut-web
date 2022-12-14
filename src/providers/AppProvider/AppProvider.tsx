@@ -9,7 +9,7 @@ import {
 	AddPlaylistVideoModal,
 	CatJamManager,
 	ConfirmationModal,
-	ExternalDragDrop,
+	ExternalTrackAdder,
 	InstallPrompt,
 	QuickSearchModal,
 	UpdateModal,
@@ -119,7 +119,7 @@ export const AppProvider: ParentComponent = (props) => {
 			/>
 
 			<CatJamManager />
-			<ExternalDragDrop />
+			<ExternalTrackAdder />
 			<InstallPrompt />
 			<UpdateModal />
 		</AppContext.Provider>

@@ -13,7 +13,7 @@ type VideoPlaylistOption = null | {
 	playlist: IYoutubePlaylist | IMixPlaylist;
 };
 
-export const ExternalDragDrop = () => {
+export const ExternalTrackAdder = () => {
 	const app = useApp();
 	const api = useApi();
 	const queue = useQueue();
@@ -29,6 +29,7 @@ export const ExternalDragDrop = () => {
 		window.addEventListener("dragleave", onDragLeave);
 		window.addEventListener("dragover", onDragOver);
 		window.addEventListener("drop", onDrop);
+		document.addEventListener("paste", onPaste);
 	});
 
 	onCleanup(() => {
@@ -36,6 +37,7 @@ export const ExternalDragDrop = () => {
 		window.removeEventListener("dragleave", onDragLeave);
 		window.removeEventListener("dragover", onDragOver);
 		window.removeEventListener("drop", onDrop);
+		document.removeEventListener("paste", onPaste);
 	});
 
 	const onDragEnter = (e: DragEvent) => {
@@ -63,6 +65,22 @@ export const ExternalDragDrop = () => {
 			showInvalidUrlAlert();
 			return setDragCounter(0);
 		}
+
+		await processUrl(url);
+	};
+
+	const onPaste = async (e: ClipboardEvent) => {
+		const target = e.target as Element | null;
+		const tagName = target?.tagName.toUpperCase();
+		if (tagName === "INPUT" || tagName === "TEXTAREA") return;
+
+		const url = e.clipboardData?.getData("text");
+		if (!url) return;
+		await processUrl(url);
+	};
+
+	const processUrl = async (url: string) => {
+		setDragCounter(1);
 
 		const searchParams = new URL(url).searchParams;
 		const videoId = searchParams.get("v") || url.split("youtu.be/")[1]?.split("?")[0]?.split("&")[0];
