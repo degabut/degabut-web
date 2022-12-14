@@ -3,7 +3,7 @@ import { IVideoCompact } from "@api";
 import { breakpoints } from "@constants";
 import { useScreen } from "@hooks/useScreen";
 import { useShortcut } from "@hooks/useShortcut";
-import { useNavigate } from "solid-app-router";
+import { useLocation, useNavigate } from "solid-app-router";
 import { Accessor, createContext, createEffect, createSignal, JSX, ParentComponent, Setter } from "solid-js";
 import {
 	AddPlaylistVideoModal,
@@ -50,6 +50,7 @@ export const AppProvider: ParentComponent = (props) => {
 	let previousWidth = window.screenX;
 	const screen = useScreen();
 	const navigate = useNavigate();
+	const location = useLocation();
 
 	const [isMenuOpen, setIsMenuOpen] = createSignal(window.innerWidth > breakpoints.md);
 	const [isMemberOpen, setIsMemberOpen] = createSignal(window.innerWidth > breakpoints["2xl"]);
@@ -70,7 +71,14 @@ export const AppProvider: ParentComponent = (props) => {
 		shortcuts: [
 			{ key: "k", ctrl: true, handler: () => setIsQuickSearchModalOpen(true) },
 			{ key: "p", handler: () => setIsQuickSearchModalOpen(true) },
-			{ key: "z", ctrl: true, handler: () => navigate("/app/queue/zen") },
+			{
+				key: "z",
+				ctrl: true,
+				handler: () => {
+					if (location.pathname !== "/app/queue/zen") navigate("/app/queue/zen");
+					else navigate("/app/queue");
+				},
+			},
 		],
 	});
 
