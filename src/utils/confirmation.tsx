@@ -1,4 +1,5 @@
-import { IMixPlaylist, IPlaylist, IPlaylistCompact, IYoutubePlaylist } from "@api";
+import { IMixPlaylist, IPlaylist, IPlaylistCompact, IVideo, IVideoCompact, IYoutubePlaylist } from "@api";
+import { Text } from "@components/Text";
 
 export const addPlaylistConfirmation = (
 	playlist: IPlaylist | IPlaylistCompact | IYoutubePlaylist | IMixPlaylist,
@@ -7,13 +8,31 @@ export const addPlaylistConfirmation = (
 	return {
 		title: "Add Playlist",
 		message: () => (
-			<div class="space-y-2">
-				<div>
+			<div class="flex-col-center space-y-2">
+				<Text.Body1>
 					Add playlist <b>{"name" in playlist ? playlist.name : playlist.title}</b> to the queue?
-				</div>
-				<div class="text-sm">
+				</Text.Body1>
+				<Text.Caption1>
 					This will add <b>{playlist.videoCount}</b> videos to the queue.
-				</div>
+				</Text.Caption1>
+			</div>
+		),
+		onConfirm,
+	};
+};
+
+export const removePlayHistoryConfirmation = (video: IVideo | IVideoCompact, onConfirm?: () => Promise<void>) => {
+	return {
+		title: "Remove Play History",
+		message: () => (
+			<div class="flex-col-center space-y-2">
+				<Text.Body1>
+					Remove <b>{video.title}</b> From your play history?
+				</Text.Body1>
+				<Text.Caption1>
+					This action will remove the video from your most played and recently played lists until you play it
+					again.
+				</Text.Caption1>
 			</div>
 		),
 		onConfirm,

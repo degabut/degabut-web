@@ -137,5 +137,10 @@ export const useRecommendation = (params: UseRecommendationParams) => {
 		channelRelated,
 		loadNext,
 		isEmpty,
+		raw: {
+			lastPlayed: lastPlayedVideos,
+			mostPlayed: mostPlayedVideos,
+			recentMostPlayed: recentMostPlayedVideos,
+		},
 	};
 };

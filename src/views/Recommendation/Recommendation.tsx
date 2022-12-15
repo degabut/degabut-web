@@ -59,18 +59,25 @@ export const Recommendation: Component = () => {
 				<Show when={recommendation.mostPlayed().data.length || recommendation.mostPlayed().loading}>
 					<ExpandableVideoGrid
 						label="Most Played"
+						removable
 						videos={recommendation.mostPlayed().data}
 						isLoading={recommendation.mostPlayed().loading}
 						onClickMore={() => setShowMoreType(ShowMoreType.MostPlayed)}
+						onRemove={() => {
+							recommendation.raw.mostPlayed.refetch();
+							recommendation.raw.recentMostPlayed.refetch();
+						}}
 					/>
 				</Show>
 
 				<Show when={recommendation.lastPlayed().data.length || recommendation.lastPlayed().loading}>
 					<ExpandableVideoGrid
 						label="Recently Played"
+						removable
 						videos={recommendation.lastPlayed().data}
 						isLoading={recommendation.lastPlayed().loading}
 						onClickMore={() => setShowMoreType(ShowMoreType.RecentlyPlayed)}
+						onRemove={() => recommendation.raw.lastPlayed.refetch()}
 					/>
 				</Show>
 

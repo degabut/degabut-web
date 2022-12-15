@@ -13,6 +13,10 @@ export class Me {
 		else return [];
 	};
 
+	removePlayHistory = async (videoId: string): Promise<void> => {
+		await this.client.delete(`/me/play-history/${videoId}`);
+	};
+
 	getQueue = async (): Promise<IQueue | undefined> => {
 		const response = await this.client.get("/me/queue");
 		if (response.status !== 200) return undefined;
