@@ -129,6 +129,7 @@ export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, em
 			return history;
 		});
 		lastTrackSeekedPosition = -1;
+		setFreezeState({ seek: false });
 	};
 
 	const setNowPlaying = (nowPlaying: ITrack | null) => {
