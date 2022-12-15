@@ -1,16 +1,18 @@
 import { ITrack, IVideoCompact, LoopMode } from "@api";
 import { useApi } from "@hooks/useApi";
 import { AxiosError } from "axios";
-import { Setter } from "solid-js";
-import { QueueResource } from "../QueueProvider";
+import { SetStoreFunction } from "solid-js/store";
+import TypedEventEmitter from "typed-emitter";
+import { FreezeState, QueueResource } from "../QueueProvider";
+import { QueueEvents } from "./useQueueEvents";
 
 type Params = {
 	queue: QueueResource;
-	setIsTrackFreezed: Setter<boolean>;
-	setIsQueueFreezed: Setter<boolean>;
+	setFreezeState: SetStoreFunction<FreezeState>;
+	emitter: TypedEventEmitter<QueueEvents>;
 };
 
-export const useQueueActions = ({ queue, setIsQueueFreezed, setIsTrackFreezed }: Params) => {
+export const useQueueActions = ({ queue, setFreezeState, emitter }: Params) => {
 	const api = useApi();
 
 	const toggleShuffle = () => {
@@ -38,7 +40,9 @@ export const useQueueActions = ({ queue, setIsQueueFreezed, setIsTrackFreezed }:
 	};
 
 	const seek = (seek: number) => {
-		return modifyTrack((queueId) => api.player.seek(queueId, seek));
+		if (queue.empty) return;
+		setFreezeState({ seek: true });
+		return api.player.seek(queue.voiceChannel.id, seek);
 	};
 
 	const playTrack = (track: ITrack) => {
@@ -96,7 +100,7 @@ export const useQueueActions = ({ queue, setIsQueueFreezed, setIsTrackFreezed }:
 		const queueId = queue.voiceChannel.id;
 		if (!queueId) return;
 
-		setIsTrackFreezed(true);
+		setFreezeState({ track: true });
 
 		try {
 			await fn(queueId);
@@ -108,7 +112,7 @@ export const useQueueActions = ({ queue, setIsQueueFreezed, setIsTrackFreezed }:
 				alert(err);
 			}
 		} finally {
-			setIsTrackFreezed(false);
+			setFreezeState({ track: false });
 		}
 	};
 
@@ -117,9 +121,9 @@ export const useQueueActions = ({ queue, setIsQueueFreezed, setIsTrackFreezed }:
 
 		const queueId = queue.voiceChannel.id;
 
-		setIsQueueFreezed(true);
+		setFreezeState({ queue: true });
 		await fn(queueId);
-		setIsQueueFreezed(false);
+		setFreezeState({ queue: false });
 	};
 
 	return {

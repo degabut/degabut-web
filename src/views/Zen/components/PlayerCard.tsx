@@ -32,6 +32,7 @@ export const PlayerCard: Component<Props> = (props) => {
 						</div>
 
 						<SeekSlider
+							disabled={queue.freezeState.seek}
 							max={video.duration}
 							onChange={(value) => queue.seek(value * 1000)}
 							value={(queue.data.position || 0) / 1000}

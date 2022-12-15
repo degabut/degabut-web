@@ -87,6 +87,7 @@ const Controls: Component = () => {
 				>
 					<SeekSlider
 						inline
+						disabled={queue.freezeState.seek}
 						max={queue.data.nowPlaying?.video.duration || 0}
 						value={(queue.data.position || 0) / 1000}
 						onChange={(value) => queue.seek(value * 1000)}

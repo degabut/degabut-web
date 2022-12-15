@@ -2,11 +2,12 @@ import { IMember, IQueue, ITrack } from "@api";
 import { onMount } from "solid-js";
 import { SetStoreFunction } from "solid-js/store";
 import TypedEventEmitter from "typed-emitter";
-import { QueueResource } from "../QueueProvider";
+import { FreezeState, QueueResource } from "../QueueProvider";
 import { QueueEvents } from "./useQueueEvents";
 
 type Params = {
 	setQueue: SetStoreFunction<QueueResource>;
+	setFreezeState: SetStoreFunction<FreezeState>;
 	fetchQueue: () => Promise<void>;
 	emitter: TypedEventEmitter<QueueEvents>;
 };
@@ -19,7 +20,9 @@ type Params = {
  * DO: setQueue("voiceChannel", (voiceChannel) => { voiceChannel.mebers })
  */
 
-export const useQueueEventListener = ({ setQueue, fetchQueue, emitter }: Params) => {
+export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, emitter }: Params) => {
+	let lastTrackSeekedPosition = -1;
+
 	onMount(() => {
 		emitter.on("queue-destroyed", resetQueue);
 		emitter.on("queue-left", resetQueue);
@@ -32,7 +35,8 @@ export const useQueueEventListener = ({ setQueue, fetchQueue, emitter }: Params)
 		emitter.on("queue-shuffle-toggled", partialUpdateQueue);
 		emitter.on("queue-created", updateQueue);
 		emitter.on("player-pause-state-changed", ({ isPaused }) => partialUpdateQueue({ isPaused }));
-		emitter.on("player-tick", ({ position }) => partialUpdateQueue({ position }));
+		emitter.on("player-tick", ({ position }) => onPlayerTick(position));
+		emitter.on("track-seeked", ({ position }) => onTrackSeeked(position));
 		emitter.on("track-added", ({ track }) => appendTrack(track));
 		emitter.on("tracks-added", ({ tracks }) => appendTrack(tracks));
 		emitter.on("track-removed", ({ track }) => removeTrack(track));
@@ -124,6 +128,7 @@ export const useQueueEventListener = ({ setQueue, fetchQueue, emitter }: Params)
 			history.splice(25);
 			return history;
 		});
+		lastTrackSeekedPosition = -1;
 	};
 
 	const setNowPlaying = (nowPlaying: ITrack | null) => {
@@ -132,5 +137,20 @@ export const useQueueEventListener = ({ setQueue, fetchQueue, emitter }: Params)
 
 	const setTracks = (tracks: ITrack[]) => {
 		setQueue({ tracks });
+	};
+
+	const onPlayerTick = (position: number) => {
+		if (lastTrackSeekedPosition >= 0) {
+			const diff = Math.abs(position - lastTrackSeekedPosition);
+			if (diff < 250 || diff > 2250) return;
+			lastTrackSeekedPosition = -1;
+			setFreezeState({ seek: false });
+		}
+
+		setQueue("position", position);
+	};
+
+	const onTrackSeeked = (position: number) => {
+		lastTrackSeekedPosition = position;
 	};
 };

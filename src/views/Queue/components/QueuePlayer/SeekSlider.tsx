@@ -7,6 +7,7 @@ type Props = {
 	max: number;
 	value: number;
 	inline?: boolean;
+	disabled?: boolean;
 	onChange: (value: number) => void;
 };
 
@@ -15,12 +16,13 @@ export const SeekSlider: Component<Props> = (props) => {
 	const [value, setValue] = createSignal(0);
 
 	createEffect(() => {
-		if (props.value > -1 && !isSeeking) setValue(props.value);
+		if (props.value > -1 && !isSeeking && !props.disabled) setValue(props.value);
 	});
 
 	const backgroundStyle = () => {
 		const percentage = (Math.round(props.value) / props.max) * 100;
-		return `linear-gradient(to right, #ECE350 0%, #ECE350 ${percentage}%, #dedede ${percentage}%, #dedede 100%)`;
+		const primary = props.disabled ? "#B8AE14" : "#ECE350";
+		return `linear-gradient(to right, ${primary} 0%, ${primary} ${percentage}%, #dedede ${percentage}%, #dedede 100%)`;
 	};
 
 	const onChange = (value: number) => {
@@ -48,9 +50,8 @@ export const SeekSlider: Component<Props> = (props) => {
 				</Show>
 				<Slider
 					class="w-full h-0.5 appearance-none accent-brand-600"
-					style={{
-						background: backgroundStyle(),
-					}}
+					style={{ background: backgroundStyle() }}
+					disabled={props.disabled}
 					min={0}
 					onInput={(v) => onInput(+v.currentTarget.value)}
 					onChange={(v) => onChange(+v.currentTarget.value)}

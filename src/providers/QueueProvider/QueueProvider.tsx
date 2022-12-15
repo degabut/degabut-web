@@ -18,8 +18,7 @@ export type QueueContextStore = {
 	data: QueueResource;
 	voiceChannelHistory: IHistory[];
 	isInitialLoading: Accessor<boolean>;
-	isQueueFreezed: Accessor<boolean>;
-	isTrackFreezed: Accessor<boolean>;
+	freezeState: FreezeState;
 	emitter: TypedEventEmitter<QueueEvents>;
 } & ReturnType<typeof useQueueActions>;
 
@@ -27,20 +26,32 @@ export const QueueContext = createContext<QueueContextStore>({
 	data: { empty: true },
 	voiceChannelHistory: [] as IHistory[],
 	isInitialLoading: () => true,
-	isQueueFreezed: () => false,
-	isTrackFreezed: () => false,
+	freezeState: {
+		queue: true,
+		track: true,
+		seek: true,
+	},
 	emitter: new EventEmitter(),
 } as QueueContextStore);
 
 type FullQueue = IQueue & IPlayer;
 export type QueueResource = (FullQueue & { empty: false }) | (Partial<FullQueue> & { empty: true });
 
+export type FreezeState = {
+	queue: boolean;
+	track: boolean;
+	seek: boolean;
+};
+
 export const QueueProvider: ParentComponent = (props) => {
 	const api = useApi();
 	let lastHidden = 0;
 	const [isInitialLoading, setIsInitialLoading] = createSignal(true);
-	const [isQueueFreezed, setIsQueueFreezed] = createSignal(true);
-	const [isTrackFreezed, setIsTrackFreezed] = createSignal(true);
+	const [freezeState, setFreezeState] = createStore<FreezeState>({
+		queue: true,
+		track: true,
+		seek: true,
+	});
 
 	const fetchQueue = async () => {
 		try {
@@ -61,27 +72,24 @@ export const QueueProvider: ParentComponent = (props) => {
 	};
 
 	const [queue, setQueue] = createStore<QueueResource>({ empty: true });
-	const queueActions = useQueueActions({ queue, setIsQueueFreezed, setIsTrackFreezed });
-	const queueEvents = useQueueEvents();
+	const { emitter, listen, close } = useQueueEvents();
+	const queueActions = useQueueActions({ queue, setFreezeState, emitter });
 	const voiceChannelHistory = useVoiceChannelHistory({ queue });
-	useQueueEventListener({ setQueue, fetchQueue, emitter: queueEvents.emitter });
-	useQueueNotification({ emitter: queueEvents.emitter });
+	useQueueEventListener({ setQueue, setFreezeState, fetchQueue, emitter });
+	useQueueNotification({ emitter });
 
 	onMount(() => {
 		document.addEventListener("visibilitychange", onVisibilityChange);
-		queueEvents.listen();
+		listen();
 	});
 
 	onCleanup(() => {
 		document.removeEventListener("visibilitychange", onVisibilityChange);
-		queueEvents.close();
+		close();
 	});
 
 	createEffect(() => {
-		if (queue) {
-			setIsTrackFreezed(false);
-			setIsQueueFreezed(false);
-		}
+		if (queue) setFreezeState({ track: false, queue: false, seek: false });
 	});
 
 	const onVisibilityChange = () => {
@@ -96,9 +104,8 @@ export const QueueProvider: ParentComponent = (props) => {
 		data: queue,
 		voiceChannelHistory,
 		isInitialLoading,
-		isQueueFreezed,
-		isTrackFreezed,
-		emitter: queueEvents.emitter,
+		freezeState,
+		emitter,
 		...queueActions,
 	};
 

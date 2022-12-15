@@ -28,14 +28,14 @@ export const QueueActions: Component<Props> = (props) => {
 			<PlayButton
 				onChange={(isPaused) => (isPaused ? queue.pause() : queue.unpause())}
 				defaultValue={!!queue.data.isPaused}
-				disabled={queue.isQueueFreezed()}
+				disabled={queue.freezeState.queue}
 				extraClass={props.extraButtonClass}
 				iconSize={props.iconSize}
 			/>
 
 			<SkipButton
 				onClick={() => queue.skipTrack()}
-				disabled={queue.isTrackFreezed() || !queue.data.nowPlaying}
+				disabled={queue.freezeState.queue || !queue.data.nowPlaying}
 				extraClass={props.extraButtonClass}
 				iconSize={props.iconSize}
 			/>
@@ -43,7 +43,7 @@ export const QueueActions: Component<Props> = (props) => {
 			<ShuffleToggleButton
 				defaultValue={!!queue.data.shuffle}
 				onChange={() => queue.toggleShuffle()}
-				disabled={queue.isQueueFreezed()}
+				disabled={queue.freezeState.queue}
 				extraClass={props.extraButtonClass}
 				iconSize={props.iconSize}
 			/>
@@ -51,7 +51,7 @@ export const QueueActions: Component<Props> = (props) => {
 			<LoopToggleButton
 				defaultValue={queue.data.loopMode || LoopMode.DISABLED}
 				onChange={(t) => queue.changeLoopMode(t)}
-				disabled={queue.isQueueFreezed()}
+				disabled={queue.freezeState.queue}
 				extraClass={props.extraButtonClass}
 				iconSize={props.iconSize}
 			/>

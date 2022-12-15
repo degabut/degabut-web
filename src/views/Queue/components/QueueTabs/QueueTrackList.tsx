@@ -67,7 +67,7 @@ export const QueueTrackList: Component<Props> = (props) => {
 
 	return (
 		<Show when={tracks().length} keyed>
-			<div classList={{ "opacity-50 pointer-events-none": queue.isTrackFreezed() }}>
+			<div classList={{ "opacity-50 pointer-events-none": queue.freezeState.track }}>
 				<Videos.SortableList
 					data={tracks()}
 					onSort={({ to }, data) => queue.changeTrackOrder(data.id, to)}
