@@ -35,7 +35,7 @@ export const ExpandableVideoGrid: Component<Props> = (props) => {
 			modifyContextMenuItems: (items) => {
 				if (props.removable) {
 					items[0].push({
-						element: <ContextMenuItem label="Remove From History" icon="closeLine" />,
+						element: () => <ContextMenuItem label="Remove From History" icon="closeLine" />,
 						onClick: () => promptRemoveVideo(video),
 					});
 				}

@@ -93,7 +93,7 @@ export const ShowMoreModal: Component<Props> = (props) => {
 				modifyContextMenuItems: (items) => {
 					if (removable) {
 						items[0].push({
-							element: <ContextMenuItem label="Remove From History" icon="closeLine" />,
+							element: () => <ContextMenuItem label="Remove From History" icon="closeLine" />,
 							onClick: () => promptRemoveVideo(video),
 						});
 					}
