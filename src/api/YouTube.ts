@@ -63,6 +63,16 @@ export interface ITranscript {
 export class YouTube {
 	constructor(private client: AxiosInstance) {}
 
+	search = async (keyword: string): Promise<(IVideoCompact | IPlaylistCompact)[]> => {
+		if (!keyword) return [];
+
+		const response = await this.client.get("/search", {
+			params: { keyword },
+		});
+		if (response.status === 200) return response.data;
+		else return [];
+	};
+
 	searchVideos = async (keyword: string): Promise<IVideoCompact[]> => {
 		if (!keyword) return [];
 
