@@ -39,10 +39,12 @@ export const YouTubePlaylistList: Component<YouTubePlaylistListProps> = (props) 
 				>
 					{props.playlist.title}
 				</Text.Body1>
-				<div class="flex-row-center space-x-3 text-sm align-bottom">
-					<Text.Caption1>{props.playlist.videoCount} videos</Text.Caption1>
+				<div class="flex-row-center space-x-2 text-sm align-bottom">
+					<Text.Caption2 class="border border-neutral-600 rounded px-0.5 text-neutral-300">
+						{props.playlist.videoCount} videos
+					</Text.Caption2>
 					<Show when={props.playlist.channel} keyed>
-						{(c) => <Text.Body2 truncate>{c.name}</Text.Body2>}
+						{(c) => <Text.Caption1 truncate>{c.name}</Text.Caption1>}
 					</Show>
 				</div>
 			</div>
