@@ -30,7 +30,10 @@ export const Search: Component = () => {
 	const navigate = useNavigate();
 
 	const [query, setQuery] = useSearchParams<{ keyword: string }>();
-	const search = useSearchYouTube();
+	const search = useSearchYouTube({
+		playlistCount: 5,
+		playlistStartIndex: 5,
+	});
 
 	onMount(() => {
 		app.setTitle("Search");

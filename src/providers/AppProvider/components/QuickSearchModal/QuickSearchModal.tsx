@@ -1,4 +1,5 @@
 import { IPlaylistCompact, IVideoCompact } from "@api";
+import { Divider } from "@components/Divider";
 import { Icon } from "@components/Icon";
 import { KeyboardHint } from "@components/KeyboardHint";
 import { Modal } from "@components/Modal";
@@ -106,32 +107,47 @@ export const QuickSearchModal: Component<Props> = (props) => {
 						</Show>
 					}
 				>
-					{(item, isSelected) =>
-						"duration" in item ? (
-							<Video.List
-								video={item}
-								inQueue={queue.data.tracks?.some((t) => t.video.id === item.id)}
-								contextMenu={getVideoContextMenu({
-									video: item,
-									appStore: app,
-									queueStore: queue,
-									navigate,
-								})}
-								extraContainerClassList={{ "!bg-white/10": isSelected }}
-							/>
-						) : (
-							<YouTubePlaylist.List
-								playlist={item}
-								contextMenu={getYouTubePlaylistContextMenu({
-									appStore: app,
-									queueStore: queue,
-									playlist: item,
-								})}
-								extraContainerClass="cursor-pointer px-2 py-1"
-								extraContainerClassList={{ "!bg-white/10": isSelected }}
-							/>
-						)
-					}
+					{(item, isSelected, i) => {
+						if ("duration" in item) {
+							return (
+								<Video.List
+									video={item}
+									inQueue={queue.data.tracks?.some((t) => t.video.id === item.id)}
+									contextMenu={getVideoContextMenu({
+										video: item,
+										appStore: app,
+										queueStore: queue,
+										navigate,
+									})}
+									extraContainerClassList={{ "!bg-white/10": isSelected }}
+								/>
+							);
+						} else {
+							return (
+								<>
+									<Show when={i === search.playlistStartIndex()}>
+										<div class="flex-row-center w-full space-x-4 my-1">
+											<div class="text-sm text-neutral-400">Playlist</div>
+											<Divider dark extraClass="grow" />
+										</div>
+									</Show>
+									<YouTubePlaylist.List
+										playlist={item}
+										contextMenu={getYouTubePlaylistContextMenu({
+											appStore: app,
+											queueStore: queue,
+											playlist: item,
+										})}
+										extraContainerClass="cursor-pointer px-2 py-1"
+										extraContainerClassList={{ "!bg-white/10": isSelected }}
+									/>
+									<Show when={i === search.playlistEndIndex()}>
+										<Divider dark extraClass="grow my-2" />
+									</Show>
+								</>
+							);
+						}
+					}}
 				</Select>
 
 				<button type="submit" class="hidden" disabled={isLoading()} onClick={onClickSubmit} />
