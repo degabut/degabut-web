@@ -1,13 +1,14 @@
 import { RouterLink } from "@components/A";
 import { Container } from "@components/Container";
 import { Text } from "@components/Text";
+import { useApp } from "@hooks/useApp";
 import { AppProvider } from "@providers/AppProvider";
 import { QueueProvider } from "@providers/QueueProvider";
 import { RPCProvider } from "@providers/RPCProvider";
 import { SettingsProvider } from "@providers/SettingsProvider";
 import { requestNotificationPermission } from "@utils";
 import { Outlet } from "solid-app-router";
-import { Component, ErrorBoundary } from "solid-js";
+import { Component, ErrorBoundary, Show } from "solid-js";
 import { AppDrawer, AppHeader, BackgroundLogo, BottomBar, MemberListDrawer } from "./components";
 
 export const App: Component = () => {
@@ -49,19 +50,27 @@ const Error: Component<{ error: unknown }> = (props) => {
 };
 
 const ProvidedApp: Component = () => {
+	const app = useApp();
 	requestNotificationPermission();
 
 	return (
-		<div class="flex flex-col h-full">
+		<div
+			class="flex flex-col h-full"
+			classList={{ "bg-gradient-to-b from-neutral-800 to-neutral-900": !app.isFullscreen() }}
+		>
 			<div class="flex h-full overflow-y-auto">
-				<AppDrawer />
+				<Show when={!app.isFullscreen()}>
+					<AppDrawer />
+				</Show>
 
 				<div class="relative h-full grow flex flex-col overflow-hidden">
-					<div class="shrink-0">
-						<AppHeader />
-					</div>
+					<Show when={!app.isFullscreen()}>
+						<div class="shrink-0">
+							<AppHeader />
+						</div>
 
-					<BackgroundLogo />
+						<BackgroundLogo />
+					</Show>
 
 					<ErrorBoundary fallback={(err) => <Error error={err} />}>
 						<div class="h-full overflow-y-auto">
@@ -70,10 +79,14 @@ const ProvidedApp: Component = () => {
 					</ErrorBoundary>
 				</div>
 
-				<MemberListDrawer />
+				<Show when={!app.isFullscreen()}>
+					<MemberListDrawer />
+				</Show>
 			</div>
 
-			<BottomBar />
+			<Show when={!app.isFullscreen()}>
+				<BottomBar />
+			</Show>
 		</div>
 	);
 };

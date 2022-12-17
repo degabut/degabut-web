@@ -25,6 +25,8 @@ type Confirmation = {
 export type AppContextStore = {
 	title: Accessor<string>;
 	setTitle: (title: string) => void;
+	isFullscreen: Accessor<boolean>;
+	setIsFullscreen: (value: boolean) => void;
 	setVideoPlaylist: (video: IVideoCompact | null) => void;
 	setConfirmation: (confirmation: Confirmation | null) => void;
 	isMenuOpen: Accessor<boolean>;
@@ -37,6 +39,8 @@ export type AppContextStore = {
 export const AppContext = createContext<AppContextStore>({
 	title: () => "",
 	setTitle: () => {},
+	isFullscreen: () => false,
+	setIsFullscreen: () => {},
 	setVideoPlaylist: () => {},
 	setConfirmation: () => {},
 	isMenuOpen: () => false,
@@ -55,6 +59,7 @@ export const AppProvider: ParentComponent = (props) => {
 	const [isMenuOpen, setIsMenuOpen] = createSignal(window.innerWidth > breakpoints.md);
 	const [isMemberOpen, setIsMemberOpen] = createSignal(window.innerWidth > breakpoints["2xl"]);
 	const [title, setTitle] = createSignal("");
+	const [isFullscreen, setIsFullscreen] = createSignal(false);
 	const [videoPlaylist, setVideoPlaylist] = createSignal<null | IVideoCompact>(null);
 	const [isQuickSearchModalOpen, setIsQuickSearchModalOpen] = createSignal(false);
 	const [confirmation, setConfirmation] = createSignal<Confirmation | null>(null);
@@ -85,6 +90,8 @@ export const AppProvider: ParentComponent = (props) => {
 	const store = {
 		title,
 		setTitle,
+		isFullscreen,
+		setIsFullscreen,
 		setVideoPlaylist,
 		setConfirmation,
 		isMenuOpen,
