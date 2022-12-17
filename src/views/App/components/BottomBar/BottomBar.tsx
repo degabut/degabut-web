@@ -1,4 +1,4 @@
-import { useLocation } from "solid-app-router";
+import { useLocation } from "@solidjs/router";
 import { Component, For, Show } from "solid-js";
 import { Link } from "./Link";
 import { QueuePlayer } from "./QueuePlayer";

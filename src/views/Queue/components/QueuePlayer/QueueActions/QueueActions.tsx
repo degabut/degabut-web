@@ -1,7 +1,7 @@
 import { LoopMode } from "@api";
 import { IconSize } from "@components/Icon";
 import { useQueue } from "@hooks/useQueue";
-import { useNavigate } from "solid-app-router";
+import { useNavigate } from "@solidjs/router";
 import { Component, Show } from "solid-js";
 import {
 	LoopToggleButton,

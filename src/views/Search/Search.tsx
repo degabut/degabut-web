@@ -7,8 +7,8 @@ import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { useScreen } from "@hooks/useScreen";
 import { useSearchYouTube } from "@hooks/useSearchYouTube";
+import { useNavigate, useSearchParams } from "@solidjs/router";
 import { getVideoContextMenu, getYouTubePlaylistContextMenu } from "@utils";
-import { useNavigate, useSearchParams } from "solid-app-router";
 import { Component, For, onMount, Show } from "solid-js";
 
 const SearchResultSkeleton: Component<{ isSmall?: boolean }> = (props) => {

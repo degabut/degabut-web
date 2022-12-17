@@ -1,6 +1,6 @@
 import { Text } from "@components/Text";
 import { useApi } from "@hooks/useApi";
-import { useNavigate, useParams } from "solid-app-router";
+import { useNavigate, useParams } from "@solidjs/router";
 import { Component, onMount } from "solid-js";
 
 export const Join: Component = () => {

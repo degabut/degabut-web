@@ -1,7 +1,7 @@
 import { Icon } from "@components/Icon";
 import { Video, VideoListProps } from "@components/Video";
+import { useNavigate } from "@solidjs/router";
 import { createSortable, transformStyle, useDragDropContext } from "@thisbeyond/solid-dnd";
-import { useNavigate } from "solid-app-router";
 import { Component } from "solid-js";
 
 type Props = {

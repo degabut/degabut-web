@@ -1,7 +1,7 @@
 import { Button } from "@components/Button";
 import { clickOutside } from "@directives/clickOutside";
 import { useHashState } from "@hooks/useHashState";
-import { useLocation } from "solid-app-router";
+import { useLocation } from "@solidjs/router";
 import { createEffect, onCleanup, onMount, ParentComponent, Show } from "solid-js";
 
 clickOutside;

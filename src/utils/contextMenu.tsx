@@ -4,8 +4,8 @@ import { useQueue } from "@hooks/useQueue";
 import { AppContextStore } from "@providers/AppProvider";
 import { ContextMenuDirectiveParams, ContextMenuItem as IContextMenuItem } from "@providers/ContextMenuProvider";
 import { QueueContextStore } from "@providers/QueueProvider";
+import { useNavigate } from "@solidjs/router";
 import { addPlaylistConfirmation, secondsToTime } from "@utils";
-import { useNavigate } from "solid-app-router";
 import { Show } from "solid-js";
 
 import { IPlaylistCompact } from "@api";

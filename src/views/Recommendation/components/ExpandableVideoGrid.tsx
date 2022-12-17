@@ -4,8 +4,8 @@ import { Videos } from "@components/Videos";
 import { useApi } from "@hooks/useApi";
 import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
+import { useNavigate } from "@solidjs/router";
 import { getVideoContextMenu, removePlayHistoryConfirmation } from "@utils";
-import { useNavigate } from "solid-app-router";
 import { Component } from "solid-js";
 import { ShowMoreTitle } from "./Title";
 

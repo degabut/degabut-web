@@ -9,8 +9,8 @@ import { YouTubePlaylist } from "@components/YoutubePlaylist";
 import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { useSearchYouTube } from "@hooks/useSearchYouTube";
+import { useNavigate } from "@solidjs/router";
 import { addPlaylistConfirmation, getVideoContextMenu, getYouTubePlaylistContextMenu } from "@utils";
-import { useNavigate } from "solid-app-router";
 import { Component, createSignal, Show } from "solid-js";
 
 type Props = {

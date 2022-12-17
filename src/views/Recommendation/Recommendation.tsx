@@ -4,8 +4,8 @@ import { Videos } from "@components/Videos";
 import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { useRecommendation } from "@hooks/useRecommendation";
+import { useNavigate, useParams } from "@solidjs/router";
 import { getVideoContextMenu } from "@utils";
-import { useNavigate, useParams } from "solid-app-router";
 import { Component, createEffect, createMemo, createSignal, onCleanup, onMount, Show } from "solid-js";
 import { ExpandableVideoGrid, ExpandableVideoList, ShowMoreModal, ShowMoreType, Title } from "./components";
 

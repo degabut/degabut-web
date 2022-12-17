@@ -6,8 +6,8 @@ import { AppProvider } from "@providers/AppProvider";
 import { QueueProvider } from "@providers/QueueProvider";
 import { RPCProvider } from "@providers/RPCProvider";
 import { SettingsProvider } from "@providers/SettingsProvider";
+import { Outlet } from "@solidjs/router";
 import { requestNotificationPermission } from "@utils";
-import { Outlet } from "solid-app-router";
 import { Component, ErrorBoundary, Show } from "solid-js";
 import { AppDrawer, AppHeader, BackgroundLogo, BottomBar, MemberListDrawer } from "./components";
 

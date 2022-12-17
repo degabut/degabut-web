@@ -8,8 +8,8 @@ import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { useQueueRecommendation } from "@hooks/useQueueRecommendation";
 import { useScreen } from "@hooks/useScreen";
+import { useNavigate } from "@solidjs/router";
 import { getVideoContextMenu } from "@utils";
-import { useNavigate } from "solid-app-router";
 import { Component, JSX } from "solid-js";
 
 type HintItemProps = {

@@ -2,8 +2,8 @@
 import { ApiProvider } from "@providers/ApiProvider";
 import { ContextMenuProvider } from "@providers/ContextMenuProvider";
 import { ScreenProvider } from "@providers/ScreenProvider";
+import { Router } from "@solidjs/router";
 import { Main } from "@views/Main";
-import { Router } from "solid-app-router";
 import { render } from "solid-js/web";
 import "./index.css";
 

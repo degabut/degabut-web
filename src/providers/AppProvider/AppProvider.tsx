@@ -3,7 +3,7 @@ import { IVideoCompact } from "@api";
 import { breakpoints } from "@constants";
 import { useScreen } from "@hooks/useScreen";
 import { useShortcut } from "@hooks/useShortcut";
-import { useLocation, useNavigate } from "solid-app-router";
+import { useLocation, useNavigate } from "@solidjs/router";
 import { Accessor, createContext, createEffect, createSignal, JSX, ParentComponent, Setter } from "solid-js";
 import {
 	AddPlaylistVideoModal,

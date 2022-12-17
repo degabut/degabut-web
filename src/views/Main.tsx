@@ -1,5 +1,5 @@
 import { IS_DESKTOP } from "@constants";
-import { useRoutes } from "solid-app-router";
+import { useRoutes } from "@solidjs/router";
 import { Component } from "solid-js";
 import { routes } from "../routes";
 

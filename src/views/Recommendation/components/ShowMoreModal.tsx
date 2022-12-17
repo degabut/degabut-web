@@ -8,8 +8,8 @@ import { useApi } from "@hooks/useApi";
 import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { useVideos } from "@hooks/useVideos";
+import { useNavigate } from "@solidjs/router";
 import { getVideoContextMenu, removePlayHistoryConfirmation } from "@utils";
-import { useNavigate } from "solid-app-router";
 import { Component, createMemo } from "solid-js";
 
 export enum ShowMoreType {

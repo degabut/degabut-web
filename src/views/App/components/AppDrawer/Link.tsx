@@ -1,7 +1,7 @@
 import { RouterLink } from "@components/A";
 import { Button } from "@components/Button";
 import { Icons } from "@components/Icon";
-import { useMatch } from "solid-app-router";
+import { useMatch } from "@solidjs/router";
 import { Component, Show } from "solid-js";
 
 type Props = {

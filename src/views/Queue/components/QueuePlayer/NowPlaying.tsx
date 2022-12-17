@@ -4,8 +4,8 @@ import { ContextMenuItem } from "@components/ContextMenu";
 import { Video } from "@components/Video";
 import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
+import { useNavigate } from "@solidjs/router";
 import { getVideoContextMenu } from "@utils";
-import { useNavigate } from "solid-app-router";
 import { Component } from "solid-js";
 
 type Props = {

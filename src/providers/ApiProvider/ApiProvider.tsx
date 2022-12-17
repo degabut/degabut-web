@@ -1,6 +1,6 @@
 import { Auth, AuthManager, Me, Player, Playlist, Queue, User, YouTube } from "@api";
+import { useLocation, useNavigate } from "@solidjs/router";
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
-import { useLocation, useNavigate } from "solid-app-router";
 import { createContext, ParentComponent } from "solid-js";
 
 export type ApiContextStore = {

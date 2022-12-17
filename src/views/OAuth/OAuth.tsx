@@ -1,7 +1,7 @@
 import { Text } from "@components/Text";
 import { useApi } from "@hooks/useApi";
+import { useLocation, useNavigate } from "@solidjs/router";
 import axios from "axios";
-import { useLocation, useNavigate } from "solid-app-router";
 import { Component, createSignal, onMount } from "solid-js";
 
 export const OAuth: Component = () => {

@@ -2,7 +2,7 @@ import { A } from "@components/A";
 import { IS_DESKTOP } from "@constants";
 import { useApi } from "@hooks/useApi";
 import * as runtime from "@runtime";
-import { useLocation, useNavigate } from "solid-app-router";
+import { useLocation, useNavigate } from "@solidjs/router";
 import { Component, onCleanup, onMount } from "solid-js";
 
 export const Login: Component = () => {

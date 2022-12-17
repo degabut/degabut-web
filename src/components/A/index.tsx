@@ -1,2 +1,2 @@
-export { Link as RouterLink } from "solid-app-router";
+export { Link as RouterLink } from "@solidjs/router";
 export * from "./A";

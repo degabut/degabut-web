@@ -1,3 +1,4 @@
+import { Navigate, RouteDefinition } from "@solidjs/router";
 import { App } from "@views/App";
 import { Join } from "@views/Join";
 import { Login } from "@views/Login";
@@ -11,8 +12,6 @@ import { Search } from "@views/Search";
 import { Settings } from "@views/Settings";
 import { VideoDetail } from "@views/VideoDetail";
 import { Zen } from "@views/Zen";
-import { Navigate } from "solid-app-router";
-import { RouteDefinition } from "solid-app-router/dist/types";
 
 const Default = () => <Navigate href="/app/queue" />;
 

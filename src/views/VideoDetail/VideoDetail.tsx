@@ -5,8 +5,8 @@ import { Videos } from "@components/Videos";
 import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { useVideo } from "@hooks/useVideo";
+import { useNavigate, useParams } from "@solidjs/router";
 import { getVideoContextMenu } from "@utils";
-import { useNavigate, useParams } from "solid-app-router";
 import { Component, createEffect, createMemo, onMount, Show } from "solid-js";
 import { MainVideo, MainVideoSkeleton } from "./components";
 

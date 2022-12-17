@@ -5,7 +5,7 @@ import { Playlist } from "@components/Playlist";
 import { useApp } from "@hooks/useApp";
 import { usePlaylists } from "@hooks/usePlaylists";
 import { useQueue } from "@hooks/useQueue";
-import { useNavigate } from "solid-app-router";
+import { useNavigate } from "@solidjs/router";
 import { Component, createSignal, For, onMount, Show } from "solid-js";
 
 export const Playlists: Component = () => {

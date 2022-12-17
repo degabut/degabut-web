@@ -2,8 +2,8 @@ import { IVideoCompact } from "@api";
 import { Videos } from "@components/Videos";
 import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
+import { useNavigate } from "@solidjs/router";
 import { getVideoContextMenu } from "@utils";
-import { useNavigate } from "solid-app-router";
 import { Component, Show } from "solid-js";
 import { ShowMoreTitle } from "./Title";
 

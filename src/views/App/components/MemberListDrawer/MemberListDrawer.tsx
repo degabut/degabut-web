@@ -5,7 +5,7 @@ import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { useScreen } from "@hooks/useScreen";
 import { useSettings } from "@hooks/useSettings";
-import { useNavigate } from "solid-app-router";
+import { useNavigate } from "@solidjs/router";
 import { Component, For, Show } from "solid-js";
 import { Member } from "./Member";
 

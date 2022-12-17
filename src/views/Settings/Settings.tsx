@@ -5,7 +5,7 @@ import { Text } from "@components/Text";
 import { IS_DESKTOP } from "@constants";
 import { useApp } from "@hooks/useApp";
 import { useSettings } from "@hooks/useSettings";
-import { useNavigate } from "solid-app-router";
+import { useNavigate } from "@solidjs/router";
 import { Component, onMount, Show } from "solid-js";
 import { SwitchItem } from "./components";
 

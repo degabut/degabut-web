@@ -1,6 +1,6 @@
 import { Grid } from "@components/Grid";
 import { Video, VideoListProps } from "@components/Video";
-import { useNavigate } from "solid-app-router";
+import { useNavigate } from "@solidjs/router";
 import { createMemo, JSX, Show } from "solid-js";
 
 type VideosGridProps<Data> = {

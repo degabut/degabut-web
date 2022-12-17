@@ -3,7 +3,7 @@ import { ContextMenuItem } from "@components/ContextMenu";
 import { IconSize } from "@components/Icon";
 import { contextMenu } from "@directives/contextMenu";
 import { useApp } from "@hooks/useApp";
-import { useNavigate } from "solid-app-router";
+import { useNavigate } from "@solidjs/router";
 import { Component } from "solid-js";
 
 contextMenu;
