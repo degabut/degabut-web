@@ -86,7 +86,7 @@ export function SortableVideosList<Data = unknown>(props: VideosListProps<Data>)
 							</For>
 						</SortableProvider>
 
-						<DragOverlay>
+						<DragOverlay class="w-0">
 							<Show when={activeItem()} keyed>
 								{(i) => <DummySortableVideoList initialVideoProps={i.videoProps} />}
 							</Show>

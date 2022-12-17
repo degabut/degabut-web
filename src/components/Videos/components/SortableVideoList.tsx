@@ -44,16 +44,14 @@ export const SortableVideoList: Component<Props> = (props) => {
 
 export const DummySortableVideoList: Component<Omit<Props, "initialId">> = (props) => {
 	return (
-		<div class="flex-row-center max-w-[calc(100vw-1.5rem)]">
-			<Video.List
-				extraContainerClass="!pl-0"
-				left={
-					<div class="px-0.5 fill-neutral-400 hover:fill-neutral-100 hover:cursor-pointer touch-none">
-						<Icon name="sixDots" size="md" />
-					</div>
-				}
-				{...props.initialVideoProps}
-			/>
-		</div>
+		<Video.List
+			extraContainerClass="!pl-0"
+			left={
+				<div class="px-0.5 fill-neutral-400 hover:fill-neutral-100 hover:cursor-pointer touch-none">
+					<Icon name="sixDots" size="md" />
+				</div>
+			}
+			{...props.initialVideoProps}
+		/>
 	);
 };
