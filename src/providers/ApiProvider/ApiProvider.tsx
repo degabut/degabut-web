@@ -28,9 +28,9 @@ export const ApiProvider: ParentComponent = (props) => {
 			if (!pathname.startsWith("/login")) {
 				navigate("/login?re=" + encodeURIComponent(location.pathname));
 			}
-
-			return false;
 		}
+
+		if (status >= 500) return false;
 		return true;
 	};
 
