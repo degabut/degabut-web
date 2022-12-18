@@ -9,7 +9,7 @@ import { SettingsProvider } from "@providers/SettingsProvider";
 import { Outlet } from "@solidjs/router";
 import { requestNotificationPermission } from "@utils";
 import { Component, ErrorBoundary, Show } from "solid-js";
-import { AppDrawer, AppHeader, BackgroundLogo, BottomBar, MemberListDrawer } from "./components";
+import { AppDrawer, AppHeader, BottomBar, MemberListDrawer } from "./components";
 
 export const App: Component = () => {
 	return (
@@ -68,8 +68,6 @@ const ProvidedApp: Component = () => {
 						<div class="shrink-0">
 							<AppHeader />
 						</div>
-
-						<BackgroundLogo />
 					</Show>
 
 					<ErrorBoundary fallback={(err) => <Error error={err} />}>
