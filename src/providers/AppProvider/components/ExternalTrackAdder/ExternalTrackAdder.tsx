@@ -82,11 +82,15 @@ export const ExternalTrackAdder = () => {
 	const processUrl = async (url: string) => {
 		setDragCounter(1);
 
-		const searchParams = new URL(url).searchParams;
-		const videoId = searchParams.get("v") || url.split("youtu.be/")[1]?.split("?")[0]?.split("&")[0];
-		const playlistId = searchParams.get("list");
+		let videoId: string;
+		let playlistId: string | null;
 
-		if (!videoId && !playlistId) {
+		try {
+			const searchParams = new URL(url).searchParams;
+			videoId = searchParams.get("v") || url.split("youtu.be/")[1]?.split("?")[0]?.split("&")[0];
+			playlistId = searchParams.get("list");
+			if (!videoId && !playlistId) throw new Error();
+		} catch {
 			showInvalidUrlAlert();
 			return setDragCounter(0);
 		}
