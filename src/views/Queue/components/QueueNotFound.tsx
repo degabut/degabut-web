@@ -21,10 +21,23 @@ type Props = {
 };
 
 const VoiceChannelList: Component<Props> = (props) => {
+	const shortName = () =>
+		props.guild.name
+			.split(" ")
+			.map((word) => word[0])
+			.join("")
+			.slice(0, 2);
+
 	return (
 		<div class="flex-row-center px-2 py-1 space-x-2 w-full bg-white/5 rounded">
 			<div class="shrink-0 w-14 h-14 p-1 rounded-full">
-				<img src={props.guild.icon || ""} />
+				<Show
+					when={props.guild.icon}
+					keyed
+					fallback={<div class="flex-col-center h-full justify-center text-xl">{shortName()}</div>}
+				>
+					{(icon) => <img src={icon} />}
+				</Show>
 			</div>
 
 			<div class="flex flex-col grow truncate">
