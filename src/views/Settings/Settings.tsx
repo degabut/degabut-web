@@ -31,16 +31,14 @@ export const Settings: Component = () => {
 	return (
 		<Container size="sm" centered>
 			<div class="flex flex-col space-y-8">
-				<Show when={!IS_DESKTOP}>
-					<div class="space-y-3">
-						<Text.H2>Notification</Text.H2>
-						<SwitchItem
-							label="Enable Notification"
-							checked={settings.notification}
-							onChange={() => setSettings({ notification: !settings.notification })}
-						/>
-					</div>
-				</Show>
+				<div class="space-y-3">
+					<Text.H2>Notification</Text.H2>
+					<SwitchItem
+						label="Enable Notification"
+						checked={settings.notification}
+						onChange={() => setSettings({ notification: !settings.notification })}
+					/>
+				</div>
 
 				<Show when={IS_DESKTOP}>
 					<div class="space-y-3">
