@@ -31,8 +31,6 @@
 			"@views": ["./src/views"],
 			"@views/*": ["./src/views/*"],
 			"@routes": ["./src/routes"],
-			"@runtime": ["./src/wailsjs/runtime/runtime.d.ts"],
-			"@go/*": ["./src/wailsjs/go/*"],
 			"@constants": ["./src/constants"]
 		}
 	}

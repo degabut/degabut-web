@@ -36,8 +36,6 @@ export default defineConfig({
 			"@stores": path.resolve("./src/stores"),
 			"@views": path.resolve("./src/views"),
 			"@utils": path.resolve("./src/utils"),
-			"@runtime": path.resolve("./src/wailsjs/runtime/runtime"),
-			"@go": path.resolve("./src/wailsjs/go"),
 			"@constants": path.resolve("./src/constants"),
 		},
 	},

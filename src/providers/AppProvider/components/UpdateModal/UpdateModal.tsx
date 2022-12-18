@@ -2,7 +2,6 @@ import { Button } from "@components/Button";
 import { Modal } from "@components/Modal";
 import { Text } from "@components/Text";
 import { IS_DESKTOP } from "@constants";
-import * as runtime from "@runtime";
 import { Component, createSignal, onMount, Show } from "solid-js";
 
 export const UpdateModal: Component = () => {
@@ -10,9 +9,7 @@ export const UpdateModal: Component = () => {
 
 	onMount(() => {
 		if (IS_DESKTOP) {
-			runtime.EventsOn("update", () => {
-				setIsShowUpdateModal(true);
-			});
+			// TODO handle update
 		}
 	});
 

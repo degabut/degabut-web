@@ -1,9 +1,7 @@
-import { IQueue } from "@api";
 import { IS_BROWSER } from "@constants";
-import * as models from "@go/models";
-import * as rpc from "@go/rpc/Client";
 import { useQueue } from "@hooks/useQueue";
 import { useSettings } from "@hooks/useSettings";
+import { QueueResource } from "@providers/QueueProvider";
 import { createContext, createEffect, onMount, ParentComponent } from "solid-js";
 
 export const RPCContext = createContext();
@@ -14,56 +12,37 @@ export const RPCProvider: ParentComponent = (props) => {
 
 	const { settings } = useSettings();
 	const queue = useQueue();
-	let connected = false;
-	let connecting = false;
 
 	onMount(() => {
-		const isEnabled = settings.discordRpc;
-		if (isEnabled) start();
+		updateListeningActivity(queue.data);
+		queue.emitter.on("track-audio-started", () => updateListeningActivity(queue.data));
+		queue.emitter.on("member-added", () => updateListeningActivity(queue.data));
+		queue.emitter.on("member-removed", () => updateListeningActivity(queue.data));
 	});
 
-	const start = async () => {
-		if (connected || connecting) return;
-
-		connecting = true;
-		const error = await rpc.Connect();
-		if (!error) {
-			connected = true;
-			if (!queue.data.empty) updateListeningActivity(queue.data);
+	createEffect(() => {
+		if (settings.discordRpc) {
+			// TODO handle
+		} else {
+			// TODO handle
 		}
-		connecting = false;
-	};
-
-	const stop = () => {
-		rpc.Close();
-		connected = false;
-	};
-
-	createEffect(() => {
-		const isEnabled = settings.discordRpc;
-		if (isEnabled && !connected) start();
-		else if (!isEnabled && connected) stop();
 	});
 
-	createEffect(() => {
-		if (!queue.data.empty) updateListeningActivity(queue.data);
-	});
+	const updateListeningActivity = async (queue: Partial<QueueResource>) => {
+		if (!settings.discordRpc) return;
 
-	const updateListeningActivity = async (queue: IQueue) => {
-		if (!connected) return;
-
-		if (!queue.nowPlaying) {
-			await rpc.SetActivity({
-				details: "Not listening to anything",
-				state: "💤",
-				assets: {
-					large_image: "degabut",
-					large_text: "Degabut",
-				},
-			} as models.rpc.Activity);
+		// TODO handle
+		if (!queue.nowPlaying || !queue.voiceChannel) {
+			// {
+			// 	details: "Not listening to anything",
+			// 	state: "💤",
+			// 	assets: {
+			// 		large_image: "degabut",
+			// 		large_text: "Degabut",
+			// 	},
+			// }
 		} else {
 			const { nowPlaying, voiceChannel } = queue;
-
 			const title = nowPlaying.video.title;
 			const channelName = nowPlaying.video.channel.name;
 			const otherMemberCount = voiceChannel.members.length - 2;
@@ -74,17 +53,17 @@ export const RPCProvider: ParentComponent = (props) => {
 					: `Listening along with ${otherMemberCount} ${otherMemberCount === 1 ? "person" : "people"}`;
 			const start = nowPlaying.playedAt ? Math.floor(new Date(nowPlaying.playedAt).getTime() / 1000) : null;
 
-			await rpc.SetActivity({
-				details: title,
-				state: channelName,
-				assets: {
-					large_image: "degabut",
-					large_text: "Degabut",
-					small_image: smallImage,
-					small_text: smallText,
-				},
-				timestamps: start ? { start } : undefined,
-			} as models.rpc.Activity);
+			// {
+			// 	details: title,
+			// 	state: channelName,
+			// 	assets: {
+			// 		large_image: "degabut",
+			// 		large_text: "Degabut",
+			// 		small_image: smallImage,
+			// 		small_text: smallText,
+			// 	},
+			// 	timestamps: start ? { start } : undefined,
+			// }
 		}
 	};
 
