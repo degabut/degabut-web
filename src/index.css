@@ -22,6 +22,10 @@ html {
 	scrollbar-color: rgb(82 82 82), transparent;
 }
 
+a {
+	-webkit-user-drag: none;
+}
+
 b {
 	@apply font-semibold;
 }
