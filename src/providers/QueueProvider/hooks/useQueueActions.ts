@@ -2,17 +2,14 @@ import { ITrack, IVideoCompact, LoopMode } from "@api";
 import { useApi } from "@hooks/useApi";
 import { AxiosError } from "axios";
 import { SetStoreFunction } from "solid-js/store";
-import TypedEventEmitter from "typed-emitter";
 import { FreezeState, QueueResource } from "../QueueProvider";
-import { QueueEvents } from "./useQueueEvents";
 
 type Params = {
 	queue: QueueResource;
 	setFreezeState: SetStoreFunction<FreezeState>;
-	emitter: TypedEventEmitter<QueueEvents>;
 };
 
-export const useQueueActions = ({ queue, setFreezeState, emitter }: Params) => {
+export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 	const api = useApi();
 
 	const toggleShuffle = () => {
