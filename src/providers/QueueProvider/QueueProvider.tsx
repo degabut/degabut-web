@@ -73,7 +73,7 @@ export const QueueProvider: ParentComponent = (props) => {
 
 	const [queue, setQueue] = createStore<QueueResource>({ empty: true });
 	const { emitter, listen, close } = useQueueEvents();
-	const queueActions = useQueueActions({ queue, setFreezeState, emitter });
+	const queueActions = useQueueActions({ queue, setFreezeState });
 	const voiceChannelHistory = useVoiceChannelHistory({ queue });
 	useQueueEventListener({ setQueue, setFreezeState, fetchQueue, emitter });
 	useQueueNotification({ emitter });

@@ -6,7 +6,7 @@ import { useVideos } from "./useVideos";
 
 type UseRecommendationParams = {
 	userId: Accessor<string>;
-	onLoad: () => void;
+	onLoad?: () => void;
 };
 
 export const useRecommendation = (params: UseRecommendationParams) => {
@@ -38,7 +38,7 @@ export const useRecommendation = (params: UseRecommendationParams) => {
 		const videos = video.data()?.related;
 		if (videos) {
 			setRelatedVideos((c) => [...c, ...videos.filter((v) => !c.some((rv) => rv.id === v.id)).slice(0, 5)]);
-			setTimeout(params.onLoad, 0);
+			params.onLoad && setTimeout(params.onLoad, 0);
 		}
 	});
 
@@ -48,7 +48,7 @@ export const useRecommendation = (params: UseRecommendationParams) => {
 		if (!lastPlayed || !mostPlayed) return;
 		const videoIds = [...mostPlayed, ...lastPlayed].map((v) => v.id);
 		setRelatedTargetVideoIds(videoIds);
-		setTimeout(params.onLoad, 0);
+		params.onLoad && setTimeout(params.onLoad, 0);
 	});
 
 	createEffect(() => {
