@@ -22,6 +22,7 @@ export const useQueueNotification = ({ emitter }: Params) => {
 
 		const notification = await notify("Now Playing", {
 			body: `${nowPlaying.video.title}\n${nowPlaying.video.channel.name}`,
+			tag: "now-playing/" + nowPlaying.id,
 		});
 
 		if (!notification) return;
