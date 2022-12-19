@@ -7,6 +7,8 @@ type Settings = {
 	discordRpc: boolean;
 	appDrawerSize: number;
 	memberDrawerSize: number;
+	overlay: boolean;
+	overlayShortcut: string[];
 };
 
 const defaultSettings: Settings = {
@@ -14,6 +16,8 @@ const defaultSettings: Settings = {
 	discordRpc: true,
 	appDrawerSize: 256,
 	memberDrawerSize: 256,
+	overlay: true,
+	overlayShortcut: ["Control", "Shift", "B"],
 };
 
 export type SettingsContextStore = {

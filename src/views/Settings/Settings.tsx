@@ -7,7 +7,7 @@ import { useApp } from "@hooks/useApp";
 import { useSettings } from "@hooks/useSettings";
 import { useNavigate } from "@solidjs/router";
 import { Component, onMount, Show } from "solid-js";
-import { SwitchItem } from "./components";
+import { KeybindItem, SwitchItem } from "./components";
 
 export const Settings: Component = () => {
 	const app = useApp();
@@ -22,15 +22,13 @@ export const Settings: Component = () => {
 		app.setConfirmation({
 			title: "Logout",
 			message: "Are you sure you want to logout?",
-			onConfirm: () => {
-				navigate("/login");
-			},
+			onConfirm: () => navigate("/login"),
 		});
 	};
 
 	return (
 		<Container size="sm" centered>
-			<div class="flex flex-col space-y-8">
+			<div class="flex flex-col space-y-12">
 				<div class="space-y-3">
 					<Text.H2>Notification</Text.H2>
 					<SwitchItem
@@ -48,6 +46,20 @@ export const Settings: Component = () => {
 							description="Show what you are currently listening to on Discord"
 							checked={settings.discordRpc}
 							onChange={() => setSettings({ discordRpc: !settings.discordRpc })}
+						/>
+					</div>
+
+					<div class="space-y-3">
+						<Text.H2>Overlay</Text.H2>
+						<SwitchItem
+							label="Enable Overlay"
+							checked={settings.overlay}
+							onChange={() => setSettings({ overlay: !settings.overlay })}
+						/>
+						<KeybindItem
+							label="Overlay Shortcut"
+							value={settings.overlayShortcut}
+							onChange={(v) => setSettings({ overlayShortcut: v })}
 						/>
 					</div>
 				</Show>

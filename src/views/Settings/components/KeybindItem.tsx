@@ -1,15 +1,15 @@
-import { Switch } from "@components/Switch";
+import { InputKeybind } from "@components/InputKeybind";
 import { Text } from "@components/Text";
 import { Component, Show } from "solid-js";
 
 type Props = {
 	label: string;
 	description?: string;
-	checked: boolean;
-	onChange: (checked: boolean) => void;
+	value: string[];
+	onChange: (value: string[]) => void;
 };
 
-export const SwitchItem: Component<Props> = (props) => {
+export const KeybindItem: Component<Props> = (props) => {
 	return (
 		<div class="flex-row-center justify-between space-x-4">
 			<div class="flex flex-col">
@@ -18,7 +18,7 @@ export const SwitchItem: Component<Props> = (props) => {
 					<Text.Caption1>{props.description}</Text.Caption1>
 				</Show>
 			</div>
-			<Switch checked={props.checked} onChange={(c) => props.onChange(c)} />
+			<InputKeybind class="w-48" value={props.value} onChange={(v) => props.onChange(v)} />
 		</div>
 	);
 };
