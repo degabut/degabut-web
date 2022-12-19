@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createContext, createEffect, ParentComponent } from "solid-js";
-import { createStore, SetStoreFunction } from "solid-js/store";
+import { throttle } from "@utils";
+import { createContext, ParentComponent } from "solid-js";
+import { createStore, StoreSetter } from "solid-js/store";
 
 type Settings = {
 	notification: boolean;
@@ -22,7 +23,7 @@ const defaultSettings: Settings = {
 
 export type SettingsContextStore = {
 	settings: Settings;
-	setSettings: SetStoreFunction<Settings>;
+	setSettings: (store: StoreSetter<Settings>) => void;
 };
 
 export const SettingsContext = createContext<SettingsContextStore>({
@@ -33,13 +34,24 @@ export const SettingsContext = createContext<SettingsContextStore>({
 export const SettingsProvider: ParentComponent = (props) => {
 	const [settings, setSettings] = createStore<Settings>(defaultSettings);
 
-	const storedSettings = localStorage.getItem("settings");
-	if (storedSettings) setSettings({ ...defaultSettings, ...JSON.parse(storedSettings) });
-	else setSettings(defaultSettings);
+	const setAndSaveSettings = (...v: Parameters<typeof setSettings>) => {
+		setSettings(...v);
+		throttledSaveSettings();
+	};
 
-	createEffect(() => {
-		localStorage.setItem("settings", JSON.stringify(settings));
-	});
+	const throttledSaveSettings = throttle(() => localStorage.setItem("settings", JSON.stringify(settings)), 500);
 
-	return <SettingsContext.Provider value={{ settings, setSettings }}>{props.children}</SettingsContext.Provider>;
+	try {
+		const storedSettings = localStorage.getItem("settings");
+		if (storedSettings) setSettings({ ...defaultSettings, ...JSON.parse(storedSettings) });
+		else setSettings(defaultSettings);
+	} catch {
+		setSettings(defaultSettings);
+	}
+
+	return (
+		<SettingsContext.Provider value={{ settings, setSettings: setAndSaveSettings }}>
+			{props.children}
+		</SettingsContext.Provider>
+	);
 };
