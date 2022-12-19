@@ -34,8 +34,10 @@ export const Input: Component<InputProps> = (props) => {
 				"rounded-full": props.rounded,
 				rounded: !props.rounded,
 				"bg-neutral-300 text-neutral-500": props.disabled,
-				"pl-3": !!props.prefix,
-				"pr-3": !!props.suffix,
+				"pl-3": !!props.prefix && !props.dense,
+				"pr-3": !!props.suffix && !props.dense,
+				"pl-1": !!props.prefix && props.dense,
+				"pr-1": !!props.suffix && props.dense,
 				...props.classList,
 				[props.class || ""]: !!props.class,
 			}}
