@@ -36,8 +36,8 @@ export const Input: Component<InputProps> = (props) => {
 				"bg-neutral-300 text-neutral-500": props.disabled,
 				"pl-3": !!props.prefix && !props.dense,
 				"pr-3": !!props.suffix && !props.dense,
-				"pl-1": !!props.prefix && props.dense,
-				"pr-1": !!props.suffix && props.dense,
+				"pl-1.5": !!props.prefix && props.dense,
+				"pr-1.5": !!props.suffix && props.dense,
 				...props.classList,
 				[props.class || ""]: !!props.class,
 			}}
@@ -50,8 +50,10 @@ export const Input: Component<InputProps> = (props) => {
 				class="outline-0 grow w-full bg-transparent"
 				classList={{
 					"rounded-full": !!props.rounded,
-					"!pl-3": !!props.prefix,
-					"!pr-3": !!props.suffix,
+					"!pl-3": !!props.prefix && !props.dense,
+					"!pr-3": !!props.suffix && !props.dense,
+					"!pl-1.5": !!props.prefix && props.dense,
+					"!pr-1.5": !!props.suffix && props.dense,
 					"py-2 px-4": !props.dense,
 					"py-1 px-2": props.dense,
 				}}
