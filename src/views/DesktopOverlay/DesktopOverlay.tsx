@@ -2,19 +2,15 @@ import { Container } from "@components/Container";
 import { Text } from "@components/Text";
 import { IS_DESKTOP } from "@constants";
 import { useFullscreen } from "@providers/AppProvider";
-import { Outlet, useBeforeLeave, useNavigate } from "@solidjs/router";
-import { Component, onMount } from "solid-js";
+import { Navigate, Outlet, useBeforeLeave } from "@solidjs/router";
+import { Component } from "solid-js";
 import { NavigationCard } from "./components";
 
 export const DesktopOverlay: Component = () => {
-	useFullscreen();
-	const navigate = useNavigate();
+	// eslint-disable-next-line solid/components-return-once
+	if (!IS_DESKTOP) return <Navigate href="/app" />;
 
-	onMount(() => {
-		if (!import.meta.env.DEV && !IS_DESKTOP) {
-			navigate("/app");
-		}
-	});
+	useFullscreen();
 
 	useBeforeLeave((e) => {
 		if (!e.to.toString().startsWith("/app/desktop-overlay") && IS_DESKTOP) e.preventDefault();
