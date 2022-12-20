@@ -23,7 +23,7 @@ export const InputKeybind: Component<Props> = (props) => {
 		} else {
 			input.blur();
 			keys.clear();
-			document.addEventListener("keydown", onKeyDown);
+			document.removeEventListener("keydown", onKeyDown);
 			document.removeEventListener("keyup", onKeyUp);
 		}
 	});
