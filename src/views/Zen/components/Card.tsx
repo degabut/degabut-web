@@ -8,13 +8,13 @@ type CardProps = {
 export const Card: ParentComponent<CardProps> = (props) => {
 	return (
 		<div
-			class="bg-black/50 p-4 lg:p-6 2xl:p-8 space-y-4 rounded-lg truncate"
+			class="bg-black/50 p-4 lg:p-6 2xl:p-8 rounded-lg truncate"
 			classList={{
 				[props.extraClass || ""]: !!props.extraClass,
 				...props.extraClassList,
 			}}
 		>
-			<div class="flex flex-col space-y-4 h-full">{props.children}</div>
+			{props.children}
 		</div>
 	);
 };
