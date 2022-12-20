@@ -33,6 +33,8 @@ type VideosListProps<Data> = {
 };
 
 export function SortableVideosList<Data = unknown>(props: VideosListProps<Data>) {
+	let currentNode: HTMLElement | null = null;
+
 	const sortableProps = createMemo<FullSortableData<Data>[]>(() => {
 		const processor = props.sortableProps;
 		if (!processor) return [];
@@ -54,6 +56,7 @@ export function SortableVideosList<Data = unknown>(props: VideosListProps<Data>)
 	const onDragStart: DragEventHandler = ({ draggable }) => {
 		const active = items().find((t) => t.id === draggable.id) || null;
 		setActiveItem(active);
+		currentNode = draggable.node;
 	};
 
 	const onDragEnd: DragEventHandler = ({ draggable, droppable }) => {
@@ -71,10 +74,19 @@ export function SortableVideosList<Data = unknown>(props: VideosListProps<Data>)
 		}
 	};
 
+	const onDragMove = () => {
+		currentNode?.scrollIntoView({ block: "nearest", inline: "nearest" });
+	};
+
 	return (
 		<div class="space-y-1.5 h-full overflow-y-auto">
 			<Show when={props.showWhenLoading || !props.isLoading}>
-				<DragDropProvider onDragStart={onDragStart} onDragEnd={onDragEnd} collisionDetector={closestCenter}>
+				<DragDropProvider
+					onDragStart={onDragStart}
+					onDragEnd={onDragEnd}
+					onDragMove={onDragMove}
+					collisionDetector={closestCenter}
+				>
 					<DragDropSensors />
 					<SortableProvider ids={ids()}>
 						<For each={items()}>
