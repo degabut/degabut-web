@@ -15,9 +15,7 @@ export const TracksCard: Component<Props> = (props) => {
 				<SwitchViewButton isShowTracks={props.isShowTracks} onClick={() => props.onSwitchView()} />
 			</div>
 
-			<div class="grow overflow-y-auto">
-				<QueueTrackList keyword="" />
-			</div>
+			<QueueTrackList keyword="" />
 		</Card>
 	);
 };

@@ -7,7 +7,7 @@ import {
 	DragOverlay,
 	SortableProvider,
 } from "@thisbeyond/solid-dnd";
-import { createEffect, createMemo, createSignal, For, JSX, Show } from "solid-js";
+import { createEffect, createMemo, createSignal, For, Show } from "solid-js";
 import { DummySortableVideoList, SortableVideoList } from "./components";
 
 type SortableData = {
@@ -26,7 +26,6 @@ type SortEvent = {
 
 type VideosListProps<Data> = {
 	data: Data[];
-	label?: JSX.Element;
 	isLoading?: boolean;
 	showWhenLoading?: boolean;
 	sortableProps?: (data: Data) => SortableData;
@@ -73,30 +72,26 @@ export function SortableVideosList<Data = unknown>(props: VideosListProps<Data>)
 	};
 
 	return (
-		<div class="space-y-6 md:space-y-4">
-			{props.label}
+		<div class="space-y-1.5 h-full overflow-y-auto">
+			<Show when={props.showWhenLoading || !props.isLoading}>
+				<DragDropProvider onDragStart={onDragStart} onDragEnd={onDragEnd} collisionDetector={closestCenter}>
+					<DragDropSensors />
+					<SortableProvider ids={ids()}>
+						<For each={items()}>
+							{(p) => <SortableVideoList initialId={p.id} initialVideoProps={p.videoProps} />}
+						</For>
+					</SortableProvider>
 
-			<div class="space-y-1.5">
-				<Show when={props.showWhenLoading || !props.isLoading}>
-					<DragDropProvider onDragStart={onDragStart} onDragEnd={onDragEnd} collisionDetector={closestCenter}>
-						<DragDropSensors />
-						<SortableProvider ids={ids()}>
-							<For each={items()}>
-								{(p) => <SortableVideoList initialId={p.id} initialVideoProps={p.videoProps} />}
-							</For>
-						</SortableProvider>
-
-						<DragOverlay class="w-0">
-							<Show when={activeItem()} keyed>
-								{(i) => <DummySortableVideoList initialVideoProps={i.videoProps} />}
-							</Show>
-						</DragOverlay>
-					</DragDropProvider>
-				</Show>
-				<Show when={props.isLoading}>
-					<For each={Array(5)}>{() => <Video.ListSkeleton />}</For>
-				</Show>
-			</div>
+					<DragOverlay class="w-0">
+						<Show when={activeItem()} keyed>
+							{(i) => <DummySortableVideoList initialVideoProps={i.videoProps} />}
+						</Show>
+					</DragOverlay>
+				</DragDropProvider>
+			</Show>
+			<Show when={props.isLoading}>
+				<For each={Array(5)}>{() => <Video.ListSkeleton />}</For>
+			</Show>
 		</div>
 	);
 }

@@ -5,9 +5,7 @@ import { Card } from "./Card";
 export const TracksCard: Component = () => {
 	return (
 		<Card>
-			<div class="h-full overflow-y-auto">
-				<QueueTrackList keyword="" />
-			</div>
+			<QueueTrackList keyword="" />
 		</Card>
 	);
 };
