@@ -1,5 +1,5 @@
 import { IVideoCompact } from "@api";
-import { Accessor, createEffect, createMemo, createSignal } from "solid-js";
+import { Accessor, batch, createEffect, createMemo, createSignal } from "solid-js";
 import { useQueue } from "./useQueue";
 import { useVideo } from "./useVideo";
 import { useVideos } from "./useVideos";
@@ -57,15 +57,17 @@ export const useRecommendation = (params: UseRecommendationParams) => {
 		if (!userId) return;
 		if (userId === lastPlayedParams().userId && userId === mostPlayedParams().userId) return;
 
-		lastPlayedVideos.mutate([]);
-		mostPlayedVideos.mutate([]);
-		recentMostPlayedVideos.mutate([]);
-		channelRelatedVideos?.mutate([]);
-		setRelatedVideos([]);
-		setLastPlayedParams((v) => ({ ...v, userId }));
-		setMostPlayedParams((v) => ({ ...v, userId }));
-		setRecentMostPlayedParams((v) => ({ ...v, userId }));
-		setChannelRelatedParams((v) => ({ ...v, userId }));
+		batch(() => {
+			lastPlayedVideos.mutate([]);
+			mostPlayedVideos.mutate([]);
+			recentMostPlayedVideos.mutate([]);
+			channelRelatedVideos?.mutate([]);
+			setRelatedVideos([]);
+			setLastPlayedParams((v) => ({ ...v, userId }));
+			setMostPlayedParams((v) => ({ ...v, userId }));
+			setRecentMostPlayedParams((v) => ({ ...v, userId }));
+			setChannelRelatedParams((v) => ({ ...v, userId }));
+		});
 	});
 
 	const loadNext = () => {

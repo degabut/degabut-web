@@ -1,5 +1,5 @@
 import { ITrack, IVideoCompact } from "@api";
-import { Accessor, createEffect, createMemo, createSignal } from "solid-js";
+import { Accessor, batch, createEffect, createMemo, createSignal } from "solid-js";
 import { useVideo } from "./useVideo";
 import { useVideos } from "./useVideos";
 
@@ -57,10 +57,12 @@ export const useQueueRecommendation = (params: Params) => {
 	};
 
 	const reset = () => {
-		setRandomVideos([]);
-		setBlacklistedVideo([]);
-		randomVideo.mutate(null);
-		randomlySetRandomVideoId();
+		batch(() => {
+			setRandomVideos([]);
+			setBlacklistedVideo([]);
+			randomVideo.mutate(null);
+			randomlySetRandomVideoId();
+		});
 	};
 
 	const randomlySetRandomVideoId = () => {
