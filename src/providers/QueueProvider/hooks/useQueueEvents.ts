@@ -26,6 +26,7 @@ type TrackSeededData = {
 };
 
 export type QueueEvents = {
+	closed: (ev: CloseEvent) => void;
 	identify: () => void;
 	"member-jammed": (data: IJamCollection) => void;
 	"member-added": (data: IMember) => void;
@@ -71,6 +72,7 @@ export const useQueueEvents = () => {
 		};
 		ws.onclose = (ev) => {
 			if (ev.code === 3333) return;
+			emitter.emit("closed", ev);
 			reconnectTimeout = setTimeout(listen, 5000);
 		};
 	};
