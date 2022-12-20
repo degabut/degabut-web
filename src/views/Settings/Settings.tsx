@@ -6,19 +6,39 @@ import { IS_DESKTOP } from "@constants";
 import { useApp } from "@hooks/useApp";
 import { useSettings } from "@hooks/useSettings";
 import { useNavigate } from "@solidjs/router";
-import { Component, onMount, Show } from "solid-js";
+import { Accessor, Component, For, onMount, Show } from "solid-js";
 import { KeybindItem, SwitchItem } from "./components";
+
+type SettingsCategory = {
+	label: string;
+	desktopOnly?: boolean;
+	items: SettingsItem[];
+};
+
+type SettingsItem = {
+	label: string;
+	description?: string;
+} & (
+	| {
+			type: "switch";
+			value: boolean;
+			onChange: (v: boolean) => void;
+	  }
+	| {
+			type: "keybind";
+			value: string[];
+			onChange: (v: string[]) => void;
+	  }
+);
 
 export const Settings: Component = () => {
 	const app = useApp();
 	const { settings, setSettings } = useSettings();
 	const navigate = useNavigate();
 
-	onMount(() => {
-		app.setTitle("Settings");
-	});
+	onMount(() => app.setTitle("Settings"));
 
-	const onLogout = () => {
+	const onClickLogout = () => {
 		app.setConfirmation({
 			title: "Logout",
 			message: "Are you sure you want to logout?",
@@ -26,50 +46,92 @@ export const Settings: Component = () => {
 		});
 	};
 
+	const categories: Accessor<SettingsCategory[]> = () => [
+		{
+			label: "Notification",
+			items: [
+				{
+					label: "Enable Notification",
+					type: "switch",
+					value: settings.notification,
+					onChange: () => setSettings({ notification: !settings.notification }),
+				},
+			],
+		},
+		{
+			label: "Discord",
+			desktopOnly: true,
+			items: [
+				{
+					label: "Enable Rich Presence",
+					type: "switch",
+					description: "Show what you are currently listening to on Discord",
+					value: settings.discordRpc,
+					onChange: () => setSettings({ discordRpc: !settings.discordRpc }),
+				},
+			],
+		},
+		{
+			label: "Overlay",
+			desktopOnly: true,
+			items: [
+				{
+					label: "Enable Overlay",
+					type: "switch",
+					value: settings.overlay,
+					onChange: () => setSettings({ overlay: !settings.overlay }),
+				},
+				{
+					label: "Overlay Shortcut",
+					type: "keybind",
+					value: settings.overlayShortcut,
+					onChange: (v) => setSettings({ overlayShortcut: v }),
+				},
+			],
+		},
+	];
+
 	return (
 		<Container size="sm" centered>
-			<div class="flex flex-col space-y-12">
-				<div class="space-y-3">
-					<Text.H2>Notification</Text.H2>
-					<SwitchItem
-						label="Enable Notification"
-						checked={settings.notification}
-						onChange={() => setSettings({ notification: !settings.notification })}
-					/>
-				</div>
+			<div class="flex flex-col space-y-8">
+				<For each={categories()}>
+					{(c) => (
+						<Show when={c.desktopOnly ? IS_DESKTOP : true}>
+							<div class="space-y-4">
+								<Text.Caption1 class="uppercase font-medium">{c.label}</Text.Caption1>
+								<For each={c.items}>
+									{(i) => (
+										<>
+											{i.type === "keybind" && (
+												<KeybindItem
+													label={i.label}
+													description={i.description}
+													value={i.value}
+													onChange={(v) => i.onChange(v)}
+												/>
+											)}
+											{i.type === "switch" && (
+												<SwitchItem
+													label={i.label}
+													description={i.description}
+													checked={i.value}
+													onChange={(v) => i.onChange(v)}
+												/>
+											)}
+										</>
+									)}
+								</For>
+							</div>
 
-				<Show when={IS_DESKTOP}>
-					<div class="space-y-3">
-						<Text.H2>Discord</Text.H2>
-						<SwitchItem
-							label="Enable Rich Presence"
-							description="Show what you are currently listening to on Discord"
-							checked={settings.discordRpc}
-							onChange={() => setSettings({ discordRpc: !settings.discordRpc })}
-						/>
-					</div>
-
-					<div class="space-y-3">
-						<Text.H2>Overlay</Text.H2>
-						<SwitchItem
-							label="Enable Overlay"
-							checked={settings.overlay}
-							onChange={() => setSettings({ overlay: !settings.overlay })}
-						/>
-						<KeybindItem
-							label="Overlay Shortcut"
-							value={settings.overlayShortcut}
-							onChange={(v) => setSettings({ overlayShortcut: v })}
-						/>
-					</div>
-				</Show>
-
-				<Divider />
+							<Divider />
+						</Show>
+					)}
+				</For>
 
 				<Button
 					rounded
 					class="max-w-max text-red-500 border-red-500 hover:bg-red-500/10 px-8 py-1.5"
-					onClick={onLogout}
+					onClick={onClickLogout}
 				>
 					Logout
 				</Button>
