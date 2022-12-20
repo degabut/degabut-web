@@ -44,7 +44,7 @@ const ProvidedApp: Component = () => {
 					</Show>
 
 					<ErrorBoundary fallback={(err) => <Error error={err} />}>
-						<div class="h-full overflow-y-auto z-0">
+						<div class="h-full overflow-y-auto">
 							<Outlet />
 						</div>
 					</ErrorBoundary>
