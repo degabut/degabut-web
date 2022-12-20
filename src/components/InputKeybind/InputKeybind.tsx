@@ -1,7 +1,7 @@
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
 import { Text } from "@components/Text";
-import { Component, createEffect, createSignal, JSX } from "solid-js";
+import { Component, createSignal, JSX, onCleanup } from "solid-js";
 
 type Props = Omit<JSX.InputHTMLAttributes<HTMLInputElement>, "value" | "onChange"> & {
 	value: string[];
@@ -13,19 +13,25 @@ export const InputKeybind: Component<Props> = (props) => {
 	const [isRecording, setIsRecording] = createSignal(false);
 	const keys: Set<string> = new Set();
 
-	const toggleRecord = () => setIsRecording((r) => !r);
+	const startRecording = () => {
+		if (isRecording()) return;
+		input.focus();
+		document.addEventListener("keydown", onKeyDown);
+		document.addEventListener("keyup", onKeyUp);
+		setIsRecording(true);
+	};
 
-	createEffect(() => {
-		if (isRecording()) {
-			input.focus();
-			document.addEventListener("keydown", onKeyDown);
-			document.addEventListener("keyup", onKeyUp);
-		} else {
-			input.blur();
-			keys.clear();
-			document.removeEventListener("keydown", onKeyDown);
-			document.removeEventListener("keyup", onKeyUp);
-		}
+	const stopRecording = () => {
+		input.blur();
+		keys.clear();
+		document.removeEventListener("keydown", onKeyDown);
+		document.removeEventListener("keyup", onKeyUp);
+		setIsRecording(false);
+	};
+
+	onCleanup(() => {
+		document.removeEventListener("keydown", onKeyDown);
+		document.removeEventListener("keyup", onKeyUp);
 	});
 
 	const onKeyDown = (e: KeyboardEvent) => {
@@ -68,9 +74,13 @@ export const InputKeybind: Component<Props> = (props) => {
 				...props.classList,
 			}}
 			value={formattedValue()}
-			onClick={() => setIsRecording(true)}
+			onClick={startRecording}
 			suffix={
-				<Button class="px-1.5" classList={{ "border-red-500": isRecording() }} onClick={toggleRecord}>
+				<Button
+					class="px-1.5"
+					classList={{ "border-red-500": isRecording() }}
+					onClick={!isRecording() ? startRecording : stopRecording}
+				>
 					<Text.Caption1 classList={{ "text-red-500": isRecording() }}>{label()} </Text.Caption1>
 				</Button>
 			}
