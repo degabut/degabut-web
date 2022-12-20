@@ -3,8 +3,8 @@ import { Container } from "@components/Container";
 import { Text } from "@components/Text";
 import { useApp } from "@hooks/useApp";
 import { AppProvider } from "@providers/AppProvider";
+import { DesktopProvider } from "@providers/DesktopProvider";
 import { QueueProvider } from "@providers/QueueProvider";
-import { RPCProvider } from "@providers/RPCProvider";
 import { SettingsProvider } from "@providers/SettingsProvider";
 import { Outlet } from "@solidjs/router";
 import { requestNotificationPermission } from "@utils";
@@ -16,9 +16,9 @@ export const App: Component = () => {
 		<SettingsProvider>
 			<QueueProvider>
 				<AppProvider>
-					<RPCProvider>
+					<DesktopProvider>
 						<ProvidedApp />
-					</RPCProvider>
+					</DesktopProvider>
 				</AppProvider>
 			</QueueProvider>
 		</SettingsProvider>

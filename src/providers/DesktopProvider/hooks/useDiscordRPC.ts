@@ -1,23 +1,18 @@
-import { IS_BROWSER } from "@constants";
 import { useQueue } from "@hooks/useQueue";
 import { useSettings } from "@hooks/useSettings";
-import { createContext, createEffect, onMount, ParentComponent } from "solid-js";
+import { createEffect, onMount } from "solid-js";
+import { postMessage } from "../poster";
 
-export const RPCContext = createContext();
-
-export const RPCProvider: ParentComponent = (props) => {
-	// eslint-disable-next-line solid/components-return-once
-	if (IS_BROWSER) return <>{props.children}</>;
-
+export const useDiscordRPC = () => {
 	const { settings } = useSettings();
 	const queue = useQueue();
-	let currentActivity: any = null;
+	let currentActivity = "";
 
 	onMount(() => updateListeningActivity());
 
 	createEffect(() => {
 		if (settings.discordRpc) updateListeningActivity();
-		else window.postMessage({ event: "clear-activity" });
+		else postMessage("clear-activity");
 	});
 
 	const updateListeningActivity = async () => {
@@ -65,10 +60,8 @@ export const RPCProvider: ParentComponent = (props) => {
 		}
 
 		// TODO better way to check current activity
-		if (currentActivity && JSON.stringify(currentActivity) === JSON.stringify(data)) return;
-		currentActivity = data;
-		window.postMessage({ event: "set-activity", data });
+		if (currentActivity && currentActivity === JSON.stringify(data)) return;
+		currentActivity = JSON.stringify(data);
+		postMessage("set-activity", data);
 	};
-
-	return <RPCContext.Provider value={{}}>{props.children}</RPCContext.Provider>;
 };
