@@ -2,10 +2,10 @@ import { ITrack } from "@api";
 import { RouterLink } from "@components/A";
 import { ContextMenuItem } from "@components/ContextMenu";
 import { Video } from "@components/Video";
-import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
+import { useApp } from "@providers/AppProvider";
 import { useNavigate } from "@solidjs/router";
-import { getVideoContextMenu } from "@utils";
+import { getVideoContextMenu } from "@utils/contextMenu";
 import { Component } from "solid-js";
 
 type Props = {

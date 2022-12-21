@@ -1,6 +1,6 @@
 import { Slider } from "@components/Slider";
 import { Text } from "@components/Text";
-import { secondsToTime } from "@utils";
+import { secondsToTime } from "@utils/time";
 import { Component, createEffect, createSignal, Show } from "solid-js";
 
 type Props = {

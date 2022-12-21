@@ -6,11 +6,12 @@ import { Modal } from "@components/Modal";
 import { Select } from "@components/Select";
 import { Video } from "@components/Video";
 import { YouTubePlaylist } from "@components/YoutubePlaylist";
-import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { useSearchYouTube } from "@hooks/useSearchYouTube";
+import { useApp } from "@providers/AppProvider";
 import { useNavigate } from "@solidjs/router";
-import { addPlaylistConfirmation, getVideoContextMenu, getYouTubePlaylistContextMenu } from "@utils";
+import { addPlaylistConfirmation } from "@utils/confirmation";
+import { getVideoContextMenu, getYouTubePlaylistContextMenu } from "@utils/contextMenu";
 import { Component, createSignal, Show } from "solid-js";
 
 type Props = {

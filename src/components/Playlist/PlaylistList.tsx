@@ -2,14 +2,16 @@ import { IPlaylist } from "@api";
 import { ContextMenuButton } from "@components/ContextMenu";
 import { Text } from "@components/Text";
 import { contextMenu } from "@directives/contextMenu";
-import { getRelativeTime, playlistContextMenu } from "@utils";
-import { Component, createMemo, Show } from "solid-js";
+import { ContextMenuDirectiveParams } from "@providers/ContextMenuProvider";
+import { getRelativeTime } from "@utils/time";
+import { Component, Show } from "solid-js";
 
 contextMenu;
 
 type Props = {
 	playlist: IPlaylist;
 	disableContextMenu?: boolean;
+	contextMenu?: ContextMenuDirectiveParams;
 	onAddToQueue?: (playlist: IPlaylist) => void;
 	onDelete?: (playlist: IPlaylist) => void;
 	onClick?: (playlist: IPlaylist) => void;
@@ -19,19 +21,6 @@ type Props = {
 };
 
 export const PlaylistList: Component<Props> = (props) => {
-	const contextMenuProps = createMemo(() => {
-		const contextMenu = playlistContextMenu({
-			playlist: props.playlist,
-			onDelete: props.onDelete,
-			onAddToQueue: props.onAddToQueue,
-		});
-
-		return {
-			items: contextMenu.items,
-			header: contextMenu.header,
-		};
-	});
-
 	const videoCountLabel = () => {
 		return props.playlist.videoCount === 1 ? "1 video" : props.playlist.videoCount + " videos";
 	};
@@ -44,10 +33,14 @@ export const PlaylistList: Component<Props> = (props) => {
 				[props.extraContainerClass || ""]: !!props.extraContainerClass,
 			}}
 			onClick={() => props.onClick?.(props.playlist)}
-			use:contextMenu={props.disableContextMenu ? undefined : contextMenuProps()}
+			use:contextMenu={props.disableContextMenu ? undefined : props.contextMenu}
 		>
 			<div class="flex flex-col grow shrink space-y-0.5 py-1.5 px-3 truncate">
-				<Text.Body1 truncate classList={{ [props.extraTitleClass || ""]: !!props.extraTitleClass }}>
+				<Text.Body1
+					truncate
+					class="font-normal"
+					classList={{ [props.extraTitleClass || ""]: !!props.extraTitleClass }}
+				>
 					{props.playlist.name}
 				</Text.Body1>
 				<div>
@@ -59,7 +52,7 @@ export const PlaylistList: Component<Props> = (props) => {
 					</Text.Caption2>
 				</div>
 			</div>
-			<Show when={!props.disableContextMenu}>{<ContextMenuButton contextMenu={contextMenuProps()} />}</Show>
+			<Show when={!props.disableContextMenu}>{<ContextMenuButton contextMenu={props.contextMenu} />}</Show>
 		</div>
 	);
 };

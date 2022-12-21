@@ -42,7 +42,7 @@ export const ContextMenuProvider: ParentComponent = (props) => {
 
 	return (
 		<ContextMenuContext.Provider value={{ show }}>
-			{isShowContextMenu() && (
+			<Show when={isShowContextMenu()}>
 				<Show
 					when={screen.lte.sm}
 					fallback={
@@ -60,7 +60,7 @@ export const ContextMenuProvider: ParentComponent = (props) => {
 						onItemClick={onClick}
 					/>
 				</Show>
-			)}
+			</Show>
 			{props.children}
 		</ContextMenuContext.Provider>
 	);

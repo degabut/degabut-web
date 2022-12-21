@@ -1,6 +1,6 @@
 import { Container } from "@components/Container";
-import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
+import { useApp } from "@providers/AppProvider";
 import { Component, onMount, Show } from "solid-js";
 import { QueueNotFound, QueuePlayer, QueueTabs } from "./components";
 

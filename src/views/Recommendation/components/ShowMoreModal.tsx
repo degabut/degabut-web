@@ -5,11 +5,12 @@ import { Modal } from "@components/Modal";
 import { Text } from "@components/Text";
 import { Videos } from "@components/Videos";
 import { useApi } from "@hooks/useApi";
-import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { useVideos } from "@hooks/useVideos";
+import { useApp } from "@providers/AppProvider";
 import { useNavigate } from "@solidjs/router";
-import { getVideoContextMenu, removePlayHistoryConfirmation } from "@utils";
+import { removePlayHistoryConfirmation } from "@utils/confirmation";
+import { getVideoContextMenu } from "@utils/contextMenu";
 import { Component, createMemo } from "solid-js";
 
 export enum ShowMoreType {

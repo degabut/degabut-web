@@ -45,6 +45,7 @@ export const VideoList: Component<VideoListProps> = (props) => {
 			<div class="flex flex-col grow space-y-0.5 truncate ml-3">
 				<Text.Body1
 					truncate
+					class="font-normal"
 					classList={{ [props.extraTitleClass || ""]: !!props.extraTitleClass }}
 					title={`${props.video.title} - ${props.video.channel.name}`}
 				>

@@ -4,8 +4,8 @@ import { Container } from "@components/Container";
 import { Divider } from "@components/Divider";
 import { Text } from "@components/Text";
 import { useApi } from "@hooks/useApi";
-import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
+import { useApp } from "@providers/AppProvider";
 import { Component, createSignal, For, Show } from "solid-js";
 
 type VoiceChannelMin = {
@@ -66,9 +66,9 @@ export const QueueNotFound: Component = () => {
 			app.setConfirmation({
 				title: "Failed",
 				message: () => (
-					<>
+					<Text.Body1 class="text-center">
 						Failed to join <b>{voiceChannel.name}</b>
-					</>
+					</Text.Body1>
 				),
 				isAlert: true,
 			});

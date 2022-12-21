@@ -22,9 +22,9 @@ type Props = {
 export const VideoCard: Component<Props> = (props) => {
 	return (
 		<div
-			class="flex flex-col space-y-2 bg-white/5 p-2 md:p-3 rounded"
+			class="flex flex-col space-y-2"
 			classList={{
-				"cursor-pointer hover:bg-white/10": !!props.onClick,
+				"cursor-pointer ": !!props.onClick,
 				...props.extraContainerClassList,
 				[props.extraContainerClass || ""]: !!props.extraContainerClass,
 			}}
@@ -34,17 +34,17 @@ export const VideoCard: Component<Props> = (props) => {
 			<img src={props.video.thumbnails.at(-1)?.url || ""} class="w-full rounded aspect-square object-cover" />
 
 			<div class="flex flex-col space-y-0.5">
-				<Text.Body1 class="w-full truncate">{props.video.title}</Text.Body1>
+				<Text.Body1 class="w-full truncate font-normal">{props.video.title}</Text.Body1>
 				<Text.Caption2 class="w-full truncate">{props.video.channel.name}</Text.Caption2>
 			</div>
 
-			<div class="flex-row-center justify-between">
+			<div class="flex-row-center space-x-1.5">
 				<Show when={props.video.duration > 0} fallback={<LiveBadge />}>
 					<DurationBadge video={props.video} />
 				</Show>
 
 				<Show when={props.inQueue}>
-					<div class="mr-1" title="In Queue">
+					<div title="In Queue">
 						<Icon name="degabut" class="fill-brand-600 w-3.5 h-3.5" />
 					</div>
 				</Show>

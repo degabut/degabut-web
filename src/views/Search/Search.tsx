@@ -3,12 +3,12 @@ import { Icon } from "@components/Icon";
 import { Input } from "@components/Input";
 import { Video } from "@components/Video";
 import { YouTubePlaylist } from "@components/YoutubePlaylist";
-import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { useScreen } from "@hooks/useScreen";
 import { useSearchYouTube } from "@hooks/useSearchYouTube";
+import { useApp } from "@providers/AppProvider";
 import { useNavigate, useSearchParams } from "@solidjs/router";
-import { getVideoContextMenu, getYouTubePlaylistContextMenu } from "@utils";
+import { getVideoContextMenu, getYouTubePlaylistContextMenu } from "@utils/contextMenu";
 import { Component, For, onMount, Show } from "solid-js";
 
 const SearchResultSkeleton: Component<{ isSmall?: boolean }> = (props) => {

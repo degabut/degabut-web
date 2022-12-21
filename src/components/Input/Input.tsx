@@ -47,7 +47,7 @@ export const Input: Component<InputProps> = (props) => {
 				ref={input}
 				{...props}
 				prefix={undefined}
-				class="outline-0 grow w-full bg-transparent"
+				class="outline-0 grow w-full bg-transparent font-normal"
 				classList={{
 					"rounded-full": !!props.rounded,
 					"!pl-3": !!props.prefix && !props.dense,

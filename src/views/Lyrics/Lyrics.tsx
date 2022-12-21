@@ -1,9 +1,9 @@
 import { Container } from "@components/Container";
 import { Icon } from "@components/Icon";
-import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { useTranscript } from "@hooks/useTranscript";
 import { useVideoTranscript } from "@hooks/useVideoTranscript";
+import { useApp } from "@providers/AppProvider";
 import { Component, createEffect, createMemo, For, onMount, Show } from "solid-js";
 
 const LyricsNotFound: Component = () => {

@@ -1,6 +1,6 @@
 import { Icon } from "@components/Icon";
 import { Input } from "@components/Input";
-import { debounce } from "@utils";
+import { debounce } from "@utils/debounce";
 import { Component } from "solid-js";
 
 type Props = {

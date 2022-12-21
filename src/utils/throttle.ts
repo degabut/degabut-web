@@ -1,13 +1,13 @@
-export const throttle = (cb: CallableFunction, limit: number) => {
+export const throttle = <T extends CallableFunction>(cb: T, limit: number): T => {
 	let timeout: NodeJS.Timeout | null;
-	return (...args: unknown[]) => {
+	return ((...args: unknown[]) => {
 		if (!timeout) {
 			timeout = setTimeout(() => {
 				cb(...args);
 				timeout = null;
 			}, limit);
 		}
-	};
+	}) as unknown as T;
 };
 
 type CountedCallableFunction = (count: number) => void;

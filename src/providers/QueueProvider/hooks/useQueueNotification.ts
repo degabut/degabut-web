@@ -1,6 +1,6 @@
 import { ITrack } from "@api";
 import { useSettings } from "@hooks/useSettings";
-import { notify } from "@utils";
+import { notify } from "@utils/notification";
 import { onMount } from "solid-js";
 import TypedEventEmitter from "typed-emitter";
 import { QueueEvents } from "./useQueueEvents";

@@ -18,7 +18,7 @@ export const ContextMenuItemList: Component<Props> = (props) => {
 			class="cursor-pointer hover:bg-white/10 rounded"
 			classList={{
 				"py-1.5 px-4": props.variant === "medium",
-				"py-3.5 px-6": props.variant === "big",
+				"py-4 px-6": props.variant === "big",
 			}}
 			onClick={() => props.onClick(props.item)}
 		>

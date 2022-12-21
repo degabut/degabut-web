@@ -1,10 +1,9 @@
-import { useApp } from "@hooks/useApp";
-import { AppProvider } from "@providers/AppProvider";
+import { AppProvider, useApp } from "@providers/AppProvider";
 import { DesktopProvider } from "@providers/DesktopProvider";
 import { QueueProvider } from "@providers/QueueProvider";
 import { SettingsProvider } from "@providers/SettingsProvider";
 import { Outlet } from "@solidjs/router";
-import { requestNotificationPermission } from "@utils";
+import { requestNotificationPermission } from "@utils/notification";
 import { Component, ErrorBoundary, Show } from "solid-js";
 import { AppDrawer, AppHeader, BottomBar, Error, MemberListDrawer } from "./components";
 

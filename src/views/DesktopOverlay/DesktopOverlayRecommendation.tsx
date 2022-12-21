@@ -1,10 +1,10 @@
 import { Text } from "@components/Text";
 import { Videos } from "@components/Videos";
-import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { useRecommendation } from "@hooks/useRecommendation";
+import { useApp } from "@providers/AppProvider";
 import { useNavigate } from "@solidjs/router";
-import { getVideoContextMenu } from "@utils";
+import { getVideoContextMenu } from "@utils/contextMenu";
 import { Component } from "solid-js";
 import { Card } from "./components/Card";
 

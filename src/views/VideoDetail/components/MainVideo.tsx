@@ -2,10 +2,10 @@ import { IVideoCompact } from "@api";
 import { ContextMenuButton } from "@components/ContextMenu";
 import { Text } from "@components/Text";
 import { ChannelThumbnail, Video } from "@components/Video";
-import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
+import { useApp } from "@providers/AppProvider";
 import { useNavigate } from "@solidjs/router";
-import { getVideoContextMenu } from "@utils";
+import { getVideoContextMenu } from "@utils/contextMenu";
 import { Component, Show } from "solid-js";
 
 type Props = {

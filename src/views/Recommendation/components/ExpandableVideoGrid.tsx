@@ -2,10 +2,11 @@ import { IVideoCompact } from "@api";
 import { ContextMenuItem } from "@components/ContextMenu";
 import { Videos } from "@components/Videos";
 import { useApi } from "@hooks/useApi";
-import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
+import { useApp } from "@providers/AppProvider";
 import { useNavigate } from "@solidjs/router";
-import { getVideoContextMenu, removePlayHistoryConfirmation } from "@utils";
+import { removePlayHistoryConfirmation } from "@utils/confirmation";
+import { getVideoContextMenu } from "@utils/contextMenu";
 import { Component } from "solid-js";
 import { ShowMoreTitle } from "./Title";
 

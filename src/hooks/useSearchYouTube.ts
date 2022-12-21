@@ -1,4 +1,4 @@
-import { debounce } from "@utils";
+import { debounce } from "@utils/debounce";
 import { createEffect, createMemo, createSignal } from "solid-js";
 import { useVideos } from "./useVideos";
 import { useYouTubePlaylists } from "./useYouTubePlaylists";
@@ -18,7 +18,7 @@ export const useSearchYouTube = (params: Params = {}) => {
 	const [playlistEndIndex, setPlaylistEndIndex] = createSignal(-1);
 	const [playlistCount, setPlaylistCount] = createSignal(-1);
 
-	const setDebouncedKeyword = debounce((v: string) => _setDebouncedKeyword(v), params.debounce || 350);
+	const setDebouncedKeyword = debounce((v: string) => _setDebouncedKeyword(v), params.debounce || 250);
 	createEffect(() => setDebouncedKeyword(keyword()));
 
 	const result = createMemo(() => {

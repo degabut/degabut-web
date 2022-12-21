@@ -1,6 +1,6 @@
 import { Button } from "@components/Button";
 import { Text } from "@components/Text";
-import { useApp } from "@hooks/useApp";
+import { useApp } from "@providers/AppProvider";
 import { Component } from "solid-js";
 
 export const AppHeader: Component = () => {

@@ -26,9 +26,9 @@ export const removePlayHistoryConfirmation = (video: IVideo | IVideoCompact, onC
 	return {
 		title: "Remove Play History",
 		message: () => (
-			<div class="flex-col-center space-y-3">
+			<div class="flex-col-center space-y-6">
 				<Video.List video={video} disableContextMenu />
-				<Text.Body2>
+				<Text.Body2 class="text-center">
 					This action will remove the video from your most played and recently played lists until you play it
 					again.
 				</Text.Body2>

@@ -41,7 +41,7 @@ export const ConfirmationModal: Component<Props> = (props) => {
 		>
 			<div class="space-y-8 p-8">
 				<div class="text-xl font-medium text-center mb-4">{props.title}</div>
-				<div class="text-center">{props.message}</div>
+				{typeof props.message === "string" ? <div class="text-center">{props.message}</div> : props.message}
 
 				<div class="flex-row-center justify-evenly w-full">
 					<Show when={!props.isAlert}>

@@ -1,11 +1,11 @@
 import { Container } from "@components/Container";
 import { Icon } from "@components/Icon";
 import { Videos } from "@components/Videos";
-import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { useRecommendation } from "@hooks/useRecommendation";
+import { useApp } from "@providers/AppProvider";
 import { useNavigate, useParams } from "@solidjs/router";
-import { getVideoContextMenu } from "@utils";
+import { getVideoContextMenu } from "@utils/contextMenu";
 import { Component, createEffect, createMemo, createSignal, onCleanup, onMount, Show } from "solid-js";
 import { ExpandableVideoGrid, ExpandableVideoList, ShowMoreModal, ShowMoreType, Title } from "./components";
 

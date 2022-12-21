@@ -2,10 +2,12 @@ import { IPlaylist } from "@api";
 import { Button } from "@components/Button";
 import { Container } from "@components/Container";
 import { Playlist } from "@components/Playlist";
-import { useApp } from "@hooks/useApp";
+import { Text } from "@components/Text";
 import { usePlaylists } from "@hooks/usePlaylists";
 import { useQueue } from "@hooks/useQueue";
+import { useApp } from "@providers/AppProvider";
 import { useNavigate } from "@solidjs/router";
+import { getPlaylistContextMenu } from "@utils/contextMenu";
 import { Component, createSignal, For, onMount, Show } from "solid-js";
 
 export const Playlists: Component = () => {
@@ -28,9 +30,9 @@ export const Playlists: Component = () => {
 		app.setConfirmation({
 			title: "Delete Playlist",
 			message: (
-				<>
+				<Text.Body1>
 					Are you sure you want to delete playlist <b>{playlist.name}</b>?
-				</>
+				</Text.Body1>
 			),
 			onConfirm: () => playlists.deletePlaylist(playlist.id),
 		});
@@ -60,6 +62,12 @@ export const Playlists: Component = () => {
 									onAddToQueue={() => queue.addPlaylist(p.id)}
 									onDelete={promptDeletePlaylist}
 									onClick={() => navigate("/app/playlist/" + p.id)}
+									contextMenu={getPlaylistContextMenu({
+										playlist: p,
+										queueStore: queue,
+										onAddToQueue: () => queue.addPlaylist(p.id),
+										onDelete: () => promptDeletePlaylist(p),
+									})}
 									playlist={p}
 								/>
 							)}

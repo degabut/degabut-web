@@ -1,7 +1,7 @@
 import { IVideoCompact } from "@api";
 import { Icon } from "@components/Icon";
 import { Text } from "@components/Text";
-import { secondsToTime } from "@utils";
+import { secondsToTime } from "@utils/time";
 import { Component, Show } from "solid-js";
 
 type Props = {
@@ -14,6 +14,7 @@ type Props = {
 export const VideoListThumbnail: Component<Props> = (props) => {
 	return (
 		<img
+			loading="lazy"
 			src={props.video.thumbnails[0]?.url}
 			alt={props.video.title}
 			class="h-12 w-12 object-cover rounded"
@@ -30,6 +31,7 @@ export const VideoListThumbnailBig: Component<Props> = (props) => {
 		>
 			<div class="sm:w-[16rem] sm:h-[9rem] mx-auto">
 				<img
+					loading="lazy"
 					src={props.video.thumbnails.at(-1)?.url}
 					alt={props.video.title}
 					class="h-full w-full relative object-cover rounded"

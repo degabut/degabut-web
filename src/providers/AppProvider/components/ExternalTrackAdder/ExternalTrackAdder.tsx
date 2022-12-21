@@ -2,9 +2,9 @@ import { IMixPlaylist, IVideo, IYoutubePlaylist } from "@api/YouTube";
 import { Icon } from "@components/Icon";
 import { Spinner } from "@components/Spinner";
 import { useApi } from "@hooks/useApi";
-import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
-import { addPlaylistConfirmation } from "@utils";
+import { useApp } from "@providers/AppProvider";
+import { addPlaylistConfirmation } from "@utils/confirmation";
 import { createSignal, onCleanup, onMount, Show } from "solid-js";
 import { VideoPlaylistChooser } from "./components";
 

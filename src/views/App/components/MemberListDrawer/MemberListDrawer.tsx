@@ -1,10 +1,10 @@
 import { IMember } from "@api";
 import { Divider } from "@components/Divider";
 import { Drawer } from "@components/Drawer";
-import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { useScreen } from "@hooks/useScreen";
 import { useSettings } from "@hooks/useSettings";
+import { useApp } from "@providers/AppProvider";
 import { useNavigate } from "@solidjs/router";
 import { Component, For, Show } from "solid-js";
 import { Member } from "./Member";

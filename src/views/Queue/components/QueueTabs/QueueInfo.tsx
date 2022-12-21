@@ -1,7 +1,7 @@
 import { Icon } from "@components/Icon";
 import { Text } from "@components/Text";
 import { useQueue } from "@hooks/useQueue";
-import { secondsToTime } from "@utils";
+import { secondsToTime } from "@utils/time";
 import { Component } from "solid-js";
 
 export const QueueInfo: Component = () => {

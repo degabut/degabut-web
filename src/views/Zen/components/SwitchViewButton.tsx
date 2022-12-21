@@ -15,7 +15,7 @@ export const SwitchViewButton: Component<Props> = (props) => {
 				icon={"audioPlaylist"}
 				onClick={() => props.onClick()}
 				iconSize="sm"
-				class="px-2 py-1 space-x-2 text-neutral-400"
+				class="px-2 py-1 space-x-2 text-neutral-300"
 			>
 				<Text.Caption1 class="text-inherit">{props.isShowTracks ? "Hide Tracks" : "Show Tracks"}</Text.Caption1>
 			</Button>

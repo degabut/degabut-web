@@ -1,6 +1,6 @@
 import { IGuildMember, IJam, IJamCollection } from "@api";
 import { useQueue } from "@hooks/useQueue";
-import { countedThrottle } from "@utils";
+import { countedThrottle } from "@utils/throttle";
 import { Component, onCleanup, onMount } from "solid-js";
 import { render } from "solid-js/web";
 

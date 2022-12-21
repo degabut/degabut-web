@@ -3,10 +3,10 @@ import { Button } from "@components/Button";
 import { ContextMenuItem } from "@components/ContextMenu";
 import { Divider } from "@components/Divider";
 import { Video } from "@components/Video";
-import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
+import { useApp } from "@providers/AppProvider";
 import { useNavigate } from "@solidjs/router";
-import { getVideoContextMenu } from "@utils";
+import { getVideoContextMenu } from "@utils/contextMenu";
 import { QueueActions, SeekSlider } from "@views/Queue";
 import { LyricsButton } from "@views/Queue/components/QueuePlayer/QueueActions/components";
 import { Component, Show } from "solid-js";
@@ -29,41 +29,29 @@ const NowPlaying: Component = () => {
 	const navigate = useNavigate();
 
 	return (
-		<div
-			class="relative z-10 overflow-hidden rounded text-shadow w-full max-w-md xl:max-w-lg"
-			classList={{ "bg-gray-800": !!queue.data.nowPlaying }}
-		>
+		<div class="relative z-10 overflow-hidden rounded text-shadow w-full max-w-md xl:max-w-lg">
 			<Show when={queue.data.nowPlaying} fallback={<EmptyNowPlaying />} keyed>
 				{(t) => (
-					<>
-						<img
-							src={t.video.thumbnails.at(0)?.url}
-							class="absolute top-0 left-0 h-full w-full blur-2xl -z-10 pointer-events-none"
-						/>
-
-						<Video.List
-							video={t.video}
-							onClick={() => navigate("/app/queue")}
-							hideContextMenuButton
-							contextMenu={getVideoContextMenu({
-								modifyContextMenuItems: (items) => {
-									items[0] = [
-										{
-											element: () => (
-												<ContextMenuItem icon="trashBin" label="Remove from Queue" />
-											),
-											onClick: () => queue.removeTrack(t),
-										},
-									];
-									return items;
-								},
-								video: t.video,
-								appStore: app,
-								queueStore: queue,
-								navigate,
-							})}
-						/>
-					</>
+					<Video.List
+						video={t.video}
+						onClick={() => navigate("/app/queue")}
+						hideContextMenuButton
+						contextMenu={getVideoContextMenu({
+							modifyContextMenuItems: (items) => {
+								items[0] = [
+									{
+										element: () => <ContextMenuItem icon="trashBin" label="Remove from Queue" />,
+										onClick: () => queue.removeTrack(t),
+									},
+								];
+								return items;
+							},
+							video: t.video,
+							appStore: app,
+							queueStore: queue,
+							navigate,
+						})}
+					/>
 				)}
 			</Show>
 		</div>
@@ -112,6 +100,14 @@ export const ExtraControls: Component = () => {
 				iconSize="lg"
 				class="text-neutral-300 p-2"
 				onClick={() => app.setIsQuickSearchModalOpen(true)}
+			/>
+			<Button
+				flat
+				title="Zen Mode"
+				icon="stars"
+				iconSize="lg"
+				class="text-neutral-300 p-2"
+				onClick={() => navigate("/app/queue/zen")}
 			/>
 		</div>
 	);

@@ -1,6 +1,6 @@
 import { IVideoCompact } from "@api";
 import { Text } from "@components/Text";
-import { secondsToTime } from "@utils";
+import { secondsToTime } from "@utils/time";
 import { Component } from "solid-js";
 
 type Props = {

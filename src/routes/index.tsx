@@ -14,17 +14,15 @@ import { Settings } from "@views/Settings";
 import { VideoDetail } from "@views/VideoDetail";
 import { Zen } from "@views/Zen";
 
-const Default = () => <Navigate href="/app/queue" />;
-
 export const routes: RouteDefinition[] = [
-	{ path: "/", component: Default },
+	{ path: "/", component: () => <Navigate href="/app/queue" /> },
 	{ path: "/login", component: () => <Login /> },
 	{ path: "/oauth", component: () => <OAuth /> },
 	{
 		path: "/app",
 		component: () => <App />,
 		children: [
-			{ path: "/", component: Default },
+			{ path: "/", component: () => <Navigate href="/app/queue" /> },
 			{ path: "/queue", component: () => <Queue /> },
 			{ path: "/queue/lyrics", component: () => <Lyrics /> },
 			{ path: "/queue/zen", component: () => <Zen /> },
@@ -49,6 +47,6 @@ export const routes: RouteDefinition[] = [
 	},
 	{
 		path: "*",
-		component: Default,
+		component: () => <Navigate href="/app/queue" />,
 	},
 ];

@@ -1,4 +1,4 @@
-import { useApp } from "@hooks/useApp";
+import { useApp } from "@providers/AppProvider";
 import { onCleanup, onMount } from "solid-js";
 
 export const useFullscreen = () => {

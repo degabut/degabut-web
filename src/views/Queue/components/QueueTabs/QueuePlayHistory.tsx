@@ -1,9 +1,9 @@
 import { Videos } from "@components/Videos";
-import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { useSearchable } from "@hooks/useSearchable";
+import { useApp } from "@providers/AppProvider";
 import { useNavigate } from "@solidjs/router";
-import { getVideoContextMenu } from "@utils";
+import { getVideoContextMenu } from "@utils/contextMenu";
 import { Component, Show } from "solid-js";
 
 type Props = {

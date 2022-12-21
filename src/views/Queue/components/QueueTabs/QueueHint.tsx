@@ -4,12 +4,12 @@ import { Icon, Icons } from "@components/Icon";
 import { KeyboardHint } from "@components/KeyboardHint";
 import { Text } from "@components/Text";
 import { Videos } from "@components/Videos";
-import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { useQueueRecommendation } from "@hooks/useQueueRecommendation";
 import { useScreen } from "@hooks/useScreen";
+import { useApp } from "@providers/AppProvider";
 import { useNavigate } from "@solidjs/router";
-import { getVideoContextMenu } from "@utils";
+import { getVideoContextMenu } from "@utils/contextMenu";
 import { Component, JSX } from "solid-js";
 
 type HintItemProps = {

@@ -2,7 +2,7 @@ import { Button } from "@components/Button";
 import { ContextMenuItem } from "@components/ContextMenu";
 import { IconSize } from "@components/Icon";
 import { contextMenu } from "@directives/contextMenu";
-import { useApp } from "@hooks/useApp";
+import { useApp } from "@providers/AppProvider";
 import { useNavigate } from "@solidjs/router";
 import { Component } from "solid-js";
 

@@ -1,14 +1,14 @@
 import { IPlaylist, IVideoCompact } from "@api";
 import { ContextMenuItem } from "@components/ContextMenu";
-import { useQueue } from "@hooks/useQueue";
 import { AppContextStore } from "@providers/AppProvider";
 import { ContextMenuDirectiveParams, ContextMenuItem as IContextMenuItem } from "@providers/ContextMenuProvider";
 import { QueueContextStore } from "@providers/QueueProvider";
 import { useNavigate } from "@solidjs/router";
-import { addPlaylistConfirmation, secondsToTime } from "@utils";
 import { Show } from "solid-js";
 
 import { IPlaylistCompact } from "@api";
+import { addPlaylistConfirmation } from "./confirmation";
+import { secondsToTime } from "./time";
 
 type VideoProps = {
 	video: IVideoCompact;
@@ -137,29 +137,32 @@ export const getYouTubePlaylistContextMenu = (props: YouTubePlaylistProps) => {
 
 type PlaylistProps = {
 	playlist: IPlaylist;
+	queueStore: QueueContextStore;
 	onDelete?: (playlist: IPlaylist) => void;
 	onAddToQueue?: (playlist: IPlaylist) => void;
 };
 
-export const playlistContextMenu = (props: PlaylistProps) => {
-	const queue = useQueue();
+export const getPlaylistContextMenu = (props: PlaylistProps) => {
+	const items = () => {
+		const i = [
+			{
+				element: () => <ContextMenuItem icon="trashBin" label="Delete" />,
+				onClick: () => props.onDelete?.(props.playlist),
+			},
+		];
 
-	const items = [
-		{
-			element: () => <ContextMenuItem icon="trashBin" label="Delete" />,
-			onClick: () => props.onDelete?.(props.playlist),
-		},
-	];
+		if (!props.queueStore.data.empty) {
+			i.unshift({
+				element: () => <ContextMenuItem icon="plus" label="Add to Queue" />,
+				onClick: () => props.onAddToQueue?.(props.playlist),
+			});
+		}
 
-	if (!queue.data.empty) {
-		items.unshift({
-			element: () => <ContextMenuItem icon="plus" label="Add to Queue" />,
-			onClick: () => props.onAddToQueue?.(props.playlist),
-		});
-	}
+		return i;
+	};
 
 	return {
-		items: [items],
+		items: [items()],
 		header: (
 			<div class="flex-col-center justify-center pt-4 pb-8 space-y-1">
 				<div class="flex-col-center space-y-2">

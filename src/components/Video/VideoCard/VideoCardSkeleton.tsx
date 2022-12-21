@@ -8,7 +8,7 @@ type Props = {
 export const VideoCardSkeleton: Component<Props> = (props) => {
 	return (
 		<div
-			class="flex flex-col space-y-2 bg-white/5 p-2 md:p-3 rounded"
+			class="flex flex-col space-y-2"
 			classList={{
 				[props.extraContainerClass || ""]: !!props.extraContainerClass,
 			}}
