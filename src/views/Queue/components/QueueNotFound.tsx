@@ -66,9 +66,11 @@ export const QueueNotFound: Component = () => {
 			app.setConfirmation({
 				title: "Failed",
 				message: () => (
-					<Text.Body1 class="text-center">
-						Failed to join <b>{voiceChannel.name}</b>
-					</Text.Body1>
+					<div class="flex-col-center">
+						<Text.Body1 class="text-center">
+							Failed to join <b>{voiceChannel.name}</b>
+						</Text.Body1>
+					</div>
 				),
 				isAlert: true,
 			});
