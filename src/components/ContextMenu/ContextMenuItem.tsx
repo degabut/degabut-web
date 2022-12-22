@@ -16,10 +16,10 @@ export const ContextMenuItem: Component<Props> = (props) => {
 				extraClass="fill-current h-4 w-4"
 				extraClassList={{
 					"text-neutral-400": !props.disabled,
-					"text-neutral-700": !!props.disabled,
+					"text-neutral-600": !!props.disabled,
 				}}
 			/>
-			<Text.Body1 classList={{ "text-neutral-600": props.disabled }}>{props.label}</Text.Body1>
+			<Text.Body1 classList={{ "text-neutral-500": props.disabled }}>{props.label}</Text.Body1>
 		</div>
 	);
 };

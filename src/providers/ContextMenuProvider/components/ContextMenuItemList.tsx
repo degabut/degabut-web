@@ -14,6 +14,11 @@ type Props = {
 };
 
 export const ContextMenuItemList: Component<Props> = (props) => {
+	const onClick = (e: MouseEvent) => {
+		if (props.item.disabled) return e.preventDefault();
+		props.onClick(props.item);
+	};
+
 	return (
 		<div
 			class="rounded"
@@ -22,7 +27,7 @@ export const ContextMenuItemList: Component<Props> = (props) => {
 				"py-4 px-6": props.variant === "big",
 				"cursor-pointer hover:bg-white/10": !props.item.disabled,
 			}}
-			onClick={() => props.onClick(props.item)}
+			onClick={onClick}
 		>
 			{props.item.element || props.item.label}
 		</div>
