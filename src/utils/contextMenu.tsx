@@ -28,7 +28,7 @@ export const getVideoContextMenu = (props: VideoProps) => {
 							onClick: () => props.queueStore.addTrack(props.video),
 						},
 						{
-							element: () => <ContextMenuItem icon="play" label="Add to Queue and Play" />,
+							element: () => <ContextMenuItem icon="play" label="Play" />,
 							onClick: () => props.queueStore.addAndPlayTrack(props.video),
 						},
 				  ]

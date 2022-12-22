@@ -64,9 +64,12 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 
 	const addAndPlayTrack = (video: IVideoCompact) => {
 		return modifyTrack(async (queueId) => {
-			const trackId = await api.queue.addTrackByVideoId(queueId, video.id);
+			const trackId =
+				queue.tracks?.find((t) => t.video.id === video.id)?.id ||
+				(await api.queue.addTrackByVideoId(queueId, video.id));
 			try {
 				await api.queue.playTrack(queueId, trackId);
+				if (queue.isPaused) await api.player.unpause(queueId);
 			} catch {
 				// ignore error
 			}
