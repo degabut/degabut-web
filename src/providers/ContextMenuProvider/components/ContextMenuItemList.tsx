@@ -3,6 +3,7 @@ import { Component, JSX } from "solid-js";
 export type ContextMenuItem = {
 	label?: string;
 	element?: JSX.Element;
+	disabled?: boolean;
 	onClick?: () => void;
 };
 
@@ -15,10 +16,11 @@ type Props = {
 export const ContextMenuItemList: Component<Props> = (props) => {
 	return (
 		<div
-			class="cursor-pointer hover:bg-white/10 rounded"
+			class="rounded"
 			classList={{
 				"py-1.5 px-4": props.variant === "medium",
 				"py-4 px-6": props.variant === "big",
+				"cursor-pointer hover:bg-white/10": !props.item.disabled,
 			}}
 			onClick={() => props.onClick(props.item)}
 		>

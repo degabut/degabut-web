@@ -20,16 +20,21 @@ type VideoProps = {
 
 export const getVideoContextMenu = (props: VideoProps) => {
 	const items = () => {
+		const inQueue = props.queueStore.data.tracks?.some((t) => t.video.id === props.video.id);
+		const isPlaying = props.queueStore.data.nowPlaying?.video.id === props.video.id;
+
 		const i = [
 			!props.queueStore.data.empty
 				? [
 						{
-							element: () => <ContextMenuItem icon="plus" label="Add to Queue" />,
+							element: () => <ContextMenuItem disabled={inQueue} icon="plus" label="Add to Queue" />,
 							onClick: () => props.queueStore.addTrack(props.video),
+							disabled: inQueue,
 						},
 						{
-							element: () => <ContextMenuItem icon="play" label="Play" />,
+							element: () => <ContextMenuItem disabled={isPlaying} icon="play" label="Play" />,
 							onClick: () => props.queueStore.addAndPlayTrack(props.video),
+							disabled: isPlaying,
 						},
 				  ]
 				: [],
