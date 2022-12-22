@@ -3,23 +3,23 @@ import { Icon } from "@components/Icon";
 import { Text } from "@components/Text";
 import { contextMenu } from "@directives/contextMenu";
 import { ContextMenuDirectiveParams } from "@providers/ContextMenuProvider";
-import { Component, Show } from "solid-js";
+import { Component, JSX, Show } from "solid-js";
 import { DurationBadge, LiveBadge } from "../components";
 
 contextMenu;
 
-type Props = {
+export type VideoCardProps = {
 	video: IVideoCompact;
 	contextMenu?: ContextMenuDirectiveParams;
+	thumbnailHoverElement?: JSX.Element;
 	disableContextMenu?: boolean;
-	hideContextMenuButton?: boolean;
 	extraContainerClass?: string;
 	extraContainerClassList?: Record<string, boolean>;
 	inQueue?: boolean;
 	onClick?: (video: IVideoCompact) => void;
 };
 
-export const VideoCard: Component<Props> = (props) => {
+export const VideoCard: Component<VideoCardProps> = (props) => {
 	return (
 		<div
 			class="flex flex-col space-y-2"
@@ -31,10 +31,15 @@ export const VideoCard: Component<Props> = (props) => {
 			use:contextMenu={props.disableContextMenu ? undefined : props.contextMenu}
 			onClick={() => props.onClick?.(props.video)}
 		>
-			<img src={props.video.thumbnails.at(-1)?.url || ""} class="w-full rounded aspect-square object-cover" />
+			<div class="relative">
+				{props.thumbnailHoverElement}
+				<img src={props.video.thumbnails.at(-1)?.url || ""} class="w-full rounded aspect-square object-cover" />
+			</div>
 
 			<div class="flex flex-col space-y-0.5">
-				<Text.Body1 class="w-full truncate font-normal">{props.video.title}</Text.Body1>
+				<Text.Body1 class="w-full truncate font-normal hover:underline underline-offset-2">
+					{props.video.title}
+				</Text.Body1>
 				<Text.Caption2 class="w-full truncate">{props.video.channel.name}</Text.Caption2>
 			</div>
 

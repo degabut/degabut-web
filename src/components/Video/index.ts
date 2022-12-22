@@ -3,6 +3,7 @@ import { VideoEmbed } from "./VideoEmbed";
 import { VideoList, VideoListBig, VideoListBigSkeleton, VideoListResponsive, VideoListSkeleton } from "./VideoList";
 
 export * from "./components";
+export * from "./VideoCard";
 export * from "./VideoList";
 
 export const Video = {

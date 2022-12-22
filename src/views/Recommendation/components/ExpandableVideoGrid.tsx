@@ -8,6 +8,7 @@ import { useNavigate } from "@solidjs/router";
 import { removePlayHistoryConfirmation } from "@utils/confirmation";
 import { getVideoContextMenu } from "@utils/contextMenu";
 import { Component } from "solid-js";
+import { ThumbnailHover } from "./ThumbnailHover";
 import { ShowMoreTitle } from "./Title";
 
 type Props = {
@@ -25,10 +26,9 @@ export const ExpandableVideoGrid: Component<Props> = (props) => {
 	const queue = useQueue();
 	const navigate = useNavigate();
 
-	const videoProps = (video: IVideoCompact) => ({
-		video,
-		inQueue: queue.data.tracks?.some((t) => t.video.id === video.id),
-		contextMenu: getVideoContextMenu({
+	const videoProps = (video: IVideoCompact) => {
+		const inQueue = queue.data.tracks?.some((t) => t.video.id === video.id);
+		const contextMenu = getVideoContextMenu({
 			appStore: app,
 			queueStore: queue,
 			navigate,
@@ -42,8 +42,24 @@ export const ExpandableVideoGrid: Component<Props> = (props) => {
 				}
 				return items;
 			},
-		}),
-	});
+		});
+
+		return {
+			video,
+			inQueue,
+			contextMenu,
+			thumbnailHoverElement: () => (
+				<ThumbnailHover
+					contextMenu={contextMenu}
+					showAddButtons={!queue.data.empty}
+					inQueue={!!inQueue}
+					isPlaying={queue.data.nowPlaying?.video.id === video.id}
+					onPlay={() => queue.addAndPlayTrack(video)}
+					onAddToQueue={() => queue.addTrack(video)}
+				/>
+			),
+		};
+	};
 
 	const promptRemoveVideo = (video: IVideoCompact) => {
 		app.setConfirmation(

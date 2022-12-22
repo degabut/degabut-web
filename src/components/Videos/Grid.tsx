@@ -1,5 +1,5 @@
 import { Grid } from "@components/Grid";
-import { Video, VideoListProps } from "@components/Video";
+import { Video, VideoCardProps } from "@components/Video";
 import { useNavigate } from "@solidjs/router";
 import { createMemo, JSX, Show } from "solid-js";
 
@@ -9,7 +9,7 @@ type VideosGridProps<Data> = {
 	isLoading?: boolean;
 	showWhenLoading?: boolean;
 	skeletonCount?: number;
-	videoProps?: (data: Data) => VideoListProps;
+	videoProps?: (data: Data) => VideoCardProps;
 };
 
 export function VideosGrid<Data = unknown>(props: VideosGridProps<Data>) {
