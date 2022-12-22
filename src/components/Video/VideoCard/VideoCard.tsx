@@ -15,6 +15,7 @@ export type VideoCardProps = {
 	disableContextMenu?: boolean;
 	extraContainerClass?: string;
 	extraContainerClassList?: Record<string, boolean>;
+	extraThumbnailClass?: string;
 	inQueue?: boolean;
 	onClick?: (video: IVideoCompact) => void;
 };
@@ -33,7 +34,11 @@ export const VideoCard: Component<VideoCardProps> = (props) => {
 		>
 			<div class="relative">
 				{props.thumbnailHoverElement}
-				<img src={props.video.thumbnails.at(-1)?.url || ""} class="w-full rounded aspect-square object-cover" />
+				<img
+					src={props.video.thumbnails.at(-1)?.url || ""}
+					class="w-full rounded aspect-square object-cover"
+					classList={{ [props.extraThumbnailClass || ""]: !!props.extraThumbnailClass }}
+				/>
 			</div>
 
 			<div class="flex flex-col space-y-0.5">
