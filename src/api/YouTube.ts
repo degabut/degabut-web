@@ -6,6 +6,12 @@ export type IThumbnail = {
 	height: number;
 };
 
+export type IChapter = {
+	title: string;
+	start: number;
+	thumbnails: IThumbnail[];
+};
+
 export type Continuable<T> = {
 	token: string | null;
 	items: T[];
@@ -15,6 +21,7 @@ export interface IVideo {
 	id: string;
 	title: string;
 	duration: number;
+	chapters: IChapter[];
 	thumbnails: IThumbnail[];
 	viewCount: number;
 	channel: IChannel;
