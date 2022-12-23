@@ -59,7 +59,7 @@ export const Member: Component<Props> = (props) => {
 				openWithClick: true,
 			}}
 		>
-			<img src={props.member.avatar || "/img/avatar.png"} class="w-8 h-8 rounded-full" />
+			<img src={props.member.avatar || "/img/avatar.png"} class="w-8 aspect-square rounded-full" />
 			<Show when={!props.minimized}>
 				<div class="truncate">{props.member.displayName}</div>
 			</Show>
