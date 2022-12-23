@@ -30,9 +30,13 @@ export const PlayerCard: Component<Props> = (props) => {
 								<Text.H1 truncate class="w-full text-3xl text-shadow">
 									{video.title}
 								</Text.H1>
-								<Text.Body2 truncate class="w-full">
-									{video.channel.name}
-								</Text.Body2>
+								<Show when={video.channel} keyed>
+									{(channel) => (
+										<Text.Body2 truncate class="w-full">
+											{channel.name}
+										</Text.Body2>
+									)}
+								</Show>
 							</div>
 
 							<SeekSlider

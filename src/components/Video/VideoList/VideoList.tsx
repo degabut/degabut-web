@@ -47,7 +47,7 @@ export const VideoList: Component<VideoListProps> = (props) => {
 					truncate
 					class="font-normal"
 					classList={{ [props.extraTitleClass || ""]: !!props.extraTitleClass }}
-					title={`${props.video.title} - ${props.video.channel.name}`}
+					title={props.video.title + (props.video.channel ? ` - ${props.video.channel.name}` : "")}
 				>
 					{props.video.title}
 				</Text.Body1>
@@ -64,7 +64,9 @@ export const VideoList: Component<VideoListProps> = (props) => {
 					</Show>
 
 					<div class="truncate ml-2">
-						<Text.Caption1 truncate>{props.video.channel.name}</Text.Caption1>
+						<Show when={props.video.channel} keyed>
+							{(channel) => <Text.Caption1 truncate>{channel.name}</Text.Caption1>}
+						</Show>
 						{props.requestedBy && (
 							<Text.Caption2 truncate> — Requested by {props.requestedBy.displayName}</Text.Caption2>
 						)}
@@ -100,7 +102,7 @@ export const VideoListBig: Component<VideoListProps> = (props) => {
 						truncate
 						class="grow"
 						classList={{ [props.extraTitleClass || ""]: !!props.extraTitleClass }}
-						title={`${props.video.title} - ${props.video.channel.name}`}
+						title={props.video.title + (props.video.channel ? ` - ${props.video.channel.name}` : "")}
 					>
 						{props.video.title}
 					</Text.H4>
@@ -115,7 +117,9 @@ export const VideoListBig: Component<VideoListProps> = (props) => {
 					</Show>
 					<div class="flex-row-center space-x-2 text-sm">
 						<ChannelThumbnail video={props.video} />
-						<Text.Body2>{props.video.channel.name}</Text.Body2>
+						<Show when={props.video.channel} keyed>
+							{(channel) => <Text.Body2 truncate>{channel.name}</Text.Body2>}
+						</Show>
 					</div>
 				</div>
 				<Show when={!props.video.duration}>

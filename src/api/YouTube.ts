@@ -27,7 +27,7 @@ export type IVideoCompact = {
 	duration: number;
 	thumbnails: IThumbnail[];
 	viewCount: number | null;
-	channel: IChannel;
+	channel?: IChannel;
 };
 
 export type IPlaylistCompact = {

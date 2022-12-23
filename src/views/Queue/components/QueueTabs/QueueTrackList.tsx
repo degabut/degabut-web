@@ -20,13 +20,11 @@ export const QueueTrackList: Component<Props> = (props) => {
 	const tracks = useSearchable({
 		keyword: () => props.keyword,
 		items: () => queue.data.tracks || [],
-		keys: ({ video, requestedBy }) => [
-			video.title,
-			video.channel.name,
-			requestedBy.displayName,
-			requestedBy.nickname,
-			requestedBy.username,
-		],
+		keys: ({ video, requestedBy }) => {
+			const keys = [video.title, requestedBy.displayName, requestedBy.nickname, requestedBy.username];
+			if (video.channel) keys.push(video.channel.name);
+			return keys;
+		},
 	});
 
 	const videoProps = (t: ITrack) => {

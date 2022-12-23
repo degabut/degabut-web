@@ -31,7 +31,7 @@ export const useDiscordRPC = () => {
 			};
 		} else {
 			const title = nowPlaying.video.title;
-			const channelName = nowPlaying.video.channel.name;
+			const channelName = nowPlaying.video.channel?.name;
 			const otherMemberCount = voiceChannel.members.length - 1;
 			const smallImageKey = otherMemberCount > 0 ? "multi_user" : "single_user";
 			const smallImageText =

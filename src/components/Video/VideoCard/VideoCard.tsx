@@ -45,7 +45,9 @@ export const VideoCard: Component<VideoCardProps> = (props) => {
 				<Text.Body1 class="w-full truncate font-normal hover:underline underline-offset-2">
 					{props.video.title}
 				</Text.Body1>
-				<Text.Caption2 class="w-full truncate">{props.video.channel.name}</Text.Caption2>
+				<Show when={props.video.channel} keyed>
+					{(channel) => <Text.Caption2 class="w-full truncate">{channel.name}</Text.Caption2>}
+				</Show>
 			</div>
 
 			<div class="flex-row-center space-x-1.5">

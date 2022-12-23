@@ -27,7 +27,13 @@ export const QueuePlayer: Component = () => {
 
 							<div class="flex flex-col truncate text-shadow">
 								<Text.Body1 class="truncate">{video.title}</Text.Body1>
-								<Text.Body2 class="truncate text-sm text-neutral-300">{video.channel.name}</Text.Body2>
+								<Show when={video.channel} keyed>
+									{(channel) => (
+										<Text.Body2 class="truncate text-sm text-neutral-300">
+											{channel.name}
+										</Text.Body2>
+									)}
+								</Show>
 							</div>
 						</div>
 

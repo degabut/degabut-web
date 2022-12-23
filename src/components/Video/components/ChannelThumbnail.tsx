@@ -6,7 +6,7 @@ type Props = {
 };
 
 export const ChannelThumbnail: Component<Props> = (props) => {
-	const thumbnail = createMemo(() => props.video.channel.thumbnails?.at(0)?.url);
+	const thumbnail = createMemo(() => props.video.channel?.thumbnails?.at(0)?.url);
 
 	return (
 		<Show when={thumbnail()}>

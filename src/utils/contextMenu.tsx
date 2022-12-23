@@ -69,7 +69,9 @@ export const getVideoContextMenu = (props: VideoProps) => {
 				<div class="flex-col-center space-y-2">
 					<div class="font-medium text-center">{props.video.title}</div>
 					<div class="text-sm text-center text-neutral-400 space-y-1">
-						<div>{props.video.channel.name}</div>
+						<Show when={props.video.channel} keyed>
+							{(channel) => <div>{channel.name}</div>}
+						</Show>
 						<div class="flex flex-row space-x-4 justify-center">
 							<div>{secondsToTime(props.video.duration)}</div>
 							<Show when={props.video.viewCount} keyed>

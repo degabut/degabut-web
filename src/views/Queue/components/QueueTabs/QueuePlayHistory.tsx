@@ -19,7 +19,8 @@ export const QueuePlayHistory: Component<Props> = (props) => {
 		keyword: () => props.keyword,
 		items: () => queue.data.history || [],
 		keys: ({ video, requestedBy }) => {
-			const keys = [video.title, video.channel.name];
+			const keys = [video.title];
+			if (video.channel) keys.push(video.channel.name);
 			if (requestedBy) keys.push(requestedBy.displayName, requestedBy.nickname, requestedBy.username);
 			return keys;
 		},

@@ -23,7 +23,10 @@ export const MainVideo: Component<Props> = (props) => {
 
 			<div class="flex flex-col">
 				<div class="flex flex-row items-center justify-between">
-					<Text.H3 truncate title={`${props.video.title} - ${props.video.channel.name}`}>
+					<Text.H3
+						truncate
+						title={props.video.title + (props.video.channel ? ` - ${props.video.channel.name}` : "")}
+					>
 						{props.video.title}
 					</Text.H3>
 
@@ -43,8 +46,14 @@ export const MainVideo: Component<Props> = (props) => {
 					</Show>
 
 					<div class="flex-row-center space-x-2 text-sm">
-						<ChannelThumbnail video={props.video} />
-						<Text.Body1>{props.video.channel.name}</Text.Body1>
+						<Show when={props.video.channel} keyed>
+							{(channel) => (
+								<>
+									<ChannelThumbnail video={props.video} />
+									<Text.Body1>{channel.name}</Text.Body1>
+								</>
+							)}
+						</Show>
 					</div>
 				</div>
 			</div>
