@@ -1,11 +1,11 @@
-import { useLocation } from "@solidjs/router";
+import { useMatch } from "@providers/BotSelectorProvider";
 import { Component, For, Show } from "solid-js";
 import { Link } from "./Link";
 import { QueuePlayer } from "./QueuePlayer";
 import { QueuePlayerMd } from "./QueuePlayerMd";
 
 export const BottomBar: Component = () => {
-	const location = useLocation();
+	const inQueue = useMatch(() => "/app/queue");
 
 	const links = [
 		{ icon: "degabutThin", label: "Queue", path: "/app/queue" },
@@ -15,7 +15,7 @@ export const BottomBar: Component = () => {
 
 	return (
 		<div class="flex flex-col w-full z-10">
-			<Show when={location.pathname !== "/app/queue"}>
+			<Show when={!inQueue()}>
 				<div class="md:hidden">
 					<QueuePlayer />
 				</div>
