@@ -29,7 +29,7 @@ const VoiceChannelList: Component<Props> = (props) => {
 			.slice(0, 2);
 
 	return (
-		<div class="flex-row-center px-2 py-1 space-x-2 w-full bg-white/5 rounded">
+		<div class="flex-row-center px-2 py-0.5 space-x-2 w-full bg-white/5 rounded">
 			<div class="shrink-0 w-14 h-14 p-1 rounded-full">
 				<Show
 					when={props.guild.icon}
@@ -78,18 +78,16 @@ export const QueueNotFound: Component = () => {
 	};
 
 	return (
-		<Container size="full" extraClass="flex-col-center mt-6 space-y-6">
-			<Text.H1>Queue Not Found</Text.H1>
+		<Container size="full" extraClass="space-y-6">
+			<Text.H2>Queue Not Found</Text.H2>
 
 			<Divider extraClass="max-w-lg" />
 
 			<Show when={queue.voiceChannelHistory.length}>
-				<div class="flex-col-center text-center">
-					<Text.H3>Are you in one of these voice channels?</Text.H3>
-					<Text.Body2>
-						Click the <b>Join</b> button to make Degabut join the voice channel.
-					</Text.Body2>
-				</div>
+				<Text.H3>Are you in one of these voice channels?</Text.H3>
+				<Text.Body2>
+					Click the <b>Join</b> button to make Degabut join the voice channel.
+				</Text.Body2>
 
 				<div class="flex-col-center w-full space-y-4 max-w-lg">
 					<For each={queue.voiceChannelHistory}>
