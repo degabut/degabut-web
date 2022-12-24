@@ -169,7 +169,7 @@ export const getPlaylistContextMenu = (props: PlaylistProps) => {
 	};
 
 	return {
-		items: [items()],
+		items: items(),
 		header: (
 			<div class="flex-col-center justify-center pt-4 pb-8 space-y-1">
 				<div class="flex-col-center space-y-2">

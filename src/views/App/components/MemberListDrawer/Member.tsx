@@ -49,12 +49,10 @@ export const Member: Component<Props> = (props) => {
 				header: () => <Header member={props.member} />,
 				extraContainerClass: "bg-neutral-900",
 				items: [
-					[
-						{
-							element: () => <Item icon="heart" iconSize="lg" label="Recommendation" />,
-							onClick: () => props.onClickRecommendation(props.member),
-						},
-					],
+					{
+						element: () => <Item icon="heart" iconSize="lg" label="Recommendation" />,
+						onClick: () => props.onClickRecommendation(props.member),
+					},
 				],
 				openWithClick: true,
 			}}

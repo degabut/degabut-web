@@ -37,7 +37,7 @@ export const SettingsButton: Component<Props> = (props) => {
 	return (
 		<div
 			use:contextMenu={{
-				items: [contextMenuItems()],
+				items: contextMenuItems(),
 				header: () => (
 					<div class="flex-col-center justify-center pt-4 pb-8 space-y-1">
 						<div class="flex-col-center space-y-2">

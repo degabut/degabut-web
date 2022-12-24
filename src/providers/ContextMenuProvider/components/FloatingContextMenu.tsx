@@ -44,19 +44,31 @@ export const FloatingContextMenu: Component<Props> = (props) => {
 			class="fixed bg-neutral-950 z-50 min-w-[12rem] w-max p-1.5 rounded"
 			classList={{ [props.params.extraContainerClass || ""]: !!props.params.extraContainerClass }}
 		>
-			<For each={props.params.items}>
-				{(itemItems, i) => (
-					<>
-						<For each={itemItems}>
-							{(item) => <ContextMenuItemList item={item} onClick={props.onItemClick} variant="medium" />}
-						</For>
+			<Show
+				when={Array.isArray(props.params.items.at(0))}
+				keyed
+				fallback={
+					<For each={props.params.items as ContextMenuItem[]}>
+						{(item) => <ContextMenuItemList item={item} onClick={props.onItemClick} variant="medium" />}
+					</For>
+				}
+			>
+				<For each={props.params.items as ContextMenuItem[][]}>
+					{(itemItems, i) => (
+						<>
+							<For each={itemItems}>
+								{(item) => (
+									<ContextMenuItemList item={item} onClick={props.onItemClick} variant="medium" />
+								)}
+							</For>
 
-						<Show when={i() < props.params.items.length - 1 && itemItems.length}>
-							<Divider dark extraClass="my-1.5" />
-						</Show>
-					</>
-				)}
-			</For>
+							<Show when={i() < props.params.items.length - 1 && itemItems.length}>
+								<Divider dark extraClass="my-1.5" />
+							</Show>
+						</>
+					)}
+				</For>
+			</Show>
 		</div>
 	);
 };
