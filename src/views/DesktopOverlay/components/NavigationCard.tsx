@@ -1,7 +1,7 @@
 import { RouterLink } from "@components/A";
 import { Icon } from "@components/Icon";
 import { Text } from "@components/Text";
-import { useMatch } from "@solidjs/router";
+import { useMatch } from "@providers/BotSelectorProvider";
 import { Component, For } from "solid-js";
 import { Card } from "./Card";
 
