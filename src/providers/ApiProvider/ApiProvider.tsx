@@ -5,6 +5,7 @@ import { createContext, ParentComponent } from "solid-js";
 
 export type ApiContextStore = {
 	client: AxiosInstance;
+	setClientUrl: (apiBaseUrl: string, youtubeBaseUrl?: string) => void;
 	auth: Auth;
 	authManager: AuthManager;
 	playlist: Playlist;
@@ -37,7 +38,7 @@ export const ApiProvider: ParentComponent = (props) => {
 	const requestInterceptor = async (req: AxiosRequestConfig) => {
 		req.headers = client.defaults.headers.common || {};
 		if (!req.headers.Authorization) {
-			const token = await authManager.getAccessToken();
+			const token = authManager.getAccessToken();
 			if (token) {
 				req.headers.Authorization = `Bearer ${token}`;
 				authManager.setAccessToken(token);
@@ -67,10 +68,16 @@ export const ApiProvider: ParentComponent = (props) => {
 	const queue = new Queue(client);
 	const player = new Player(client);
 
+	const setClientUrl = (apiBaseUrl: string, youtubeBaseUrl?: string) => {
+		client.defaults.baseURL = apiBaseUrl;
+		youtubeClient.defaults.baseURL = youtubeBaseUrl || import.meta.env.VITE_YOUTUBE_API_BASE_URL;
+	};
+
 	return (
 		<ApiContext.Provider
 			value={{
 				client,
+				setClientUrl,
 				auth,
 				authManager,
 				playlist,

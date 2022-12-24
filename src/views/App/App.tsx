@@ -1,4 +1,5 @@
 import { AppProvider, useApp } from "@providers/AppProvider";
+import { BotSelectorProviders } from "@providers/BotSelectorProvider";
 import { DesktopProvider } from "@providers/DesktopProvider";
 import { QueueProvider } from "@providers/QueueProvider";
 import { SettingsProvider } from "@providers/SettingsProvider";
@@ -9,15 +10,19 @@ import { AppDrawer, AppHeader, BottomBar, Error, MemberListDrawer } from "./comp
 
 export const App: Component = () => {
 	return (
-		<SettingsProvider>
-			<QueueProvider>
-				<AppProvider>
-					<DesktopProvider>
-						<ProvidedApp />
-					</DesktopProvider>
-				</AppProvider>
-			</QueueProvider>
-		</SettingsProvider>
+		<ErrorBoundary fallback={(err) => <Error error={err} />}>
+			<SettingsProvider>
+				<BotSelectorProviders>
+					<QueueProvider>
+						<AppProvider>
+							<DesktopProvider>
+								<ProvidedApp />
+							</DesktopProvider>
+						</AppProvider>
+					</QueueProvider>
+				</BotSelectorProviders>
+			</SettingsProvider>
+		</ErrorBoundary>
 	);
 };
 
@@ -42,11 +47,9 @@ const ProvidedApp: Component = () => {
 						</div>
 					</Show>
 
-					<ErrorBoundary fallback={(err) => <Error error={err} />}>
-						<div class="h-full overflow-y-auto">
-							<Outlet />
-						</div>
-					</ErrorBoundary>
+					<div class="h-full overflow-y-auto">
+						<Outlet />
+					</div>
 				</div>
 
 				<Show when={!app.isFullscreen()}>

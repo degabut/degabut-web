@@ -57,8 +57,8 @@ export const useQueueEvents = () => {
 	let reconnectTimeout: NodeJS.Timeout;
 	const emitter = new EventEmitter() as TypedEmitter<QueueEvents>;
 
-	const listen = () => {
-		ws = new WebSocket(import.meta.env.VITE_WS_URL);
+	const listen = (url: string) => {
+		ws = new WebSocket(url);
 		ws.onmessage = ({ data }) => {
 			try {
 				const message = JSON.parse(data) as Message;
@@ -68,12 +68,12 @@ export const useQueueEvents = () => {
 			}
 		};
 		ws.onopen = async () => {
-			send("identify", { token: await api.authManager.getAccessToken() });
+			send("identify", { token: api.authManager.getAccessToken() });
 		};
 		ws.onclose = (ev) => {
 			if (ev.code === 3333) return;
 			emitter.emit("closed", ev);
-			reconnectTimeout = setTimeout(listen, 5000);
+			reconnectTimeout = setTimeout(() => listen(url), 5000);
 		};
 	};
 

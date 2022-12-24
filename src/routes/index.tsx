@@ -19,7 +19,7 @@ export const routes: RouteDefinition[] = [
 	{ path: "/login", component: () => <Login /> },
 	{ path: "/oauth", component: () => <OAuth /> },
 	{
-		path: "/app",
+		path: ["/app", "/app/:botIndex"],
 		component: () => <App />,
 		children: [
 			{ path: "/", component: () => <Navigate href="/app/queue" /> },

@@ -1,5 +1,6 @@
 import { IPlayer, IQueue } from "@api";
 import { useApi } from "@hooks/useApi";
+import { useBotSelector } from "@hooks/useBotSelector";
 import EventEmitter from "events";
 import { Accessor, createContext, createEffect, createSignal, onCleanup, onMount, ParentComponent } from "solid-js";
 import { createStore } from "solid-js/store";
@@ -45,6 +46,8 @@ export type FreezeState = {
 
 export const QueueProvider: ParentComponent = (props) => {
 	const api = useApi();
+	const botSelector = useBotSelector();
+
 	let lastHidden = 0;
 	const [isInitialLoading, setIsInitialLoading] = createSignal(true);
 	const [freezeState, setFreezeState] = createStore<FreezeState>({
@@ -80,7 +83,7 @@ export const QueueProvider: ParentComponent = (props) => {
 
 	onMount(() => {
 		document.addEventListener("visibilitychange", onVisibilityChange);
-		listen();
+		listen(botSelector.currentBot().wsUrl);
 	});
 
 	onCleanup(() => {
@@ -99,6 +102,25 @@ export const QueueProvider: ParentComponent = (props) => {
 			fetchQueue();
 		}
 	};
+
+	createEffect(() => {
+		const bot = botSelector.currentBot();
+		setIsInitialLoading(true);
+		close();
+		setQueue({
+			empty: true,
+			nowPlaying: undefined,
+			guild: undefined,
+			history: undefined,
+			isPaused: undefined,
+			loopMode: undefined,
+			position: undefined,
+			shuffle: undefined,
+			tracks: undefined,
+			voiceChannel: undefined,
+		});
+		listen(bot.wsUrl);
+	});
 
 	const store: QueueContextStore = {
 		data: queue,

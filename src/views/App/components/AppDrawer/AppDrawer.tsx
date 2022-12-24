@@ -1,9 +1,9 @@
-import { RouterLink } from "@components/A";
 import { Drawer } from "@components/Drawer";
 import { useScreen } from "@hooks/useScreen";
 import { useSettings } from "@hooks/useSettings";
 import { useApp } from "@providers/AppProvider";
 import { Component, For } from "solid-js";
+import { BotSelector } from "./components";
 import { Link } from "./Link";
 
 export const AppDrawer: Component = () => {
@@ -36,16 +36,7 @@ export const AppDrawer: Component = () => {
 
 				return (
 					<div class="flex flex-col mx-2 h-full">
-						<RouterLink
-							href="/app/queue"
-							class="flex py-4"
-							classList={{
-								"justify-center": minimized,
-								"px-2.5": !minimized,
-							}}
-						>
-							<img class="hover:animate-pulse w-8 h-auto" src="/android-chrome-192x192.png" />
-						</RouterLink>
+						<BotSelector minimized={minimized} />
 
 						<div class="flex flex-col grow text-lg space-y-1.5">
 							<For each={links}>
