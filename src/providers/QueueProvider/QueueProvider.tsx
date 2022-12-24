@@ -83,16 +83,11 @@ export const QueueProvider: ParentComponent = (props) => {
 
 	onMount(() => {
 		document.addEventListener("visibilitychange", onVisibilityChange);
-		listen(botSelector.currentBot().wsUrl);
 	});
 
 	onCleanup(() => {
 		document.removeEventListener("visibilitychange", onVisibilityChange);
 		close();
-	});
-
-	createEffect(() => {
-		if (queue) setFreezeState({ track: false, queue: false, seek: false });
 	});
 
 	const onVisibilityChange = () => {
@@ -102,6 +97,10 @@ export const QueueProvider: ParentComponent = (props) => {
 			fetchQueue();
 		}
 	};
+
+	createEffect(() => {
+		if (queue) setFreezeState({ track: false, queue: false, seek: false });
+	});
 
 	createEffect(() => {
 		const bot = botSelector.currentBot();

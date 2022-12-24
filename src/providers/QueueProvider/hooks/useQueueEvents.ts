@@ -53,7 +53,7 @@ export type QueueEvents = {
 
 export const useQueueEvents = () => {
 	const api = useApi();
-	let ws: WebSocket;
+	let ws: WebSocket | undefined;
 	let reconnectTimeout: NodeJS.Timeout;
 	const emitter = new EventEmitter() as TypedEmitter<QueueEvents>;
 
@@ -77,19 +77,29 @@ export const useQueueEvents = () => {
 		};
 	};
 
-	const close = () => ws?.close(3333);
+	const close = () => {
+		if (ws) {
+			ws.close(3333);
+			ws.onmessage = null;
+			ws.onopen = null;
+			ws.onclose = null;
+		}
+		clearTimeout(reconnectTimeout);
+	};
 
 	onCleanup(() => {
-		ws.onmessage = null;
-		ws.onopen = null;
-		ws.onclose = null;
+		if (ws) {
+			ws.onmessage = null;
+			ws.onopen = null;
+			ws.onclose = null;
+		}
 		emitter.removeAllListeners();
 		clearTimeout(reconnectTimeout);
 	});
 
 	const send = (event: string, data: unknown) => {
 		const message = JSON.stringify({ event, data });
-		ws.send(message);
+		ws?.send(message);
 	};
 
 	return { listen, close, emitter };
