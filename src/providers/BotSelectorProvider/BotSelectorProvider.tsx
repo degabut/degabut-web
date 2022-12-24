@@ -51,7 +51,7 @@ export const BotSelectorProviders: ParentComponent = (props) => {
 		navigate(`/app/${index || 0}/${path}`);
 
 		setCurrentBot(bot);
-		api.setClientUrl(bot.apiBaseUrl);
+		api.setClientUrl(bot.apiBaseUrl, bot.youtubeApiBaseUrl);
 	};
 
 	return (
