@@ -49,7 +49,7 @@ type Props = {
 export const ThumbnailHover: Component<Props> = (props) => {
 	return (
 		<div class="hidden md:block">
-			<div class="absolute hover:bg-black/25 opacity-0 hover:opacity-100 transition w-full h-full">
+			<div class="absolute hover:bg-black/25 opacity-0 hover:opacity-100 transition rounded-md w-full h-full">
 				<div class="absolute top-0 right-0">
 					<ContextMenuButton contextMenu={props.contextMenu} />
 				</div>

@@ -36,7 +36,7 @@ export const VideoCard: Component<VideoCardProps> = (props) => {
 				{props.thumbnailHoverElement}
 				<img
 					src={props.video.thumbnails.at(-1)?.url || ""}
-					class="w-full rounded aspect-square object-cover"
+					class="w-full rounded-md aspect-square object-cover"
 					classList={{ [props.extraThumbnailClass || ""]: !!props.extraThumbnailClass }}
 				/>
 			</div>

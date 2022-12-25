@@ -34,7 +34,7 @@ export const VideoListThumbnailBig: Component<Props> = (props) => {
 					loading="lazy"
 					src={props.video.thumbnails.at(-1)?.url}
 					alt={props.video.title}
-					class="h-full w-full relative object-cover rounded"
+					class="h-full w-full relative object-cover rounded-md"
 					classList={{ [props.extraClass || ""]: !!props.extraClass }}
 				/>
 			</div>
