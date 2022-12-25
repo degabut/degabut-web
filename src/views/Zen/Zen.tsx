@@ -28,7 +28,7 @@ export const Zen: Component = () => {
 					<>
 						<img
 							src={video.thumbnails.at(0)?.url}
-							class="absolute bottom-[0] left-0 h-full w-full blur-2xl opacity-40 -z-10 pointer-events-none"
+							class="absolute bottom-[0] left-0 h-full w-full object-cover blur-2xl opacity-40 -z-10 pointer-events-none"
 						/>
 
 						<div class="flex-col-center justify-center h-full w-full">
