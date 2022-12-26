@@ -43,7 +43,10 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 	};
 
 	const playTrack = (track: ITrack) => {
-		return modifyTrack((queueId) => api.queue.playTrack(queueId, track.id));
+		return modifyTrack(async (queueId) => {
+			await api.queue.playTrack(queueId, track.id);
+			if (queue.isPaused) await api.player.unpause(queueId);
+		});
 	};
 
 	const removeTrack = (track: ITrack) => {
