@@ -51,7 +51,7 @@ input:focus {
 }
 
 ::-webkit-scrollbar {
-	@apply w-1 md:w-2 h-1 md:h-2;
+	@apply w-1 md:w-1.5 h-1 md:h-1.5;
 }
 
 ::-webkit-scrollbar-track {
