@@ -1,4 +1,3 @@
-import { Icon } from "@components/Icon";
 import { Video, VideoListProps } from "@components/Video";
 import { useNavigate } from "@solidjs/router";
 import { createSortable, transformStyle, useDragDropContext } from "@thisbeyond/solid-dnd";
@@ -19,6 +18,7 @@ export const SortableVideoList: Component<Props> = (props) => {
 	return (
 		<div
 			ref={sortable.ref}
+			{...sortable.dragActivators}
 			style={transformStyle(sortable.transform)}
 			classList={{
 				"opacity-25": sortable.isActiveDraggable,
@@ -26,15 +26,7 @@ export const SortableVideoList: Component<Props> = (props) => {
 			}}
 		>
 			<Video.List
-				extraContainerClass="!pl-0"
-				left={
-					<div
-						class="px-0.5 py-4 fill-neutral-400 hover:fill-neutral-100 touch-none"
-						onClick={(e) => e.stopPropagation()}
-					>
-						<Icon {...sortable.dragActivators} name="sixDots" size="md" />
-					</div>
-				}
+				extraContainerClass="cursor-ns-resize"
 				{...props.initialVideoProps}
 				onClick={() => navigate(`/app/video/${props.initialVideoProps.video.id}`)}
 			/>
@@ -43,15 +35,5 @@ export const SortableVideoList: Component<Props> = (props) => {
 };
 
 export const DummySortableVideoList: Component<Omit<Props, "initialId">> = (props) => {
-	return (
-		<Video.List
-			extraContainerClass="!pl-0"
-			left={
-				<div class="px-0.5 fill-neutral-400 hover:fill-neutral-100 hover:cursor-pointer touch-none">
-					<Icon name="sixDots" size="md" />
-				</div>
-			}
-			{...props.initialVideoProps}
-		/>
-	);
+	return <Video.List {...props.initialVideoProps} />;
 };
