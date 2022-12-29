@@ -40,7 +40,7 @@ export const QueueHint: Component = () => {
 
 	return (
 		<div class="space-y-8 md:space-y-4">
-			<div class="space-y-1.5" classList={{ "ml-[0.875rem]": !!tracks().length }}>
+			<div class="space-y-1.5">
 				<HintItem
 					label={
 						<div class="flex-row-center space-x-4">
@@ -64,7 +64,7 @@ export const QueueHint: Component = () => {
 				/>
 			</div>
 
-			<div class="space-y-2 md:space-y-0" classList={{ "md:ml-[0.875rem]": !!tracks().length }}>
+			<div class="space-y-2 md:space-y-0">
 				<div class="flex-row-center space-x-3 py-2 text-sm">
 					<Text.Body2 class="shrink-0">Quick Add</Text.Body2>
 					<Divider extraClass="grow" light />
