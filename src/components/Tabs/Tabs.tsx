@@ -48,7 +48,7 @@ export const Tabs: Component<Props> = (props) => {
 						class="flex flex-col"
 						classList={{ [props.extraContainerClass || ""]: !!props.extraContainerClass }}
 					>
-						<div class="flex flex-col md:flex-row md:border-b items-center border-neutral-600">
+						<div class="flex flex-col overflow-x-auto overflow-y-hidden md:flex-row border-b items-center border-neutral-600">
 							<div
 								class="flex-row-center shrink-0 h-full w-full md:w-max border-b md:border-b-0 border-neutral-600"
 								classList={{ [props.extraTabsClass || ""]: !!props.extraTabsClass }}
@@ -70,7 +70,7 @@ export const Tabs: Component<Props> = (props) => {
 						<div
 							classList={{ [props.extraContentContainerClass || ""]: !!props.extraContentContainerClass }}
 						>
-							<div class="flex-1">{activeItem.element}</div>
+							{activeItem.element}
 						</div>
 					</div>
 				);
