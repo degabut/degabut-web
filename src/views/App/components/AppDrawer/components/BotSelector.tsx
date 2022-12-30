@@ -50,7 +50,7 @@ export const BotSelector: Component<Props> = (props) => {
 				href="/app/queue"
 				class="flex-row-center space-x-2.5 py-2 my-2"
 				classList={{
-					"hover:bg-white/[7.5%] rounded ": !!bots,
+					"hover:bg-white/[7.5%] rounded": !!bots,
 					"justify-center": props.minimized,
 					"px-2.5 justify-between": !props.minimized,
 				}}
@@ -61,7 +61,7 @@ export const BotSelector: Component<Props> = (props) => {
 				/>
 				<Show when={bots && !props.minimized}>
 					<Text.H3 truncate>{botSelector.currentBot().name}</Text.H3>
-					<div class="grow flex justify-end">
+					<div class="grow flex justify-end pl-4">
 						<Icon name="swap" class="fill-neutral-600" size="md" />
 					</div>
 				</Show>

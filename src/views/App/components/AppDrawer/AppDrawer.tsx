@@ -25,7 +25,7 @@ export const AppDrawer: Component = () => {
 	return (
 		<Drawer
 			resizeable
-			extraContainerClass="min-w-[4.25rem] max-w-[75vw] md:max-w-sm pb-8"
+			extraContainerClass="min-w-[4.25rem] max-w-[75vw] md:max-w-max pb-8"
 			initialSize={settings.appDrawerSize}
 			onResize={(appDrawerSize) => setSettings({ appDrawerSize })}
 			isOpen={app.isMenuOpen()}
@@ -35,7 +35,7 @@ export const AppDrawer: Component = () => {
 				const minimized = size <= 120;
 
 				return (
-					<div class="flex flex-col mx-2 h-full">
+					<div class="flex flex-col mx-2 h-full max-w-[16rem]">
 						<BotSelector minimized={minimized} />
 
 						<div class="flex flex-col grow text-lg space-y-1.5">
