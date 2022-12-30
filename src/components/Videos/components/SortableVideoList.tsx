@@ -27,6 +27,7 @@ export const SortableVideoList: Component<Props> = (props) => {
 		>
 			<Video.List
 				extraContainerClass="cursor-ns-resize"
+				extraThumbnailClass="pointer-events-none"
 				{...props.initialVideoProps}
 				onClick={() => navigate(`/app/video/${props.initialVideoProps.video.id}`)}
 			/>
