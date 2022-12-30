@@ -1,6 +1,5 @@
 import { IGuild } from "@api";
 import { Button } from "@components/Button";
-import { Container } from "@components/Container";
 import { Divider } from "@components/Divider";
 import { Text } from "@components/Text";
 import { useApi } from "@hooks/useApi";
@@ -30,7 +29,7 @@ const VoiceChannelList: Component<Props> = (props) => {
 
 	return (
 		<div class="flex-row-center px-2 py-0.5 space-x-2 w-full bg-white/5 rounded">
-			<div class="shrink-0 w-14 h-14 p-1 rounded-full">
+			<div class="shrink-0 w-12 h-12 p-1 rounded-full">
 				<Show
 					when={props.guild.icon}
 					keyed
@@ -45,7 +44,7 @@ const VoiceChannelList: Component<Props> = (props) => {
 				<Text.Body2 truncate>{props.guild.name}</Text.Body2>
 			</div>
 
-			<Button disabled={props.isLoading} onClick={() => props.onClick(props.voiceChannel)} class="px-4 py-2">
+			<Button disabled={props.isLoading} onClick={() => props.onClick(props.voiceChannel)} class="px-3 py-1.5">
 				Join
 			</Button>
 		</div>
@@ -78,10 +77,10 @@ export const QueueNotFound: Component = () => {
 	};
 
 	return (
-		<Container size="full" extraClass="space-y-6">
+		<div class="space-y-4">
 			<Text.H2>Queue Not Found</Text.H2>
 
-			<Divider extraClass="max-w-lg" />
+			<Divider />
 
 			<Show when={queue.voiceChannelHistory.length}>
 				<Text.H3>Are you in one of these voice channels?</Text.H3>
@@ -89,12 +88,12 @@ export const QueueNotFound: Component = () => {
 					Click the <b>Join</b> button to make Degabut join the voice channel.
 				</Text.Body2>
 
-				<div class="flex-col-center w-full space-y-4 max-w-lg">
+				<div class="flex-col-center w-full space-y-4 md:max-w-lg">
 					<For each={queue.voiceChannelHistory}>
 						{(history) => <VoiceChannelList {...history} isLoading={isLoading()} onClick={join} />}
 					</For>
 				</div>
 			</Show>
-		</Container>
+		</div>
 	);
 };
