@@ -7,7 +7,7 @@ export const AppHeader: Component = () => {
 	const app = useApp();
 
 	return (
-		<div class="flex-row-center bg-neutral-900 border-b border-neutral-700 h-14 md:h-12 px-4 py-2 space-x-3">
+		<div class="block md:hidden flex-row-center bg-neutral-900 border-b border-neutral-700 h-14 md:h-12 px-4 py-2 space-x-3">
 			<Button
 				rounded
 				flat

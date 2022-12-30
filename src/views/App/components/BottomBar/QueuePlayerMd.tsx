@@ -8,7 +8,7 @@ import { useApp } from "@providers/AppProvider";
 import { useNavigate } from "@solidjs/router";
 import { getVideoContextMenu } from "@utils/contextMenu";
 import { QueueActions, SeekSlider } from "@views/Queue";
-import { LyricsButton } from "@views/Queue/components/QueuePlayer/QueueActions/components";
+import { LyricsButton, SettingsButton } from "@views/Queue/components/QueuePlayer/QueueActions/components";
 import { Component, Show } from "solid-js";
 
 const EmptyNowPlaying: Component = () => {
@@ -88,26 +88,27 @@ const Controls: Component = () => {
 
 export const ExtraControls: Component = () => {
 	const app = useApp();
+	const queue = useQueue();
 	const navigate = useNavigate();
 
 	return (
-		<div class="flex items-center justify-end space-x-2">
-			<LyricsButton onClick={() => navigate("/app/queue/lyrics")} />
+		<div class="flex items-center justify-end space-x-0.5">
+			<LyricsButton iconSize="md" extraClass="p-2.5" onClick={() => navigate("/app/queue/lyrics")} />
+			<SettingsButton iconSize="md" extraClass="p-2.5" onClearQueue={() => queue.clear()} />
 			<Button
 				flat
 				title="Add Song"
 				icon="plus"
-				iconSize="lg"
-				class="text-neutral-300 p-2"
+				iconSize="md"
+				class="text-neutral-300 p-2.5"
 				onClick={() => app.setIsQuickSearchModalOpen(true)}
 			/>
 			<Button
 				flat
-				title="Zen Mode"
-				icon="stars"
-				iconSize="lg"
-				class="text-neutral-300 p-2"
-				onClick={() => navigate("/app/queue/zen")}
+				icon="people"
+				iconSize="md"
+				class="text-neutral-300 p-2.5"
+				onClick={() => app.setIsMemberOpen((v) => !v)}
 			/>
 		</div>
 	);

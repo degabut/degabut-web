@@ -49,8 +49,10 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 		});
 	};
 
-	const removeTrack = (track: ITrack) => {
-		return modifyTrack((queueId) => api.queue.removeTrack(queueId, track.id));
+	const removeTrack = (trackOrId: ITrack | string) => {
+		return modifyTrack((queueId) =>
+			api.queue.removeTrack(queueId, typeof trackOrId === "string" ? trackOrId : trackOrId.id)
+		);
 	};
 
 	const addTrack = (video: IVideoCompact) => {

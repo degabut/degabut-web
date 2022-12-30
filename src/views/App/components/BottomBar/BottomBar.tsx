@@ -19,10 +19,11 @@ export const BottomBar: Component = () => {
 				<div class="md:hidden">
 					<QueuePlayer />
 				</div>
-				<div class="hidden md:block">
-					<QueuePlayerMd />
-				</div>
 			</Show>
+
+			<div class="hidden md:block">
+				<QueuePlayerMd />
+			</div>
 
 			<div class="flex-row-center flex-wrap bg-black h-full md:hidden block">
 				<For each={links}>{(link) => <Link {...link} />}</For>

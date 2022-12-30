@@ -28,12 +28,12 @@ export const SearchInput: Component<Props> = (props) => {
 				<Icon
 					name={props.keyword ? "closeLine" : "search"}
 					size="md"
-					extraClass="fill-neutral-300"
+					extraClass="fill-neutral-400"
 					onClick={() => props.onInput("")}
 					extraClassList={{ "cursor-pointer": !!props.keyword }}
 				/>
 			}
-			class="text-sm bg-neutral-400/10 grow w-full md:max-w-[16rem] !border-neutral-500"
+			class="text-sm grow w-full md:max-w-[16rem] border-neutral-600"
 		/>
 	);
 };
