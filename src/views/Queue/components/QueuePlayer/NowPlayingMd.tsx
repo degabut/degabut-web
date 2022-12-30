@@ -1,5 +1,7 @@
+import { RouterLink } from "@components/A";
 import { ContextMenuItem } from "@components/ContextMenu";
 import { Icon } from "@components/Icon";
+import { Text } from "@components/Text";
 import { contextMenu } from "@directives/contextMenu";
 import { useQueue } from "@hooks/useQueue";
 import { useApp } from "@providers/AppProvider";
@@ -47,11 +49,18 @@ export const NowPlayingMd: Component = () => {
 						})}
 					>
 						<div class="absolute w-full h-full opacity-0 hover:opacity-100 transition flex items-end">
-							<div class="w-full flex items-end h-1/3 bg-gradient-to-t from-black/90 to-black/0">
+							<div class="w-full flex flex-col justify-end min-h-[50%] bg-gradient-to-t from-black to-black/0">
+								<RouterLink
+									href={`/app/video/${video.id}`}
+									class="text-center space-y-2 truncate text-shadow px-4 hover:underline underline-offset-4"
+								>
+									<Text.H1 truncate>{video.title}</Text.H1>
+									<Text.Body2 truncate>{video.channel?.name}</Text.Body2>
+								</RouterLink>
 								<QueueActions
 									extraClass="w-full justify-evenly py-4"
 									extraButtonClass="p-4"
-									iconSize="xl"
+									iconSize="lg"
 								/>
 							</div>
 						</div>
