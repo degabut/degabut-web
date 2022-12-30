@@ -48,7 +48,11 @@ export const NowPlayingMd: Component = () => {
 					>
 						<div class="absolute w-full h-full opacity-0 hover:opacity-100 transition flex items-end">
 							<div class="w-full flex items-end h-1/3 bg-gradient-to-t from-black/90 to-black/0">
-								<QueueActions extraClass="w-full justify-evenly py-4" iconSize="xl" />
+								<QueueActions
+									extraClass="w-full justify-evenly py-4"
+									extraButtonClass="p-4"
+									iconSize="xl"
+								/>
 							</div>
 						</div>
 						<img src={video.thumbnails.at(-1)?.url || ""} class="h-full object-cover" />
