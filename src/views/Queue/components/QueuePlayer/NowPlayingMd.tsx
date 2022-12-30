@@ -14,7 +14,7 @@ contextMenu;
 
 const Skeleton: Component = () => {
 	return (
-		<div class="max-w-sm aspect-square mx-auto border-2 border-neutral-800 flex items-center justify-center">
+		<div class="max-w-[32rem] aspect-square mx-auto border-2 border-neutral-800 flex items-center justify-center">
 			<Icon name="musicNotes" extraClass="fill-neutral-800 h-full w-auto" />
 		</div>
 	);
