@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { throttle } from "@utils/throttle";
+import throttle from "lodash/throttle";
 import { createContext, ParentComponent } from "solid-js";
 import { createStore, StoreSetter } from "solid-js/store";
 

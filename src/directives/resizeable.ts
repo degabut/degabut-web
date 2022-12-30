@@ -1,4 +1,4 @@
-import { throttle } from "@utils/throttle";
+import throttle from "lodash/throttle";
 import { Accessor, createEffect, onCleanup } from "solid-js";
 
 export type ResizeableParams = {

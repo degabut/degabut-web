@@ -1,4 +1,4 @@
-import { debounce } from "@utils/debounce";
+import debounce from "lodash/debounce";
 import { createEffect, createMemo, createSignal } from "solid-js";
 import { useVideos } from "./useVideos";
 import { useYouTubePlaylists } from "./useYouTubePlaylists";

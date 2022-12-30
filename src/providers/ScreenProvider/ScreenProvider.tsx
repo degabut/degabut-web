@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { BreakpointKeys, breakpoints } from "@constants";
-import { throttle } from "@utils/throttle";
+import throttle from "lodash/throttle";
 import { createContext, onMount, ParentComponent } from "solid-js";
 import { createStore } from "solid-js/store";
 
