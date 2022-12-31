@@ -17,11 +17,11 @@ export const Queue: Component = () => {
 			size="full"
 			padless
 			centered
-			extraClass="max-w-[120rem] md:h-full overflow-y-hidden"
+			extraClass="md:h-full overflow-y-hidden"
 			extraClassList={{
-				"lg:grid grid-cols-[minmax(0,0.4fr)_minmax(0,0.6fr)]  gap-x-8": true,
+				"lg:grid grid-cols-[minmax(0,0.4fr)_minmax(0,0.6fr)] gap-x-8": true,
 				"space-y-8 md:space-y-0": true,
-				"px-3 md:px-8 lg:px-12 2xl:px-16": true,
+				"px-3 md:px-8 lg:pr-12 2xl:pr-16": true,
 				"py-8 lg:!py-6": true,
 			}}
 		>

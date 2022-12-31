@@ -26,7 +26,7 @@ export const NowPlayingMd: Component = () => {
 	const navigate = useNavigate();
 
 	return (
-		<div class="hidden lg:block my-auto w-full">
+		<div class="hidden lg:block my-auto w-full overflow-y-hidden">
 			<Show when={queue.data.nowPlaying} keyed fallback={<Skeleton />}>
 				{({ video, id }) => (
 					<div
