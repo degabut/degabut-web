@@ -1,4 +1,3 @@
-import { Divider } from "@components/Divider";
 import { useQueue } from "@hooks/useQueue";
 import { Component, Show } from "solid-js";
 import { EmptyNowPlaying, NowPlaying } from "./NowPlaying";
@@ -22,22 +21,13 @@ export const QueuePlayer: Component = () => {
 				)}
 			</Show>
 
-			<div class="w-full">
-				<Show
-					when={queue.data.nowPlaying?.video.duration}
-					fallback={
-						<div class="h-8 px-2">
-							<Divider light extraClass="h-7" />
-						</div>
-					}
-				>
-					<SeekSlider
-						disabled={queue.freezeState.seek}
-						max={queue.data.nowPlaying?.video.duration || 0}
-						value={(queue.data.position || 0) / 1000}
-						onChange={(value) => queue.seek(value * 1000)}
-					/>
-				</Show>
+			<div class="w-full px-2">
+				<SeekSlider
+					disabled={queue.freezeState.seek}
+					max={queue.data.nowPlaying?.video.duration || 0}
+					value={(queue.data.position || 0) / 1000}
+					onChange={(value) => queue.seek(value * 1000)}
+				/>
 			</div>
 
 			<QueueActions

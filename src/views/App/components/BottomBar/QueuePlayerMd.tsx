@@ -1,7 +1,6 @@
 import { RouterLink } from "@components/A";
 import { Button } from "@components/Button";
 import { ContextMenuItem } from "@components/ContextMenu";
-import { Divider } from "@components/Divider";
 import { Video } from "@components/Video";
 import { useQueue } from "@hooks/useQueue";
 import { useApp } from "@providers/AppProvider";
@@ -62,25 +61,15 @@ const Controls: Component = () => {
 	const queue = useQueue();
 
 	return (
-		<div class="flex-col-center justify-center">
-			<div class="space-y-1 w-full max-w-[36rem] 2xl:max-w-[42rem]">
+		<div class="flex-col-center pt-0.5">
+			<div class="-space-y-3.5 w-full max-w-[36rem] 2xl:max-w-[42rem]">
 				<QueueActions extraClass="justify-center space-x-6" />
-				<Show
-					when={queue.data.nowPlaying?.video.duration}
-					fallback={
-						<div class="h-4 px-2 w-full">
-							<Divider light extraClass="h-2" />
-						</div>
-					}
-				>
-					<SeekSlider
-						inline
-						disabled={queue.freezeState.seek}
-						max={queue.data.nowPlaying?.video.duration || 0}
-						value={(queue.data.position || 0) / 1000}
-						onChange={(value) => queue.seek(value * 1000)}
-					/>
-				</Show>
+				<SeekSlider
+					disabled={queue.freezeState.seek}
+					max={queue.data.nowPlaying?.video.duration || 0}
+					value={(queue.data.position || 0) / 1000}
+					onChange={(value) => queue.seek(value * 1000)}
+				/>
 			</div>
 		</div>
 	);
@@ -119,7 +108,7 @@ export const QueuePlayerMd: Component = () => {
 
 	return (
 		<Show when={!queue.data.empty} keyed>
-			<div class="grid grid-cols-[minmax(0,1fr)_minmax(0,2fr)_minmax(0,1fr)] gap-x-8 bg-neutral-900 border-t border-neutral-700 p-2 z-10">
+			<div class="grid grid-cols-[minmax(0,1fr)_minmax(0,2fr)_minmax(0,1fr)] gap-x-4 bg-neutral-900 border-t border-neutral-700 p-2 z-10">
 				<NowPlaying />
 				<Controls />
 				<ExtraControls />
