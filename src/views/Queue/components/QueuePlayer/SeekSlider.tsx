@@ -43,15 +43,14 @@ export const SeekSlider: Component<Props> = (props) => {
 
 			<div class="flex items-center relative w-full">
 				<div
-					class="hidden md:block absolute w-full opacity-100 hover:opacity-0 bg-neutral-500 h-0.5"
-					classList={{ "!opacity-100 !block": props.max <= 0 }}
+					class="absolute w-full h-0.5"
+					classList={{
+						"opacity-100 block bg-neutral-700": props.max <= 0,
+						"hidden md:block bg-neutral-500 opacity-100 hover:opacity-0": props.max > 0,
+					}}
 				>
 					<div
-						class="w-full absolute h-0.5"
-						classList={{
-							"bg-brand-500": props.max > 0,
-							"bg-neutral-600": props.max <= 0,
-						}}
+						class="absolute w-full bg-brand-500 h-0.5"
 						style={{ width: `${props.max > 0 ? (value() / props.max) * 100 : 0}%` }}
 					/>
 				</div>
