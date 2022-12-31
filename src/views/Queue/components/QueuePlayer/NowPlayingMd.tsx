@@ -52,7 +52,7 @@ export const NowPlayingMd: Component = () => {
 							<div class="w-full flex flex-col justify-end min-h-[50%] bg-gradient-to-t from-black to-black/0">
 								<RouterLink
 									href={`/app/video/${video.id}`}
-									class="text-center space-y-2 truncate text-shadow px-4 hover:underline underline-offset-4"
+									class="text-center space-y-2 truncate text-shadow px-4"
 								>
 									<Text.H1 truncate>{video.title}</Text.H1>
 									<Text.Body2 truncate>{video.channel?.name}</Text.Body2>
