@@ -35,13 +35,13 @@ export const MemberListDrawer: Component = () => {
 			onResize={(memberDrawerSize) => setSettings({ memberDrawerSize })}
 			isOpen={app.isMemberOpen()}
 			handleClose={() => app.setIsMemberOpen(false)}
-			extraContainerClass="min-w-[4.25rem] max-w-[75vw] md:max-w-max right-0"
+			extraContainerClass="min-w-[4.25rem] max-w-[75vw] md:max-w-[12rem] right-0"
 		>
 			{(size) => {
 				const minimized = size <= 120;
 
 				return (
-					<div class="max-w-[16rem]">
+					<>
 						<Show
 							when={!minimized || !queue.data.guild?.icon}
 							fallback={
@@ -69,7 +69,7 @@ export const MemberListDrawer: Component = () => {
 								)}
 							</For>
 						</div>
-					</div>
+					</>
 				);
 			}}
 		</Drawer>
