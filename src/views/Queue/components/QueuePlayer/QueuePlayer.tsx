@@ -8,7 +8,7 @@ export const QueuePlayer: Component = () => {
 	const queue = useQueue();
 
 	return (
-		<div class="relative z-0 flex flex-col lg:items-start space-y-1.5 p-2 border border-neutral-600 rounded bg-black/[25%] text-shadow">
+		<div class="relative z-0 flex flex-col items-start space-y-3 px-2 py-4 border border-neutral-600 rounded bg-black/[25%] text-shadow">
 			<Show when={queue.data.nowPlaying} keyed fallback={<EmptyNowPlaying />}>
 				{(track) => (
 					<div class="w-full">

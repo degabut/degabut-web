@@ -18,28 +18,36 @@ export const NowPlaying: Component<Props> = (props) => {
 	const navigate = useNavigate();
 
 	return (
-		<Video.List
-			video={props.track.video}
-			requestedBy={props.track.requestedBy}
-			onClick={() => navigate(`/app/video/${props.track.video.id}`)}
-			extraThumbnailClass="!w-16 !h-16"
-			extraTitleClass="!text-lg font-medium bg-opacity-10"
-			contextMenu={getVideoContextMenu({
-				modifyContextMenuItems: (items) => {
-					items[0] = [
-						{
-							element: () => <ContextMenuItem icon="trashBin" label="Remove from Queue" />,
-							onClick: () => queue.removeTrack(props.track),
-						},
-					];
-					return items;
-				},
-				video: props.track.video,
-				appStore: app,
-				queueStore: queue,
-				navigate,
-			})}
-		/>
+		<div class="flex-col-center h-[50vh] min-h-[16rem] space-y-3">
+			<img
+				src={props.track.video.thumbnails.at(-1)?.url || ""}
+				alt={props.track.video.title}
+				class="grow object-cover"
+			/>
+			<Video.List
+				video={props.track.video}
+				hideThumbnail
+				requestedBy={props.track.requestedBy}
+				onClick={() => navigate(`/app/video/${props.track.video.id}`)}
+				extraThumbnailClass="!w-16 !h-16"
+				extraTitleClass="!text-lg font-medium bg-opacity-10"
+				contextMenu={getVideoContextMenu({
+					modifyContextMenuItems: (items) => {
+						items[0] = [
+							{
+								element: () => <ContextMenuItem icon="trashBin" label="Remove from Queue" />,
+								onClick: () => queue.removeTrack(props.track),
+							},
+						];
+						return items;
+					},
+					video: props.track.video,
+					appStore: app,
+					queueStore: queue,
+					navigate,
+				})}
+			/>
+		</div>
 	);
 };
 
