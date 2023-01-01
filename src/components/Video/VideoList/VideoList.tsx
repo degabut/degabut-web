@@ -18,6 +18,7 @@ export type VideoListProps = {
 	hideContextMenuButton?: boolean;
 	extraContainerClass?: string;
 	extraContainerClassList?: Record<string, boolean>;
+	hideThumbnail?: boolean;
 	extraThumbnailClass?: string;
 	extraTitleClass?: string;
 	inQueue?: boolean;
@@ -40,9 +41,11 @@ export const VideoList: Component<VideoListProps> = (props) => {
 		>
 			{props.left}
 
-			<VideoListThumbnail video={props.video} extraClass={`shrink-0 ${props.extraThumbnailClass}`} />
+			<Show when={!props.hideThumbnail}>
+				<VideoListThumbnail video={props.video} extraClass={`shrink-0 ${props.extraThumbnailClass}`} />
+			</Show>
 
-			<div class="flex flex-col grow space-y-0.5 truncate ml-3">
+			<div class="flex flex-col grow space-y-0.5 truncate" classList={{ "ml-3": !props.hideThumbnail }}>
 				<Text.Body1
 					truncate
 					class="font-normal"
@@ -95,7 +98,14 @@ export const VideoListBig: Component<VideoListProps> = (props) => {
 			use:contextMenu={props.disableContextMenu ? undefined : props.contextMenu}
 			onClick={() => props.onClick?.(props.video)}
 		>
-			<VideoListThumbnailBig inQueue={props.inQueue} video={props.video} extraClass={props.extraThumbnailClass} />
+			<Show when={!props.hideThumbnail}>
+				<VideoListThumbnailBig
+					inQueue={props.inQueue}
+					video={props.video}
+					extraClass={props.extraThumbnailClass}
+				/>
+			</Show>
+
 			<div class="flex flex-col sm:space-y-2 w-full truncate px-2 pb-2 sm:pt-1">
 				<div class="flex-row-center truncate">
 					<Text.H4
