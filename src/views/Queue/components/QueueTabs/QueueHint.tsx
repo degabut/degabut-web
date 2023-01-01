@@ -40,11 +40,13 @@ export const QueueHint: Component = () => {
 
 	return (
 		<div class="space-y-8 md:space-y-4">
-			<div class="space-y-1.5">
+			<div class="space-y-1.5" classList={{ "md:ml-0 ml-[0.875rem]": !!tracks().length }}>
 				<HintItem
 					label={
-						<div class="flex-row-center space-x-4">
-							<Text.Body1 class="text-neutral-400">Search for a song</Text.Body1>
+						<div class="flex-row-center space-x-4 truncate">
+							<Text.Body1 truncate class="text-neutral-400">
+								Search for a song
+							</Text.Body1>
 							<div class="hidden md:block">
 								<KeyboardHint
 									small
@@ -58,7 +60,11 @@ export const QueueHint: Component = () => {
 					onClick={() => (screen.gte.md ? app.setIsQuickSearchModalOpen(true) : navigate("/app/search"))}
 				/>
 				<HintItem
-					label={<Text.Body1 class="text-neutral-400">Look at recommendations</Text.Body1>}
+					label={
+						<Text.Body1 truncate class="text-neutral-400">
+							Look at recommendations
+						</Text.Body1>
+					}
 					icon="heartLine"
 					onClick={() => navigate("/app/recommendation")}
 				/>
