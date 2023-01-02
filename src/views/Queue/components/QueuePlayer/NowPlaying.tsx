@@ -1,7 +1,7 @@
 import { ITrack } from "@api";
 import { RouterLink } from "@components/A";
-import { ContextMenuItem } from "@components/ContextMenu";
-import { Video } from "@components/Video";
+import { ContextMenuButton, ContextMenuItem } from "@components/ContextMenu";
+import { Text } from "@components/Text";
 import { useQueue } from "@hooks/useQueue";
 import { useApp } from "@providers/AppProvider";
 import { useNavigate } from "@solidjs/router";
@@ -24,29 +24,36 @@ export const NowPlaying: Component<Props> = (props) => {
 				alt={props.track.video.title}
 				class="grow object-cover"
 			/>
-			<Video.List
-				video={props.track.video}
-				hideThumbnail
-				requestedBy={props.track.requestedBy}
-				onClick={() => navigate(`/app/video/${props.track.video.id}`)}
-				extraThumbnailClass="!w-16 !h-16"
-				extraTitleClass="!text-lg font-medium bg-opacity-10"
-				contextMenu={getVideoContextMenu({
-					modifyContextMenuItems: (items) => {
-						items[0] = [
-							{
-								element: () => <ContextMenuItem icon="trashBin" label="Remove from Queue" />,
-								onClick: () => queue.removeTrack(props.track),
-							},
-						];
-						return items;
-					},
-					video: props.track.video,
-					appStore: app,
-					queueStore: queue,
-					navigate,
-				})}
-			/>
+
+			<div class="flex-row-center w-full">
+				<div class="grow flex flex-col text-center space-y-1 text-shadow truncate">
+					<Text.H2 truncate>{props.track.video.title}</Text.H2>
+					<Text.Body1 truncate class="text-neutral-300">
+						{props.track.video.channel?.name}
+					</Text.Body1>
+					<Text.Caption1 truncate class="text-neutral-300">
+						Requested by {props.track.requestedBy.displayName}
+					</Text.Caption1>
+				</div>
+
+				<ContextMenuButton
+					contextMenu={getVideoContextMenu({
+						modifyContextMenuItems: (items) => {
+							items[0] = [
+								{
+									element: () => <ContextMenuItem icon="trashBin" label="Remove from Queue" />,
+									onClick: () => queue.removeTrack(props.track),
+								},
+							];
+							return items;
+						},
+						video: props.track.video,
+						appStore: app,
+						queueStore: queue,
+						navigate,
+					})}
+				/>
+			</div>
 		</div>
 	);
 };
