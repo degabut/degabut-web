@@ -16,14 +16,12 @@ export const PlaylistThumbnail: Component<Props> = (props) => {
 	};
 
 	return (
-		<div class="bg-black" classList={{ [props.extraContainerClass || ""]: !!props.extraContainerClass }}>
-			<img
-				src={thumbnail()}
-				alt={props.playlist.title}
-				class="h-12 w-12 object-cover"
-				classList={{ [props.extraClass || ""]: !!props.extraClass }}
-			/>
-		</div>
+		<img
+			src={thumbnail()}
+			alt={props.playlist.title}
+			class="h-12 w-12 object-cover rounded"
+			classList={{ [props.extraClass || ""]: !!props.extraClass }}
+		/>
 	);
 };
 
@@ -35,10 +33,7 @@ export const PlaylistThumbnailBig: Component<Props> = (props) => {
 	};
 
 	return (
-		<div
-			class="relative flex rounded-md bg-black"
-			classList={{ [props.extraContainerClass || ""]: !!props.extraContainerClass }}
-		>
+		<div class="relative flex" classList={{ [props.extraContainerClass || ""]: !!props.extraContainerClass }}>
 			<div class="flex justify-center mx-auto sm:w-[16rem] sm:h-[10rem]">
 				<img
 					src={thumbnail()}

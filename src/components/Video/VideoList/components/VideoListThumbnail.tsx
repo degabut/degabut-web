@@ -25,10 +25,7 @@ export const VideoListThumbnail: Component<Props> = (props) => {
 
 export const VideoListThumbnailBig: Component<Props> = (props) => {
 	return (
-		<div
-			class="relative flex bg-black rounded"
-			classList={{ [props.extraContainerClass || ""]: !!props.extraContainerClass }}
-		>
+		<div class="relative flex" classList={{ [props.extraContainerClass || ""]: !!props.extraContainerClass }}>
 			<div class="sm:w-[16rem] sm:h-[9rem] mx-auto">
 				<img
 					loading="lazy"
