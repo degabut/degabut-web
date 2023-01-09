@@ -15,6 +15,7 @@ export const VideoListThumbnail: Component<Props> = (props) => {
 	return (
 		<img
 			loading="lazy"
+			referrerpolicy="no-referrer"
 			src={props.video.thumbnails[0]?.url}
 			alt={props.video.title}
 			class="h-12 w-12 object-cover rounded"
@@ -29,6 +30,7 @@ export const VideoListThumbnailBig: Component<Props> = (props) => {
 			<div class="sm:w-[16rem] sm:h-[9rem] mx-auto">
 				<img
 					loading="lazy"
+					referrerpolicy="no-referrer"
 					src={props.video.thumbnails.at(-1)?.url}
 					alt={props.video.title}
 					class="h-full w-full relative object-cover rounded-md"

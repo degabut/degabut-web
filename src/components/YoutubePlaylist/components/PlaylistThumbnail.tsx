@@ -17,6 +17,8 @@ export const PlaylistThumbnail: Component<Props> = (props) => {
 
 	return (
 		<img
+			loading="lazy"
+			referrerpolicy="no-referrer"
 			src={thumbnail()}
 			alt={props.playlist.title}
 			class="h-12 w-12 object-cover rounded"
@@ -36,6 +38,8 @@ export const PlaylistThumbnailBig: Component<Props> = (props) => {
 		<div class="relative flex" classList={{ [props.extraContainerClass || ""]: !!props.extraContainerClass }}>
 			<div class="flex justify-center mx-auto sm:w-[16rem] sm:h-[10rem]">
 				<img
+					loading="lazy"
+					referrerpolicy="no-referrer"
 					src={thumbnail()}
 					alt={props.playlist.title}
 					class="h-full object-cover rounded-md"
