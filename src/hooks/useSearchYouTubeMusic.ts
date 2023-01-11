@@ -1,4 +1,3 @@
-import { IPlaylistCompact, IVideoCompact } from "@api";
 import debounce from "lodash/debounce";
 import { createEffect, createMemo, createResource, createSignal } from "solid-js";
 import { useApi } from "./useApi";
@@ -27,24 +26,7 @@ export const useSearchYouTubeMusic = (params: Params = {}) => {
 		const items = data
 			.map((i) => i.items)
 			.flat()
-			.map((i) => {
-				if ("duration" in i) {
-					const video: IVideoCompact = {
-						...i,
-						channel: i.artists[0],
-						viewCount: 0,
-					};
-					return video;
-				} else {
-					const playlist: IPlaylistCompact = {
-						...i,
-						videoCount: "songCount" in i ? i.songCount : 0,
-						channel: "artists" in i ? i.artists[0] : i.channel,
-					};
-					return playlist;
-				}
-			})
-			.filter((i) => !!i) as (IVideoCompact | IPlaylistCompact)[];
+			.filter((i) => !!i);
 
 		let currentKey = 0;
 		const divider = data.reduce((curr, item, index, arr) => {
