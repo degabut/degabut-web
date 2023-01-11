@@ -1,4 +1,4 @@
-import { IPlaylistCompact, IVideoCompact } from "@api";
+import { IVideoCompact, IYouTubePlaylistCompact } from "@api";
 import { Divider } from "@components/Divider";
 import { Icon } from "@components/Icon";
 import { KeyboardHint } from "@components/KeyboardHint";
@@ -13,6 +13,8 @@ import { useNavigate } from "@solidjs/router";
 import { addPlaylistConfirmation } from "@utils/confirmation";
 import { getVideoContextMenu, getYouTubePlaylistContextMenu } from "@utils/contextMenu";
 import { Component, createSignal, Show } from "solid-js";
+
+type SelectOptionItem = IVideoCompact | IYouTubePlaylistCompact;
 
 type Props = {
 	isOpen: boolean;
@@ -37,13 +39,13 @@ export const QuickSearchModal: Component<Props> = (props) => {
 		addToQueue();
 	};
 
-	const onSubmit = async (e: Event) => {
+	const onSubmit = (e: Event) => {
 		e.preventDefault();
 		if (!search.keyword() || search.result().length) return;
 		addToQueue();
 	};
 
-	const onSelect = async (item: IVideoCompact | IPlaylistCompact, _: number, e?: KeyboardEvent | MouseEvent) => {
+	const onSelect = async (item: SelectOptionItem, _: number, e?: KeyboardEvent | MouseEvent) => {
 		if ("duration" in item) {
 			// video
 			if (queue.data.empty || e?.shiftKey) navigate("/app/video/" + item.id);
@@ -54,7 +56,7 @@ export const QuickSearchModal: Component<Props> = (props) => {
 		}
 	};
 
-	const addToQueue = async (item?: IVideoCompact | IPlaylistCompact) => {
+	const addToQueue = async (item?: SelectOptionItem) => {
 		if ((!item && !search.keyword()) || isLoading()) return;
 		setIsLoading(true);
 
@@ -81,7 +83,7 @@ export const QuickSearchModal: Component<Props> = (props) => {
 			onClickOutside={() => props.onDone()}
 		>
 			<form onSubmit={onSubmit} class="m-4">
-				<Select<IVideoCompact | IPlaylistCompact>
+				<Select<SelectOptionItem>
 					inputProps={{
 						rounded: true,
 						class: "w-full",

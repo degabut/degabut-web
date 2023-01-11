@@ -1,9 +1,9 @@
-import { IMixPlaylist, IPlaylistCompact, IYoutubePlaylist } from "@api";
+import { IYouTubeMixPlaylist, IYouTubePlaylist, IYouTubePlaylistCompact } from "@api";
 import { Icon } from "@components/Icon";
 import { Component } from "solid-js";
 
 type Props = {
-	playlist: IPlaylistCompact | IYoutubePlaylist | IMixPlaylist;
+	playlist: IYouTubePlaylistCompact | IYouTubePlaylist | IYouTubeMixPlaylist;
 	extraClass?: string;
 	extraContainerClass?: string;
 };

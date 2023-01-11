@@ -1,4 +1,4 @@
-import { ITrack, IVideoCompact, LoopMode } from "@api";
+import { ITrack, IVideoLike, LoopMode } from "@api";
 import { useApi } from "@hooks/useApi";
 import { AxiosError } from "axios";
 import { SetStoreFunction } from "solid-js/store";
@@ -55,7 +55,7 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 		);
 	};
 
-	const addTrack = (video: IVideoCompact) => {
+	const addTrack = (video: IVideoLike) => {
 		return modifyTrack((queueId) => api.queue.addTrackByVideoId(queueId, video.id));
 	};
 
@@ -67,7 +67,7 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 		return modifyTrack((queueId) => api.queue.addTrackByKeyword(queueId, keyword));
 	};
 
-	const addAndPlayTrack = (video: IVideoCompact) => {
+	const addAndPlayTrack = (video: IVideoLike) => {
 		return modifyTrack(async (queueId) => {
 			const trackId =
 				queue.tracks?.find((t) => t.video.id === video.id)?.id ||

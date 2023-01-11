@@ -49,7 +49,7 @@ export const MainVideo: Component<Props> = (props) => {
 						<Show when={props.video.channel} keyed>
 							{(channel) => (
 								<>
-									<ChannelThumbnail video={props.video} />
+									<ChannelThumbnail thumbnails={props.video.thumbnails} />
 									<Text.Body1>{channel.name}</Text.Body1>
 								</>
 							)}

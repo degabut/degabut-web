@@ -1,4 +1,4 @@
-import { IMixPlaylist, IVideo, IYoutubePlaylist } from "@api/YouTube";
+import { IVideo, IYouTubeMixPlaylist, IYouTubePlaylist } from "@api/YouTube";
 import { Icon } from "@components/Icon";
 import { Spinner } from "@components/Spinner";
 import { useApi } from "@hooks/useApi";
@@ -10,7 +10,7 @@ import { VideoPlaylistChooser } from "./components";
 
 type VideoPlaylistOption = null | {
 	video: IVideo;
-	playlist: IYoutubePlaylist | IMixPlaylist;
+	playlist: IYouTubePlaylist | IYouTubeMixPlaylist;
 };
 
 export const ExternalTrackAdder = () => {
@@ -137,11 +137,11 @@ export const ExternalTrackAdder = () => {
 		});
 	};
 
-	const showAddPlaylistConfirmation = (playlist: IYoutubePlaylist | IMixPlaylist) => {
+	const showAddPlaylistConfirmation = (playlist: IYouTubePlaylist | IYouTubeMixPlaylist) => {
 		app.setConfirmation(addPlaylistConfirmation(playlist, () => queue.addYouTubePlaylist(playlist.id)));
 	};
 
-	const addItemToQueue = (item: IVideo | IYoutubePlaylist | IMixPlaylist) => {
+	const addItemToQueue = (item: IVideo | IYouTubePlaylist | IYouTubeMixPlaylist) => {
 		if ("videoCount" in item) showAddPlaylistConfirmation(item);
 		else queue.addTrackById(item.id);
 		setVideoPlaylistOption(null);

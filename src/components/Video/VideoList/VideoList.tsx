@@ -1,12 +1,11 @@
 import type { IGuildMember, IVideoCompact } from "@api";
-import { ContextMenuButton } from "@components/ContextMenu";
 import { Icon } from "@components/Icon";
+import { Item } from "@components/Item";
 import { Text } from "@components/Text";
 import { contextMenu } from "@directives/contextMenu";
 import { ContextMenuDirectiveParams } from "@providers/ContextMenuProvider";
 import { Component, JSX, Show } from "solid-js";
 import { ChannelThumbnail, DurationBadge, LiveBadge } from "../components";
-import { VideoListThumbnail, VideoListThumbnailBig } from "./components";
 
 contextMenu;
 
@@ -29,33 +28,13 @@ export type VideoListProps = {
 
 export const VideoList: Component<VideoListProps> = (props) => {
 	return (
-		<div
-			class="flex-row-center items-stretch w-full p-1.5 hover:bg-white/5 rounded"
-			classList={{
-				"cursor-pointer": !!props.onClick,
-				...props.extraContainerClassList,
-				[props.extraContainerClass || ""]: !!props.extraContainerClass,
-			}}
-			use:contextMenu={props.disableContextMenu ? undefined : props.contextMenu}
+		<Item.List
+			{...props}
+			title={props.video.title}
+			thumbnails={props.video.thumbnails}
 			onClick={() => props.onClick?.(props.video)}
-		>
-			{props.left}
-
-			<Show when={!props.hideThumbnail}>
-				<VideoListThumbnail video={props.video} extraClass={`shrink-0 ${props.extraThumbnailClass}`} />
-			</Show>
-
-			<div class="flex flex-col grow space-y-0.5 truncate" classList={{ "ml-3": !props.hideThumbnail }}>
-				<Text.Body1
-					truncate
-					class="font-normal"
-					classList={{ [props.extraTitleClass || ""]: !!props.extraTitleClass }}
-					title={props.video.title + (props.video.channel ? ` - ${props.video.channel.name}` : "")}
-				>
-					{props.video.title}
-				</Text.Body1>
-
-				<div class="flex-row-center text-sm align-bottom">
+			extra={
+				<>
 					<Show when={props.inQueue}>
 						<div class="mr-1" title="In Queue">
 							<Icon name="degabut" class="fill-brand-600 w-3.5 h-3.5" />
@@ -63,7 +42,7 @@ export const VideoList: Component<VideoListProps> = (props) => {
 					</Show>
 
 					<Show when={props.video.duration > 0} fallback={<LiveBadge />}>
-						<DurationBadge video={props.video} />
+						<DurationBadge duration={props.video.duration} />
 					</Show>
 
 					<div class="truncate ml-2">
@@ -74,69 +53,36 @@ export const VideoList: Component<VideoListProps> = (props) => {
 							<Text.Caption2 truncate> — Requested by {props.requestedBy.displayName}</Text.Caption2>
 						)}
 					</div>
-				</div>
-			</div>
-
-			{props.right}
-
-			<Show when={!props.disableContextMenu && !props.hideContextMenuButton}>
-				<ContextMenuButton contextMenu={props.contextMenu} />
-			</Show>
-		</div>
+				</>
+			}
+		/>
 	);
 };
 
 export const VideoListBig: Component<VideoListProps> = (props) => {
 	return (
-		<div
-			class="flex flex-col sm:flex-row sm:space-x-2 space-y-2 md:space-y-0 hover:bg-white/5 rounded"
-			classList={{
-				"cursor-pointer": !!props.onClick,
-				...props.extraContainerClassList,
-				[props.extraContainerClass || ""]: !!props.extraContainerClass,
-			}}
-			use:contextMenu={props.disableContextMenu ? undefined : props.contextMenu}
+		<Item.ListBig
+			{...props}
+			title={props.video.title}
+			thumbnails={props.video.thumbnails}
 			onClick={() => props.onClick?.(props.video)}
-		>
-			<Show when={!props.hideThumbnail}>
-				<VideoListThumbnailBig
-					inQueue={props.inQueue}
-					video={props.video}
-					extraClass={props.extraThumbnailClass}
-				/>
-			</Show>
-
-			<div class="flex flex-col sm:space-y-2 w-full truncate px-2 pb-2 sm:pt-1">
-				<div class="flex-row-center truncate">
-					<Text.H4
-						truncate
-						class="grow"
-						classList={{ [props.extraTitleClass || ""]: !!props.extraTitleClass }}
-						title={props.video.title + (props.video.channel ? ` - ${props.video.channel.name}` : "")}
-					>
-						{props.video.title}
-					</Text.H4>
-
-					<Show when={!props.disableContextMenu && !props.hideContextMenuButton}>
-						<ContextMenuButton contextMenu={props.contextMenu} />
-					</Show>
-				</div>
-				<div class="space-y-1">
-					<Show when={props.video.viewCount} keyed>
+			extra={
+				<>
+					<Show when={"viewCount" in props.video && props.video.viewCount} keyed>
 						{(c) => <Text.Caption1>{c.toLocaleString("en-US")} views</Text.Caption1>}
 					</Show>
 					<div class="flex-row-center space-x-2 text-sm">
-						<ChannelThumbnail video={props.video} />
+						<ChannelThumbnail thumbnails={props.video.thumbnails} />
 						<Show when={props.video.channel} keyed>
 							{(channel) => <Text.Body2 truncate>{channel.name}</Text.Body2>}
 						</Show>
 					</div>
-				</div>
-				<Show when={!props.video.duration}>
-					<LiveBadge />
-				</Show>
-			</div>
-		</div>
+					<Show when={!props.video.duration}>
+						<LiveBadge />
+					</Show>
+				</>
+			}
+		/>
 	);
 };
 

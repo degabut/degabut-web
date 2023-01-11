@@ -1,4 +1,4 @@
-import { IMixPlaylist, IVideo, IYoutubePlaylist } from "@api";
+import { IVideo, IYouTubeMixPlaylist, IYouTubePlaylist } from "@api";
 import { Divider } from "@components/Divider";
 import { Modal } from "@components/Modal";
 import { Video } from "@components/Video";
@@ -7,8 +7,8 @@ import { Component } from "solid-js";
 
 type Props = {
 	video: IVideo;
-	playlist: IYoutubePlaylist | IMixPlaylist;
-	onChoose: (item: IVideo | IYoutubePlaylist | IMixPlaylist) => void;
+	playlist: IYouTubePlaylist | IYouTubeMixPlaylist;
+	onChoose: (item: IVideo | IYouTubePlaylist | IYouTubeMixPlaylist) => void;
 	onClose: () => void;
 };
 

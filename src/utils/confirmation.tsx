@@ -1,9 +1,25 @@
-import { IMixPlaylist, IPlaylist, IPlaylistCompact, IVideo, IVideoCompact, IYoutubePlaylist } from "@api";
+import {
+	IMusicAlbum,
+	IMusicPlaylist,
+	IPlaylist,
+	IVideo,
+	IVideoCompact,
+	IYouTubeMixPlaylist,
+	IYouTubePlaylist,
+	IYouTubePlaylistCompact,
+} from "@api";
 import { Text } from "@components/Text";
 import { Video } from "@components/Video";
+import { Show } from "solid-js";
 
 export const addPlaylistConfirmation = (
-	playlist: IPlaylist | IPlaylistCompact | IYoutubePlaylist | IMixPlaylist,
+	playlist:
+		| IPlaylist
+		| IYouTubePlaylistCompact
+		| IYouTubePlaylist
+		| IYouTubeMixPlaylist
+		| IMusicPlaylist
+		| IMusicAlbum,
 	onConfirm?: () => Promise<void>
 ) => {
 	return {
@@ -13,9 +29,13 @@ export const addPlaylistConfirmation = (
 				<Text.Body1>
 					Add playlist <b>{"name" in playlist ? playlist.name : playlist.title}</b> to the queue?
 				</Text.Body1>
-				<Text.Caption1>
-					This will add <b>{playlist.videoCount}</b> videos to the queue.
-				</Text.Caption1>
+				<Show when={"videoCount" in playlist && playlist.videoCount} keyed>
+					{(videoCount) => (
+						<Text.Caption1>
+							This will add <b>{videoCount}</b> videos to the queue.{" "}
+						</Text.Caption1>
+					)}
+				</Show>
 			</div>
 		),
 		onConfirm,

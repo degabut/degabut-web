@@ -1,4 +1,13 @@
 import { AxiosInstance } from "axios";
+import { IMusicAlbum, IMusicPlaylist, IMusicSong, IMusicVideo } from "./YouTubeMusic";
+
+export type IVideoLike = IVideoCompact | IVideo | IMusicVideo | IMusicSong;
+export type IYouTubePlaylistLike =
+	| IYouTubePlaylist
+	| IYouTubePlaylistCompact
+	| IYouTubeMixPlaylist
+	| IMusicAlbum
+	| IMusicPlaylist;
 
 export type IThumbnail = {
 	url: string;
@@ -37,7 +46,7 @@ export type IVideoCompact = {
 	channel?: IChannel;
 };
 
-export type IPlaylistCompact = {
+export type IYouTubePlaylistCompact = {
 	id: string;
 	title: string;
 	videoCount: number;
@@ -45,14 +54,14 @@ export type IPlaylistCompact = {
 	channel: IChannel | null;
 };
 
-export type IYoutubePlaylist = {
+export type IYouTubePlaylist = {
 	videos: Continuable<IVideoCompact>;
-} & Omit<IPlaylistCompact, "viewCount" | "thumbnails">;
+} & Omit<IYouTubePlaylistCompact, "viewCount" | "thumbnails">;
 
-export type IMixPlaylist = {
+export type IYouTubeMixPlaylist = {
 	videos: IVideoCompact[];
 	channel: undefined;
-} & Omit<IPlaylistCompact, "viewCount" | "channel" | "thumbnails">;
+} & Omit<IYouTubePlaylistCompact, "viewCount" | "channel" | "thumbnails">;
 
 export type IChannel = {
 	id: string;
@@ -70,7 +79,7 @@ export interface ITranscript {
 export class YouTube {
 	constructor(private client: AxiosInstance) {}
 
-	search = async (keyword: string): Promise<(IVideoCompact | IPlaylistCompact)[]> => {
+	search = async (keyword: string): Promise<(IVideoCompact | IYouTubePlaylistCompact)[]> => {
 		if (!keyword) return [];
 
 		const response = await this.client.get("/search", {
@@ -106,7 +115,7 @@ export class YouTube {
 		return response.data;
 	};
 
-	searchPlaylists = async (keyword: string): Promise<IPlaylistCompact[]> => {
+	searchPlaylists = async (keyword: string): Promise<IYouTubePlaylistCompact[]> => {
 		if (!keyword) return [];
 
 		const response = await this.client.get("/playlists", {
@@ -116,7 +125,7 @@ export class YouTube {
 		else return [];
 	};
 
-	getPlaylist = async (id: string): Promise<IYoutubePlaylist | IMixPlaylist | null> => {
+	getPlaylist = async (id: string): Promise<IYouTubePlaylist | IYouTubeMixPlaylist | null> => {
 		if (!id) return null;
 
 		const response = await this.client.get("/playlists/" + id);

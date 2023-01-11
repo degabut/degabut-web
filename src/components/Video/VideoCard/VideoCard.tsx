@@ -52,7 +52,7 @@ export const VideoCard: Component<VideoCardProps> = (props) => {
 
 			<div class="flex-row-center space-x-1.5">
 				<Show when={props.video.duration > 0} fallback={<LiveBadge />}>
-					<DurationBadge video={props.video} />
+					<DurationBadge duration={props.video.duration} />
 				</Show>
 
 				<Show when={props.inQueue}>
