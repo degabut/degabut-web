@@ -56,7 +56,8 @@ export type IYouTubePlaylistCompact = {
 
 export type IYouTubePlaylist = {
 	videos: Continuable<IVideoCompact>;
-} & Omit<IYouTubePlaylistCompact, "viewCount" | "thumbnails">;
+	viewCount: number;
+} & IYouTubePlaylistCompact;
 
 export type IYouTubeMixPlaylist = {
 	videos: IVideoCompact[];
