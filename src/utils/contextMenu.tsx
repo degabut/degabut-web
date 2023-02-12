@@ -7,6 +7,7 @@ import { useNavigate } from "@solidjs/router";
 import { Show } from "solid-js";
 
 import { IYouTubePlaylistCompact } from "@api";
+import { useScreen } from "@hooks/useScreen";
 import { addPlaylistConfirmation } from "./confirmation";
 import { secondsToTime } from "./time";
 
@@ -19,6 +20,8 @@ type VideoProps = {
 };
 
 export const getVideoContextMenu = (props: VideoProps) => {
+	const screen = useScreen();
+
 	const items = () => {
 		const inQueue = props.queueStore.data.tracks?.some((t) => t.video.id === props.video.id);
 		const isPlaying = props.queueStore.data.nowPlaying?.video.id === props.video.id;
@@ -61,6 +64,7 @@ export const getVideoContextMenu = (props: VideoProps) => {
 
 	return {
 		items: items(),
+		openWithClick: screen.lte.sm,
 		header: (
 			<div class="flex-col-center justify-center py-4 space-y-1">
 				<div class="w-[16rem] h-[9rem] text-center my-4">
@@ -93,6 +97,8 @@ type YouTubePlaylistProps = {
 };
 
 export const getYouTubePlaylistContextMenu = (props: YouTubePlaylistProps) => {
+	const screen = useScreen();
+
 	const promptAddPlaylist = (playlist: IYouTubePlaylistCompact) => {
 		props.appStore.setConfirmation(
 			addPlaylistConfirmation(playlist, () => props.queueStore.addYouTubePlaylist(playlist.id))
@@ -123,6 +129,7 @@ export const getYouTubePlaylistContextMenu = (props: YouTubePlaylistProps) => {
 
 	return {
 		items: items(),
+		openWithClick: screen.lte.sm,
 		header: (
 			<div class="flex-col-center justify-center py-4 space-y-1">
 				<div class="w-[16rem] h-[9rem] text-center my-4">
