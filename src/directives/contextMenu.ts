@@ -19,12 +19,17 @@ export function contextMenu(el: HTMLElement, accessor: Accessor<ContextMenuDirec
 		}, 0);
 	};
 
+	const onClickContextMenu = (e: MouseEvent) => {
+		e.stopPropagation();
+		onContextMenu(e);
+	};
+
 	el.addEventListener("contextmenu", onContextMenu);
-	if (params.openWithClick) el.addEventListener("click", onContextMenu);
+	if (params.openWithClick) el.addEventListener("click", onClickContextMenu);
 
 	onCleanup(() => {
 		el.removeEventListener("contextmenu", onContextMenu);
-		if (params.openWithClick) el.removeEventListener("click", onContextMenu);
+		if (params.openWithClick) el.removeEventListener("click", onClickContextMenu);
 	});
 }
 
