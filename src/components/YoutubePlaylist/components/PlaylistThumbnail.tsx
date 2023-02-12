@@ -11,7 +11,6 @@ type Props = {
 export const PlaylistThumbnail: Component<Props> = (props) => {
 	const thumbnail = () => {
 		if ("thumbnails" in props.playlist) return props.playlist.thumbnails.at(0)?.url;
-		else if ("items" in props.playlist.videos) return props.playlist.videos.items.at(0)?.thumbnails.at(0)?.url;
 		else return props.playlist.videos.at(0)?.thumbnails.at(0)?.url;
 	};
 
@@ -30,7 +29,6 @@ export const PlaylistThumbnail: Component<Props> = (props) => {
 export const PlaylistThumbnailBig: Component<Props> = (props) => {
 	const thumbnail = () => {
 		if ("thumbnails" in props.playlist) return props.playlist.thumbnails.at(0)?.url;
-		else if ("items" in props.playlist.videos) return props.playlist.videos.items.at(0)?.thumbnails.at(0)?.url;
 		else return props.playlist.videos.at(0)?.thumbnails.at(0)?.url;
 	};
 

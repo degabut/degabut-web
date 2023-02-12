@@ -6,7 +6,7 @@ import { QueueContextStore } from "@providers/QueueProvider";
 import { useNavigate } from "@solidjs/router";
 import { Show } from "solid-js";
 
-import { IPlaylistCompact } from "@api";
+import { IYouTubePlaylistCompact } from "@api";
 import { addPlaylistConfirmation } from "./confirmation";
 import { secondsToTime } from "./time";
 
@@ -86,14 +86,14 @@ export const getVideoContextMenu = (props: VideoProps) => {
 };
 
 type YouTubePlaylistProps = {
-	playlist: IPlaylistCompact;
+	playlist: IYouTubePlaylistCompact;
 	queueStore: QueueContextStore;
 	appStore: AppContextStore;
 	modifyContextMenuItems?: (current: IContextMenuItem[][]) => IContextMenuItem[][];
 };
 
 export const getYouTubePlaylistContextMenu = (props: YouTubePlaylistProps) => {
-	const promptAddPlaylist = (playlist: IPlaylistCompact) => {
+	const promptAddPlaylist = (playlist: IYouTubePlaylistCompact) => {
 		props.appStore.setConfirmation(
 			addPlaylistConfirmation(playlist, () => props.queueStore.addYouTubePlaylist(playlist.id))
 		);
