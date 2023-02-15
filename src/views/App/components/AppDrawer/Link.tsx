@@ -17,22 +17,27 @@ export const Link: Component<Props> = (props) => {
 
 	return (
 		<RouterLink href={props.path} onClick={() => props.onClick()}>
-			<Button
-				flat
-				icon={props.icon}
-				title={props.minimized ? props.label : undefined}
-				iconSize="lg"
-				class="w-full space-x-4 px-4 py-3.5 md:py-2.5"
-				classList={{
-					"text-neutral-400 fill-neutral-400 hover:text-neutral-400": !isActive(),
-					"bg-white/[7.5%] hover:bg-white/[7.5%] fill-current font-medium": !!isActive(),
-					"justify-center !py-3.5": props.minimized,
-				}}
-			>
-				<Show when={!props.minimized}>
-					<div class="truncate">{props.label}</div>
-				</Show>
-			</Button>
+			<div class="relative px-2">
+				<div
+					classList={{ "absolute border-r-2 border-neutral-400 rounded-full left-0 h-full": !!isActive() }}
+				/>
+				<Button
+					flat
+					icon={props.icon}
+					title={props.minimized ? props.label : undefined}
+					iconSize="lg"
+					class="w-full space-x-4 px-4 py-3.5 md:py-2.5"
+					classList={{
+						"text-neutral-400 fill-neutral-400 hover:text-neutral-400": !isActive(),
+						"fill-current font-medium": !!isActive(),
+						"justify-center !py-3.5": props.minimized,
+					}}
+				>
+					<Show when={!props.minimized}>
+						<div class="truncate">{props.label}</div>
+					</Show>
+				</Button>
+			</div>
 		</RouterLink>
 	);
 };

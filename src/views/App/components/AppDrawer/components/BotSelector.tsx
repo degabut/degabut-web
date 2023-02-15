@@ -48,7 +48,7 @@ export const BotSelector: Component<Props> = (props) => {
 		>
 			<RouterLink
 				href="/app/queue"
-				class="flex-row-center space-x-2.5 py-2 my-2"
+				class="flex-row-center space-x-2.5 py-2 m-2"
 				classList={{
 					"hover:bg-white/[7.5%] rounded": !!bots,
 					"justify-center": props.minimized,

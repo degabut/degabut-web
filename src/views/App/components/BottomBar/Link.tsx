@@ -15,12 +15,13 @@ export const Link: Component<Props> = (props) => {
 	return (
 		<RouterLink
 			href={props.path}
-			class="flex-col-center grow space-y-1 pt-3 pb-2 transition-colors"
+			class="relative flex-col-center grow space-y-1 pt-3 pb-2 transition-colors"
 			classList={{
 				"text-neutral-400": !isActive(),
-				"text-neutral-100 bg-white/10 font-medium": !!isActive(),
+				"text-neutral-100 bg-white/5 font-medium": !!isActive(),
 			}}
 		>
+			<div classList={{ "absolute bottom-0 border-b-2 border-neutral-100 rounded-full w-full": !!isActive() }} />
 			<Icon name={props.icon} size="md" extraClass="fill-current" />
 			<div>{props.label}</div>
 		</RouterLink>
