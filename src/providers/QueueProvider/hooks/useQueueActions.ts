@@ -93,6 +93,10 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 		return modifyTrack((queueId) => api.queue.clearQueue(queueId));
 	};
 
+	const stop = () => {
+		return modifyTrack((queueId) => api.player.stop(queueId));
+	};
+
 	const jam = async (count: number) => {
 		if (queue.empty) return;
 		const queueId = queue.voiceChannel.id;
@@ -146,6 +150,7 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 		addYouTubePlaylist,
 		seek,
 		clear,
+		stop,
 		pause,
 		unpause,
 		jam,

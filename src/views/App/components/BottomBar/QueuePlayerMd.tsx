@@ -83,7 +83,12 @@ export const ExtraControls: Component = () => {
 	return (
 		<div class="flex items-center justify-end space-x-0.5">
 			<LyricsButton iconSize="md" extraClass="p-2.5" onClick={() => navigate("/app/queue/lyrics")} />
-			<SettingsButton iconSize="md" extraClass="p-2.5" onClearQueue={() => queue.clear()} />
+			<SettingsButton
+				iconSize="md"
+				extraClass="p-2.5"
+				onClearQueue={() => queue.clear()}
+				onStopQueue={() => queue.stop()}
+			/>
 			<Button
 				flat
 				title="Add Song"

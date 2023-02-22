@@ -14,6 +14,10 @@ export class Player {
 		return true;
 	};
 
+	stop = async (voiceChannelId: string): Promise<void> => {
+		await this.client.delete(`/players/${voiceChannelId}`);
+	};
+
 	getPlayer = async (queueId: string): Promise<IPlayer | null> => {
 		const response = await this.client.get(`/players/${queueId}`);
 		if (response.status !== 200) return null;

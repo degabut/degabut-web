@@ -10,6 +10,7 @@ contextMenu;
 
 type Props = {
 	onClearQueue: () => void;
+	onStopQueue: () => void;
 	extraClass?: string;
 	iconSize?: IconSize;
 };
@@ -20,16 +21,25 @@ export const SettingsButton: Component<Props> = (props) => {
 
 	const contextMenuItems = () => [
 		{
-			element: () => <ContextMenuItem icon="stars" label="Zen Mode" />,
+			element: () => <ContextMenuItem label="Zen Mode" />,
 			onClick: () => navigate("/app/queue/zen"),
 		},
 		{
-			element: () => <ContextMenuItem icon="trashBin" label="Clear Queue" />,
+			element: () => <ContextMenuItem label="Clear Queue" />,
 			onClick: () =>
 				app.setConfirmation({
 					title: "Clear Queue",
 					message: "Are you sure you want to clear the queue?",
 					onConfirm: props.onClearQueue,
+				}),
+		},
+		{
+			element: () => <ContextMenuItem label="Stop" />,
+			onClick: () =>
+				app.setConfirmation({
+					title: "Stop",
+					message: "Are you sure you want to stop and destroy the queue?",
+					onConfirm: props.onStopQueue,
 				}),
 		},
 	];
