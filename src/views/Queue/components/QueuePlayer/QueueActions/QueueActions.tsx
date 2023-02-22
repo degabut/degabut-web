@@ -65,6 +65,7 @@ export const QueueActions: Component<Props> = (props) => {
 
 				<SettingsButton
 					onClearQueue={queue.clear}
+					onStopQueue={queue.stop}
 					extraClass={props.extraButtonClass}
 					iconSize={props.iconSize}
 				/>
