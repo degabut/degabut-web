@@ -1,9 +1,9 @@
 import { Icon, Icons } from "@components/Icon";
 import { Text } from "@components/Text";
-import { Component } from "solid-js";
+import { Component, Show } from "solid-js";
 
 type Props = {
-	icon: Icons;
+	icon?: Icons;
 	label: string;
 	disabled?: boolean;
 };
@@ -11,14 +11,18 @@ type Props = {
 export const ContextMenuItem: Component<Props> = (props) => {
 	return (
 		<div class="flex-row-center space-x-4">
-			<Icon
-				name={props.icon}
-				extraClass="fill-current h-4 w-4"
-				extraClassList={{
-					"text-neutral-400": !props.disabled,
-					"text-neutral-600": !!props.disabled,
-				}}
-			/>
+			<Show when={props.icon} keyed>
+				{(icon) => (
+					<Icon
+						name={icon}
+						extraClass="fill-current h-4 w-4"
+						extraClassList={{
+							"text-neutral-400": !props.disabled,
+							"text-neutral-600": !!props.disabled,
+						}}
+					/>
+				)}
+			</Show>
 			<Text.Body1 classList={{ "text-neutral-500": props.disabled }}>{props.label}</Text.Body1>
 		</div>
 	);
