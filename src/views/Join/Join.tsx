@@ -6,10 +6,10 @@ import { Component, onMount } from "solid-js";
 export const Join: Component = () => {
 	const api = useApi();
 	const navigate = useNavigate();
-	const params = useParams<{ id: string }>();
+	const params = useParams<{ voiceChannelId: string; textChannelId?: string }>();
 
 	onMount(async () => {
-		await api.player.join(params.id);
+		await api.player.join(params.voiceChannelId, params.textChannelId);
 		navigate("/");
 	});
 
