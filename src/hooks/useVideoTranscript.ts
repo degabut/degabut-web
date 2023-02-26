@@ -18,8 +18,8 @@ export const useVideoTranscript = (videoId: IUseTranscriptProps) => {
 		const formatted: FormattedTranscript[] = [];
 
 		for (const transcript of _data() || []) {
-			if (transcript.start === transcript.end) continue;
-			let text = transcript.text.replaceAll("♪", "");
+			if (transcript.start === transcript.end || !transcript.text) continue;
+			let text = transcript.text?.replaceAll("♪", "");
 			if (!text.trim()) text = transcript.text;
 
 			const index = formatted.findIndex((t) => t.start === transcript.start && t.end === transcript.end);
