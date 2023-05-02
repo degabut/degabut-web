@@ -3,8 +3,8 @@ import { useScreen } from "@hooks/useScreen";
 import { useSettings } from "@hooks/useSettings";
 import { useApp } from "@providers/AppProvider";
 import { Component, For } from "solid-js";
-import { BotSelector } from "./components";
 import { Link } from "./Link";
+import { BotSelector } from "./components";
 
 export const AppDrawer: Component = () => {
 	const app = useApp();
@@ -25,7 +25,7 @@ export const AppDrawer: Component = () => {
 	return (
 		<Drawer
 			resizeable
-			extraContainerClass="min-w-[4.25rem] max-w-[75vw] md:max-w-max pb-8"
+			extraContainerClass="min-w-[4.25rem] max-w-[75vw] md:max-w-[max(12vw,16rem)] pb-8"
 			initialSize={settings.appDrawerSize}
 			onResize={(appDrawerSize) => setSettings({ appDrawerSize })}
 			isOpen={app.isMenuOpen()}
@@ -35,7 +35,7 @@ export const AppDrawer: Component = () => {
 				const minimized = size <= 120;
 
 				return (
-					<div class="flex flex-col h-full md:max-w-[16rem]">
+					<div class="flex flex-col h-full">
 						<BotSelector minimized={minimized} />
 
 						<div class="flex flex-col grow text-lg space-y-1.5">

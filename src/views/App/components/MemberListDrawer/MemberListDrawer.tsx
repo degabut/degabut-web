@@ -35,7 +35,7 @@ export const MemberListDrawer: Component = () => {
 			onResize={(memberDrawerSize) => setSettings({ memberDrawerSize })}
 			isOpen={app.isMemberOpen()}
 			handleClose={() => app.setIsMemberOpen(false)}
-			extraContainerClass="min-w-[4.25rem] max-w-[75vw] md:max-w-[12rem] right-0"
+			extraContainerClass="min-w-[4.25rem] max-w-[75vw] md:max-w-[max(10vw,12rem)] right-0"
 		>
 			{(size) => {
 				const minimized = size <= 120;
