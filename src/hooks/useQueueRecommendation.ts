@@ -45,7 +45,7 @@ export const useQueueRecommendation = (params: Params) => {
 
 		setRandomVideos((v) => {
 			const current = v.filter((video) => shuffled.find((v) => v.id === video.id));
-			const left = (params.limit || 5) - current.length;
+			const left = (params.limit || 10) - current.length;
 			const videos = shuffled.filter((video) => !v.find((v) => v.id === video.id));
 			return [...current, ...videos.slice(0, left)];
 		});

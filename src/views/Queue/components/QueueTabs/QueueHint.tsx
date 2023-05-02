@@ -93,7 +93,7 @@ export const QueueHint: Component = () => {
 				<Videos.List
 					data={[
 						...recommendation.randomVideos(),
-						...(recommendation.randomVideo.data()?.related?.slice(0, 3) || []),
+						...(recommendation.randomVideo.data()?.related?.slice(0, 10) || []),
 					]}
 					showWhenLoading
 					isLoading={recommendation.randomVideo.data.loading || recommendation.isLoading()}
