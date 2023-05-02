@@ -1,10 +1,13 @@
 import { Container } from "@components/Container";
 import { Icon } from "@components/Icon";
+import { Spinner } from "@components/Spinner";
+import { Text } from "@components/Text";
+import { useLyrics } from "@hooks/useLyrics";
 import { useQueue } from "@hooks/useQueue";
 import { useTranscript } from "@hooks/useTranscript";
 import { useVideoTranscript } from "@hooks/useVideoTranscript";
 import { useApp } from "@providers/AppProvider";
-import { Component, createEffect, createMemo, For, onMount, Show } from "solid-js";
+import { Component, createEffect, createMemo, For, Match, onMount, Switch } from "solid-js";
 
 const LyricsNotFound: Component = () => {
 	return (
@@ -21,6 +24,7 @@ export const Lyrics: Component = () => {
 	const app = useApp();
 	const currentId = createMemo(() => queue.data.nowPlaying?.video.id || "");
 	const videoTranscripts = useVideoTranscript(currentId);
+	const lyrics = useLyrics(currentId);
 	const transcripts = useTranscript(() => ({
 		elapsed: queue.data.position || 0,
 		transcripts: videoTranscripts.data() || [],
@@ -40,29 +44,46 @@ export const Lyrics: Component = () => {
 
 	return (
 		<Container size="full" extraClass="h-full" padless>
-			<div class="h-full px-3 md:px-8 py-8 pb-32 space-y-8 overflow-y-auto" ref={container}>
-				<Show
-					when={videoTranscripts.data().length || videoTranscripts.isLoading()}
-					fallback={<LyricsNotFound />}
-				>
-					<For each={videoTranscripts.data()}>
-						{(t, i) => (
-							<div
-								class="space-y-1"
-								classList={{
-									"text-neutral-300": i() < transcripts.index(),
-									"text-neutral-500": i() > transcripts.index(),
-									"!text-neutral-300": i() === transcripts.index() + 1,
-									"!text-neutral-400": i() === transcripts.index() + 2,
-									"text-xl md:text-2xl": i() !== transcripts.index(),
-									"font-semibold text-2xl md:text-3xl !text-neutral-100": i() === transcripts.index(),
-								}}
-							>
-								<For each={t.texts}>{(text) => <div>{text}</div>}</For>
+			<div class="h-full px-3 md:px-8 py-8 pb-32  overflow-y-auto" ref={container}>
+				<Switch fallback={<LyricsNotFound />}>
+					<Match when={videoTranscripts.isLoading() || lyrics.data.loading}>
+						<Spinner size="lg" />
+					</Match>
+					<Match when={videoTranscripts.data().length}>
+						<div class="space-y-8">
+							<For each={videoTranscripts.data()}>
+								{(t, i) => (
+									<div
+										class="space-y-1"
+										classList={{
+											"text-neutral-300": i() < transcripts.index(),
+											"text-neutral-500": i() > transcripts.index(),
+											"!text-neutral-300": i() === transcripts.index() + 1,
+											"!text-neutral-400": i() === transcripts.index() + 2,
+											"text-xl md:text-2xl": i() !== transcripts.index(),
+											"font-semibold text-2xl md:text-3xl !text-neutral-100":
+												i() === transcripts.index(),
+										}}
+									>
+										<For each={t.texts}>{(text) => <div>{text}</div>}</For>
+									</div>
+								)}
+							</For>
+						</div>
+					</Match>
+					<Match when={lyrics.data()} keyed>
+						{({ content, description }) => (
+							<div class="flex flex-col space-y-8 select-text">
+								<div class="space-y-2">
+									<For each={content.split(/\r?\n/)}>
+										{(t) => <div classList={{ "py-1": !t }}>{t}</div>}
+									</For>
+								</div>
+								<Text.Body2>{description}</Text.Body2>
 							</div>
 						)}
-					</For>
-				</Show>
+					</Match>
+				</Switch>
 			</div>
 		</Container>
 	);
