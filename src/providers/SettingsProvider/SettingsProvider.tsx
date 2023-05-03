@@ -12,7 +12,7 @@ type Settings = {
 };
 
 const defaultSettings: Settings = {
-	notification: true,
+	notification: false,
 	discordRpc: true,
 	appDrawerSize: 256,
 	memberDrawerSize: 256,
