@@ -1,6 +1,11 @@
 import { Navigate, RouteDefinition } from "@solidjs/router";
 import { App } from "@views/App";
-import { DesktopOverlay, DesktopOverlayQueue, DesktopOverlayRecommendation } from "@views/DesktopOverlay";
+import {
+	DesktopOverlay,
+	DesktopOverlayQueue,
+	DesktopOverlayRecommendation,
+	DesktopOverlaySearch,
+} from "@views/DesktopOverlay";
 import { Join } from "@views/Join";
 import { Login } from "@views/Login";
 import { Lyrics } from "@views/Lyrics";
@@ -39,6 +44,7 @@ export const routes: RouteDefinition[] = [
 				component: () => <DesktopOverlay />,
 				children: [
 					{ path: "/queue", component: () => <DesktopOverlayQueue /> },
+					{ path: "/search", component: () => <DesktopOverlaySearch /> },
 					{ path: "/recommendation", component: () => <DesktopOverlayRecommendation /> },
 					{ path: "*", component: () => <Navigate href="/app/desktop-overlay/queue" /> },
 				],

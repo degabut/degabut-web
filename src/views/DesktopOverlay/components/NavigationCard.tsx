@@ -8,6 +8,7 @@ import { Card } from "./Card";
 export const NavigationCard: Component = () => {
 	const links = [
 		{ icon: "degabutThin", label: "Queue", path: "/app/desktop-overlay/queue" },
+		{ icon: "search", label: "Search", path: "/app/desktop-overlay/search" },
 		{ icon: "heart", label: "For You", path: "/app/desktop-overlay/recommendation" },
 	] as const;
 

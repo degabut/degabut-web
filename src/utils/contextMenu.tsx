@@ -15,7 +15,9 @@ type VideoProps = {
 	video: IVideoCompact;
 	queueStore: QueueContextStore;
 	appStore: AppContextStore;
-	navigate: ReturnType<typeof useNavigate>;
+	openWithClick?: boolean;
+	min?: boolean;
+	navigate?: ReturnType<typeof useNavigate>;
 	modifyContextMenuItems?: (current: IContextMenuItem[][]) => IContextMenuItem[][];
 };
 
@@ -26,45 +28,49 @@ export const getVideoContextMenu = (props: VideoProps) => {
 		const inQueue = props.queueStore.data.tracks?.some((t) => t.video.id === props.video.id);
 		const isPlaying = props.queueStore.data.nowPlaying?.video.id === props.video.id;
 
-		const i = [
-			!props.queueStore.data.empty
-				? [
-						{
-							element: () => <ContextMenuItem disabled={inQueue} icon="plus" label="Add to Queue" />,
-							onClick: () => props.queueStore.addTrack(props.video),
-							disabled: inQueue,
-						},
-						{
-							element: () => <ContextMenuItem disabled={isPlaying} icon="play" label="Play" />,
-							onClick: () => props.queueStore.addAndPlayTrack(props.video),
-							disabled: isPlaying,
-						},
-				  ]
-				: [],
-			[
+		const i: IContextMenuItem[][] = [];
+
+		if (!props.queueStore.data.empty) {
+			i.push([
+				{
+					element: () => <ContextMenuItem disabled={inQueue} icon="plus" label="Add to Queue" />,
+					onClick: () => props.queueStore.addTrack(props.video),
+					disabled: inQueue,
+				},
+				{
+					element: () => <ContextMenuItem disabled={isPlaying} icon="play" label="Play" />,
+					onClick: () => props.queueStore.addAndPlayTrack(props.video),
+					disabled: isPlaying,
+				},
+			]);
+		}
+
+		if (!props.min) {
+			i.push([
 				{
 					element: () => <ContextMenuItem icon="plus" label="Add to Playlist" />,
 					onClick: () => props.appStore.setVideoPlaylist(props.video),
 				},
-			],
-			[
+			]);
+
+			i.push([
 				{
 					element: () => <ContextMenuItem icon="list" label="Related" />,
-					onClick: () => props.navigate("/app/video/" + props.video.id),
+					onClick: () => props.navigate?.("/app/video/" + props.video.id),
 				},
 				{
 					element: () => <ContextMenuItem icon="youtube" label="Open on YouTube" />,
 					onClick: () => window.open(`https://youtu.be/${props.video.id}`, "_blank")?.focus(),
 				},
-			],
-		];
+			]);
+		}
 
 		return props.modifyContextMenuItems?.(i) || i;
 	};
 
 	return {
 		items: items(),
-		openWithClick: screen.lte.sm,
+		openWithClick: screen.lte.sm || props.openWithClick,
 		header: (
 			<div class="flex-col-center justify-center py-4 space-y-1">
 				<div class="w-[16rem] h-[9rem] text-center my-4">
@@ -93,6 +99,8 @@ type YouTubePlaylistProps = {
 	playlist: IYouTubePlaylistCompact;
 	queueStore: QueueContextStore;
 	appStore: AppContextStore;
+	openWithClick?: boolean;
+	min?: boolean;
 	modifyContextMenuItems?: (current: IContextMenuItem[][]) => IContextMenuItem[][];
 };
 
@@ -106,30 +114,33 @@ export const getYouTubePlaylistContextMenu = (props: YouTubePlaylistProps) => {
 	};
 
 	const items = () => {
-		const i = [
-			!props.queueStore.data.empty
-				? [
-						{
-							element: () => <ContextMenuItem icon="plus" label="Add to Queue" />,
-							onClick: () => promptAddPlaylist(props.playlist),
-						},
-				  ]
-				: [],
-			[
+		const i: IContextMenuItem[][] = [];
+
+		if (!props.queueStore.data.empty) {
+			i.push([
+				{
+					element: () => <ContextMenuItem icon="plus" label="Add to Queue" />,
+					onClick: () => promptAddPlaylist(props.playlist),
+				},
+			]);
+		}
+
+		if (!props.min) {
+			i.push([
 				{
 					element: () => <ContextMenuItem icon="youtube" label="Open on YouTube" />,
 					onClick: () =>
 						window.open(`https://youtube.com/playlist?list=${props.playlist.id}`, "_blank")?.focus(),
 				},
-			],
-		];
+			]);
+		}
 
 		return props.modifyContextMenuItems?.(i) || i;
 	};
 
 	return {
 		items: items(),
-		openWithClick: screen.lte.sm,
+		openWithClick: screen.lte.sm || props.openWithClick,
 		header: (
 			<div class="flex-col-center justify-center py-4 space-y-1">
 				<div class="w-[16rem] h-[9rem] text-center my-4">
