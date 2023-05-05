@@ -6,6 +6,7 @@ type Props = {
 	padless?: boolean;
 	extraClass?: string;
 	extraClassList?: Record<string, boolean>;
+	ref?: HTMLDivElement;
 };
 
 export const Container: ParentComponent<Props> = (props) => {
@@ -22,6 +23,7 @@ export const Container: ParentComponent<Props> = (props) => {
 				...props.extraClassList,
 				[props.extraClass || ""]: !!props.extraClass,
 			}}
+			ref={props.ref}
 		>
 			{props.children}
 		</div>
