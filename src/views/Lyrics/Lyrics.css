@@ -1,0 +1,3 @@
+.text {
+	@apply w-full max-w-4xl 3xl:max-w-5xl;
+}

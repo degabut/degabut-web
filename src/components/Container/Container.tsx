@@ -1,4 +1,4 @@
-import { ParentComponent } from "solid-js";
+import { JSX, ParentComponent } from "solid-js";
 
 type Props = {
 	centered?: boolean;
@@ -6,8 +6,7 @@ type Props = {
 	padless?: boolean;
 	extraClass?: string;
 	extraClassList?: Record<string, boolean>;
-	ref?: HTMLDivElement;
-};
+} & JSX.HTMLAttributes<HTMLDivElement>;
 
 export const Container: ParentComponent<Props> = (props) => {
 	return (
@@ -23,7 +22,7 @@ export const Container: ParentComponent<Props> = (props) => {
 				...props.extraClassList,
 				[props.extraClass || ""]: !!props.extraClass,
 			}}
-			ref={props.ref}
+			{...props}
 		>
 			{props.children}
 		</div>
