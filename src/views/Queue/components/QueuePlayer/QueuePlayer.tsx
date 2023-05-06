@@ -1,4 +1,5 @@
 import { useQueue } from "@hooks/useQueue";
+import { countedThrottle } from "@utils/throttle";
 import { Component, Show } from "solid-js";
 import { EmptyNowPlaying, NowPlaying } from "./NowPlaying";
 import { QueueActions } from "./QueueActions";
@@ -6,6 +7,8 @@ import { SeekSlider } from "./SeekSlider";
 
 export const QueuePlayer: Component = () => {
 	const queue = useQueue();
+
+	const throttledJam = countedThrottle(queue.jam, 350);
 
 	return (
 		<div class="relative z-0 flex flex-col space-y-6 h-full">
@@ -17,6 +20,7 @@ export const QueuePlayer: Component = () => {
 								src={track.video.thumbnails.at(-1)?.url || ""}
 								alt={track.video.title}
 								class="object-cover aspect-square max-h-[40vh]"
+								onClick={throttledJam}
 							/>
 							<img
 								src={track.video.thumbnails.at(0)?.url}
