@@ -6,6 +6,7 @@ import { Component } from "solid-js";
 type Props = {
 	keyword: string;
 	onInput: (keyword: string) => void;
+	placeholder?: string;
 };
 
 export const SearchInput: Component<Props> = (props) => {
@@ -18,6 +19,7 @@ export const SearchInput: Component<Props> = (props) => {
 			dense
 			outlined
 			value={props.keyword}
+			placeholder={props.placeholder}
 			onInput={(e) => debouncedInput(e.currentTarget.value)}
 			onKeyDown={(e) => {
 				if (e.key !== "Escape") return;
