@@ -50,7 +50,7 @@ export const Tabs: Component<Props> = (props) => {
 					>
 						<div class="flex flex-col overflow-x-auto overflow-y-hidden md:flex-row md:border-b items-center border-neutral-600">
 							<div
-								class="flex-row-center shrink-0 h-full w-full md:w-max border-b md:border-b-0 border-neutral-600"
+								class="flex-row-center shrink-0 w-full md:w-max border-b md:border-b-0 border-neutral-600"
 								classList={{ [props.extraTabsClass || ""]: !!props.extraTabsClass }}
 							>
 								<For each={props.items}>
@@ -61,7 +61,7 @@ export const Tabs: Component<Props> = (props) => {
 							</div>
 
 							<Show when={props.end}>
-								<div class="flex w-full md:justify-end pt-4 md:py-0">
+								<div class="flex w-full md:justify-end py-4 md:py-0">
 									{typeof props.end === "function" ? props.end(activeItem) : props.end}
 								</div>
 							</Show>

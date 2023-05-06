@@ -15,7 +15,7 @@ export const QueueTabs: Component = () => {
 	return (
 		<Tabs
 			end={<SearchInput keyword={keyword()} onInput={setKeyword} />}
-			extraContainerClass="h-full overflow-y-hidden"
+			extraContainerClass="h-full"
 			extraContentContainerClass="h-full overflow-y-auto md:pr-2"
 			items={[
 				{
