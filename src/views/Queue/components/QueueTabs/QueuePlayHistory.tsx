@@ -33,7 +33,7 @@ export const QueuePlayHistory: Component<Props> = (props) => {
 				videoProps={(t) => ({
 					video: t.video,
 					requestedBy: t.requestedBy,
-					inQueue: queue.data.tracks?.some((t) => t.video.id === t.video.id),
+					inQueue: queue.data.tracks?.some((qt) => qt.video.id === t.video.id),
 					contextMenu: getVideoContextMenu({
 						video: t.video,
 						appStore: app,
