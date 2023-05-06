@@ -27,7 +27,7 @@ export const QueuePlayer: Component = () => {
 				</Show>
 			</div>
 
-			<div class="flex flex-col space-y-4 border border-neutral-700 rounded bg-black/25 px-2 py-4">
+			<div class="flex flex-col space-y-6 border border-neutral-700 rounded bg-black/25 px-2 py-4">
 				<Show when={queue.data.nowPlaying} keyed fallback={<EmptyNowPlaying />}>
 					{(track) => <NowPlaying track={track} />}
 				</Show>

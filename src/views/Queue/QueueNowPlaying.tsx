@@ -11,7 +11,7 @@ export const QueueNowPlaying: Component = () => {
 	onMount(() => app.setTitle("Queue"));
 
 	return (
-		<Container size="full" centered bottomPadless extraClass="h-full">
+		<Container size="full" centered bottomPadless extraClass="h-full pb-12">
 			<Show when={!queue.data.empty || queue.isInitialLoading()} fallback={<QueueNotFound />}>
 				<QueuePlayer />
 			</Show>
