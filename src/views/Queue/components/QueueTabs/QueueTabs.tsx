@@ -21,7 +21,7 @@ export const QueueTabs: Component = () => {
 					placeholder={`Search ${e.id === "trackList" ? "queue" : "history"}`}
 				/>
 			)}
-			extraContainerClass="h-full"
+			extraContainerClass="h-full overflow-y-auto"
 			extraContentContainerClass="h-full overflow-y-auto md:pr-2"
 			items={[
 				{
