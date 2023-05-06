@@ -18,6 +18,14 @@ const LyricsNotFound: Component = () => {
 	);
 };
 
+const Loading: Component = () => {
+	return (
+		<div class="flex-col-center w-full h-full justify-center space-y-4">
+			<Spinner size="lg" />
+		</div>
+	);
+};
+
 export const Lyrics: Component = () => {
 	let container!: HTMLDivElement;
 	const queue = useQueue();
@@ -58,7 +66,7 @@ export const Lyrics: Component = () => {
 		>
 			<Switch fallback={<LyricsNotFound />}>
 				<Match when={videoTranscripts.isLoading() || lyrics.data.loading}>
-					<Spinner size="lg" />
+					<Loading />
 				</Match>
 				<Match when={videoTranscripts.data().length}>
 					<For each={videoTranscripts.data()}>
