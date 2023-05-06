@@ -1,3 +1,4 @@
+import { useScreen } from "@hooks/useScreen";
 import { useMatch } from "@providers/BotSelectorProvider";
 import { Component, For, Show } from "solid-js";
 import { Link } from "./Link";
@@ -5,7 +6,8 @@ import { QueuePlayer } from "./QueuePlayer";
 import { QueuePlayerMd } from "./QueuePlayerMd";
 
 export const BottomBar: Component = () => {
-	const inQueue = useMatch(() => "/app/queue");
+	const screen = useScreen();
+	const inQueue = useMatch(() => (screen.gte.md ? "/app/queue" : "/app/queue/player"));
 
 	const links = [
 		{ icon: "degabutThin", label: "Queue", path: "/app/queue" },

@@ -12,7 +12,7 @@ import { Lyrics } from "@views/Lyrics";
 import { OAuth } from "@views/OAuth";
 import { PlaylistDetail } from "@views/PlaylistDetail";
 import { Playlists } from "@views/Playlists";
-import { Queue } from "@views/Queue";
+import { Queue, QueueNowPlaying } from "@views/Queue";
 import { Recommendation } from "@views/Recommendation";
 import { Search } from "@views/Search";
 import { Settings } from "@views/Settings";
@@ -29,6 +29,7 @@ export const routes: RouteDefinition[] = [
 		children: [
 			{ path: "/", component: () => <Navigate href="/app/queue" /> },
 			{ path: "/queue", component: () => <Queue /> },
+			{ path: "/queue/player", component: () => <QueueNowPlaying /> },
 			{ path: "/queue/lyrics", component: () => <Lyrics /> },
 			{ path: "/queue/zen", component: () => <Zen /> },
 			{ path: "/join/:voiceChannelId/:textChannelId?", component: () => <Join /> },

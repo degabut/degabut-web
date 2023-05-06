@@ -13,7 +13,7 @@ export const QueuePlayer: Component = () => {
 			{({ video }) => (
 				<div class="bg-neutral-950 w-full">
 					<RouterLink
-						href="/app/queue"
+						href="/app/queue/player"
 						class="relative overflow-hidden flex-row-center m-1.5 p-2 z-10 rounded cursor-pointer bg-gray-800"
 						title={video.title}
 					>

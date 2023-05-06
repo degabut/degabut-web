@@ -4,6 +4,7 @@ type Props = {
 	centered?: boolean;
 	size?: "sm" | "md" | "lg" | "xl" | "full";
 	padless?: boolean;
+	bottomPadless?: boolean;
 	extraClass?: string;
 	extraClassList?: Record<string, boolean>;
 } & JSX.HTMLAttributes<HTMLDivElement>;
@@ -13,7 +14,8 @@ export const Container: ParentComponent<Props> = (props) => {
 		<div
 			class="w-full"
 			classList={{
-				"py-8 px-3 md:px-8 pb-32": !props.padless,
+				"py-8 px-3 md:px-8": !props.padless,
+				"pb-32": !props.bottomPadless,
 				"max-w-2xl 3xl:max-w-3xl": props.size === "sm",
 				"max-w-4xl 3xl:max-w-5xl": props.size === "md",
 				"max-w-6xl 3xl:max-w-7xl": !props.size || props.size === "lg",
