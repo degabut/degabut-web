@@ -41,7 +41,7 @@ export const CatJam: Component<CatJamProps> = (props) => {
 				transition: `opacity 3s linear, transform ${Math.round(18000 - props.ySpeed * 12000)}ms linear`,
 			}}
 		>
-			<img src={url()} class="w-16 h-16 mx-auto" />
+			<img src={url()} class="w-10 h-10 md:w-16 md:h-16 mx-auto" />
 			<div class="flex-row-center space-x-0.5">
 				<img src={props.member.avatar || "/img/avatar.png"} class="w-4 h-4 rounded-full" />
 				<div class="text-sm">{props.member.displayName}</div>
