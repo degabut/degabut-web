@@ -11,7 +11,13 @@ export const QueuePlayer: Component = () => {
 	return (
 		<Show when={queue.data.nowPlaying} keyed>
 			{({ video }) => (
-				<div class="bg-neutral-950 w-full">
+				<div class="bg-neutral-950 w-full h-full">
+					<Show when={queue.data.position} keyed>
+						{(position) => (
+							<div class="bg-brand-500 h-0.5" style={{ width: `${position / 10 / video.duration}%` }} />
+						)}
+					</Show>
+
 					<RouterLink
 						href="/app/queue/player"
 						class="relative overflow-hidden flex-row-center m-1.5 p-2 z-10 rounded cursor-pointer bg-gray-800"
@@ -39,12 +45,6 @@ export const QueuePlayer: Component = () => {
 
 						<Icon name="musicNotes" extraClass="absolute right-2 w-12 h-12 fill-white/10" />
 					</RouterLink>
-
-					<Show when={queue.data.position} keyed>
-						{(position) => (
-							<div class="bg-brand-500 h-0.5" style={{ width: `${position / 10 / video.duration}%` }} />
-						)}
-					</Show>
 				</div>
 			)}
 		</Show>
