@@ -21,7 +21,7 @@ export const Link: Component<Props> = (props) => {
 				"text-neutral-100 bg-white/5 font-medium": !!isActive(),
 			}}
 		>
-			<div classList={{ "absolute bottom-0 border-b-2 border-neutral-100 rounded-full w-full": !!isActive() }} />
+			<div classList={{ "absolute top-0 border-b-2 border-neutral-100 rounded-full w-full": !!isActive() }} />
 			<Icon name={props.icon} size="md" extraClass="fill-current" />
 			<div>{props.label}</div>
 		</RouterLink>
