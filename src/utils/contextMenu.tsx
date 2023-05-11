@@ -148,10 +148,10 @@ export const getYouTubePlaylistContextMenu = (props: YouTubePlaylistProps) => {
 				</div>
 				<div class="flex-col-center space-y-2">
 					<div class="font-medium text-center">{props.playlist.title}</div>
-					<div class="text-sm text-neutral-400 space-y-1">
+					<div class="text-sm text-neutral-400 text-center space-y-1">
 						<div>{props.playlist.channel?.name}</div>
-						<div class="flex flex-row space-x-4 justify-center ">
-							<div>{props.playlist.videoCount}</div>
+						<div>
+							{props.playlist.videoCount} {props.playlist.videoCount === 1 ? "video" : "videos"}
 						</div>
 					</div>
 				</div>
