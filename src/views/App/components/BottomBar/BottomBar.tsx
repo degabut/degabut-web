@@ -1,3 +1,4 @@
+import { useQueue } from "@hooks/useQueue";
 import { useScreen } from "@hooks/useScreen";
 import { useMatch } from "@providers/BotSelectorProvider";
 import { Component, For, Show } from "solid-js";
@@ -6,6 +7,7 @@ import { QueuePlayer } from "./QueuePlayer";
 import { QueuePlayerMd } from "./QueuePlayerMd";
 
 export const BottomBar: Component = () => {
+	const queue = useQueue();
 	const screen = useScreen();
 	const inQueue = useMatch(() => (screen.gte.md ? "/app/queue" : "/app/queue/player"));
 
@@ -17,7 +19,7 @@ export const BottomBar: Component = () => {
 
 	return (
 		<div class="flex flex-col w-full z-10">
-			<Show when={!inQueue()}>
+			<Show when={!inQueue() && !queue.data.empty}>
 				<div class="md:hidden">
 					<QueuePlayer />
 				</div>
