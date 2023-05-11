@@ -1,5 +1,5 @@
 export * from "./AddPlaylistVideoModal";
-export * from "./CatJam";
+export * from "./CatJamManager";
 export * from "./ConfirmationModal";
 export * from "./ExternalTrackAdder";
 export * from "./InstallPrompt";

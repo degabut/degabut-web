@@ -8,7 +8,7 @@ type CatJamProps = {
 	member: IGuildMember;
 } & IJam;
 
-export const CatJam: Component<CatJamProps> = (props) => {
+const CatJam: Component<CatJamProps> = (props) => {
 	let element!: HTMLDivElement;
 	const x = () => Math.round(props.xOffset * 100);
 	const url = () =>
