@@ -1,6 +1,7 @@
 /* @refresh reload */
 import { ApiProvider } from "@providers/ApiProvider";
 import { ContextMenuProvider } from "@providers/ContextMenuProvider";
+import { NotificationProvider } from "@providers/NotificationProvider";
 import { ScreenProvider } from "@providers/ScreenProvider";
 import { Router } from "@solidjs/router";
 import { Main } from "@views/Main";
@@ -12,9 +13,11 @@ render(
 		<Router>
 			<ScreenProvider>
 				<ContextMenuProvider>
-					<ApiProvider>
-						<Main />
-					</ApiProvider>
+					<NotificationProvider>
+						<ApiProvider>
+							<Main />
+						</ApiProvider>
+					</NotificationProvider>
 				</ContextMenuProvider>
 			</ScreenProvider>
 		</Router>
