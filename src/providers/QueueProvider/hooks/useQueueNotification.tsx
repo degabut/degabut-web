@@ -53,7 +53,7 @@ export const useQueueNotification = ({ emitter }: Params) => {
 		if (!settings.inAppNotification || !member) return;
 
 		notification.push({
-			imageUrl: track.requestedBy.avatar,
+			imageUrl: member.displayName,
 			message: () => (
 				<Text.Body2 title={`${member.displayName} removed ${track.video.title} from the queue`}>
 					<b>{member.displayName}</b> removed <b>{track.video.title}</b> from the queue
