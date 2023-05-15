@@ -1,89 +1,72 @@
-import { ITrack, IVideoCompact } from "@api";
-import { Accessor, batch, createEffect, createMemo, createSignal } from "solid-js";
+import { IVideoCompact } from "@api";
+import { createEffect, createMemo, createSignal } from "solid-js";
+import { useQueue } from "./useQueue";
 import { useVideo } from "./useVideo";
 import { useVideos } from "./useVideos";
 
 type Params = {
-	tracks: Accessor<ITrack[]>;
-	limit?: number;
+	onLoad?: () => void;
 };
 
 export const useQueueRecommendation = (params: Params) => {
-	const lastPlayed = useVideos(() => ({ userId: "me", last: 20 }));
-	const recentMostPlayed = useVideos(() => ({ userId: "me", days: 14, count: 20 }));
-	const mostPlayed = useVideos(() => ({ userId: "me", days: 90, count: 20 }));
+	const queue = useQueue();
+	const [relatedTargetVideoIds, setRelatedTargetVideoIds] = createSignal<string[]>([]);
+	const [relatedVideos, setRelatedVideos] = createSignal<IVideoCompact[]>([]);
+	const currentRelatedVideoId = createMemo(() => relatedTargetVideoIds()[0]);
 
-	const [randomVideoId, setRandomVideoId] = createSignal<string>("");
-	const randomVideo = useVideo({ videoId: randomVideoId });
+	const video = useVideo({ videoId: currentRelatedVideoId });
+	const lastPlayedVideos = useVideos({ userId: "me", last: 10 });
+	const mostPlayedVideos = useVideos({ userId: "me", days: 30, count: 10 });
 
-	const [blacklistedVideo, setBlacklistedVideo] = createSignal<IVideoCompact[]>([]);
-	const [randomVideos, setRandomVideos] = createSignal<IVideoCompact[]>([]);
-
-	const videos = createMemo(() => {
-		if (lastPlayed.data.loading || recentMostPlayed.data.loading || mostPlayed.data.loading) return [];
-
-		const allVideos = [
-			...(lastPlayed.data() || []),
-			...(recentMostPlayed.data() || []),
-			...(mostPlayed.data() || []),
-		];
-
-		const filtered = allVideos.filter((video, index, self) => {
-			return (
-				self.findIndex((v) => v.id === video.id) === index &&
-				!params.tracks().find((track) => track.video.id === video.id) &&
-				!blacklistedVideo().find((v) => v.id === video.id)
-			);
-		});
-
-		return filtered;
+	createEffect(() => {
+		const videos = video.data()?.related;
+		if (videos) {
+			setRelatedVideos((c) => [...c, ...videos.filter((v) => !c.some((rv) => rv.id === v.id)).slice(0, 5)]);
+			params.onLoad && setTimeout(params.onLoad, 0);
+		}
 	});
 
 	createEffect(() => {
-		const shuffled = videos().sort(() => 0.5 - Math.random());
-		if (!randomVideoId()) randomlySetRandomVideoId();
+		const lastPlayed = lastPlayedVideos.data();
+		const mostPlayed = mostPlayedVideos.data();
+		if (!lastPlayed || !mostPlayed) return;
 
-		setRandomVideos((v) => {
-			const current = v.filter((video) => shuffled.find((v) => v.id === video.id));
-			const left = (params.limit || 10) - current.length;
-			const videos = shuffled.filter((video) => !v.find((v) => v.id === video.id));
-			return [...current, ...videos.slice(0, left)];
-		});
+		const videoIds = [...mostPlayed, ...lastPlayed]
+			.map((v) => v.id)
+			.reduce<string[]>((acc, cur) => {
+				if (!acc.includes(cur)) acc.push(cur);
+				return acc;
+			}, []);
+
+		setRelatedTargetVideoIds(videoIds);
+		params.onLoad && setTimeout(params.onLoad, 0);
 	});
 
-	const blacklist = (video: IVideoCompact) => {
-		setRandomVideos((v) => v.filter((v) => v.id !== video.id));
-		setBlacklistedVideo((v) => [...v, video]);
+	const loadNext = () => {
+		setRelatedTargetVideoIds((c) => c.slice(1));
 	};
 
-	const reset = () => {
-		batch(() => {
-			setRandomVideos([]);
-			setBlacklistedVideo([]);
-			randomVideo.mutate(null);
-			randomlySetRandomVideoId();
-		});
-	};
+	const videos = createMemo(() => {
+		const queueTracks = queue.data.tracks || [];
+		const mostPlayed = mostPlayedVideos.data() || [];
+		const lastPlayed = lastPlayedVideos.data() || [];
 
-	const randomlySetRandomVideoId = () => {
-		const shuffled = videos().sort(() => 0.5 - Math.random());
-		setRandomVideoId((randomVideoId) => {
-			const filtered = shuffled.filter((v) => v.id !== randomVideoId);
-			const randomVideo = filtered[Math.floor(Math.random() * filtered.length)];
-			return randomVideo?.id || "";
-		});
-	};
+		return [...mostPlayed, ...lastPlayed, ...relatedVideos()].reduce<IVideoCompact[]>((curr, v) => {
+			if (!curr.find((cv) => cv.id === v.id) && !queueTracks.find((t) => t.video.id === v.id)) {
+				curr.push(v);
+			}
+			return curr;
+		}, []);
+	});
 
 	const isLoading = () => {
-		return lastPlayed.data.loading || recentMostPlayed.data.loading || mostPlayed.data.loading;
+		return lastPlayedVideos.data.loading || mostPlayedVideos.data.loading;
 	};
 
 	return {
 		videos,
-		randomVideos,
-		randomVideo,
+		related: video,
 		isLoading,
-		blacklist,
-		reset,
+		loadNext,
 	};
 };

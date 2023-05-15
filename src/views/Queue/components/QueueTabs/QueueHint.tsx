@@ -10,7 +10,7 @@ import { useScreen } from "@hooks/useScreen";
 import { useApp } from "@providers/AppProvider";
 import { useNavigate } from "@solidjs/router";
 import { getVideoContextMenu } from "@utils/contextMenu";
-import { Component, JSX } from "solid-js";
+import { Component, JSX, onCleanup, onMount } from "solid-js";
 
 type HintItemProps = {
 	icon: Icons;
@@ -35,8 +35,23 @@ export const QueueHint: Component = () => {
 	const queue = useQueue();
 	const navigate = useNavigate();
 	const tracks = () => queue.data.tracks || [];
+	const recommendation = useQueueRecommendation({
+		onLoad: () => attemptLoadNext(),
+	});
+	let containerElement!: HTMLDivElement;
 
-	const recommendation = useQueueRecommendation({ tracks });
+	const attemptLoadNext = () => {
+		if (
+			!recommendation.related.data.loading &&
+			containerElement &&
+			window.innerHeight - containerElement.getBoundingClientRect().bottom > -128
+		) {
+			recommendation.loadNext();
+		}
+	};
+
+	onMount(() => document.addEventListener("scroll", attemptLoadNext, true));
+	onCleanup(() => document.removeEventListener("scroll", attemptLoadNext, true));
 
 	return (
 		<div class="space-y-8 md:space-y-4">
@@ -70,34 +85,16 @@ export const QueueHint: Component = () => {
 				/>
 			</div>
 
-			<div class="space-y-2 md:space-y-0">
+			<div class="space-y-2 md:space-y-0" ref={containerElement}>
 				<div class="flex-row-center space-x-3 py-2 text-sm">
 					<Text.Body2 class="shrink-0">Quick Add</Text.Body2>
 					<Divider extraClass="grow" light />
-					<Button
-						flat
-						disabled={recommendation.randomVideo.data.loading}
-						onClick={() => recommendation.reset()}
-						icon="update"
-						iconSize="sm"
-						class="space-x-2 px-2 py-1"
-						classList={{
-							"text-neutral-300 hover:text-neutral-100": !recommendation.randomVideo.data.loading,
-							"text-neutral-500": recommendation.randomVideo.data.loading,
-						}}
-					>
-						<Text.Body2 class="text-current">Refresh</Text.Body2>
-					</Button>
 				</div>
 
 				<Videos.List
-					data={[
-						...recommendation.randomVideos(),
-						...(recommendation.randomVideo.data()?.related?.slice(0, 10) || []),
-					]}
+					data={recommendation.videos()}
 					showWhenLoading
-					isLoading={recommendation.randomVideo.data.loading || recommendation.isLoading()}
-					skeletonCount={recommendation.isLoading() ? 5 : 3}
+					isLoading={recommendation.isLoading() || recommendation.related.data.loading}
 					videoProps={(video) => ({
 						video,
 						hideContextMenuButton: true,
