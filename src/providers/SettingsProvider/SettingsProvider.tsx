@@ -3,7 +3,8 @@ import { createContext, ParentComponent } from "solid-js";
 import { createStore, StoreSetter } from "solid-js/store";
 
 type Settings = {
-	notification: boolean;
+	browserNotification: boolean;
+	inAppNotification: boolean;
 	discordRpc: boolean;
 	appDrawerSize: number;
 	memberDrawerSize: number;
@@ -12,7 +13,8 @@ type Settings = {
 };
 
 const defaultSettings: Settings = {
-	notification: false,
+	browserNotification: false,
+	inAppNotification: true,
 	discordRpc: true,
 	appDrawerSize: 256,
 	memberDrawerSize: 256,
