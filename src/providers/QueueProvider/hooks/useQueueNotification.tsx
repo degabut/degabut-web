@@ -1,4 +1,4 @@
-import { ITrack } from "@api";
+import { IMember, ITrack } from "@api";
 import { Text } from "@components/Text";
 import { useSettings } from "@hooks/useSettings";
 import { useNotification } from "@providers/NotificationProvider";
@@ -18,7 +18,8 @@ export const useQueueNotification = ({ emitter }: Params) => {
 	onMount(() => {
 		emitter.on("queue-processed", onQueueProcessed);
 		emitter.on("track-added", ({ track }) => onTrackAdded(track));
-		emitter.on("track-removed", ({ track }) => onTrackRemoved(track));
+		emitter.on("tracks-added", ({ tracks, member }) => onTracksAdded(tracks, member));
+		emitter.on("track-removed", ({ track, member }) => onTrackRemoved(track, member));
 	});
 
 	const onTrackAdded = async (track: ITrack) => {
@@ -34,14 +35,28 @@ export const useQueueNotification = ({ emitter }: Params) => {
 		});
 	};
 
-	const onTrackRemoved = async (track: ITrack) => {
+	const onTracksAdded = async (tracks: ITrack[], member: IMember) => {
 		if (!settings.inAppNotification) return;
+
+		const videoCount = tracks.length > 1 ? `${tracks.length} videos` : "a video";
+		notification.push({
+			imageUrl: member.avatar,
+			message: () => (
+				<Text.Body2 title={`${member.displayName} added ${videoCount} to the queue`}>
+					<b>{member.displayName}</b> added <b>{videoCount}</b> to the queue
+				</Text.Body2>
+			),
+		});
+	};
+
+	const onTrackRemoved = async (track: ITrack, member: IMember | null) => {
+		if (!settings.inAppNotification || !member) return;
 
 		notification.push({
 			imageUrl: track.requestedBy.avatar,
 			message: () => (
-				<Text.Body2 title={`${track.requestedBy.displayName} removed ${track.video.title} from the queue`}>
-					<b>{track.requestedBy.displayName}</b> removed <b>{track.video.title}</b> from the queue
+				<Text.Body2 title={`${member.displayName} removed ${track.video.title} from the queue`}>
+					<b>{member.displayName}</b> removed <b>{track.video.title}</b> from the queue
 				</Text.Body2>
 			),
 		});

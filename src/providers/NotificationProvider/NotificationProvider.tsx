@@ -4,7 +4,7 @@ import { Component, For, JSX, ParentComponent, Show, createContext, createSignal
 import { TransitionGroup } from "solid-transition-group";
 
 export type Notification = {
-	imageUrl?: string;
+	imageUrl?: string | null;
 	message: JSX.Element;
 };
 

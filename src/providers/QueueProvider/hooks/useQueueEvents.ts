@@ -12,7 +12,7 @@ type Message = {
 
 type TrackAction = {
 	track: ITrack;
-	member: IMember;
+	member: IMember | null;
 };
 
 type TracksAction = {
