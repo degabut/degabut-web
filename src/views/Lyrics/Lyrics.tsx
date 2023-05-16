@@ -37,6 +37,7 @@ export const Lyrics: Component = () => {
 		elapsed: queue.data.position || 0,
 		transcripts: videoTranscripts.data() || [],
 	}));
+	let initialScroll = true;
 	let lastScrollTime = 0;
 
 	onMount(() => app.setTitle("Lyrics"));
@@ -46,11 +47,21 @@ export const Lyrics: Component = () => {
 			container.scrollTop = 0;
 		} else {
 			if (Date.now() - lastScrollTime < 3000) return;
-			const element = container?.childNodes[transcripts.index()] as HTMLDivElement;
-			if (!element) return;
-			container.scrollTop = element.offsetTop - container.offsetHeight / 2.5 + element.offsetHeight / 2;
+			const index = transcripts.index();
+			if (initialScroll) {
+				setTimeout(() => scrollTo(index), 200);
+				initialScroll = false;
+			} else {
+				scrollTo(index);
+			}
 		}
 	});
+
+	const scrollTo = (index: number) => {
+		const element = container?.childNodes[index] as HTMLDivElement;
+		if (!element) return;
+		container.scrollTop = element.offsetTop - container.offsetHeight / 2.5 + element.offsetHeight / 2;
+	};
 
 	const onContainerScrollHandler = () => {
 		lastScrollTime = Date.now();
