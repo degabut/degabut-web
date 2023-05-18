@@ -1,12 +1,13 @@
 import { Container } from "@components/Container";
 import { Icon } from "@components/Icon";
 import { Videos } from "@components/Videos";
+import { useInfiniteScrolling } from "@hooks/useInfiniteScrolling";
 import { useQueue } from "@hooks/useQueue";
 import { useRecommendation } from "@hooks/useRecommendation";
 import { useApp } from "@providers/AppProvider";
 import { useNavigate, useParams } from "@solidjs/router";
 import { getVideoContextMenu } from "@utils/contextMenu";
-import { Component, createEffect, createMemo, createSignal, onCleanup, onMount, Show } from "solid-js";
+import { Component, Show, createEffect, createMemo, createSignal } from "solid-js";
 import { ExpandableVideoGrid, ExpandableVideoList, ShowMoreModal, ShowMoreType, Title } from "./components";
 
 const RecommendationEmpty: Component = () => {
@@ -23,7 +24,7 @@ export const Recommendation: Component = () => {
 	const queue = useQueue();
 	const navigate = useNavigate();
 	const params = useParams<{ id: string }>();
-	const recommendation = useRecommendation({ userId: () => params.id || "me", onLoad: () => attemptLoadNext() });
+	const recommendation = useRecommendation({ userId: () => params.id || "me", onLoad: () => infinite.load() });
 	const [showMoreType, setShowMoreType] = createSignal<ShowMoreType | null>(null);
 	let containerElement!: HTMLDivElement;
 
@@ -31,23 +32,16 @@ export const Recommendation: Component = () => {
 		return queue.data.voiceChannel?.members.find((m) => m.id === params.id);
 	});
 
-	const attemptLoadNext = () => {
-		if (
-			!recommendation.related().loading &&
-			containerElement &&
-			window.innerHeight - containerElement.getBoundingClientRect().bottom > -128
-		) {
-			recommendation.loadNext();
-		}
-	};
+	const infinite = useInfiniteScrolling({
+		callback: recommendation.loadNext,
+		disabled: () => recommendation.related().loading,
+		container: () => containerElement,
+	});
 
 	createEffect(() => {
 		const user = targetUser();
 		app.setTitle(user ? `${user.displayName} recommendation` : "Recommendation");
 	});
-
-	onMount(() => document.addEventListener("scroll", attemptLoadNext, true));
-	onCleanup(() => document.removeEventListener("scroll", attemptLoadNext, true));
 
 	return (
 		<>

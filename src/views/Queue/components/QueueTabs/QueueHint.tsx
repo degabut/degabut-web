@@ -4,13 +4,14 @@ import { Icon, Icons } from "@components/Icon";
 import { KeyboardHint } from "@components/KeyboardHint";
 import { Text } from "@components/Text";
 import { Videos } from "@components/Videos";
+import { useInfiniteScrolling } from "@hooks/useInfiniteScrolling";
 import { useQueue } from "@hooks/useQueue";
 import { useQueueRecommendation } from "@hooks/useQueueRecommendation";
 import { useScreen } from "@hooks/useScreen";
 import { useApp } from "@providers/AppProvider";
 import { useNavigate } from "@solidjs/router";
 import { getVideoContextMenu } from "@utils/contextMenu";
-import { Component, JSX, onCleanup, onMount } from "solid-js";
+import { Component, JSX } from "solid-js";
 
 type HintItemProps = {
 	icon: Icons;
@@ -36,22 +37,15 @@ export const QueueHint: Component = () => {
 	const navigate = useNavigate();
 	const tracks = () => queue.data.tracks || [];
 	const recommendation = useQueueRecommendation({
-		onLoad: () => attemptLoadNext(),
+		onLoad: () => infinite.load(),
 	});
 	let containerElement!: HTMLDivElement;
 
-	const attemptLoadNext = () => {
-		if (
-			!recommendation.related.data.loading &&
-			containerElement &&
-			window.innerHeight - containerElement.getBoundingClientRect().bottom > -128
-		) {
-			recommendation.loadNext();
-		}
-	};
-
-	onMount(() => document.addEventListener("scroll", attemptLoadNext, true));
-	onCleanup(() => document.removeEventListener("scroll", attemptLoadNext, true));
+	const infinite = useInfiniteScrolling({
+		callback: recommendation.loadNext,
+		disabled: () => recommendation.related.data.loading,
+		container: () => containerElement,
+	});
 
 	return (
 		<div class="space-y-8 md:space-y-4">
