@@ -36,7 +36,7 @@ export const SeekSlider: Component<Props> = (props) => {
 
 	return (
 		<div class="w-full text-xs space-y-3 md:space-y-2.5">
-			<div class="flex-row-center justify-between" classList={{ "!opacity-0": props.max <= 0 }}>
+			<div class="flex-row-center justify-between" classList={{ invisible: props.max <= 0 }}>
 				<Text.Caption2 light>{secondsToTime(Math.round(value()))}</Text.Caption2>
 				<Text.Caption2 light>{secondsToTime(props.max)}</Text.Caption2>
 			</div>
