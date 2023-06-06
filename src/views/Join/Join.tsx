@@ -10,7 +10,7 @@ export const Join: Component = () => {
 
 	onMount(async () => {
 		await api.player.join(params.voiceChannelId, params.textChannelId);
-		navigate("/");
+		navigate("/app");
 	});
 
 	return (
