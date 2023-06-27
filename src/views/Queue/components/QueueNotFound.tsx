@@ -12,11 +12,17 @@ type VoiceChannelMin = {
 	name: string;
 };
 
+type TextChannel = {
+	id: string;
+	name: string;
+};
+
 type Props = {
 	guild: IGuild;
 	voiceChannel: VoiceChannelMin;
+	textChannel: TextChannel | null;
 	isLoading: boolean;
-	onClick: (voiceChannel: VoiceChannelMin) => void;
+	onClick: (voiceChannel: VoiceChannelMin, textChannel: TextChannel | null) => void;
 };
 
 const VoiceChannelList: Component<Props> = (props) => {
@@ -28,7 +34,7 @@ const VoiceChannelList: Component<Props> = (props) => {
 			.slice(0, 2);
 
 	return (
-		<div class="flex-row-center px-2 py-0.5 space-x-2 w-full bg-white/5 rounded">
+		<div class="flex-row-center px-2 py-1 space-x-2 w-full bg-white/5 rounded">
 			<div class="shrink-0 w-12 h-12 p-1 rounded-full">
 				<Show
 					when={props.guild.icon}
@@ -40,11 +46,24 @@ const VoiceChannelList: Component<Props> = (props) => {
 			</div>
 
 			<div class="flex flex-col grow truncate">
-				<Text.H4 truncate>{props.voiceChannel.name}</Text.H4>
+				<div class="flex space-x-2">
+					<Text.H4 truncate>{props.voiceChannel.name}</Text.H4>
+					<Show when={props.textChannel} keyed>
+						{(textChannel) => (
+							<Text.Caption1 truncate class="mt-0.5">
+								#{textChannel.name}
+							</Text.Caption1>
+						)}
+					</Show>
+				</div>
 				<Text.Body2 truncate>{props.guild.name}</Text.Body2>
 			</div>
 
-			<Button disabled={props.isLoading} onClick={() => props.onClick(props.voiceChannel)} class="px-3 py-1.5">
+			<Button
+				disabled={props.isLoading}
+				onClick={() => props.onClick(props.voiceChannel, props.textChannel)}
+				class="px-3 py-1.5"
+			>
 				Join
 			</Button>
 		</div>
@@ -57,9 +76,9 @@ export const QueueNotFound: Component = () => {
 	const queue = useQueue();
 	const [isLoading, setIsLoading] = createSignal(false);
 
-	const join = async (voiceChannel: VoiceChannelMin) => {
+	const join = async (voiceChannel: VoiceChannelMin, textChannel: TextChannel | null) => {
 		setIsLoading(true);
-		const success = await api.player.join(voiceChannel.id);
+		const success = await api.player.join(voiceChannel.id, textChannel?.id);
 		if (!success) {
 			setIsLoading(false);
 			app.setConfirmation({
@@ -77,7 +96,7 @@ export const QueueNotFound: Component = () => {
 	};
 
 	return (
-		<div class="space-y-4">
+		<div class="space-y-4 h-full overflow-y-auto">
 			<Text.H2>Queue Not Found</Text.H2>
 
 			<Divider />
@@ -88,7 +107,7 @@ export const QueueNotFound: Component = () => {
 					Click the <b>Join</b> button to make Degabut join the voice channel.
 				</Text.Body2>
 
-				<div class="flex-col-center w-full space-y-4 md:max-w-lg">
+				<div class="flex-col-center w-full space-y-3 md:max-w-lg">
 					<For each={queue.voiceChannelHistory}>
 						{(history) => <VoiceChannelList {...history} isLoading={isLoading()} onClick={join} />}
 					</For>

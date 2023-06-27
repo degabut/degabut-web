@@ -12,6 +12,10 @@ export interface IHistory {
 		id: string;
 		name: string;
 	};
+	textChannel: {
+		id: string;
+		name: string;
+	} | null;
 	guild: IGuild;
 }
 
@@ -31,13 +35,21 @@ export const useVoiceChannelHistory = ({ queue }: Params) => {
 				id: voiceChannel.id,
 				name: voiceChannel.name,
 			},
+			textChannel: queue.textChannel
+				? {
+						id: queue.textChannel.id,
+						name: queue.textChannel.name,
+				  }
+				: null,
 		};
 
 		setHistory((history) => {
-			const exists = history.find((h) => h.voiceChannel.id === voiceChannel.id);
-			if (exists) history = history.filter(({ voiceChannel: v }) => v.id !== voiceChannel.id);
+			const index = history.findIndex(
+				(h) => h.voiceChannel.id === voiceChannel.id && h.textChannel?.id == queue.textChannel?.id
+			);
+			if (index !== -1) history.splice(index, 1);
 			history = [data, ...history];
-			history = history.slice(0, 5);
+			history = history.slice(0, 10);
 			return [...history];
 		});
 
