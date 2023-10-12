@@ -1,0 +1,7 @@
+.right {
+	@apply md:opacity-0;
+}
+
+.item-list:hover .right {
+	@apply md:opacity-100;
+}

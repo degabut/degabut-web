@@ -7,7 +7,6 @@ type Settings = {
 	inAppNotification: boolean;
 	discordRpc: boolean;
 	appDrawerSize: number;
-	memberDrawerSize: number;
 	overlay: boolean;
 	overlayShortcut: string[];
 };
@@ -17,7 +16,6 @@ const defaultSettings: Settings = {
 	inAppNotification: true,
 	discordRpc: true,
 	appDrawerSize: 256,
-	memberDrawerSize: 256,
 	overlay: true,
 	overlayShortcut: ["Control", "Shift", "B"],
 };

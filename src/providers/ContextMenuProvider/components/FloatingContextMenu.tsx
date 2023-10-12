@@ -1,4 +1,4 @@
-import { Divider } from "@components/Divider";
+import { Divider } from "@components/atoms";
 import { clickOutside } from "@directives/clickOutside";
 import { Component, createEffect, For, Show } from "solid-js";
 import { ShowParams } from "../ContextMenuProvider";
@@ -41,7 +41,7 @@ export const FloatingContextMenu: Component<Props> = (props) => {
 				left: props.params.x + "px",
 				top: props.params.y + "px",
 			}}
-			class="fixed bg-neutral-950 z-50 min-w-[12rem] w-max p-1.5 rounded"
+			class="fixed bg-neutral-800 z-50 min-w-[12rem] w-max p-1.5 rounded"
 			classList={{ [props.params.extraContainerClass || ""]: !!props.params.extraContainerClass }}
 		>
 			<Show
@@ -63,7 +63,7 @@ export const FloatingContextMenu: Component<Props> = (props) => {
 							</For>
 
 							<Show when={i() < props.params.items.length - 1 && itemItems.length}>
-								<Divider dark extraClass="my-1.5" />
+								<Divider extraClass="my-1.5" />
 							</Show>
 						</>
 					)}

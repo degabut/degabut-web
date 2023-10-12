@@ -1,9 +1,7 @@
-import { Button } from "@components/Button";
-import { ContextMenuButton } from "@components/ContextMenu";
-import { Divider } from "@components/Divider";
-import { Icons } from "@components/Icon";
+import { Button, Icons } from "@components/atoms";
+import { ContextMenuButton } from "@components/molecules";
 import { ContextMenuDirectiveParams } from "@providers/ContextMenuProvider";
-import { Component, createSignal, Show } from "solid-js";
+import { Component, Show, createSignal } from "solid-js";
 
 type ActionButtonProps = {
 	title: string;
@@ -55,14 +53,13 @@ export const ThumbnailHover: Component<Props> = (props) => {
 				</div>
 
 				<Show when={props.showAddButtons}>
-					<div class="absolute bottom-2.5 right-2.5 flex-row-center space-x-1">
+					<div class="absolute bottom-2.5 right-2.5 flex-row-center space-x-2">
 						<ActionButton
 							title="Add to Queue"
 							icon="plus"
 							disabled={props.inQueue}
 							onClick={() => props.onAddToQueue?.()}
 						/>
-						<Divider vertical dark />
 						<ActionButton
 							title="Play"
 							icon="play"

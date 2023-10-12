@@ -1,4 +1,4 @@
-import { A } from "@components/A";
+import { A } from "@components/atoms";
 import { useApi } from "@hooks/useApi";
 import { useLocation } from "@solidjs/router";
 import { Component, onMount } from "solid-js";

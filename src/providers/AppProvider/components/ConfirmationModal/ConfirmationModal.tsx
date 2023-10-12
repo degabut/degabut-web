@@ -1,5 +1,4 @@
-import { Button } from "@components/Button";
-import { Modal } from "@components/Modal";
+import { Button, Modal } from "@components/atoms";
 import { Component, createSignal, JSX, onCleanup, onMount, Show } from "solid-js";
 
 type Props = {

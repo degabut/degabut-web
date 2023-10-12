@@ -1,13 +1,9 @@
 import { IPlaylist, IVideoCompact } from "@api";
-import { Divider } from "@components/Divider";
-import { Icon } from "@components/Icon";
-import { Modal } from "@components/Modal";
-import { Playlist } from "@components/Playlist";
-import { Text } from "@components/Text";
-import { Video } from "@components/Video";
+import { Divider, Icon, Modal, Text } from "@components/atoms";
+import { Playlist, Video } from "@components/molecules";
 import { useApi } from "@hooks/useApi";
 import { usePlaylists } from "@hooks/usePlaylists";
-import { Component, createEffect, createMemo, createSignal, For, Show } from "solid-js";
+import { Component, For, Show, createEffect, createMemo, createSignal } from "solid-js";
 
 const CreatePlaylistButton: Component<{ onClick: () => void }> = (props) => {
 	return (
@@ -68,7 +64,7 @@ export const AddPlaylistVideoModal: Component<Props> = (props) => {
 					<div class="flex flex-col h-full">
 						<div class="bg-neutral-900 pt-4 md:pt-8 px-2 md:px-8">
 							<Text.H2 class="text-center mb-4">Add to Playlist</Text.H2>
-							<Video.List disableContextMenu video={v} extraContainerClass={"hover:!bg-white/0"} />
+							<Video.List video={v} extraContainerClass={"hover:!bg-white/0"} />
 							<Divider extraClass="my-4" />
 						</div>
 
@@ -77,7 +73,7 @@ export const AddPlaylistVideoModal: Component<Props> = (props) => {
 								<CreatePlaylistButton onClick={() => setIsCreateModalOpen(true)} />
 							</Show>
 							<For each={playlists.data() || []}>
-								{(p) => <Playlist.List disableContextMenu playlist={p} onClick={addToPlaylist} />}
+								{(p) => <Playlist.List playlist={p} onClick={addToPlaylist} />}
 							</For>
 							<Show when={isInitialLoading()}>
 								<For each={Array(3)}>{() => <Playlist.ListSkeleton />}</For>

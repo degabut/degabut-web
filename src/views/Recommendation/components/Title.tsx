@@ -1,4 +1,4 @@
-import { Text } from "@components/Text";
+import { Text } from "@components/atoms";
 import { Component, JSX, ParentComponent, Show } from "solid-js";
 import { SeeMoreButton, SeeMoreTextButton } from "./SeeMoreButton";
 

@@ -1,6 +1,6 @@
-import { Text } from "@components/Text";
+import { Text } from "@components/atoms";
+import { QueueActions, QueueSeekSlider } from "@components/organisms";
 import { useQueue } from "@hooks/useQueue";
-import { QueueActions, SeekSlider } from "@views/Queue";
 import { Component, Show } from "solid-js";
 import { Card } from "./Card";
 import { SwitchViewButton } from "./SwitchViewButton";
@@ -39,7 +39,7 @@ export const PlayerCard: Component<Props> = (props) => {
 								</Show>
 							</div>
 
-							<SeekSlider
+							<QueueSeekSlider
 								disabled={queue.freezeState.seek}
 								max={video.duration}
 								onChange={(value) => queue.seek(value * 1000)}

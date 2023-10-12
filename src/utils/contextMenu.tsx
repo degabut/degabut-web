@@ -1,5 +1,5 @@
 import { IPlaylist, IVideoCompact } from "@api";
-import { ContextMenuItem } from "@components/ContextMenu";
+import { ContextMenuItem } from "@components/molecules";
 import { AppContextStore } from "@providers/AppProvider";
 import { ContextMenuDirectiveParams, ContextMenuItem as IContextMenuItem } from "@providers/ContextMenuProvider";
 import { QueueContextStore } from "@providers/QueueProvider";
@@ -15,28 +15,29 @@ type VideoProps = {
 	video: IVideoCompact;
 	queueStore: QueueContextStore;
 	appStore: AppContextStore;
-	openWithClick?: boolean;
 	min?: boolean;
 	navigate?: ReturnType<typeof useNavigate>;
 	modifyContextMenuItems?: (current: IContextMenuItem[][]) => IContextMenuItem[][];
 };
 
 export const getVideoContextMenu = (props: VideoProps) => {
-	const screen = useScreen();
-
 	const items = () => {
-		const inQueue = props.queueStore.data.tracks?.some((t) => t.video.id === props.video.id);
+		const trackInQueue = props.queueStore.data.tracks?.find((t) => t.video.id === props.video.id);
 		const isPlaying = props.queueStore.data.nowPlaying?.video.id === props.video.id;
 
 		const i: IContextMenuItem[][] = [];
 
 		if (!props.queueStore.data.empty) {
 			i.push([
-				{
-					element: () => <ContextMenuItem disabled={inQueue} icon="plus" label="Add to Queue" />,
-					onClick: () => props.queueStore.addTrack(props.video),
-					disabled: inQueue,
-				},
+				!trackInQueue
+					? {
+							element: () => <ContextMenuItem icon="plus" label="Add to Queue" />,
+							onClick: () => props.queueStore.addTrack(props.video),
+					  }
+					: {
+							element: () => <ContextMenuItem icon="trashBin" label="Remove from Queue" />,
+							onClick: () => props.queueStore.removeTrack(trackInQueue),
+					  },
 				{
 					element: () => <ContextMenuItem disabled={isPlaying} icon="play" label="Play" />,
 					onClick: () => props.queueStore.addAndPlayTrack(props.video),
@@ -70,7 +71,6 @@ export const getVideoContextMenu = (props: VideoProps) => {
 
 	return {
 		items: items(),
-		openWithClick: screen.lte.sm || props.openWithClick,
 		header: (
 			<div class="flex-col-center justify-center py-4 space-y-1">
 				<div class="w-[16rem] h-[9rem] text-center my-4">
@@ -99,7 +99,6 @@ type YouTubePlaylistProps = {
 	playlist: IYouTubePlaylistCompact;
 	queueStore: QueueContextStore;
 	appStore: AppContextStore;
-	openWithClick?: boolean;
 	min?: boolean;
 	modifyContextMenuItems?: (current: IContextMenuItem[][]) => IContextMenuItem[][];
 };
@@ -140,7 +139,6 @@ export const getYouTubePlaylistContextMenu = (props: YouTubePlaylistProps) => {
 
 	return {
 		items: items(),
-		openWithClick: screen.lte.sm || props.openWithClick,
 		header: (
 			<div class="flex-col-center justify-center py-4 space-y-1">
 				<div class="w-[16rem] h-[9rem] text-center my-4">

@@ -1,4 +1,4 @@
-import { Skeleton } from "@components/Skeleton";
+import { Skeleton } from "@components/atoms";
 import { Component } from "solid-js";
 
 export const MainPlaylistSkeleton: Component = () => {

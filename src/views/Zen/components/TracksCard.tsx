@@ -17,7 +17,7 @@ export const TracksCard: Component<Props> = (props) => {
 				</div>
 
 				<div class="grow overflow-y-auto">
-					<QueueTrackList keyword="" />
+					<QueueTrackList />
 				</div>
 			</div>
 		</Card>

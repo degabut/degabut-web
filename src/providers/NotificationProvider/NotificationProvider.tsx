@@ -1,4 +1,4 @@
-import { Icon } from "@components/Icon";
+import { Icon } from "@components/atoms";
 import { useScreen } from "@hooks/useScreen";
 import { Component, For, JSX, ParentComponent, Show, createContext, createSignal } from "solid-js";
 import { TransitionGroup } from "solid-transition-group";

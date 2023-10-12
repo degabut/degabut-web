@@ -1,8 +1,6 @@
 import { IVideo, IYouTubeMixPlaylist, IYouTubePlaylist } from "@api";
-import { Divider } from "@components/Divider";
-import { Modal } from "@components/Modal";
-import { Video } from "@components/Video";
-import { YouTubePlaylist } from "@components/YoutubePlaylist";
+import { Divider, Modal } from "@components/atoms";
+import { Video, YouTubePlaylist } from "@components/molecules";
 import { Component } from "solid-js";
 
 type Props = {
@@ -29,7 +27,7 @@ export const VideoPlaylistChooser: Component<Props> = (props) => {
 				</div>
 
 				<div class="space-y-1">
-					<Video.List disableContextMenu video={props.video} onClick={() => props.onChoose(props.video)} />
+					<Video.List video={props.video} onClick={() => props.onChoose(props.video)} />
 
 					<div class="flex-row-center space-x-4">
 						<Divider light />
@@ -37,11 +35,7 @@ export const VideoPlaylistChooser: Component<Props> = (props) => {
 						<Divider light />
 					</div>
 
-					<YouTubePlaylist.List
-						disableContextMenu
-						playlist={props.playlist}
-						onClick={() => props.onChoose(props.playlist)}
-					/>
+					<YouTubePlaylist.List playlist={props.playlist} onClick={() => props.onChoose(props.playlist)} />
 				</div>
 			</div>
 		</Modal>

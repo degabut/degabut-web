@@ -1,8 +1,6 @@
-import { Button } from "@components/Button";
-import { Modal } from "@components/Modal";
-import { Text } from "@components/Text";
+import { Button, Modal, Text } from "@components/atoms";
 import { IS_DESKTOP } from "@constants";
-import { Component, createSignal, onMount, Show } from "solid-js";
+import { Component, Show, createSignal, onMount } from "solid-js";
 
 export const UpdateModal: Component = () => {
 	const [isShowUpdateModal, setIsShowUpdateModal] = createSignal(false);

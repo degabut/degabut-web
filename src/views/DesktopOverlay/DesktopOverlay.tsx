@@ -1,5 +1,5 @@
-import { Container } from "@components/Container";
-import { Text } from "@components/Text";
+import { Text } from "@components/atoms";
+import { Container } from "@components/templates";
 import { IS_DESKTOP } from "@constants";
 import { useFullscreen } from "@providers/AppProvider";
 import { Navigate, Outlet, useBeforeLeave } from "@solidjs/router";

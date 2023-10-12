@@ -1,9 +1,7 @@
 import { IVideoCompact } from "@api";
-import { ContextMenuItem } from "@components/ContextMenu";
-import { Divider } from "@components/Divider";
-import { Modal } from "@components/Modal";
-import { Text } from "@components/Text";
-import { Videos } from "@components/Videos";
+import { Divider, Modal, Text } from "@components/atoms";
+import { ContextMenuItem } from "@components/molecules";
+import { Videos } from "@components/organisms";
 import { useApi } from "@hooks/useApi";
 import { useQueue } from "@hooks/useQueue";
 import { useVideos } from "@hooks/useVideos";

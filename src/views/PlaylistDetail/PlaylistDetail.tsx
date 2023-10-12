@@ -1,13 +1,13 @@
-import { Container } from "@components/Container";
-import { ContextMenuItem } from "@components/ContextMenu";
-import { Divider } from "@components/Divider";
-import { Videos } from "@components/Videos";
+import { Divider } from "@components/atoms";
+import { ContextMenuItem } from "@components/molecules";
+import { Videos } from "@components/organisms";
+import { Container } from "@components/templates";
 import { usePlaylist } from "@hooks/usePlaylist";
 import { useQueue } from "@hooks/useQueue";
 import { useApp } from "@providers/AppProvider";
 import { useNavigate, useParams } from "@solidjs/router";
 import { getVideoContextMenu } from "@utils/contextMenu";
-import { Component, createEffect, createSignal, Show } from "solid-js";
+import { Component, Show, createEffect, createSignal } from "solid-js";
 import { EditPlaylistModal, MainPlaylist, MainPlaylistSkeleton } from "./components";
 
 export const PlaylistDetail: Component = () => {

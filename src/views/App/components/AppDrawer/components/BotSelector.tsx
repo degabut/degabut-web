@@ -1,6 +1,4 @@
-import { RouterLink } from "@components/A";
-import { Icon } from "@components/Icon";
-import { Text } from "@components/Text";
+import { Icon, RouterLink, Text } from "@components/atoms";
 import { bots } from "@constants";
 import { contextMenu } from "@directives/contextMenu";
 import { useBotSelector } from "@hooks/useBotSelector";

@@ -9,10 +9,11 @@ import {
 import { Join } from "@views/Join";
 import { Login } from "@views/Login";
 import { Lyrics } from "@views/Lyrics";
+import { QueueNowPlaying } from "@views/NowPlaying";
 import { OAuth } from "@views/OAuth";
 import { PlaylistDetail } from "@views/PlaylistDetail";
 import { Playlists } from "@views/Playlists";
-import { Queue, QueueNowPlaying } from "@views/Queue";
+import { Queue } from "@views/Queue";
 import { Recommendation } from "@views/Recommendation";
 import { Search } from "@views/Search";
 import { Settings } from "@views/Settings";

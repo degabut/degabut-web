@@ -1,9 +1,5 @@
-import { Button } from "@components/Button";
-import { Divider } from "@components/Divider";
-import { Icon, Icons } from "@components/Icon";
-import { KeyboardHint } from "@components/KeyboardHint";
-import { Text } from "@components/Text";
-import { Videos } from "@components/Videos";
+import { Button, Icon, Icons, KeyboardHint, Text } from "@components/atoms";
+import { Videos } from "@components/organisms";
 import { useInfiniteScrolling } from "@hooks/useInfiniteScrolling";
 import { useQueue } from "@hooks/useQueue";
 import { useQueueRecommendation } from "@hooks/useQueueRecommendation";
@@ -22,7 +18,7 @@ type HintItemProps = {
 const HintItem: Component<HintItemProps> = (props) => {
 	return (
 		<Button flat onClick={() => props.onClick()} class="flex flex-row items-center w-full space-x-3 p-1.5">
-			<div class="!w-12 !h-12 shrink-0 flex items-center justify-center rounded border border-neutral-500">
+			<div class="!w-12 !h-12 shrink-0 flex items-center justify-center rounded border border-neutral-600">
 				<Icon name={props.icon} size="lg" extraClass="fill-neutral-500" />
 			</div>
 			{props.label}
@@ -35,7 +31,6 @@ export const QueueHint: Component = () => {
 	const screen = useScreen();
 	const queue = useQueue();
 	const navigate = useNavigate();
-	const tracks = () => queue.data.tracks || [];
 	const recommendation = useQueueRecommendation({
 		onLoad: () => infinite.load(),
 	});
@@ -48,8 +43,8 @@ export const QueueHint: Component = () => {
 	});
 
 	return (
-		<div class="space-y-8 md:space-y-4">
-			<div class="space-y-1.5" classList={{ "md:ml-0 ml-[0.875rem]": !!tracks().length }}>
+		<div class="space-y-8 md:space-y-4 py-2">
+			<div class="space-y-2">
 				<HintItem
 					label={
 						<div class="flex-row-center space-x-4 truncate">
@@ -79,11 +74,8 @@ export const QueueHint: Component = () => {
 				/>
 			</div>
 
-			<div class="space-y-2 md:space-y-0" ref={containerElement}>
-				<div class="flex-row-center space-x-3 py-2 text-sm">
-					<Text.Body2 class="shrink-0">Quick Add</Text.Body2>
-					<Divider extraClass="grow" light />
-				</div>
+			<div class="space-y-2" ref={containerElement}>
+				<Text.Body1 class="font-medium">Recommendation</Text.Body1>
 
 				<Videos.List
 					data={recommendation.videos()}
@@ -100,9 +92,10 @@ export const QueueHint: Component = () => {
 						}),
 						right: () => (
 							<Button
+								flat
 								title="Add"
 								icon="plus"
-								class="shrink-0 justify-center w-10 h-10 ml-1.5 border-neutral-500 text-neutral-400"
+								class="shrink-0 justify-center w-10 h-10 ml-1.5 border-neutral-500 text-neutral-400 hover:!bg-transparent"
 								onClick={(ev) => {
 									ev.stopImmediatePropagation();
 									queue.addTrack(video);

@@ -1,5 +1,5 @@
 import { IVideoCompact } from "@api";
-import { Videos } from "@components/Videos";
+import { Videos } from "@components/organisms";
 import { useQueue } from "@hooks/useQueue";
 import { useApp } from "@providers/AppProvider";
 import { useNavigate } from "@solidjs/router";

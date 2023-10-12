@@ -5,7 +5,7 @@ import { Card } from "./Card";
 export const TracksCard: Component = () => {
 	return (
 		<Card>
-			<QueueTrackList keyword="" />
+			<QueueTrackList />
 		</Card>
 	);
 };

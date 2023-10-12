@@ -1,11 +1,10 @@
 import { IVideo, IYouTubeMixPlaylist, IYouTubePlaylist } from "@api/YouTube";
-import { Icon } from "@components/Icon";
-import { Spinner } from "@components/Spinner";
+import { Icon, Spinner } from "@components/atoms";
 import { useApi } from "@hooks/useApi";
 import { useQueue } from "@hooks/useQueue";
 import { useApp } from "@providers/AppProvider";
 import { addPlaylistConfirmation } from "@utils/confirmation";
-import { createSignal, onCleanup, onMount, Show } from "solid-js";
+import { Show, createSignal, onCleanup, onMount } from "solid-js";
 import { VideoPlaylistChooser } from "./components";
 
 type VideoPlaylistOption = null | {

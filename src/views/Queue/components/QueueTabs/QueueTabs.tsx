@@ -1,33 +1,23 @@
-import { Tabs } from "@components/Tabs";
-import { Videos } from "@components/Videos";
+import { Tabs } from "@components/atoms";
+import { Videos } from "@components/organisms";
 import { useQueue } from "@hooks/useQueue";
-import { Component, createSignal, Show } from "solid-js";
+import { Component, Show } from "solid-js";
 import { QueueHint } from "./QueueHint";
 import { QueueInfo } from "./QueueInfo";
 import { QueuePlayHistory } from "./QueuePlayHistory";
 import { QueueTrackList } from "./QueueTrackList";
-import { SearchInput } from "./SearchInput";
 
 export const QueueTabs: Component = () => {
 	const queue = useQueue();
-	const [keyword, setKeyword] = createSignal("");
 
 	return (
 		<Tabs
-			end={(e) => (
-				<SearchInput
-					keyword={keyword()}
-					onInput={setKeyword}
-					placeholder={`Search ${e.id === "trackList" ? "queue" : "history"}`}
-				/>
-			)}
 			extraContainerClass="h-full overflow-y-auto"
 			extraContentContainerClass="h-full overflow-y-auto md:pr-2"
 			items={[
 				{
 					id: "trackList",
-					labelText: "Track List",
-					icon: "audioPlaylist",
+					labelText: "Queue",
 					element: () => (
 						<Show
 							when={!queue.isInitialLoading()}
@@ -38,21 +28,18 @@ export const QueueTabs: Component = () => {
 							}
 						>
 							<QueueInfo />
-							<div class="space-y-1.5">
-								<QueueTrackList keyword={keyword()} />
-								<QueueHint />
-							</div>
+							<QueueTrackList />
+							<QueueHint />
 						</Show>
 					),
 				},
 				{
 					id: "queueHistory",
 					labelText: "History",
-					icon: "history",
 					element: () => (
 						<Show when={!queue.isInitialLoading()} fallback={<Videos.List data={[]} isLoading />}>
 							<div class="pt-6">
-								<QueuePlayHistory keyword={keyword()} />
+								<QueuePlayHistory />
 							</div>
 						</Show>
 					),

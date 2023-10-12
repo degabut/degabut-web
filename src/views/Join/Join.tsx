@@ -1,4 +1,4 @@
-import { Text } from "@components/Text";
+import { Text } from "@components/atoms";
 import { useApi } from "@hooks/useApi";
 import { useNavigate, useParams } from "@solidjs/router";
 import { Component, onMount } from "solid-js";

@@ -1,6 +1,4 @@
-import { RouterLink } from "@components/A";
-import { Icon } from "@components/Icon";
-import { Text } from "@components/Text";
+import { Icon, RouterLink, Text } from "@components/atoms";
 import { useMatch } from "@providers/BotSelectorProvider";
 import { Component, For } from "solid-js";
 import { Card } from "./Card";
@@ -22,7 +20,7 @@ export const NavigationCard: Component = () => {
 							<Card
 								extraClass="outline"
 								extraClassList={{
-									"outline-1 outline-white": !!isActive(),
+									"outline-1 outline-neutral-200": !!isActive(),
 									"outline-0 hover:outline-1 hover:outline-neutral-500": !isActive(),
 								}}
 							>

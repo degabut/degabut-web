@@ -1,5 +1,4 @@
-import { InputKeybind } from "@components/InputKeybind";
-import { Text } from "@components/Text";
+import { InputKeybind, Text } from "@components/atoms";
 import { Component, Show } from "solid-js";
 
 type Props = {

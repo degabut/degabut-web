@@ -1,6 +1,6 @@
 import { IVideoCompact } from "@api";
-import { ContextMenuItem } from "@components/ContextMenu";
-import { Videos } from "@components/Videos";
+import { ContextMenuItem } from "@components/molecules";
+import { Videos } from "@components/organisms";
 import { useApi } from "@hooks/useApi";
 import { useQueue } from "@hooks/useQueue";
 import { useApp } from "@providers/AppProvider";

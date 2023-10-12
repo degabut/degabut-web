@@ -6,7 +6,7 @@ import { SettingsProvider } from "@providers/SettingsProvider";
 import { Outlet } from "@solidjs/router";
 import { requestNotificationPermission } from "@utils/notification";
 import { Component, ErrorBoundary, Show } from "solid-js";
-import { AppDrawer, AppHeader, BottomBar, Error, MemberListDrawer } from "./components";
+import { AppDrawer, AppHeader, BottomBar, Error } from "./components";
 
 export const App: Component = () => {
 	return (
@@ -31,11 +31,8 @@ const ProvidedApp: Component = () => {
 	requestNotificationPermission();
 
 	return (
-		<div
-			class="flex flex-col h-full"
-			classList={{ "bg-gradient-to-b from-neutral-800 to-neutral-900": !app.isFullscreen() }}
-		>
-			<div class="flex h-full overflow-y-auto">
+		<div class="flex flex-col h-full" classList={{ "bg-neutral-850 md:space-y-2 md:p-1.5": !app.isFullscreen() }}>
+			<div class="flex h-full overflow-y-auto md:space-x-2">
 				<Show when={!app.isFullscreen()}>
 					<AppDrawer />
 				</Show>
@@ -47,14 +44,13 @@ const ProvidedApp: Component = () => {
 						</div>
 					</Show>
 
-					<div class="h-full overflow-y-auto">
+					<div
+						class="h-full overflow-y-auto bg-neutral-950"
+						classList={{ "md:rounded-lg": !app.isFullscreen() }}
+					>
 						<Outlet />
 					</div>
 				</div>
-
-				<Show when={!app.isFullscreen()}>
-					<MemberListDrawer />
-				</Show>
 			</div>
 
 			<Show when={!app.isFullscreen()}>

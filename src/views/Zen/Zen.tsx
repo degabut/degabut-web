@@ -1,19 +1,25 @@
-import { RouterLink } from "@components/A";
-import { Button } from "@components/Button";
-import { Container } from "@components/Container";
-import { Text } from "@components/Text";
+import { Button, RouterLink, Text } from "@components/atoms";
+import { Container } from "@components/templates";
 import { useQueue } from "@hooks/useQueue";
 import { useScreen } from "@hooks/useScreen";
+import { useShortcut } from "@hooks/useShortcut";
 import { useFullscreen } from "@providers/AppProvider";
-import { Component, createSignal, Show } from "solid-js";
+import { useNavigate } from "@solidjs/router";
+import { Component, Show, createSignal } from "solid-js";
 import { PlayerCard, TracksCard } from "./components";
 
 export const Zen: Component = () => {
 	const screen = useScreen();
+	const navigate = useNavigate();
+
 	useFullscreen();
 
 	const queue = useQueue();
 	const [isShowTracks, setIsShowTracks] = createSignal(screen.gte.md);
+
+	useShortcut({
+		shortcuts: [{ key: "escape", handler: () => navigate("/app/queue") }],
+	});
 
 	return (
 		<Container size="full" padless extraClass="relative h-full bg-neutral-900 z-0 p-2 lg:p-8">

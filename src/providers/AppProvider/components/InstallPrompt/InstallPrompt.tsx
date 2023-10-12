@@ -1,5 +1,4 @@
-import { Button } from "@components/Button";
-import { Divider } from "@components/Divider";
+import { Button, Divider } from "@components/atoms";
 import { Component, createSignal, onMount, Show } from "solid-js";
 
 export const InstallPrompt: Component = () => {

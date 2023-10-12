@@ -1,5 +1,4 @@
-import { Button } from "@components/Button";
-import { Text } from "@components/Text";
+import { Button, Text } from "@components/atoms";
 import { Component } from "solid-js";
 
 type Props = {

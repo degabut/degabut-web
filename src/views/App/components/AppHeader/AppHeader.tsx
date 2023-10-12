@@ -1,5 +1,4 @@
-import { Button } from "@components/Button";
-import { Text } from "@components/Text";
+import { Button, Text } from "@components/atoms";
 import { useApp } from "@providers/AppProvider";
 import { Component } from "solid-js";
 
@@ -7,7 +6,7 @@ export const AppHeader: Component = () => {
 	const app = useApp();
 
 	return (
-		<div class="block md:hidden flex-row-center bg-neutral-900 border-b border-neutral-700 h-14 md:h-12 px-4 py-2 space-x-3">
+		<div class="block md:hidden flex-row-center bg-black border-b border-neutral-700 h-14 md:h-12 px-4 py-2 space-x-3">
 			<Button
 				rounded
 				flat
@@ -20,15 +19,6 @@ export const AppHeader: Component = () => {
 			<Text.H3 truncate class="grow">
 				{app?.title()}
 			</Text.H3>
-
-			<Button
-				rounded
-				flat
-				icon="people"
-				iconSize="lg"
-				class="p-2"
-				onClick={() => app.setIsMemberOpen((v) => !v)}
-			/>
 		</div>
 	);
 };

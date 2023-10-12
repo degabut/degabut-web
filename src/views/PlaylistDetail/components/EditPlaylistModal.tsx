@@ -1,7 +1,4 @@
-import { Button } from "@components/Button";
-import { Input } from "@components/Input";
-import { Modal } from "@components/Modal";
-import { Text } from "@components/Text";
+import { Button, Input, Modal, Text } from "@components/atoms";
 import { Component, createEffect, createSignal } from "solid-js";
 
 type EditPlaylistModalProps = {

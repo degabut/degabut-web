@@ -8,8 +8,8 @@ import {
 	IYouTubePlaylist,
 	IYouTubePlaylistCompact,
 } from "@api";
-import { Text } from "@components/Text";
-import { Video } from "@components/Video";
+import { Text } from "@components/atoms";
+import { Video } from "@components/molecules";
 import { Show } from "solid-js";
 
 export const addPlaylistConfirmation = (
@@ -47,7 +47,7 @@ export const removePlayHistoryConfirmation = (video: IVideo | IVideoCompact, onC
 		title: "Remove Play History",
 		message: () => (
 			<div class="flex-col-center space-y-6">
-				<Video.List video={video} disableContextMenu />
+				<Video.List video={video} />
 				<Text.Body2 class="text-center">
 					This action will remove the video from your most played and recently played lists until you play it
 					again.

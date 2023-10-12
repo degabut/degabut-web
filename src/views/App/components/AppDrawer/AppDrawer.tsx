@@ -1,10 +1,9 @@
-import { Drawer } from "@components/Drawer";
+import { Drawer } from "@components/atoms";
 import { useScreen } from "@hooks/useScreen";
 import { useSettings } from "@hooks/useSettings";
 import { useApp } from "@providers/AppProvider";
 import { Component, For } from "solid-js";
-import { Link } from "./Link";
-import { BotSelector } from "./components";
+import { BotSelector, Link } from "./components";
 
 export const AppDrawer: Component = () => {
 	const app = useApp();
@@ -24,8 +23,8 @@ export const AppDrawer: Component = () => {
 
 	return (
 		<Drawer
-			resizeable
-			extraContainerClass="min-w-[4.25rem] max-w-[75vw] md:max-w-[max(12vw,16rem)] pb-8"
+			resizable
+			extraContainerClass="min-w-[4.25rem] max-w-[75vw] md:max-w-[max(16vw,16rem)] pb-8 rounded-lg"
 			initialSize={settings.appDrawerSize}
 			onResize={(appDrawerSize) => setSettings({ appDrawerSize })}
 			isOpen={app.isMenuOpen()}

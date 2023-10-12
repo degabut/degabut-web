@@ -1,7 +1,5 @@
-import { Icon } from "@components/Icon";
-import { Input } from "@components/Input";
-import { Video } from "@components/Video";
-import { YouTubePlaylist } from "@components/YoutubePlaylist";
+import { Icon, Input } from "@components/atoms";
+import { Video, YouTubePlaylist } from "@components/molecules";
 import { useQueue } from "@hooks/useQueue";
 import { useSearchYouTube } from "@hooks/useSearchYouTube";
 import { useApp } from "@providers/AppProvider";
@@ -41,7 +39,7 @@ export const DesktopOverlaySearch: Component = () => {
 				type="text"
 				placeholder="Search for a song"
 				focusOnMount
-				class="bg-black/90 rounded-lg py-1 !text-neutral-100"
+				class="!bg-black/90 rounded-lg py-1 !text-neutral-200"
 				onInput={onInput}
 				prefix={<Icon name="search" size="lg" extraClass="fill-current" />}
 			/>
@@ -61,7 +59,6 @@ export const DesktopOverlaySearch: Component = () => {
 												appStore: app,
 												queueStore: queue,
 												min: true,
-												openWithClick: true,
 											})}
 										/>
 									) : (
@@ -72,7 +69,6 @@ export const DesktopOverlaySearch: Component = () => {
 												queueStore: queue,
 												playlist: item,
 												min: true,
-												openWithClick: true,
 											})}
 										/>
 									)

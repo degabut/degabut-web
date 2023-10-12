@@ -1,5 +1,4 @@
-import { Button } from "@components/Button";
-import { Text } from "@components/Text";
+import { AbbreviationIcon, Button, Text } from "@components/atoms";
 import { Component } from "solid-js";
 
 type Props = {
@@ -31,16 +30,20 @@ export const MainPlaylist: Component<Props> = (props) => {
 	};
 
 	return (
-		<div class="space-y-4">
-			<div class="flex-row-center justify-between md:justify-start md:space-x-8">
-				<Text.H1 truncate title={props.name}>
-					{props.name}
-				</Text.H1>
-				<Button icon="editPencil" iconSize="md" flat rounded onClick={() => props.onClickEdit()} />
-			</div>
-			<div class="flex md:flex-row space-x-8">
-				<Text.Body1>{videoCount()}</Text.Body1>
-				<Text.Body1>{duration()}</Text.Body1>
+		<div class="flex-row-center space-x-4">
+			<AbbreviationIcon text={props.name} size="xl" />
+
+			<div class="space-y-4">
+				<div class="flex-row-center justify-between md:justify-start md:space-x-8">
+					<Text.H1 truncate title={props.name}>
+						{props.name}
+					</Text.H1>
+					<Button icon="editPencil" iconSize="md" flat rounded onClick={() => props.onClickEdit()} />
+				</div>
+				<div class="flex md:flex-row space-x-8">
+					<Text.Body1>{videoCount()}</Text.Body1>
+					<Text.Body1>{duration()}</Text.Body1>
+				</div>
 			</div>
 		</div>
 	);

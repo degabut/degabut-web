@@ -3,8 +3,9 @@ import { IVideoCompact } from "@api";
 import { breakpoints } from "@constants";
 import { useScreen } from "@hooks/useScreen";
 import { useShortcut } from "@hooks/useShortcut";
-import { useLocation, useNavigate } from "@solidjs/router";
-import { Accessor, createContext, createEffect, createSignal, JSX, ParentComponent, Setter } from "solid-js";
+import { useMatch } from "@providers/BotSelectorProvider";
+import { useNavigate } from "@solidjs/router";
+import { Accessor, JSX, ParentComponent, Setter, createContext, createEffect, createSignal } from "solid-js";
 import {
 	AddPlaylistVideoModal,
 	CatJamManager,
@@ -30,10 +31,8 @@ export type AppContextStore = {
 	setVideoPlaylist: (video: IVideoCompact | null) => void;
 	setConfirmation: (confirmation: Confirmation | null) => void;
 	isMenuOpen: Accessor<boolean>;
-	isMemberOpen: Accessor<boolean>;
 	setIsQuickSearchModalOpen: Setter<boolean>;
 	setIsMenuOpen: Setter<boolean>;
-	setIsMemberOpen: Setter<boolean>;
 };
 
 export const AppContext = createContext<AppContextStore>({
@@ -44,20 +43,17 @@ export const AppContext = createContext<AppContextStore>({
 	setVideoPlaylist: () => {},
 	setConfirmation: () => {},
 	isMenuOpen: () => false,
-	isMemberOpen: () => false,
 	setIsQuickSearchModalOpen: () => false as any,
 	setIsMenuOpen: () => false as any,
-	setIsMemberOpen: () => false as any,
 });
 
 export const AppProvider: ParentComponent = (props) => {
 	let previousWidth = window.screenX;
 	const screen = useScreen();
 	const navigate = useNavigate();
-	const location = useLocation();
+	const match = useMatch(() => "/app/queue/zen");
 
 	const [isMenuOpen, setIsMenuOpen] = createSignal(window.innerWidth > breakpoints.md);
-	const [isMemberOpen, setIsMemberOpen] = createSignal(window.innerWidth > breakpoints["2xl"]);
 	const [title, setTitle] = createSignal("");
 	const [isFullscreen, setIsFullscreen] = createSignal(false);
 	const [videoPlaylist, setVideoPlaylist] = createSignal<null | IVideoCompact>(null);
@@ -66,9 +62,7 @@ export const AppProvider: ParentComponent = (props) => {
 
 	createEffect(() => {
 		if (screen.gte.md) setIsMenuOpen(true);
-		if (screen.gte["2xl"]) setIsMemberOpen(true);
 		if (window.innerWidth <= breakpoints.md && previousWidth > breakpoints.md) setIsMenuOpen(false);
-		if (window.innerWidth <= breakpoints["2xl"] && previousWidth > breakpoints["2xl"]) setIsMemberOpen(false);
 		previousWidth = window.innerWidth;
 	});
 
@@ -79,10 +73,7 @@ export const AppProvider: ParentComponent = (props) => {
 			{
 				key: "z",
 				ctrl: true,
-				handler: () => {
-					if (location.pathname !== "/app/queue/zen") navigate("/app/queue/zen");
-					else navigate("/app/queue");
-				},
+				handler: () => navigate(match() ? "/app/queue" : "/app/queue/zen"),
 			},
 		],
 	});
@@ -95,10 +86,8 @@ export const AppProvider: ParentComponent = (props) => {
 		setVideoPlaylist,
 		setConfirmation,
 		isMenuOpen,
-		isMemberOpen,
 		setIsQuickSearchModalOpen,
 		setIsMenuOpen,
-		setIsMemberOpen,
 	};
 
 	return (

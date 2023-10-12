@@ -1,5 +1,5 @@
-import { Text } from "@components/Text";
-import { Videos } from "@components/Videos";
+import { Text } from "@components/atoms";
+import { Videos } from "@components/organisms";
 import { useQueue } from "@hooks/useQueue";
 import { useRecommendation } from "@hooks/useRecommendation";
 import { useApp } from "@providers/AppProvider";

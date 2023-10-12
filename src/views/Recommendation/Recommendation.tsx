@@ -1,6 +1,6 @@
-import { Container } from "@components/Container";
-import { Icon } from "@components/Icon";
-import { Videos } from "@components/Videos";
+import { Icon } from "@components/atoms";
+import { Videos } from "@components/organisms";
+import { Container } from "@components/templates";
 import { useInfiniteScrolling } from "@hooks/useInfiniteScrolling";
 import { useQueue } from "@hooks/useQueue";
 import { useRecommendation } from "@hooks/useRecommendation";

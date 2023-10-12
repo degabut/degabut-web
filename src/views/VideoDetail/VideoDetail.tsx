@@ -1,13 +1,12 @@
-import { Container } from "@components/Container";
-import { Divider } from "@components/Divider";
-import { Text } from "@components/Text";
-import { Videos } from "@components/Videos";
+import { Divider, Text } from "@components/atoms";
+import { Videos } from "@components/organisms";
+import { Container } from "@components/templates";
 import { useQueue } from "@hooks/useQueue";
 import { useVideo } from "@hooks/useVideo";
 import { useApp } from "@providers/AppProvider";
 import { useNavigate, useParams } from "@solidjs/router";
 import { getVideoContextMenu } from "@utils/contextMenu";
-import { Component, createEffect, createMemo, onMount, Show } from "solid-js";
+import { Component, Show, createEffect, createMemo, onMount } from "solid-js";
 import { MainVideo, MainVideoSkeleton } from "./components";
 
 export const VideoDetail: Component = () => {

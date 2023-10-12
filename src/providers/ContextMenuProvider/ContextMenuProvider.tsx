@@ -1,5 +1,6 @@
+import { useHashState } from "@hooks/useHashState";
 import { useScreen } from "@hooks/useScreen";
-import { createContext, createSignal, JSX, onMount, ParentComponent, Show } from "solid-js";
+import { createContext, createEffect, createSignal, JSX, onMount, ParentComponent, Show } from "solid-js";
 import { ContextMenuItem, FloatingContextMenu, SlideUpContextMenu } from "./components";
 
 export type ShowParams = {
@@ -18,9 +19,9 @@ type ContextMenuContextStore = {
 
 export const ContextMenuContext = createContext<ContextMenuContextStore>();
 
-// TODO back button to close context menu
 export const ContextMenuProvider: ParentComponent = (props) => {
 	const screen = useScreen();
+	const hash = useHashState({ onPopState: () => setIsShowContextMenu(false) });
 	const [isShowContextMenu, setIsShowContextMenu] = createSignal(false);
 	const [params, setParams] = createSignal<ShowParams>({ x: 0, y: 0, items: [], header: null });
 
@@ -28,6 +29,11 @@ export const ContextMenuProvider: ParentComponent = (props) => {
 		setIsShowContextMenu(true);
 		setParams(params);
 	};
+
+	createEffect(() => {
+		if (!screen.lte.sm) return;
+		isShowContextMenu() ? hash.push() : hash.back();
+	});
 
 	onMount(() => {
 		window.addEventListener("popstate", () => {

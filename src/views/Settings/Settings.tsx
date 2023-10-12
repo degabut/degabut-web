@@ -1,12 +1,10 @@
-import { Button } from "@components/Button";
-import { Container } from "@components/Container";
-import { Divider } from "@components/Divider";
-import { Text } from "@components/Text";
+import { Button, Divider, Text } from "@components/atoms";
+import { Container } from "@components/templates";
 import { IS_DESKTOP } from "@constants";
 import { useSettings } from "@hooks/useSettings";
 import { useApp } from "@providers/AppProvider";
 import { useNavigate } from "@solidjs/router";
-import { Accessor, Component, For, onMount, Show } from "solid-js";
+import { Accessor, Component, For, Show, onMount } from "solid-js";
 import { KeybindItem, SwitchItem } from "./components";
 
 type SettingsCategory = {
@@ -136,7 +134,7 @@ export const Settings: Component = () => {
 
 				<Button
 					rounded
-					class="max-w-max text-red-500 border-red-500 hover:bg-red-500/10 px-8 py-1.5"
+					class="max-w-max text-red-500 !border-red-500 hover:bg-red-500/10 px-8 py-1.5"
 					onClick={onClickLogout}
 				>
 					Logout

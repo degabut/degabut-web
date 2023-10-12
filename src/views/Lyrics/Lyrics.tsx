@@ -1,12 +1,11 @@
-import { Container } from "@components/Container";
-import { Icon } from "@components/Icon";
-import { Spinner } from "@components/Spinner";
+import { Icon, Spinner } from "@components/atoms";
+import { Container } from "@components/templates";
 import { useLyrics } from "@hooks/useLyrics";
 import { useQueue } from "@hooks/useQueue";
 import { useTranscript } from "@hooks/useTranscript";
 import { useVideoTranscript } from "@hooks/useVideoTranscript";
 import { useApp } from "@providers/AppProvider";
-import { Component, createEffect, createMemo, For, Match, onMount, Switch } from "solid-js";
+import { Component, For, Match, Switch, createEffect, createMemo, onMount } from "solid-js";
 import "./Lyrics.css";
 
 const LyricsNotFound: Component = () => {

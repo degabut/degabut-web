@@ -1,11 +1,10 @@
 import { IGuild } from "@api";
-import { Button } from "@components/Button";
-import { Divider } from "@components/Divider";
-import { Text } from "@components/Text";
+import { AbbreviationIcon, Divider, Text } from "@components/atoms";
+import { Item } from "@components/molecules";
 import { useApi } from "@hooks/useApi";
 import { useQueue } from "@hooks/useQueue";
 import { useApp } from "@providers/AppProvider";
-import { Component, createSignal, For, Show } from "solid-js";
+import { Component, For, Show, createSignal } from "solid-js";
 
 type VoiceChannelMin = {
 	id: string;
@@ -26,26 +25,10 @@ type Props = {
 };
 
 const VoiceChannelList: Component<Props> = (props) => {
-	const shortName = () =>
-		props.guild.name
-			.split(" ")
-			.map((word) => word[0])
-			.join("")
-			.slice(0, 2);
-
 	return (
-		<div class="flex-row-center px-2 py-1 space-x-2 w-full bg-white/5 rounded">
-			<div class="shrink-0 w-12 h-12 p-1 rounded-full">
-				<Show
-					when={props.guild.icon}
-					keyed
-					fallback={<div class="flex-col-center h-full justify-center text-xl">{shortName()}</div>}
-				>
-					{(icon) => <img src={icon} />}
-				</Show>
-			</div>
-
-			<div class="flex flex-col grow truncate">
+		<Item.List
+			onClick={() => props.onClick(props.voiceChannel, props.textChannel)}
+			title={
 				<div class="flex space-x-2">
 					<Text.H4 truncate>{props.voiceChannel.name}</Text.H4>
 					<Show when={props.textChannel} keyed>
@@ -56,17 +39,13 @@ const VoiceChannelList: Component<Props> = (props) => {
 						)}
 					</Show>
 				</div>
-				<Text.Body2 truncate>{props.guild.name}</Text.Body2>
-			</div>
-
-			<Button
-				disabled={props.isLoading}
-				onClick={() => props.onClick(props.voiceChannel, props.textChannel)}
-				class="px-3 py-1.5"
-			>
-				Join
-			</Button>
-		</div>
+			}
+			icon={props.guild.icon || undefined}
+			extra={() => <Text.Body2 truncate>{props.guild.name}</Text.Body2>}
+			left={() =>
+				!props.guild.icon ? <AbbreviationIcon text={props.guild.name} extraClass="w-12 h-12" /> : undefined
+			}
+		/>
 	);
 };
 
@@ -103,9 +82,6 @@ export const QueueNotFound: Component = () => {
 
 			<Show when={queue.voiceChannelHistory.length}>
 				<Text.H3>Are you in one of these voice channels?</Text.H3>
-				<Text.Body2>
-					Click the <b>Join</b> button to make Degabut join the voice channel.
-				</Text.Body2>
 
 				<div class="flex-col-center w-full space-y-3 md:max-w-lg">
 					<For each={queue.voiceChannelHistory}>

@@ -4,6 +4,7 @@ type Props<T> = {
 	keyword: Accessor<string>;
 	items: Accessor<T[]>;
 	keys: (item: T) => string[];
+	returnEmptyOnEmptyKeyword?: boolean;
 };
 
 export function useSearchable<T = unknown>(props: Props<T>) {
@@ -11,7 +12,9 @@ export function useSearchable<T = unknown>(props: Props<T>) {
 		const items = props.items();
 		const keyword = props.keyword().toLowerCase();
 
-		if (!keyword.length) return items;
+		if (!keyword.length) {
+			return props.returnEmptyOnEmptyKeyword ? [] : items;
+		}
 
 		const keywords = keyword.split(" ");
 		const result = items.filter((item) => {

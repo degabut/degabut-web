@@ -1,6 +1,5 @@
-import { RouterLink } from "@components/A";
-import { Container } from "@components/Container";
-import { Text } from "@components/Text";
+import { RouterLink, Text } from "@components/atoms";
+import { Container } from "@components/templates";
 import { Component } from "solid-js";
 
 export const Error: Component<{ error: unknown }> = (props) => {

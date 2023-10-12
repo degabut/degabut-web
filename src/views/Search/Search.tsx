@@ -1,15 +1,13 @@
-import { Container } from "@components/Container";
-import { Icon } from "@components/Icon";
-import { Input } from "@components/Input";
-import { Video } from "@components/Video";
-import { YouTubePlaylist } from "@components/YoutubePlaylist";
+import { Icon, Input } from "@components/atoms";
+import { Video, YouTubePlaylist } from "@components/molecules";
+import { Container } from "@components/templates";
 import { useQueue } from "@hooks/useQueue";
 import { useScreen } from "@hooks/useScreen";
 import { useSearchYouTube } from "@hooks/useSearchYouTube";
 import { useApp } from "@providers/AppProvider";
 import { useNavigate, useSearchParams } from "@solidjs/router";
 import { getVideoContextMenu, getYouTubePlaylistContextMenu } from "@utils/contextMenu";
-import { Component, For, onMount, Show } from "solid-js";
+import { Component, For, Show, onMount } from "solid-js";
 
 const SearchResultSkeleton: Component<{ isSmall?: boolean }> = (props) => {
 	return (

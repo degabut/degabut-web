@@ -1,20 +1,16 @@
-import { IVideoCompact, IYouTubePlaylistCompact } from "@api";
-import { Divider } from "@components/Divider";
-import { Icon } from "@components/Icon";
-import { KeyboardHint } from "@components/KeyboardHint";
-import { Modal } from "@components/Modal";
-import { Select } from "@components/Select";
-import { Video } from "@components/Video";
-import { YouTubePlaylist } from "@components/YoutubePlaylist";
+import { ITrack, IVideoCompact, IYouTubePlaylistCompact } from "@api";
+import { Divider, Icon, KeyboardHint, Modal, Select } from "@components/atoms";
+import { Video, YouTubePlaylist } from "@components/molecules";
 import { useQueue } from "@hooks/useQueue";
 import { useSearchYouTube } from "@hooks/useSearchYouTube";
+import { useSearchable } from "@hooks/useSearchable";
 import { useApp } from "@providers/AppProvider";
 import { useNavigate } from "@solidjs/router";
 import { addPlaylistConfirmation } from "@utils/confirmation";
 import { getVideoContextMenu, getYouTubePlaylistContextMenu } from "@utils/contextMenu";
-import { Component, createSignal, Show } from "solid-js";
+import { Component, Show, createSignal } from "solid-js";
 
-type SelectOptionItem = IVideoCompact | IYouTubePlaylistCompact;
+type SelectOptionItem = IVideoCompact | IYouTubePlaylistCompact | ITrack;
 
 type Props = {
 	isOpen: boolean;
@@ -46,6 +42,7 @@ export const QuickSearchModal: Component<Props> = (props) => {
 	};
 
 	const onSelect = async (item: SelectOptionItem, _: number, e?: KeyboardEvent | MouseEvent) => {
+		if ("requestedBy" in item) return;
 		if ("duration" in item) {
 			// video
 			if (queue.data.empty || e?.shiftKey) navigate("/app/video/" + item.id);
@@ -72,6 +69,17 @@ export const QuickSearchModal: Component<Props> = (props) => {
 		search.setKeyword("");
 	};
 
+	const tracks = useSearchable({
+		keyword: search.keyword,
+		items: () => queue.data.tracks || [],
+		keys: ({ video, requestedBy }) => {
+			const keys = [video.title, requestedBy.displayName, requestedBy.nickname, requestedBy.username];
+			if (video.channel) keys.push(video.channel.name);
+			return keys;
+		},
+		returnEmptyOnEmptyKeyword: true,
+	});
+
 	return (
 		<Modal
 			extraContainerClass="absolute bg-neutral-900 w-[48rem] top-[15vh]"
@@ -96,7 +104,7 @@ export const QuickSearchModal: Component<Props> = (props) => {
 					}}
 					hideOptionOnClickOutside={false}
 					extraResultContainerClass="!static w-full !max-h-[50vh] bg-neutral-900 space-y-1.5"
-					options={search.result()}
+					options={[...tracks(), ...search.result()]}
 					onSelect={onSelect}
 					hint={
 						<Show when={search.result().length}>
@@ -111,7 +119,30 @@ export const QuickSearchModal: Component<Props> = (props) => {
 					}
 				>
 					{(item, isSelected, i) => {
-						if ("duration" in item) {
+						const extraContainerClass = { "!bg-white/10": isSelected };
+						if ("requestedBy" in item) {
+							return (
+								<>
+									<Show when={i === 0}>
+										<div class="flex-row-center w-full space-x-4 my-1">
+											<div class="text-sm text-neutral-400">Queue</div>
+											<Divider dark extraClass="grow" />
+										</div>
+									</Show>
+									<Video.List
+										video={item.video}
+										inQueue
+										contextMenu={getVideoContextMenu({
+											video: item.video,
+											appStore: app,
+											queueStore: queue,
+											navigate,
+										})}
+										extraContainerClassList={extraContainerClass}
+									/>
+								</>
+							);
+						} else if ("duration" in item) {
 							return (
 								<Video.List
 									video={item}
@@ -122,32 +153,21 @@ export const QuickSearchModal: Component<Props> = (props) => {
 										queueStore: queue,
 										navigate,
 									})}
-									extraContainerClassList={{ "!bg-white/10": isSelected }}
+									extraContainerClassList={extraContainerClass}
 								/>
 							);
 						} else {
 							return (
-								<>
-									<Show when={i === search.playlistStartIndex()}>
-										<div class="flex-row-center w-full space-x-4 my-1">
-											<div class="text-sm text-neutral-400">Playlist</div>
-											<Divider dark extraClass="grow" />
-										</div>
-									</Show>
-									<YouTubePlaylist.List
-										playlist={item}
-										contextMenu={getYouTubePlaylistContextMenu({
-											appStore: app,
-											queueStore: queue,
-											playlist: item,
-										})}
-										extraContainerClass="cursor-pointer px-2 py-1"
-										extraContainerClassList={{ "!bg-white/10": isSelected }}
-									/>
-									<Show when={i === search.playlistEndIndex()}>
-										<Divider dark extraClass="grow my-2" />
-									</Show>
-								</>
+								<YouTubePlaylist.List
+									playlist={item}
+									contextMenu={getYouTubePlaylistContextMenu({
+										appStore: app,
+										queueStore: queue,
+										playlist: item,
+									})}
+									extraContainerClass="cursor-pointer px-2 py-1"
+									extraContainerClassList={extraContainerClass}
+								/>
 							);
 						}
 					}}

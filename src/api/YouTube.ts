@@ -21,7 +21,7 @@ export type IChapter = {
 	thumbnails: IThumbnail[];
 };
 
-export type Continuable<T> = {
+export type IContinuable<T> = {
 	token: string | null;
 	items: T[];
 };
@@ -55,7 +55,7 @@ export type IYouTubePlaylistCompact = {
 };
 
 export type IYouTubePlaylist = {
-	videos: Continuable<IVideoCompact>;
+	videos: IContinuable<IVideoCompact>;
 	viewCount: number;
 } & IYouTubePlaylistCompact;
 
@@ -134,7 +134,7 @@ export class YouTube {
 		return response.data;
 	};
 
-	getPlaylistVideosContinuation = async (token: string): Promise<Continuable<IVideoCompact>> => {
+	getPlaylistVideosContinuation = async (token: string): Promise<IContinuable<IVideoCompact>> => {
 		const response = await this.client.get("/continuation/playlists-videos", {
 			params: { token },
 		});

@@ -1,14 +1,13 @@
 import { IPlaylist } from "@api";
-import { Button } from "@components/Button";
-import { Container } from "@components/Container";
-import { Playlist } from "@components/Playlist";
-import { Text } from "@components/Text";
+import { Button, Text } from "@components/atoms";
+import { Playlist } from "@components/molecules";
+import { Container } from "@components/templates";
 import { usePlaylists } from "@hooks/usePlaylists";
 import { useQueue } from "@hooks/useQueue";
 import { useApp } from "@providers/AppProvider";
 import { useNavigate } from "@solidjs/router";
 import { getPlaylistContextMenu } from "@utils/contextMenu";
-import { Component, createSignal, For, onMount, Show } from "solid-js";
+import { Component, For, Show, createSignal, onMount } from "solid-js";
 
 export const Playlists: Component = () => {
 	const app = useApp();
@@ -51,7 +50,7 @@ export const Playlists: Component = () => {
 					Create Playlist
 				</Button>
 
-				<div class="space-y-3">
+				<div class="space-y-2">
 					<Show
 						when={!playlists.data.loading || playlists.data()}
 						fallback={<For each={Array(3)}>{() => <Playlist.ListSkeleton />}</For>}
@@ -59,8 +58,6 @@ export const Playlists: Component = () => {
 						<For each={playlists.data() || []}>
 							{(p) => (
 								<Playlist.List
-									onAddToQueue={() => queue.addPlaylist(p.id)}
-									onDelete={promptDeletePlaylist}
 									onClick={() => navigate("/app/playlist/" + p.id)}
 									contextMenu={getPlaylistContextMenu({
 										playlist: p,

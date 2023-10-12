@@ -1,5 +1,4 @@
-import { Switch } from "@components/Switch";
-import { Text } from "@components/Text";
+import { Switch, Text } from "@components/atoms";
 import { Component, Show } from "solid-js";
 
 type Props = {

@@ -1,7 +1,6 @@
 import { IVideoCompact } from "@api";
-import { ContextMenuButton } from "@components/ContextMenu";
-import { Text } from "@components/Text";
-import { ChannelThumbnail, Video } from "@components/Video";
+import { Text } from "@components/atoms";
+import { ChannelThumbnail, ContextMenuButton, Video } from "@components/molecules";
 import { useQueue } from "@hooks/useQueue";
 import { useApp } from "@providers/AppProvider";
 import { useNavigate } from "@solidjs/router";
