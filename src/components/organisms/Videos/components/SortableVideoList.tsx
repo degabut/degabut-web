@@ -30,7 +30,7 @@ const MdSortableVideoList: Component<Props> = (props) => {
 		>
 			<Video.List
 				extraContainerClass="cursor-ns-resize"
-				extraThumbnailClass="pointer-events-none"
+				extraIconClass="pointer-events-none"
 				{...props.initialVideoProps}
 				onClick={() => navigate(`/app/video/${props.initialVideoProps.video.id}`)}
 			/>

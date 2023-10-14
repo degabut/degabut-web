@@ -85,7 +85,7 @@ export const QueueInfo: Component = () => {
 									title={member.displayName}
 									extra={<Text.Caption1>{member.username}</Text.Caption1>}
 									icon={member.avatar || "/img/avatar.png"}
-									extraThumbnailClass="rounded-full"
+									extraIconClass="rounded-full"
 								/>
 							)}
 						</For>

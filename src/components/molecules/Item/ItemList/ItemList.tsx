@@ -16,7 +16,7 @@ type BaseProps = {
 	hideContextMenuButton?: boolean;
 	extraContainerClass?: string;
 	extraContainerClassList?: Record<string, boolean>;
-	extraThumbnailClass?: string;
+	extraIconClass?: string;
 	extraTitleClass?: string;
 	extraContextMenuButtonClass?: string;
 	onClick?: () => void;
@@ -47,7 +47,7 @@ export const ItemList: Component<ItemListProps> = (props) => {
 					<ItemListIcon
 						icon={icon}
 						title={typeof props.title === "string" ? props.title : undefined}
-						extraClass={`shrink-0 ${props.extraThumbnailClass}`}
+						extraClass={`shrink-0 ${props.extraIconClass}`}
 					/>
 				)}
 			</Show>
@@ -109,7 +109,7 @@ export const ItemListBig: Component<ItemListBigProps> = (props) => {
 						overlay={props.thumbnailOverlay}
 						bigOverlay={props.thumbnailBigOverlay}
 						icon={icon}
-						extraClass={props.extraThumbnailClass}
+						extraClass={props.extraIconClass}
 					/>
 				)}
 			</Show>
