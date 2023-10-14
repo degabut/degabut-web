@@ -19,7 +19,7 @@ export const Button: Component<Props> = (props) => {
 				rounded: !props.rounded,
 				"border border-neutral-500": !props.flat,
 				"text-neutral-500": props.disabled,
-				"hover:bg-white/5": !props.disabled,
+				"hover:bg-white/5 active:bg-white/5": !props.disabled,
 				"hover:text-white": !props.disabled && props.flat,
 				"border-neutral-600 bg-white/5": props.disabled && !props.flat,
 				...props.classList,
