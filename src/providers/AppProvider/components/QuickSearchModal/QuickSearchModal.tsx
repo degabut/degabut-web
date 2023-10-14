@@ -82,7 +82,7 @@ export const QuickSearchModal: Component<Props> = (props) => {
 
 	return (
 		<Modal
-			extraContainerClass="absolute bg-neutral-900 w-[48rem] top-[15vh]"
+			extraContainerClass="absolute w-[48rem] top-[15vh]"
 			isOpen={props.isOpen}
 			hideCloseButton
 			closeOnEscape
@@ -103,7 +103,7 @@ export const QuickSearchModal: Component<Props> = (props) => {
 						prefix: <Icon name="search" size="lg" extraClass="fill-current" />,
 					}}
 					hideOptionOnClickOutside={false}
-					extraResultContainerClass="!static w-full !max-h-[50vh] bg-neutral-900 space-y-1.5"
+					extraResultContainerClass="!static w-full !max-h-[50vh] space-y-1.5"
 					options={[...tracks(), ...search.result()]}
 					onSelect={onSelect}
 					hint={

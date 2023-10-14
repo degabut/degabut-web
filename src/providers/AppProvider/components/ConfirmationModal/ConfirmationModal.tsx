@@ -1,5 +1,5 @@
 import { Button, Modal } from "@components/atoms";
-import { Component, createSignal, JSX, onCleanup, onMount, Show } from "solid-js";
+import { Component, JSX, Show, createSignal, onCleanup, onMount } from "solid-js";
 
 type Props = {
 	title: JSX.Element;
@@ -33,7 +33,7 @@ export const ConfirmationModal: Component<Props> = (props) => {
 
 	return (
 		<Modal
-			extraContainerClass="absolute bg-neutral-900 w-[32rem] max-h-[70vh] break-words"
+			extraContainerClass="absolute w-[32rem] max-h-[70vh] break-words"
 			isOpen={props.isOpen}
 			closeOnEscape
 			onClickOutside={() => props.onClose()}

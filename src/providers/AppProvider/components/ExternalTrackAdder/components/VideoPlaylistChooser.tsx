@@ -13,12 +13,12 @@ type Props = {
 export const VideoPlaylistChooser: Component<Props> = (props) => {
 	return (
 		<Modal
-			extraContainerClass="absolute bg-neutral-900 w-[42rem] overflow-auto"
+			extraContainerClass="absolute w-[42rem] overflow-auto"
 			isOpen={true}
 			closeOnEscape
 			onClickOutside={() => props.onClose()}
 		>
-			<div class="space-y-8 bg-neutral-900 py-8 px-2 md:px-8">
+			<div class="space-y-8 py-8 px-2 md:px-8">
 				<div>
 					<div class="text-xl font-medium text-center mb-4">Add to Queue</div>
 					<div class="text-center text-lg text-neutral-300">

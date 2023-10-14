@@ -29,7 +29,7 @@ export const CreatePlaylistModal: Component<CreatePlaylistModalProps> = (props) 
 			isOpen={props.isOpen}
 			onClickOutside={() => props.onClose()}
 			closeOnEscape
-			extraContainerClass="w-[24rem] max-h-[100vh] m-2 bg-neutral-900"
+			extraContainerClass="w-[24rem] max-h-[100vh] m-2"
 		>
 			<form class="flex-col-center space-y-8 md:p-8 p-4" onSubmit={submit}>
 				<div class="text-center text-xl font-medium">Create a New Playlist</div>

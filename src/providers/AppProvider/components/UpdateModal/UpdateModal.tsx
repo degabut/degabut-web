@@ -15,7 +15,7 @@ export const UpdateModal: Component = () => {
 		<Show when={IS_DESKTOP}>
 			{/* Update Modal */}
 			<Modal
-				extraContainerClass="w-[24rem] bg-neutral-900"
+				extraContainerClass="w-[24rem]"
 				isOpen={isShowUpdateModal()}
 				onClickOutside={() => setIsShowUpdateModal(false)}
 			>

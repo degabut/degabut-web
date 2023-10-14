@@ -113,7 +113,7 @@ export const ShowMoreModal: Component<Props> = (props) => {
 
 	return (
 		<Modal
-			extraContainerClass="bg-neutral-900 w-[42rem] top-[15vh] h-[90vh] md:h-[70vh]"
+			extraContainerClass="w-[42rem] top-[15vh] h-[90vh] md:h-[70vh]"
 			isOpen={props.isOpen}
 			closeOnEscape
 			onClickOutside={() => props.onClose()}

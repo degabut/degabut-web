@@ -69,10 +69,10 @@ export const QueueInfo: Component = () => {
 				isOpen={isListenersModalOpen()}
 				closeOnEscape
 				onClickOutside={() => setIsListenersModalOpen(false)}
-				extraContainerClass="bg-neutral-900 w-[32rem] top-[15vh] h-[90vh] md:h-[70vh]"
+				extraContainerClass="w-[32rem] top-[15vh] h-[90vh] md:h-[70vh]"
 			>
 				<div class="flex flex-col h-full">
-					<div class="bg-neutral-900 pt-4 md:pt-8 px-2 md:px-8">
+					<div class="pt-4 md:pt-8 px-2 md:px-8">
 						<Text.H2 class="text-center mb-4">Listeners</Text.H2>
 						<Divider extraClass="my-4" />
 					</div>

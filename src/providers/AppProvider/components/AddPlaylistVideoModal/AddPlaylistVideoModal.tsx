@@ -54,7 +54,7 @@ export const AddPlaylistVideoModal: Component<Props> = (props) => {
 
 	return (
 		<Modal
-			extraContainerClass="absolute bg-neutral-900 w-[42rem] h-[90vh] md:h-[70vh] overflow-auto"
+			extraContainerClass="absolute w-[42rem] h-[90vh] md:h-[70vh] overflow-auto"
 			isOpen={props.isOpen}
 			closeOnEscape
 			onClickOutside={() => props.onClose()}
@@ -62,7 +62,7 @@ export const AddPlaylistVideoModal: Component<Props> = (props) => {
 			<Show when={props.video} keyed>
 				{(v) => (
 					<div class="flex flex-col h-full">
-						<div class="bg-neutral-900 pt-4 md:pt-8 px-2 md:px-8">
+						<div class="pt-4 md:pt-8 px-2 md:px-8">
 							<Text.H2 class="text-center mb-4">Add to Playlist</Text.H2>
 							<Video.List video={v} extraContainerClass={"hover:!bg-white/0"} />
 							<Divider extraClass="my-4" />

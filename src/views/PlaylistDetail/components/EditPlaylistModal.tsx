@@ -28,7 +28,7 @@ export const EditPlaylistModal: Component<EditPlaylistModalProps> = (props) => {
 			isOpen={props.isOpen}
 			onClickOutside={() => props.onClose()}
 			closeOnEscape
-			extraContainerClass="w-[24rem] max-h-[100vh] m-2 bg-neutral-900"
+			extraContainerClass="w-[24rem] max-h-[100vh] m-2"
 		>
 			<form class="flex-col-center space-y-8 md:p-8 p-4" onSubmit={submit}>
 				<Text.H2 class="text-center">Rename Playlist</Text.H2>
