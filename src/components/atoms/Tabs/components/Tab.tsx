@@ -35,8 +35,8 @@ export const Tab: Component<Props> = (props) => {
 	return (
 		<div class="grow md:grow-0 cursor-pointer" onClick={() => props.onClick(props.item)}>
 			<div
-				class="px-2 md:px-8 lg:px-10 xl:px-12 py-3 md:py-2"
-				classList={{ "border-b-2 border-b-white": props.isActive }}
+				class="px-2 md:px-12 xl:px-14 py-3 md:py-2"
+				classList={{ "md:border-b-2 border-b-[5px] border-b-white": props.isActive }}
 			>
 				{"labelText" in props.item ? (
 					<TabLabel icon={props.item.icon} label={props.item.labelText} isActive={props.isActive} />
