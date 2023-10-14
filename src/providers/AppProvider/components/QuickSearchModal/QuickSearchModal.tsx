@@ -1,5 +1,5 @@
 import { ITrack, IVideoCompact, IYouTubePlaylistCompact } from "@api";
-import { Divider, Icon, KeyboardHint, Modal, Select } from "@components/atoms";
+import { Icon, KeyboardHint, Modal, Select } from "@components/atoms";
 import { Video, YouTubePlaylist } from "@components/molecules";
 import { useQueue } from "@hooks/useQueue";
 import { useSearchYouTube } from "@hooks/useSearchYouTube";
@@ -122,25 +122,17 @@ export const QuickSearchModal: Component<Props> = (props) => {
 						const extraContainerClass = { "!bg-white/10": isSelected };
 						if ("requestedBy" in item) {
 							return (
-								<>
-									<Show when={i === 0}>
-										<div class="flex-row-center w-full space-x-4 my-1">
-											<div class="text-sm text-neutral-400">Queue</div>
-											<Divider dark extraClass="grow" />
-										</div>
-									</Show>
-									<Video.List
-										video={item.video}
-										inQueue
-										contextMenu={getVideoContextMenu({
-											video: item.video,
-											appStore: app,
-											queueStore: queue,
-											navigate,
-										})}
-										extraContainerClassList={extraContainerClass}
-									/>
-								</>
+								<Video.List
+									video={item.video}
+									inQueue
+									contextMenu={getVideoContextMenu({
+										video: item.video,
+										appStore: app,
+										queueStore: queue,
+										navigate,
+									})}
+									extraContainerClassList={extraContainerClass}
+								/>
 							);
 						} else if ("duration" in item) {
 							return (
