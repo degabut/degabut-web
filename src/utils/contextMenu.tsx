@@ -22,7 +22,7 @@ type VideoProps = {
 
 export const getVideoContextMenu = (props: VideoProps) => {
 	const items = () => {
-		const trackInQueue = props.queueStore.data.tracks?.find((t) => t.video.id === props.video.id);
+		const trackInQueue = props.queueStore.data.tracks?.findLast((t) => t.video.id === props.video.id);
 		const isPlaying = props.queueStore.data.nowPlaying?.video.id === props.video.id;
 
 		const i: IContextMenuItem[][] = [];
