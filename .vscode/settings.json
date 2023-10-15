@@ -15,5 +15,6 @@
 	"tailwindCSS.experimental.classRegex": ["\"([^\"]+?)\"\\s*:", "[a-zA-Z]*Class=\"(.*)\""],
 	"search.exclude": {
 		"src/wailsjs": true
-	}
+	},
+	"typescript.tsdk": "node_modules\\typescript\\lib"
 }
