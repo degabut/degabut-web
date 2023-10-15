@@ -1,5 +1,6 @@
 import { Button, Text } from "@components/atoms";
-import { Component, createSignal, Show } from "solid-js";
+import { useSettings } from "@hooks/useSettings";
+import { Component, Show, createEffect, createSignal } from "solid-js";
 import { NowPlayingEmbed, NowPlayingThumbnail } from "./components";
 
 type Props = {
@@ -17,7 +18,10 @@ const SelectorButton: Component<Props> = (props) => {
 };
 
 export const NowPlaying: Component = () => {
-	const [isThumbnail, setIsThumbnail] = createSignal(true);
+	const { settings, setSettings } = useSettings();
+	const [isThumbnail, setIsThumbnail] = createSignal(settings.queue.showThumbnail);
+
+	createEffect(() => setSettings("queue", { showThumbnail: isThumbnail() }));
 
 	return (
 		<div class="flex flex-col h-full">

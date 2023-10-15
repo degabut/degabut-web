@@ -3,6 +3,9 @@ import { createContext, ParentComponent } from "solid-js";
 import { createStore, SetStoreFunction } from "solid-js/store";
 
 type Settings = {
+	queue: {
+		showThumbnail: boolean;
+	};
 	notification: {
 		browser: boolean;
 		inApp: boolean;
@@ -14,6 +17,9 @@ type Settings = {
 };
 
 const defaultSettings: Settings = {
+	queue: {
+		showThumbnail: true,
+	},
 	notification: {
 		browser: false,
 		inApp: true,

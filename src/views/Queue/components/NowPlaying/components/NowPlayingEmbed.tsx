@@ -52,7 +52,7 @@ export const NowPlayingEmbed: Component = () => {
 
 	return (
 		<div class="px-12 w-full">
-			<Video.Embed ref={iframe} videoId={currentVideoId()} enableJsApi disableControls disableKeyboard />
+			<Video.Embed ref={iframe} videoId={currentVideoId()} enableJsApi disableKeyboard />
 		</div>
 	);
 };
