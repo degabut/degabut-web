@@ -51,14 +51,14 @@ export const Settings: Component = () => {
 				{
 					label: "Enable In App Notifications",
 					type: "switch",
-					value: settings.inAppNotification,
-					onChange: () => setSettings({ inAppNotification: !settings.inAppNotification }),
+					value: settings.notification.inApp,
+					onChange: () => setSettings("notification", { inApp: !settings.notification.inApp }),
 				},
 				{
 					label: "Enable Browser Notifications",
 					type: "switch",
-					value: settings.browserNotification,
-					onChange: () => setSettings({ browserNotification: !settings.browserNotification }),
+					value: settings.notification.browser,
+					onChange: () => setSettings("notification", { browser: !settings.notification.browser }),
 				},
 			],
 		},

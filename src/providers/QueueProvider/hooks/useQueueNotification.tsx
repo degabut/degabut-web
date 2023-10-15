@@ -23,7 +23,7 @@ export const useQueueNotification = ({ emitter }: Params) => {
 	});
 
 	const onTrackAdded = async (track: ITrack) => {
-		if (!settings.inAppNotification) return;
+		if (!settings.notification.inApp) return;
 
 		notification.push({
 			imageUrl: track.requestedBy.avatar,
@@ -36,7 +36,7 @@ export const useQueueNotification = ({ emitter }: Params) => {
 	};
 
 	const onTracksAdded = async (tracks: ITrack[], member: IMember) => {
-		if (!settings.inAppNotification) return;
+		if (!settings.notification.inApp) return;
 
 		const videoCount = tracks.length > 1 ? `${tracks.length} videos` : "a video";
 		notification.push({
@@ -50,7 +50,7 @@ export const useQueueNotification = ({ emitter }: Params) => {
 	};
 
 	const onTrackRemoved = async (track: ITrack, member: IMember | null) => {
-		if (!settings.inAppNotification || !member) return;
+		if (!settings.notification.inApp || !member) return;
 
 		notification.push({
 			imageUrl: member.avatar,
@@ -63,7 +63,7 @@ export const useQueueNotification = ({ emitter }: Params) => {
 	};
 
 	const onQueueProcessed = async (nowPlaying: ITrack | null) => {
-		if (!nowPlaying || !settings.browserNotification) return;
+		if (!nowPlaying || !settings.notification.browser) return;
 
 		let body = nowPlaying.video.title;
 		if (nowPlaying.video.channel) body += `\n${nowPlaying.video.channel.name}`;

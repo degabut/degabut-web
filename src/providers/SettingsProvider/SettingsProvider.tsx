@@ -1,10 +1,12 @@
 import throttle from "lodash/throttle";
 import { createContext, ParentComponent } from "solid-js";
-import { createStore, StoreSetter } from "solid-js/store";
+import { createStore, SetStoreFunction } from "solid-js/store";
 
 type Settings = {
-	browserNotification: boolean;
-	inAppNotification: boolean;
+	notification: {
+		browser: boolean;
+		inApp: boolean;
+	};
 	discordRpc: boolean;
 	appDrawerSize: number;
 	overlay: boolean;
@@ -12,8 +14,10 @@ type Settings = {
 };
 
 const defaultSettings: Settings = {
-	browserNotification: false,
-	inAppNotification: true,
+	notification: {
+		browser: false,
+		inApp: true,
+	},
 	discordRpc: true,
 	appDrawerSize: 256,
 	overlay: true,
@@ -22,7 +26,7 @@ const defaultSettings: Settings = {
 
 export type SettingsContextStore = {
 	settings: Settings;
-	setSettings: (store: StoreSetter<Settings>) => void;
+	setSettings: SetStoreFunction<Settings>;
 };
 
 export const SettingsContext = createContext<SettingsContextStore>({
@@ -33,8 +37,8 @@ export const SettingsContext = createContext<SettingsContextStore>({
 export const SettingsProvider: ParentComponent = (props) => {
 	const [settings, setSettings] = createStore<Settings>(defaultSettings);
 
-	const setAndSaveSettings = (...v: Parameters<typeof setSettings>) => {
-		setSettings(...v);
+	const setAndSaveSettings = (...v: any) => {
+		setSettings(...(v as Parameters<typeof setSettings>));
 		throttledSaveSettings();
 	};
 
