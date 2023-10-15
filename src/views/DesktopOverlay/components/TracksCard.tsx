@@ -1,4 +1,4 @@
-import { QueueTrackList } from "@views/Queue/components/QueueTabs/QueueTrackList";
+import { QueueTrackList } from "@views/Queue/components/QueueTabs/components";
 import { Component } from "solid-js";
 import { Card } from "./Card";
 

@@ -2,10 +2,7 @@ import { Tabs } from "@components/atoms";
 import { Videos } from "@components/organisms";
 import { useQueue } from "@hooks/useQueue";
 import { Component, Show } from "solid-js";
-import { QueueHint } from "./QueueHint";
-import { QueueInfo } from "./QueueInfo";
-import { QueuePlayHistory } from "./QueuePlayHistory";
-import { QueueTrackList } from "./QueueTrackList";
+import { QueueHint, QueueInfo, QueuePlayHistory, QueueTrackList } from "./components";
 
 export const QueueTabs: Component = () => {
 	const queue = useQueue();
