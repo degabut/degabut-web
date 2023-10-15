@@ -8,32 +8,29 @@ export const NowPlayingEmbed: Component = () => {
 	let player: YT.Player;
 	let iframe!: HTMLIFrameElement;
 
-	const currentVideoId = () => {
-		return queue.data.nowPlaying?.video.id || "";
-	};
+	const currentVideoId = () => queue.data.nowPlaying?.video.id || "";
 
 	onMount(() => {
-		player = new YT.Player(iframe, {
-			events: {
-				onReady: (e) => {
-					player = e.target;
-					player.setVolume(0);
-					const paused = queue.data.isPaused;
-					if (paused) player.pauseVideo();
-				},
-			},
-		});
-
+		player = new YT.Player(iframe, { events: { onReady } });
 		queue.emitter.on("player-pause-state-changed", onPauseStateChange);
 		queue.emitter.on("player-tick", onTick);
 	});
 
 	onCleanup(() => {
-		player.destroy();
-
+		player?.destroy();
 		queue.emitter.off("player-pause-state-changed", onPauseStateChange);
 		queue.emitter.off("player-tick", onTick);
 	});
+
+	const onReady = (e: YT.PlayerEvent) => {
+		player = e.target;
+		player.setVolume(0);
+
+		if (!queue.data.isPaused && queue.data.position) {
+			player.playVideo();
+			player.seekTo(queue.data.position / 1000, true);
+		}
+	};
 
 	const onPauseStateChange = ({ isPaused }: { isPaused: boolean }) => {
 		if (isPaused) player.pauseVideo();
