@@ -1,38 +1,47 @@
 import { Button, Text } from "@components/atoms";
-import { useSettings } from "@hooks/useSettings";
-import { Component, Show, createEffect, createSignal } from "solid-js";
+import { Component, Show } from "solid-js";
 import { NowPlayingEmbed, NowPlayingThumbnail } from "./components";
 
-type Props = {
+type SelectorButtonProps = {
 	text: string;
 	isActive: boolean;
 	onClick: () => void;
 };
 
-const SelectorButton: Component<Props> = (props) => {
+const SelectorButton: Component<SelectorButtonProps> = (props) => {
 	return (
-		<Button class="px-4 py-1" flat={props.isActive} onClick={props.onClick}>
+		<Button class="px-4 py-1" flat={!props.isActive} onClick={props.onClick}>
 			<Text.Body2>{props.text}</Text.Body2>
 		</Button>
 	);
 };
 
-export const NowPlaying: Component = () => {
-	const { settings, setSettings } = useSettings();
-	const [isThumbnail, setIsThumbnail] = createSignal(settings.queue.showThumbnail);
+type Props = {
+	isThumbnail: boolean;
+	onChangeViewMode: (isThumbnail: boolean) => void;
+};
 
-	createEffect(() => setSettings("queue", { showThumbnail: isThumbnail() }));
-
+export const NowPlaying: Component<Props> = (props) => {
 	return (
-		<div class="flex flex-col h-full">
-			<div class="flex-row-center justify-center space-x-4 w-full">
-				<SelectorButton text="Thumbnail" isActive={!isThumbnail()} onClick={() => setIsThumbnail(true)} />
-				<SelectorButton text="Video" isActive={isThumbnail()} onClick={() => setIsThumbnail(false)} />
+		<div class="flex flex-col">
+			<div class="flex-row-center space-x-2">
+				<SelectorButton
+					text="Thumbnail"
+					isActive={props.isThumbnail}
+					onClick={() => props.onChangeViewMode(true)}
+				/>
+				<SelectorButton
+					text="Video"
+					isActive={!props.isThumbnail}
+					onClick={() => props.onChangeViewMode(false)}
+				/>
 			</div>
 
 			<div class="grow flex-row-center">
-				<Show when={isThumbnail()} fallback={<NowPlayingEmbed />}>
-					<NowPlayingThumbnail />
+				<Show when={!props.isThumbnail} fallback={<NowPlayingThumbnail />}>
+					<div class="px-2 lg:px-4 xl:px-6 2xl:px-8 3xl:px-12 w-full">
+						<NowPlayingEmbed />
+					</div>
 				</Show>
 			</div>
 		</div>

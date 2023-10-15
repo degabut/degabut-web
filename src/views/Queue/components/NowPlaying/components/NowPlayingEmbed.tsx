@@ -47,9 +47,5 @@ export const NowPlayingEmbed: Component = () => {
 		if (diff > 0.5) player.seekTo(position, true);
 	};
 
-	return (
-		<div class="px-2 lg:px-4 xl:px-8 2xl:px-12 w-full">
-			<Video.Embed ref={iframe} videoId={currentVideoId()} enableJsApi disableKeyboard />
-		</div>
-	);
+	return <Video.Embed ref={iframe} videoId={currentVideoId()} enableJsApi disableKeyboard />;
 };
