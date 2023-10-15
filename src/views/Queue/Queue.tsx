@@ -19,13 +19,13 @@ export const Queue: Component = () => {
 			centered
 			extraClass="h-full"
 			extraClassList={{
-				"lg:grid grid-cols-2": true,
+				"lg:grid grid-cols-[minmax(0,0.55fr)_minmax(0,0.45fr)]": true,
 				"lg:gap-x-8 xl:gap-x-10 2xl:gap-x-16": true,
 				"space-y-8 md:space-y-0": true,
 				"py-6 px-3 md:px-8 lg:pr-12 2xl:pr-16": true,
 			}}
 		>
-			<Show when={screen.gte.md}>
+			<Show when={screen.gte.lg}>
 				<NowPlaying />
 			</Show>
 
