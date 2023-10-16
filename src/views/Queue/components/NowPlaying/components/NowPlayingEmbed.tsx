@@ -48,12 +48,15 @@ export const NowPlayingEmbed: Component = () => {
 	};
 
 	const onTick = ({ position }: { position: number }) => {
+		if (player.getPlayerState() !== YT.PlayerState.PLAYING && !queue.data.isPaused) player.playVideo();
+
+		if (!queue.data.nowPlaying?.video.duration) return;
+
 		position = position / 1000;
 
 		const currentTime = player.getCurrentTime();
 		const diff = Math.abs(currentTime - position);
 
-		if (player.getPlayerState() !== YT.PlayerState.PLAYING && !queue.data.isPaused) player.playVideo();
 		if (diff > 0.5) player.seekTo(position, true);
 	};
 
