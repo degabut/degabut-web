@@ -1,5 +1,6 @@
 import { Video } from "@components/molecules";
 import { useQueue } from "@hooks/useQueue";
+import { loadIframeApi } from "@utils/youtube";
 import { Component, onCleanup, onMount } from "solid-js";
 
 export const NowPlayingEmbed: Component = () => {
@@ -11,9 +12,12 @@ export const NowPlayingEmbed: Component = () => {
 	const currentVideoId = () => queue.data.nowPlaying?.video.id || "";
 
 	onMount(() => {
-		player = new YT.Player(iframe, { events: { onReady } });
-		queue.emitter.on("player-pause-state-changed", onPauseStateChange);
-		queue.emitter.on("player-tick", onTick);
+		if (!window.YT) {
+			window.onYouTubeIframeAPIReady = onIframeReady;
+			loadIframeApi();
+		} else {
+			onIframeReady();
+		}
 	});
 
 	onCleanup(() => {
@@ -21,6 +25,12 @@ export const NowPlayingEmbed: Component = () => {
 		queue.emitter.off("player-pause-state-changed", onPauseStateChange);
 		queue.emitter.off("player-tick", onTick);
 	});
+
+	const onIframeReady = () => {
+		player = new YT.Player(iframe, { events: { onReady } });
+		queue.emitter.on("player-pause-state-changed", onPauseStateChange);
+		queue.emitter.on("player-tick", onTick);
+	};
 
 	const onReady = (e: YT.PlayerEvent) => {
 		player = e.target;
