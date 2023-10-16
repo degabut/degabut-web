@@ -17,26 +17,26 @@ export const QueueNowPlaying: Component = () => {
 	return (
 		<Container size="full" centered bottomPadless extraClass="h-full pb-8">
 			<div class="relative z-0 flex flex-col space-y-6 h-full">
-				<div class="flex-grow flex items-center justify-center h-full">
+				<div class="flex-grow flex items-center justify-center px-4">
 					<Show when={queue.data.nowPlaying} keyed>
 						{({ video }) => (
 							<>
 								<img
 									src={video.thumbnails.at(-1)?.url || ""}
 									alt={video.title}
-									class="object-cover aspect-square max-h-[50vh] rounded-2xl"
+									class="object-cover max-w-[50vh] w-full aspect-square rounded-2xl"
 									onClick={throttledJam}
 								/>
 								<img
 									src={video.thumbnails.at(0)?.url}
-									class="absolute top-0 left-0 h-full max-h-[50vh] w-full blur-3xl opacity-50 -z-[1000] pointer-events-none"
+									class="absolute top-0 left-0 h-full max-h-[50vh] w-full blur-3xl -z-[1000] pointer-events-none"
 								/>
 							</>
 						)}
 					</Show>
 				</div>
 
-				<div class="flex flex-col space-y-6 px-2 py-4">
+				<div class="flex flex-col space-y-6 py-4">
 					<Show when={queue.data.nowPlaying} keyed fallback={<QueueEmptyPlayer />}>
 						{(track) => <QueuePlayer track={track} />}
 					</Show>

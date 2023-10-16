@@ -5,7 +5,7 @@ import { useQueue } from "@hooks/useQueue";
 import { useApp } from "@providers/AppProvider";
 import { useNavigate } from "@solidjs/router";
 import { getVideoContextMenu } from "@utils/contextMenu";
-import { Component } from "solid-js";
+import { Component, Show } from "solid-js";
 
 type Props = {
 	track: ITrack;
@@ -18,14 +18,17 @@ export const QueuePlayer: Component<Props> = (props) => {
 
 	return (
 		<div class="flex-row-center">
-			<div class="grow flex flex-col space-y-1 px-2 text-shadow truncate">
+			<div class="grow flex flex-col space-y-1.5 px-2 text-shadow truncate">
 				<Text.H2 truncate>{props.track.video.title}</Text.H2>
 				<Text.Body1 truncate class="text-neutral-300">
 					{props.track.video.channel?.name}
 				</Text.Body1>
-				<Text.Caption1 truncate class="text-neutral-300">
-					Requested by {props.track.requestedBy.displayName}
-				</Text.Caption1>
+				<div class="flex-row-center space-x-2 truncate">
+					<Show when={props.track.requestedBy.avatar} keyed>
+						{(avatar) => <img src={avatar} class="h-6 w-6 rounded-full" />}
+					</Show>
+					<Text.Caption1>{props.track.requestedBy.displayName}</Text.Caption1>
+				</div>
 			</div>
 
 			<ContextMenuButton
