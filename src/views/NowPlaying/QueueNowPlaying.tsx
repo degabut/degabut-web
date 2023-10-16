@@ -24,7 +24,7 @@ export const QueueNowPlaying: Component = () => {
 								<img
 									src={video.thumbnails.at(-1)?.url || ""}
 									alt={video.title}
-									class="object-cover aspect-square max-h-[40vh]"
+									class="object-cover aspect-square max-h-[50vh] rounded-2xl"
 									onClick={throttledJam}
 								/>
 								<img
