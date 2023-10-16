@@ -19,7 +19,7 @@ export const NowPlayingThumbnail: Component = () => {
 		<Show when={queue.data.nowPlaying} keyed fallback={<Skeleton />}>
 			{({ video, id }) => (
 				<div
-					class="relative max-w-[32rem] aspect-square mx-auto"
+					class="relative w-full max-w-[32rem] aspect-square mx-auto"
 					use:contextMenu={getVideoContextMenu({
 						queueStore: queue,
 						appStore: app,
