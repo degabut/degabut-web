@@ -15,7 +15,7 @@ export const QueueNowPlaying: Component = () => {
 	onMount(() => app.setTitle("Queue"));
 
 	return (
-		<Container size="full" centered bottomPadless extraClass="h-full pb-8">
+		<Container size="full" centered bottomPadless extraClass="h-full pb-12">
 			<div class="relative z-0 flex flex-col space-y-6 h-full">
 				<div class="flex-grow flex items-center justify-center px-4">
 					<Show when={queue.data.nowPlaying} keyed>
