@@ -61,7 +61,7 @@ export const NowPlayingThumbnail: Component = () => {
 
 const Skeleton: Component = () => {
 	return (
-		<div class="max-w-[32rem] aspect-square mx-auto border border-white opacity-10 flex items-center justify-center">
+		<div class="w-full max-w-[32rem] aspect-square mx-auto border border-white opacity-10 flex items-center justify-center">
 			<Icon name="musicNotes" extraClass="fill-white h-[50%] w-auto p-8" />
 		</div>
 	);
