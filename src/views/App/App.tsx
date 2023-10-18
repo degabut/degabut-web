@@ -45,8 +45,8 @@ const ProvidedApp: Component = () => {
 					</Show>
 
 					<div
-						class="h-full overflow-y-auto bg-neutral-950"
-						classList={{ "md:rounded-lg": !app.isFullscreen() }}
+						class="h-full overflow-y-auto "
+						classList={{ "md:rounded-lg bg-neutral-950": !app.isFullscreen() }}
 					>
 						<Outlet />
 					</div>
