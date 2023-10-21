@@ -1,7 +1,7 @@
 import { Text } from "@components/atoms";
 import { Container } from "@components/templates";
 import { IS_DESKTOP } from "@constants";
-import { useFullscreen } from "@providers/AppProvider";
+import { useFullscreen } from "@hooks/useFullscreen";
 import { Navigate, Outlet, useBeforeLeave } from "@solidjs/router";
 import { Component } from "solid-js";
 import { NavigationCard } from "./components";
@@ -13,7 +13,7 @@ export const DesktopOverlay: Component = () => {
 	useFullscreen();
 
 	useBeforeLeave((e) => {
-		if (!e.to.toString().startsWith("/app/desktop-overlay") && IS_DESKTOP) e.preventDefault();
+		if (!e.to.toString().match("/app/[0-9]+/desktop-overlay") && IS_DESKTOP) e.preventDefault();
 	});
 
 	return (
