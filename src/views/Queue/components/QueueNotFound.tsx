@@ -2,8 +2,8 @@ import { IGuild } from "@api";
 import { AbbreviationIcon, Divider, Text } from "@components/atoms";
 import { Item } from "@components/molecules";
 import { useApi } from "@hooks/useApi";
+import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
-import { useApp } from "@providers/AppProvider";
 import { Component, For, Show, createSignal } from "solid-js";
 
 type VoiceChannelMin = {

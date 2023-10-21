@@ -1,8 +1,8 @@
 import { Icon, Input } from "@components/atoms";
 import { Video, YouTubePlaylist } from "@components/molecules";
+import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { useSearchYouTube } from "@hooks/useSearchYouTube";
-import { useApp } from "@providers/AppProvider";
 import { getVideoContextMenu, getYouTubePlaylistContextMenu } from "@utils/contextMenu";
 import { Component, For, Show } from "solid-js";
 import { Card } from "./components";

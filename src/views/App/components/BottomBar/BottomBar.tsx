@@ -1,6 +1,6 @@
+import { useMatch } from "@hooks/useMatch";
 import { useQueue } from "@hooks/useQueue";
 import { useScreen } from "@hooks/useScreen";
-import { useMatch } from "@providers/BotSelectorProvider";
 import { Component, Show } from "solid-js";
 import { NavigationBar, QueueNowPlaying, QueuePlayer } from "./components";
 

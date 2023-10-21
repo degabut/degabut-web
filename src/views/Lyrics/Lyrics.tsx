@@ -1,10 +1,10 @@
 import { Icon, Spinner } from "@components/atoms";
 import { Container } from "@components/templates";
+import { useApp } from "@hooks/useApp";
 import { useLyrics } from "@hooks/useLyrics";
 import { useQueue } from "@hooks/useQueue";
 import { useTranscript } from "@hooks/useTranscript";
 import { useVideoTranscript } from "@hooks/useVideoTranscript";
-import { useApp } from "@providers/AppProvider";
 import { Component, For, Match, Switch, createEffect, createMemo, onMount } from "solid-js";
 import "./Lyrics.css";
 

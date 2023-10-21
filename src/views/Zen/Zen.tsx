@@ -1,9 +1,9 @@
 import { Button, RouterLink, Text } from "@components/atoms";
 import { Container } from "@components/templates";
+import { useFullscreen } from "@hooks/useFullscreen";
 import { useQueue } from "@hooks/useQueue";
 import { useScreen } from "@hooks/useScreen";
 import { useShortcut } from "@hooks/useShortcut";
-import { useFullscreen } from "@providers/AppProvider";
 import { useNavigate } from "@solidjs/router";
 import { Component, Show, createSignal } from "solid-js";
 import { PlayerCard, TracksCard } from "./components";

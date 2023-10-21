@@ -1,5 +1,5 @@
 import { Button, Text } from "@components/atoms";
-import { useApp } from "@providers/AppProvider";
+import { useApp } from "@hooks/useApp";
 import { Component } from "solid-js";
 
 export const AppHeader: Component = () => {

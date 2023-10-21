@@ -1,5 +1,5 @@
 import { Button, Icons, RouterLink } from "@components/atoms";
-import { useMatch } from "@providers/BotSelectorProvider";
+import { useMatch } from "@hooks/useMatch";
 import { Component, Show } from "solid-js";
 
 type Props = {

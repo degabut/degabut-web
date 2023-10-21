@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IVideoCompact } from "@api";
 import { breakpoints } from "@constants";
+import { useMatch } from "@hooks/useMatch";
 import { useScreen } from "@hooks/useScreen";
 import { useShortcut } from "@hooks/useShortcut";
-import { useMatch } from "@providers/BotSelectorProvider";
 import { useNavigate } from "@solidjs/router";
 import { Accessor, JSX, ParentComponent, Setter, createContext, createEffect, createSignal } from "solid-js";
 import {

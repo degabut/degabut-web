@@ -1,10 +1,10 @@
 import { ITrack, IVideoCompact, IYouTubePlaylistCompact } from "@api";
 import { Icon, KeyboardHint, Modal, Select } from "@components/atoms";
 import { Video, YouTubePlaylist } from "@components/molecules";
+import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { useSearchYouTube } from "@hooks/useSearchYouTube";
 import { useSearchable } from "@hooks/useSearchable";
-import { useApp } from "@providers/AppProvider";
 import { useNavigate } from "@solidjs/router";
 import { addPlaylistConfirmation } from "@utils/confirmation";
 import { getVideoContextMenu, getYouTubePlaylistContextMenu } from "@utils/contextMenu";

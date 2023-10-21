@@ -1,7 +1,7 @@
 import { QueueActions, QueueSeekSlider } from "@components/organisms";
 import { Container } from "@components/templates";
+import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
-import { useApp } from "@providers/AppProvider";
 import { countedThrottle } from "@utils/throttle";
 import { Component, Show, onMount } from "solid-js";
 import { QueueEmptyPlayer, QueuePlayer } from "./components";

@@ -1,8 +1,8 @@
 import { Button, Divider, Text } from "@components/atoms";
 import { Container } from "@components/templates";
 import { IS_DESKTOP } from "@constants";
+import { useApp } from "@hooks/useApp";
 import { useSettings } from "@hooks/useSettings";
-import { useApp } from "@providers/AppProvider";
 import { useNavigate } from "@solidjs/router";
 import { Accessor, Component, For, Show, onMount } from "solid-js";
 import { KeybindItem, SwitchItem } from "./components";

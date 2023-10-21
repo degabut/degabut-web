@@ -1,10 +1,10 @@
 import { Icon } from "@components/atoms";
 import { Videos } from "@components/organisms";
 import { Container } from "@components/templates";
+import { useApp } from "@hooks/useApp";
 import { useInfiniteScrolling } from "@hooks/useInfiniteScrolling";
 import { useQueue } from "@hooks/useQueue";
 import { useRecommendation } from "@hooks/useRecommendation";
-import { useApp } from "@providers/AppProvider";
 import { useNavigate, useParams } from "@solidjs/router";
 import { getVideoContextMenu } from "@utils/contextMenu";
 import { Component, Show, createEffect, createMemo, createSignal } from "solid-js";

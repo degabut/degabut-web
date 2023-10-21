@@ -1,8 +1,8 @@
 import { Container } from "@components/templates";
+import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
 import { useScreen } from "@hooks/useScreen";
 import { useSettings } from "@hooks/useSettings";
-import { useApp } from "@providers/AppProvider";
 import { Component, createEffect, createSignal, onMount, Show } from "solid-js";
 import { NowPlaying, QueueNotFound, QueueTabs } from "./components";
 

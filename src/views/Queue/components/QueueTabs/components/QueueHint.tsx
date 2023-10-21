@@ -1,10 +1,10 @@
 import { Button, Icon, Icons, KeyboardHint, Text } from "@components/atoms";
 import { Videos } from "@components/organisms";
+import { useApp } from "@hooks/useApp";
 import { useInfiniteScrolling } from "@hooks/useInfiniteScrolling";
 import { useQueue } from "@hooks/useQueue";
 import { useQueueRecommendation } from "@hooks/useQueueRecommendation";
 import { useScreen } from "@hooks/useScreen";
-import { useApp } from "@providers/AppProvider";
 import { useNavigate } from "@solidjs/router";
 import { getVideoContextMenu } from "@utils/contextMenu";
 import { Component, JSX } from "solid-js";

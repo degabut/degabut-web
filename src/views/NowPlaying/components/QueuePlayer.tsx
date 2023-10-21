@@ -1,8 +1,8 @@
 import { ITrack } from "@api";
 import { RouterLink, Text } from "@components/atoms";
 import { ContextMenuButton, ContextMenuItem } from "@components/molecules";
+import { useApp } from "@hooks/useApp";
 import { useQueue } from "@hooks/useQueue";
-import { useApp } from "@providers/AppProvider";
 import { useNavigate } from "@solidjs/router";
 import { getVideoContextMenu } from "@utils/contextMenu";
 import { Component, Show } from "solid-js";

@@ -1,7 +1,7 @@
 import { IMember, ITrack } from "@api";
 import { Text } from "@components/atoms";
+import { useNotification } from "@hooks/useNotification";
 import { useSettings } from "@hooks/useSettings";
-import { useNotification } from "@providers/NotificationProvider";
 import { notify } from "@utils/notification";
 import { onMount } from "solid-js";
 import TypedEventEmitter from "typed-emitter";

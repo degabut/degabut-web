@@ -1,5 +1,5 @@
 import { Icon, RouterLink, Text } from "@components/atoms";
-import { useMatch } from "@providers/BotSelectorProvider";
+import { useMatch } from "@hooks/useMatch";
 import { Component, For } from "solid-js";
 import { Card } from "./Card";
 

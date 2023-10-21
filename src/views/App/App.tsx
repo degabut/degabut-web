@@ -1,4 +1,5 @@
-import { AppProvider, useApp } from "@providers/AppProvider";
+import { useApp } from "@hooks/useApp";
+import { AppProvider } from "@providers/AppProvider";
 import { BotSelectorProviders } from "@providers/BotSelectorProvider";
 import { DesktopProvider } from "@providers/DesktopProvider";
 import { QueueProvider } from "@providers/QueueProvider";

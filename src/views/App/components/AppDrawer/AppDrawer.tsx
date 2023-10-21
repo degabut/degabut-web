@@ -1,7 +1,7 @@
 import { Drawer } from "@components/atoms";
+import { useApp } from "@hooks/useApp";
 import { useScreen } from "@hooks/useScreen";
 import { useSettings } from "@hooks/useSettings";
-import { useApp } from "@providers/AppProvider";
 import { Component, For } from "solid-js";
 import { BotSelector, Link } from "./components";
 
