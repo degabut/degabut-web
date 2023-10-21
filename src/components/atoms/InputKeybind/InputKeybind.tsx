@@ -1,5 +1,5 @@
 import { Button, Input, Text } from "@components/atoms";
-import { Component, createSignal, JSX, onCleanup } from "solid-js";
+import { Component, JSX, createSignal, onCleanup } from "solid-js";
 
 type Props = Omit<JSX.InputHTMLAttributes<HTMLInputElement>, "value" | "onChange"> & {
 	value: string[];
@@ -38,7 +38,7 @@ export const InputKeybind: Component<Props> = (props) => {
 
 	const onKeyUp = () => {
 		props.onChange([...keys.values()].slice(0, +(props.maxLength || 4)));
-		setIsRecording(false);
+		stopRecording();
 	};
 
 	const formattedValue = () => {
@@ -75,7 +75,7 @@ export const InputKeybind: Component<Props> = (props) => {
 			onClick={startRecording}
 			suffix={
 				<Button
-					class="px-1.5"
+					class="px-1.5 -mr-1"
 					classList={{ "border-red-500": isRecording() }}
 					onClick={!isRecording() ? startRecording : stopRecording}
 				>
