@@ -28,7 +28,7 @@ type SettingsItem = {
 			onChange: (v: string[]) => void;
 	  }
 	| {
-			type: "text";
+			type: "text" | "password";
 			value: Accessor<string>;
 			onChange: (v: string) => void;
 	  }
@@ -99,7 +99,7 @@ export const Settings: Component = () => {
 				},
 				{
 					label: "RPC Client Secret",
-					type: "text",
+					type: "password",
 					hide: !settings["discord.rpc"],
 					value: () => settings["discord.rpcClientSecret"],
 					onChange: (v) => setSettings("discord.rpcClientSecret", v),
@@ -153,7 +153,7 @@ export const Settings: Component = () => {
 										<>
 											{i.type === "keybind" && <KeybindItem {...i} />}
 											{i.type === "switch" && <SwitchItem {...i} />}
-											{i.type === "text" && <TextItem {...i} />}
+											{(i.type === "text" || i.type === "password") && <TextItem {...i} />}
 											{i.type === "element" && <Item {...i}>{i.element()}</Item>}
 										</>
 									)}

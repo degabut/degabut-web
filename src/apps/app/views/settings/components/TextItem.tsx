@@ -10,6 +10,7 @@ export const TextItem: Component<Props> = (props) => {
 			<Input
 				dense
 				outlined
+				type={props.type}
 				class="w-48 text-sm"
 				value={props.value()}
 				onInput={(v) => props.onChange(v.currentTarget.value)}

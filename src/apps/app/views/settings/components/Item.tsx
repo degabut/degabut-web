@@ -3,6 +3,7 @@ import { Accessor, ParentComponent } from "solid-js";
 
 export type BaseProps = {
 	label: string;
+	type: string;
 	description?: string;
 };
 
