@@ -96,6 +96,11 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 		return modifyTrack((queueId) => queueApi.clearQueue(queueId));
 	};
 
+	const join = (voiceChannelId: string, textChannelId?: string) => {
+		if (!queue.empty) return;
+		return playerApi.join(voiceChannelId, textChannelId);
+	};
+
 	const stop = () => {
 		return modifyTrack((queueId) => playerApi.stop(queueId));
 	};
@@ -153,6 +158,7 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 		addYouTubePlaylist,
 		seek,
 		clear,
+		join,
 		stop,
 		pause,
 		unpause,

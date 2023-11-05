@@ -1,64 +1,19 @@
 import { useApp, useQueue } from "@app/hooks";
-import { AbbreviationIcon, Divider, Item, Text } from "@common/components";
+import { Divider, Text } from "@common/components";
 import { useApi } from "@common/hooks";
-import { IGuild, PlayerApi } from "@queue/apis";
-import { Component, For, Show, createSignal } from "solid-js";
-
-type VoiceChannelMin = {
-	id: string;
-	name: string;
-};
-
-type TextChannel = {
-	id: string;
-	name: string;
-};
-
-type Props = {
-	guild: IGuild;
-	voiceChannel: VoiceChannelMin;
-	textChannel: TextChannel | null;
-	isLoading: boolean;
-	onClick: (voiceChannel: VoiceChannelMin, textChannel: TextChannel | null) => void;
-};
-
-const VoiceChannelList: Component<Props> = (props) => {
-	return (
-		<Item.List
-			onClick={() => props.onClick(props.voiceChannel, props.textChannel)}
-			title={() => (
-				<div class="flex space-x-2">
-					<Text.H4 truncate>{props.voiceChannel.name}</Text.H4>
-					<Show when={props.textChannel} keyed>
-						{(textChannel) => (
-							<Text.Caption1 truncate class="mt-0.5">
-								#{textChannel.name}
-							</Text.Caption1>
-						)}
-					</Show>
-				</div>
-			)}
-			imageUrl={props.guild.icon || undefined}
-			extra={() => <Text.Body2 truncate>{props.guild.name}</Text.Body2>}
-			left={() =>
-				!props.guild.icon ? <AbbreviationIcon text={props.guild.name} extraClass="w-12 h-12" /> : undefined
-			}
-		/>
-	);
-};
+import { ITextChannel, IVoiceChannelMin, PlayerApi } from "@queue/apis";
+import { VoiceChannelList } from "@queue/components";
+import { Component, For, Show } from "solid-js";
 
 export const QueueNotFound: Component = () => {
 	const app = useApp();
 	const api = useApi();
 	const playerApi = new PlayerApi(api.client);
 	const queue = useQueue();
-	const [isLoading, setIsLoading] = createSignal(false);
 
-	const join = async (voiceChannel: VoiceChannelMin, textChannel: TextChannel | null) => {
-		setIsLoading(true);
+	const join = async (voiceChannel: IVoiceChannelMin, textChannel: ITextChannel | null) => {
 		const success = await playerApi.join(voiceChannel.id, textChannel?.id);
 		if (!success) {
-			setIsLoading(false);
 			app.setConfirmation({
 				title: "Failed",
 				message: (
@@ -84,7 +39,7 @@ export const QueueNotFound: Component = () => {
 
 				<div class="flex-col-center w-full space-y-3 md:max-w-lg">
 					<For each={queue.voiceChannelHistory}>
-						{(history) => <VoiceChannelList {...history} isLoading={isLoading()} onClick={join} />}
+						{(history) => <VoiceChannelList {...history} onClick={join} />}
 					</For>
 				</div>
 			</Show>

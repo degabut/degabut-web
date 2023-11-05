@@ -24,6 +24,11 @@ export interface IVoiceChannel {
 	members: IMember[];
 }
 
+export interface IVoiceChannelMin {
+	id: string;
+	name: string;
+}
+
 export interface IGuild {
 	id: string;
 	name: string;
