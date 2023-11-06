@@ -1,6 +1,7 @@
 import { Navigate, RouteDefinition } from "@solidjs/router";
 import {
 	App,
+	Join,
 	Login,
 	Lyrics,
 	OAuth,
@@ -32,6 +33,7 @@ export const appRoutes: RouteDefinition[] = [
 			{ path: "/playlist", component: () => <Playlists /> },
 			{ path: "/playlist/:id", component: () => <PlaylistDetail /> },
 			{ path: "/settings", component: () => <Settings /> },
+			{ path: "/join/:voiceChannelId?/:textChannelId?", component: () => <Join /> },
 		],
 	},
 	{ path: "/login", component: () => <Login /> },

@@ -1,4 +1,5 @@
 export * from "./app";
+export * from "./join";
 export * from "./login";
 export * from "./lyrics";
 export * from "./now-playing";
