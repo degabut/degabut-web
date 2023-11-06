@@ -48,13 +48,14 @@ export const ShowMoreModal: Component<Props> = (props) => {
 				};
 
 			case ShowMoreType.ChannelRelated:
-			default:
 				return {
 					userId: props.initialUserId,
 					voiceChannel: true,
 					days: 14,
 					count: 20,
 				};
+			default:
+				return undefined;
 		}
 	});
 

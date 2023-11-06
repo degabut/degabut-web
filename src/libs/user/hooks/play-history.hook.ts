@@ -3,20 +3,18 @@ import { Accessor, createResource } from "solid-js";
 import { UserApi } from "../apis";
 
 type BaseProps = {
+	userId: string;
 	guild?: boolean;
 	voiceChannel?: boolean;
 };
 
 type PropsValue =
+	| ({ last: number } & BaseProps)
 	| ({
-			userId: string;
-			last: number;
-	  } & BaseProps)
-	| ({
-			userId: string;
 			days: number;
 			count: number;
-	  } & BaseProps);
+	  } & BaseProps)
+	| undefined;
 
 type IUseVideosProps = Accessor<PropsValue> | PropsValue;
 
