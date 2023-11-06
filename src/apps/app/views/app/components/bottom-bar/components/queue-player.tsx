@@ -145,7 +145,7 @@ export const QueuePlayer: Component = () => {
 
 	return (
 		<Show when={!queue.data.empty} keyed>
-			<div class="grid grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)_minmax(0,1fr)] gap-x-4 bg-black p-2 z-10 rounded-lg">
+			<div class="grid grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)_minmax(0,1fr)] gap-x-8 bg-black p-2 z-10 rounded-lg">
 				<NowPlaying />
 				<Controls />
 				<ExtraControls />
