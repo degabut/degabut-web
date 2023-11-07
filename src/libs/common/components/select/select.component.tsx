@@ -64,7 +64,7 @@ export function Select<Item = unknown>(props: Props<Item>) {
 
 	return (
 		<div
-			class="relative w-full space-y-4"
+			class="flex flex-col w-full h-full space-y-4"
 			use:clickOutside={() => props.hideOptionOnClickOutside && setIsShowOptionList(false)}
 		>
 			<Input {...props.inputProps} onFocus={() => setIsShowOptionList(true)} />
@@ -74,7 +74,7 @@ export function Select<Item = unknown>(props: Props<Item>) {
 			<Show when={props.options.length && isShowOptionList()}>
 				<div
 					ref={optionList}
-					class="absolute overflow-y-scroll w-full"
+					class="overflow-y-scroll space-y-1.5"
 					classList={{ [props.extraResultContainerClass || ""]: !!props.extraResultContainerClass }}
 				>
 					<For each={props.options}>

@@ -103,7 +103,7 @@ export const QuickSearchModal: Component<Props> = (props) => {
 						prefix: () => <Icon name="search" size="lg" extraClass="fill-current" />,
 					}}
 					hideOptionOnClickOutside={false}
-					extraResultContainerClass="!static w-full !max-h-[50vh] space-y-1.5"
+					extraResultContainerClass="max-h-[50vh]"
 					options={[...tracks(), ...search.result()]}
 					onSelect={onSelect}
 					hint={() => (
