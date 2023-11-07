@@ -1,4 +1,4 @@
-import { IMember, IQueue, ITrack } from "@queue/apis";
+import { IMember, IQueue, ITrack, LoopMode } from "@queue/apis";
 import { onMount } from "solid-js";
 import { SetStoreFunction } from "solid-js/store";
 import TypedEventEmitter from "typed-emitter";
@@ -47,7 +47,19 @@ export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, em
 	});
 
 	const resetQueue = () => {
-		setQueue({ empty: true });
+		setQueue({
+			guild: { icon: null, id: "", name: "" },
+			history: [],
+			isPaused: false,
+			loopMode: LoopMode.DISABLED,
+			nowPlaying: null,
+			position: 0,
+			shuffle: false,
+			textChannel: null,
+			tracks: [],
+			voiceChannel: { id: "", name: "", members: [] },
+			empty: true,
+		});
 	};
 
 	const addMember = (member: IMember) => {
@@ -92,8 +104,6 @@ export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, em
 	const appendTrack = (newTracks: ITrack | ITrack[]) => {
 		setQueue("tracks", (tracks) => {
 			const newTracksArray = Array.isArray(newTracks) ? newTracks : [newTracks];
-
-			if (!tracks) return newTracksArray;
 			return [...tracks, ...newTracksArray];
 		});
 	};
@@ -111,13 +121,12 @@ export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, em
 	const onTrackAudioStarted = (track: ITrack) => {
 		setQueue("position", 0);
 		setQueue("history", (history) => {
-			if (!history) return history;
 			history.unshift(track);
 			history.splice(25);
 			return history;
 		});
 		lastTrackSeekedPosition = -1;
-		setQueue("nowPlaying", { playedAt: new Date().toISOString() });
+		setQueue("nowPlaying", "playedAt", new Date().toISOString());
 		setFreezeState({ seek: false });
 	};
 
