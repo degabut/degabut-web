@@ -28,7 +28,7 @@ export type QueueContextStore = {
 	emitter: TypedEventEmitter<QueueEvents>;
 } & ReturnType<typeof useQueueActions>;
 
-const defaultQueue: QueueResource = {
+export const defaultQueue: QueueResource = {
 	guild: { icon: null, id: "", name: "" },
 	history: [],
 	isPaused: false,
@@ -43,7 +43,7 @@ const defaultQueue: QueueResource = {
 };
 
 export const QueueContext = createContext<QueueContextStore>({
-	data: defaultQueue,
+	data: { ...defaultQueue },
 	voiceChannelHistory: [] as IHistory[],
 	isInitialLoading: () => true,
 	freezeState: {
@@ -92,7 +92,7 @@ export const QueueProvider: ParentComponent = (props) => {
 		}
 	};
 
-	const [queue, setQueue] = createStore<QueueResource>(defaultQueue);
+	const [queue, setQueue] = createStore<QueueResource>({ ...defaultQueue });
 	const { emitter, listen, close } = useQueueEvents();
 	const queueActions = useQueueActions({ queue, setFreezeState });
 	const voiceChannelHistory = useVoiceChannelHistory({ queue });
@@ -124,7 +124,7 @@ export const QueueProvider: ParentComponent = (props) => {
 		const bot = botSelector.bot();
 		setIsInitialLoading(true);
 		close();
-		setQueue(defaultQueue);
+		setQueue({ ...defaultQueue });
 		listen(bot.wsUrl);
 	});
 

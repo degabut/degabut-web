@@ -1,8 +1,8 @@
-import { IMember, IQueue, ITrack, LoopMode } from "@queue/apis";
+import { IMember, IQueue, ITrack } from "@queue/apis";
 import { onMount } from "solid-js";
 import { SetStoreFunction } from "solid-js/store";
 import TypedEventEmitter from "typed-emitter";
-import { FreezeState, QueueResource } from "../";
+import { FreezeState, QueueResource, defaultQueue } from "../";
 import { QueueEvents } from "./queue-events.hook";
 
 type Params = {
@@ -47,19 +47,7 @@ export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, em
 	});
 
 	const resetQueue = () => {
-		setQueue({
-			guild: { icon: null, id: "", name: "" },
-			history: [],
-			isPaused: false,
-			loopMode: LoopMode.DISABLED,
-			nowPlaying: null,
-			position: 0,
-			shuffle: false,
-			textChannel: null,
-			tracks: [],
-			voiceChannel: { id: "", name: "", members: [] },
-			empty: true,
-		});
+		setQueue({ ...defaultQueue });
 	};
 
 	const addMember = (member: IMember) => {
