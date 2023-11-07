@@ -1,10 +1,11 @@
 import { useQueue } from "@app/hooks";
 import { Container, Text } from "@common/components";
+import { useShortcut } from "@common/hooks";
 import { IS_DESKTOP } from "@constants";
 import { DesktopProvider } from "@desktop/providers";
 import { QueueProvider } from "@queue/providers";
 import { SettingsProvider } from "@settings/providers";
-import { Navigate, Outlet, useBeforeLeave } from "@solidjs/router";
+import { Navigate, Outlet, useBeforeLeave, useNavigate } from "@solidjs/router";
 import { Component } from "solid-js";
 import { NavigationCard } from "./components";
 
@@ -25,6 +26,17 @@ const ProvidedApp: Component = () => {
 	if (!IS_DESKTOP) return <Navigate href="/app" />;
 
 	const queue = useQueue();
+	const navigate = useNavigate();
+
+	useShortcut({
+		shortcuts: [
+			{
+				key: "k",
+				ctrl: true,
+				handler: () => navigate("/desktop-overlay/search"),
+			},
+		],
+	});
 
 	useBeforeLeave((e) => {
 		if (!e.to.toString().startsWith("/desktop-overlay")) e.preventDefault();
