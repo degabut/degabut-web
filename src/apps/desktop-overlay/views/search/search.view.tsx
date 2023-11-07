@@ -1,77 +1,95 @@
 import { useQueue } from "@app/hooks";
-import { Icon, Input, Item } from "@common/components";
+import { Icon, Select } from "@common/components";
+import { Card } from "@desktop-overlay/components";
+import { ITrack } from "@queue/apis";
+import { IVideoCompact, IYouTubePlaylistCompact } from "@youtube/apis";
 import { Video, YouTubePlaylist } from "@youtube/components";
 import { useSearch } from "@youtube/hooks";
 import { YouTubeContextMenuUtil } from "@youtube/utils";
-import { Component, For, Show } from "solid-js";
-import { Card } from "../../components";
+import { Component, createSignal } from "solid-js";
 
-const SearchResultSkeleton: Component<{ isSmall?: boolean; count?: number }> = (props) => {
-	return (
-		<For each={Array(5)}>
-			{() => (
-				<Show when={props.isSmall} fallback={<Item.ListBigSkeleton />}>
-					<Item.ListSkeleton />
-				</Show>
-			)}
-		</For>
-	);
-};
+type SelectOptionItem = IVideoCompact | IYouTubePlaylistCompact | ITrack;
 
 export const Search: Component = () => {
 	const queue = useQueue();
 
-	const search = useSearch({
-		playlistCount: 5,
-		playlistStartIndex: 5,
-	});
+	const [isLoading, setIsLoading] = createSignal(false);
+	const search = useSearch();
 
-	const onInput = (ev: InputEvent) => {
-		const value = (ev.target as HTMLInputElement).value;
+	const onInput = (e: InputEvent) => {
+		const value = (e.target as HTMLInputElement).value;
 		search.setKeyword(value);
 	};
 
-	return (
-		<div class="h-full flex flex-col space-y-2">
-			<Input
-				type="text"
-				placeholder="Search for a song"
-				focusOnMount
-				class="!bg-black/90 rounded-lg py-1 !text-neutral-200"
-				onInput={onInput}
-				prefix={() => <Icon name="search" size="lg" extraClass="fill-current" />}
-			/>
+	const onSelect = async (item: SelectOptionItem) => {
+		if (queue.data.empty) return;
 
-			<Show when={search.isLoading() || search.result().length}>
-				<Card extraClass="w-full h-full">
-					<div class="w-full h-full overflow-y-auto space-y-1.5">
-						<Show when={!search.isLoading()} fallback={<SearchResultSkeleton isSmall={true} />}>
-							<For each={search.result()}>
-								{(item) =>
-									"duration" in item ? (
-										<Video.List
-											video={item}
-											inQueue={queue.data.tracks?.some((t) => t.video.id === item.id)}
-											contextMenu={YouTubeContextMenuUtil.getVideoContextMenu({
-												video: item,
-												queueStore: queue,
-											})}
-										/>
-									) : (
-										<YouTubePlaylist.List
-											playlist={item}
-											contextMenu={YouTubeContextMenuUtil.getPlaylistContextMenu({
-												queueStore: queue,
-												playlist: item,
-											})}
-										/>
-									)
-								}
-							</For>
-						</Show>
-					</div>
-				</Card>
-			</Show>
-		</div>
+		if ("duration" in item) addToQueue(item);
+		else await addToQueue(item);
+	};
+
+	const addToQueue = async (item: SelectOptionItem) => {
+		if (isLoading()) return;
+		setIsLoading(true);
+
+		if (item) {
+			if ("duration" in item) await queue.addTrackById(item.id);
+			else await queue.addYouTubePlaylist(item.id);
+		} else {
+			await queue.addTrackByKeyword(search.keyword());
+		}
+
+		setIsLoading(false);
+	};
+
+	return (
+		<Card extraClass="w-full h-full">
+			<Select<SelectOptionItem>
+				inputProps={{
+					rounded: true,
+					class: "w-full",
+					disabled: isLoading(),
+					value: search.keyword(),
+					onInput: onInput,
+					placeholder: "Search for a song",
+					focusOnMount: true,
+					prefix: () => <Icon name="search" size="lg" extraClass="fill-current" />,
+				}}
+				hideOptionOnClickOutside={false}
+				options={search.result()}
+				onSelect={onSelect}
+			>
+				{(item, isSelected) => {
+					const extraContainerClass = { "!bg-white/10": isSelected };
+					if ("video" in item || "duration" in item) {
+						const video = "video" in item ? item.video : item;
+						return (
+							<Video.List
+								video={video}
+								inQueue={queue.data.tracks?.some((t) => t.video.id === video.id)}
+								onClick={() => {}} // TODO
+								contextMenu={YouTubeContextMenuUtil.getVideoContextMenu({
+									video,
+									queueStore: queue,
+								})}
+								extraContainerClassList={extraContainerClass}
+							/>
+						);
+					} else {
+						return (
+							<YouTubePlaylist.List
+								playlist={item}
+								contextMenu={YouTubeContextMenuUtil.getPlaylistContextMenu({
+									queueStore: queue,
+									playlist: item,
+								})}
+								extraContainerClass="cursor-pointer px-2 py-1"
+								extraContainerClassList={extraContainerClass}
+							/>
+						);
+					}
+				}}
+			</Select>
+		</Card>
 	);
 };
