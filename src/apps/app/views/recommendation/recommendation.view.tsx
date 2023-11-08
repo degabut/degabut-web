@@ -2,11 +2,11 @@ import { useApp, useQueue } from "@app/hooks";
 import { Container, Icon } from "@common/components";
 import { useInfiniteScrolling } from "@common/hooks";
 import { useNavigate, useParams } from "@solidjs/router";
-import { useRecommendation } from "@user/hooks";
 import { Videos } from "@youtube/components";
 import { YouTubeContextMenuUtil } from "@youtube/utils";
 import { Component, Show, createEffect, createMemo, createSignal } from "solid-js";
 import { ExpandableVideoGrid, ExpandableVideoList, ShowMoreModal, ShowMoreType, Title } from "./components";
+import { useRecommendation } from "./hooks";
 
 const RecommendationEmpty: Component = () => {
 	return (

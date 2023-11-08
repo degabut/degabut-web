@@ -1,8 +1,8 @@
 import { useQueue } from "@app/hooks";
+import { usePlayHistory } from "@user/hooks";
 import { IVideoCompact } from "@youtube/apis";
 import { useVideo } from "@youtube/hooks";
 import { Accessor, batch, createEffect, createMemo, createSignal } from "solid-js";
-import { usePlayHistory } from "./play-history.hook";
 
 type UseRecommendationParams = {
 	userId: Accessor<string>;
