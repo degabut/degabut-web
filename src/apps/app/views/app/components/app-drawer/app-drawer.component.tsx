@@ -62,17 +62,19 @@ export const AppDrawer: Component<AppDrawerProps> = (props) => {
 							</For>
 						</div>
 
-						<Show when={deferredPrompt()}>
-							<Link icon="plus" label="Install" minimized={minimized} onClick={promptInstall} />
-						</Show>
+						<div class="space-y-1.5">
+							<Show when={deferredPrompt()}>
+								<Link icon="plus" label="Install" minimized={minimized} onClick={promptInstall} />
+							</Show>
 
-						<Link
-							icon="gear"
-							label="Settings"
-							path="/app/settings"
-							onClick={onLinkClick}
-							minimized={minimized}
-						/>
+							<Link
+								icon="gear"
+								label="Settings"
+								path="/app/settings"
+								onClick={onLinkClick}
+								minimized={minimized}
+							/>
+						</div>
 					</div>
 				);
 			}}
