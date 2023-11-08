@@ -8,7 +8,7 @@ import { QueueProvider } from "@queue/providers";
 import { SettingsProvider } from "@settings/providers";
 import { Outlet } from "@solidjs/router";
 import { Component, ErrorBoundary, Show, createEffect, createSignal } from "solid-js";
-import { AppDrawer, AppHeader, BottomBar, Error, ExternalTrackAdder, InstallPrompt } from "./components";
+import { AppDrawer, AppHeader, BottomBar, Error, ExternalTrackAdder } from "./components";
 
 export const App: Component = () => {
 	return (
@@ -74,7 +74,6 @@ const ProvidedApp: Component = () => {
 			</div>
 
 			<ExternalTrackAdder />
-			<InstallPrompt />
 		</>
 	);
 };

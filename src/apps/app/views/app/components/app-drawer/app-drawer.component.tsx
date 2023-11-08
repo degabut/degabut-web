@@ -1,7 +1,7 @@
 import { useSettings } from "@app/hooks";
 import { Drawer } from "@common/components";
 import { useScreen } from "@common/hooks";
-import { Component, For } from "solid-js";
+import { Component, For, Show, createSignal, onMount } from "solid-js";
 import { BotSelector, Link } from "./components";
 
 type AppDrawerProps = {
@@ -12,6 +12,7 @@ type AppDrawerProps = {
 export const AppDrawer: Component<AppDrawerProps> = (props) => {
 	const { settings, setSettings } = useSettings();
 	const screen = useScreen();
+	const [deferredPrompt, setDeferredPrompt] = createSignal<BeforeInstallPromptEvent | null>(null);
 
 	const onLinkClick = () => {
 		if (screen.lte.sm) props.handleClose();
@@ -23,6 +24,21 @@ export const AppDrawer: Component<AppDrawerProps> = (props) => {
 		{ icon: "audioPlaylist", label: "Playlist", path: "/app/playlist" },
 		{ icon: "heart", label: "For You", path: "/app/recommendation" },
 	] as const;
+
+	onMount(() => {
+		window.addEventListener("beforeinstallprompt", (e) => {
+			e.preventDefault();
+			setDeferredPrompt(e as BeforeInstallPromptEvent);
+		});
+	});
+
+	const promptInstall = async () => {
+		const prompt = deferredPrompt();
+		if (!prompt) return;
+
+		await prompt.prompt();
+		setDeferredPrompt(null);
+	};
 
 	return (
 		<Drawer
@@ -45,6 +61,10 @@ export const AppDrawer: Component<AppDrawerProps> = (props) => {
 								{(link) => <Link {...link} onClick={onLinkClick} minimized={minimized} />}
 							</For>
 						</div>
+
+						<Show when={deferredPrompt()}>
+							<Link icon="plus" label="Install" minimized={minimized} onClick={promptInstall} />
+						</Show>
 
 						<Link
 							icon="gear"
