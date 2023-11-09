@@ -27,6 +27,7 @@ type SortEvent = {
 
 type SortableVideosListProps<Data> = {
 	data: Data[];
+	dense?: boolean;
 	isLoading?: boolean;
 	showWhenLoading?: boolean;
 	sortableProps?: (data: Data) => SortableData;
@@ -80,7 +81,13 @@ export function SortableVideosList<Data = unknown>(props: SortableVideosListProp
 	};
 
 	return (
-		<div class="space-y-2 h-full overflow-y-auto">
+		<div
+			class="h-full overflow-y-auto"
+			classList={{
+				"space-y-2": !props.dense,
+				"space-y-0.5": props.dense,
+			}}
+		>
 			<Show when={props.showWhenLoading || !props.isLoading}>
 				<DragDropProvider
 					onDragStart={onDragStart}

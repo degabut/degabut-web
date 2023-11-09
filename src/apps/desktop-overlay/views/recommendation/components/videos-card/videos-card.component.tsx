@@ -23,6 +23,7 @@ export const VideosCard: Component<VideosCardProps> = (props) => {
 					<Videos.List
 						isLoading={props.isLoading}
 						showWhenLoading
+						dense
 						data={props.videos}
 						videoProps={(video) => ({
 							video,

@@ -40,6 +40,7 @@ export const TracksCard: Component = () => {
 					{(tracks) => (
 						<div classList={{ "opacity-50 pointer-events-none": queue.freezeState.track }}>
 							<Videos.SortableList
+								dense
 								data={tracks}
 								onSort={({ to }, data) => queue.changeTrackOrder(data.id, to)}
 								sortableProps={videoProps}

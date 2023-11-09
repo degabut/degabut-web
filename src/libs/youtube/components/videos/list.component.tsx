@@ -4,6 +4,7 @@ import { Video, VideoListProps } from "../video";
 
 type VideosListProps<Data> = {
 	data: Data[];
+	dense?: boolean;
 	title?: Accessor<JSX.Element>;
 	isLoading?: boolean;
 	showWhenLoading?: boolean;
@@ -22,7 +23,12 @@ export function VideosList<Data = unknown>(props: VideosListProps<Data>) {
 		<div class="space-y-6 md:space-y-4">
 			{props.title?.()}
 
-			<div class="space-y-2">
+			<div
+				classList={{
+					"space-y-2": !props.dense,
+					"space-y-0.5": props.dense,
+				}}
+			>
 				<Show when={props.showWhenLoading || !props.isLoading}>
 					<For each={videoProps()}>{(p) => <Video.List {...p} />}</For>
 				</Show>
