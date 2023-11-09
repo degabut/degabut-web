@@ -1,7 +1,7 @@
-import { useQueue } from "@app/hooks";
 import { Icon, RouterLink, Text } from "@common/components";
 import { contextMenu } from "@common/directives";
 import { bots } from "@constants";
+import { useQueue } from "@queue/hooks";
 import { Component, Show } from "solid-js";
 
 contextMenu;

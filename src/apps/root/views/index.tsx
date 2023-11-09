@@ -1,4 +1,4 @@
-import { ApiProvider, ContextMenuProvider, NotificationProvider, ScreenProvider } from "@common/providers";
+import { ApiProvider, ContextMenuProvider, ScreenProvider } from "@common/providers";
 import { IS_DESKTOP } from "@constants";
 import { useRoutes } from "@solidjs/router";
 import { Component } from "solid-js";
@@ -14,11 +14,9 @@ export const Root: Component = () => {
 	return (
 		<ScreenProvider>
 			<ContextMenuProvider>
-				<NotificationProvider>
-					<ApiProvider>
-						<Routes />
-					</ApiProvider>
-				</NotificationProvider>
+				<ApiProvider>
+					<Routes />
+				</ApiProvider>
 			</ContextMenuProvider>
 		</ScreenProvider>
 	);

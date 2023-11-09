@@ -1,6 +1,6 @@
-import { useQueue } from "@app/hooks";
 import { Button, Divider, Icon, Item, Modal, RouterLink, Text } from "@common/components";
 import { TimeUtil } from "@common/utils";
+import { useQueue } from "@queue/hooks";
 import { useNavigate } from "@solidjs/router";
 import { Component, For, createSignal } from "solid-js";
 

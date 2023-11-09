@@ -1,5 +1,5 @@
-import { useQueue } from "@app/hooks";
 import { Text } from "@common/components";
+import { useQueue } from "@queue/hooks";
 import { useNavigate, useParams, useSearchParams } from "@solidjs/router";
 import { Component, onMount } from "solid-js";
 

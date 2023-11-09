@@ -5,26 +5,29 @@ import { Text } from "@common/components";
 import { useNotification } from "@common/hooks";
 import { NotificationUtil } from "@common/utils";
 import { IMember, ITrack } from "@queue/apis";
-import { onMount } from "solid-js";
-import TypedEventEmitter from "typed-emitter";
-import { QueueEvents } from "./queue-events.hook";
+import { useQueue } from "@queue/hooks";
+import { onCleanup, onMount } from "solid-js";
 
-type Params = {
-	emitter: TypedEventEmitter<QueueEvents>;
-};
-
-export const useQueueNotification = ({ emitter }: Params) => {
+export const useQueueNotification = () => {
+	const { emitter } = useQueue();
 	const { settings } = useSettings();
 	const notification = useNotification();
 
 	onMount(() => {
 		emitter.on("queue-processed", onQueueProcessed);
-		emitter.on("track-added", ({ track }) => onTrackAdded(track));
-		emitter.on("tracks-added", ({ tracks, member }) => onTracksAdded(tracks, member));
-		emitter.on("track-removed", ({ track, member }) => onTrackRemoved(track, member));
+		emitter.on("track-added", onTrackAdded);
+		emitter.on("tracks-added", onTracksAdded);
+		emitter.on("track-removed", onTrackRemoved);
 	});
 
-	const onTrackAdded = async (track: ITrack) => {
+	onCleanup(() => {
+		emitter.removeListener("queue-processed", onQueueProcessed);
+		emitter.removeListener("track-added", onTrackAdded);
+		emitter.removeListener("tracks-added", onTracksAdded);
+		emitter.removeListener("track-removed", onTrackRemoved);
+	});
+
+	const onTrackAdded = async ({ track }: { track: ITrack }) => {
 		if (!settings["notification.inApp"]) return;
 
 		notification.push({
@@ -37,7 +40,7 @@ export const useQueueNotification = ({ emitter }: Params) => {
 		});
 	};
 
-	const onTracksAdded = async (tracks: ITrack[], member: IMember) => {
+	const onTracksAdded = async ({ tracks, member }: { tracks: ITrack[]; member: IMember }) => {
 		if (!settings["notification.inApp"]) return;
 
 		const videoCount = tracks.length > 1 ? `${tracks.length} videos` : "a video";
@@ -51,7 +54,7 @@ export const useQueueNotification = ({ emitter }: Params) => {
 		});
 	};
 
-	const onTrackRemoved = async (track: ITrack, member: IMember | null) => {
+	const onTrackRemoved = async ({ track, member }: { track: ITrack; member: IMember | null }) => {
 		if (!settings["notification.inApp"] || !member) return;
 
 		notification.push({

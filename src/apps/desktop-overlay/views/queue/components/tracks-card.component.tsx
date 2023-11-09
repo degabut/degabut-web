@@ -1,5 +1,6 @@
-import { useApp, useQueue } from "@app/hooks";
+import { useApp } from "@app/hooks";
 import { ITrack } from "@queue/apis";
+import { useQueue } from "@queue/hooks";
 import { VideoListProps, Videos } from "@youtube/components";
 import { YouTubeContextMenuUtil } from "@youtube/utils";
 import { Component, Show } from "solid-js";

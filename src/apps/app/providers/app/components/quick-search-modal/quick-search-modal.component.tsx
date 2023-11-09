@@ -1,8 +1,9 @@
-import { useApp, useQueue } from "@app/hooks";
+import { useApp } from "@app/hooks";
 import { Icon, KeyboardHint, Modal, Select } from "@common/components";
 import { useSearchable } from "@common/hooks";
 import { PlaylistConfirmationUtil } from "@playlist/utils";
 import { ITrack } from "@queue/apis";
+import { useQueue } from "@queue/hooks";
 import { useNavigate } from "@solidjs/router";
 import { IVideoCompact, IYouTubePlaylistCompact } from "@youtube/apis";
 import { Video, YouTubePlaylist } from "@youtube/components";

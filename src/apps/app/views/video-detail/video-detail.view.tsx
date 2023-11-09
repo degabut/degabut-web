@@ -1,5 +1,6 @@
-import { useApp, useQueue } from "@app/hooks";
+import { useApp } from "@app/hooks";
 import { Container, Divider, Text } from "@common/components";
+import { useQueue } from "@queue/hooks";
 import { useNavigate, useParams } from "@solidjs/router";
 import { Videos } from "@youtube/components";
 import { useVideo } from "@youtube/hooks";

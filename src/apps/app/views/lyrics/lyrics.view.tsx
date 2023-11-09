@@ -1,5 +1,6 @@
-import { useApp, useQueue } from "@app/hooks";
+import { useApp } from "@app/hooks";
 import { Container, Icon, Spinner } from "@common/components";
+import { useQueue } from "@queue/hooks";
 import { useLyrics, useTranscript, useVideoTranscript } from "@youtube/hooks";
 import { Component, For, Match, Switch, createEffect, createMemo, onMount } from "solid-js";
 import "./lyrics.style.css";

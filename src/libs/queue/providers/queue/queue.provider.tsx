@@ -12,7 +12,6 @@ import {
 	useQueueActions,
 	useQueueEventListener,
 	useQueueEvents,
-	useQueueNotification,
 	useVoiceChannelHistory,
 } from "./hooks";
 
@@ -97,7 +96,6 @@ export const QueueProvider: ParentComponent = (props) => {
 	const queueActions = useQueueActions({ queue, setFreezeState });
 	const voiceChannelHistory = useVoiceChannelHistory({ queue });
 	useQueueEventListener({ setQueue, setFreezeState, fetchQueue, emitter });
-	useQueueNotification({ emitter });
 
 	onMount(() => {
 		document.addEventListener("visibilitychange", onVisibilityChange);

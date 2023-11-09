@@ -1,7 +1,7 @@
-import { useQueue } from "@app/hooks";
 import { Icon, Select } from "@common/components";
 import { Card } from "@desktop-overlay/components";
 import { ITrack } from "@queue/apis";
+import { useQueue } from "@queue/hooks";
 import { IVideoCompact, IYouTubePlaylistCompact } from "@youtube/apis";
 import { Video, YouTubePlaylist } from "@youtube/components";
 import { useSearch } from "@youtube/hooks";

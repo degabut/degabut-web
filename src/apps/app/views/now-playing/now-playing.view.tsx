@@ -1,7 +1,8 @@
-import { useApp, useQueue } from "@app/hooks";
+import { useApp } from "@app/hooks";
 import { Container, ContextMenuButton, RouterLink, Text } from "@common/components";
 import { DelayUtil } from "@common/utils";
 import { QueueActions, QueueSeekSlider } from "@queue/components";
+import { useQueue } from "@queue/hooks";
 import { useNavigate } from "@solidjs/router";
 import { YouTubeContextMenuUtil } from "@youtube/utils";
 import { Component, Show, onMount } from "solid-js";

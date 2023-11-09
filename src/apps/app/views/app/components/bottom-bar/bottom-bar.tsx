@@ -1,5 +1,5 @@
-import { useQueue } from "@app/hooks";
 import { useScreen } from "@common/hooks";
+import { useQueue } from "@queue/hooks";
 import { useMatch } from "@solidjs/router";
 import { Component, Show } from "solid-js";
 import { NavigationBar, QueueNowPlaying, QueuePlayer } from "./components";

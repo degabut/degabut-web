@@ -1,8 +1,8 @@
-import { useQueue } from "@app/hooks";
 import { Container, Text } from "@common/components";
 import { useShortcut } from "@common/hooks";
 import { IS_DESKTOP } from "@constants";
 import { DesktopProvider } from "@desktop/providers";
+import { useQueue } from "@queue/hooks";
 import { QueueProvider } from "@queue/providers";
 import { SettingsProvider } from "@settings/providers";
 import { Navigate, Outlet, useBeforeLeave, useNavigate } from "@solidjs/router";

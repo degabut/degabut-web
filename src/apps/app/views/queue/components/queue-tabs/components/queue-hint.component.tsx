@@ -1,6 +1,7 @@
-import { useApp, useQueue } from "@app/hooks";
+import { useApp } from "@app/hooks";
 import { Button, Icon, Icons, KeyboardHint, Text } from "@common/components";
 import { useInfiniteScrolling, useScreen } from "@common/hooks";
+import { useQueue } from "@queue/hooks";
 import { useNavigate } from "@solidjs/router";
 import { Videos } from "@youtube/components";
 import { YouTubeContextMenuUtil } from "@youtube/utils";

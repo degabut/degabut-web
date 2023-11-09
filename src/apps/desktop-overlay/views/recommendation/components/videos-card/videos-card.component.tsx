@@ -1,6 +1,6 @@
-import { useQueue } from "@app/hooks";
 import { Text } from "@common/components";
 import { Card } from "@desktop-overlay/components";
+import { useQueue } from "@queue/hooks";
 import { IVideoCompact } from "@youtube/apis";
 import { Videos } from "@youtube/components";
 import { YouTubeContextMenuUtil } from "@youtube/utils";

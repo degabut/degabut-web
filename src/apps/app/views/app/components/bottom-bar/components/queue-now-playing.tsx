@@ -1,5 +1,5 @@
-import { useQueue } from "@app/hooks";
 import { Icon, RouterLink, Text } from "@common/components";
+import { useQueue } from "@queue/hooks";
 import { Video } from "@youtube/components";
 import { Component, Show } from "solid-js";
 

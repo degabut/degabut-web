@@ -1,4 +1,4 @@
-import { useQueue } from "@app/hooks";
+import { useQueue } from "@queue/hooks";
 import { Video } from "@youtube/components";
 import { YouTubeIframeUtil } from "@youtube/utils";
 import { Component, createEffect, onCleanup, onMount } from "solid-js";

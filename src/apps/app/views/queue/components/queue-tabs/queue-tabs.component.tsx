@@ -1,5 +1,5 @@
-import { useQueue } from "@app/hooks";
 import { Tabs } from "@common/components";
+import { useQueue } from "@queue/hooks";
 import { Videos } from "@youtube/components";
 import { Component, Show } from "solid-js";
 import { QueueHint, QueueInfo, QueuePlayHistory, QueueTrackList } from "./components";

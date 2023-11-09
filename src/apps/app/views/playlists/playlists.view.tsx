@@ -1,9 +1,10 @@
-import { useApp, useQueue } from "@app/hooks";
+import { useApp } from "@app/hooks";
 import { Button, Container } from "@common/components";
 import { IPlaylist } from "@playlist/apis";
 import { CreatePlaylistModal, Playlist } from "@playlist/components";
 import { usePlaylists } from "@playlist/hooks";
 import { PlaylistContextMenuUtil } from "@playlist/utils";
+import { useQueue } from "@queue/hooks";
 import { useNavigate } from "@solidjs/router";
 import { Component, For, Show, createSignal, onMount } from "solid-js";
 

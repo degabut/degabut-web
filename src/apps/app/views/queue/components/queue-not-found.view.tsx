@@ -1,8 +1,9 @@
-import { useApp, useQueue } from "@app/hooks";
+import { useApp } from "@app/hooks";
 import { Divider, Text } from "@common/components";
 import { useApi } from "@common/hooks";
 import { ITextChannel, IVoiceChannelMin, PlayerApi } from "@queue/apis";
 import { VoiceChannelList } from "@queue/components";
+import { useQueue } from "@queue/hooks";
 import { Component, For, Show } from "solid-js";
 
 export const QueueNotFound: Component = () => {

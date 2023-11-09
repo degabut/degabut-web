@@ -1,6 +1,7 @@
-import { useApp, useQueue } from "@app/hooks";
+import { useApp } from "@app/hooks";
 import { Divider, Modal, Text } from "@common/components";
 import { useApi } from "@common/hooks";
+import { useQueue } from "@queue/hooks";
 import { useNavigate } from "@solidjs/router";
 import { UserApi } from "@user/apis";
 import { usePlayHistory } from "@user/hooks";

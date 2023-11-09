@@ -1,5 +1,6 @@
-import { useQueue, useSettings } from "@app/hooks";
+import { useSettings } from "@app/hooks";
 import { WindowPosterUtil } from "@common/utils";
+import { useQueue } from "@queue/hooks";
 import { createEffect, onMount } from "solid-js";
 
 export const useRichPresence = () => {

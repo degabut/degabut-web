@@ -1,6 +1,6 @@
-import { useQueue } from "@app/hooks";
 import { IconSize } from "@common/components";
 import { LoopMode } from "@queue/apis";
+import { useQueue } from "@queue/hooks";
 import { useNavigate } from "@solidjs/router";
 import { Component, Show } from "solid-js";
 import { QueueButton } from "../queue-button";

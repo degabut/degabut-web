@@ -1,6 +1,6 @@
-import { useQueue } from "@app/hooks";
 import { Text } from "@common/components";
 import { QueueActions, QueueSeekSlider } from "@queue/components";
+import { useQueue } from "@queue/hooks";
 import { Component, Show } from "solid-js";
 import { Card } from "../../../components";
 

@@ -1,7 +1,8 @@
-import { useApp, useQueue } from "@app/hooks";
+import { useApp } from "@app/hooks";
 import { Icon, Spinner } from "@common/components";
 import { useApi } from "@common/hooks";
 import { PlaylistConfirmationUtil } from "@playlist/utils";
+import { useQueue } from "@queue/hooks";
 import { IVideo, IYouTubeMixPlaylist, IYouTubePlaylist, YouTubeApi } from "@youtube/apis";
 import { Show, createSignal, onCleanup, onMount } from "solid-js";
 import { VideoPlaylistChooser } from "./components";

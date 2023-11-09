@@ -1,6 +1,7 @@
-import { useApp } from "@app/hooks";
+import { useApp, useQueueNotification } from "@app/hooks";
 import { AppProvider } from "@app/providers";
 import { useScreen } from "@common/hooks";
+import { NotificationProvider } from "@common/providers";
 import { NotificationUtil } from "@common/utils";
 import { breakpoints } from "@constants";
 import { DesktopProvider } from "@desktop/providers";
@@ -13,21 +14,24 @@ import { AppDrawer, AppHeader, BottomBar, Error, ExternalTrackAdder } from "./co
 export const App: Component = () => {
 	return (
 		<ErrorBoundary fallback={(err) => <Error error={err} />}>
-			<SettingsProvider>
-				<QueueProvider>
-					<AppProvider>
-						<DesktopProvider>
-							<ProvidedApp />
-						</DesktopProvider>
-					</AppProvider>
-				</QueueProvider>
-			</SettingsProvider>
+			<NotificationProvider>
+				<SettingsProvider>
+					<QueueProvider>
+						<AppProvider>
+							<DesktopProvider>
+								<ProvidedApp />
+							</DesktopProvider>
+						</AppProvider>
+					</QueueProvider>
+				</SettingsProvider>
+			</NotificationProvider>
 		</ErrorBoundary>
 	);
 };
 
 const ProvidedApp: Component = () => {
 	const app = useApp();
+	useQueueNotification();
 	NotificationUtil.requestPermission();
 
 	let previousWidth = window.screenX;

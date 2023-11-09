@@ -1,4 +1,4 @@
-import { useQueue } from "@app/hooks";
+import { useQueue } from "@queue/hooks";
 import { Component, Show } from "solid-js";
 import { PlayerCard, TracksCard, VoiceChannelsCard } from "./components";
 

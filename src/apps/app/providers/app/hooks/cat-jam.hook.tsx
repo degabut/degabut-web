@@ -1,6 +1,6 @@
-import { useQueue } from "@app/hooks";
 import { DelayUtil } from "@common/utils";
 import { IGuildMember, IJam, IJamCollection } from "@queue/apis";
+import { useQueue } from "@queue/hooks";
 import { Component, onCleanup, onMount } from "solid-js";
 import { render } from "solid-js/web";
 

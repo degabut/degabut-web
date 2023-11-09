@@ -1,4 +1,4 @@
-import { useQueue } from "@app/hooks";
+import { useQueue } from "@queue/hooks";
 import { usePlayHistory } from "@user/hooks";
 import { IVideoCompact } from "@youtube/apis";
 import { useVideo } from "@youtube/hooks";
