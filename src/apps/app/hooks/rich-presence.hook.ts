@@ -1,9 +1,13 @@
 import { useSettings } from "@app/hooks";
 import { WindowPosterUtil } from "@common/utils";
+import { IS_BROWSER } from "@constants";
 import { useQueue } from "@queue/hooks";
 import { createEffect, onMount } from "solid-js";
 
+// TODO remove this
 export const useRichPresence = () => {
+	if (IS_BROWSER) return;
+
 	const { settings } = useSettings();
 	const queue = useQueue();
 	let currentActivity = "";

@@ -1,12 +1,10 @@
-import { useApp, useQueueNotification } from "@app/hooks";
+import { useApp, useQueueNotification, useRichPresence } from "@app/hooks";
 import { AppProvider } from "@app/providers";
 import { useScreen } from "@common/hooks";
 import { NotificationProvider } from "@common/providers";
 import { NotificationUtil } from "@common/utils";
 import { breakpoints } from "@constants";
-import { DesktopProvider } from "@desktop/providers";
 import { QueueProvider } from "@queue/providers";
-import { SettingsProvider } from "@settings/providers";
 import { Outlet } from "@solidjs/router";
 import { Component, ErrorBoundary, Show, createEffect, createSignal } from "solid-js";
 import { AppDrawer, AppHeader, BottomBar, Error, ExternalTrackAdder } from "./components";
@@ -15,15 +13,11 @@ export const App: Component = () => {
 	return (
 		<ErrorBoundary fallback={(err) => <Error error={err} />}>
 			<NotificationProvider>
-				<SettingsProvider>
-					<QueueProvider>
-						<AppProvider>
-							<DesktopProvider>
-								<ProvidedApp />
-							</DesktopProvider>
-						</AppProvider>
-					</QueueProvider>
-				</SettingsProvider>
+				<QueueProvider>
+					<AppProvider>
+						<ProvidedApp />
+					</AppProvider>
+				</QueueProvider>
 			</NotificationProvider>
 		</ErrorBoundary>
 	);
@@ -32,6 +26,7 @@ export const App: Component = () => {
 const ProvidedApp: Component = () => {
 	const app = useApp();
 	useQueueNotification();
+	useRichPresence();
 	NotificationUtil.requestPermission();
 
 	let previousWidth = window.screenX;

@@ -6,6 +6,6 @@ export type Bot = {
 	wsUrl: string;
 };
 
-export const bots: Bot[] | null = import.meta.env.VITE_DEGABUT_SERVERS
+export const bots: Bot[] = import.meta.env.VITE_DEGABUT_SERVERS
 	? JSON.parse(import.meta.env.VITE_DEGABUT_SERVERS)
-	: null;
+	: [{ apiBaseUrl: import.meta.env.VITE_API_BASE_URL, wsUrl: import.meta.env.VITE_WS_URL }];

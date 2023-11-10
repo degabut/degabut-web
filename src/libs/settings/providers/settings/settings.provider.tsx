@@ -5,6 +5,7 @@ import { ParentComponent, createContext } from "solid-js";
 import { createStore } from "solid-js/store";
 
 export type Settings = {
+	["botIndex"]: number;
 	["queue.showThumbnail"]: boolean;
 	["notification.browser"]: boolean;
 	["notification.inApp"]: boolean;
@@ -18,6 +19,7 @@ export type Settings = {
 };
 
 const defaultSettings: Settings = {
+	["botIndex"]: 0,
 	["queue.showThumbnail"]: true,
 	["notification.browser"]: false,
 	["notification.inApp"]: true,

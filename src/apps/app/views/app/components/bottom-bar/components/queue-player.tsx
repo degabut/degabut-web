@@ -1,6 +1,6 @@
 import { useApp, useSettings } from "@app/hooks";
 import { Button, Icon, RouterLink, Slider } from "@common/components";
-import { useDesktop } from "@desktop/hooks";
+import { DesktopUtil } from "@desktop/utils";
 import { QueueActions, QueueButton, QueueSeekSlider } from "@queue/components";
 import { useQueue } from "@queue/hooks";
 import { useNavigate } from "@solidjs/router";
@@ -65,8 +65,6 @@ const Controls: Component = () => {
 };
 
 const VolumeSlider: Component = () => {
-	const desktop = useDesktop();
-
 	const [volumeLevel, setVolumeLevel] = createSignal(25);
 	const [isMuted, setIsMuted] = createSignal(false);
 
@@ -77,8 +75,7 @@ const VolumeSlider: Component = () => {
 	};
 
 	createEffect(() => {
-		if (isMuted()) desktop.setBotVolume(0);
-		else desktop.setBotVolume(volumeLevel());
+		DesktopUtil.setBotVolume(isMuted() ? 0 : volumeLevel());
 	});
 
 	return (

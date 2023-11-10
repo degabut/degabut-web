@@ -1,23 +1,17 @@
 import { Container, Text } from "@common/components";
 import { useShortcut } from "@common/hooks";
 import { IS_DESKTOP } from "@constants";
-import { DesktopProvider } from "@desktop/providers";
 import { useQueue } from "@queue/hooks";
 import { QueueProvider } from "@queue/providers";
-import { SettingsProvider } from "@settings/providers";
 import { Navigate, Outlet, useBeforeLeave, useNavigate } from "@solidjs/router";
 import { Component } from "solid-js";
 import { NavigationCard } from "./components";
 
 export const App: Component = () => {
 	return (
-		<SettingsProvider>
-			<QueueProvider>
-				<DesktopProvider>
-					<ProvidedApp />
-				</DesktopProvider>
-			</QueueProvider>
-		</SettingsProvider>
+		<QueueProvider>
+			<ProvidedApp />
+		</QueueProvider>
 	);
 };
 

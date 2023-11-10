@@ -1,17 +1,13 @@
+import { useSettings } from "@app/hooks";
 import { useApi } from "@common/hooks";
-import { WindowPosterUtil } from "@common/utils";
 import { Bot, bots } from "@constants";
+import { DesktopUtil } from "@desktop/utils";
 import { createSignal, onMount } from "solid-js";
 
 export const useBotSelector = () => {
 	const api = useApi();
-
-	const botIndex = localStorage.getItem("bot_index");
-	const [bot, _setBot] = createSignal<Bot>(
-		bots
-			? { ...bots[botIndex ? +botIndex : 0] }
-			: { apiBaseUrl: import.meta.env.VITE_API_BASE_URL, wsUrl: import.meta.env.VITE_WS_URL }
-	);
+	const { settings, setSettings } = useSettings();
+	const [bot, _setBot] = createSignal<Bot>({ ...bots[settings.botIndex] });
 
 	// eslint-disable-next-line solid/reactivity
 	api.setClientUrl(bot().apiBaseUrl);
@@ -27,9 +23,8 @@ export const useBotSelector = () => {
 		if (!bot) return;
 
 		_setBot(bot);
-		localStorage.setItem("bot_index", `${index}`);
-		WindowPosterUtil.postMessage("bot-switched", index, bot);
-
+		setSettings("botIndex", index);
+		DesktopUtil.switchBot(index, bot);
 		api.setClientUrl(bot.apiBaseUrl, bot.youtubeApiBaseUrl);
 	};
 

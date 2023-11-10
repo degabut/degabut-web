@@ -1,7 +1,7 @@
 import { useApp, useSettings } from "@app/hooks";
 import { Button, Container, Divider, Text } from "@common/components";
 import { IS_DESKTOP } from "@constants";
-import { useDesktop } from "@desktop/hooks";
+import { DesktopUtil } from "@desktop/utils";
 import { useNavigate } from "@solidjs/router";
 import { Accessor, Component, For, JSX, Show, onMount } from "solid-js";
 import { Item, KeybindItem, SwitchItem, TextItem } from "./components";
@@ -40,7 +40,6 @@ type SettingsItem = {
 
 export const Settings: Component = () => {
 	const app = useApp();
-	const desktop = useDesktop();
 	const { settings, setSettings } = useSettings();
 	const navigate = useNavigate();
 
@@ -111,7 +110,12 @@ export const Settings: Component = () => {
 					element: () => (
 						<Button
 							class="px-2 py-0.5"
-							onClick={desktop.authenticateRpc}
+							onClick={() =>
+								DesktopUtil.authenticateRpc(
+									settings["discord.rpcClientId"],
+									settings["discord.rpcClientSecret"]
+								)
+							}
 							disabled={!settings["discord.rpcClientId"] || !settings["discord.rpcClientSecret"]}
 						>
 							<Text.Body2>Authenticate</Text.Body2>

@@ -1,4 +1,5 @@
 import { Bot } from "@constants";
+import { QueueEvents } from "@queue/providers/queue/hooks";
 
 type Event = {
 	auth: () => void;
@@ -11,7 +12,7 @@ type Event = {
 	"bot-switched": (index: number, bot: Bot) => void;
 
 	"settings-changed": (key: string, value: unknown, previous?: unknown) => void;
-};
+} & QueueEvents;
 
 export class WindowPosterUtil {
 	static postMessage<K extends keyof Event>(event: K, ...data: Parameters<Event[K]>) {
