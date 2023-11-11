@@ -2,7 +2,7 @@ import path from "path";
 import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
 import solidPlugin from "vite-plugin-solid";
-import svgString from "./plugins/svgString";
+import { svgString } from "./plugins";
 
 const pwa = VitePWA({
 	registerType: "autoUpdate",
@@ -18,7 +18,7 @@ const pwa = VitePWA({
 });
 
 export default defineConfig({
-	plugins: [solidPlugin(), svgString(), pwa],
+	plugins: [solidPlugin(), svgString, pwa],
 	build: {
 		target: "es6",
 	},
