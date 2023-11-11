@@ -48,3 +48,20 @@ jobs:
               env:
                   CLOUDFLARE_ZONE: ${{ secrets.CLOUDFLARE_ZONE }}
                   CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
+    create-release:
+        needs: deploy
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Get version
+              id: package
+              run: echo "::set-output name=version::$(jq -r .version package.json)"
+            - name: Create Release
+              uses: softprops/action-gh-release@v1
+              with:
+                  tag_name: ${{ steps.package.outputs.version }}
+                  name: Release ${{ steps.package.outputs.version }}
+                  draft: false
+                  prerelease: false
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
