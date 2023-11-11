@@ -13,6 +13,7 @@
 		"isolatedModules": true,
 		"skipLibCheck": true,
 		"baseUrl": "./",
+		"resolveJsonModule": true,
 		"paths": {
 			"@root": ["./src/apps/root"],
 			"@root/*": ["./src/apps/root/*"],

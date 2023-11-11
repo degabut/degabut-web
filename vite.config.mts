@@ -2,7 +2,8 @@ import path from "path";
 import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
 import solidPlugin from "vite-plugin-solid";
-import { svgString } from "./plugins";
+import packageJson from "./package.json";
+import { generateAppJson, svgString } from "./plugins";
 
 const pwa = VitePWA({
 	registerType: "autoUpdate",
@@ -18,9 +19,12 @@ const pwa = VitePWA({
 });
 
 export default defineConfig({
-	plugins: [solidPlugin(), svgString, pwa],
+	plugins: [solidPlugin(), svgString, pwa, generateAppJson],
 	build: {
 		target: "es6",
+	},
+	define: {
+		"import.meta.env.APP_VERSION": JSON.stringify(packageJson.version),
 	},
 	server: {
 		host: true,

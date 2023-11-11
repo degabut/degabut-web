@@ -2,10 +2,7 @@ node_modules
 dev-dist
 dist
 
-public/netlify.toml
-.netlify
-
-package.json.md5
+public/app.json
 
 .env*
 !.env.example

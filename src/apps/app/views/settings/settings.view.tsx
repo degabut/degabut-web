@@ -1,6 +1,6 @@
 import { useApp, useSettings } from "@app/hooks";
 import { Button, Container, Divider, Text } from "@common/components";
-import { IS_DESKTOP } from "@constants";
+import { APP_VERSION, IS_DESKTOP } from "@constants";
 import { DesktopUtil } from "@desktop/utils";
 import { useNavigate } from "@solidjs/router";
 import { Accessor, Component, For, JSX, Show, onMount } from "solid-js";
@@ -169,13 +169,19 @@ export const Settings: Component = () => {
 					)}
 				</For>
 
-				<Button
-					rounded
-					class="max-w-max text-red-500 !border-red-500 hover:bg-red-500/10 px-8 py-1.5"
-					onClick={onClickLogout}
-				>
-					Logout
-				</Button>
+				<div class="flex flex-row justify-between">
+					<Button
+						rounded
+						class="max-w-max text-red-500 !border-red-500 hover:bg-red-500/10 px-8 py-1.5"
+						onClick={onClickLogout}
+					>
+						Logout
+					</Button>
+
+					<div class="flex flex-col text-right">
+						<Text.Caption2>v{APP_VERSION}</Text.Caption2>
+					</div>
+				</div>
 			</div>
 		</Container>
 	);
