@@ -57,7 +57,7 @@ export const Playlists: Component = () => {
 						<For each={playlists.data() || []}>
 							{(p) => (
 								<Playlist.List
-									onClick={() => navigate("/app/playlist/" + p.id)}
+									onClick={() => navigate("/playlist/" + p.id)}
 									contextMenu={PlaylistContextMenuUtil.getContextMenu({
 										playlist: p,
 										queueStore: queue,

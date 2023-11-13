@@ -16,12 +16,12 @@ export const Zen: Component = () => {
 	const [isShowTracks, setIsShowTracks] = createSignal(screen.gte.md);
 
 	useShortcut({
-		shortcuts: [{ key: "escape", handler: () => navigate("/app/queue") }],
+		shortcuts: [{ key: "escape", handler: () => navigate("/queue") }],
 	});
 
 	return (
 		<Container size="full" padless extraClass="relative h-full bg-neutral-900 z-0 p-2 lg:p-8">
-			<RouterLink href="/app/queue">
+			<RouterLink href="/queue">
 				<Button flat class="absolute top-4 left-4 py-1.5 px-3">
 					<Text.H4>Exit</Text.H4>
 				</Button>

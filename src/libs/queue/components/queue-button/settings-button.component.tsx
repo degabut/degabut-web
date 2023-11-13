@@ -20,7 +20,7 @@ export const SettingsButton: Component<Props> = (props) => {
 	const contextMenuItems = () => [
 		{
 			label: "Zen Mode",
-			onClick: () => navigate("/app/queue/zen"),
+			onClick: () => navigate("/queue/zen"),
 		},
 		{
 			label: "Clear Queue",

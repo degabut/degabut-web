@@ -1,4 +1,4 @@
-import { Navigate, RouteDefinition } from "@solidjs/router";
+import { RouteDefinition } from "@solidjs/router";
 import {
 	App,
 	Join,
@@ -18,10 +18,9 @@ import {
 
 export const appRoutes: RouteDefinition[] = [
 	{
-		path: "/app",
+		path: "/",
 		component: () => <App />,
 		children: [
-			{ path: "/", component: () => <Navigate href="/app/queue" /> },
 			{ path: "/queue", component: () => <Queue /> },
 			{ path: "/queue/player", component: () => <QueueNowPlaying /> },
 			{ path: "/queue/lyrics", component: () => <Lyrics /> },

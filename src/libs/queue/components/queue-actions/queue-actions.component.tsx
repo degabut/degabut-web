@@ -51,7 +51,7 @@ export const QueueActions: Component<Props> = (props) => {
 
 			<Show when={props.extended}>
 				<QueueButton.Lyrics
-					onClick={() => navigate("/app/queue/lyrics")}
+					onClick={() => navigate("/queue/lyrics")}
 					extraClass={props.extraButtonClass}
 					iconSize={props.iconSize}
 				/>

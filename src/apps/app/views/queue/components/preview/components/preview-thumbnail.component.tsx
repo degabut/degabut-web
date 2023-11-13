@@ -29,7 +29,7 @@ export const PreviewThumbnail: Component = () => {
 					<div class="absolute w-full h-full opacity-0 hover:opacity-100 transition flex items-end">
 						<div class="w-full flex flex-col justify-end min-h-[50%] bg-gradient-to-t from-black to-black/0">
 							<RouterLink
-								href={`/app/video/${video.id}`}
+								href={`/video/${video.id}`}
 								class="text-center space-y-2 truncate text-shadow px-4"
 							>
 								<Text.H1 truncate>{video.title}</Text.H1>

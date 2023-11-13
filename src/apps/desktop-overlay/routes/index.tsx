@@ -3,7 +3,7 @@ import { App, Queue, Recommendation, Search } from "../views";
 
 export const desktopOverlayRoutes: RouteDefinition[] = [
 	{
-		path: "/app/desktop-overlay/*",
+		path: "/desktop-overlay/*",
 		component: () => <Navigate href="/desktop-overlay/queue" />,
 	},
 	{

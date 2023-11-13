@@ -61,7 +61,7 @@ export const QueueHint: Component = () => {
 						</div>
 					)}
 					icon="search"
-					onClick={() => (screen.gte.md ? app.setIsQuickSearchModalOpen(true) : navigate("/app/search"))}
+					onClick={() => (screen.gte.md ? app.setIsQuickSearchModalOpen(true) : navigate("/search"))}
 				/>
 				<HintItem
 					label={() => (
@@ -70,7 +70,7 @@ export const QueueHint: Component = () => {
 						</Text.Body1>
 					)}
 					icon="heartLine"
-					onClick={() => navigate("/app/recommendation")}
+					onClick={() => navigate("/recommendation")}
 				/>
 			</div>
 

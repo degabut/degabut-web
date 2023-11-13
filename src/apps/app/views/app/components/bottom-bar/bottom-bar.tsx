@@ -7,7 +7,7 @@ import { NavigationBar, QueueNowPlaying, QueuePlayer } from "./components";
 export const BottomBar: Component = () => {
 	const queue = useQueue();
 	const screen = useScreen();
-	const inQueue = useMatch(() => (screen.gte.md ? "/app/queue" : "/app/queue/player"));
+	const inQueue = useMatch(() => (screen.gte.md ? "/queue" : "/queue/player"));
 
 	return (
 		<div class="w-full z-10">

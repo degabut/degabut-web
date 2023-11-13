@@ -22,7 +22,7 @@ export const VideoCard: Component<VideoCardProps> = (props) => {
 			title={props.video.title}
 			description={props.video.channel?.name}
 			imageUrl={props.video.thumbnails.map((t) => t.url)}
-			onClick={() => (props.onClick ? props.onClick(props.video) : navigate(`/app/video/${props.video.id}`))}
+			onClick={() => (props.onClick ? props.onClick(props.video) : navigate(`/video/${props.video.id}`))}
 			extra={() => (
 				<div class="flex-row-center space-x-1.5">
 					<Show when={props.video.duration > 0} fallback={<LiveBadge />}>

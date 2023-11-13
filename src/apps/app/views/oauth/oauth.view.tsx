@@ -25,7 +25,7 @@ export const OAuth: Component = () => {
 				localStorage.removeItem("redirect");
 				navigate(redirect);
 			} else {
-				navigate("/app/queue");
+				navigate("/queue");
 			}
 		} catch (err) {
 			navigate("/login");

@@ -17,7 +17,7 @@ export const QueueTrackList: Component = () => {
 			video: t.video,
 			requestedBy: t.requestedBy,
 			extraTitleClass: isActive ? "!text-brand-600" : undefined,
-			onClick: (v) => navigate(`/app/video/${v.id}`),
+			onClick: (v) => navigate(`/video/${v.id}`),
 			contextMenu: YouTubeContextMenuUtil.getVideoContextMenu({
 				video: t.video,
 				appStore: app,

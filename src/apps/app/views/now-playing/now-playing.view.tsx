@@ -44,7 +44,7 @@ export const QueueNowPlaying: Component = () => {
 						keyed
 						fallback={
 							<RouterLink
-								href="/app/recommendation"
+								href="/recommendation"
 								class="flex flex-row items-center w-full space-x-4 px-1.5 py-2 hover:bg-white/[2.5%] rounded"
 							>
 								<div class="!w-16 !h-16 rounded border border-neutral-600" />

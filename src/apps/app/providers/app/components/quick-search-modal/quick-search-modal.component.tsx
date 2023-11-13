@@ -43,10 +43,10 @@ export const QuickSearchModal: Component<Props> = (props) => {
 	};
 
 	const onSelect = async (item: SelectOptionItem, _: number, e?: KeyboardEvent | MouseEvent) => {
-		if ("requestedBy" in item) navigate("/app/queue");
+		if ("requestedBy" in item) navigate("/queue");
 		else if ("duration" in item) {
 			// video
-			if (queue.data.empty || e?.shiftKey) navigate("/app/video/" + item.id);
+			if (queue.data.empty || e?.shiftKey) navigate("/video/" + item.id);
 			else await addToQueue(item);
 		} else {
 			// playlist

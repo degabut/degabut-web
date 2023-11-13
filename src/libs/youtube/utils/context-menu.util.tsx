@@ -70,7 +70,7 @@ export class YouTubeContextMenuUtil {
 				{
 					label: "Related",
 					icon: "list",
-					onClick: () => props.navigate?.("/app/video/" + props.video.id),
+					onClick: () => props.navigate?.("/video/" + props.video.id),
 				},
 				{
 					label: "Open on YouTube",

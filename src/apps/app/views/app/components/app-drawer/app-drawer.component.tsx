@@ -19,10 +19,10 @@ export const AppDrawer: Component<AppDrawerProps> = (props) => {
 	};
 
 	const links = [
-		{ icon: "degabutThin", label: "Queue", path: "/app/queue" },
-		{ icon: "search", label: "Search", path: "/app/search" },
-		{ icon: "audioPlaylist", label: "Playlist", path: "/app/playlist" },
-		{ icon: "heart", label: "For You", path: "/app/recommendation" },
+		{ icon: "degabutThin", label: "Queue", path: "/queue" },
+		{ icon: "search", label: "Search", path: "/search" },
+		{ icon: "audioPlaylist", label: "Playlist", path: "/playlist" },
+		{ icon: "heart", label: "For You", path: "/recommendation" },
 	] as const;
 
 	onMount(() => {
@@ -70,7 +70,7 @@ export const AppDrawer: Component<AppDrawerProps> = (props) => {
 							<Link
 								icon="gear"
 								label="Settings"
-								path="/app/settings"
+								path="/settings"
 								onClick={onLinkClick}
 								minimized={minimized}
 							/>

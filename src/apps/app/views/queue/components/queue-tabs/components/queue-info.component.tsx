@@ -49,7 +49,7 @@ export const QueueInfo: Component = () => {
 					<div class="flex-row-center overflow-x-clip -space-x-2">
 						<For each={queue.data.voiceChannel?.members || []}>
 							{(member) => (
-								<RouterLink href={`/app/recommendation/${member.id}`}>
+								<RouterLink href={`/recommendation/${member.id}`}>
 									<div class="rounded-full w-8 h-8 hover:z-50 border-neutral-900 border-2">
 										<img
 											title={member.displayName}
@@ -80,7 +80,7 @@ export const QueueInfo: Component = () => {
 						<For each={queue.data.voiceChannel?.members || []}>
 							{(member) => (
 								<Item.List
-									onClick={() => navigate(`/app/recommendation/${member.id}`)}
+									onClick={() => navigate(`/recommendation/${member.id}`)}
 									title={member.displayName}
 									extra={() => <Text.Caption1>{member.username}</Text.Caption1>}
 									imageUrl={member.avatar || "/img/avatar.png"}

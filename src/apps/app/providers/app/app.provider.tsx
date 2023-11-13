@@ -37,7 +37,7 @@ export const AppContext = createContext<AppContextStore>({
 export const AppProvider: ParentComponent = (props) => {
 	useCatJam();
 	const navigate = useNavigate();
-	const match = useMatch(() => "/app/queue/zen");
+	const match = useMatch(() => "/queue/zen");
 
 	const [title, setTitle] = createSignal("");
 	const [isFullscreen, setIsFullscreen] = createSignal(false);
@@ -57,7 +57,7 @@ export const AppProvider: ParentComponent = (props) => {
 			{
 				key: "z",
 				ctrl: true,
-				handler: () => navigate(match() ? "/app/queue" : "/app/queue/zen"),
+				handler: () => navigate(match() ? "/queue" : "/queue/zen"),
 			},
 		],
 	});

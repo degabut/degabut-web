@@ -7,7 +7,7 @@ const EmptyNowPlaying: Component = () => {
 	return (
 		<div class="bg-neutral-950 w-full h-full p-1.5">
 			<RouterLink
-				href="/app/queue/player"
+				href="/queue/player"
 				class="flex-row-center items-center p-2 z-10 rounded cursor-pointer bg-gray-800"
 			>
 				<div class="flex-row-center space-x-3 truncate">
@@ -37,7 +37,7 @@ export const QueueNowPlaying: Component = () => {
 					</Show>
 
 					<RouterLink
-						href="/app/queue/player"
+						href="/queue/player"
 						class="relative overflow-hidden flex-row-center z-10 rounded cursor-pointer bg-gray-800"
 						title={video.title}
 					>

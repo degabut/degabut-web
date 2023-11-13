@@ -29,9 +29,9 @@ const Link: Component<Props> = (props) => {
 
 export const NavigationBar: Component = () => {
 	const links = [
-		{ icon: "degabutThin", label: "Queue", path: "/app/queue" },
-		{ icon: "search", label: "Search", path: "/app/search" },
-		{ icon: "heart", label: "For You", path: "/app/recommendation" },
+		{ icon: "degabutThin", label: "Queue", path: "/queue" },
+		{ icon: "search", label: "Search", path: "/search" },
+		{ icon: "heart", label: "For You", path: "/recommendation" },
 	] as const;
 
 	return (

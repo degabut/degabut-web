@@ -21,7 +21,7 @@ export const VideoList: Component<VideoListProps> = (props) => {
 			{...props}
 			title={props.video.title}
 			imageUrl={props.video.thumbnails.map((t) => t.url)}
-			onClick={() => (props.onClick ? props.onClick(props.video) : navigate(`/app/video/${props.video.id}`))}
+			onClick={() => (props.onClick ? props.onClick(props.video) : navigate(`/video/${props.video.id}`))}
 			extra={() => (
 				<>
 					<Show when={props.inQueue}>
@@ -64,7 +64,7 @@ export const VideoListBig: Component<VideoListProps> = (props) => {
 			{...props}
 			title={props.video.title}
 			imageUrl={props.video.thumbnails.map((t) => t.url)}
-			onClick={() => (props.onClick ? props.onClick(props.video) : navigate(`/app/video/${props.video.id}`))}
+			onClick={() => (props.onClick ? props.onClick(props.video) : navigate(`/video/${props.video.id}`))}
 			extra={() => (
 				<>
 					<Show when={"viewCount" in props.video && props.video.viewCount} keyed>

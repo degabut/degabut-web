@@ -11,7 +11,7 @@ import { Component, Show, createEffect, createSignal } from "solid-js";
 const EmptyNowPlaying: Component = () => {
 	return (
 		<RouterLink
-			href="/app/recommendation"
+			href="/recommendation"
 			class="flex flex-row items-center w-full space-x-4 p-1.5 hover:bg-white/5 rounded"
 		>
 			<div class="!w-12 !h-12 shrink-0 rounded border border-neutral-600" />
@@ -31,7 +31,7 @@ const NowPlaying: Component = () => {
 				{(t) => (
 					<Video.List
 						video={t.video}
-						onClick={() => navigate("/app/queue")}
+						onClick={() => navigate("/queue")}
 						hideContextMenuButton
 						contextMenu={YouTubeContextMenuUtil.getVideoContextMenu({
 							video: t.video,
@@ -123,7 +123,7 @@ const ExtraControls: Component = () => {
 	return (
 		<>
 			<div class="flex items-center justify-end space-x-0.5">
-				<QueueButton.Lyrics iconSize="md" extraClass="p-2.5" onClick={() => navigate("/app/queue/lyrics")} />
+				<QueueButton.Lyrics iconSize="md" extraClass="p-2.5" onClick={() => navigate("/queue/lyrics")} />
 				<QueueButton.Settings
 					iconSize="md"
 					extraClass="p-2.5"
