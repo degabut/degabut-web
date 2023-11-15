@@ -1,3 +1,3 @@
-export * from "./navigation-bar";
-export * from "./queue-now-playing";
-export * from "./queue-player";
+export * from "./navigation-bar.component";
+export * from "./queue-now-playing.component";
+export * from "./queue-player.component";
