@@ -44,7 +44,7 @@ export const SettingsButton: Component<Props> = (props) => {
 
 	return (
 		<div
-			use:contextMenu={{
+			use: contextMenu={{
 				items: contextMenuItems(),
 				header: (
 					<div class="flex-col-center justify-center pt-4 pb-8 space-y-1">
@@ -59,7 +59,7 @@ export const SettingsButton: Component<Props> = (props) => {
 			<Button
 				flat
 				class="p-2"
-				icon="gear"
+				icon="menu"
 				iconSize={props.iconSize || "lg"}
 				title="Settings"
 				classList={{
