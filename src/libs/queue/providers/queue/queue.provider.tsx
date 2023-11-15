@@ -1,5 +1,5 @@
 import { useApi } from "@common/hooks";
-import { Bot } from "@constants";
+import { Bot, bots } from "@constants";
 import { IPlayer, IQueue, LoopMode, PlayerApi, QueueApi } from "@queue/apis";
 import EventEmitter from "events";
 import { Accessor, ParentComponent, createContext, createEffect, createSignal, onCleanup, onMount } from "solid-js";
@@ -49,7 +49,7 @@ export const QueueContext = createContext<QueueContextStore>({
 		queue: true,
 		track: true,
 	},
-	bot: () => ({ apiBaseUrl: import.meta.env.VITE_API_BASE_URL, wsUrl: import.meta.env.VITE_WS_URL }),
+	bot: () => bots[0],
 	emitter: new EventEmitter(),
 } as QueueContextStore);
 

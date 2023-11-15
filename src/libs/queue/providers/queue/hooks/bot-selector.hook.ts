@@ -10,7 +10,7 @@ export const useBotSelector = () => {
 	const [bot, _setBot] = createSignal<Bot>({ ...bots[settings.botIndex] });
 
 	// eslint-disable-next-line solid/reactivity
-	api.setClientUrl(bot().apiBaseUrl);
+	api.setClientUrl(bot().apiBaseUrl, bot().youtubeApiBaseUrl);
 
 	const setBot = async (index?: number) => {
 		index = index || 0;

@@ -1,6 +1,6 @@
 import { useAuth } from "@auth/hooks";
 import { useApi } from "@common/hooks";
-import { WindowPosterUtil } from "@common/utils";
+import { OAUTH_URL } from "@constants";
 import { useLocation, useNavigate } from "@solidjs/router";
 import { Component, onMount } from "solid-js";
 
@@ -12,7 +12,7 @@ export const OAuth: Component = () => {
 
 	onMount(async () => {
 		const code = new URLSearchParams(location.query).get("code");
-		const redirectUri = new URL(import.meta.env.VITE_OAUTH_URL).searchParams.get("redirect_uri");
+		const redirectUri = new URL(OAUTH_URL).searchParams.get("redirect_uri");
 		if (!code || !redirectUri) return navigate("/login");
 
 		try {

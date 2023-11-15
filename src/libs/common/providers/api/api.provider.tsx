@@ -3,7 +3,7 @@ import { ParentComponent, createContext } from "solid-js";
 import { AuthManager, useApiProvider } from "./hooks";
 
 export type ApiContextStore = {
-	setClientUrl: (apiBaseUrl: string, youtubeBaseUrl?: string) => void;
+	setClientUrl: (apiBaseUrl: string, youtubeBaseUrl: string) => void;
 	authManager: AuthManager;
 	client: AxiosInstance;
 	youtubeClient: AxiosInstance;

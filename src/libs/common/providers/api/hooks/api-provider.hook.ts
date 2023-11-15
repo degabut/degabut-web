@@ -1,3 +1,4 @@
+import { bots } from "@constants";
 import { useLocation, useNavigate } from "@solidjs/router";
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 
@@ -23,11 +24,11 @@ export const useApiProvider = () => {
 	const location = useLocation();
 
 	const client = axios.create({
-		baseURL: import.meta.env.VITE_API_BASE_URL,
+		baseURL: bots[0].apiBaseUrl,
 		validateStatus: (s) => validateStatus(s),
 	});
 	const youtubeClient = axios.create({
-		baseURL: import.meta.env.VITE_YOUTUBE_API_BASE_URL,
+		baseURL: bots[0].youtubeApiBaseUrl,
 		validateStatus: (s) => validateStatus(s),
 	});
 	const authManager = new AuthManager(client);
@@ -60,9 +61,9 @@ export const useApiProvider = () => {
 		return true;
 	};
 
-	const setClientUrl = (apiBaseUrl: string, youtubeBaseUrl?: string) => {
+	const setClientUrl = (apiBaseUrl: string, youtubeBaseUrl: string) => {
 		client.defaults.baseURL = apiBaseUrl;
-		youtubeClient.defaults.baseURL = youtubeBaseUrl || import.meta.env.VITE_YOUTUBE_API_BASE_URL;
+		youtubeClient.defaults.baseURL = youtubeBaseUrl;
 	};
 
 	return { client, youtubeClient, authManager, setClientUrl };
