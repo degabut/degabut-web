@@ -1,6 +1,6 @@
 import { useApp, useSettings } from "@app/hooks";
 import { Button, Container, Divider, Text } from "@common/components";
-import { APP_VERSION, IS_DESKTOP } from "@constants";
+import { APP_VERSION, DESKTOP_APP_VERSION, IS_DESKTOP } from "@constants";
 import { DesktopUtil } from "@desktop/utils";
 import { useNavigate } from "@solidjs/router";
 import { Accessor, Component, For, JSX, Show, onMount } from "solid-js";
@@ -179,7 +179,14 @@ export const Settings: Component = () => {
 					</Button>
 
 					<div class="flex flex-col text-right">
-						<Text.Caption2>v{APP_VERSION}</Text.Caption2>
+						<Show when={DESKTOP_APP_VERSION} keyed fallback={<Text.Caption2>v{APP_VERSION}</Text.Caption2>}>
+							{(v) => (
+								<>
+									<Text.Caption2>Desktop: v{v}</Text.Caption2>
+									<Text.Caption2>Web: v{APP_VERSION}</Text.Caption2>
+								</>
+							)}
+						</Show>
 					</div>
 				</div>
 			</div>
