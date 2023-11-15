@@ -59,7 +59,7 @@ export const SettingsButton: Component<Props> = (props) => {
 			<Button
 				flat
 				class="p-2"
-				icon="gear"
+				icon="menu"
 				iconSize={props.iconSize || "lg"}
 				title="Settings"
 				classList={{
