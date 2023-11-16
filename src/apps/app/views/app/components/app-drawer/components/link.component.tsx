@@ -5,6 +5,7 @@ import { Component, Show } from "solid-js";
 type Props = {
 	icon: Icons;
 	label: string;
+	highlight?: boolean;
 	path?: string;
 	minimized: boolean;
 	onClick: () => void;
@@ -19,10 +20,12 @@ const LinkButton: Component<Props & { isActive?: boolean }> = (props) => {
 			iconSize="lg"
 			class="w-full space-x-4 px-4 py-3.5 md:py-2.5"
 			classList={{
-				"text-neutral-400 fill-neutral-400 hover:text-neutral-400": !props.isActive,
-				"fill-current font-medium": props.isActive,
+				"text-neutral-400": !props.isActive && !props.highlight,
+				"font-medium": props.isActive,
+				"text-brand-600 hover:!text-brand-600": props.highlight,
 				"justify-center !py-3.5": props.minimized,
 			}}
+			onClick={() => props.onClick()}
 		>
 			<Show when={!props.minimized}>
 				<div class="truncate">{props.label}</div>
@@ -38,7 +41,7 @@ export const Link: Component<Props> = (props) => {
 				{(path) => {
 					const isActive = useMatch(() => path);
 					return (
-						<RouterLink href={path} onClick={() => props.onClick()}>
+						<RouterLink href={path}>
 							<div
 								classList={{
 									"absolute border-r-2 border-neutral-400 rounded-full left-0 h-full": !!isActive(),

@@ -1,7 +1,6 @@
 import { useSettings } from "@app/hooks";
 import { useApi } from "@common/hooks";
 import { Bot, bots } from "@constants";
-import { DesktopUtil } from "@desktop/utils";
 import { createSignal } from "solid-js";
 
 export const useBotSelector = () => {
@@ -19,7 +18,6 @@ export const useBotSelector = () => {
 
 		_setBot(bot);
 		setSettings("botIndex", index);
-		DesktopUtil.switchBot(index, bot);
 		api.setClientUrl(bot.apiBaseUrl, bot.youtubeApiBaseUrl);
 	};
 

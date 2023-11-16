@@ -1,11 +1,13 @@
 import { useAuth } from "@auth/hooks";
 import { useApi } from "@common/hooks";
 import { OAUTH_URL } from "@constants";
+import { useDesktop } from "@desktop/hooks";
 import { useLocation, useNavigate } from "@solidjs/router";
 import { Component, onMount } from "solid-js";
 
 export const OAuth: Component = () => {
 	const api = useApi();
+	const desktop = useDesktop();
 	const auth = useAuth();
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -19,7 +21,7 @@ export const OAuth: Component = () => {
 			const accessToken = await auth.getAccessToken(code, redirectUri);
 			api.authManager.setAccessToken(accessToken);
 			const redirect = localStorage.getItem("redirect");
-			WindowPosterUtil.postMessage("auth");
+			desktop?.ipc.onAuthenticated();
 
 			if (redirect) {
 				localStorage.removeItem("redirect");

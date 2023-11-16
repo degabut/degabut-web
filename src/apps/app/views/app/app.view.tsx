@@ -1,13 +1,23 @@
-import { useApp, useQueueNotification, useRichPresence } from "@app/hooks";
+import { useApp, useQueueNotification } from "@app/hooks";
 import { AppProvider } from "@app/providers";
 import { useScreen } from "@common/hooks";
 import { NotificationProvider } from "@common/providers";
 import { NotificationUtil } from "@common/utils";
 import { breakpoints } from "@constants";
+import { useRichPresence } from "@desktop/hooks";
+import { useQueue } from "@queue/hooks";
 import { QueueProvider } from "@queue/providers";
-import { Outlet } from "@solidjs/router";
+import { Outlet, useMatch } from "@solidjs/router";
 import { Component, ErrorBoundary, Show, createEffect, createSignal } from "solid-js";
-import { AppDrawer, AppHeader, BottomBar, Error, ExternalTrackAdder } from "./components";
+import {
+	AppDrawer,
+	AppHeader,
+	Error,
+	ExternalTrackAdder,
+	NavigationBar,
+	QueueNowPlaying,
+	QueuePlayer,
+} from "./components";
 
 export const App: Component = () => {
 	return (
@@ -25,13 +35,16 @@ export const App: Component = () => {
 
 const ProvidedApp: Component = () => {
 	const app = useApp();
+	const screen = useScreen();
+	const queue = useQueue();
+	const inQueue = useMatch(() => (screen.gte.md ? "/queue" : "/queue/player"));
+
 	useQueueNotification();
-	useRichPresence();
+	useRichPresence(queue.data);
 	NotificationUtil.requestPermission();
 
 	let previousWidth = window.screenX;
 
-	const screen = useScreen();
 	const [isDrawerOpen, setIsDrawerOpen] = createSignal(window.innerWidth > breakpoints.md);
 
 	createEffect(() => {
@@ -68,7 +81,18 @@ const ProvidedApp: Component = () => {
 				</div>
 
 				<Show when={!app.isFullscreen()}>
-					<BottomBar />
+					<div class="w-full z-10">
+						<div class="hidden md:block">
+							<QueuePlayer />
+						</div>
+
+						<div class="md:hidden flex flex-col">
+							<Show when={!inQueue() && !queue.data.empty}>
+								<QueueNowPlaying />
+							</Show>
+							<NavigationBar />
+						</div>
+					</div>
 				</Show>
 			</div>
 

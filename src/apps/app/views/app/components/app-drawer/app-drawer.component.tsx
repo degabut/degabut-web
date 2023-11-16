@@ -1,6 +1,7 @@
-import { useSettings } from "@app/hooks";
+import { useApp, useSettings } from "@app/hooks";
 import { Drawer } from "@common/components";
 import { useScreen } from "@common/hooks";
+import { useDesktop } from "@desktop/hooks";
 import { Component, For, Show, createSignal, onMount } from "solid-js";
 import { BotSelector, Link } from "./components";
 
@@ -10,8 +11,10 @@ type AppDrawerProps = {
 };
 
 export const AppDrawer: Component<AppDrawerProps> = (props) => {
+	const app = useApp();
 	const { settings, setSettings } = useSettings();
 	const screen = useScreen();
+	const desktop = useDesktop();
 	const [deferredPrompt, setDeferredPrompt] = createSignal<BeforeInstallPromptEvent | null>(null);
 
 	const onLinkClick = () => {
@@ -53,7 +56,7 @@ export const AppDrawer: Component<AppDrawerProps> = (props) => {
 				const minimized = size <= 120;
 
 				return (
-					<div class="flex flex-col h-full">
+					<div class="flex flex-col h-full space-y-1.5">
 						<BotSelector minimized={minimized} />
 
 						<div class="flex flex-col grow text-lg space-y-1.5">
@@ -62,9 +65,25 @@ export const AppDrawer: Component<AppDrawerProps> = (props) => {
 							</For>
 						</div>
 
-						<div class="space-y-1.5">
+						<div class="flex flex-col space-y-1.5">
 							<Show when={deferredPrompt()}>
 								<Link icon="plus" label="Install" minimized={minimized} onClick={promptInstall} />
+							</Show>
+
+							<Show when={desktop?.isUpdateReady()}>
+								<Link
+									icon="download"
+									label="Update"
+									highlight
+									minimized={minimized}
+									onClick={() =>
+										app.setConfirmation({
+											title: "Update Available",
+											message: "Restart to apply the update?",
+											onConfirm: () => desktop?.ipc.quitAndInstallUpdate(),
+										})
+									}
+								/>
 							</Show>
 
 							<Link

@@ -1,5 +1,4 @@
 import { useApi } from "@common/hooks";
-import { WindowPosterUtil } from "@common/utils";
 import { IGuildMember, IJamCollection, IMember, IPlayer, IQueue, ITrack } from "@queue/apis";
 import { EventEmitter } from "events";
 import { onCleanup } from "solid-js";
@@ -64,7 +63,6 @@ export const useQueueEvents = () => {
 			try {
 				const message = JSON.parse(data) as Message;
 				emitter.emit(message.event, message.data);
-				WindowPosterUtil.postMessage(message.event, message.data);
 			} catch {
 				// ignore
 			}

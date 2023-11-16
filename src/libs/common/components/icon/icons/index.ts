@@ -3,6 +3,7 @@ export { default as clock } from "./clock.svg";
 export { default as closeLine } from "./close-line.svg";
 export { default as degabutThin } from "./degabut-thin.svg";
 export { default as degabut } from "./degabut.svg";
+export { default as download } from "./download.svg";
 export { default as editPencil } from "./edit-pencil.svg";
 export { default as ellipsis } from "./ellipsis.svg";
 export { default as forward } from "./forward.svg";

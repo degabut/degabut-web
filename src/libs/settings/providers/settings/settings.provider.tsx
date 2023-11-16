@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { DelayUtil, WindowPosterUtil } from "@common/utils";
+import { DelayUtil } from "@common/utils";
 import { ObjectUtil } from "@common/utils/object.util";
+import { useDesktop } from "@desktop/hooks";
 import { ParentComponent, createContext } from "solid-js";
 import { createStore } from "solid-js/store";
 
@@ -43,6 +44,8 @@ export const SettingsContext = createContext<SettingsContextStore>({
 });
 
 export const SettingsProvider: ParentComponent = (props) => {
+	const desktop = useDesktop();
+
 	let initialSettings = defaultSettings;
 	try {
 		const storedSettings = localStorage.getItem("settings");
@@ -61,22 +64,18 @@ export const SettingsProvider: ParentComponent = (props) => {
 		if (typeof value === "function") value = value(before);
 
 		_setSettings(key, value);
+		throttledSaveSettings(settings);
 
-		WindowPosterUtil.postMessage(
-			"settings-changed",
+		desktop?.ipc.onSettingsChanged(
 			key,
 			typeof value === "object" ? JSON.parse(JSON.stringify(value)) : value,
 			typeof before === "object" ? JSON.parse(JSON.stringify(before)) : before
 		);
-
-		throttledSaveSettings(settings);
 	}
 
-	const throttledSaveSettings = DelayUtil.throttle(
-		(s: Settings) => localStorage.setItem("settings", JSON.stringify(s)),
-		500,
-		{ leading: false }
-	);
+	const throttledSaveSettings = DelayUtil.throttle((s: Settings) => {
+		localStorage.setItem("settings", JSON.stringify(s));
+	}, 500);
 
 	return <SettingsContext.Provider value={{ settings, setSettings }}>{props.children}</SettingsContext.Provider>;
 };

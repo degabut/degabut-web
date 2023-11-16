@@ -19,3 +19,4 @@ export * from "./spinner";
 export * from "./switch";
 export * from "./tabs";
 export * from "./text";
+export * from "./volume-slider";

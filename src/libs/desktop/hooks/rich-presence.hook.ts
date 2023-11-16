@@ -1,32 +1,31 @@
 import { useSettings } from "@app/hooks";
-import { WindowPosterUtil } from "@common/utils";
 import { IS_BROWSER } from "@constants";
-import { useQueue } from "@queue/hooks";
+import { IQueue } from "@queue/apis";
 import { createEffect, onMount } from "solid-js";
+import { useDesktop } from "./desktop.hook";
 
-// TODO remove this
-export const useRichPresence = () => {
+export const useRichPresence = (queue: IQueue) => {
 	if (IS_BROWSER) return;
 
+	const desktop = useDesktop();
 	const { settings } = useSettings();
-	const queue = useQueue();
 	let currentActivity = "";
 
 	onMount(() => updateListeningActivity());
 
 	createEffect(() => {
 		if (settings["discord.richPresence"]) updateListeningActivity();
-		else WindowPosterUtil.postMessage("clear-activity");
+		else desktop?.ipc.clearActivity();
 	});
 
 	const updateListeningActivity = async () => {
 		if (!settings["discord.richPresence"]) return;
 
-		const nowPlaying = queue.data.nowPlaying;
-		const voiceChannel = queue.data.voiceChannel;
+		const nowPlaying = queue.nowPlaying;
+		const voiceChannel = queue.voiceChannel;
 
 		let data;
-		if (!nowPlaying || !voiceChannel) {
+		if (!nowPlaying?.playedAt || !voiceChannel) {
 			data = {
 				details: "Not listening to anything",
 				state: "💤",
@@ -66,6 +65,6 @@ export const useRichPresence = () => {
 		// TODO better way to check current activity
 		if (currentActivity && currentActivity === JSON.stringify(data)) return;
 		currentActivity = JSON.stringify(data);
-		WindowPosterUtil.postMessage("set-activity", data);
+		desktop?.ipc.setActivity(data);
 	};
 };
