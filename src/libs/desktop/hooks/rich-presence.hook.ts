@@ -1,6 +1,6 @@
-import { useSettings } from "@app/hooks";
 import { IS_BROWSER } from "@constants";
 import { IQueue } from "@queue/apis";
+import { useSettings } from "@settings/hooks";
 import { createEffect, onMount } from "solid-js";
 import { useDesktop } from "./desktop.hook";
 

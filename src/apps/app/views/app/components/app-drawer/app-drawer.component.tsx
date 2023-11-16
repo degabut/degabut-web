@@ -1,7 +1,8 @@
-import { useApp, useSettings } from "@app/hooks";
+import { useApp } from "@app/hooks";
 import { Drawer } from "@common/components";
 import { useScreen } from "@common/hooks";
 import { useDesktop } from "@desktop/hooks";
+import { useSettings } from "@settings/hooks";
 import { Component, For, Show, createSignal, onMount } from "solid-js";
 import { BotSelector, Link } from "./components";
 

@@ -1,11 +1,10 @@
 /* eslint-disable solid/components-return-once */
-
-import { useSettings } from "@app/hooks";
 import { Text } from "@common/components";
 import { useNotification } from "@common/hooks";
 import { NotificationUtil } from "@common/utils";
 import { IMember, ITrack } from "@queue/apis";
 import { useQueue } from "@queue/hooks";
+import { useSettings } from "@settings/hooks";
 import { onCleanup, onMount } from "solid-js";
 
 export const useQueueNotification = () => {

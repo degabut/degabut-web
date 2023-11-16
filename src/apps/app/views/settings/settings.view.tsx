@@ -1,7 +1,8 @@
-import { useApp, useSettings } from "@app/hooks";
+import { useApp } from "@app/hooks";
 import { Button, Container, Divider, Text } from "@common/components";
 import { APP_VERSION, DESKTOP_APP_VERSION, IS_DESKTOP } from "@constants";
 import { useDesktop } from "@desktop/hooks";
+import { useSettings } from "@settings/hooks";
 import { useNavigate } from "@solidjs/router";
 import { Accessor, Component, For, JSX, Show, onMount } from "solid-js";
 import { Item, KeybindItem, SwitchItem, TextItem } from "./components";

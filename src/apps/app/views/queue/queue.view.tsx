@@ -1,7 +1,8 @@
-import { useApp, useSettings } from "@app/hooks";
+import { useApp } from "@app/hooks";
 import { Container } from "@common/components";
 import { useScreen } from "@common/hooks";
 import { useQueue } from "@queue/hooks";
+import { useSettings } from "@settings/hooks";
 import { Component, Show, createEffect, createSignal, onMount } from "solid-js";
 import { Preview, QueueNotFound, QueueTabs } from "./components";
 
