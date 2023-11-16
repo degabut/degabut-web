@@ -1,8 +1,10 @@
-import { Button, Icon, Slider } from "@common/components";
+import { Button, IconSize, Slider } from "@common/components";
 import { Component, createEffect, createSignal } from "solid-js";
 
 type VolumeSliderProps = {
 	onVolumeChange: (volume: number) => void;
+	extraButtonClass?: string;
+	iconSize?: IconSize;
 };
 
 export const VolumeSlider: Component<VolumeSliderProps> = (props) => {
@@ -20,31 +22,21 @@ export const VolumeSlider: Component<VolumeSliderProps> = (props) => {
 	});
 
 	return (
-		<div class="flex flex-row space-x-2 mx-auto items-center justify-center">
+		<div class="flex flex-row space-x-2 items-center justify-center">
 			<Button
 				flat
-				class="w-9 h-9"
-				classList={{
-					"p-1.5": volumeLevel() > 100,
-					"p-2.5": volumeLevel() <= 100,
-				}}
+				class="p-2"
+				icon={
+					isMuted() || volumeLevel() === 0
+						? "soundOff"
+						: volumeLevel() > 0 && volumeLevel() <= 100
+						? "soundMedium"
+						: "soundFull"
+				}
+				iconSize={props.iconSize || "md"}
+				classList={{ [props.extraButtonClass || ""]: !!props.extraButtonClass }}
 				onClick={() => setIsMuted((v) => !v)}
-			>
-				<Icon
-					name={
-						isMuted() || volumeLevel() === 0
-							? "soundOff"
-							: volumeLevel() > 0 && volumeLevel() <= 100
-							? "soundMedium"
-							: "soundFull"
-					}
-					extraClass="fill-neutral-300"
-					extraClassList={{
-						"w-4 h-4": volumeLevel() <= 100 || isMuted(),
-						"w-[1.25rem] h-[1.05rem]": volumeLevel() > 100,
-					}}
-				/>
-			</Button>
+			/>
 			<Slider
 				min={0}
 				max={200}

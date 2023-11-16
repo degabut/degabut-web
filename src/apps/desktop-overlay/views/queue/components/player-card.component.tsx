@@ -1,10 +1,12 @@
 import { Text } from "@common/components";
-import { QueueActions, QueueSeekSlider } from "@queue/components";
+import { useDesktop } from "@desktop/hooks";
+import { QueueActions, QueueSeekSlider, VolumeSlider } from "@queue/components";
 import { useQueue } from "@queue/hooks";
 import { Component, Show } from "solid-js";
 import { Card } from "../../../components";
 
 export const PlayerCard: Component = () => {
+	const desktop = useDesktop();
 	const queue = useQueue();
 
 	return (
@@ -41,7 +43,18 @@ export const PlayerCard: Component = () => {
 					value={(queue.data.position || 0) / 1000}
 				/>
 
-				<QueueActions extraClass="justify-evenly w-full" extraButtonClass="p-3 md:px-6" iconSize="lg" />
+				<QueueActions
+					extra={() => (
+						<VolumeSlider
+							extraButtonClass="p-3 md:px-6"
+							iconSize="lg"
+							onVolumeChange={(v) => desktop?.ipc.setBotVolume(v, queue.bot().id)}
+						/>
+					)}
+					extraClass="justify-evenly w-full"
+					extraButtonClass="p-3 md:px-6"
+					iconSize="lg"
+				/>
 			</div>
 		</Card>
 	);

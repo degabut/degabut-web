@@ -1,7 +1,7 @@
 import { useApp } from "@app/hooks";
 import { Container, ContextMenuButton, RouterLink, Text } from "@common/components";
 import { DelayUtil } from "@common/utils";
-import { QueueActions, QueueSeekSlider } from "@queue/components";
+import { QueueActions, QueueButton, QueueSeekSlider } from "@queue/components";
 import { useQueue } from "@queue/hooks";
 import { useNavigate } from "@solidjs/router";
 import { YouTubeContextMenuUtil } from "@youtube/utils";
@@ -89,7 +89,12 @@ export const QueueNowPlaying: Component = () => {
 					</div>
 
 					<QueueActions
-						extended
+						extra={() => (
+							<>
+								<QueueButton.Lyrics onClick={() => navigate("/queue/lyrics")} />
+								<QueueButton.Settings onClearQueue={queue.clear} onStopQueue={queue.stop} />
+							</>
+						)}
 						extraClass="flex-wrap justify-between md:justify-start w-full md:space-x-6 px-2 pt-1.5"
 					/>
 				</div>
