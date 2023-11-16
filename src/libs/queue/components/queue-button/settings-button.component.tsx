@@ -1,7 +1,6 @@
 import { useApp } from "@app/hooks";
 import { Button, IconSize } from "@common/components";
 import { contextMenu } from "@common/directives";
-import { useNavigate } from "@solidjs/router";
 import { Component } from "solid-js";
 
 contextMenu;
@@ -15,13 +14,8 @@ type Props = {
 
 export const SettingsButton: Component<Props> = (props) => {
 	const app = useApp();
-	const navigate = useNavigate();
 
 	const contextMenuItems = () => [
-		{
-			label: "Zen Mode",
-			onClick: () => navigate("/queue/zen"),
-		},
 		{
 			label: "Clear Queue",
 			onClick: () =>
