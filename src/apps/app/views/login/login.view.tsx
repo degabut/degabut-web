@@ -1,18 +1,13 @@
 import { A } from "@common/components";
 import { useApi } from "@common/hooks";
 import { OAUTH_URL } from "@constants";
-import { useLocation } from "@solidjs/router";
 import { Component, onMount } from "solid-js";
 
 export const Login: Component = () => {
 	const api = useApi();
-	const location = useLocation();
 
 	onMount(() => {
 		api.authManager.resetAccessToken();
-
-		const redirect = new URLSearchParams(location.search).get("re");
-		if (redirect && redirect !== "/login") localStorage.setItem("redirect", redirect);
 	});
 
 	return (

@@ -54,7 +54,7 @@ export const useApiProvider = () => {
 			// unauthorized redirect to login
 			const pathname = location.pathname;
 			if (!pathname.startsWith("/login")) {
-				navigate("/login?re=" + encodeURIComponent(location.pathname));
+				navigate("/login");
 			}
 		}
 

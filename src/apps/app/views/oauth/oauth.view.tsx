@@ -20,15 +20,8 @@ export const OAuth: Component = () => {
 		try {
 			const accessToken = await auth.getAccessToken(code, redirectUri);
 			api.authManager.setAccessToken(accessToken);
-			const redirect = localStorage.getItem("redirect");
 			desktop?.ipc.onAuthenticated();
-
-			if (redirect) {
-				localStorage.removeItem("redirect");
-				navigate(redirect);
-			} else {
-				navigate("/queue");
-			}
+			navigate("/queue");
 		} catch (err) {
 			navigate("/login");
 		}
