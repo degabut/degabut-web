@@ -13,7 +13,6 @@ import {
 	Search,
 	Settings,
 	VideoDetail,
-	Zen,
 } from "../views";
 
 export const appRoutes: RouteDefinition[] = [
@@ -24,7 +23,6 @@ export const appRoutes: RouteDefinition[] = [
 			{ path: "/queue", component: () => <Queue /> },
 			{ path: "/queue/player", component: () => <QueueNowPlaying /> },
 			{ path: "/queue/lyrics", component: () => <Lyrics /> },
-			{ path: "/queue/zen", component: () => <Zen /> },
 			{ path: "/video/:id", component: () => <VideoDetail /> },
 			{ path: "/search", component: () => <Search /> },
 			{ path: "/recommendation", component: () => <Recommendation /> },

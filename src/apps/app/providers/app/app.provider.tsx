@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useShortcut } from "@common/hooks";
 import { AddPlaylistVideoModal } from "@playlist/components";
-import { useMatch, useNavigate } from "@solidjs/router";
 import { IVideoCompact } from "@youtube/apis";
 import { Accessor, JSX, ParentComponent, Setter, createContext, createSignal } from "solid-js";
 import { ConfirmationModal, QuickSearchModal } from "./components";
@@ -36,8 +35,6 @@ export const AppContext = createContext<AppContextStore>({
 
 export const AppProvider: ParentComponent = (props) => {
 	useCatJam();
-	const navigate = useNavigate();
-	const match = useMatch(() => "/queue/zen");
 
 	const [title, setTitle] = createSignal("");
 	const [isFullscreen, setIsFullscreen] = createSignal(false);
@@ -54,11 +51,6 @@ export const AppProvider: ParentComponent = (props) => {
 		shortcuts: [
 			{ key: "k", ctrl: true, handler: () => setIsQuickSearchModalOpen(true) },
 			{ key: "p", handler: () => setIsQuickSearchModalOpen(true) },
-			{
-				key: "z",
-				ctrl: true,
-				handler: () => navigate(match() ? "/queue" : "/queue/zen"),
-			},
 		],
 	});
 
