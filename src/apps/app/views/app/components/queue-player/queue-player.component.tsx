@@ -1,7 +1,7 @@
 import { useApp } from "@app/hooks";
-import { RouterLink, VolumeSlider } from "@common/components";
+import { RouterLink } from "@common/components";
 import { useDesktop } from "@desktop/hooks";
-import { QueueActions, QueueButton, QueueSeekSlider } from "@queue/components";
+import { QueueActions, QueueButton, QueueSeekSlider, VolumeSlider } from "@queue/components";
 import { useQueue } from "@queue/hooks";
 import { useSettings } from "@settings/hooks";
 import { useNavigate } from "@solidjs/router";
@@ -62,10 +62,9 @@ export const QueuePlayer: Component = () => {
 				</div>
 
 				<div class="flex items-center justify-end space-x-0.5">
-					<QueueButton.Lyrics iconSize="md" extraClass="p-2.5" onClick={() => navigate("/queue/lyrics")} />
+					<QueueButton.Lyrics iconSize="md" onClick={() => navigate("/queue/lyrics")} />
 					<QueueButton.Settings
 						iconSize="md"
-						extraClass="p-2.5"
 						onClearQueue={() => queue.clear()}
 						onStopQueue={() => queue.stop()}
 					/>
