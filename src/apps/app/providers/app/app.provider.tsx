@@ -16,8 +16,6 @@ type Confirmation = {
 export type AppContextStore = {
 	title: Accessor<string>;
 	setTitle: (title: string) => void;
-	isFullscreen: Accessor<boolean>;
-	setIsFullscreen: (value: boolean) => void;
 	setVideoPlaylist: (video: IVideoCompact | null) => void;
 	setConfirmation: (confirmation: Confirmation | null) => void;
 	setIsQuickSearchModalOpen: Setter<boolean>;
@@ -26,8 +24,6 @@ export type AppContextStore = {
 export const AppContext = createContext<AppContextStore>({
 	title: () => "",
 	setTitle: () => {},
-	isFullscreen: () => false,
-	setIsFullscreen: () => {},
 	setVideoPlaylist: () => {},
 	setConfirmation: () => {},
 	setIsQuickSearchModalOpen: () => false as any,
@@ -37,7 +33,6 @@ export const AppProvider: ParentComponent = (props) => {
 	useCatJam();
 
 	const [title, setTitle] = createSignal("");
-	const [isFullscreen, setIsFullscreen] = createSignal(false);
 	const [videoPlaylist, setVideoPlaylist] = createSignal<null | IVideoCompact>(null);
 	const [isQuickSearchModalOpen, setIsQuickSearchModalOpen] = createSignal(false);
 	const [confirmation, setConfirmation] = createSignal<Confirmation | null>(null);
@@ -57,8 +52,6 @@ export const AppProvider: ParentComponent = (props) => {
 	const store = {
 		title,
 		setTitle,
-		isFullscreen,
-		setIsFullscreen,
 		setVideoPlaylist,
 		setConfirmation,
 		setIsQuickSearchModalOpen,

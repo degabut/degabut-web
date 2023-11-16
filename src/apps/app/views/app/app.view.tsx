@@ -1,4 +1,4 @@
-import { useApp, useQueueNotification } from "@app/hooks";
+import { useQueueNotification } from "@app/hooks";
 import { AppProvider } from "@app/providers";
 import { useScreen } from "@common/hooks";
 import { NotificationProvider } from "@common/providers";
@@ -34,7 +34,6 @@ export const App: Component = () => {
 };
 
 const ProvidedApp: Component = () => {
-	const app = useApp();
 	const screen = useScreen();
 	const queue = useQueue();
 	const inQueue = useMatch(() => (screen.gte.md ? "/queue" : "/queue/player"));
@@ -55,45 +54,33 @@ const ProvidedApp: Component = () => {
 
 	return (
 		<>
-			<div
-				class="flex flex-col h-full"
-				classList={{ "bg-neutral-850 md:space-y-2 md:p-1.5": !app.isFullscreen() }}
-			>
+			<div class="bg-neutral-850 md:space-y-2 md:p-1.5 flex flex-col h-full">
 				<div class="flex h-full overflow-y-auto md:space-x-2">
-					<Show when={!app.isFullscreen()}>
-						<AppDrawer isOpen={isDrawerOpen()} handleClose={() => setIsDrawerOpen(false)} />
-					</Show>
+					<AppDrawer isOpen={isDrawerOpen()} handleClose={() => setIsDrawerOpen(false)} />
 
 					<div class="relative h-full grow flex flex-col overflow-hidden">
-						<Show when={!app.isFullscreen()}>
-							<div class="shrink-0">
-								<AppHeader onMenuClick={() => setIsDrawerOpen(true)} />
-							</div>
-						</Show>
+						<div class="shrink-0">
+							<AppHeader onMenuClick={() => setIsDrawerOpen(true)} />
+						</div>
 
-						<div
-							class="h-full overflow-y-auto "
-							classList={{ "md:rounded-lg bg-neutral-950": !app.isFullscreen() }}
-						>
+						<div class="h-full overflow-y-auto md:rounded-lg bg-neutral-950">
 							<Outlet />
 						</div>
 					</div>
 				</div>
 
-				<Show when={!app.isFullscreen()}>
-					<div class="w-full z-10">
-						<div class="hidden md:block">
-							<QueuePlayer />
-						</div>
-
-						<div class="md:hidden flex flex-col">
-							<Show when={!inQueue() && !queue.data.empty}>
-								<QueueNowPlaying />
-							</Show>
-							<NavigationBar />
-						</div>
+				<div class="w-full z-10">
+					<div class="hidden md:block">
+						<QueuePlayer />
 					</div>
-				</Show>
+
+					<div class="md:hidden flex flex-col">
+						<Show when={!inQueue() && !queue.data.empty}>
+							<QueueNowPlaying />
+						</Show>
+						<NavigationBar />
+					</div>
+				</div>
 			</div>
 
 			<ExternalTrackAdder />
