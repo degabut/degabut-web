@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-declaration-merging */
-import EventEmitter from "events";
 import { Accessor, ParentComponent, createContext, createSignal } from "solid-js";
 
 type Presence = {
@@ -16,7 +14,7 @@ type Presence = {
 	}[];
 };
 
-export interface DesktopAPI {
+interface DesktopAPI {
 	onAuthenticated: () => void;
 	onSettingsChanged: (key: string, after: unknown, before: unknown) => void;
 
@@ -29,24 +27,8 @@ export interface DesktopAPI {
 	handleUpdateDownloaded: (callback: () => void) => void;
 }
 
-interface Desktop extends DesktopAPI {}
-class Desktop extends EventEmitter {
-	private desktopAPI: DesktopAPI;
-
-	constructor(desktopAPI: DesktopAPI) {
-		super();
-		Object.assign(this, desktopAPI);
-		this.desktopAPI = desktopAPI;
-		this.listen();
-	}
-
-	private listen() {
-		this.desktopAPI.handleUpdateDownloaded(() => this.emit("update-downloaded"));
-	}
-}
-
 export type DesktopContextStore = {
-	ipc: DesktopAPI & EventEmitter;
+	ipc: DesktopAPI;
 	isUpdateReady: Accessor<boolean>;
 };
 
@@ -56,10 +38,10 @@ export const DesktopProvider: ParentComponent = (props) => {
 	// eslint-disable-next-line solid/components-return-once
 	if (!("desktopAPI" in window)) return <>{props.children}</>;
 
-	const ipc = new Desktop(window.desktopAPI as DesktopAPI);
+	const ipc = window.desktopAPI as DesktopAPI;
 	const [isUpdateReady, setIsUpdateReady] = createSignal(false);
 
-	ipc.on("update-downloaded", () => setIsUpdateReady(true));
+	ipc.handleUpdateDownloaded(() => setIsUpdateReady(true));
 
 	return <DesktopContext.Provider value={{ ipc, isUpdateReady }}>{props.children}</DesktopContext.Provider>;
 };
