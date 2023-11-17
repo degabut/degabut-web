@@ -1,9 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { DelayUtil } from "@common/utils";
-import { ObjectUtil } from "@common/utils/object.util";
+import { createPersistedStore } from "@common/hooks";
 import { useDesktop } from "@desktop/hooks";
 import { ParentComponent, createContext } from "solid-js";
-import { createStore } from "solid-js/store";
 
 export type Settings = {
 	["botIndex"]: number;
@@ -46,36 +43,16 @@ export const SettingsContext = createContext<SettingsContextStore>({
 export const SettingsProvider: ParentComponent = (props) => {
 	const desktop = useDesktop();
 
-	let initialSettings = defaultSettings;
-	try {
-		const storedSettings = localStorage.getItem("settings");
-		if (storedSettings) {
-			const storedSettingsParsed = JSON.parse(storedSettings);
-			initialSettings = ObjectUtil.mergeObjects(defaultSettings, storedSettingsParsed);
-		}
-	} catch {
-		initialSettings = defaultSettings;
-	}
-
-	const [settings, _setSettings] = createStore<Settings>(initialSettings);
-
-	function setSettings<K extends keyof Settings>(key: K, value: Settings[K] | ((v: Settings[K]) => Settings[K])) {
-		const before = settings[key];
-		if (typeof value === "function") value = value(before);
-
-		_setSettings(key, value);
-		throttledSaveSettings(settings);
-
-		desktop?.ipc.onSettingsChanged(
-			key,
-			typeof value === "object" ? JSON.parse(JSON.stringify(value)) : value,
-			typeof before === "object" ? JSON.parse(JSON.stringify(before)) : before
-		);
-	}
-
-	const throttledSaveSettings = DelayUtil.throttle((s: Settings) => {
-		localStorage.setItem("settings", JSON.stringify(s));
-	}, 500);
+	const [settings, setSettings] = createPersistedStore(defaultSettings, {
+		key: "settings",
+		onChange: (key, value, before) => {
+			desktop?.ipc.onSettingsChanged(
+				key,
+				typeof value === "object" ? JSON.parse(JSON.stringify(value)) : value,
+				typeof before === "object" ? JSON.parse(JSON.stringify(before)) : before
+			);
+		},
+	});
 
 	return <SettingsContext.Provider value={{ settings, setSettings }}>{props.children}</SettingsContext.Provider>;
 };

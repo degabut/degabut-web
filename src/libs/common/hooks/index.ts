@@ -1,5 +1,6 @@
 export * from "./api.hook";
 export * from "./context-menu.hook";
+export * from "./create-persisted-store.hook";
 export * from "./hash-state.hook";
 export * from "./infinite-scrolling.hook";
 export * from "./notification.hook";
