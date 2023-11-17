@@ -16,5 +16,10 @@
 	"search.exclude": {
 		"src/wailsjs": true
 	},
-	"typescript.tsdk": "node_modules\\typescript\\lib"
+	"typescript.tsdk": "node_modules\\typescript\\lib",
+	"[typescript][typescriptreact]": {
+		"editor.codeActionsOnSave": {
+			"source.organizeImports": "explicit"
+		}
+	}
 }
