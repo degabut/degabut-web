@@ -69,7 +69,7 @@ export const QueuePlayer: Component = () => {
 						onStopQueue={() => queue.stop()}
 					/>
 					<Show when={settings["discord.rpc"]}>
-						<VolumeSlider onVolumeChange={(v) => desktop?.ipc.setBotVolume(v, queue.bot().id)} />
+						<VolumeSlider onVolumeChange={(v) => desktop?.ipc.setBotVolume?.(v, queue.bot().id)} />
 					</Show>
 				</div>
 			</div>

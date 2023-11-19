@@ -46,7 +46,7 @@ export const SettingsProvider: ParentComponent = (props) => {
 	const [settings, setSettings] = createPersistedStore(defaultSettings, {
 		key: "settings",
 		onChange: (key, value, before) => {
-			desktop?.ipc.onSettingsChanged(
+			desktop?.ipc.onSettingsChanged?.(
 				key,
 				typeof value === "object" ? JSON.parse(JSON.stringify(value)) : value,
 				typeof before === "object" ? JSON.parse(JSON.stringify(before)) : before

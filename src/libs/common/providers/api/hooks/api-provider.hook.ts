@@ -14,6 +14,10 @@ export class AuthManager {
 		return localStorage.getItem("access_token") || "";
 	}
 
+	public hasAccessToken(): boolean {
+		return !!this.getAccessToken();
+	}
+
 	public resetAccessToken(): void {
 		localStorage.removeItem("access_token");
 	}

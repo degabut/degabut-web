@@ -113,7 +113,7 @@ export const Settings: Component = () => {
 						<Button
 							class="px-2 py-0.5"
 							onClick={() =>
-								desktop?.ipc.authenticateRpc(
+								desktop?.ipc.authenticateRpc?.(
 									settings["discord.rpcClientId"],
 									settings["discord.rpcClientSecret"]
 								)

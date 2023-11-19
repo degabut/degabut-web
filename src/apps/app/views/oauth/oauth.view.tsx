@@ -20,7 +20,7 @@ export const OAuth: Component = () => {
 		try {
 			const accessToken = await auth.getAccessToken(code, redirectUri);
 			api.authManager.setAccessToken(accessToken);
-			desktop?.ipc.onAuthenticated();
+			desktop?.ipc.onAuthenticated?.();
 			navigate("/queue");
 		} catch (err) {
 			navigate("/login");

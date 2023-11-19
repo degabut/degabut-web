@@ -15,7 +15,7 @@ export const useRichPresence = (queue: IQueue) => {
 
 	createEffect(() => {
 		if (settings["discord.richPresence"]) updateListeningActivity();
-		else desktop?.ipc.clearActivity();
+		else desktop?.ipc.clearActivity?.();
 	});
 
 	const updateListeningActivity = async () => {
@@ -65,6 +65,6 @@ export const useRichPresence = (queue: IQueue) => {
 		// TODO better way to check current activity
 		if (currentActivity && currentActivity === JSON.stringify(data)) return;
 		currentActivity = JSON.stringify(data);
-		desktop?.ipc.setActivity(data);
+		desktop?.ipc.setActivity?.(data);
 	};
 };

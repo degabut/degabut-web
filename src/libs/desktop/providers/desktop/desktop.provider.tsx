@@ -16,6 +16,7 @@ type Presence = {
 
 interface DesktopAPI {
 	onAuthenticated: () => void;
+	onLoggedOut: () => void;
 	onSettingsChanged: (key: string, after: unknown, before: unknown) => void;
 
 	setActivity: (presence: Presence) => void;
@@ -28,7 +29,7 @@ interface DesktopAPI {
 }
 
 export type DesktopContextStore = {
-	ipc: DesktopAPI;
+	ipc: Partial<DesktopAPI>;
 	isUpdateReady: Accessor<boolean>;
 };
 
@@ -38,10 +39,10 @@ export const DesktopProvider: ParentComponent = (props) => {
 	// eslint-disable-next-line solid/components-return-once
 	if (!("desktopAPI" in window)) return <>{props.children}</>;
 
-	const ipc = window.desktopAPI as DesktopAPI;
+	const ipc = window.desktopAPI as Partial<DesktopAPI>;
 	const [isUpdateReady, setIsUpdateReady] = createSignal(false);
 
-	ipc.handleUpdateDownloaded(() => setIsUpdateReady(true));
+	ipc.handleUpdateDownloaded?.(() => setIsUpdateReady(true));
 
 	return <DesktopContext.Provider value={{ ipc, isUpdateReady }}>{props.children}</DesktopContext.Provider>;
 };

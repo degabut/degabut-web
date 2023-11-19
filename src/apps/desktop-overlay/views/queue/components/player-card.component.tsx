@@ -51,7 +51,7 @@ export const PlayerCard: Component = () => {
 							<VolumeSlider
 								extraButtonClass="p-3 md:px-6"
 								iconSize="lg"
-								onVolumeChange={(v) => desktop?.ipc.setBotVolume(v, queue.bot().id)}
+								onVolumeChange={(v) => desktop?.ipc.setBotVolume?.(v, queue.bot().id)}
 							/>
 						</Show>
 					)}

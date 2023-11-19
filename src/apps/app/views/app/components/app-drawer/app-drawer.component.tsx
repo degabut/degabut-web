@@ -18,6 +18,8 @@ export const AppDrawer: Component<AppDrawerProps> = (props) => {
 	const desktop = useDesktop();
 	const [deferredPrompt, setDeferredPrompt] = createSignal<BeforeInstallPromptEvent | null>(null);
 
+	desktop?.ipc.onLoggedOut?.();
+
 	const onLinkClick = () => {
 		if (screen.lte.sm) props.handleClose();
 	};
@@ -81,7 +83,7 @@ export const AppDrawer: Component<AppDrawerProps> = (props) => {
 										app.setConfirmation({
 											title: "Update Available",
 											message: "Restart to apply the update?",
-											onConfirm: () => desktop?.ipc.quitAndInstallUpdate(),
+											onConfirm: () => desktop?.ipc.quitAndInstallUpdate?.(),
 										})
 									}
 								/>

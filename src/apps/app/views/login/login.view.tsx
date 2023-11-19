@@ -1,13 +1,18 @@
 import { A } from "@common/components";
 import { useApi } from "@common/hooks";
 import { OAUTH_URL } from "@constants";
+import { useDesktop } from "@desktop/hooks";
 import { Component, onMount } from "solid-js";
 
 export const Login: Component = () => {
 	const api = useApi();
+	const desktop = useDesktop();
 
 	onMount(() => {
-		api.authManager.resetAccessToken();
+		if (api.authManager.hasAccessToken()) {
+			api.authManager.resetAccessToken();
+			desktop?.ipc.onLoggedOut?.();
+		}
 	});
 
 	return (
