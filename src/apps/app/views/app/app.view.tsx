@@ -54,7 +54,7 @@ const ProvidedApp: Component = () => {
 
 	return (
 		<>
-			<div class="bg-neutral-850 md:space-y-2 md:p-1.5 flex flex-col h-full">
+			<div class="md:space-y-2 md:p-1.5 flex flex-col h-full">
 				<div class="flex h-full overflow-y-auto md:space-x-2">
 					<AppDrawer isOpen={isDrawerOpen()} handleClose={() => setIsDrawerOpen(false)} />
 

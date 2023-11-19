@@ -1,6 +1,7 @@
 import { RouteDefinition } from "@solidjs/router";
 import {
 	App,
+	Container,
 	Join,
 	Login,
 	Lyrics,
@@ -18,21 +19,27 @@ import {
 export const appRoutes: RouteDefinition[] = [
 	{
 		path: "/",
-		component: () => <App />,
+		component: () => <Container />,
 		children: [
-			{ path: "/queue", component: () => <Queue /> },
-			{ path: "/queue/player", component: () => <QueueNowPlaying /> },
-			{ path: "/queue/lyrics", component: () => <Lyrics /> },
-			{ path: "/video/:id", component: () => <VideoDetail /> },
-			{ path: "/search", component: () => <Search /> },
-			{ path: "/recommendation", component: () => <Recommendation /> },
-			{ path: "/recommendation/:id?", component: () => <Recommendation /> },
-			{ path: "/playlist", component: () => <Playlists /> },
-			{ path: "/playlist/:id", component: () => <PlaylistDetail /> },
-			{ path: "/settings", component: () => <Settings /> },
-			{ path: "/join/:voiceChannelId?/:textChannelId?", component: () => <Join /> },
+			{
+				path: "/",
+				component: () => <App />,
+				children: [
+					{ path: "/queue", component: () => <Queue /> },
+					{ path: "/queue/player", component: () => <QueueNowPlaying /> },
+					{ path: "/queue/lyrics", component: () => <Lyrics /> },
+					{ path: "/video/:id", component: () => <VideoDetail /> },
+					{ path: "/search", component: () => <Search /> },
+					{ path: "/recommendation", component: () => <Recommendation /> },
+					{ path: "/recommendation/:id?", component: () => <Recommendation /> },
+					{ path: "/playlist", component: () => <Playlists /> },
+					{ path: "/playlist/:id", component: () => <PlaylistDetail /> },
+					{ path: "/settings", component: () => <Settings /> },
+					{ path: "/join/:voiceChannelId?/:textChannelId?", component: () => <Join /> },
+				],
+			},
+			{ path: "/login", component: () => <Login /> },
+			{ path: "/oauth", component: () => <OAuth /> },
 		],
 	},
-	{ path: "/login", component: () => <Login /> },
-	{ path: "/oauth", component: () => <OAuth /> },
 ];
