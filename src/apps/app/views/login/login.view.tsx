@@ -11,6 +11,7 @@ export const Login: Component = () => {
 	onMount(() => {
 		if (api.authManager.hasAccessToken()) {
 			api.authManager.resetAccessToken();
+			localStorage.clear();
 			desktop?.ipc.onLoggedOut?.();
 		}
 	});
