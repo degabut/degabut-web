@@ -1,25 +1,38 @@
 import { Button, IconSize, Slider } from "@common/components";
-import { Component, createEffect, createSignal } from "solid-js";
+import { useDesktop } from "@desktop/hooks";
+import { useQueue } from "@queue/hooks";
+import { useSettings } from "@settings/hooks";
+import { Component, createSignal, onMount } from "solid-js";
 
 type VolumeSliderProps = {
-	onVolumeChange: (volume: number) => void;
 	extraButtonClass?: string;
 	iconSize?: IconSize;
 };
 
 export const VolumeSlider: Component<VolumeSliderProps> = (props) => {
-	const [volumeLevel, setVolumeLevel] = createSignal(25);
+	const desktop = useDesktop();
+	const queue = useQueue();
+	const { settings, setSettings } = useSettings();
 	const [isMuted, setIsMuted] = createSignal(false);
+
+	const volumeLevel = () => settings.botVolumes[queue.bot().id];
+
+	onMount(() => {
+		desktop?.ipc?.setBotVolume?.(volumeLevel(), queue.bot().id);
+	});
 
 	const onVolumeChange = (e: Event) => {
 		setIsMuted(false);
 		const value = +(e.target as HTMLInputElement).value;
-		setVolumeLevel(value);
+
+		setSettings("botVolumes", { [queue.bot().id]: value });
+		desktop?.ipc?.setBotVolume?.(value, queue.bot().id);
 	};
 
-	createEffect(() => {
-		props.onVolumeChange?.(isMuted() ? 0 : volumeLevel());
-	});
+	const onMuteToggle = () => {
+		setIsMuted((v) => !v);
+		desktop?.ipc?.setBotVolume?.(isMuted() ? 0 : volumeLevel(), queue.bot().id);
+	};
 
 	return (
 		<div class="flex flex-row space-x-2 items-center justify-center">
@@ -35,7 +48,7 @@ export const VolumeSlider: Component<VolumeSliderProps> = (props) => {
 				}
 				iconSize={props.iconSize || "md"}
 				classList={{ [props.extraButtonClass || ""]: !!props.extraButtonClass }}
-				onClick={() => setIsMuted((v) => !v)}
+				onClick={onMuteToggle}
 			/>
 			<Slider
 				min={0}

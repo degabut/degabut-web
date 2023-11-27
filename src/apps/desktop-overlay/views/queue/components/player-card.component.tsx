@@ -1,5 +1,4 @@
 import { Text } from "@common/components";
-import { useDesktop } from "@desktop/hooks";
 import { QueueActions, QueueSeekSlider, VolumeSlider } from "@queue/components";
 import { useQueue } from "@queue/hooks";
 import { useSettings } from "@settings/hooks";
@@ -7,7 +6,6 @@ import { Component, Show } from "solid-js";
 import { Card } from "../../../components";
 
 export const PlayerCard: Component = () => {
-	const desktop = useDesktop();
 	const queue = useQueue();
 	const { settings } = useSettings();
 
@@ -48,11 +46,7 @@ export const PlayerCard: Component = () => {
 				<QueueActions
 					extra={() => (
 						<Show when={settings["discord.rpc"]}>
-							<VolumeSlider
-								extraButtonClass="p-3 md:px-6"
-								iconSize="lg"
-								onVolumeChange={(v) => desktop?.ipc.setBotVolume?.(v, queue.bot().id)}
-							/>
+							<VolumeSlider extraButtonClass="p-3 md:px-6" iconSize="lg" />
 						</Show>
 					)}
 					extraClass="justify-evenly w-full"

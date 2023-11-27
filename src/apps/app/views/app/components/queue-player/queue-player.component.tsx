@@ -1,6 +1,5 @@
 import { useApp } from "@app/hooks";
 import { RouterLink } from "@common/components";
-import { useDesktop } from "@desktop/hooks";
 import { QueueActions, QueueButton, QueueSeekSlider, VolumeSlider } from "@queue/components";
 import { useQueue } from "@queue/hooks";
 import { useSettings } from "@settings/hooks";
@@ -24,7 +23,6 @@ const EmptyNowPlaying: Component = () => {
 export const QueuePlayer: Component = () => {
 	const app = useApp();
 	const queue = useQueue();
-	const desktop = useDesktop();
 	const navigate = useNavigate();
 	const { settings } = useSettings();
 
@@ -69,7 +67,7 @@ export const QueuePlayer: Component = () => {
 						onStopQueue={() => queue.stop()}
 					/>
 					<Show when={settings["discord.rpc"]}>
-						<VolumeSlider onVolumeChange={(v) => desktop?.ipc.setBotVolume?.(v, queue.bot().id)} />
+						<VolumeSlider />
 					</Show>
 				</div>
 			</div>

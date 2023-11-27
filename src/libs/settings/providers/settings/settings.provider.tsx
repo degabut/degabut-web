@@ -1,9 +1,11 @@
 import { createPersistedStore } from "@common/hooks";
+import { bots } from "@constants";
 import { useDesktop } from "@desktop/hooks";
 import { ParentComponent, createContext } from "solid-js";
 
 export type Settings = {
 	["botIndex"]: number;
+	["botVolumes"]: Record<string, number>;
 	["queue.showThumbnail"]: boolean;
 	["notification.browser"]: boolean;
 	["notification.inApp"]: boolean;
@@ -18,6 +20,7 @@ export type Settings = {
 
 const defaultSettings: Settings = {
 	["botIndex"]: 0,
+	["botVolumes"]: bots.reduce((acc, bot) => ({ ...acc, [bot.id]: 25 }), {}),
 	["queue.showThumbnail"]: true,
 	["notification.browser"]: false,
 	["notification.inApp"]: true,
