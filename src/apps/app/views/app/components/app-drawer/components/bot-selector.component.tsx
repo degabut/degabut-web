@@ -16,7 +16,7 @@ export const BotSelector: Component<Props> = (props) => {
 	return (
 		<div
 			use:contextMenu={
-				bots
+				bots.length > 1
 					? {
 							openWithClick: true,
 							header: <Text.H3 class="text-center pt-4">Choose Bot</Text.H3>,
@@ -38,15 +38,16 @@ export const BotSelector: Component<Props> = (props) => {
 					"px-2.5 justify-between": !props.minimized,
 				}}
 			>
-				<img
-					class="hover:animate-pulse w-8 h-auto"
-					src={queue.bot().iconUrl || "/android-chrome-192x192.png"}
-				/>
-				<Show when={bots && !props.minimized}>
-					<Text.H3 truncate>{queue.bot().name}</Text.H3>
-					<div class="grow flex justify-end pl-4">
-						<Icon name="swap" class="fill-neutral-600" size="md" />
-					</div>
+				<img class="hover:animate-pulse w-8 h-auto" src={queue.bot().iconUrl} />
+				<Show when={!props.minimized}>
+					<Text.H3 truncate class="w-full">
+						{queue.bot().name}
+					</Text.H3>
+					<Show when={bots.length > 1}>
+						<div class="grow flex justify-end pl-4">
+							<Icon name="swap" class="fill-neutral-600" size="md" />
+						</div>
+					</Show>
 				</Show>
 			</RouterLink>
 		</div>
