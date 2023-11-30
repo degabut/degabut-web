@@ -21,6 +21,8 @@
 			"@app/*": ["./src/apps/app/*"],
 			"@desktop-overlay": ["./src/apps/desktop-overlay"],
 			"@desktop-overlay/*": ["./src/apps/desktop-overlay/*"],
+			"@recap": ["./src/apps/recap"],
+			"@recap/*": ["./src/apps/recap/*"],
 			"@auth": ["./src/libs/auth"],
 			"@auth/*": ["./src/libs/auth/*"],
 			"@common": ["./src/libs/common"],
