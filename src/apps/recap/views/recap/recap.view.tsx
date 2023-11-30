@@ -16,7 +16,11 @@ export const Recap: Component = () => {
 				<div
 					class="absolute bottom-10 h-14 w-14 rounded-full bg-white animate-bounce hover:cursor-pointer"
 					onClick={() => secondSectionRef?.scrollIntoView({ behavior: "smooth" })}
-				/>
+				>
+					{
+						//**TODO: add icon
+					}
+				</div>
 				<span class="text-7xl block font-semibold text-brand -mt-20">
 					Degabut <span class="text-white">2023</span> Recap
 				</span>
@@ -50,31 +54,49 @@ export const Recap: Component = () => {
 			{/* third section  */}
 			<div class=" h-[100dvh] flex justify-center items-center snap-start">
 				<span class="text-4xl block font-semibold text-brand text-center mb-16">Monthly Recap</span>
+				{
+					//**TODO: add view
+				}
 			</div>
 
 			{/* fourth section  */}
 			<div class=" h-[100dvh] flex justify-center items-center snap-start">
 				<span class="text-4xl block font-semibold text-brand text-center mb-16">Quarter One Recap</span>
+				{
+					//**TODO: add view
+				}
 			</div>
 
 			{/* fifth section  */}
 			<div class=" h-[100dvh] flex justify-center items-center snap-start">
 				<span class="text-4xl block font-semibold text-brand text-center mb-16">Quarter Two Recap</span>
+				{
+					//**TODO: add view
+				}
 			</div>
 
 			{/* sixth section  */}
 			<div class=" h-[100dvh] flex justify-center items-center snap-start">
 				<span class="text-4xl block font-semibold text-brand text-center mb-16">Quarter Three Recap</span>
+				{
+					//**TODO: add view
+				}
 			</div>
 
 			{/* seventh section  */}
 			<div class=" h-[100dvh] flex justify-center items-center snap-start">
 				<span class="text-4xl block font-semibold text-brand text-center mb-16">Quarter Four Recap</span>
+				{
+					//**TODO: add view
+				}
 			</div>
 
 			{/* eighth section  */}
 			<div class=" h-[100dvh] flex justify-center items-center snap-start">
 				<span class="text-4xl block font-semibold text-brand text-center mb-16">Final Overview</span>
+				{
+					//**TODO: add view
+				}
 			</div>
 		</div>
 	);
