@@ -23,7 +23,7 @@ type ActivitySectionProps = {
 
 export const ActivitySection: Component<ActivitySectionProps> = (props) => {
 	return (
-		<div class="flex-col-center space-y-12">
+		<div class="flex-col-center space-y-12 w-full max-w-xl">
 			<div class="grid grid-cols-2 items-center gap-y-8 w-full">
 				<Activity big title="Song Played" value={props.recap.songPlayed} />
 				<Activity big title="Listened for" value={`${Math.floor(props.recap.durationPlayed / 60)} mins`} />

@@ -25,7 +25,7 @@ export const MonthlyActivitySection: Component<Props> = (props) => {
 	const maxDurationPlayed = () => Math.max(...props.recap.monthly.map((item) => item.durationPlayed));
 
 	return (
-		<div class="space-y-4">
+		<div class="space-y-4 w-full max-w-xl">
 			<Text.H3 class="text-center">Song Listened per Month</Text.H3>
 			<table>
 				<For each={props.recap.monthly}>
@@ -34,13 +34,15 @@ export const MonthlyActivitySection: Component<Props> = (props) => {
 							<td>
 								<Text.H3 class="text-right">{months[month]}</Text.H3>
 							</td>
-							<td class="w-full px-4 py-2">
-								<div class="flex items-center">
+							<td class="w-full px-4 py-1">
+								<div class="flex items-center space-x-1">
 									<div
 										class="h-4 bg-brand-500"
 										style={{ width: `${(durationPlayed / maxDurationPlayed()) * 100}%` }}
 									/>
-									<Text.H6 class="pl-1 flex-grow h-4 font-normal text-brand">{songPlayed}</Text.H6>
+									<div class="h-full">
+										<Text.Caption2 class="!text-brand">{songPlayed}</Text.Caption2>
+									</div>
 								</div>
 							</td>
 						</tr>

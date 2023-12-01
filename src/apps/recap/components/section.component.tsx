@@ -21,7 +21,7 @@ export const Section: ParentComponent<SectionProps> = (props) => {
 				<Show when={props.title} keyed>
 					{(title) => <Text.H1 class="text-4xl text-brand text-center">{title}</Text.H1>}
 				</Show>
-				<div class="w-full max-w-xl">{props.children}</div>
+				<div class="flex-col-center w-full">{props.children}</div>
 			</div>
 
 			<div class="absolute bottom-10 flex flex-row justify-center space-x-4 w-full">

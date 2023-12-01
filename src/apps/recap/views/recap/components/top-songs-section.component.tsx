@@ -8,7 +8,7 @@ type Props = {
 
 export const TopSongsSection: Component<Props> = (props) => {
 	return (
-		<div class="flex-col-center space-y-3 w-full">
+		<div class="flex-col-center space-y-3 w-full max-w-xl">
 			<For each={props.recap.mostPlayed}>
 				{({ video, count }, i) => (
 					<div class="flex-row-center md:space-x-4 w-full truncate">
