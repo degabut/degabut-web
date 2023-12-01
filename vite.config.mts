@@ -35,6 +35,7 @@ export default defineConfig({
 			"@root": path.resolve("./src/apps/root"),
 			"@app": path.resolve("./src/apps/app"),
 			"@desktop-overlay": path.resolve("./src/apps/desktop-overlay"),
+			"@recap": path.resolve("./src/apps/recap"),
 			"@auth": path.resolve("./src/libs/auth"),
 			"@common": path.resolve("./src/libs/common"),
 			"@desktop": path.resolve("./src/libs/desktop"),

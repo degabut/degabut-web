@@ -30,9 +30,9 @@ export type ItemListProps = BaseProps & {
 export const ItemList: Component<ItemListProps> = (props) => {
 	return (
 		<div
-			class="item-list flex-row-center items-stretch w-full p-1.5 hover:bg-white/5 active:bg-white/5 rounded"
+			class="item-list flex-row-center items-stretch w-full p-1.5 active:bg-white/5 rounded"
 			classList={{
-				"cursor-pointer": !!props.onClick,
+				"cursor-pointer hover:bg-white/5": !!props.onClick,
 				...props.extraContainerClassList,
 				[props.extraContainerClass || ""]: !!props.extraContainerClass,
 			}}

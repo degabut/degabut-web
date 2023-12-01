@@ -1,3 +1,5 @@
+export { default as arrowDown } from "./arrow-down.svg";
+export { default as arrowUp } from "./arrow-up.svg";
 export { default as audioPlaylist } from "./audio-playlist.svg";
 export { default as clock } from "./clock.svg";
 export { default as closeLine } from "./close-line.svg";
