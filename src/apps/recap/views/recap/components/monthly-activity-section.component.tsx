@@ -1,4 +1,5 @@
 import { Text } from "@common/components";
+import { TimeUtil } from "@common/utils";
 import { IRecap } from "@user/apis";
 import { Component, For } from "solid-js";
 
@@ -7,21 +8,6 @@ type Props = {
 };
 
 export const MonthlyActivitySection: Component<Props> = (props) => {
-	const months = [
-		"January",
-		"February",
-		"March",
-		"April",
-		"May",
-		"June",
-		"July",
-		"August",
-		"September",
-		"October",
-		"November",
-		"December",
-	];
-
 	const maxDurationPlayed = () => Math.max(...props.recap.monthly.map((item) => item.durationPlayed));
 
 	return (
@@ -32,7 +18,7 @@ export const MonthlyActivitySection: Component<Props> = (props) => {
 					{({ month, durationPlayed, songPlayed }) => (
 						<tr>
 							<td>
-								<Text.H3 class="text-right">{months[month]}</Text.H3>
+								<Text.H3 class="text-right">{TimeUtil.getMonths(month)}</Text.H3>
 							</td>
 							<td class="w-full px-4 py-1">
 								<div class="flex items-center space-x-1">

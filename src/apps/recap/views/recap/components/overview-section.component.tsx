@@ -1,5 +1,6 @@
 import { Item, Text } from "@common/components";
 import { useScreen } from "@common/hooks";
+import { TimeUtil } from "@common/utils";
 import { IRecap } from "@user/apis";
 import { Component, For } from "solid-js";
 
@@ -28,20 +29,6 @@ export const OverviewSection: Component<OverviewSectionProps> = (props) => {
 		return width / (1024 + 16);
 	};
 
-	const months = [
-		"January",
-		"February",
-		"March",
-		"April",
-		"May",
-		"June",
-		"July",
-		"August",
-		"September",
-		"October",
-		"November",
-		"December",
-	];
 	const peakMonth = () =>
 		props.recap.monthly.find(
 			(month) => month.songPlayed === Math.max(...props.recap.monthly.map((data) => data.songPlayed))
@@ -84,7 +71,7 @@ export const OverviewSection: Component<OverviewSectionProps> = (props) => {
 				<div class="flex flex-col w-2/3 justify-around">
 					<OverviewData label="Song Played" value={props.recap.songPlayed} />
 					<OverviewData label="Listened for" value={`${Math.floor(props.recap.durationPlayed / 60)} mins`} />
-					<OverviewData label="Peak Month" value={months[peakMonth()!.month]} />
+					<OverviewData label="Peak Month" value={TimeUtil.getMonths(peakMonth()!.month)} />
 				</div>
 			</div>
 

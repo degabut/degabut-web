@@ -4,6 +4,25 @@ import relative from "dayjs/plugin/relativeTime";
 dayjs.extend(relative);
 
 export class TimeUtil {
+	static getMonths(month: number): string {
+		const months = [
+			"January",
+			"February",
+			"March",
+			"April",
+			"May",
+			"June",
+			"July",
+			"August",
+			"September",
+			"October",
+			"November",
+			"December",
+		];
+
+		return months[month];
+	}
+
 	static secondsToTime(totalSeconds: number): string {
 		const hours = Math.floor(totalSeconds / 3600);
 		totalSeconds %= 3600;

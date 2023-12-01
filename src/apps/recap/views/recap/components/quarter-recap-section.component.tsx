@@ -1,4 +1,5 @@
 import { Item, Text } from "@common/components";
+import { TimeUtil } from "@common/utils";
 import { IRecap } from "@user/apis";
 import { Component, For, Show } from "solid-js";
 
@@ -8,21 +9,6 @@ type Props = {
 };
 
 export const QuarterRecapSection: Component<Props> = (props) => {
-	const months = [
-		"January",
-		"February",
-		"March",
-		"April",
-		"May",
-		"June",
-		"July",
-		"August",
-		"September",
-		"October",
-		"November",
-		"December",
-	];
-
 	const quarterData = () => {
 		return props.recap.monthly.slice(props.quarter * 3 - 3, props.quarter * 3);
 	};
@@ -33,7 +19,7 @@ export const QuarterRecapSection: Component<Props> = (props) => {
 				{({ month, durationPlayed, songPlayed, mostPlayed }, i) => (
 					<>
 						<div class="flex-col-center space-y-4">
-							<Text.H2>{months[month]}</Text.H2>
+							<Text.H2>{TimeUtil.getMonths(month)}</Text.H2>
 
 							<div class="space-y-2 w-full">
 								<div class="flex flex-row justify-center text-center space-x-6 w-full">
