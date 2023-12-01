@@ -1,103 +1,97 @@
 import { useParams } from "@solidjs/router";
+import { IRecap } from "@user/apis";
 import { useRecap } from "@user/hooks";
 import { Component, For, Show } from "solid-js";
-import { Card } from "./components/card.component";
+import { Section } from "../../components";
+import {
+	ActivitySection,
+	FavoriteSection,
+	MonthlyActivitySection,
+	QuarterRecapSection,
+	TitleSection,
+	TopSongsSection,
+} from "./components";
 
 export const Recap: Component = () => {
 	const params = useParams<{ year: string }>();
-	const recap = useRecap({ year: +params.year });
+	const yearParam = () => {
+		if (!params.year) return new Date().getFullYear();
+		const year = +params.year;
+		if (year < 2000 || year > new Date().getFullYear()) return new Date().getFullYear();
+		return year;
+	};
+	const recap = useRecap({ year: yearParam() });
 
-	let secondSectionRef: HTMLDivElement | undefined;
+	const sections = [
+		{
+			id: "title",
+			component: () => <TitleSection year={yearParam()} />,
+		},
+		{
+			id: "activity",
+			title: "Your Activity",
+			component: (recap: IRecap) => <ActivitySection recap={recap} />,
+		},
+		{
+			id: "favorite",
+			title: "Your Favorite Song",
+			component: (recap: IRecap) => <FavoriteSection recap={recap} />,
+		},
+		{
+			id: "topSongs",
+			title: "Top Songs",
+			component: (recap: IRecap) => <TopSongsSection recap={recap} />,
+		},
+		{
+			id: "monthly",
+			title: "Your Monthly Activities",
+			component: (recap: IRecap) => <MonthlyActivitySection recap={recap} />,
+		},
+		{
+			id: "q1",
+			title: "Your Q1 Recap",
+			component: (recap: IRecap) => <QuarterRecapSection recap={recap} quarter={1} />,
+		},
+		{
+			id: "q2",
+			title: "Your Q2 Recap",
+			component: (recap: IRecap) => <QuarterRecapSection recap={recap} quarter={2} />,
+		},
+		{
+			id: "q3",
+			title: "Your Q3 Recap",
+			component: (recap: IRecap) => <QuarterRecapSection recap={recap} quarter={3} />,
+		},
+		{
+			id: "q4",
+			title: "Your Q4 Recap",
+			component: (recap: IRecap) => <QuarterRecapSection recap={recap} quarter={4} />,
+		},
+		{
+			id: "overview",
+			title: "Overview",
+			component: (recap: IRecap) => <></>,
+		},
+	];
 
 	return (
-		<div class="bg-neutral-850 snap-y snap-mandatory overflow-y-scroll h-full">
-			{/* first section */}
-			<div class=" h-[100dvh] flex justify-center items-center snap-start relative">
-				<div
-					class="absolute bottom-10 h-14 w-14 rounded-full bg-white animate-bounce hover:cursor-pointer"
-					onClick={() => secondSectionRef?.scrollIntoView({ behavior: "smooth" })}
-				>
-					{
-						//**TODO: add icon
-					}
-				</div>
-				<span class="text-7xl block font-semibold text-brand -mt-20">
-					Degabut <span class="text-white">2023</span> Recap
-				</span>
-			</div>
-
-			{/* second section */}
-			<div class=" h-[100dvh] flex justify-center items-center snap-start" ref={secondSectionRef}>
-				<Show when={recap.data()} keyed>
-					{(data) => (
-						<div>
-							<span class="text-4xl block font-semibold text-brand text-center mb-16">
-								Your Most Played Songs
-							</span>
-							<div class="flex justify-between w-[80dvw]">
-								<For each={data.mostPlayed.slice(0, 5)}>
-									{(data) => (
-										<Card>
-											<div class="flex flex-col space-y-2">
-												<img src={data.thumbnails[0].url} />
-												<span>{data.title}</span>
-											</div>
-										</Card>
-									)}
-								</For>
-							</div>
-						</div>
-					)}
-				</Show>
-			</div>
-
-			{/* third section  */}
-			<div class=" h-[100dvh] flex justify-center items-center snap-start">
-				<span class="text-4xl block font-semibold text-brand text-center mb-16">Monthly Recap</span>
-				{
-					//**TODO: add view
-				}
-			</div>
-
-			{/* fourth section  */}
-			<div class=" h-[100dvh] flex justify-center items-center snap-start">
-				<span class="text-4xl block font-semibold text-brand text-center mb-16">Quarter One Recap</span>
-				{
-					//**TODO: add view
-				}
-			</div>
-
-			{/* fifth section  */}
-			<div class=" h-[100dvh] flex justify-center items-center snap-start">
-				<span class="text-4xl block font-semibold text-brand text-center mb-16">Quarter Two Recap</span>
-				{
-					//**TODO: add view
-				}
-			</div>
-
-			{/* sixth section  */}
-			<div class=" h-[100dvh] flex justify-center items-center snap-start">
-				<span class="text-4xl block font-semibold text-brand text-center mb-16">Quarter Three Recap</span>
-				{
-					//**TODO: add view
-				}
-			</div>
-
-			{/* seventh section  */}
-			<div class=" h-[100dvh] flex justify-center items-center snap-start">
-				<span class="text-4xl block font-semibold text-brand text-center mb-16">Quarter Four Recap</span>
-				{
-					//**TODO: add view
-				}
-			</div>
-
-			{/* eighth section  */}
-			<div class=" h-[100dvh] flex justify-center items-center snap-start">
-				<span class="text-4xl block font-semibold text-brand text-center mb-16">Final Overview</span>
-				{
-					//**TODO: add view
-				}
-			</div>
+		<div class="relative bg-neutral-850 p-2 snap-y snap-mandatory h-full overflow-y-scroll w-screen overflow-x-hidden">
+			<Show when={recap.data()} keyed>
+				{(data) => (
+					<For each={sections}>
+						{({ id, component, title }, index) => (
+							<Section
+								id={id}
+								previousId={sections[index() - 1]?.id}
+								nextId={sections[index() + 1]?.id}
+								title={title}
+							>
+								{component(data)}
+							</Section>
+						)}
+					</For>
+				)}
+			</Show>
 		</div>
 	);
 };
