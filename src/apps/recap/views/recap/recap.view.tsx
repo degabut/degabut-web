@@ -7,6 +7,7 @@ import {
 	ActivitySection,
 	FavoriteSection,
 	MonthlyActivitySection,
+	OverviewSection,
 	QuarterRecapSection,
 	TitleSection,
 	TopSongsSection,
@@ -70,7 +71,7 @@ export const Recap: Component = () => {
 		{
 			id: "overview",
 			title: "Overview",
-			component: (recap: IRecap) => <></>,
+			component: (recap: IRecap) => <OverviewSection recap={recap} year={yearParam()} />,
 		},
 	];
 
