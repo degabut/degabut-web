@@ -29,16 +29,19 @@ export const MonthlyActivitySection: Component<Props> = (props) => {
 			<Text.H3 class="text-center">Song Listened per Month</Text.H3>
 			<table>
 				<For each={props.recap.monthly}>
-					{({ month, durationPlayed }) => (
+					{({ month, durationPlayed, songPlayed }) => (
 						<tr>
 							<td>
 								<Text.H3 class="text-right">{months[month]}</Text.H3>
 							</td>
 							<td class="w-full px-4 py-2">
-								<div
-									class="h-4 bg-brand-500"
-									style={{ width: `${(durationPlayed / maxDurationPlayed()) * 100}%` }}
-								/>
+								<div class="flex items-center">
+									<div
+										class="h-4 bg-brand-500"
+										style={{ width: `${(durationPlayed / maxDurationPlayed()) * 100}%` }}
+									/>
+									<Text.H6 class="pl-1 flex-grow h-4 font-normal text-brand">{songPlayed}</Text.H6>
+								</div>
 							</td>
 						</tr>
 					)}
