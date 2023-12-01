@@ -34,7 +34,7 @@ type Props = {
 export const Tab: Component<Props> = (props) => {
 	return (
 		<div
-			class="grow md:grow-0 cursor-pointer"
+			class="grow cursor-pointer"
 			classList={{ "border-b-2 border-b-white": props.isActive }}
 			onClick={() => props.onClick(props.item)}
 		>

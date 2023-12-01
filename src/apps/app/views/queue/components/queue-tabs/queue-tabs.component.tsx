@@ -9,6 +9,7 @@ export const QueueTabs: Component = () => {
 
 	return (
 		<Tabs
+			extraTabsClass="md:w-max"
 			extraContainerClass="h-full overflow-y-auto -mx-3 md:mx-0"
 			extraContentContainerClass="h-full overflow-y-auto md:pr-2 px-3 md:px-0"
 			items={[
