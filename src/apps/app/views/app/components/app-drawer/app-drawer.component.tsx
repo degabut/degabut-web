@@ -1,6 +1,7 @@
 import { useApp } from "@app/hooks";
 import { Drawer } from "@common/components";
 import { useScreen } from "@common/hooks";
+import { RecapUtil } from "@common/utils";
 import { useDesktop } from "@desktop/hooks";
 import { useSettings } from "@settings/hooks";
 import { Component, For, Show, createSignal, onMount } from "solid-js";
@@ -66,6 +67,21 @@ export const AppDrawer: Component<AppDrawerProps> = (props) => {
 							<For each={links}>
 								{(link) => <Link {...link} onClick={onLinkClick} minimized={minimized} />}
 							</For>
+
+							<Show when={RecapUtil.getYear()} keyed>
+								{(year) => (
+									<Link
+										minimized={minimized}
+										icon="stars"
+										highlight
+										label={`Recap ${year}`}
+										onClick={() => {
+											const win = window.open(`/recap/${year}`);
+											win?.focus();
+										}}
+									/>
+								)}
+							</Show>
 						</div>
 
 						<div class="flex flex-col space-y-1.5">

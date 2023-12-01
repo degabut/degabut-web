@@ -1,12 +1,20 @@
 import { useApp } from "@app/hooks";
 import { Container, Icon } from "@common/components";
 import { useInfiniteScrolling } from "@common/hooks";
+import { RecapUtil } from "@common/utils";
 import { useQueue } from "@queue/hooks";
 import { useNavigate, useParams } from "@solidjs/router";
 import { Videos } from "@youtube/components";
 import { YouTubeContextMenuUtil } from "@youtube/utils";
 import { Component, Show, createEffect, createMemo, createSignal } from "solid-js";
-import { ExpandableVideoGrid, ExpandableVideoList, ShowMoreModal, ShowMoreType, Title } from "./components";
+import {
+	ExpandableVideoGrid,
+	ExpandableVideoList,
+	RecapBanner,
+	ShowMoreModal,
+	ShowMoreType,
+	Title,
+} from "./components";
 import { useRecommendation } from "./hooks";
 
 const RecommendationEmpty: Component = () => {
@@ -49,6 +57,10 @@ export const Recommendation: Component = () => {
 			</Show>
 
 			<Container size="xl" extraClass="space-y-8">
+				<Show when={RecapUtil.getYear()} keyed>
+					{(year) => <RecapBanner year={year} />}
+				</Show>
+
 				<Show when={recommendation.mostPlayed().data.length || recommendation.mostPlayed().loading}>
 					<ExpandableVideoGrid
 						label="Most Played"
