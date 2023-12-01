@@ -1,16 +1,17 @@
 import { Item, Text } from "@common/components";
+import { useScreen } from "@common/hooks";
 import { IRecap } from "@user/apis";
 import { Component, For } from "solid-js";
 
 type OverviewDataProps = {
 	label: string;
-	values: string[] | number[];
+	value: string | number;
 };
 
 const OverviewData: Component<OverviewDataProps> = (props) => (
 	<div class="text-center">
 		<Text.H1 class="text-brand">{props.label}</Text.H1>
-		<For each={props.values}>{(value) => <Text.H2 class="font-light truncate">{value}</Text.H2>}</For>
+		<Text.H2 class="font-light truncate">{props.value}</Text.H2>
 	</div>
 );
 
@@ -20,6 +21,13 @@ type OverviewSectionProps = {
 };
 
 export const OverviewSection: Component<OverviewSectionProps> = (props) => {
+	const screen = useScreen();
+	const scale = () => {
+		const width = screen.size;
+		if (width >= 1024) return 1;
+		return width / (1024 + 16);
+	};
+
 	const months = [
 		"January",
 		"February",
@@ -40,16 +48,20 @@ export const OverviewSection: Component<OverviewSectionProps> = (props) => {
 		);
 
 	return (
-		<div id="overview-card" class="w-[1024px] border-gray-500 border p-5 rounded-lg relative overflow-hidden">
-			<Text.H1 class="text-center text-brand text-3xl pb-5">
+		<div
+			class="w-[1024px] border-gray-500 border py-8 px-12 rounded-lg relative overflow-hidden space-y-6"
+			style={{ transform: `scale(${scale()})` }}
+		>
+			<Text.H1 class="text-center text-brand text-3xl">
 				Degabut<span class="text-gray-100"> {props.year} </span>Recap
 			</Text.H1>
-			<div class="w-full grid grid-cols-3 gap-x-4">
-				<div class="flex flex-col col-span-2 w-full">
+
+			<div class="flex flex-row w-full">
+				<div class="flex flex-col w-full truncate">
 					<Text.H1 class="mb-2 text-brand">Top Songs</Text.H1>
 					<For each={props.recap.mostPlayed}>
 						{({ video, count }, i) => (
-							<div class="flex-row-center md:space-x-4 w-full truncate">
+							<div class="flex-row-center space-x-2 w-full truncate">
 								<div class="w-4">
 									<Text.H2>{i() + 1}</Text.H2>
 								</div>
@@ -69,20 +81,18 @@ export const OverviewSection: Component<OverviewSectionProps> = (props) => {
 					</For>
 				</div>
 
-				<div class="flex flex-col justify-around">
-					<OverviewData label="Monthly Peak" values={[months[peakMonth()!.month]]} />
-					<OverviewData label="Song Played" values={[props.recap.songPlayed]} />
-					<OverviewData
-						label="Listened for"
-						values={[`${Math.floor(props.recap.durationPlayed / 60)} mins`]}
-					/>
+				<div class="flex flex-col w-2/3 justify-around">
+					<OverviewData label="Song Played" value={props.recap.songPlayed} />
+					<OverviewData label="Listened for" value={`${Math.floor(props.recap.durationPlayed / 60)} mins`} />
+					<OverviewData label="Peak Month" value={months[peakMonth()!.month]} />
 				</div>
-				<img
-					class="rounded-full opacity-10 absolute -right-11 -bottom-11"
-					src="/icons/windows11/LargeTile.scale-100.png"
-					alt=""
-				/>
 			</div>
+
+			<img
+				class="rounded-full opacity-10 absolute -right-12 -bottom-12"
+				src="/icons/windows11/LargeTile.scale-100.png"
+				alt=""
+			/>
 		</div>
 	);
 };
