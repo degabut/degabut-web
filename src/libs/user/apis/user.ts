@@ -1071,7 +1071,7 @@ type Monthly = {
 	month: number;
 	songPlayed: number;
 	durationPlayed: number;
-	mostPlayed: MostPlayed;
+	mostPlayed: MostPlayed | null;
 };
 
 type MostPlayed = {

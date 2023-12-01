@@ -44,18 +44,22 @@ export const QuarterRecapSection: Component<Props> = (props) => {
 								</Text.Body1>
 							</div>
 
-							<div class="w-full truncate ">
-								<Item.List
-									extraContainerClass="w-min mx-auto"
-									imageUrl={mostPlayed.video.thumbnails.at(0)?.url}
-									title={mostPlayed.video.title}
-									extra={() => (
-										<Text.Caption1>
-											Played {mostPlayed.count} times - {mostPlayed.video.channel?.name}
-										</Text.Caption1>
-									)}
-								/>
-							</div>
+							<Show when={mostPlayed} keyed>
+								{({ video, count }) => (
+									<div class="w-full truncate ">
+										<Item.List
+											extraContainerClass="w-min mx-auto"
+											imageUrl={video.thumbnails.at(0)?.url}
+											title={video.title}
+											extra={() => (
+												<Text.Caption1>
+													Played {count} times - {video.channel?.name}
+												</Text.Caption1>
+											)}
+										/>
+									</div>
+								)}
+							</Show>
 						</div>
 					</div>
 
