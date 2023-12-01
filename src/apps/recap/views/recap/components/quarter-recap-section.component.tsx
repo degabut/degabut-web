@@ -34,7 +34,7 @@ export const QuarterRecapSection: Component<Props> = (props) => {
 					<div class="flex-col-center space-y-4">
 						<Text.H2>{months[month]}</Text.H2>
 
-						<div class="space-y-1">
+						<div class="space-y-1 w-full">
 							<div class="flex flex-row justify-center space-x-6 w-full">
 								<Text.Body1>
 									<b>{songPlayed}</b> song played
@@ -46,9 +46,9 @@ export const QuarterRecapSection: Component<Props> = (props) => {
 
 							<Show when={mostPlayed} keyed>
 								{({ video, count }) => (
-									<div class="w-full truncate ">
+									<div class="truncate mx-auto">
 										<Item.List
-											extraContainerClass="w-min mx-auto"
+											extraContainerClass="w-min mx-auto truncate"
 											imageUrl={video.thumbnails.at(0)?.url}
 											title={video.title}
 											extra={() => (
