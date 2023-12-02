@@ -36,7 +36,7 @@ export const OverviewSection: Component<OverviewSectionProps> = (props) => {
 		return width / (1024 + 16);
 	};
 
-	const peakMonth = () => props.recap.monthly.sort((a, b) => b.songPlayed - a.songPlayed)[0];
+	const peakMonth = () => [...props.recap.monthly].sort((a, b) => b.songPlayed - a.songPlayed)[0];
 
 	const save = async () => {
 		setIsSaving(true);
