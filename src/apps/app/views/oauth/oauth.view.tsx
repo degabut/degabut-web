@@ -13,7 +13,8 @@ export const OAuth: Component = () => {
 	const location = useLocation();
 
 	onMount(async () => {
-		const code = new URLSearchParams(location.query).get("code");
+		const searchParams = new URLSearchParams(location.search);
+		const code = searchParams.get("code");
 		const redirectUri = new URL(OAUTH_URL).searchParams.get("redirect_uri");
 		if (!code || !redirectUri) return navigate("/login");
 
@@ -21,6 +22,12 @@ export const OAuth: Component = () => {
 			const accessToken = await auth.getAccessToken(code, redirectUri);
 			api.authManager.setAccessToken(accessToken);
 			desktop?.ipc.onAuthenticated?.();
+
+			const stateString = searchParams.get("state");
+			if (stateString) {
+				const state = JSON.parse(decodeURIComponent(stateString));
+				if (state?.redirect) return navigate(state.redirect);
+			}
 			navigate("/queue");
 		} catch (err) {
 			navigate("/login");

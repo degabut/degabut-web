@@ -2,11 +2,20 @@ import { A } from "@common/components";
 import { useApi } from "@common/hooks";
 import { OAUTH_URL } from "@constants";
 import { useDesktop } from "@desktop/hooks";
+import { useLocation } from "@solidjs/router";
 import { Component, onMount } from "solid-js";
 
 export const Login: Component = () => {
 	const api = useApi();
 	const desktop = useDesktop();
+	const location = useLocation();
+
+	const oauthUrl = () => {
+		let url = OAUTH_URL;
+		const redirect = new URLSearchParams(location.search).get("re");
+		if (redirect) url += "&state=" + encodeURIComponent(JSON.stringify({ redirect }));
+		return url;
+	};
 
 	onMount(() => {
 		if (api.authManager.hasAccessToken()) {
@@ -23,7 +32,7 @@ export const Login: Component = () => {
 				<div class="text-4xl font-brand mt-6 font-semibold">degabut</div>
 				<div class="mt-24">
 					<A
-						href={OAUTH_URL}
+						href={oauthUrl()}
 						class="border border-neutral-100 px-8 py-2 rounded-full text-lg text-center hover:bg-white/10 transition-colors"
 					>
 						Login with Discord

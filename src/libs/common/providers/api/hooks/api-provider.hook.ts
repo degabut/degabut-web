@@ -56,9 +56,9 @@ export const useApiProvider = () => {
 		if (status >= 500) return false;
 		if (status === 401) {
 			// unauthorized redirect to login
-			const pathname = location.pathname;
-			if (!pathname.startsWith("/login")) {
-				navigate("/login");
+			const redirect = location.pathname + location.search;
+			if (!redirect.startsWith("/login")) {
+				navigate("/login?re=" + encodeURIComponent(redirect));
 			}
 		}
 
