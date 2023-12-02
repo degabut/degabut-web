@@ -28,6 +28,7 @@ jobs:
                   VITE_YOUTUBE_API_BASE_URL: ${{ secrets.VITE_YOUTUBE_API_BASE_URL }}
                   VITE_OAUTH_URL: ${{ secrets.VITE_OAUTH_URL }}
                   VITE_APPLICATIONS: ${{ secrets.VITE_APPLICATIONS }}
+                  VITE_YT_IMAGE_PROXY: ${{ secrets.VITE_YT_IMAGE_PROXY }}
 
             - name: Deploy
               uses: wangyucode/sftp-upload-action@v1.4.8
