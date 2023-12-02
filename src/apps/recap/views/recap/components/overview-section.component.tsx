@@ -51,6 +51,8 @@ export const OverviewSection: Component<OverviewSectionProps> = (props) => {
 				style: {
 					transform: "scale(2)",
 					transformOrigin: "top left",
+					borderWidth: "0",
+					borderRadius: "0",
 				},
 			});
 		}
@@ -65,61 +67,59 @@ export const OverviewSection: Component<OverviewSectionProps> = (props) => {
 
 	return (
 		<div class="flex-col-center space-y-6">
-			<div class="border border-neutral-700 rounded">
-				<div
-					ref={cardRef}
-					class="relative w-[1024px] bg-neutral-850 py-8 px-12 overflow-hidden space-y-6"
-					style={{ transform: `scale(${scale()})` }}
-				>
-					<Text.H1 class="text-center text-brand text-3xl">
-						Degabut<span class="text-gray-100"> {props.year} </span>Recap
-					</Text.H1>
+			<div
+				ref={cardRef}
+				class="relative w-[1024px] bg-neutral-850 py-8 px-12 overflow-hidden space-y-6 border border-neutral-700 rounded"
+				style={{ transform: `scale(${scale()})` }}
+			>
+				<Text.H1 class="text-center text-brand text-3xl">
+					Degabut<span class="text-gray-100"> {props.year} </span>Recap
+				</Text.H1>
 
-					<div class="flex flex-row w-full">
-						<div class="flex flex-col w-full truncate">
-							<Text.H1 class="mb-2 text-brand">Top Songs</Text.H1>
-							<For each={props.recap.mostPlayed}>
-								{({ video, count }, i) => {
-									let imageUrl = video.thumbnails.at(0)!.url;
-									if (YT_IMAGE_PROXY) imageUrl = YT_IMAGE_PROXY + new URL(imageUrl).pathname;
+				<div class="flex flex-row w-full">
+					<div class="flex flex-col w-full truncate">
+						<Text.H1 class="mb-2 text-brand">Top Songs</Text.H1>
+						<For each={props.recap.mostPlayed}>
+							{({ video, count }, i) => {
+								let imageUrl = video.thumbnails.at(0)!.url;
+								if (YT_IMAGE_PROXY) imageUrl = YT_IMAGE_PROXY + new URL(imageUrl).pathname;
 
-									return (
-										<div class="flex-row-center space-x-2 w-full truncate">
-											<div class="w-4">
-												<Text.H2>{i() + 1}</Text.H2>
-											</div>
-											<div class="truncate w-full">
-												<Item.List
-													imageUrl={imageUrl}
-													title={video.title}
-													extra={() => (
-														<Text.Caption1>
-															Played {count} times - {video.channel?.name}
-														</Text.Caption1>
-													)}
-												/>
-											</div>
+								return (
+									<div class="flex-row-center space-x-2 w-full truncate">
+										<div class="w-4">
+											<Text.H2>{i() + 1}</Text.H2>
 										</div>
-									);
-								}}
-							</For>
-						</div>
-
-						<div class="flex flex-col w-2/3 justify-around">
-							<OverviewData label="Song Played" value={props.recap.songPlayed} />
-							<OverviewData
-								label="Listened for"
-								value={`${Math.floor(props.recap.durationPlayed / 60)} mins`}
-							/>
-							<OverviewData label="Peak Month" value={TimeUtil.getMonths(peakMonth().month)} />
-						</div>
+										<div class="truncate w-full">
+											<Item.List
+												imageUrl={imageUrl}
+												title={video.title}
+												extra={() => (
+													<Text.Caption1>
+														Played {count} times - {video.channel?.name}
+													</Text.Caption1>
+												)}
+											/>
+										</div>
+									</div>
+								);
+							}}
+						</For>
 					</div>
 
-					<img
-						class="rounded-full opacity-10 absolute -right-12 -bottom-12 w-72"
-						src="/android-chrome-512x512.png"
-					/>
+					<div class="flex flex-col w-2/3 justify-around">
+						<OverviewData label="Song Played" value={props.recap.songPlayed} />
+						<OverviewData
+							label="Listened for"
+							value={`${Math.floor(props.recap.durationPlayed / 60)} mins`}
+						/>
+						<OverviewData label="Peak Month" value={TimeUtil.getMonths(peakMonth().month)} />
+					</div>
 				</div>
+
+				<img
+					class="rounded-full opacity-10 absolute -right-12 -bottom-12 w-72"
+					src="/android-chrome-512x512.png"
+				/>
 			</div>
 
 			<Show when={YT_IMAGE_PROXY}>
