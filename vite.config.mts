@@ -14,7 +14,8 @@ const pwa = VitePWA({
 	workbox: {
 		clientsClaim: true,
 		skipWaiting: true,
-		globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
+		cleanupOutdatedCaches: true,
+		globPatterns: ["**/*.{js,css,ico,png,svg}"],
 	},
 });
 

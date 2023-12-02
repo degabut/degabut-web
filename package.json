@@ -25,7 +25,7 @@
 		"typed-emitter": "^2.1.0",
 		"typescript": "^5.2.2",
 		"vite": "^4.5.0",
-		"vite-plugin-pwa": "^0.13.3",
+		"vite-plugin-pwa": "^0.17.2",
 		"vite-plugin-solid": "^2.7.2"
 	},
 	"dependencies": {
