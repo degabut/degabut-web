@@ -13,21 +13,21 @@ export type GetMostPlayedParams = {
 } & GetVideosParams;
 
 export type IRecap = {
-	mostPlayed: MostPlayed[];
-	monthly: Monthly[];
+	mostPlayed: IMostPlayed[];
+	monthly: IMonthly[];
 	durationPlayed: number;
 	songPlayed: number;
 	uniqueSongPlayed: number;
 };
 
-type Monthly = {
+export type IMonthly = {
 	month: number;
 	songPlayed: number;
 	durationPlayed: number;
-	mostPlayed: MostPlayed | null;
+	mostPlayed: IMostPlayed | null;
 };
 
-type MostPlayed = {
+export type IMostPlayed = {
 	videoId: string;
 	count: number;
 	video: IVideoCompact;

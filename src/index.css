@@ -2,12 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-	font-family: opificio;
-	src: url("/font/opificio.ttf");
-	font-display: swap;
-}
-
 body {
 	font-family: "Poppins", sans-serif;
 	@apply h-full;
