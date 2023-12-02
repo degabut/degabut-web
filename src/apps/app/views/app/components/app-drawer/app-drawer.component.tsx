@@ -76,7 +76,7 @@ export const AppDrawer: Component<AppDrawerProps> = (props) => {
 										highlight
 										label={`Recap ${year}`}
 										onClick={() => {
-											const win = window.open(`/recap/${year}`);
+											const win = window.open("/recap");
 											win?.focus();
 										}}
 									/>
