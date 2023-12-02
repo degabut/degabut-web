@@ -22,6 +22,7 @@ export type ITabItem = {
 type Props = {
 	items: ITabItem[];
 	extraTabsClass?: string;
+	extraTabClass?: string;
 	extraContainerClass?: string;
 	extraContentContainerClass?: string;
 	onChange?: (item: ITabItem) => void;
@@ -54,7 +55,12 @@ export const Tabs: Component<Props> = (props) => {
 							>
 								<For each={props.items}>
 									{(item) => (
-										<Tab item={item} onClick={onChange} isActive={item.id === activeItem.id} />
+										<Tab
+											item={item}
+											onClick={onChange}
+											isActive={item.id === activeItem.id}
+											extraContainerClass={props.extraTabClass}
+										/>
 									)}
 								</For>
 							</div>

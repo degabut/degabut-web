@@ -28,6 +28,7 @@ const TabLabel = (props: LabelProps) => {
 type Props = {
 	item: ITabItem;
 	isActive: boolean;
+	extraContainerClass?: string;
 	onClick: (item: ITabItem) => void;
 };
 
@@ -35,7 +36,10 @@ export const Tab: Component<Props> = (props) => {
 	return (
 		<div
 			class="grow cursor-pointer"
-			classList={{ "border-b-2 border-b-white": props.isActive }}
+			classList={{
+				"border-b-2 border-b-white": props.isActive,
+				[props.extraContainerClass || ""]: !!props.extraContainerClass,
+			}}
 			onClick={() => props.onClick(props.item)}
 		>
 			<div class="px-2 md:px-12 xl:px-14 py-3 md:py-2">
