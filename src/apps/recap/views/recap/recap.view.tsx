@@ -16,9 +16,14 @@ import {
 export const Recap: Component = () => {
 	const params = useParams<{ year: string }>();
 	const yearParam = () => {
-		if (!params.year) return new Date().getFullYear();
+		const now = new Date();
+		const currentYear = now.getFullYear();
+		if (!params.year) {
+			if (now.getMonth() < 11) return currentYear - 1;
+			return currentYear;
+		}
 		const year = +params.year;
-		if (year < 2000 || year > new Date().getFullYear()) return new Date().getFullYear();
+		if (year < 2000 || year > now.getFullYear()) return currentYear;
 		return year;
 	};
 	const recap = useRecap({ year: yearParam() });
