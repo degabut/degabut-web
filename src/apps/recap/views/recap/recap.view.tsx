@@ -76,7 +76,7 @@ export const Recap: Component = () => {
 	];
 
 	return (
-		<div class="relative bg-neutral-850 p-2 snap-y snap-mandatory h-full overflow-y-scroll w-screen overflow-x-hidden">
+		<div class="relative bg-neutral-850 px-4 snap-y snap-mandatory h-full overflow-y-scroll w-screen overflow-x-hidden">
 			<Show when={recap.data()} keyed>
 				{(data) => (
 					<For each={sections}>
