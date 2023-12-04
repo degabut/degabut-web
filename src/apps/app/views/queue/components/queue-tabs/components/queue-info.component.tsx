@@ -50,7 +50,7 @@ export const QueueInfo: Component = () => {
 						<For each={queue.data.voiceChannel?.members || []}>
 							{(member) => (
 								<RouterLink href={`/recommendation/${member.id}`}>
-									<div class="rounded-full w-8 h-8 hover:z-50 border-neutral-900 border-2">
+									<div class="rounded-full w-8 h-8 border-neutral-900 border-2">
 										<img
 											title={member.displayName}
 											class="rounded-full"

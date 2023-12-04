@@ -20,7 +20,7 @@ export const ChaptersModal: Component<ChaptersModalProps> = (props) => {
 			onClickOutside={props.handleClose}
 		>
 			<div class="flex flex-col h-full">
-				<div class="py-4 !pb-0 z-10">
+				<div class="py-4 !pb-0">
 					<Text.H2 class="text-center mb-4">Chapters</Text.H2>
 					<Divider />
 				</div>

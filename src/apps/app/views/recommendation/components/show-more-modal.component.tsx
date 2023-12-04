@@ -116,7 +116,7 @@ export const ShowMoreModal: Component<Props> = (props) => {
 			onClickOutside={() => props.onClose()}
 		>
 			<div class="flex flex-col h-full">
-				<div class="py-4 !pb-0 z-10">
+				<div class="py-4 !pb-0">
 					<Text.H2 class="text-center mb-4">{label()}</Text.H2>
 					<Divider />
 				</div>

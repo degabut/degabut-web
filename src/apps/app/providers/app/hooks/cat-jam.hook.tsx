@@ -85,7 +85,7 @@ export const useCatJam = () => {
 
 	const spawnJam = (jam: CatJamProps) => {
 		const element = document.createElement("div");
-		element.className = "fixed pointer-events-none z-[1000]";
+		element.className = "fixed pointer-events-none z-50";
 		render(() => <CatJam {...jam} />, element);
 		document.body.appendChild(element);
 		setTimeout(() => element.remove(), 6000);

@@ -28,8 +28,8 @@ export const QueuePlayer: Component = () => {
 
 	return (
 		<Show when={!queue.data.empty} keyed>
-			<div class="grid grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)_minmax(0,1fr)] gap-x-8 bg-black p-2 z-10 rounded-lg">
-				<div class="relative z-10 overflow-hidden rounded text-shadow w-full max-w-md xl:max-w-lg">
+			<div class="grid grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)_minmax(0,1fr)] gap-x-8 bg-black p-2 rounded-lg">
+				<div class="relative overflow-hidden rounded text-shadow w-full max-w-md xl:max-w-lg">
 					<Show when={queue.data.nowPlaying} fallback={<EmptyNowPlaying />} keyed>
 						{(t) => (
 							<Video.List

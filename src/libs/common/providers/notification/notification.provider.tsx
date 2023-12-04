@@ -63,7 +63,7 @@ export const NotificationProvider: ParentComponent = (props) => {
 		<NotificationContext.Provider value={store}>
 			{props.children}
 			<Show when={screen.gte.md}>
-				<div class="fixed bottom-24 right-4 flex flex-col space-y-3 z-[1000]">
+				<div class="fixed bottom-24 right-4 flex flex-col space-y-3 z-20">
 					<TransitionGroup
 						onEnter={(el, done) => {
 							el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 150 }).finished.then(done);
