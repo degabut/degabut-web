@@ -16,7 +16,7 @@ export const SortableVideoList: Component<Props> = (props) => {
 
 	return (
 		<div
-			use:sortable
+			ref={sortable.ref}
 			style={transformStyle(sortable.transform)}
 			classList={{
 				"opacity-25": sortable.isActiveDraggable,
