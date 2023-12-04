@@ -33,6 +33,7 @@ export const Recommendation: Component = () => {
 	const params = useParams<{ id: string }>();
 	const recommendation = useRecommendation({ userId: () => params.id || "me", onLoad: () => infinite.load() });
 	const [showMoreType, setShowMoreType] = createSignal<ShowMoreType | null>(null);
+	const recapYear = RecapUtil.getYear();
 	let containerElement!: HTMLDivElement;
 
 	const targetUser = createMemo(() => {
@@ -57,9 +58,7 @@ export const Recommendation: Component = () => {
 			</Show>
 
 			<Container size="xl" extraClass="space-y-8">
-				<Show when={RecapUtil.getYear()} keyed>
-					{(year) => <RecapBanner year={year} />}
-				</Show>
+				{recapYear && !params.id && <RecapBanner year={recapYear} />}
 
 				<Show when={recommendation.mostPlayed().data.length || recommendation.mostPlayed().loading}>
 					<ExpandableVideoGrid
