@@ -55,6 +55,7 @@ export const Search: Component = () => {
 					focusOnMount: true,
 					prefix: () => <Icon name="search" size="lg" extraClass="fill-current" />,
 				}}
+				extraResultContainerClass={isLoading() ? "opacity-50 pointer-events-none" : ""}
 				hideOptionOnClickOutside={false}
 				options={search.result()}
 				onSelect={onSelect}
