@@ -5,7 +5,8 @@ import { ContextMenuContext } from "../providers";
 export type IContextMenuItem = {
 	label: string;
 	disabled?: boolean;
-	onClick?: () => void;
+	onClick?: () => unknown | (() => Promise<unknown>);
+	wait?: boolean;
 	icon?: Icons;
 	iconUrl?: string;
 };
@@ -30,6 +31,7 @@ export function contextMenu(el: HTMLElement, accessor: Accessor<ContextMenuDirec
 			contextMenu.show({
 				x: e.pageX,
 				y: e.pageY,
+				target: el,
 				...accessor(),
 			});
 		}, 0);
@@ -59,6 +61,7 @@ export function buttonContextMenu(el: HTMLElement, accessor: Accessor<ContextMen
 			contextMenu.show({
 				x: e.pageX,
 				y: e.pageY,
+				target: el,
 				...params,
 			});
 		};

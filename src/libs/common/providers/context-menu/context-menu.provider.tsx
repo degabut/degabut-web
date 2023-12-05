@@ -4,6 +4,7 @@ import { ParentComponent, Show, createContext, createEffect, createSignal, onMou
 import { FloatingContextMenu, SlideUpContextMenu } from "./components";
 
 export type ShowContextMenuParams = ContextMenuDirectiveParams & {
+	target: HTMLElement | null;
 	x: number;
 	y: number;
 };
@@ -18,7 +19,7 @@ export const ContextMenuProvider: ParentComponent = (props) => {
 	const screen = useScreen();
 	const hash = useHashState({ onPopState: () => setIsShowContextMenu(false) });
 	const [isShowContextMenu, setIsShowContextMenu] = createSignal(false);
-	const [params, setParams] = createSignal<ShowContextMenuParams>({ x: 0, y: 0, items: [] });
+	const [params, setParams] = createSignal<ShowContextMenuParams>({ x: 0, y: 0, items: [], target: null });
 
 	const show = (params: ShowContextMenuParams) => {
 		setIsShowContextMenu(true);
@@ -36,9 +37,18 @@ export const ContextMenuProvider: ParentComponent = (props) => {
 		});
 	});
 
-	const onClick = (item: IContextMenuItem) => {
-		item.onClick?.();
+	const onClick = async (item: IContextMenuItem) => {
+		const promise = item.onClick?.();
 		setIsShowContextMenu(false);
+
+		if (item.wait) {
+			const el = params().target;
+			if (el) {
+				el.classList.add("opacity-50", "pointer-events-none");
+				await promise;
+				el.classList.remove("opacity-50", "pointer-events-none");
+			}
+		}
 	};
 
 	return (

@@ -37,6 +37,7 @@ export class YouTubeContextMenuUtil {
 					label: "Add to Queue",
 					icon: "plus",
 					onClick: () => props.queueStore.addTrack(props.video),
+					wait: true,
 				});
 			}
 
@@ -45,6 +46,7 @@ export class YouTubeContextMenuUtil {
 				icon: "play",
 				disabled: props.queueStore.data.nowPlaying?.video.id === props.video.id,
 				onClick: () => props.queueStore.addAndPlayTrack(props.video),
+				wait: true,
 			});
 
 			if (trackInQueue) {
@@ -52,6 +54,7 @@ export class YouTubeContextMenuUtil {
 					label: "Remove from Queue",
 					icon: "trashBin",
 					onClick: () => props.queueStore.removeTrack(trackInQueue),
+					wait: true,
 				});
 			}
 			items.push(firstSection);
