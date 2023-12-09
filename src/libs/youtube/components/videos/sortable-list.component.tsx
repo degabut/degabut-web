@@ -1,4 +1,5 @@
 import { Item } from "@common/components";
+import { useScreen } from "@common/hooks";
 import {
 	DragDropProvider,
 	DragDropSensors,
@@ -9,7 +10,7 @@ import {
 } from "@thisbeyond/solid-dnd";
 import { For, Show, createEffect, createMemo, createSignal } from "solid-js";
 import { VideoListProps } from "../video";
-import { DummySortableVideoList, SortableVideoList } from "./components";
+import { DummySortableVideoList, SortableVideoList, SortableVideoListMd } from "./components";
 
 type SortableData = {
 	id: string;
@@ -35,6 +36,7 @@ type SortableVideosListProps<Data> = {
 };
 
 export function SortableVideosList<Data = unknown>(props: SortableVideosListProps<Data>) {
+	const screen = useScreen();
 	let currentNode: HTMLElement | null = null;
 
 	const sortableProps = createMemo<FullSortableData<Data>[]>(() => {
@@ -98,7 +100,14 @@ export function SortableVideosList<Data = unknown>(props: SortableVideosListProp
 					<DragDropSensors />
 					<SortableProvider ids={ids()}>
 						<For each={items()}>
-							{(p) => <SortableVideoList initialId={p.id} initialVideoProps={p.videoProps} />}
+							{(p) => (
+								<Show
+									when={screen.gte.md}
+									fallback={<SortableVideoList initialId={p.id} initialVideoProps={p.videoProps} />}
+								>
+									<SortableVideoListMd initialId={p.id} initialVideoProps={p.videoProps} />
+								</Show>
+							)}
 						</For>
 					</SortableProvider>
 
