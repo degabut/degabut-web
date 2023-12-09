@@ -27,7 +27,7 @@ export const ContextMenuProvider: ParentComponent = (props) => {
 	};
 
 	createEffect(() => {
-		if (!screen.lte.sm) return;
+		if (screen.gte.md) return;
 		isShowContextMenu() ? hash.push() : hash.back();
 	});
 
@@ -55,7 +55,7 @@ export const ContextMenuProvider: ParentComponent = (props) => {
 		<ContextMenuContext.Provider value={{ show }}>
 			<Show when={isShowContextMenu()}>
 				<Show
-					when={screen.lte.sm}
+					when={!screen.gte.md}
 					fallback={
 						<FloatingContextMenu
 							params={params()}

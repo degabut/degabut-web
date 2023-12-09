@@ -22,7 +22,7 @@ export const AppDrawer: Component<AppDrawerProps> = (props) => {
 	desktop?.ipc.onLoggedOut?.();
 
 	const onLinkClick = () => {
-		if (screen.lte.sm) props.handleClose();
+		if (!screen.gte.md) props.handleClose();
 	};
 
 	const links = [

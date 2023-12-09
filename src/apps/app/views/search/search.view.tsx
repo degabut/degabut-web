@@ -57,7 +57,7 @@ export const Search: Component = () => {
 			/>
 
 			<div class="lg:space-y-8 space-y-1.5">
-				<Show when={!search.isLoading()} fallback={<SearchResultSkeleton isSmall={screen.lte.md} />}>
+				<Show when={!search.isLoading()} fallback={<SearchResultSkeleton isSmall={!screen.gte.md} />}>
 					<For each={search.result()}>
 						{(item) =>
 							"duration" in item ? (

@@ -1,11 +1,10 @@
 import { DelayUtil } from "@common/utils";
 import { BreakpointKeys, breakpoints } from "@constants";
-import { ParentComponent, createContext, onMount } from "solid-js";
+import { ParentComponent, createContext, createEffect, on, onCleanup, onMount } from "solid-js";
 import { createStore } from "solid-js/store";
 
 type BreakpointEntries = Record<BreakpointKeys, boolean>;
 export type Screen = BreakpointEntries & {
-	lte: BreakpointEntries;
 	gte: BreakpointEntries;
 	size: number;
 	breakpoint: BreakpointKeys;
@@ -16,36 +15,48 @@ const breakpointsKeys = Object.keys(breakpoints) as BreakpointKeys[];
 const defaultBreakpointsEntries = Object.fromEntries(breakpointsKeys.map((k) => [k, false])) as BreakpointEntries;
 export const defaultScreenValue = {
 	...defaultBreakpointsEntries,
-	lte: defaultBreakpointsEntries,
-	gte: defaultBreakpointsEntries,
+	gte: { ...defaultBreakpointsEntries },
 	size: 0,
 	breakpoint: "xs" as BreakpointKeys,
-};
-
-const fromEntries = (fn: (k: BreakpointKeys, i: number) => [BreakpointKeys, boolean]) => {
-	return Object.fromEntries(breakpointsKeys.map(fn)) as BreakpointEntries;
 };
 
 export const ScreenContext = createContext<Screen>(defaultScreenValue);
 
 export const ScreenProvider: ParentComponent = (props) => {
-	const [screen, setScreen] = createStore<Screen>(defaultScreenValue);
+	const [screen, setScreen] = createStore<Screen>({ ...defaultScreenValue });
 
 	const throttledResizeHandler = DelayUtil.throttle(() => {
 		const size = window.innerWidth;
+		setScreen("size", size);
+
 		const breakpoint = (breakpointEntries.find(([, value]) => size >= value)?.[0] || "3xl") as BreakpointKeys;
-		setScreen({
-			size,
-			breakpoint,
-			...fromEntries((k, i) => [k, breakpointsKeys[i] === breakpoint]),
-			lte: fromEntries((k, i) => [k, i < breakpointsKeys.findIndex((b) => b === breakpoint) || k === breakpoint]),
-			gte: fromEntries((k, i) => [k, i > breakpointsKeys.findIndex((b) => b === breakpoint) || k === breakpoint]),
-		});
+		if (breakpoint !== screen.breakpoint) setScreen("breakpoint", breakpoint);
 	}, 250);
 
-	window.addEventListener("resize", throttledResizeHandler);
+	createEffect(
+		on(
+			() => screen.breakpoint,
+			() => {
+				const size = screen.size;
+				for (const [key, value] of breakpointEntries) {
+					if (size >= value && !screen[key]) setScreen(key, true);
+					else if (screen[key]) setScreen(key, false);
 
-	onMount(throttledResizeHandler);
+					if (size >= value && !screen.gte[key]) setScreen("gte", key, true);
+					else if (size < value && screen.gte[key]) setScreen("gte", key, false);
+				}
+			}
+		)
+	);
+
+	onMount(() => {
+		throttledResizeHandler();
+		window.addEventListener("resize", throttledResizeHandler);
+	});
+
+	onCleanup(() => {
+		window.removeEventListener("resize", throttledResizeHandler);
+	});
 
 	return <ScreenContext.Provider value={screen}>{props.children}</ScreenContext.Provider>;
 };
