@@ -8,7 +8,7 @@ import { useCatJam } from "./hooks";
 
 type Confirmation = {
 	title: string;
-	message?: JSX.Element;
+	message?: string | (() => JSX.Element);
 	isAlert?: boolean;
 	onConfirm?: () => unknown | Promise<unknown>;
 };

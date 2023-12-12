@@ -27,7 +27,7 @@ export const Playlists: Component = () => {
 	const promptDeletePlaylist = (playlist: IPlaylist) => {
 		app.setConfirmation({
 			title: "Delete Playlist",
-			message: (
+			message: () => (
 				<div class="text-center">
 					Are you sure you want to delete playlist <b>{playlist.name}</b>?
 				</div>

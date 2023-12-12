@@ -22,7 +22,7 @@ export class PlaylistConfirmationUtil {
 	) {
 		return {
 			title: "Add Playlist",
-			message: (
+			message: () => (
 				<div class="flex-col-center space-y-2">
 					<Text.Body1>
 						Add playlist <b>{"name" in playlist ? playlist.name : playlist.title}</b> to the queue?

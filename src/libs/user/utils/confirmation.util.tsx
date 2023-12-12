@@ -6,7 +6,7 @@ export class UserConfirmationUtil {
 	static removePlayHistoryConfirmation(video: IVideo | IVideoCompact) {
 		return {
 			title: "Remove Play History",
-			message: (
+			message: () => (
 				<div class="flex-col-center space-y-6">
 					<Video.List video={video} />
 					<Text.Body2 class="text-center">

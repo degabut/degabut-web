@@ -2,8 +2,8 @@ import { Button, Modal } from "@common/components";
 import { Component, JSX, Show, createSignal, onCleanup, onMount } from "solid-js";
 
 type Props = {
-	title: JSX.Element;
-	message?: JSX.Element;
+	title: string;
+	message?: string | (() => JSX.Element);
 	isAlert: boolean;
 	isOpen: boolean;
 	onConfirm: () => void | Promise<void>;
@@ -40,7 +40,7 @@ export const ConfirmationModal: Component<Props> = (props) => {
 		>
 			<div class="space-y-8 p-8">
 				<div class="text-xl font-medium text-center mb-4">{props.title}</div>
-				{typeof props.message === "string" ? <div class="text-center">{props.message}</div> : props.message}
+				{typeof props.message === "string" ? <div class="text-center">{props.message}</div> : props.message?.()}
 
 				<div class="flex-row-center justify-evenly w-full">
 					<Show when={!props.isAlert}>
