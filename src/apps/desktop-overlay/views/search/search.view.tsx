@@ -6,15 +6,20 @@ import { IVideoCompact, IYouTubePlaylistCompact } from "@youtube/apis";
 import { Video, YouTubePlaylist } from "@youtube/components";
 import { useSearch } from "@youtube/hooks";
 import { YouTubeContextMenuUtil } from "@youtube/utils";
-import { Component, createSignal } from "solid-js";
+import { Component, createSignal, onCleanup, onMount } from "solid-js";
 
 type SelectOptionItem = IVideoCompact | IYouTubePlaylistCompact | ITrack;
 
 export const Search: Component = () => {
 	const queue = useQueue();
 
+	let inputRef!: HTMLInputElement;
 	const [isLoading, setIsLoading] = createSignal(false);
 	const search = useSearch();
+
+	onMount(() => window.addEventListener("focus", onFocus));
+	onCleanup(() => window.removeEventListener("focus", onFocus));
+	const onFocus = () => inputRef.focus();
 
 	const onInput = (e: InputEvent) => {
 		const value = (e.target as HTMLInputElement).value;
@@ -45,7 +50,9 @@ export const Search: Component = () => {
 	return (
 		<Card extraClass="w-full h-full">
 			<Select<SelectOptionItem>
+				ref={inputRef}
 				inputProps={{
+					ref: (r) => (inputRef = r),
 					rounded: true,
 					class: "w-full",
 					disabled: isLoading(),
