@@ -52,8 +52,6 @@ export const useSnowfall = () => {
 		const amountOnScreen = (getValueFromRange(amountRange, amount, true) * screenSize) / 100;
 		const delay = (duration / amountOnScreen) * 1000;
 
-		console.log({ delay });
-
 		interval = setInterval(() => createSnowflake(duration), delay);
 	};
 
