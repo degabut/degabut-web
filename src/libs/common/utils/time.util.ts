@@ -4,6 +4,11 @@ import relative from "dayjs/plugin/relativeTime";
 dayjs.extend(relative);
 
 export class TimeUtil {
+	static isNearNewYear(): boolean {
+		const now = new Date();
+		return now.getMonth() === 11 || now.getMonth() === 0;
+	}
+
 	static getMonths(month: number): string {
 		const months = [
 			"January",

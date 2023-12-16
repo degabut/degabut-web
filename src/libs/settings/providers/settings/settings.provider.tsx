@@ -14,6 +14,9 @@ export type Settings = {
 	["discord.rpcClientId"]: string;
 	["discord.rpcClientSecret"]: string;
 	["app.drawerSize"]: number;
+	["app.snowfall.enabled"]: boolean;
+	["app.snowfall.amount"]: number;
+	["app.snowfall.speed"]: number;
 	["overlay.enabled"]: boolean;
 	["overlay.shortcut"]: string[];
 };
@@ -29,6 +32,9 @@ const defaultSettings: Settings = {
 	["discord.rpcClientId"]: "",
 	["discord.rpcClientSecret"]: "",
 	["app.drawerSize"]: 256,
+	["app.snowfall.enabled"]: true,
+	["app.snowfall.amount"]: 50,
+	["app.snowfall.speed"]: 50,
 	["overlay.enabled"]: true,
 	["overlay.shortcut"]: ["Control", "Shift", "B"],
 };

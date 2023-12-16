@@ -1,15 +1,16 @@
 import { useApp } from "@app/hooks";
 import { Button, Container, Divider, Text } from "@common/components";
+import { TimeUtil } from "@common/utils";
 import { APP_VERSION, DESKTOP_APP_VERSION, IS_DESKTOP } from "@constants";
 import { useDesktop } from "@desktop/hooks";
 import { useSettings } from "@settings/hooks";
 import { useNavigate } from "@solidjs/router";
 import { Accessor, Component, For, JSX, Show, onMount } from "solid-js";
-import { Item, KeybindItem, SwitchItem, TextItem } from "./components";
+import { Item, KeybindItem, SliderItem, SwitchItem, TextItem } from "./components";
 
 type SettingsCategory = {
 	label: string;
-	desktopOnly?: boolean;
+	show?: boolean;
 	items: SettingsItem[];
 };
 
@@ -32,6 +33,14 @@ type SettingsItem = {
 			type: "text" | "password";
 			value: Accessor<string>;
 			onChange: (v: string) => void;
+	  }
+	| {
+			type: "slider";
+			min: number;
+			max: number;
+			step?: number;
+			value: Accessor<number>;
+			onChange: (v: number) => void;
 	  }
 	| {
 			type: "element";
@@ -75,7 +84,7 @@ export const Settings: Component = () => {
 		},
 		{
 			label: "Discord",
-			desktopOnly: true,
+			show: IS_DESKTOP,
 			items: [
 				{
 					label: "Enable Rich Presence",
@@ -128,7 +137,7 @@ export const Settings: Component = () => {
 		},
 		{
 			label: "Overlay",
-			desktopOnly: true,
+			show: IS_DESKTOP,
 			items: [
 				{
 					label: "Enable Overlay",
@@ -144,6 +153,34 @@ export const Settings: Component = () => {
 				},
 			],
 		},
+		{
+			label: "❄ Snowfall ❄",
+			show: TimeUtil.isNearNewYear(),
+			items: [
+				{
+					label: "Enable Snowfall",
+					type: "switch",
+					value: () => settings["app.snowfall.enabled"],
+					onChange: () => setSettings("app.snowfall.enabled", (v) => !v),
+				},
+				{
+					label: "Snowfall Speed",
+					type: "slider",
+					min: 1,
+					max: 100,
+					value: () => settings["app.snowfall.speed"],
+					onChange: (v) => setSettings("app.snowfall.speed", v),
+				},
+				{
+					label: "Snowfall Amount",
+					type: "slider",
+					min: 1,
+					max: 100,
+					value: () => settings["app.snowfall.amount"],
+					onChange: (v) => setSettings("app.snowfall.amount", v),
+				},
+			],
+		},
 	];
 
 	return (
@@ -151,7 +188,7 @@ export const Settings: Component = () => {
 			<div class="flex flex-col space-y-8">
 				<For each={categories()}>
 					{(c) => (
-						<Show when={c.desktopOnly ? IS_DESKTOP : true}>
+						<Show when={"show" in c ? c.show : true}>
 							<div class="space-y-4">
 								<Text.Caption1 class="uppercase font-medium">{c.label}</Text.Caption1>
 								<For each={c.items.filter((i) => !i.hide)}>
@@ -160,6 +197,7 @@ export const Settings: Component = () => {
 											{i.type === "keybind" && <KeybindItem {...i} />}
 											{i.type === "switch" && <SwitchItem {...i} />}
 											{(i.type === "text" || i.type === "password") && <TextItem {...i} />}
+											{i.type === "slider" && <SliderItem {...i} />}
 											{i.type === "element" && <Item {...i}>{i.element()}</Item>}
 										</>
 									)}
