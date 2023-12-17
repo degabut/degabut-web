@@ -18,6 +18,7 @@ export const SliderItem: Component<Props> = (props) => {
 		<Item {...props}>
 			<Slider
 				class="accent-brand-700 h-1.5"
+				tooltip
 				value={props.value()}
 				onInput={throttledOnInput}
 				min={props.min}

@@ -53,6 +53,7 @@ export const VolumeSlider: Component<VolumeSliderProps> = (props) => {
 			<Slider
 				min={0}
 				max={200}
+				tooltip
 				value={isMuted() ? 0 : volumeLevel()}
 				onInput={onVolumeChange}
 				class="h-1 w-24 accent-brand-600"

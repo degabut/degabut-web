@@ -60,6 +60,7 @@ export const QueueSeekSlider: Component<Props> = (props) => {
 					style={{ background: backgroundStyle() }}
 					disabled={props.disabled}
 					min={0}
+					tooltip={(v) => TimeUtil.secondsToTime(Math.round(v))}
 					onInput={(v) => onInput(+v.currentTarget.value)}
 					onChange={(v) => onChange(+v.currentTarget.value)}
 					max={props.max}
