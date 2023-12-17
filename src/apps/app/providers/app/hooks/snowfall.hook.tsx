@@ -8,10 +8,11 @@ const createSnowflake = (duration: number) => {
 	const snowflake = document.createElement("div");
 	snowflake.classList.add("fixed", "top-0", "bg-white", "rounded-full", "z-50");
 
-	snowflake.style.left = Math.random() * window.innerWidth + "px";
+	snowflake.style.left = RandomUtil.randomInt(0, 100) + "%";
 	snowflake.style.opacity = RandomUtil.randomInt(5, 25) + "%";
 	snowflake.style.width = RandomUtil.randomInt(2, 6) + "px";
 	snowflake.style.height = snowflake.style.width;
+	snowflake.style.filter = `blur(${RandomUtil.randomInt(0, 4)}px)`;
 	document.body.appendChild(snowflake);
 
 	const randomDuration = RandomUtil.randomInt(duration, duration * 2);
@@ -22,7 +23,7 @@ const createSnowflake = (duration: number) => {
 	setTimeout(() => snowflake.remove(), randomDuration * 1000 + 500);
 };
 
-const amountRange = [1, 4] as const; // average amount per 100px screen width
+const amountRange = [0.5, 8] as const; // average amount per 100px screen width
 const durationRange = [2, 8] as const;
 
 const getValueFromRange = (range: readonly [number, number], value: number, reverse?: boolean) => {

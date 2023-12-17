@@ -33,7 +33,7 @@ const defaultSettings: Settings = {
 	["discord.rpcClientSecret"]: "",
 	["app.drawerSize"]: 256,
 	["app.snowfall.enabled"]: true,
-	["app.snowfall.amount"]: 50,
+	["app.snowfall.amount"]: 10,
 	["app.snowfall.speed"]: 50,
 	["overlay.enabled"]: true,
 	["overlay.shortcut"]: ["Control", "Shift", "B"],
