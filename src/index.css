@@ -68,3 +68,12 @@ input:focus {
 	@apply fixed w-screen h-screen;
 	@apply top-0 left-0;
 }
+
+@keyframes fall {
+	0% {
+		transform: translateY(0);
+	}
+	100% {
+		transform: translateY(100vh);
+	}
+}

@@ -4,27 +4,9 @@ import { RandomUtil } from "@common/utils/random.util";
 import { useSettings } from "@settings/hooks";
 import { createEffect, onCleanup } from "solid-js";
 
-const createSnowflake = (duration: number) => {
-	const snowflake = document.createElement("div");
-	snowflake.classList.add("fixed", "top-0", "bg-white", "rounded-full", "z-50");
-
-	snowflake.style.left = RandomUtil.randomInt(0, 100) + "%";
-	snowflake.style.opacity = RandomUtil.randomInt(5, 25) + "%";
-	snowflake.style.width = RandomUtil.randomInt(2, 6) + "px";
-	snowflake.style.height = snowflake.style.width;
-	snowflake.style.filter = `blur(${RandomUtil.randomInt(0, 4)}px)`;
-	document.body.appendChild(snowflake);
-
-	const randomDuration = RandomUtil.randomInt(duration, duration * 2);
-	setTimeout(() => {
-		snowflake.style.top = window.innerHeight + "px";
-		snowflake.style.transition = `top ${randomDuration}s linear`;
-	}, 0);
-	setTimeout(() => snowflake.remove(), randomDuration * 1000 + 500);
-};
-
 const amountRange = [0.5, 8] as const; // average amount per 100px screen width
 const durationRange = [2, 8] as const;
+const randomDurationMultiplier = 2;
 
 const getValueFromRange = (range: readonly [number, number], value: number, reverse?: boolean) => {
 	const [min, max] = range;
@@ -33,10 +15,49 @@ const getValueFromRange = (range: readonly [number, number], value: number, reve
 	return reverse ? min + rangeSize * percentage : max - rangeSize * percentage;
 };
 
+class Snowflake {
+	element: HTMLElement;
+	private duration: number;
+	private iterationCount: number;
+
+	constructor(duration: number, iterationCount: number) {
+		this.element = document.createElement("div");
+		this.element.classList.add("fixed", "top-0", "bg-white", "z-50", "rounded-full", "aspect-square");
+		this.duration = duration;
+		this.iterationCount = iterationCount;
+	}
+
+	start() {
+		this.element.style.left = RandomUtil.number(0, 100) + "%";
+		this.element.style.opacity = RandomUtil.number(5, 50) + "%";
+		this.element.style.width = RandomUtil.number(2, 6) + "px";
+		this.element.style.filter = `blur(${RandomUtil.number(0, 4)}px)`;
+
+		const randomDuration = RandomUtil.number(this.duration, this.duration * randomDurationMultiplier, 1);
+		this.element.style.animation = `fall ${randomDuration}s linear ${this.iterationCount || "infinite"}`;
+
+		this.element.onanimationend = () => this.reset();
+	}
+
+	private reset() {
+		this.element.style.animation = "none";
+		setTimeout(() => this.start());
+	}
+
+	stop() {
+		this.element.onanimationend = null;
+		this.element.style.transition = "opacity 1s linear";
+		this.element.style.opacity = "0%";
+
+		setTimeout(() => this.element.remove(), 1000);
+	}
+}
+
 export const useSnowfall = () => {
 	if (!TimeUtil.isNearNewYear()) return;
 
-	let interval: NodeJS.Timer;
+	const snowflakePool: Snowflake[] = [];
+	let createInterval: NodeJS.Timeout | null = null;
 	const { settings } = useSettings();
 	const screen = useScreen();
 
@@ -47,16 +68,32 @@ export const useSnowfall = () => {
 	});
 
 	const start = (amount: number, speed: number, screenSize: number) => {
-		if (interval) stop();
+		stop();
 
 		const duration = getValueFromRange(durationRange, speed);
-		const amountOnScreen = (getValueFromRange(amountRange, amount, true) * screenSize) / 100;
-		const delay = (duration / amountOnScreen) * 1000;
 
-		interval = setInterval(() => createSnowflake(duration), delay);
+		const randomMultiplier = (1 + randomDurationMultiplier) / 2;
+		const amountOnScreen = ((getValueFromRange(amountRange, amount, true) * screenSize) / 100) * randomMultiplier;
+
+		const complexity = (amount * 1.25 + speed * 0.75) / 2;
+		const iteration = complexity > 50 ? 0 : complexity > 50 ? 2 : 1;
+
+		let i = 0;
+		createInterval = setInterval(() => {
+			i++;
+			const snowflake = new Snowflake(duration, iteration);
+			snowflakePool.push(snowflake);
+			document.body.appendChild(snowflake.element);
+			snowflake.start();
+
+			if (i >= amountOnScreen && createInterval) clearInterval(createInterval);
+		}, ((duration * randomMultiplier) / amountOnScreen) * 1000);
 	};
 
-	const stop = () => clearInterval(interval);
+	const stop = () => {
+		if (createInterval) clearInterval(createInterval);
+		for (const snowflake of snowflakePool) snowflake.stop();
+	};
 
 	onCleanup(stop);
 };
