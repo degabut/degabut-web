@@ -53,7 +53,7 @@ export const Slider: Component<Props> = (props) => {
 			<Show when={isDragging() && props.tooltip}>
 				<Text.Caption2
 					ref={tooltipRef}
-					class="fixed bg-neutral-600 px-2 py-0.5 rounded text-neutral-100 !m-0"
+					class="fixed bg-neutral-700 px-1.5 py-0.5 rounded !text-neutral-100 !m-0"
 					style={{
 						left: `${tooltipPosition().x}px`,
 						top: `calc(${tooltipPosition().y}px - 2rem)`,
