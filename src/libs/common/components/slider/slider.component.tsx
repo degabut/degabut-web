@@ -2,6 +2,8 @@ import { Component, JSX, Show, createEffect, createSignal } from "solid-js";
 import { Text } from "../text";
 
 type Props = JSX.InputHTMLAttributes<HTMLInputElement> & {
+	min: number;
+	max: number;
 	tooltip?: boolean | ((value: number) => JSX.Element);
 };
 
@@ -32,8 +34,13 @@ export const Slider: Component<Props> = (props) => {
 	const onMouseMove = (e: MouseEvent) => {
 		const tooltipRect = tooltipRef.getBoundingClientRect();
 		const inputRect = inputRef.getBoundingClientRect();
-		const valueRatio = (e.target as HTMLInputElement).valueAsNumber / (props.max ? +props.max : 100);
 		const halfThumbWidth = 8;
+
+		const value = (e.target as HTMLInputElement).valueAsNumber;
+		const step = props.step ? +props.step : 1;
+		const totalSteps = (props.max - props.min) / step;
+		const valueSteps = (value - props.min) / step;
+		const valueRatio = valueSteps / totalSteps;
 
 		let x = inputRect.left + halfThumbWidth + (inputRect.width - halfThumbWidth) * valueRatio - halfThumbWidth;
 		if (x + tooltipRect.width > window.innerWidth) x = window.innerWidth - tooltipRect.width;
