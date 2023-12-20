@@ -79,6 +79,19 @@ export const Settings: Component = () => {
 			],
 		},
 		{
+			label: "Appearance",
+			items: [
+				{
+					label: "Zoom",
+					type: "slider",
+					min: 12,
+					max: 24,
+					value: () => settings["app.textSize"],
+					onChange: (v) => setSettings("app.textSize", v),
+				},
+			],
+		},
+		{
 			label: "Discord",
 			show: IS_DESKTOP,
 			items: [

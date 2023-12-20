@@ -14,6 +14,7 @@ export type Settings = {
 	["discord.rpcClientId"]: string;
 	["discord.rpcClientSecret"]: string;
 	["app.drawerSize"]: number;
+	["app.textSize"]: number;
 	["app.snowfall.enabled"]: boolean;
 	["app.snowfall.amount"]: number;
 	["app.snowfall.speed"]: number;
@@ -32,6 +33,7 @@ const defaultSettings: Settings = {
 	["discord.rpcClientId"]: "",
 	["discord.rpcClientSecret"]: "",
 	["app.drawerSize"]: 256,
+	["app.textSize"]: 16,
 	["app.snowfall.enabled"]: true,
 	["app.snowfall.amount"]: 10,
 	["app.snowfall.speed"]: 50,

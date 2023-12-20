@@ -4,7 +4,7 @@ import { AddPlaylistVideoModal } from "@playlist/components";
 import { IVideoCompact } from "@youtube/apis";
 import { Accessor, JSX, ParentComponent, Setter, createContext, createSignal } from "solid-js";
 import { ConfirmationModal, QuickSearchModal } from "./components";
-import { useCatJam, useSnowfall } from "./hooks";
+import { useCatJam, useSnowfall, useZoom } from "./hooks";
 
 type Confirmation = {
 	title: string;
@@ -32,6 +32,7 @@ export const AppContext = createContext<AppContextStore>({
 export const AppProvider: ParentComponent = (props) => {
 	useSnowfall();
 	useCatJam();
+	useZoom();
 
 	const [title, setTitle] = createSignal("");
 	const [videoPlaylist, setVideoPlaylist] = createSignal<null | IVideoCompact>(null);
