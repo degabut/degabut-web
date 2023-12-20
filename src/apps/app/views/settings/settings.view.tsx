@@ -14,34 +14,30 @@ type SettingsCategory = {
 	items: SettingsItem[];
 };
 
+type SettingsItemParams<Type, ValueType, Extra = object> = {
+	type: Type;
+	value: Accessor<ValueType>;
+	onChange?: (v: ValueType) => void;
+} & Extra;
+
 type SettingsItem = {
 	label: string;
 	description?: string;
 	hide?: boolean;
 } & (
-	| {
-			type: "switch";
-			value: Accessor<boolean>;
-			onChange: (v: boolean) => void;
-	  }
-	| {
-			type: "keybind";
-			value: Accessor<string[]>;
-			onChange: (v: string[]) => void;
-	  }
-	| {
-			type: "text" | "password";
-			value: Accessor<string>;
-			onChange: (v: string) => void;
-	  }
-	| {
-			type: "slider";
-			min: number;
-			max: number;
-			step?: number;
-			value: Accessor<number>;
-			onChange: (v: number) => void;
-	  }
+	| SettingsItemParams<"switch", boolean>
+	| SettingsItemParams<"keybind", string[]>
+	| SettingsItemParams<"text" | "password", string>
+	| SettingsItemParams<
+			"slider",
+			number,
+			{
+				onInput?: (v: number) => void;
+				min: number;
+				max: number;
+				step?: number;
+			}
+	  >
 	| {
 			type: "element";
 			element: Accessor<JSX.Element>;
@@ -169,7 +165,7 @@ export const Settings: Component = () => {
 					min: 1,
 					max: 100,
 					value: () => settings["app.snowfall.speed"],
-					onChange: (v) => setSettings("app.snowfall.speed", v),
+					onInput: (v) => setSettings("app.snowfall.speed", v),
 				},
 				{
 					label: "Snowfall Amount",
@@ -177,7 +173,7 @@ export const Settings: Component = () => {
 					min: 1,
 					max: 100,
 					value: () => settings["app.snowfall.amount"],
-					onChange: (v) => setSettings("app.snowfall.amount", v),
+					onInput: (v) => setSettings("app.snowfall.amount", v),
 				},
 			],
 		},

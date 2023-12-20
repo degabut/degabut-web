@@ -9,7 +9,7 @@ export type BaseProps = {
 
 export type ValueProps<T> = BaseProps & {
 	value: Accessor<T>;
-	onChange: (value: T) => void;
+	onChange?: (value: T) => void;
 };
 
 export const Item: ParentComponent<BaseProps> = (props) => {
