@@ -56,7 +56,8 @@ class Snowflake {
 export const useSnowfall = () => {
 	if (!TimeUtil.isNearNewYear()) return;
 
-	const snowflakePool: Snowflake[] = [];
+	let container: HTMLElement | null = null;
+	let snowflakePool: Snowflake[] = [];
 	let createInterval: NodeJS.Timeout | null = null;
 	const { settings } = useSettings();
 	const screen = useScreen();
@@ -69,6 +70,11 @@ export const useSnowfall = () => {
 
 	const start = (amount: number, speed: number, screenSize: number) => {
 		stop();
+
+		if (!container) {
+			container = document.createElement("div");
+			document.getElementById("root")?.appendChild(container);
+		}
 
 		const duration = getValueFromRange(durationRange, speed);
 
@@ -83,7 +89,7 @@ export const useSnowfall = () => {
 			i++;
 			const snowflake = new Snowflake(duration, iteration);
 			snowflakePool.push(snowflake);
-			document.body.appendChild(snowflake.element);
+			container?.appendChild(snowflake.element);
 			snowflake.start();
 
 			if (i >= amountOnScreen && createInterval) clearInterval(createInterval);
@@ -93,7 +99,11 @@ export const useSnowfall = () => {
 	const stop = () => {
 		if (createInterval) clearInterval(createInterval);
 		for (const snowflake of snowflakePool) snowflake.stop();
+		snowflakePool = [];
 	};
 
-	onCleanup(stop);
+	onCleanup(() => {
+		stop();
+		container?.remove();
+	});
 };
