@@ -28,7 +28,7 @@ class Snowflake {
 	}
 
 	start() {
-		this.element.style.left = RandomUtil.number(0, 100) + "%";
+		this.element.style.left = RandomUtil.number(0, 100, 2) + "%";
 		this.element.style.opacity = RandomUtil.number(5, 50) + "%";
 		this.element.style.width = RandomUtil.number(2, 6) + "px";
 		this.element.style.filter = `blur(${RandomUtil.number(0, 4)}px)`;
