@@ -1,4 +1,4 @@
-import { Button, Divider, Icon, Item, Modal, RouterLink, Text } from "@common/components";
+import { Button, Divider, Icon, Item, Modal, Text } from "@common/components";
 import { TimeUtil } from "@common/utils";
 import { useQueue } from "@queue/hooks";
 import { useNavigate } from "@solidjs/router";
@@ -43,27 +43,27 @@ export const QueueInfo: Component = () => {
 
 				<Divider vertical />
 
-				<div class="flex-row-center space-x-1.5">
-					<Button flat class="w-8 h-8" onClick={() => setIsListenersModalOpen(true)}>
-						<Icon name="people" size="lg" class="fill-neutral-500 mx-auto" />
-					</Button>
+				<Button
+					class="flex-row-center space-x-1.5 px-2 py-1"
+					flat
+					onClick={() => setIsListenersModalOpen(true)}
+				>
+					<Icon name="people" size="lg" class="fill-neutral-500 mx-auto" />
 
 					<div class="flex-row-center overflow-x-clip -space-x-2">
 						<For each={queue.data.voiceChannel?.members || []}>
 							{(member) => (
-								<RouterLink href={`/recommendation/${member.id}`}>
-									<div class="rounded-full w-8 h-8 border-neutral-900 border-2">
-										<img
-											title={member.displayName}
-											class="rounded-full"
-											src={member.avatar || "/img/avatar.png"}
-										/>
-									</div>
-								</RouterLink>
+								<div class="rounded-full w-7 h-7 border-neutral-900 border-2">
+									<img
+										title={member.displayName}
+										class="rounded-full"
+										src={member.avatar || "/img/avatar.png"}
+									/>
+								</div>
 							)}
 						</For>
 					</div>
-				</div>
+				</Button>
 			</div>
 
 			<Modal
