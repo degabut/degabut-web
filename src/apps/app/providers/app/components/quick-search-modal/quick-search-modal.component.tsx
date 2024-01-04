@@ -1,12 +1,14 @@
 import { useApp } from "@app/hooks";
 import { Icon, KeyboardHint, Modal, Select } from "@common/components";
 import { useSearchable } from "@common/hooks";
+import { MediaSource } from "@media-source/components";
+import { MediaSourceContextMenuUtil, MediaSourceFactory } from "@media-source/utils";
 import { PlaylistConfirmationUtil } from "@playlist/utils";
 import { ITrack } from "@queue/apis";
 import { useQueue } from "@queue/hooks";
 import { useNavigate } from "@solidjs/router";
 import { IVideoCompact, IYouTubePlaylistCompact } from "@youtube/apis";
-import { Video, YouTubePlaylist } from "@youtube/components";
+import { YouTubePlaylist } from "@youtube/components";
 import { useSearch } from "@youtube/hooks";
 import { YouTubeContextMenuUtil } from "@youtube/utils";
 import { Component, Show, createSignal } from "solid-js";
@@ -42,12 +44,10 @@ export const QuickSearchModal: Component<Props> = (props) => {
 		addToQueue();
 	};
 
-	const onSelect = async (item: SelectOptionItem, _: number, e?: KeyboardEvent | MouseEvent) => {
+	const onSelect = async (item: SelectOptionItem) => {
 		if ("requestedBy" in item) navigate("/queue");
 		else if ("duration" in item) {
-			// video
-			if (queue.data.empty || e?.shiftKey) navigate("/video/" + item.id);
-			else await addToQueue(item);
+			if (!queue.data.empty) await addToQueue(item);
 		} else {
 			// playlist
 			app.setConfirmation(PlaylistConfirmationUtil.addPlaylistConfirmation(item, () => addToQueue(item)));
@@ -59,8 +59,8 @@ export const QuickSearchModal: Component<Props> = (props) => {
 		setIsLoading(true);
 
 		if (item) {
-			if ("duration" in item) await queue.addTrackById(item.id);
-			else await queue.addYouTubePlaylist(item.id);
+			if ("duration" in item) await queue.addTrackById(`youtube/${item.id}`);
+			else if ("videoCount" in item) await queue.addYouTubePlaylist(item.id);
 		} else {
 			await queue.addTrackByKeyword(search.keyword());
 		}
@@ -73,9 +73,9 @@ export const QuickSearchModal: Component<Props> = (props) => {
 	const tracks = useSearchable({
 		keyword: search.keyword,
 		items: () => queue.data.tracks || [],
-		keys: ({ video, requestedBy }) => {
-			const keys = [video.title, requestedBy.displayName, requestedBy.nickname, requestedBy.username];
-			if (video.channel) keys.push(video.channel.name);
+		keys: ({ mediaSource, requestedBy }) => {
+			const keys = [mediaSource.title, requestedBy.displayName, requestedBy.nickname, requestedBy.username];
+			if (mediaSource.creator) keys.push(mediaSource.creator);
 			return keys;
 		},
 		returnEmptyOnEmptyKeyword: true,
@@ -111,7 +111,6 @@ export const QuickSearchModal: Component<Props> = (props) => {
 						<Show when={search.result().length}>
 							<div class="flex flex-row justify-between px-4 text-sm">
 								<KeyboardHint keys={["↑", "↓"]} label="Navigate" />
-								<KeyboardHint combination={["Shift", "Enter"]} label="Open" />
 								<Show when={!queue.data.empty}>
 									<KeyboardHint key="Enter" label="Add to Queue" />
 								</Show>
@@ -121,15 +120,17 @@ export const QuickSearchModal: Component<Props> = (props) => {
 				>
 					{(item, isSelected) => {
 						const extraContainerClass = { "!bg-white/10": isSelected };
-						if ("video" in item || "duration" in item) {
-							const video = "video" in item ? item.video : item;
+
+						if ("mediaSource" in item || "duration" in item) {
+							const mediaSource =
+								"mediaSource" in item ? item.mediaSource : MediaSourceFactory.fromYoutubeVideo(item);
 							return (
-								<Video.List
-									video={video}
-									inQueue={queue.data.tracks?.some((t) => t.video.id === video.id)}
+								<MediaSource.List
+									mediaSource={mediaSource}
+									inQueue={queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id)}
 									onClick={() => {}} // TODO
-									contextMenu={YouTubeContextMenuUtil.getVideoContextMenu({
-										video,
+									contextMenu={MediaSourceContextMenuUtil.getContextMenu({
+										mediaSource,
 										appStore: app,
 										queueStore: queue,
 										navigate,

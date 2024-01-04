@@ -13,21 +13,21 @@ export const PlayerCard: Component = () => {
 		<Card>
 			<div class="grow flex-col-center justify-end space-y-6 h-full">
 				<Show when={queue.data.nowPlaying} keyed>
-					{({ video }) => (
+					{({ mediaSource }) => (
 						<>
 							<img
-								src={video.thumbnails.at(-1)?.url || ""}
+								src={mediaSource.maxThumbnailUrl || ""}
 								class="grow h-12 max-h-96 object-cover rounded"
 							/>
 
 							<div class="flex-col-center w-full text-shadow space-y-2 text-center">
 								<Text.H1 truncate class="w-full text-2xl text-shadow">
-									{video.title}
+									{mediaSource.title}
 								</Text.H1>
-								<Show when={video.channel} keyed>
-									{(channel) => (
+								<Show when={mediaSource.creator} keyed>
+									{(c) => (
 										<Text.Body2 truncate class="w-full">
-											{channel.name}
+											{c}
 										</Text.Body2>
 									)}
 								</Show>
@@ -38,7 +38,7 @@ export const PlayerCard: Component = () => {
 
 				<QueueSeekSlider
 					disabled={queue.freezeState.seek}
-					max={queue.data.nowPlaying?.video.duration || 0}
+					max={queue.data.nowPlaying?.mediaSource.duration || 0}
 					onChange={(value) => queue.seek(value * 1000)}
 					value={(queue.data.position || 0) / 1000}
 				/>

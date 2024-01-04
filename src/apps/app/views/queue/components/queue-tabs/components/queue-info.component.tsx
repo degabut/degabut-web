@@ -27,7 +27,9 @@ export const QueueInfo: Component = () => {
 	const [isListenersModalOpen, setIsListenersModalOpen] = createSignal(false);
 
 	const queueDuration = () => {
-		return TimeUtil.secondsToTime(queue.data.tracks?.reduce((curr, { video }) => curr + video.duration, 0) || 0);
+		return TimeUtil.secondsToTime(
+			queue.data.tracks?.reduce((curr, { mediaSource }) => curr + mediaSource.duration, 0) || 0
+		);
 	};
 
 	return (

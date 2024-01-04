@@ -114,6 +114,7 @@ export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, em
 			return history;
 		});
 		lastTrackSeekedPosition = -1;
+		setNowPlaying(track);
 		setQueue("nowPlaying", "playedAt", new Date().toISOString());
 		setFreezeState({ seek: false });
 	};

@@ -1,6 +1,6 @@
 import { Divider, Item, Modal, Text } from "@common/components";
+import { DurationBadge } from "@media-source/components/media/components";
 import { IChapter } from "@youtube/apis";
-import { DurationBadge } from "@youtube/components/video/components";
 import { Component, For } from "solid-js";
 
 type ChaptersModalProps = {

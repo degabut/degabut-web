@@ -1,11 +1,11 @@
 import { useApp } from "@app/hooks";
 import { RouterLink } from "@common/components";
+import { MediaSource } from "@media-source/components";
+import { MediaSourceContextMenuUtil } from "@media-source/utils";
 import { QueueActions, QueueButton, QueueSeekSlider, VolumeSlider } from "@queue/components";
 import { useQueue } from "@queue/hooks";
 import { useSettings } from "@settings/hooks";
 import { useNavigate } from "@solidjs/router";
-import { Video } from "@youtube/components";
-import { YouTubeContextMenuUtil } from "@youtube/utils";
 import { Component, Show } from "solid-js";
 
 const EmptyNowPlaying: Component = () => {
@@ -32,12 +32,12 @@ export const QueuePlayer: Component = () => {
 				<div class="relative overflow-hidden rounded text-shadow w-full max-w-md xl:max-w-lg">
 					<Show when={queue.data.nowPlaying} fallback={<EmptyNowPlaying />} keyed>
 						{(t) => (
-							<Video.List
-								video={t.video}
+							<MediaSource.List
+								mediaSource={t.mediaSource}
 								onClick={() => navigate("/queue")}
 								hideContextMenuButton
-								contextMenu={YouTubeContextMenuUtil.getVideoContextMenu({
-									video: t.video,
+								contextMenu={MediaSourceContextMenuUtil.getContextMenu({
+									mediaSource: t.mediaSource,
 									appStore: app,
 									queueStore: queue,
 									navigate,
@@ -52,7 +52,7 @@ export const QueuePlayer: Component = () => {
 						<QueueActions extraClass="justify-center space-x-6" />
 						<QueueSeekSlider
 							disabled={queue.freezeState.seek}
-							max={queue.data.nowPlaying?.video.duration || 0}
+							max={queue.data.nowPlaying?.mediaSource.duration || 0}
 							value={(queue.data.position || 0) / 1000}
 							onChange={(value) => queue.seek(value * 1000)}
 						/>

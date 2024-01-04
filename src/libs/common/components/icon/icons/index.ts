@@ -14,6 +14,8 @@ export { default as heartBroken } from "./heart-broken.svg";
 export { default as heartLine } from "./heart-line.svg";
 export { default as heart } from "./heart.svg";
 export { default as history } from "./history-line.svg";
+export { default as linkExternal } from "./link-external.svg";
+export { default as link } from "./link.svg";
 export { default as list } from "./list-square-bullet.svg";
 export { default as loopOne } from "./loop-one.svg";
 export { default as loop } from "./loop.svg";

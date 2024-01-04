@@ -39,6 +39,10 @@
 			"@user/*": ["./src/libs/user/*"],
 			"@settings": ["./src/libs/settings"],
 			"@settings/*": ["./src/libs/settings/*"],
+			"@media-source": ["./src/libs/media-source"],
+			"@media-source/*": ["./src/libs/media-source/*"],
+			"@spotify": ["./src/libs/spotify"],
+			"@spotify/*": ["./src/libs/spotify/*"],
 			"@constants": ["./src/constants"]
 		}
 	}

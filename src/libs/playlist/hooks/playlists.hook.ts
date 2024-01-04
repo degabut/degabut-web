@@ -17,9 +17,9 @@ export const usePlaylists = () => {
 		await refetch();
 	};
 
-	const addPlaylistVideo = async (playlistId: string, videoId: string) => {
-		await playlistApi.addPlaylistVideo(playlistId, videoId);
+	const addPlaylistMediaSource = async (playlistId: string, mediaSourceId: string) => {
+		await playlistApi.addPlaylistMediaSource(playlistId, mediaSourceId);
 	};
 
-	return { data, refetch, mutate, createPlaylist, deletePlaylist, addPlaylistVideo };
+	return { data, refetch, mutate, createPlaylist, deletePlaylist, addPlaylistMediaSource };
 };

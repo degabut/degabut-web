@@ -4,7 +4,7 @@ import { Component } from "solid-js";
 type Props = {
 	name: string;
 	onClickEdit: () => void;
-	videoCount: number;
+	itemCount: number;
 	duration: number;
 };
 
@@ -24,9 +24,9 @@ export const MainPlaylist: Component<Props> = (props) => {
 		return duration;
 	};
 
-	const videoCount = () => {
-		const count = props.videoCount;
-		return count + (count === 1 ? " video" : " videos");
+	const itemCount = () => {
+		const count = props.itemCount;
+		return count + (count === 1 ? " track" : " tracks");
 	};
 
 	return (
@@ -41,7 +41,7 @@ export const MainPlaylist: Component<Props> = (props) => {
 					<Button icon="editPencil" iconSize="md" flat rounded onClick={() => props.onClickEdit()} />
 				</div>
 				<div class="flex md:flex-row space-x-8">
-					<Text.Body1>{videoCount()}</Text.Body1>
+					<Text.Body1>{itemCount()}</Text.Body1>
 					<Text.Body1>{duration()}</Text.Body1>
 				</div>
 			</div>

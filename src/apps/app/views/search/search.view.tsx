@@ -1,9 +1,11 @@
 import { useApp } from "@app/hooks";
 import { Container, Icon, Input, Item } from "@common/components";
 import { useScreen } from "@common/hooks";
+import { MediaSource } from "@media-source/components";
+import { MediaSourceContextMenuUtil, MediaSourceFactory } from "@media-source/utils";
 import { useQueue } from "@queue/hooks";
 import { useNavigate, useSearchParams } from "@solidjs/router";
-import { Video, YouTubePlaylist } from "@youtube/components";
+import { YouTubePlaylist } from "@youtube/components";
 import { useSearch } from "@youtube/hooks";
 import { YouTubeContextMenuUtil } from "@youtube/utils";
 import { Component, For, Show, onMount } from "solid-js";
@@ -59,31 +61,36 @@ export const Search: Component = () => {
 			<div class="lg:space-y-8 space-y-1.5">
 				<Show when={!search.isLoading()} fallback={<SearchResultSkeleton isSmall={!screen.gte.md} />}>
 					<For each={search.result()}>
-						{(item) =>
-							"duration" in item ? (
-								<Video.ListResponsive
-									big={screen.gte.lg}
-									video={item}
-									inQueue={queue.data.tracks?.some((t) => t.video.id === item.id)}
-									contextMenu={YouTubeContextMenuUtil.getVideoContextMenu({
-										video: item,
-										appStore: app,
-										queueStore: queue,
-										navigate,
-									})}
-								/>
-							) : (
-								<YouTubePlaylist.ListResponsive
-									big={screen.gte.lg}
-									playlist={item}
-									contextMenu={YouTubeContextMenuUtil.getPlaylistContextMenu({
-										appStore: app,
-										queueStore: queue,
-										playlist: item,
-									})}
-								/>
-							)
-						}
+						{(item) => {
+							if ("duration" in item) {
+								const mediaSource = MediaSourceFactory.fromYoutubeVideo(item);
+								return (
+									<MediaSource.ListResponsive
+										big={screen.gte.lg}
+										mediaSource={mediaSource}
+										inQueue={queue.data.tracks?.some((t) => t.mediaSource.id === item.id)}
+										contextMenu={MediaSourceContextMenuUtil.getContextMenu({
+											mediaSource,
+											appStore: app,
+											queueStore: queue,
+											navigate,
+										})}
+									/>
+								);
+							} else {
+								return (
+									<YouTubePlaylist.ListResponsive
+										big={screen.gte.lg}
+										playlist={item}
+										contextMenu={YouTubeContextMenuUtil.getPlaylistContextMenu({
+											appStore: app,
+											queueStore: queue,
+											playlist: item,
+										})}
+									/>
+								);
+							}
+						}}
 					</For>
 				</Show>
 			</div>

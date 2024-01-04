@@ -1,8 +1,8 @@
 import { useApp } from "@app/hooks";
+import { MediaSourceListProps, MediaSources } from "@media-source/components";
+import { MediaSourceContextMenuUtil } from "@media-source/utils";
 import { ITrack } from "@queue/apis";
 import { useQueue } from "@queue/hooks";
-import { VideoListProps, Videos } from "@youtube/components";
-import { YouTubeContextMenuUtil } from "@youtube/utils";
 import { Component, Show } from "solid-js";
 import { Card } from "../../../components";
 
@@ -10,14 +10,14 @@ export const TracksCard: Component = () => {
 	const queue = useQueue();
 	const app = useApp();
 
-	const videoProps = (t: ITrack) => {
+	const mediaSourceProps = (t: ITrack) => {
 		const isActive = queue.data.nowPlaying?.id === t.id;
-		const videoProps: VideoListProps = {
-			video: t.video,
+		const mediaSourceProps: MediaSourceListProps = {
+			mediaSource: t.mediaSource,
 			requestedBy: t.requestedBy,
 			extraTitleClass: isActive ? "!text-brand-600" : undefined,
-			contextMenu: YouTubeContextMenuUtil.getVideoContextMenu({
-				video: t.video,
+			contextMenu: MediaSourceContextMenuUtil.getContextMenu({
+				mediaSource: t.mediaSource,
 				queueStore: queue,
 				appStore: app,
 				modify: (c) => {
@@ -29,7 +29,7 @@ export const TracksCard: Component = () => {
 
 		return {
 			id: t.id,
-			videoProps,
+			mediaSourceProps,
 		};
 	};
 
@@ -39,11 +39,11 @@ export const TracksCard: Component = () => {
 				<Show when={queue.data.tracks} keyed>
 					{(tracks) => (
 						<div classList={{ "opacity-50 pointer-events-none": queue.freezeState.track }}>
-							<Videos.SortableList
+							<MediaSources.SortableList
 								dense
 								data={tracks}
 								onSort={({ to }, data) => queue.changeTrackOrder(data.id, to)}
-								sortableProps={videoProps}
+								sortableProps={mediaSourceProps}
 							/>
 						</div>
 					)}

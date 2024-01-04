@@ -16,18 +16,18 @@ const TabContent: Component<{ month: IMonthly }> = (props) => {
 			</div>
 
 			<Show when={props.month.mostPlayed} keyed>
-				{({ video, count }) => (
+				{({ mediaSource, count }) => (
 					<div class="flex-col-center space-y-3">
 						<Text.H2>Top Song</Text.H2>
 						<img
-							src={video.thumbnails.at(0)?.url}
-							alt={video.title}
+							src={mediaSource.maxThumbnailUrl}
+							alt={mediaSource.title}
 							class="w-24 aspect-square object-cover"
 						/>
 						<div class="text-center w-full truncate">
-							<Text.H3 class="truncate">{video.title}</Text.H3>
+							<Text.H3 class="truncate">{mediaSource.title}</Text.H3>
 							<Text.Body2>
-								Played {count} times - {video.channel?.name}
+								Played {count} times - {mediaSource.creator}
 							</Text.Body2>
 						</div>
 					</div>

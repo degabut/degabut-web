@@ -1,4 +1,4 @@
-import { IVideoCompact } from "@youtube/apis";
+import { IMediaSource } from "@media-source/apis";
 import { AxiosInstance } from "axios";
 
 export enum LoopMode {
@@ -51,7 +51,7 @@ export interface IMember {
 
 export interface ITrack {
 	id: string;
-	video: IVideoCompact;
+	mediaSource: IMediaSource;
 	requestedBy: IGuildMember;
 	playedAt: string | null;
 }
@@ -86,8 +86,18 @@ export class QueueApi {
 		return response.data.trackIds;
 	};
 
-	addTrackByVideoId = async (queueId: string, videoId: string): Promise<string> => {
-		const response = await this.client.post(`/queues/${queueId}/tracks`, { videoId });
+	addSpotifyPlaylist = async (queueId: string, spotifyPlaylistId: string): Promise<string[]> => {
+		const response = await this.client.post(`/queues/${queueId}/tracks`, { spotifyPlaylistId });
+		return response.data.trackIds;
+	};
+
+	addSpotifyAlbum = async (queueId: string, spotifyAlbumId: string): Promise<string[]> => {
+		const response = await this.client.post(`/queues/${queueId}/tracks`, { spotifyAlbumId });
+		return response.data.trackIds;
+	};
+
+	addTrackById = async (queueId: string, mediaSourceId: string): Promise<string> => {
+		const response = await this.client.post(`/queues/${queueId}/tracks`, { mediaSourceId });
 		return response.data.trackId;
 	};
 

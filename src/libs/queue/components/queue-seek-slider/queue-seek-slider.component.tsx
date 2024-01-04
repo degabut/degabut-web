@@ -49,7 +49,7 @@ export const QueueSeekSlider: Component<Props> = (props) => {
 					}}
 				>
 					<div
-						class="absolute w-full bg-brand-500 h-0.5"
+						class="absolute w-full bg-brand-500 h-0.5 max-w-full"
 						style={{ width: `${props.max > 0 ? (value() / props.max) * 100 : 0}%` }}
 					/>
 				</div>

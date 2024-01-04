@@ -1,6 +1,6 @@
 import { useApi } from "@common/hooks";
+import { IMediaSource } from "@media-source/apis";
 import { ITrack, LoopMode, PlayerApi, QueueApi } from "@queue/apis";
-import { IVideoLike } from "@youtube/apis";
 import { AxiosError } from "axios";
 import { SetStoreFunction } from "solid-js/store";
 import { FreezeState, QueueResource } from "../";
@@ -58,23 +58,23 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 		);
 	};
 
-	const addTrack = (video: IVideoLike) => {
-		return modifyTrack((queueId) => queueApi.addTrackByVideoId(queueId, video.id));
+	const addTrack = (mediaSource: IMediaSource) => {
+		return modifyTrack((queueId) => queueApi.addTrackById(queueId, mediaSource.id));
 	};
 
-	const addTrackById = (videoId: string) => {
-		return modifyTrack((queueId) => queueApi.addTrackByVideoId(queueId, videoId));
+	const addTrackById = (mediaSourceId: string) => {
+		return modifyTrack((queueId) => queueApi.addTrackById(queueId, mediaSourceId));
 	};
 
 	const addTrackByKeyword = (keyword: string) => {
 		return modifyTrack((queueId) => queueApi.addTrackByKeyword(queueId, keyword));
 	};
 
-	const addAndPlayTrack = (video: IVideoLike) => {
+	const addAndPlayTrack = (mediaSource: IMediaSource) => {
 		return modifyTrack(async (queueId) => {
-			const trackId =
-				queue.tracks?.find((t) => t.video.id === video.id)?.id ||
-				(await queueApi.addTrackByVideoId(queueId, video.id));
+			let trackId = queue.tracks?.find((t) => t.mediaSource.id === mediaSource.id)?.id;
+			if (!trackId) trackId = await queueApi.addTrackById(queueId, mediaSource.id);
+
 			try {
 				await queueApi.playTrack(queueId, trackId);
 				if (queue.isPaused) await playerApi.unpause(queueId);
@@ -90,6 +90,14 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 
 	const addYouTubePlaylist = (youtubePlaylistId: string) => {
 		return modifyTrack((queueId) => queueApi.addYouTubePlaylist(queueId, youtubePlaylistId));
+	};
+
+	const addSpotifyPlaylist = (spotifyPlaylistId: string) => {
+		return modifyTrack((queueId) => queueApi.addSpotifyPlaylist(queueId, spotifyPlaylistId));
+	};
+
+	const addSpotifyAlbum = (spotifyAlbumId: string) => {
+		return modifyTrack((queueId) => queueApi.addSpotifyAlbum(queueId, spotifyAlbumId));
 	};
 
 	const clear = () => {
@@ -156,6 +164,8 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 		addAndPlayTrack,
 		addPlaylist,
 		addYouTubePlaylist,
+		addSpotifyPlaylist,
+		addSpotifyAlbum,
 		seek,
 		clear,
 		join,

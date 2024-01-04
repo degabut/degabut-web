@@ -1,10 +1,10 @@
 import { useApp } from "@app/hooks";
 import { Button, Icon, Icons, KeyboardHint, Text } from "@common/components";
 import { useInfiniteScrolling, useScreen } from "@common/hooks";
+import { MediaSources } from "@media-source/components";
+import { MediaSourceContextMenuUtil } from "@media-source/utils";
 import { useQueue } from "@queue/hooks";
 import { useNavigate } from "@solidjs/router";
-import { Videos } from "@youtube/components";
-import { YouTubeContextMenuUtil } from "@youtube/utils";
 import { Accessor, Component, JSX } from "solid-js";
 import { useQueueRecommendation } from "../hooks";
 
@@ -77,15 +77,15 @@ export const QueueHint: Component = () => {
 			<div class="space-y-2" ref={containerElement}>
 				<Text.Body1 class="font-medium">Recommendation</Text.Body1>
 
-				<Videos.List
-					data={recommendation.videos()}
+				<MediaSources.List
+					data={recommendation.mediaSources()}
 					showWhenLoading
 					isLoading={recommendation.isLoading() || recommendation.related.data.loading}
-					videoProps={(video) => ({
-						video,
+					mediaSourceProps={(mediaSource) => ({
+						mediaSource,
 						hideContextMenuButton: true,
-						contextMenu: YouTubeContextMenuUtil.getVideoContextMenu({
-							video,
+						contextMenu: MediaSourceContextMenuUtil.getContextMenu({
+							mediaSource,
 							appStore: app,
 							queueStore: queue,
 							navigate,
@@ -98,7 +98,7 @@ export const QueueHint: Component = () => {
 								class="shrink-0 justify-center w-10 h-10 ml-1.5 border-neutral-500 text-neutral-400 hover:!bg-transparent"
 								onClick={(ev) => {
 									ev.stopImmediatePropagation();
-									queue.addTrack(video);
+									queue.addTrack(mediaSource);
 								}}
 							/>
 						),

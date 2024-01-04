@@ -33,8 +33,8 @@ export const useRichPresence = (queue: IQueue) => {
 				largeImageKey: "degabut",
 			};
 		} else {
-			const title = nowPlaying.video.title;
-			const channelName = nowPlaying.video.channel?.name;
+			const title = nowPlaying.mediaSource.title;
+			const creator = nowPlaying.mediaSource.creator;
 			const otherMemberCount = voiceChannel.members.length - 1;
 			const smallImageKey = otherMemberCount > 0 ? "multi_user" : "single_user";
 			const smallImageText =
@@ -47,7 +47,7 @@ export const useRichPresence = (queue: IQueue) => {
 
 			data = {
 				details: title,
-				state: channelName,
+				state: creator,
 				largeImageText: "Degabut",
 				largeImageKey: "degabut",
 				smallImageKey,
@@ -55,8 +55,8 @@ export const useRichPresence = (queue: IQueue) => {
 				startTimestamp,
 				buttons: [
 					{
-						label: "YouTube",
-						url: "https://youtu.be/" + nowPlaying.video.id,
+						label: nowPlaying.mediaSource.type === "youtube" ? "YouTube" : "Spotify",
+						url: nowPlaying.mediaSource.url,
 					},
 				],
 			};

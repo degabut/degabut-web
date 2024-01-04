@@ -1,5 +1,5 @@
+import { IMediaSource } from "@media-source/apis";
 import { usePlayHistory } from "@user/hooks";
-import { IVideoCompact } from "@youtube/apis";
 import { createMemo } from "solid-js";
 
 export const useRecommendation = () => {
@@ -9,7 +9,7 @@ export const useRecommendation = () => {
 
 	const mostPlayed = createMemo(() => {
 		const allMostPlayed = [...(recentMostPlayedVideos.data() || []), ...(mostPlayedVideos.data() || [])];
-		const unique = allMostPlayed.reduce<IVideoCompact[]>((acc, cur) => {
+		const unique = allMostPlayed.reduce<IMediaSource[]>((acc, cur) => {
 			if (acc.some((v) => v.id === cur.id)) return acc;
 			acc.push(cur);
 			return acc;

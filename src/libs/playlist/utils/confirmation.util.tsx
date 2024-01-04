@@ -27,10 +27,10 @@ export class PlaylistConfirmationUtil {
 					<Text.Body1>
 						Add playlist <b>{"name" in playlist ? playlist.name : playlist.title}</b> to the queue?
 					</Text.Body1>
-					<Show when={"videoCount" in playlist && playlist.videoCount} keyed>
-						{(videoCount) => (
+					<Show when={"mediaSourceCount" in playlist && playlist.mediaSourceCount} keyed>
+						{(c) => (
 							<Text.Caption1>
-								This will add <b>{videoCount}</b> videos to the queue.{" "}
+								This will add <b>{c}</b> tracks to the queue.{" "}
 							</Text.Caption1>
 						)}
 					</Show>

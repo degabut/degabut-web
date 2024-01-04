@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useShortcut } from "@common/hooks";
-import { AddPlaylistVideoModal } from "@playlist/components";
-import { IVideoCompact } from "@youtube/apis";
+import { IMediaSource } from "@media-source/apis";
+import { AddPlaylistMediaSourceModal } from "@playlist/components";
 import { Accessor, JSX, ParentComponent, Setter, createContext, createSignal } from "solid-js";
 import { ConfirmationModal, QuickSearchModal } from "./components";
 import { useCatJam, useSnowfall, useZoom } from "./hooks";
@@ -16,7 +16,7 @@ type Confirmation = {
 export type AppContextStore = {
 	title: Accessor<string>;
 	setTitle: (title: string) => void;
-	setVideoPlaylist: (video: IVideoCompact | null) => void;
+	promptAddMediaToPlaylist: (media: IMediaSource | null) => void;
 	setConfirmation: (confirmation: Confirmation | null) => void;
 	setIsQuickSearchModalOpen: Setter<boolean>;
 };
@@ -24,7 +24,7 @@ export type AppContextStore = {
 export const AppContext = createContext<AppContextStore>({
 	title: () => "",
 	setTitle: () => {},
-	setVideoPlaylist: () => {},
+	promptAddMediaToPlaylist: () => {},
 	setConfirmation: () => {},
 	setIsQuickSearchModalOpen: () => false as any,
 });
@@ -35,7 +35,7 @@ export const AppProvider: ParentComponent = (props) => {
 	useZoom();
 
 	const [title, setTitle] = createSignal("");
-	const [videoPlaylist, setVideoPlaylist] = createSignal<null | IVideoCompact>(null);
+	const [mediaPlaylist, setMediaPlaylist] = createSignal<null | IMediaSource>(null);
 	const [isQuickSearchModalOpen, setIsQuickSearchModalOpen] = createSignal(false);
 	const [confirmation, setConfirmation] = createSignal<Confirmation | null>(null);
 
@@ -54,7 +54,7 @@ export const AppProvider: ParentComponent = (props) => {
 	const store = {
 		title,
 		setTitle,
-		setVideoPlaylist,
+		promptAddMediaToPlaylist: setMediaPlaylist,
 		setConfirmation,
 		setIsQuickSearchModalOpen,
 	};
@@ -65,10 +65,10 @@ export const AppProvider: ParentComponent = (props) => {
 
 			<QuickSearchModal isOpen={isQuickSearchModalOpen()} onDone={() => setIsQuickSearchModalOpen(false)} />
 
-			<AddPlaylistVideoModal
-				video={videoPlaylist()}
-				isOpen={!!videoPlaylist()}
-				onClose={() => setVideoPlaylist(null)}
+			<AddPlaylistMediaSourceModal
+				mediaSource={mediaPlaylist()}
+				isOpen={!!mediaPlaylist()}
+				onClose={() => setMediaPlaylist(null)}
 			/>
 
 			<ConfirmationModal

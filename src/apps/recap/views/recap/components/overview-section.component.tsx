@@ -80,9 +80,12 @@ export const OverviewSection: Component<OverviewSectionProps> = (props) => {
 					<div class="flex flex-col w-full truncate">
 						<Text.H1 class="mb-2 text-brand">Top Songs</Text.H1>
 						<For each={props.recap.mostPlayed}>
-							{({ video, count }, i) => {
-								let imageUrl = video.thumbnails.at(0)!.url;
-								if (YT_IMAGE_PROXY) imageUrl = YT_IMAGE_PROXY + new URL(imageUrl).pathname;
+							{({ mediaSource, count }, i) => {
+								let imageUrl = mediaSource.maxThumbnailUrl;
+
+								if (YT_IMAGE_PROXY && mediaSource.youtubeVideoId) {
+									imageUrl = YT_IMAGE_PROXY + new URL(imageUrl).pathname;
+								}
 
 								return (
 									<div class="flex-row-center space-x-2 w-full truncate">
@@ -92,10 +95,10 @@ export const OverviewSection: Component<OverviewSectionProps> = (props) => {
 										<div class="truncate w-full">
 											<Item.List
 												imageUrl={imageUrl}
-												title={video.title}
+												title={mediaSource.title}
 												extra={() => (
 													<Text.Caption1>
-														Played {count} times - {video.channel?.name}
+														Played {count} times - {mediaSource.creator}
 													</Text.Caption1>
 												)}
 											/>

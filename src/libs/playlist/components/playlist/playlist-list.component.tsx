@@ -13,8 +13,8 @@ type Props = {
 };
 
 export const PlaylistList: Component<Props> = (props) => {
-	const videoCountLabel = () => {
-		return props.playlist.videoCount === 1 ? "1 video" : props.playlist.videoCount + " videos";
+	const countLabel = () => {
+		return props.playlist.mediaSourceCount === 1 ? "1 track" : props.playlist.mediaSourceCount + " tracks";
 	};
 
 	return (
@@ -24,11 +24,11 @@ export const PlaylistList: Component<Props> = (props) => {
 			onClick={() => props.onClick?.(props.playlist)}
 			extra={() => (
 				<div>
-					<Show when={props.playlist.videoCount > 0}>
-						<Text.Caption1>{videoCountLabel()}</Text.Caption1>
+					<Show when={props.playlist.mediaSourceCount > 0}>
+						<Text.Caption1>{countLabel()}</Text.Caption1>
 					</Show>
 					<Text.Caption2>
-						{props.playlist.videoCount > 0 && " — "} Created{" "}
+						{props.playlist.mediaSourceCount > 0 && " — "} Created{" "}
 						{TimeUtil.getRelativeTime(props.playlist.createdAt)}
 					</Text.Caption2>
 				</div>

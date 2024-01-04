@@ -1,22 +1,22 @@
-import { IVideoCompact } from "@youtube/apis";
+import { IMediaSource } from "@media-source/apis";
 import { AxiosInstance } from "axios";
 
 export interface IPlaylist {
 	id: string;
 	name: string;
 	ownerId: string;
-	videoCount: number;
+	mediaSourceCount: number;
 	createdAt: string;
 	updatedAt: string;
 }
 
-export interface IPlaylistVideo {
+export interface IPlaylistMediaSource {
 	id: string;
 	playlistId: string;
-	videoId: string;
+	mediaSourceId: string;
 	createdBy: string;
 	createdAt: string;
-	video: IVideoCompact;
+	mediaSource: IMediaSource;
 }
 
 export class PlaylistApi {
@@ -51,21 +51,21 @@ export class PlaylistApi {
 		else return undefined;
 	};
 
-	getPlaylistVideos = async (playlistId: string): Promise<IPlaylistVideo[]> => {
+	getPlaylistMediaSources = async (playlistId: string): Promise<IPlaylistMediaSource[]> => {
 		if (!playlistId) return [];
 
-		const response = await this.client.get(`/playlists/${playlistId}/videos`);
+		const response = await this.client.get(`/playlists/${playlistId}/media-sources`);
 		if (response.status !== 200) throw new Error(response.data.message);
 		return response.data;
 	};
 
-	addPlaylistVideo = async (playlistId: string, videoId: string): Promise<boolean> => {
-		const response = await this.client.post(`/playlists/${playlistId}/videos`, { videoId });
+	addPlaylistMediaSource = async (playlistId: string, mediaSourceId: string): Promise<boolean> => {
+		const response = await this.client.post(`/playlists/${playlistId}/media-sources`, { mediaSourceId });
 		return response.data === 200;
 	};
 
-	removePlaylistVideo = async (playlistId: string, playlistVideoId: string): Promise<boolean> => {
-		const response = await this.client.delete(`/playlists/${playlistId}/videos/${playlistVideoId}`);
+	removePlaylistMediaSource = async (playlistId: string, playlistMediaSourceId: string): Promise<boolean> => {
+		const response = await this.client.delete(`/playlists/${playlistId}/media-sources/${playlistMediaSourceId}`);
 		return response.data === 200;
 	};
 }

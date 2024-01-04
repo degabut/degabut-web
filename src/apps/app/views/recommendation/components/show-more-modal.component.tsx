@@ -1,14 +1,14 @@
 import { useApp } from "@app/hooks";
 import { Divider, Modal, Text } from "@common/components";
 import { useApi } from "@common/hooks";
+import { IMediaSource } from "@media-source/apis";
+import { MediaSources } from "@media-source/components";
+import { MediaSourceContextMenuUtil } from "@media-source/utils";
 import { useQueue } from "@queue/hooks";
 import { useNavigate } from "@solidjs/router";
 import { UserApi } from "@user/apis";
 import { usePlayHistory } from "@user/hooks";
 import { UserConfirmationUtil } from "@user/utils/confirmation.util";
-import { IVideoCompact } from "@youtube/apis";
-import { Videos } from "@youtube/components";
-import { YouTubeContextMenuUtil } from "@youtube/utils";
 import { Component, createMemo } from "solid-js";
 
 export enum ShowMoreType {
@@ -22,8 +22,8 @@ type Props = {
 	initialUserId: string;
 	type: ShowMoreType | null;
 	onClose: () => void;
-	onAddToQueue?: (video: IVideoCompact) => void;
-	onAddToQueueAndPlay?: (video: IVideoCompact) => void;
+	onAddToQueue?: (mediaSource: IMediaSource) => void;
+	onAddToQueueAndPlay?: (mediaSource: IMediaSource) => void;
 };
 
 export const ShowMoreModal: Component<Props> = (props) => {
@@ -76,28 +76,29 @@ export const ShowMoreModal: Component<Props> = (props) => {
 		}
 	});
 
-	const videos = usePlayHistory(params);
+	const mediaSources = usePlayHistory(params);
 
-	const videoProps = (video: IVideoCompact) => {
+	const mediaSourceProps = (mediaSource: IMediaSource) => {
 		const removable = props.type === ShowMoreType.RecentlyPlayed || props.type === ShowMoreType.MostPlayed;
 
 		return {
-			video,
-			inQueue: queue.data.tracks?.some((t) => t.video.id === video.id),
-			contextMenu: YouTubeContextMenuUtil.getVideoContextMenu({
-				video,
+			mediaSource,
+			inQueue: queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id),
+			contextMenu: MediaSourceContextMenuUtil.getContextMenu({
+				mediaSource,
 				appStore: app,
 				queueStore: queue,
 				navigate,
 				modify: (items) => {
 					if (removable) {
-						items[1].push({
+						items[items.length - 2].push({
 							label: "Remove From History",
 							icon: "closeLine",
 							onClick: () => {
 								app.setConfirmation({
-									...UserConfirmationUtil.removePlayHistoryConfirmation(video),
-									onConfirm: () => userApi.removePlayHistory(video.id).then(videos.refetch),
+									...UserConfirmationUtil.removePlayHistoryConfirmation(mediaSource),
+									onConfirm: () =>
+										userApi.removePlayHistory(mediaSource.id).then(mediaSources.refetch),
 								});
 							},
 						});
@@ -121,7 +122,11 @@ export const ShowMoreModal: Component<Props> = (props) => {
 					<Divider />
 				</div>
 				<div class="pb-8 pt-4 px-2 md:px-8 overflow-auto">
-					<Videos.List data={videos.data() || []} isLoading={videos.data.loading} videoProps={videoProps} />
+					<MediaSources.List
+						data={mediaSources.data() || []}
+						isLoading={mediaSources.data.loading}
+						mediaSourceProps={mediaSourceProps}
+					/>
 				</div>
 			</div>
 		</Modal>

@@ -46,6 +46,8 @@ export default defineConfig({
 			"@user": path.resolve("./src/libs/user"),
 			"@settings": path.resolve("./src/libs/settings"),
 			"@constants": path.resolve("./src/constants"),
+			"@media-source": path.resolve("./src/libs/media-source"),
+			"@spotify": path.resolve("./src/libs/spotify"),
 		},
 	},
 	optimizeDeps: {

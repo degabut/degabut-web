@@ -1,3 +1,4 @@
+import { IMediaSource } from "@media-source/apis";
 import { useQueue } from "@queue/hooks";
 import { usePlayHistory } from "@user/hooks";
 import { IVideoCompact } from "@youtube/apis";
@@ -47,7 +48,10 @@ export const useRecommendation = (params: UseRecommendationParams) => {
 		const lastPlayed = lastPlayedVideos.data();
 		const mostPlayed = mostPlayedVideos.data();
 		if (!lastPlayed || !mostPlayed) return;
-		const videoIds = [...mostPlayed, ...lastPlayed].map((v) => v.id);
+		const videoIds = [...mostPlayed, ...lastPlayed]
+			.map((v) => v.youtubeVideoId || v.playedYoutubeVideoId)
+			.filter((v) => !!v) as string[];
+
 		setRelatedTargetVideoIds(videoIds);
 		params.onLoad && setTimeout(params.onLoad, 0);
 	});
@@ -77,7 +81,7 @@ export const useRecommendation = (params: UseRecommendationParams) => {
 
 	const mostPlayed = createMemo(() => {
 		const allMostPlayed = [...(recentMostPlayedVideos.data() || []), ...(mostPlayedVideos.data() || [])];
-		const unique = allMostPlayed.reduce<IVideoCompact[]>((acc, cur) => {
+		const unique = allMostPlayed.reduce<IMediaSource[]>((acc, cur) => {
 			if (acc.some((v) => v.id === cur.id)) return acc;
 			acc.push(cur);
 			return acc;

@@ -1,9 +1,12 @@
 import { useApp } from "@app/hooks";
 import { Icon, Spinner } from "@common/components";
 import { useApi } from "@common/hooks";
+import { SPOTIFY_INTEGRATION } from "@constants";
 import { PlaylistConfirmationUtil } from "@playlist/utils";
 import { useQueue } from "@queue/hooks";
+import { SpotifyUrlUtil } from "@spotify/utils";
 import { IVideo, IYouTubeMixPlaylist, IYouTubePlaylist, YouTubeApi } from "@youtube/apis";
+import { YoutubeUrlUtil } from "@youtube/utils";
 import { Show, createSignal, onCleanup, onMount } from "solid-js";
 import { VideoPlaylistChooser } from "./components";
 
@@ -82,15 +85,10 @@ export const ExternalTrackAdder = () => {
 	const processUrl = async (url: string) => {
 		setDragCounter(1);
 
-		let videoId: string;
-		let playlistId: string | null;
+		const youtubeIds = YoutubeUrlUtil.extractIds(url);
+		const spotifyIds = SPOTIFY_INTEGRATION ? SpotifyUrlUtil.extractIds(url) : {};
 
-		try {
-			const searchParams = new URL(url).searchParams;
-			videoId = searchParams.get("v") || url.split("youtu.be/")[1]?.split("?")[0]?.split("&")[0];
-			playlistId = searchParams.get("list");
-			if (!videoId && !playlistId) throw new Error();
-		} catch {
+		if (![...Object.values(youtubeIds), ...Object.values(spotifyIds)].filter((v) => !!v).length) {
 			showInvalidUrlAlert();
 			return setDragCounter(0);
 		}
@@ -98,21 +96,27 @@ export const ExternalTrackAdder = () => {
 		if (!queue.data.empty) {
 			setIsLoading(true);
 
-			if (videoId && playlistId) {
+			if (youtubeIds.videoId && youtubeIds.playlistId) {
 				const [video, playlist] = await Promise.all([
-					youtubeApi.getVideo(videoId),
-					youtubeApi.getPlaylist(playlistId),
+					youtubeApi.getVideo(youtubeIds.videoId),
+					youtubeApi.getPlaylist(youtubeIds.playlistId),
 				]);
 
 				if (video && playlist) setVideoPlaylistOption({ video, playlist });
-				else if (video) await queue.addTrackById(video.id);
+				else if (video) await queue.addTrackById(`youtube/${video.id}`);
 				else if (playlist) showAddPlaylistConfirmation(playlist);
-			} else if (videoId) {
-				await queue.addTrackById(videoId);
-			} else if (playlistId) {
-				const playlist = await youtubeApi.getPlaylist(playlistId);
+			} else if (youtubeIds.videoId) {
+				await queue.addTrackById(`youtube/${youtubeIds.videoId}`);
+			} else if (youtubeIds.playlistId) {
+				const playlist = await youtubeApi.getPlaylist(youtubeIds.playlistId);
 				if (!playlist) showInvalidUrlAlert();
 				else showAddPlaylistConfirmation(playlist);
+			} else if (spotifyIds.trackId) {
+				await queue.addTrackById(`spotify/${spotifyIds.trackId}`);
+			} else if (spotifyIds.playlistId) {
+				await queue.addSpotifyPlaylist(spotifyIds.playlistId);
+			} else if (spotifyIds.albumId) {
+				await queue.addSpotifyAlbum(spotifyIds.albumId);
 			}
 
 			setIsLoading(false);
@@ -132,7 +136,7 @@ export const ExternalTrackAdder = () => {
 	const showInvalidUrlAlert = () => {
 		app.setConfirmation({
 			title: "Invalid URL",
-			message: "The URL you dropped is not a valid YouTube URL.",
+			message: "The URL you dropped is not a valid URL.",
 			isAlert: true,
 		});
 	};
@@ -145,7 +149,7 @@ export const ExternalTrackAdder = () => {
 
 	const addItemToQueue = (item: IVideo | IYouTubePlaylist | IYouTubeMixPlaylist) => {
 		if ("videoCount" in item) showAddPlaylistConfirmation(item);
-		else queue.addTrackById(item.id);
+		else queue.addTrackById(`youtube/${item.id}`);
 		setVideoPlaylistOption(null);
 	};
 
@@ -165,20 +169,22 @@ export const ExternalTrackAdder = () => {
 			<Show when={dragCounter() > 0 && !queue.data.empty}>
 				<div
 					onClick={() => setDragCounter(0)}
-					class="fixed-screen z-[1000] flex items-center justify-center bg-black/90 text-center"
+					class="fixed-screen z-[1000] flex items-center justify-center bg-black/90 text-center p-4"
 				>
 					<div
 						ref={dropContainer}
 						onDragEnter={onContainerDragEnter}
 						onDragLeave={onContainerDragLeave}
-						class="flex flex-col space-y-8 min-w-[50vw] min-h-[50vh] justify-center items-center border-4 border-dashed rounded border-neutral-500 p-8"
+						class="flex flex-col space-y-8 min-w-[50vw] w-[48rem] min-h-[50vh] justify-center items-center border-4 border-dashed rounded border-neutral-500 p-8"
 					>
 						<Show when={!isLoading()} fallback={<Spinner size="3xl" />}>
-							<Icon name="youtube" extraClass="fill-neutral-400 w-32 h-32" />
+							<Icon name="link" extraClass="fill-neutral-400 w-32 h-32" />
 						</Show>
 						<div class="space-y-4">
-							<div class="text-4xl font-medium text-neutral-300">Drop Here</div>
-							<div class="text-xl text-neutral-400">Drop a YouTube video URL to add it to the Queue</div>
+							<div class="text-4xl font-medium text-neutral-300">Drop URL Here</div>
+							<div class="text-xl text-neutral-400">
+								You can also copy a URL and paste it anywhere on the page.
+							</div>
 						</div>
 					</div>
 				</div>

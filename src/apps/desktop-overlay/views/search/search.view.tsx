@@ -1,14 +1,15 @@
 import { Icon, Select } from "@common/components";
 import { Card } from "@desktop-overlay/components";
-import { ITrack } from "@queue/apis";
+import { MediaSource } from "@media-source/components";
+import { MediaSourceContextMenuUtil, MediaSourceFactory } from "@media-source/utils";
 import { useQueue } from "@queue/hooks";
 import { IVideoCompact, IYouTubePlaylistCompact } from "@youtube/apis";
-import { Video, YouTubePlaylist } from "@youtube/components";
+import { YouTubePlaylist } from "@youtube/components";
 import { useSearch } from "@youtube/hooks";
 import { YouTubeContextMenuUtil } from "@youtube/utils";
 import { Component, createSignal, onCleanup, onMount } from "solid-js";
 
-type SelectOptionItem = IVideoCompact | IYouTubePlaylistCompact | ITrack;
+type SelectOptionItem = IVideoCompact | IYouTubePlaylistCompact;
 
 export const Search: Component = () => {
 	const queue = useQueue();
@@ -38,7 +39,7 @@ export const Search: Component = () => {
 		setIsLoading(true);
 
 		if (item) {
-			if ("duration" in item) await queue.addTrackById(item.id);
+			if ("duration" in item) await queue.addTrackById(`youtube/${item.id}`);
 			else await queue.addYouTubePlaylist(item.id);
 		} else {
 			await queue.addTrackByKeyword(search.keyword());
@@ -69,15 +70,15 @@ export const Search: Component = () => {
 			>
 				{(item, isSelected) => {
 					const extraContainerClass = { "!bg-white/10": isSelected };
-					if ("video" in item || "duration" in item) {
-						const video = "video" in item ? item.video : item;
+					if ("duration" in item) {
+						const mediaSource = MediaSourceFactory.fromYoutubeVideo(item);
 						return (
-							<Video.List
-								video={video}
-								inQueue={queue.data.tracks?.some((t) => t.video.id === video.id)}
+							<MediaSource.List
+								mediaSource={mediaSource}
+								inQueue={queue.data.tracks?.some((t) => t.mediaSource.sourceId === item.id)}
 								onClick={() => {}} // TODO
-								contextMenu={YouTubeContextMenuUtil.getVideoContextMenu({
-									video,
+								contextMenu={MediaSourceContextMenuUtil.getContextMenu({
+									mediaSource,
 									queueStore: queue,
 								})}
 								extraContainerClassList={extraContainerClass}

@@ -1,6 +1,6 @@
 import { Tabs } from "@common/components";
+import { MediaSources } from "@media-source/components";
 import { useQueue } from "@queue/hooks";
-import { Videos } from "@youtube/components";
 import { Component, Show } from "solid-js";
 import { QueueHint, QueueInfo, QueuePlayHistory, QueueTrackList } from "./components";
 
@@ -21,7 +21,7 @@ export const QueueTabs: Component = () => {
 							when={!queue.isInitialLoading()}
 							fallback={
 								<div class="pt-6">
-									<Videos.List data={[]} isLoading />
+									<MediaSources.List data={[]} isLoading />
 								</div>
 							}
 						>
@@ -35,7 +35,7 @@ export const QueueTabs: Component = () => {
 					id: "queueHistory",
 					labelText: "History",
 					element: () => (
-						<Show when={!queue.isInitialLoading()} fallback={<Videos.List data={[]} isLoading />}>
+						<Show when={!queue.isInitialLoading()} fallback={<MediaSources.List data={[]} isLoading />}>
 							<div class="pt-6">
 								<QueuePlayHistory />
 							</div>

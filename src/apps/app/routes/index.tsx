@@ -13,7 +13,6 @@ import {
 	Recommendation,
 	Search,
 	Settings,
-	VideoDetail,
 } from "../views";
 
 export const appRoutes: RouteDefinition[] = [
@@ -28,7 +27,6 @@ export const appRoutes: RouteDefinition[] = [
 					{ path: "/queue", component: () => <Queue /> },
 					{ path: "/queue/player", component: () => <QueueNowPlaying /> },
 					{ path: "/queue/lyrics", component: () => <Lyrics /> },
-					{ path: "/video/:id", component: () => <VideoDetail /> },
 					{ path: "/search", component: () => <Search /> },
 					{ path: "/recommendation", component: () => <Recommendation /> },
 					{ path: "/recommendation/:id?", component: () => <Recommendation /> },

@@ -1,1 +1,1 @@
-export * from "./video-playlist-choose.component";
+export * from "./video-playlist-chooser.component";

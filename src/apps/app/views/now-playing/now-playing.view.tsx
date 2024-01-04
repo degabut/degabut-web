@@ -1,10 +1,10 @@
 import { useApp } from "@app/hooks";
 import { Container, ContextMenuButton, RouterLink, Text } from "@common/components";
 import { DelayUtil } from "@common/utils";
+import { MediaSourceContextMenuUtil } from "@media-source/utils";
 import { QueueActions, QueueButton, QueueSeekSlider } from "@queue/components";
 import { useQueue } from "@queue/hooks";
 import { useNavigate } from "@solidjs/router";
-import { YouTubeContextMenuUtil } from "@youtube/utils";
 import { Component, Show, onMount } from "solid-js";
 
 export const QueueNowPlaying: Component = () => {
@@ -21,16 +21,16 @@ export const QueueNowPlaying: Component = () => {
 			<div class="relative z-0 flex flex-col space-y-6 h-full">
 				<div class="flex-grow flex items-center justify-center px-4">
 					<Show when={queue.data.nowPlaying} keyed>
-						{({ video }) => (
+						{({ mediaSource }) => (
 							<>
 								<img
-									src={video.thumbnails.at(-1)?.url || ""}
-									alt={video.title}
+									src={mediaSource.maxThumbnailUrl}
+									alt={mediaSource.title}
 									class="object-cover max-w-[50vh] w-full aspect-square rounded-2xl"
 									onClick={throttledJam}
 								/>
 								<img
-									src={video.thumbnails.at(0)?.url}
+									src={mediaSource.minThumbnailUrl}
 									class="absolute top-0 left-0 h-full max-h-[50vh] w-full blur-3xl -z-[1000] pointer-events-none"
 								/>
 							</>
@@ -55,9 +55,9 @@ export const QueueNowPlaying: Component = () => {
 						{(track) => (
 							<div class="flex-row-center">
 								<div class="grow flex flex-col space-y-1.5 px-2 text-shadow truncate">
-									<Text.H2 truncate>{track.video.title}</Text.H2>
+									<Text.H2 truncate>{track.mediaSource.title}</Text.H2>
 									<Text.Body1 truncate class="text-neutral-300">
-										{track.video.channel?.name}
+										{track.mediaSource.creator}
 									</Text.Body1>
 									<div class="flex-row-center space-x-2 truncate">
 										<Show when={track.requestedBy.avatar} keyed>
@@ -68,8 +68,8 @@ export const QueueNowPlaying: Component = () => {
 								</div>
 
 								<ContextMenuButton
-									contextMenu={YouTubeContextMenuUtil.getVideoContextMenu({
-										video: track.video,
+									contextMenu={MediaSourceContextMenuUtil.getContextMenu({
+										mediaSource: track.mediaSource,
 										appStore: app,
 										queueStore: queue,
 										navigate,
@@ -82,7 +82,7 @@ export const QueueNowPlaying: Component = () => {
 					<div class="w-full px-2">
 						<QueueSeekSlider
 							disabled={queue.freezeState.seek}
-							max={queue.data.nowPlaying?.video.duration || 0}
+							max={queue.data.nowPlaying?.mediaSource.duration || 0}
 							value={(queue.data.position || 0) / 1000}
 							onChange={(value) => queue.seek(value * 1000)}
 						/>

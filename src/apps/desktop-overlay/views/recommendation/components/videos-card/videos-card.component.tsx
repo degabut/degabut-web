@@ -1,18 +1,18 @@
 import { Text } from "@common/components";
 import { Card } from "@desktop-overlay/components";
+import { IMediaSource } from "@media-source/apis";
+import { MediaSources } from "@media-source/components";
+import { MediaSourceContextMenuUtil } from "@media-source/utils";
 import { useQueue } from "@queue/hooks";
-import { IVideoCompact } from "@youtube/apis";
-import { Videos } from "@youtube/components";
-import { YouTubeContextMenuUtil } from "@youtube/utils";
 import { Component } from "solid-js";
 
-type VideosCardProps = {
+type MediaSourcesCardProps = {
 	title: string;
 	isLoading: boolean;
-	videos: IVideoCompact[];
+	mediaSources: IMediaSource[];
 };
 
-export const VideosCard: Component<VideosCardProps> = (props) => {
+export const MediaSourcesCard: Component<MediaSourcesCardProps> = (props) => {
 	const queue = useQueue();
 
 	return (
@@ -20,17 +20,17 @@ export const VideosCard: Component<VideosCardProps> = (props) => {
 			<div class="flex flex-col space-y-3 h-full">
 				<Text.H3 class="text-center">{props.title}</Text.H3>
 				<div class="grow overflow-y-auto">
-					<Videos.List
+					<MediaSources.List
 						isLoading={props.isLoading}
 						showWhenLoading
 						dense
-						data={props.videos}
-						videoProps={(video) => ({
-							video,
-							inQueue: queue.data.tracks?.some((t) => t.video.id === video.id),
-							contextMenu: YouTubeContextMenuUtil.getVideoContextMenu({
+						data={props.mediaSources}
+						mediaSourceProps={(mediaSource) => ({
+							mediaSource,
+							inQueue: queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id),
+							contextMenu: MediaSourceContextMenuUtil.getContextMenu({
+								mediaSource,
 								queueStore: queue,
-								video,
 								modify: (c) => {
 									if (queue.data.empty) return [];
 									return [c[0]];

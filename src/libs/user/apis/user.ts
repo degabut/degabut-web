@@ -1,4 +1,4 @@
-import { IVideoCompact } from "@youtube/apis";
+import { IMediaSource } from "@media-source/apis";
 import { AxiosInstance } from "axios";
 
 type GetVideosParams = { guild?: boolean } | { voiceChannel?: boolean };
@@ -30,7 +30,7 @@ export type IMonthly = {
 export type IMostPlayed = {
 	videoId: string;
 	count: number;
-	video: IVideoCompact;
+	mediaSource: IMediaSource;
 };
 
 export class UserApi {
@@ -39,20 +39,20 @@ export class UserApi {
 	getUserPlayHistory = async (
 		id: string,
 		params: GetLastPlayedParams | GetMostPlayedParams
-	): Promise<IVideoCompact[]> => {
+	): Promise<IMediaSource[]> => {
 		const response = await this.client.get(`/users/${id}/play-history`, { params });
 		if (response.status === 200) return response.data;
 		else return [];
 	};
 
-	getPlayHistory = async (params: GetLastPlayedParams | GetMostPlayedParams): Promise<IVideoCompact[]> => {
+	getPlayHistory = async (params: GetLastPlayedParams | GetMostPlayedParams): Promise<IMediaSource[]> => {
 		const response = await this.client.get("/me/play-history", { params });
 		if (response.status === 200) return response.data;
 		else return [];
 	};
 
-	removePlayHistory = async (videoId: string): Promise<void> => {
-		await this.client.delete(`/me/play-history/${videoId}`);
+	removePlayHistory = async (mediaSourceId: string): Promise<void> => {
+		await this.client.delete(`/me/play-history/${encodeURIComponent(mediaSourceId)}`);
 	};
 
 	getRecap = async (year: number): Promise<IRecap | null> => {

@@ -1,6 +1,7 @@
+import { IMediaSource } from "@media-source/apis";
+import { MediaSourceFactory } from "@media-source/utils";
 import { ITrack } from "@queue/apis";
 import { usePlayHistory } from "@user/hooks";
-import { IVideoCompact } from "@youtube/apis";
 import { useVideo } from "@youtube/hooks";
 import { Accessor, createEffect, createMemo, createSignal } from "solid-js";
 
@@ -11,7 +12,7 @@ type Params = {
 
 export const useQueueRecommendation = (params: Params) => {
 	const [relatedTargetVideoIds, setRelatedTargetVideoIds] = createSignal<string[]>([]);
-	const [relatedVideos, setRelatedVideos] = createSignal<IVideoCompact[]>([]);
+	const [relatedVideos, setRelatedVideos] = createSignal<IMediaSource[]>([]);
 	const currentRelatedVideoId = createMemo(() => relatedTargetVideoIds()[0]);
 
 	const video = useVideo({ videoId: currentRelatedVideoId });
@@ -21,7 +22,13 @@ export const useQueueRecommendation = (params: Params) => {
 	createEffect(() => {
 		const videos = video.data()?.related;
 		if (videos) {
-			setRelatedVideos((c) => [...c, ...videos.filter((v) => !c.some((rv) => rv.id === v.id)).slice(0, 5)]);
+			setRelatedVideos((c) => [
+				...c,
+				...videos
+					.filter((v) => !c.some((rv) => rv.id === v.id))
+					.slice(0, 5)
+					.map(MediaSourceFactory.fromYoutubeVideo),
+			]);
 			params.onLoad && setTimeout(params.onLoad, 0);
 		}
 	});
@@ -32,9 +39,9 @@ export const useQueueRecommendation = (params: Params) => {
 		if (!lastPlayed || !mostPlayed) return;
 
 		const videoIds = [...mostPlayed, ...lastPlayed]
-			.map((v) => v.id)
+			.map((v) => v.youtubeVideoId || v.playedYoutubeVideoId)
 			.reduce<string[]>((acc, cur) => {
-				if (!acc.includes(cur)) acc.push(cur);
+				if (cur && !acc.includes(cur)) acc.push(cur);
 				return acc;
 			}, []);
 
@@ -46,13 +53,13 @@ export const useQueueRecommendation = (params: Params) => {
 		setRelatedTargetVideoIds((c) => c.slice(1));
 	};
 
-	const videos = createMemo(() => {
+	const mediaSources = createMemo(() => {
 		const queueTracks = params.queueTracks();
 		const mostPlayed = mostPlayedVideos.data() || [];
 		const lastPlayed = lastPlayedVideos.data() || [];
 
-		return [...mostPlayed, ...lastPlayed, ...relatedVideos()].reduce<IVideoCompact[]>((curr, v) => {
-			if (!curr.find((cv) => cv.id === v.id) && !queueTracks.find((t) => t.video.id === v.id)) {
+		return [...mostPlayed, ...lastPlayed, ...relatedVideos()].reduce<IMediaSource[]>((curr, v) => {
+			if (!curr.find((cv) => cv.id === v.id) && !queueTracks.find((t) => t.mediaSource.id === v.id)) {
 				curr.push(v);
 			}
 			return curr;
@@ -64,7 +71,7 @@ export const useQueueRecommendation = (params: Params) => {
 	};
 
 	return {
-		videos,
+		mediaSources,
 		related: video,
 		isLoading,
 		loadNext,

@@ -2,14 +2,14 @@ import { useApp } from "@app/hooks";
 import { Container, Icon } from "@common/components";
 import { useInfiniteScrolling } from "@common/hooks";
 import { RecapUtil } from "@common/utils";
+import { MediaSources } from "@media-source/components";
+import { MediaSourceContextMenuUtil, MediaSourceFactory } from "@media-source/utils";
 import { useQueue } from "@queue/hooks";
 import { useNavigate, useParams } from "@solidjs/router";
-import { Videos } from "@youtube/components";
-import { YouTubeContextMenuUtil } from "@youtube/utils";
 import { Component, Show, createEffect, createMemo, createSignal } from "solid-js";
 import {
-	ExpandableVideoGrid,
-	ExpandableVideoList,
+	ExpandableMediaSourceGrid,
+	ExpandableMediaSourceList,
 	RecapBanner,
 	ShowMoreModal,
 	ShowMoreType,
@@ -61,10 +61,10 @@ export const Recommendation: Component = () => {
 				{recapYear && !params.id && <RecapBanner year={recapYear} />}
 
 				<Show when={recommendation.mostPlayed().data.length || recommendation.mostPlayed().loading}>
-					<ExpandableVideoGrid
+					<ExpandableMediaSourceGrid
 						label="Most Played"
 						removable
-						videos={recommendation.mostPlayed().data}
+						mediaSources={recommendation.mostPlayed().data}
 						isLoading={recommendation.mostPlayed().loading}
 						onClickMore={() => setShowMoreType(ShowMoreType.MostPlayed)}
 						onRemove={() => {
@@ -75,10 +75,10 @@ export const Recommendation: Component = () => {
 				</Show>
 
 				<Show when={recommendation.lastPlayed().data.length || recommendation.lastPlayed().loading}>
-					<ExpandableVideoGrid
+					<ExpandableMediaSourceGrid
 						label="Recently Played"
 						removable
-						videos={recommendation.lastPlayed().data}
+						mediaSources={recommendation.lastPlayed().data}
 						isLoading={recommendation.lastPlayed().loading}
 						onClickMore={() => setShowMoreType(ShowMoreType.RecentlyPlayed)}
 						onRemove={() => recommendation.raw.lastPlayed.refetch()}
@@ -86,31 +86,34 @@ export const Recommendation: Component = () => {
 				</Show>
 
 				<Show when={recommendation.channelRelated().data.length || recommendation.channelRelated().loading}>
-					<ExpandableVideoList
+					<ExpandableMediaSourceList
 						label="Queue Recommendations"
 						isLoading={recommendation.channelRelated().loading}
-						videos={recommendation.channelRelated().data}
+						mediaSources={recommendation.channelRelated().data}
 						onClickMore={() => setShowMoreType(ShowMoreType.ChannelRelated)}
 					/>
 				</Show>
 
 				<Show when={recommendation.related().data.length || recommendation.related().loading}>
 					<div ref={containerElement}>
-						<Videos.List
+						<MediaSources.List
 							title={() => <Title>For You</Title>}
 							isLoading={recommendation.related().loading}
 							showWhenLoading
 							data={recommendation.related().data}
-							videoProps={(video) => ({
-								video,
-								inQueue: queue.data.tracks?.some((t) => t.video.id === video.id),
-								contextMenu: YouTubeContextMenuUtil.getVideoContextMenu({
-									appStore: app,
-									queueStore: queue,
-									navigate,
-									video,
-								}),
-							})}
+							mediaSourceProps={(video) => {
+								const mediaSource = MediaSourceFactory.fromYoutubeVideo(video);
+								return {
+									mediaSource,
+									inQueue: queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id),
+									contextMenu: MediaSourceContextMenuUtil.getContextMenu({
+										appStore: app,
+										queueStore: queue,
+										navigate,
+										mediaSource,
+									}),
+								};
+							}}
 						/>
 					</div>
 				</Show>

@@ -11,12 +11,12 @@ export const FavoriteSection: Component<Props> = (props) => {
 		const mostPlayed = props.recap.mostPlayed.at(0);
 		if (!mostPlayed) return null;
 
-		const { video, count } = mostPlayed;
-		const minutes = Math.floor((video.duration * count) / 60);
+		const { mediaSource, count } = mostPlayed;
+		const minutes = Math.floor((mediaSource.duration * count) / 60);
 		const hours = Math.floor(minutes / 60);
 
 		return {
-			video,
+			mediaSource,
 			count,
 			minutes,
 			hours,
@@ -26,12 +26,12 @@ export const FavoriteSection: Component<Props> = (props) => {
 	return (
 		<div class="flex-col-center space-y-6">
 			<Show when={favorite()} keyed>
-				{({ video, count, minutes, hours }) => (
+				{({ mediaSource, count, minutes, hours }) => (
 					<>
-						<img src={video.thumbnails.at(-1)?.url} alt={video.title} class="w-96" />
+						<img src={mediaSource.maxThumbnailUrl} alt={mediaSource.title} class="w-96" />
 						<div class="text-center">
-							<Text.H2>{video.title}</Text.H2>
-							<Text.Body2>{video.channel?.name}</Text.Body2>
+							<Text.H2>{mediaSource.title}</Text.H2>
+							<Text.Body2>{mediaSource.creator}</Text.Body2>
 						</div>
 						<div class="flex-col-center text-center">
 							<Text.Body1>

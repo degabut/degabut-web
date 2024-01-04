@@ -32,7 +32,7 @@ export const ItemList: Component<ItemListProps> = (props) => {
 		<div
 			class="item-list flex-row-center items-stretch w-full p-1.5 active:bg-white/5 rounded"
 			classList={{
-				"cursor-pointer hover:bg-white/5": !!props.onClick,
+				"cursor-pointer hover:bg-white/5": !!props.onClick || props.contextMenu?.openWithClick,
 				...props.extraContainerClassList,
 				[props.extraContainerClass || ""]: !!props.extraContainerClass,
 			}}
@@ -113,7 +113,7 @@ export const ItemListBig: Component<BaseProps> = (props) => {
 				)}
 			</Show>
 
-			<div class="flex flex-col sm:space-y-2 w-full truncate px-2 pb-2 sm:pt-1">
+			<div class="flex flex-col w-full truncate px-2 pb-2 sm:pt-1">
 				<div class="flex-row-center truncate">
 					{typeof props.title !== "string" ? (
 						props.title()

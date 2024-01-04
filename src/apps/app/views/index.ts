@@ -11,4 +11,3 @@ export * from "./queue";
 export * from "./recommendation";
 export * from "./search";
 export * from "./settings";
-export * from "./video-detail";

@@ -1,10 +1,10 @@
 import { useApp } from "@app/hooks";
 import { Container, Divider } from "@common/components";
+import { MediaSources } from "@media-source/components";
+import { MediaSourceContextMenuUtil } from "@media-source/utils";
 import { usePlaylist } from "@playlist/hooks";
 import { useQueue } from "@queue/hooks";
 import { useNavigate, useParams } from "@solidjs/router";
-import { Videos } from "@youtube/components";
-import { YouTubeContextMenuUtil } from "@youtube/utils";
 import { Component, Show, createEffect, createSignal } from "solid-js";
 import { EditPlaylistModal, MainPlaylist, MainPlaylistSkeleton } from "./components";
 
@@ -29,25 +29,28 @@ export const PlaylistDetail: Component = () => {
 
 	return (
 		<Container size="md">
-			<Show when={!playlist.playlist.loading && !playlist.videos.loading} fallback={<MainPlaylistSkeleton />}>
+			<Show
+				when={!playlist.playlist.loading && !playlist.mediaSources.loading}
+				fallback={<MainPlaylistSkeleton />}
+			>
 				<MainPlaylist
 					name={playlist.playlist()?.name || ""}
 					duration={playlist.totalDuration()}
-					videoCount={playlist.videos()?.length || 0}
+					itemCount={playlist.playlist()?.mediaSourceCount || 0}
 					onClickEdit={() => setIsEditModalOpen(true)}
 				/>
 			</Show>
 
 			<Divider extraClass="my-8" />
 
-			<Show when={!playlist.videos.loading} fallback={<Videos.List data={[]} isLoading />}>
-				<Videos.List
-					data={playlist.videos() || []}
-					videoProps={(pv) => ({
-						video: pv.video,
-						inQueue: queue.data.tracks?.some((t) => t.video.id === pv.video.id),
-						contextMenu: YouTubeContextMenuUtil.getVideoContextMenu({
-							video: pv.video,
+			<Show when={!playlist.mediaSources.loading} fallback={<MediaSources.List data={[]} isLoading />}>
+				<MediaSources.List
+					data={playlist.mediaSources() || []}
+					mediaSourceProps={(pv) => ({
+						mediaSource: pv.mediaSource,
+						inQueue: queue.data.tracks?.some((t) => t.mediaSource.id === pv.mediaSource.id),
+						contextMenu: MediaSourceContextMenuUtil.getContextMenu({
+							mediaSource: pv.mediaSource,
 							appStore: app,
 							queueStore: queue,
 							navigate,
@@ -55,7 +58,7 @@ export const PlaylistDetail: Component = () => {
 								c[1].push({
 									label: "Remove from Playlist",
 									icon: "trashBin",
-									onClick: () => pv && playlist.removeVideo(pv.id),
+									onClick: () => pv && playlist.removeMediaSource(pv.id),
 								});
 								return c;
 							},

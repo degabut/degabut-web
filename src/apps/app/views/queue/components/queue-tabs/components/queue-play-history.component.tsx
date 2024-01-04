@@ -1,8 +1,8 @@
 import { useApp } from "@app/hooks";
+import { MediaSources } from "@media-source/components";
+import { MediaSourceContextMenuUtil } from "@media-source/utils";
 import { useQueue } from "@queue/hooks";
 import { useNavigate } from "@solidjs/router";
-import { Videos } from "@youtube/components";
-import { YouTubeContextMenuUtil } from "@youtube/utils";
 import { Component, Show } from "solid-js";
 
 export const QueuePlayHistory: Component = () => {
@@ -13,14 +13,14 @@ export const QueuePlayHistory: Component = () => {
 	return (
 		<Show when={queue.data.history} keyed>
 			{(tracks) => (
-				<Videos.List
+				<MediaSources.List
 					data={tracks}
-					videoProps={(t) => ({
-						video: t.video,
+					mediaSourceProps={(t) => ({
+						mediaSource: t.mediaSource,
 						requestedBy: t.requestedBy,
-						inQueue: queue.data.tracks?.some((qt) => qt.video.id === t.video.id),
-						contextMenu: YouTubeContextMenuUtil.getVideoContextMenu({
-							video: t.video,
+						inQueue: queue.data.tracks?.some((qt) => qt.mediaSource.id === t.mediaSource.id),
+						contextMenu: MediaSourceContextMenuUtil.getContextMenu({
+							mediaSource: t.mediaSource,
 							appStore: app,
 							queueStore: queue,
 							navigate,

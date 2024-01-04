@@ -1,16 +1,16 @@
 import { Text } from "@common/components";
-import { IVideo, IVideoCompact } from "@youtube/apis";
-import { Video } from "@youtube/components";
+import { IMediaSource } from "@media-source/apis";
+import { MediaSource } from "@media-source/components";
 
 export class UserConfirmationUtil {
-	static removePlayHistoryConfirmation(video: IVideo | IVideoCompact) {
+	static removePlayHistoryConfirmation(mediaSource: IMediaSource) {
 		return {
 			title: "Remove Play History",
 			message: () => (
 				<div class="flex-col-center space-y-6">
-					<Video.List video={video} />
+					<MediaSource.List mediaSource={mediaSource} />
 					<Text.Body2 class="text-center">
-						This action will remove the video from your most played and recently played lists until you play
+						This action will remove the track from your most played and recently played lists until you play
 						it again.
 					</Text.Body2>
 				</div>

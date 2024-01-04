@@ -1,9 +1,9 @@
 import { useApp } from "@app/hooks";
+import { MediaSourceListProps, MediaSources } from "@media-source/components";
+import { MediaSourceContextMenuUtil } from "@media-source/utils";
 import { ITrack } from "@queue/apis";
 import { useQueue } from "@queue/hooks";
 import { useNavigate } from "@solidjs/router";
-import { VideoListProps, Videos } from "@youtube/components";
-import { YouTubeContextMenuUtil } from "@youtube/utils";
 import { Component } from "solid-js";
 
 export const QueueTrackList: Component = () => {
@@ -11,15 +11,14 @@ export const QueueTrackList: Component = () => {
 	const queue = useQueue();
 	const navigate = useNavigate();
 
-	const videoProps = (t: ITrack) => {
+	const mediaSourceProps = (t: ITrack) => {
 		const isActive = queue.data.nowPlaying?.id === t.id;
-		const videoProps: VideoListProps = {
-			video: t.video,
+		const mediaSourceProps: MediaSourceListProps = {
+			mediaSource: t.mediaSource,
 			requestedBy: t.requestedBy,
 			extraTitleClass: isActive ? "!text-brand-600" : undefined,
-			onClick: (v) => navigate(`/video/${v.id}`),
-			contextMenu: YouTubeContextMenuUtil.getVideoContextMenu({
-				video: t.video,
+			contextMenu: MediaSourceContextMenuUtil.getContextMenu({
+				mediaSource: t.mediaSource,
 				appStore: app,
 				queueStore: queue,
 				navigate,
@@ -28,17 +27,17 @@ export const QueueTrackList: Component = () => {
 
 		return {
 			id: t.id,
-			videoProps,
+			mediaSourceProps,
 		};
 	};
 
 	return (
 		<div class="space-y-2">
 			<div class="h-full" classList={{ "opacity-50 pointer-events-none": queue.freezeState.track }}>
-				<Videos.SortableList
+				<MediaSources.SortableList
 					data={queue.data.tracks}
 					onSort={({ to }, data) => queue.changeTrackOrder(data.id, to)}
-					sortableProps={videoProps}
+					sortableProps={mediaSourceProps}
 				/>
 			</div>
 		</div>

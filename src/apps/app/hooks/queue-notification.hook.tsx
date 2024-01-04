@@ -32,8 +32,8 @@ export const useQueueNotification = () => {
 		notification.push({
 			imageUrl: track.requestedBy.avatar,
 			message: () => (
-				<Text.Body2 title={`${track.requestedBy.displayName} added ${track.video.title} to the queue`}>
-					<b>{track.requestedBy.displayName}</b> added <b>{track.video.title}</b> to the queue
+				<Text.Body2 title={`${track.requestedBy.displayName} added ${track.mediaSource.title} to the queue`}>
+					<b>{track.requestedBy.displayName}</b> added <b>{track.mediaSource.title}</b> to the queue
 				</Text.Body2>
 			),
 		});
@@ -42,12 +42,12 @@ export const useQueueNotification = () => {
 	const onTracksAdded = async ({ tracks, member }: { tracks: ITrack[]; member: IMember }) => {
 		if (!settings["notification.inApp"]) return;
 
-		const videoCount = tracks.length > 1 ? `${tracks.length} videos` : "a video";
+		const count = tracks.length > 1 ? `${tracks.length} tracks` : "a track";
 		notification.push({
 			imageUrl: member.avatar,
 			message: () => (
-				<Text.Body2 title={`${member.displayName} added ${videoCount} to the queue`}>
-					<b>{member.displayName}</b> added <b>{videoCount}</b> to the queue
+				<Text.Body2 title={`${member.displayName} added ${count} to the queue`}>
+					<b>{member.displayName}</b> added <b>{count}</b> to the queue
 				</Text.Body2>
 			),
 		});
@@ -59,8 +59,8 @@ export const useQueueNotification = () => {
 		notification.push({
 			imageUrl: member.avatar,
 			message: () => (
-				<Text.Body2 title={`${member.displayName} removed ${track.video.title} from the queue`}>
-					<b>{member.displayName}</b> removed <b>{track.video.title}</b> from the queue
+				<Text.Body2 title={`${member.displayName} removed ${track.mediaSource.title} from the queue`}>
+					<b>{member.displayName}</b> removed <b>{track.mediaSource.title}</b> from the queue
 				</Text.Body2>
 			),
 		});
@@ -69,8 +69,8 @@ export const useQueueNotification = () => {
 	const onQueueProcessed = async (nowPlaying: ITrack | null) => {
 		if (!nowPlaying || !settings["notification.browser"]) return;
 
-		let body = nowPlaying.video.title;
-		if (nowPlaying.video.channel) body += `\n${nowPlaying.video.channel.name}`;
+		let body = nowPlaying.mediaSource.title;
+		if (nowPlaying.mediaSource.creator) body += `\n${nowPlaying.mediaSource.creator}`;
 
 		const notification = await NotificationUtil.notify("Now Playing", {
 			body,

@@ -26,7 +26,7 @@ export const PreviewEmbed: Component = () => {
 
 	createEffect(() => {
 		const nowPlaying = queue.data.nowPlaying;
-		player?.cueVideoById(nowPlaying?.video.id || "0");
+		player?.cueVideoById(nowPlaying?.mediaSource.playedYoutubeVideoId || "0");
 	});
 
 	const onIframeReady = () => new YT.Player(iframe, { events: { onReady } });
@@ -52,7 +52,7 @@ export const PreviewEmbed: Component = () => {
 	const onTick = ({ position }: { position: number }) => {
 		if (player.getPlayerState() !== YT.PlayerState.PLAYING && !queue.data.isPaused) player.playVideo();
 
-		if (!queue.data.nowPlaying?.video.duration) return;
+		if (!queue.data.nowPlaying?.mediaSource.duration) return;
 
 		position = position / 1000;
 
@@ -65,7 +65,7 @@ export const PreviewEmbed: Component = () => {
 	return (
 		<Video.Embed
 			ref={iframe}
-			initialVideoId={queue.data.nowPlaying?.video.id}
+			initialVideoId={queue.data.nowPlaying?.mediaSource.playedYoutubeVideoId || undefined}
 			initialParams={{ enableJsApi: true, disableKeyboard: true }}
 		/>
 	);
