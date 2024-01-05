@@ -12,6 +12,7 @@ type SourceProps = {
 	mediaSource: IMediaSource;
 	queueStore: QueueContextStore;
 	appStore?: AppContextStore;
+	openWithClick?: boolean;
 	navigate?: ReturnType<typeof useNavigate>;
 	modify?: (current: IContextMenuItem[][]) => IContextMenuItem[][];
 };
@@ -76,7 +77,7 @@ export class MediaSourceContextMenuUtil {
 
 		return {
 			items,
-			openWithClick: true,
+			openWithClick: props.openWithClick ?? true,
 			header: (
 				<div class="flex-col-center justify-center py-4 space-y-1">
 					<div class="flex w-[16rem] h-[9rem] items-center my-4">

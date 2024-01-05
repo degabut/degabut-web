@@ -132,6 +132,7 @@ export const QuickSearchModal: Component<Props> = (props) => {
 									contextMenu={MediaSourceContextMenuUtil.getContextMenu({
 										mediaSource,
 										appStore: app,
+										openWithClick: false,
 										queueStore: queue,
 										navigate,
 									})}
