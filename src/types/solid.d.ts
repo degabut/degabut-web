@@ -11,5 +11,9 @@ declare module "solid-js" {
 			buttonContextMenu: ContextMenuDirectiveParams;
 			resizable: ResizableParams;
 		}
+
+		interface CustomEvents {
+			click: MouseEvent;
+		}
 	}
 }
