@@ -68,7 +68,7 @@ export const Search: Component = () => {
 									<MediaSource.ListResponsive
 										big={screen.gte.lg}
 										mediaSource={mediaSource}
-										inQueue={queue.data.tracks?.some((t) => t.mediaSource.id === item.id)}
+										inQueue={queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id)}
 										contextMenu={MediaSourceContextMenuUtil.getContextMenu({
 											mediaSource,
 											appStore: app,
