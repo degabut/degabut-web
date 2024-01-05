@@ -4,7 +4,7 @@ import { IMediaSource } from "@media-source/apis";
 import { AddPlaylistMediaSourceModal } from "@playlist/components";
 import { Accessor, JSX, ParentComponent, Setter, createContext, createSignal } from "solid-js";
 import { ConfirmationModal, QuickSearchModal } from "./components";
-import { useCatJam, useSnowfall, useZoom } from "./hooks";
+import { useCatJam, useSnowfall, useVersionCheck, useZoom } from "./hooks";
 
 type Confirmation = {
 	title: string;
@@ -19,6 +19,7 @@ export type AppContextStore = {
 	promptAddMediaToPlaylist: (media: IMediaSource | null) => void;
 	setConfirmation: (confirmation: Confirmation | null) => void;
 	setIsQuickSearchModalOpen: Setter<boolean>;
+	hasNewVersion: Accessor<boolean>;
 };
 
 export const AppContext = createContext<AppContextStore>({
@@ -26,13 +27,15 @@ export const AppContext = createContext<AppContextStore>({
 	setTitle: () => {},
 	promptAddMediaToPlaylist: () => {},
 	setConfirmation: () => {},
-	setIsQuickSearchModalOpen: () => false as any,
+	setIsQuickSearchModalOpen: () => false,
+	hasNewVersion: () => false,
 });
 
 export const AppProvider: ParentComponent = (props) => {
 	useSnowfall();
 	useCatJam();
 	useZoom();
+	const { hasNewVersion } = useVersionCheck();
 
 	const [title, setTitle] = createSignal("");
 	const [mediaPlaylist, setMediaPlaylist] = createSignal<null | IMediaSource>(null);
@@ -57,6 +60,7 @@ export const AppProvider: ParentComponent = (props) => {
 		promptAddMediaToPlaylist: setMediaPlaylist,
 		setConfirmation,
 		setIsQuickSearchModalOpen,
+		hasNewVersion,
 	};
 
 	return (

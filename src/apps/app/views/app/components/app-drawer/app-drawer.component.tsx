@@ -89,19 +89,23 @@ export const AppDrawer: Component<AppDrawerProps> = (props) => {
 								<Link icon="plus" label="Install" minimized={minimized} onClick={promptInstall} />
 							</Show>
 
-							<Show when={desktop?.isUpdateReady()}>
+							<Show when={desktop?.isUpdateReady() || app.hasNewVersion()}>
 								<Link
 									icon="download"
-									label="Update"
+									label={desktop?.isUpdateReady() ? "Update" : "Reload"}
 									highlight
 									minimized={minimized}
-									onClick={() =>
-										app.setConfirmation({
-											title: "Update Available",
-											message: "Restart to apply the update?",
-											onConfirm: () => desktop?.ipc.quitAndInstallUpdate?.(),
-										})
-									}
+									onClick={() => {
+										if (desktop?.isUpdateReady()) {
+											app.setConfirmation({
+												title: "Update Available",
+												message: "Restart to apply the update?",
+												onConfirm: () => desktop?.ipc.quitAndInstallUpdate?.(),
+											});
+										} else {
+											window.location.reload();
+										}
+									}}
 								/>
 							</Show>
 
