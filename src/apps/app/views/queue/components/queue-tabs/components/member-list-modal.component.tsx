@@ -31,6 +31,18 @@ export const MemberListModal: Component<MemberListModalProps> = (props) => {
 							<Item.List
 								contextMenu={{
 									openWithClick: true,
+									header: (
+										<div class="flex-row-center justify-center space-x-4 py-4 pb-8 w-full">
+											<img
+												src={member.avatar || "/img/avatar.png"}
+												class="rounded-full w-16 h-16"
+											/>
+											<div class="space-y-2">
+												<Text.H3>{member.displayName}</Text.H3>
+												<Text.Body2>{member.username}</Text.Body2>
+											</div>
+										</div>
+									),
 									items: [
 										{
 											label: "View Recommendation",
