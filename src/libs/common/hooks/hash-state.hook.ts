@@ -5,6 +5,7 @@ type Params = {
 };
 
 export const useHashState = (params: Params) => {
+	let currentPath = "";
 	let currentHash = "";
 	let windowHash = window.location.hash;
 
@@ -12,13 +13,16 @@ export const useHashState = (params: Params) => {
 		const randomHash = "#" + Math.random().toString(36).substring(7);
 		history.pushState(null, "", randomHash);
 		window.dispatchEvent(new HashChangeEvent("hashchange"));
+		currentPath = window.location.pathname;
 		currentHash = randomHash;
 	};
 
 	const back = () => {
-		if (currentHash && windowHash === currentHash) {
-			history.back();
-		}
+		setTimeout(() => {
+			if (currentHash && windowHash === currentHash && currentPath === window.location.pathname) {
+				history.back();
+			}
+		});
 	};
 
 	onMount(() => {
