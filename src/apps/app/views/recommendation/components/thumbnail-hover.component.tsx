@@ -31,7 +31,7 @@ const ActionButton: Component<ActionButtonProps> = (props) => {
 				"bg-brand-600 hover:!bg-brand-400 text-neutral-800 hover:!text-black": !isLoading() && !props.disabled,
 			}}
 			icon={props.icon}
-			onClick={onClickHandler}
+			on:click={onClickHandler}
 		/>
 	);
 };
