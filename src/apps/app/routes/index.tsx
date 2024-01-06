@@ -11,6 +11,7 @@ import {
 	Queue,
 	QueueNowPlaying,
 	Recommendation,
+	RichPresenceEditor,
 	Search,
 	Settings,
 } from "../views";
@@ -32,7 +33,13 @@ export const appRoutes: RouteDefinition[] = [
 					{ path: "/recommendation/:id?", component: () => <Recommendation /> },
 					{ path: "/playlist", component: () => <Playlists /> },
 					{ path: "/playlist/:id", component: () => <PlaylistDetail /> },
-					{ path: "/settings", component: () => <Settings /> },
+					{
+						path: "/settings",
+						children: [
+							{ path: "/", component: () => <Settings /> },
+							{ path: "/rich-presence", component: () => <RichPresenceEditor /> },
+						],
+					},
 					{ path: "/join/:voiceChannelId?/:textChannelId?", component: () => <Join /> },
 				],
 			},

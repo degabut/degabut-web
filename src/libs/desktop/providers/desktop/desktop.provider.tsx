@@ -1,8 +1,8 @@
 import { Accessor, ParentComponent, createContext, createSignal } from "solid-js";
 
-type Presence = {
+export type IRichPresence = {
 	details: string;
-	state: string | undefined;
+	state?: string;
 	largeImageText: string;
 	largeImageKey: string;
 	smallImageKey?: string;
@@ -19,7 +19,7 @@ interface DesktopAPI {
 	onLoggedOut: () => void;
 	onSettingsChanged: (key: string, after: unknown, before: unknown) => void;
 
-	setActivity: (presence: Presence) => void;
+	setActivity: (presence: IRichPresence) => void;
 	clearActivity: () => void;
 	authenticateRpc: (clientId: string, clientSecret: string) => void;
 	setBotVolume: (volume: number, id: string) => void;

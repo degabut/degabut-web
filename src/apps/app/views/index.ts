@@ -9,5 +9,6 @@ export * from "./playlist-detail";
 export * from "./playlists";
 export * from "./queue";
 export * from "./recommendation";
+export * from "./rich-presence-editor";
 export * from "./search";
 export * from "./settings";

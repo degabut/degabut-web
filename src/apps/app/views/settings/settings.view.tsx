@@ -103,6 +103,16 @@ export const Settings: Component = () => {
 					onChange: () => setSettings("discord.richPresence", (v) => !v),
 				},
 				{
+					type: "element",
+					label: "",
+					hide: !settings["discord.richPresence"],
+					element: () => (
+						<Button class="px-2 py-0.5" onClick={() => navigate("/settings/rich-presence")}>
+							<Text.Body2>Customize</Text.Body2>
+						</Button>
+					),
+				},
+				{
 					label: "Enable RPC Features",
 					type: "switch",
 					description: "Experimental!",

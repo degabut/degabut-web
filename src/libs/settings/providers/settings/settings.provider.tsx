@@ -1,6 +1,11 @@
 import { createPersistedStore } from "@common/hooks";
 import { bots } from "@constants";
-import { useDesktop } from "@desktop/hooks";
+import {
+	IRichPresenceTemplate,
+	defaultRichPresenceIdleTemplate,
+	defaultRichPresenceTemplate,
+	useDesktop,
+} from "@desktop/hooks";
 import { ParentComponent, createContext } from "solid-js";
 
 export type Settings = {
@@ -9,6 +14,8 @@ export type Settings = {
 	["queue.showThumbnail"]: boolean;
 	["notification.browser"]: boolean;
 	["notification.inApp"]: boolean;
+	["discord.richPresence.template"]: IRichPresenceTemplate;
+	["discord.richPresence.idleTemplate"]: IRichPresenceTemplate;
 	["discord.richPresence"]: boolean;
 	["discord.rpc"]: boolean;
 	["discord.rpcClientId"]: string;
@@ -28,6 +35,8 @@ const defaultSettings: Settings = {
 	["queue.showThumbnail"]: true,
 	["notification.browser"]: false,
 	["notification.inApp"]: true,
+	["discord.richPresence.template"]: { ...defaultRichPresenceTemplate },
+	["discord.richPresence.idleTemplate"]: { ...defaultRichPresenceIdleTemplate },
 	["discord.richPresence"]: true,
 	["discord.rpc"]: false,
 	["discord.rpcClientId"]: "",

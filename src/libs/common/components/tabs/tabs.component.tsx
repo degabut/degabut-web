@@ -8,7 +8,7 @@ type LabelProps = {
 
 export type ITabItem = {
 	id: string;
-	element: Accessor<JSX.Element>;
+	element?: Accessor<JSX.Element>;
 } & (
 	| {
 			label: (props: LabelProps) => JSX.Element;
@@ -69,7 +69,7 @@ export const Tabs: Component<Props> = (props) => {
 						<div
 							classList={{ [props.extraContentContainerClass || ""]: !!props.extraContentContainerClass }}
 						>
-							{activeItem.element()}
+							{activeItem.element?.()}
 						</div>
 					</div>
 				);
