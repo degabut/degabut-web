@@ -33,6 +33,8 @@ export class RichPresenceUtil {
 			largeImageText: template.largeImageText,
 			smallImageKey: template.smallImageKey || undefined,
 			smallImageText: template.smallImageText || undefined,
+			buttons: template.buttons || undefined,
+			startTimestamp: template.startTimestamp || undefined,
 		};
 	}
 }
