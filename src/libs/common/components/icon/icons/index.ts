@@ -29,6 +29,7 @@ export { default as pause } from "./pause.svg";
 export { default as people } from "./people.svg";
 export { default as play } from "./play.svg";
 export { default as plus } from "./plus.svg";
+export { default as reload } from "./reload.svg";
 export { default as search } from "./search.svg";
 export { default as shuffle } from "./shuffle.svg";
 export { default as sixDots } from "./six-dots.svg";

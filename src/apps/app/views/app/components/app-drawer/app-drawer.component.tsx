@@ -91,7 +91,7 @@ export const AppDrawer: Component<AppDrawerProps> = (props) => {
 
 							<Show when={desktop?.isUpdateReady() || app.hasNewVersion()}>
 								<Link
-									icon="download"
+									icon={desktop?.isUpdateReady() ? "download" : "reload"}
 									label={desktop?.isUpdateReady() ? "Update" : "Reload"}
 									highlight
 									minimized={minimized}
