@@ -47,6 +47,7 @@ export interface IMember {
 	username: string;
 	discriminator: string;
 	avatar: null | string;
+	isInVoiceChannel: boolean;
 }
 
 export interface ITrack {
@@ -116,6 +117,10 @@ export class QueueApi {
 
 	removeTrack = async (queueId: string, trackId: string): Promise<void> => {
 		await this.client.delete(`/queues/${queueId}/tracks/${trackId}`);
+	};
+
+	removeTracksByMemberId = async (queueId: string, memberId: string): Promise<void> => {
+		await this.client.delete(`/queues/${queueId}/tracks`, { data: { memberId } });
 	};
 
 	clearQueue = async (queueId: string, includeNowPlaying = false): Promise<void> => {

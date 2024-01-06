@@ -28,8 +28,8 @@ export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, em
 		emitter.on("queue-left", resetQueue);
 		emitter.on("queue-joined", fetchQueue);
 		emitter.on("identify", fetchQueue);
-		emitter.on("member-added", addMember);
-		emitter.on("member-removed", removeMember);
+		emitter.on("member-joined", updateMember);
+		emitter.on("member-left", updateMember);
 		emitter.on("member-updated", updateMember);
 		emitter.on("queue-loop-mode-changed", partialUpdateQueue);
 		emitter.on("queue-shuffle-toggled", partialUpdateQueue);
@@ -40,6 +40,7 @@ export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, em
 		emitter.on("track-added", ({ track }) => appendTrack(track));
 		emitter.on("tracks-added", ({ tracks }) => appendTrack(tracks));
 		emitter.on("track-removed", ({ track }) => removeTrack(track));
+		emitter.on("tracks-removed", ({ tracks }) => removeTrack(tracks));
 		emitter.on("track-order-changed", orderTrack);
 		emitter.on("track-audio-started", onTrackAudioStarted);
 		emitter.on("queue-processed", setNowPlaying);
@@ -50,25 +51,10 @@ export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, em
 		setQueue({ ...defaultQueue });
 	};
 
-	const addMember = (member: IMember) => {
-		setQueue("voiceChannel", (vc) => {
-			return { ...vc, members: [...vc.members, member] };
-		});
-	};
-
-	const removeMember = (member: IMember) => {
-		setQueue("voiceChannel", (vc) => {
-			return {
-				...vc,
-				members: vc.members.filter((m) => m.id !== member.id),
-			};
-		});
-	};
-
 	const updateMember = (member: IMember) => {
 		setQueue("voiceChannel", (vc) => {
 			const index = vc.members.findIndex((m) => m.id === member.id);
-			if (index === -1) return vc;
+			if (index === -1) return { ...vc, members: [...vc.members, member] };
 
 			const members = [...vc.members];
 			members[index] = member;
@@ -96,8 +82,9 @@ export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, em
 		});
 	};
 
-	const removeTrack = (track: ITrack) => {
-		setQueue("tracks", (tracks) => tracks?.filter((t) => t.id !== track.id));
+	const removeTrack = (track: ITrack | ITrack[]) => {
+		const trackIds = Array.isArray(track) ? track.map((t) => t.id) : [track.id];
+		setQueue("tracks", (tracks) => tracks.filter((t) => !trackIds.includes(t.id)));
 	};
 
 	const orderTrack = (trackIds: string[]) => {

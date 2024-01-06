@@ -58,6 +58,10 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 		);
 	};
 
+	const removeTracksByMemberId = (memberId: string) => {
+		return modifyTrack((queueId) => queueApi.removeTracksByMemberId(queueId, memberId));
+	};
+
 	const addTrack = (mediaSource: IMediaSource) => {
 		return modifyTrack((queueId) => queueApi.addTrackById(queueId, mediaSource.id));
 	};
@@ -158,6 +162,7 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 		skipTrack,
 		playTrack,
 		removeTrack,
+		removeTracksByMemberId,
 		addTrack,
 		addTrackById,
 		addTrackByKeyword,

@@ -1,8 +1,8 @@
-import { Button, Divider, Icon, Item, Modal, Text } from "@common/components";
+import { Button, Divider, Icon, Text } from "@common/components";
 import { TimeUtil } from "@common/utils";
 import { useQueue } from "@queue/hooks";
-import { useNavigate } from "@solidjs/router";
 import { Component, For, createSignal } from "solid-js";
+import { MemberListModal } from "./member-list-modal.component";
 
 type Props = {
 	title: string;
@@ -22,7 +22,6 @@ const InfoItem: Component<Props> = (props) => {
 
 export const QueueInfo: Component = () => {
 	const queue = useQueue();
-	const navigate = useNavigate();
 
 	const [isListenersModalOpen, setIsListenersModalOpen] = createSignal(false);
 
@@ -51,7 +50,7 @@ export const QueueInfo: Component = () => {
 					<Icon name="people" size="lg" class="fill-neutral-500 mx-auto" />
 
 					<div class="flex-row-center overflow-x-clip -space-x-2">
-						<For each={queue.data.voiceChannel?.members || []}>
+						<For each={queue.data.voiceChannel.members.filter((m) => m.isInVoiceChannel)}>
 							{(member) => (
 								<div class="rounded-full w-7 h-7 border-neutral-900 border-2">
 									<img
@@ -66,33 +65,7 @@ export const QueueInfo: Component = () => {
 				</Button>
 			</div>
 
-			<Modal
-				isOpen={isListenersModalOpen()}
-				closeOnEscape
-				onClickOutside={() => setIsListenersModalOpen(false)}
-				extraContainerClass="w-[32rem] top-[15vh] h-[90vh] md:h-[70vh]"
-			>
-				<div class="flex flex-col h-full">
-					<div class="pt-4 md:pt-8 px-2 md:px-8">
-						<Text.H2 class="text-center mb-4">Listeners</Text.H2>
-						<Divider extraClass="my-4" />
-					</div>
-
-					<div class="flex flex-col py-8 px-4 md:p-8 !pt-0 space-y-2 overflow-auto">
-						<For each={queue.data.voiceChannel?.members || []}>
-							{(member) => (
-								<Item.List
-									onClick={() => navigate(`/recommendation/${member.id}`)}
-									title={member.displayName}
-									extra={() => <Text.Caption1>{member.username}</Text.Caption1>}
-									imageUrl={member.avatar || "/img/avatar.png"}
-									extraImageClass="rounded-full"
-								/>
-							)}
-						</For>
-					</div>
-				</div>
-			</Modal>
+			<MemberListModal isOpen={isListenersModalOpen()} handleClose={() => setIsListenersModalOpen(false)} />
 		</>
 	);
 };
