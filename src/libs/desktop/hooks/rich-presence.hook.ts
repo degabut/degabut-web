@@ -48,8 +48,8 @@ export const useRichPresence = (queue: IQueue) => {
 			data = {
 				details: title,
 				state: creator,
-				largeImageText: "Degabut",
-				largeImageKey: "degabut",
+				largeImageText: nowPlaying.mediaSource.title,
+				largeImageKey: nowPlaying.mediaSource.minThumbnailUrl,
 				smallImageKey,
 				smallImageText,
 				startTimestamp,
