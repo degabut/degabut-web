@@ -35,7 +35,7 @@ export const useRichPresence = (queue: IQueue) => {
 		} else {
 			const title = nowPlaying.mediaSource.title;
 			const creator = nowPlaying.mediaSource.creator;
-			const otherMemberCount = voiceChannel.members.length - 1;
+			const otherMemberCount = voiceChannel.members.filter((m) => m.isInVoiceChannel).length - 1;
 			const smallImageKey = otherMemberCount > 0 ? "multi_user" : "single_user";
 			const smallImageText =
 				otherMemberCount <= 0
