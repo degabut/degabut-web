@@ -18,7 +18,7 @@ type VideoPlaylistOption = null | {
 export const ExternalTrackAdder = () => {
 	const app = useApp();
 	const api = useApi();
-	const youtubeApi = new YouTubeApi(api.client);
+	const youtubeApi = new YouTubeApi(api.youtubeClient);
 	const queue = useQueue();
 
 	const [dragCounter, setDragCounter] = createSignal(0);
