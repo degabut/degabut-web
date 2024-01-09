@@ -16,6 +16,7 @@ const pwa = VitePWA({
 		skipWaiting: true,
 		cleanupOutdatedCaches: true,
 		globPatterns: ["**/*.{js,css,ico,png,svg}"],
+		navigateFallback: null,
 	},
 });
 
