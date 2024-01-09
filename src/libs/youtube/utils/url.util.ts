@@ -13,7 +13,8 @@ export class YoutubeUrlUtil {
 
 			if (!YoutubeUrlUtil.HOSTS.includes(host)) return {};
 
-			const videoId = url.searchParams.get("v") || url.pathname.split("/").pop();
+			const videoId =
+				url.searchParams.get("v") || host === "youtube.be" ? url.pathname.split("/").pop() : undefined;
 			const playlistId = url.searchParams.get("list") || undefined;
 
 			return { videoId, playlistId };
