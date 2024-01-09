@@ -209,7 +209,7 @@ export const Settings: Component = () => {
 					{(c) => (
 						<Show when={"show" in c ? c.show : true}>
 							<div class="space-y-4">
-								<Text.Caption1 class="uppercase font-medium">{c.label}</Text.Caption1>
+								<Text.H4 class="uppercase font-medium text-neutral-400">{c.label}</Text.H4>
 								<For each={c.items.filter((i) => !i.hide)}>
 									{(i) => (
 										<>
@@ -223,7 +223,7 @@ export const Settings: Component = () => {
 								</For>
 							</div>
 
-							<Divider />
+							<Divider dark />
 						</Show>
 					)}
 				</For>
