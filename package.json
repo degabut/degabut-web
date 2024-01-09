@@ -5,7 +5,7 @@
 	"scripts": {
 		"start": "vite",
 		"dev": "vite",
-		"dev:tsc": "concurrently --kill-others \"vite\" \"tsc --noEmit -W\"",
+		"start:dev": "concurrently --kill-others \"vite\" \"tsc --noEmit -W\"",
 		"build": "vite build --mode prod",
 		"serve": "vite preview",
 		"lint": "prettier --write src && eslint . --fix"
