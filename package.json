@@ -1,6 +1,6 @@
 {
 	"name": "degabut-web",
-	"version": "0.3.11",
+	"version": "0.3.12",
 	"description": "",
 	"scripts": {
 		"start": "vite",
