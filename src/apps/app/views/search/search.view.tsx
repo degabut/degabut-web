@@ -1,6 +1,6 @@
 import { useApp } from "@app/hooks";
-import { Container, Icon, Input, Item } from "@common/components";
-import { useScreen } from "@common/hooks";
+import { Container, Icon, Input, Item, Text } from "@common/components";
+import { useMatchMediaUrlId, useScreen } from "@common/hooks";
 import { MediaSource } from "@media-source/components";
 import { MediaSourceContextMenuUtil, MediaSourceFactory } from "@media-source/utils";
 import { useQueue } from "@queue/hooks";
@@ -29,6 +29,7 @@ export const Search: Component = () => {
 	const navigate = useNavigate();
 
 	const [query, setQuery] = useSearchParams<{ keyword: string }>();
+	const matchUrl = useMatchMediaUrlId(query.keyword || "");
 	const search = useSearch({
 		playlistCount: 5,
 		playlistStartIndex: 5,
@@ -42,6 +43,7 @@ export const Search: Component = () => {
 	const onInput = (ev: InputEvent) => {
 		const value = (ev.target as HTMLInputElement).value;
 		search.setKeyword(value);
+		matchUrl.setKeyword(value);
 		setQuery({ keyword: value });
 	};
 
@@ -59,7 +61,28 @@ export const Search: Component = () => {
 			/>
 
 			<div class="lg:space-y-8 space-y-1.5">
-				<Show when={!search.isLoading()} fallback={<SearchResultSkeleton isSmall={!screen.gte.md} />}>
+				<Show when={!queue.data.empty && matchUrl.ids().length}>
+					<div class="space-y-1.5">
+						<For each={matchUrl.ids()}>
+							{(item) => (
+								<Item.Hint
+									label={() => (
+										<Text.Body1 truncate class="text-neutral-400">
+											Add {item.label} to queue
+										</Text.Body1>
+									)}
+									icon="plus"
+									onClick={() => {
+										queue.addTrackById(item);
+										navigate("/queue");
+									}}
+								/>
+							)}
+						</For>
+					</div>
+				</Show>
+
+				<Show when={!search.isLoading()} fallback={<SearchResultSkeleton isSmall={!screen.gte.lg} />}>
 					<For each={search.result()}>
 						{(item) => {
 							if ("duration" in item) {

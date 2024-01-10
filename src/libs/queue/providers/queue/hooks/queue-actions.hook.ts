@@ -1,4 +1,4 @@
-import { useApi } from "@common/hooks";
+import { MediaUrlId, useApi } from "@common/hooks";
 import { IMediaSource } from "@media-source/apis";
 import { ITrack, LoopMode, PlayerApi, QueueApi } from "@queue/apis";
 import { AxiosError } from "axios";
@@ -66,8 +66,15 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 		return modifyTrack((queueId) => queueApi.addTrackById(queueId, mediaSource.id));
 	};
 
-	const addTrackById = (mediaSourceId: string) => {
-		return modifyTrack((queueId) => queueApi.addTrackById(queueId, mediaSourceId));
+	const addTrackById = (id: string | MediaUrlId) => {
+		return modifyTrack(async (queueId) => {
+			if (typeof id === "string") await queueApi.addTrackById(queueId, id);
+			else if (id.type === "youtubeVideoId") await queueApi.addTrackById(queueId, `youtube/${id.value}`);
+			else if (id.type === "spotifyTrackId") await queueApi.addTrackById(queueId, `spotify/${id.value}`);
+			else if (id.type === "spotifyAlbumId") await queueApi.addSpotifyAlbum(queueId, id.value);
+			else if (id.type === "spotifyPlaylistId") await queueApi.addSpotifyPlaylist(queueId, id.value);
+			else if (id.type === "youtubePlaylistId") await queueApi.addYouTubePlaylist(queueId, id.value);
+		});
 	};
 
 	const addTrackByKeyword = (keyword: string) => {

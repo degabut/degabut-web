@@ -1,6 +1,6 @@
 import { useApp } from "@app/hooks";
-import { Icon, KeyboardHint, Modal, Select } from "@common/components";
-import { useSearchable } from "@common/hooks";
+import { Icon, Item, KeyboardHint, Modal, Select, Text } from "@common/components";
+import { MediaUrlId, useMatchMediaUrlId, useSearchable } from "@common/hooks";
 import { MediaSource } from "@media-source/components";
 import { MediaSourceContextMenuUtil, MediaSourceFactory } from "@media-source/utils";
 import { PlaylistConfirmationUtil } from "@playlist/utils";
@@ -13,7 +13,7 @@ import { useSearch } from "@youtube/hooks";
 import { YouTubeContextMenuUtil } from "@youtube/utils";
 import { Component, Show, createSignal } from "solid-js";
 
-type SelectOptionItem = IVideoCompact | IYouTubePlaylistCompact | ITrack;
+type SelectOptionItem = MediaUrlId | IVideoCompact | IYouTubePlaylistCompact | ITrack;
 
 type Props = {
 	isOpen: boolean;
@@ -26,10 +26,12 @@ export const QuickSearchModal: Component<Props> = (props) => {
 	const navigate = useNavigate();
 
 	const [isLoading, setIsLoading] = createSignal(false);
+	const matchUrl = useMatchMediaUrlId("");
 	const search = useSearch();
 
 	const onInput = (e: InputEvent) => {
 		const value = (e.target as HTMLInputElement).value;
+		matchUrl.setKeyword(value);
 		search.setKeyword(value);
 	};
 
@@ -48,9 +50,12 @@ export const QuickSearchModal: Component<Props> = (props) => {
 		if ("requestedBy" in item) navigate("/queue");
 		else if ("duration" in item) {
 			if (!queue.data.empty) await addToQueue(item);
-		} else {
+		} else if ("videoCount" in item) {
 			// playlist
 			app.setConfirmation(PlaylistConfirmationUtil.addPlaylistConfirmation(item, () => addToQueue(item)));
+		} else {
+			await queue.addTrackById(item);
+			props.onDone();
 		}
 	};
 
@@ -81,6 +86,12 @@ export const QuickSearchModal: Component<Props> = (props) => {
 		returnEmptyOnEmptyKeyword: true,
 	});
 
+	const items = () => {
+		const i: SelectOptionItem[] = [...tracks(), ...search.result()];
+		if (!queue.data.empty) i.unshift(...matchUrl.ids());
+		return i;
+	};
+
 	return (
 		<Modal
 			extraContainerClass="absolute w-[48rem] top-[15vh]"
@@ -105,7 +116,7 @@ export const QuickSearchModal: Component<Props> = (props) => {
 					}}
 					hideOptionOnClickOutside={false}
 					extraResultContainerClass="max-h-[50vh]"
-					options={[...tracks(), ...search.result()]}
+					options={items()}
 					onSelect={onSelect}
 					hint={() => (
 						<Show when={search.result().length}>
@@ -139,7 +150,7 @@ export const QuickSearchModal: Component<Props> = (props) => {
 									extraContainerClassList={extraContainerClass}
 								/>
 							);
-						} else {
+						} else if ("videoCount" in item) {
 							return (
 								<YouTubePlaylist.List
 									playlist={item}
@@ -150,6 +161,18 @@ export const QuickSearchModal: Component<Props> = (props) => {
 									})}
 									extraContainerClass="cursor-pointer px-2 py-1"
 									extraContainerClassList={extraContainerClass}
+								/>
+							);
+						} else {
+							return (
+								<Item.Hint
+									extraContainerClassList={extraContainerClass}
+									label={() => (
+										<Text.Body1 truncate class="text-neutral-400">
+											Add {item.label} to queue
+										</Text.Body1>
+									)}
+									icon="plus"
 								/>
 							);
 						}

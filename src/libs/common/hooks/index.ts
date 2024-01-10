@@ -3,6 +3,7 @@ export * from "./context-menu.hook";
 export * from "./create-persisted-store.hook";
 export * from "./hash-state.hook";
 export * from "./infinite-scrolling.hook";
+export * from "./match-media-url-id.hook";
 export * from "./notification.hook";
 export * from "./screen.hook";
 export * from "./searchable.hook";
