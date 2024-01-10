@@ -17,7 +17,10 @@ export const useSearch = (params: Params = {}) => {
 	const [playlistEndIndex, setPlaylistEndIndex] = createSignal(-1);
 	const [playlistCount, setPlaylistCount] = createSignal(-1);
 
-	const setDebouncedKeyword = DelayUtil.debounce((v: string) => _setDebouncedKeyword(v), params.debounce || 250);
+	const setDebouncedKeyword = DelayUtil.debounce(
+		(v: string) => _setDebouncedKeyword(v.startsWith("https://") ? "" : v),
+		params.debounce || 250
+	);
 	createEffect(() => setDebouncedKeyword(keyword()));
 
 	const result = createMemo(() => {
