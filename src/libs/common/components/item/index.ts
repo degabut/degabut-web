@@ -1,4 +1,5 @@
 import { ItemCard, ItemCardSkeleton } from "./item-card";
+import { ItemHint } from "./item-hint";
 import { ItemList, ItemListBig, ItemListBigSkeleton, ItemListSkeleton } from "./item-list";
 
 export type { ItemCardProps } from "./item-card";
@@ -13,4 +14,6 @@ export const Item = {
 
 	Card: ItemCard,
 	CardSkeleton: ItemCardSkeleton,
+
+	Hint: ItemHint,
 };

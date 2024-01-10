@@ -1,29 +1,12 @@
 import { useApp } from "@app/hooks";
-import { Button, Icon, Icons, KeyboardHint, Text } from "@common/components";
+import { Button, Item, KeyboardHint, Text } from "@common/components";
 import { useInfiniteScrolling, useScreen } from "@common/hooks";
 import { MediaSources } from "@media-source/components";
 import { MediaSourceContextMenuUtil } from "@media-source/utils";
 import { useQueue } from "@queue/hooks";
 import { useNavigate } from "@solidjs/router";
-import { Accessor, Component, JSX } from "solid-js";
+import { Component } from "solid-js";
 import { useQueueRecommendation } from "../hooks";
-
-type HintItemProps = {
-	icon: Icons;
-	onClick: () => void;
-	label: Accessor<JSX.Element>;
-};
-
-const HintItem: Component<HintItemProps> = (props) => {
-	return (
-		<Button flat onClick={() => props.onClick()} class="flex flex-row items-center w-full space-x-3 p-1.5">
-			<div class="!w-12 !h-12 shrink-0 flex items-center justify-center rounded border border-neutral-600">
-				<Icon name={props.icon} size="lg" extraClass="fill-neutral-500" />
-			</div>
-			{props.label()}
-		</Button>
-	);
-};
 
 export const QueueHint: Component = () => {
 	const app = useApp();
@@ -45,7 +28,7 @@ export const QueueHint: Component = () => {
 	return (
 		<div class="space-y-8 md:space-y-4 py-2">
 			<div class="space-y-2">
-				<HintItem
+				<Item.Hint
 					label={() => (
 						<div class="flex-row-center space-x-4 truncate">
 							<Text.Body1 truncate class="text-neutral-400">
@@ -63,7 +46,7 @@ export const QueueHint: Component = () => {
 					icon="search"
 					onClick={() => (screen.gte.md ? app.setIsQuickSearchModalOpen(true) : navigate("/search"))}
 				/>
-				<HintItem
+				<Item.Hint
 					label={() => (
 						<Text.Body1 truncate class="text-neutral-400">
 							Look at recommendations
