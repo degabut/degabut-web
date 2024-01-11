@@ -4,7 +4,7 @@ import { useScreen } from "@common/hooks";
 import { RecapUtil } from "@common/utils";
 import { useDesktop } from "@desktop/hooks";
 import { useSettings } from "@settings/hooks";
-import { Component, For, Show, createSignal, onMount } from "solid-js";
+import { Component, For, Show } from "solid-js";
 import { BotSelector, Link } from "./components";
 
 type AppDrawerProps = {
@@ -17,7 +17,6 @@ export const AppDrawer: Component<AppDrawerProps> = (props) => {
 	const { settings, setSettings } = useSettings();
 	const screen = useScreen();
 	const desktop = useDesktop();
-	const [deferredPrompt, setDeferredPrompt] = createSignal<BeforeInstallPromptEvent | null>(null);
 
 	desktop?.ipc.onLoggedOut?.();
 
@@ -31,21 +30,6 @@ export const AppDrawer: Component<AppDrawerProps> = (props) => {
 		{ icon: "audioPlaylist", label: "Playlist", path: "/playlist" },
 		{ icon: "heart", label: "For You", path: "/recommendation" },
 	] as const;
-
-	onMount(() => {
-		window.addEventListener("beforeinstallprompt", (e) => {
-			e.preventDefault();
-			setDeferredPrompt(e as BeforeInstallPromptEvent);
-		});
-	});
-
-	const promptInstall = async () => {
-		const prompt = deferredPrompt();
-		if (!prompt) return;
-
-		await prompt.prompt();
-		setDeferredPrompt(null);
-	};
 
 	return (
 		<Drawer
@@ -85,10 +69,6 @@ export const AppDrawer: Component<AppDrawerProps> = (props) => {
 						</div>
 
 						<div class="flex flex-col space-y-1.5">
-							<Show when={deferredPrompt()}>
-								<Link icon="plus" label="Install" minimized={minimized} onClick={promptInstall} />
-							</Show>
-
 							<Show when={desktop?.isUpdateReady() || app.hasNewVersion()}>
 								<Link
 									icon={desktop?.isUpdateReady() ? "download" : "reload"}
