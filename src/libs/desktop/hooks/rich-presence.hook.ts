@@ -63,9 +63,9 @@ export const useRichPresence = (queue: IQueue) => {
 		const voiceChannel = queue.voiceChannel;
 
 		let data;
-		if (!nowPlaying?.playedAt || !voiceChannel) {
+		if (!voiceChannel) {
 			data = { ...settings["discord.richPresence.idleTemplate"] } || defaultRichPresenceIdleTemplate;
-		} else {
+		} else if (nowPlaying?.playedAt) {
 			const template = settings["discord.richPresence.template"] || defaultRichPresenceTemplate;
 
 			const otherMemberCount = voiceChannel.members.filter((m) => m.isInVoiceChannel).length - 1;
@@ -83,9 +83,7 @@ export const useRichPresence = (queue: IQueue) => {
 						  }`,
 			};
 
-			const startTimestamp = nowPlaying.playedAt
-				? Math.floor(new Date(nowPlaying.playedAt).getTime() / 1000)
-				: null;
+			const startTimestamp = Math.floor(new Date(nowPlaying.playedAt).getTime() / 1000);
 
 			data = {
 				...RichPresenceUtil.parseTemplate(template, placeholder),
@@ -100,7 +98,7 @@ export const useRichPresence = (queue: IQueue) => {
 		}
 
 		// TODO better way to check current activity
-		if (currentActivity && currentActivity === JSON.stringify(data)) return;
+		if (!data || (currentActivity && currentActivity === JSON.stringify(data))) return;
 		currentActivity = JSON.stringify(data);
 		desktop?.ipc.setActivity?.(RichPresenceUtil.toPresence(data));
 	};
