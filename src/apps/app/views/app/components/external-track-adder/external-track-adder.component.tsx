@@ -1,5 +1,5 @@
 import { useApp } from "@app/hooks";
-import { Icon, Spinner } from "@common/components";
+import { Icon, Spinner, Text } from "@common/components";
 import { useApi } from "@common/hooks";
 import { SPOTIFY_INTEGRATION } from "@constants";
 import { PlaylistConfirmationUtil } from "@playlist/utils";
@@ -24,8 +24,6 @@ export const ExternalTrackAdder = () => {
 	const [dragCounter, setDragCounter] = createSignal(0);
 	const [isLoading, setIsLoading] = createSignal(false);
 	const [videoPlaylistOption, setVideoPlaylistOption] = createSignal<VideoPlaylistOption>(null);
-	let dropContainer!: HTMLDivElement;
-	let containerDragCounter = 0;
 
 	onMount(() => {
 		window.addEventListener("dragenter", onDragEnter);
@@ -60,8 +58,6 @@ export const ExternalTrackAdder = () => {
 
 	const onDrop = async (e: DragEvent) => {
 		e.preventDefault();
-
-		if (!dropContainer.contains(e.target as Node)) return setDragCounter(0);
 
 		const url = e.dataTransfer?.getData("URL");
 		if (!url) {
@@ -125,14 +121,6 @@ export const ExternalTrackAdder = () => {
 		setDragCounter(0);
 	};
 
-	const onContainerDragEnter = () => {
-		++containerDragCounter && dropContainer.classList.add("bg-white/10");
-	};
-
-	const onContainerDragLeave = () => {
-		--containerDragCounter || dropContainer.classList.remove("bg-white/10");
-	};
-
 	const showInvalidUrlAlert = () => {
 		app.setConfirmation({
 			title: "Invalid URL",
@@ -171,20 +159,15 @@ export const ExternalTrackAdder = () => {
 					onClick={() => setDragCounter(0)}
 					class="fixed-screen z-[1000] flex items-center justify-center bg-black/90 text-center p-4"
 				>
-					<div
-						ref={dropContainer}
-						onDragEnter={onContainerDragEnter}
-						onDragLeave={onContainerDragLeave}
-						class="flex flex-col space-y-8 min-w-[50vw] w-[48rem] min-h-[50vh] justify-center items-center border-4 border-dashed rounded border-neutral-500 p-8"
-					>
-						<Show when={!isLoading()} fallback={<Spinner size="3xl" />}>
-							<Icon name="link" extraClass="fill-neutral-400 w-32 h-32" />
+					<div class="flex flex-col space-y-8 w-full max-w-md justify-center items-center border-2 border-dashed rounded border-neutral-500 p-8 bg-white/10">
+						<Show when={!isLoading()} fallback={<Spinner size="2xl" />}>
+							<Icon name="link" extraClass="fill-neutral-400 w-24 h-24" />
 						</Show>
-						<div class="space-y-4">
-							<div class="text-4xl font-medium text-neutral-300">Drop URL Here</div>
-							<div class="text-xl text-neutral-400">
+						<div class="flex flex-col space-y-4">
+							<Text.H1 class="text-neutral-300">Add to Queue</Text.H1>
+							<Text.Body1 class="text-neutral-400">
 								You can also copy a URL and paste it anywhere on the page.
-							</div>
+							</Text.Body1>
 						</div>
 					</div>
 				</div>
