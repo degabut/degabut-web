@@ -63,9 +63,9 @@ export const useRichPresence = (queue: IQueue) => {
 		const voiceChannel = queue.voiceChannel;
 
 		let data;
-		if (!voiceChannel) {
+		if (!voiceChannel || !nowPlaying) {
 			data = { ...settings["discord.richPresence.idleTemplate"] } || defaultRichPresenceIdleTemplate;
-		} else if (nowPlaying?.playedAt) {
+		} else {
 			const template = settings["discord.richPresence.template"] || defaultRichPresenceTemplate;
 
 			const otherMemberCount = voiceChannel.members.filter((m) => m.isInVoiceChannel).length - 1;
@@ -83,7 +83,9 @@ export const useRichPresence = (queue: IQueue) => {
 						  }`,
 			};
 
-			const startTimestamp = Math.floor(new Date(nowPlaying.playedAt).getTime() / 1000);
+			const startTimestamp = nowPlaying.playedAt
+				? Math.floor(new Date(nowPlaying.playedAt).getTime() / 1000)
+				: undefined;
 
 			data = {
 				...RichPresenceUtil.parseTemplate(template, placeholder),
