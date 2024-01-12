@@ -20,7 +20,8 @@ export const useVersionCheck = () => {
 	});
 
 	const fetchVersion = async () => {
-		const response = await axios.get("/app.json");
+		const timestamp = Date.now();
+		const response = await axios.get(`/app.json?ts=${timestamp}`);
 		const { version } = response.data;
 
 		if (currentVersion && currentVersion !== version) {
