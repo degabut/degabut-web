@@ -26,7 +26,7 @@ export const QueueHint: Component = () => {
 	});
 
 	return (
-		<div class="space-y-8 md:space-y-4 py-2">
+		<div class="space-y-6 md:space-y-4">
 			<div class="space-y-2">
 				<Item.Hint
 					label={() => (

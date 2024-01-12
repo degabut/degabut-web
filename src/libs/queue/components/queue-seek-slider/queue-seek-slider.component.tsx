@@ -20,7 +20,7 @@ export const QueueSeekSlider: Component<Props> = (props) => {
 	const backgroundStyle = () => {
 		const percentage = (Math.round(props.value) / props.max) * 100;
 		const primary = props.disabled ? "#B8AE14" : "#ECE350";
-		return `linear-gradient(to right, ${primary} 0%, ${primary} ${percentage}%, rgb(115 115 115) ${percentage}%, rgb(115 115 115) 100%)`;
+		return `linear-gradient(to right, ${primary} 0%, ${primary} ${percentage}%, rgb(82 82 82) ${percentage}%, rgb(82 82 82) 100%)`;
 	};
 
 	const onChange = (value: number) => {
@@ -44,8 +44,8 @@ export const QueueSeekSlider: Component<Props> = (props) => {
 				<div
 					class="absolute w-full h-0.5"
 					classList={{
-						"opacity-100 block bg-neutral-700": props.max <= 0,
-						"hidden md:block bg-neutral-500 opacity-100 hover:opacity-0": props.max > 0,
+						"opacity-100 block bg-neutral-800": props.max <= 0,
+						"hidden md:block bg-neutral-600 opacity-100 hover:opacity-0": props.max > 0,
 					}}
 				>
 					<div

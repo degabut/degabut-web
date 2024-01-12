@@ -8,41 +8,37 @@ export const QueueTabs: Component = () => {
 	const queue = useQueue();
 
 	return (
-		<Tabs
-			extraTabsClass="md:w-max"
-			extraContainerClass="h-full overflow-y-auto -mx-3 md:mx-0"
-			extraContentContainerClass="h-full overflow-y-auto md:pr-2 px-3 md:px-0"
-			items={[
-				{
-					id: "trackList",
-					labelText: "Queue",
-					element: () => (
-						<Show
-							when={!queue.isInitialLoading()}
-							fallback={
-								<div class="pt-6">
-									<MediaSources.List data={[]} isLoading />
+		<div class="flex flex-col space-y-4 overflow-y-auto">
+			<QueueInfo />
+
+			<Tabs
+				extraTabsClass="md:w-max"
+				extraContainerClass="h-full overflow-y-auto"
+				extraContentContainerClass="h-full overflow-y-auto md:pr-2 pt-4"
+				items={[
+					{
+						id: "trackList",
+						labelText: "Queue",
+						element: () => (
+							<Show when={!queue.isInitialLoading()} fallback={<MediaSources.List data={[]} isLoading />}>
+								<div class="space-y-2">
+									<QueueTrackList />
+									<QueueHint />
 								</div>
-							}
-						>
-							<QueueInfo />
-							<QueueTrackList />
-							<QueueHint />
-						</Show>
-					),
-				},
-				{
-					id: "queueHistory",
-					labelText: "History",
-					element: () => (
-						<Show when={!queue.isInitialLoading()} fallback={<MediaSources.List data={[]} isLoading />}>
-							<div class="pt-6">
+							</Show>
+						),
+					},
+					{
+						id: "queueHistory",
+						labelText: "History",
+						element: () => (
+							<Show when={!queue.isInitialLoading()} fallback={<MediaSources.List data={[]} isLoading />}>
 								<QueuePlayHistory />
-							</div>
-						</Show>
-					),
-				},
-			]}
-		/>
+							</Show>
+						),
+					},
+				]}
+			/>
+		</div>
 	);
 };

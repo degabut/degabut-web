@@ -4,7 +4,7 @@ import { MediaSourceContextMenuUtil } from "@media-source/utils";
 import { ITrack } from "@queue/apis";
 import { useQueue } from "@queue/hooks";
 import { useNavigate } from "@solidjs/router";
-import { Component } from "solid-js";
+import { Component, Show } from "solid-js";
 
 export const QueueTrackList: Component = () => {
 	const app = useApp();
@@ -32,14 +32,14 @@ export const QueueTrackList: Component = () => {
 	};
 
 	return (
-		<div class="space-y-2">
-			<div class="h-full" classList={{ "opacity-50 pointer-events-none": queue.freezeState.track }}>
+		<Show when={queue.data.tracks.length}>
+			<div classList={{ "opacity-50 pointer-events-none": queue.freezeState.track }}>
 				<MediaSources.SortableList
 					data={queue.data.tracks}
 					onSort={({ to }, data) => queue.changeTrackOrder(data.id, to)}
 					sortableProps={mediaSourceProps}
 				/>
 			</div>
-		</div>
+		</Show>
 	);
 };
