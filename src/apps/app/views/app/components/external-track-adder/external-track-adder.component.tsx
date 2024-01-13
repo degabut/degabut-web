@@ -159,15 +159,17 @@ export const ExternalTrackAdder = () => {
 					onClick={() => setDragCounter(0)}
 					class="fixed-screen z-[1000] flex items-center justify-center bg-black/90 text-center p-4"
 				>
-					<div class="flex flex-col space-y-8 w-full max-w-md justify-center items-center border-2 border-dashed rounded border-neutral-500 p-8 bg-white/10">
-						<Show when={!isLoading()} fallback={<Spinner size="2xl" />}>
-							<Icon name="link" extraClass="fill-neutral-400 w-24 h-24" />
-						</Show>
-						<div class="flex flex-col space-y-4">
-							<Text.H1 class="text-neutral-300">Add to Queue</Text.H1>
-							<Text.Body1 class="text-neutral-400">
-								You can also copy a URL and paste it anywhere on the page.
-							</Text.Body1>
+					<div class="w-full max-w-md rounded border-neutral-500 p-4 bg-neutral-850">
+						<div class="flex flex-col space-y-8 justify-center items-center p-6 w-full border border-neutral-600 border-dashed rounded">
+							<Show when={!isLoading()} fallback={<Spinner size="2xl" />}>
+								<Icon name="link" extraClass="fill-neutral-400 w-24 h-24" />
+							</Show>
+							<div class="flex flex-col space-y-4">
+								<Text.H1 class="text-neutral-300">Add to Queue</Text.H1>
+								<Text.Body1 class="text-neutral-400">
+									You can also copy a URL and paste it anywhere on the page.
+								</Text.Body1>
+							</div>
 						</div>
 					</div>
 				</div>
