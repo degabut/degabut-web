@@ -47,6 +47,7 @@ export const MemberListModal: Component<MemberListModalProps> = (props) => {
 										{
 											label: "View Recommendation",
 											icon: "heart",
+											disabled: !member.isInVoiceChannel,
 											onClick: () => navigate(`/recommendation/${member.id}`),
 										},
 										{
