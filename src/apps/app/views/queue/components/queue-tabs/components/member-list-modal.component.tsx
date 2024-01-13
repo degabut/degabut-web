@@ -59,7 +59,7 @@ export const MemberListModal: Component<MemberListModalProps> = (props) => {
 								title={member.displayName}
 								extra={() => <Text.Caption1>{member.username}</Text.Caption1>}
 								extraContainerClassList={{
-									"opacity-50": !member.isInVoiceChannel,
+									"opacity-25 hover:opacity-50": !member.isInVoiceChannel,
 								}}
 								imageUrl={member.avatar || "/img/avatar.png"}
 								extraImageClass="rounded-full"
