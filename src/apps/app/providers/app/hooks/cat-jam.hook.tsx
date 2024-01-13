@@ -14,8 +14,10 @@ const CatJam: Component<CatJamProps> = (props) => {
 	const url = () =>
 		props.jamSpeed < 0.65
 			? "/img/cat-jam-slow.gif"
-			: props.jamSpeed < 0.85
+			: props.jamSpeed < 0.8
 			? "/img/cat-jiggy.gif"
+			: props.jamSpeed < 0.9
+			? "/img/toothless-dance.gif"
 			: props.jamSpeed < 0.95
 			? "/img/cat-jam-fast.gif"
 			: props.jamSpeed < 0.99
