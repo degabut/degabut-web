@@ -61,11 +61,7 @@ export const QueuePlayer: Component = () => {
 
 				<div class="flex items-center justify-end space-x-0.5">
 					<QueueButton.Lyrics iconSize="md" onClick={() => navigate("/queue/lyrics")} />
-					<QueueButton.Settings
-						iconSize="md"
-						onClearQueue={() => queue.clear()}
-						onStopQueue={() => queue.stop()}
-					/>
+					<QueueButton.Settings iconSize="md" onClearQueue={queue.clear} onStopQueue={queue.stop} />
 					<Show when={settings["discord.rpc"]}>
 						<VolumeSlider />
 					</Show>

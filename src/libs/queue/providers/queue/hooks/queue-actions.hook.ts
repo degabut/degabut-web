@@ -111,8 +111,8 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 		return modifyTrack((queueId) => queueApi.addSpotifyAlbum(queueId, spotifyAlbumId));
 	};
 
-	const clear = () => {
-		return modifyTrack((queueId) => queueApi.clearQueue(queueId));
+	const clear = (includeNowPlaying = false) => {
+		return modifyTrack((queueId) => queueApi.clearQueue(queueId, includeNowPlaying));
 	};
 
 	const join = (voiceChannelId: string, textChannelId?: string) => {

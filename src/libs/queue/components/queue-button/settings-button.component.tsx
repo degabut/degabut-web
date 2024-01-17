@@ -1,12 +1,12 @@
 import { useApp } from "@app/hooks";
-import { Button, IconSize } from "@common/components";
+import { Button, Checkbox, IconSize, Text } from "@common/components";
 import { contextMenu } from "@common/directives";
 import { Component } from "solid-js";
 
 contextMenu;
 
 type Props = {
-	onClearQueue: () => void;
+	onClearQueue: (removeNowPlaying: boolean) => void;
 	onStopQueue: () => void;
 	extraClass?: string;
 	iconSize?: IconSize;
@@ -21,8 +21,22 @@ export const SettingsButton: Component<Props> = (props) => {
 			onClick: () =>
 				app.setConfirmation({
 					title: "Clear Queue",
-					message: "Are you sure you want to clear the queue?",
-					onConfirm: props.onClearQueue,
+					state: { removeNowPlaying: true },
+					message: (state, setState) => {
+						return (
+							<div class="flex flex-col space-y-6">
+								<Text.Body1 class="text-center">Are you sure you want to clear the queue?</Text.Body1>
+								<div
+									class="flex flex-row justify-center items-center space-x-2"
+									onClick={() => setState("removeNowPlaying", (v) => !v)}
+								>
+									<Checkbox checked={state.removeNowPlaying} />
+									<Text.Caption1>Remove currently playing song</Text.Caption1>
+								</div>
+							</div>
+						);
+					},
+					onConfirm: (state) => props.onClearQueue(state.removeNowPlaying),
 				}),
 		},
 		{
