@@ -1,6 +1,7 @@
 export * from "./a";
 export * from "./abbreviation-icon";
 export * from "./button";
+export * from "./checkbox";
 export * from "./container";
 export * from "./context-menu";
 export * from "./divider";
