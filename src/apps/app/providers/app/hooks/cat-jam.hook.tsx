@@ -81,7 +81,7 @@ export const useCatJam = () => {
 		const target = e.target as Element | null;
 		const tagName = target?.tagName.toUpperCase();
 
-		if (tagName !== "INPUT" && tagName !== "TEXTAREA" && e.key === "j") {
+		if (tagName !== "INPUT" && tagName !== "TEXTAREA" && e.key.toLowerCase() === "j") {
 			e.preventDefault();
 			throttledJam();
 		}
