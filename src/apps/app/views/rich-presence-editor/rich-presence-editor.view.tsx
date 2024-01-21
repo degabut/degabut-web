@@ -1,6 +1,6 @@
 import { Button, Container, Divider, Tabs, Text } from "@common/components";
-import { TimeUtil } from "@common/utils";
-import { IS_DESKTOP } from "@constants";
+import { TimeUtil, UrlUtil } from "@common/utils";
+import { IS_DESKTOP, bots } from "@constants";
 import { IRichPresencePlaceholder, defaultRichPresenceTemplate } from "@desktop/hooks";
 import { RichPresenceUtil } from "@desktop/utils/rich-presence.util";
 import { useSettings } from "@settings/hooks";
@@ -32,20 +32,29 @@ export const RichPresenceEditor: Component = () => {
 		setRichPresence({ ...newSettings });
 	});
 
-	const placeholderDescription: Partial<IRichPresencePlaceholder> = {
+	const placeholderDescription: IRichPresencePlaceholder = {
 		title: "Track title",
 		creator: "Track creator (channel name or artists)",
 		imageUrl: "Track image URL (thumbnail or album cover)",
 		duration: "Track duration (in hh:mm:ss format)",
+		botIconUrl: "Bot icon URL",
+		botName: "Bot name",
 	};
 
-	const placeholder = {
+	const placeholder: IRichPresencePlaceholder = {
 		title: "Track Title",
 		creator: "Various Artists",
 		imageUrl: "https://picsum.photos/seed/picsum/100/100",
 		duration: TimeUtil.secondsToTime(260),
 		listenerKey: "single_user",
 		listenerText: "Listening alone",
+		botIconUrl: UrlUtil.toAbsolute(bots[0].iconUrl),
+		botName: bots[0].name,
+	};
+
+	const idlePlaceholder: IRichPresencePlaceholder = {
+		botIconUrl: UrlUtil.toAbsolute(bots[0].iconUrl),
+		botName: bots[0].name,
 	};
 
 	const inputs = [
@@ -57,10 +66,20 @@ export const RichPresenceEditor: Component = () => {
 		{ label: "Large Image Text", key: "largeImageText" },
 	] as const;
 
+	const activePlaceholderDescription = () => {
+		const values = currentSettings() === "discord.richPresence.template" ? placeholder : idlePlaceholder;
+		const activeDescription: IRichPresencePlaceholder = {};
+		for (const key of Object.keys(values) as Array<keyof IRichPresencePlaceholder>) {
+			const description = placeholderDescription[key];
+			if (description) activeDescription[key] = description;
+		}
+		return activeDescription;
+	};
+
 	const parsedRichPresence = createMemo(() =>
 		RichPresenceUtil.parseTemplate(
 			richPresence,
-			currentSettings() === "discord.richPresence.template" ? placeholder : {},
+			currentSettings() === "discord.richPresence.template" ? placeholder : idlePlaceholder,
 			assets()
 		)
 	);
@@ -111,26 +130,24 @@ export const RichPresenceEditor: Component = () => {
 
 				<div class="grid md:grid-cols-2 gap-x-8 gap-y-8">
 					<div class="space-y-4">
-						<Show when={currentSettings() === "discord.richPresence.template"}>
-							<div class="space-y-2">
-								<Text.H3>Placeholders</Text.H3>
+						<div class="space-y-2">
+							<Text.H3>Placeholders</Text.H3>
 
-								<table>
-									<tbody class="align-top">
-										<For each={Object.entries(placeholderDescription)}>
-											{([key, description]) => (
-												<tr>
-													<td class="pr-4">
-														<code>&#123;{key}&#125;</code>
-													</td>
-													<td>{description}</td>
-												</tr>
-											)}
-										</For>
-									</tbody>
-								</table>
-							</div>
-						</Show>
+							<table>
+								<tbody class="align-top">
+									<For each={Object.entries(activePlaceholderDescription())}>
+										{([key, description]) => (
+											<tr>
+												<td class="pr-4">
+													<code>&#123;{key}&#125;</code>
+												</td>
+												<td>{description}</td>
+											</tr>
+										)}
+									</For>
+								</tbody>
+							</table>
+						</div>
 
 						<div class="space-y-2 max-w-max">
 							<Text.H3>Asset Keys</Text.H3>

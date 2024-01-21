@@ -39,7 +39,7 @@ const ProvidedApp: Component = () => {
 	const inQueue = useMatch(() => (screen.gte.md ? "/queue" : "/queue/player"));
 
 	useQueueNotification();
-	useRichPresence(queue.data);
+	useRichPresence(queue);
 	NotificationUtil.requestPermission();
 
 	let previousWidth = window.screenX;

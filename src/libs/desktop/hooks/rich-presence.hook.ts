@@ -1,7 +1,7 @@
-import { TimeUtil } from "@common/utils";
+import { TimeUtil, UrlUtil } from "@common/utils";
 import { IS_BROWSER } from "@constants";
 import { RichPresenceUtil } from "@desktop/utils/rich-presence.util";
-import { IQueue } from "@queue/apis";
+import { QueueContextStore } from "@queue/providers";
 import { useSettings } from "@settings/hooks";
 import { createEffect, onMount } from "solid-js";
 import { useDesktop } from "./desktop.hook";
@@ -21,7 +21,15 @@ export type IRichPresenceTemplate = {
 	largeImageText: string;
 };
 
-type RichPresencePlaceholderKey = "title" | "creator" | "imageUrl" | "duration" | "listenerKey" | "listenerText";
+type RichPresencePlaceholderKey =
+	| "title"
+	| "creator"
+	| "imageUrl"
+	| "duration"
+	| "listenerKey"
+	| "listenerText"
+	| "botName"
+	| "botIconUrl";
 export type IRichPresencePlaceholder = Partial<Record<RichPresencePlaceholderKey, string>>;
 
 export const defaultRichPresenceTemplate: IRichPresenceTemplate = {
@@ -42,7 +50,7 @@ export const defaultRichPresenceIdleTemplate: IRichPresenceTemplate = {
 	largeImageKey: "degabut",
 };
 
-export const useRichPresence = (queue: IQueue) => {
+export const useRichPresence = (context: QueueContextStore) => {
 	if (IS_BROWSER) return;
 
 	const desktop = useDesktop();
@@ -59,12 +67,21 @@ export const useRichPresence = (queue: IQueue) => {
 	const updateListeningActivity = async () => {
 		if (!settings["discord.richPresence"]) return;
 
-		const nowPlaying = queue.nowPlaying;
-		const voiceChannel = queue.voiceChannel;
+		const nowPlaying = context.data.nowPlaying;
+		const voiceChannel = context.data.voiceChannel;
+		const bot = context.bot();
 
 		let data;
 		if (!voiceChannel || !nowPlaying) {
-			data = { ...settings["discord.richPresence.idleTemplate"] } || defaultRichPresenceIdleTemplate;
+			const template = settings["discord.richPresence.idleTemplate"] || defaultRichPresenceIdleTemplate;
+			const placeholder: IRichPresencePlaceholder = {
+				botIconUrl: UrlUtil.toAbsolute(bot.iconUrl),
+				botName: bot.name,
+			};
+
+			data = {
+				...RichPresenceUtil.parseTemplate(template, placeholder),
+			};
 		} else {
 			const template = settings["discord.richPresence.template"] || defaultRichPresenceTemplate;
 
@@ -81,6 +98,8 @@ export const useRichPresence = (queue: IQueue) => {
 						: `Listening along with ${otherMemberCount} other ${
 								otherMemberCount === 1 ? "person" : "people"
 						  }`,
+				botIconUrl: UrlUtil.toAbsolute(bot.iconUrl),
+				botName: bot.name,
 			};
 
 			const startTimestamp = nowPlaying.playedAt
@@ -98,6 +117,8 @@ export const useRichPresence = (queue: IQueue) => {
 				],
 			};
 		}
+
+		console.log(data);
 
 		// TODO better way to check current activity
 		if (!data || (currentActivity && currentActivity === JSON.stringify(data))) return;
