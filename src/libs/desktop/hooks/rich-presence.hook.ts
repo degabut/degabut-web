@@ -118,8 +118,6 @@ export const useRichPresence = (context: QueueContextStore) => {
 			};
 		}
 
-		console.log(data);
-
 		// TODO better way to check current activity
 		if (!data || (currentActivity && currentActivity === JSON.stringify(data))) return;
 		currentActivity = JSON.stringify(data);
