@@ -14,7 +14,7 @@ export const RichPresencePreview: Component<RichPresencePreviewProps> = (props) 
 					{(key) => (
 						<img
 							src={key}
-							class="w-7 h-7 absolute rounded-full -bottom-1 -right-2 border-2 border-neutral-900"
+							class="w-7 h-7 absolute rounded-full -bottom-1 -right-2"
 							title={props.smallImageText}
 						/>
 					)}
