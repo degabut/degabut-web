@@ -8,6 +8,7 @@ import { useRichPresence } from "@desktop/hooks";
 import { useQueue } from "@queue/hooks";
 import { QueueProvider } from "@queue/providers";
 import { Outlet, useMatch } from "@solidjs/router";
+import { SpotifyProvider } from "@spotify/providers";
 import { Component, ErrorBoundary, Show, createEffect, createSignal } from "solid-js";
 import {
 	AppDrawer,
@@ -25,7 +26,9 @@ export const App: Component = () => {
 			<NotificationProvider>
 				<QueueProvider>
 					<AppProvider>
-						<ProvidedApp />
+						<SpotifyProvider>
+							<ProvidedApp />
+						</SpotifyProvider>
 					</AppProvider>
 				</QueueProvider>
 			</NotificationProvider>
@@ -63,7 +66,7 @@ const ProvidedApp: Component = () => {
 							<AppHeader onMenuClick={() => setIsDrawerOpen(true)} />
 						</div>
 
-						<div class="h-full overflow-y-auto md:rounded-lg bg-neutral-950">
+						<div class="h-full overflow-y-auto">
 							<Outlet />
 						</div>
 					</div>

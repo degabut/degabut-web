@@ -1,11 +1,12 @@
 import { useApp } from "@app/hooks";
 import { Button, Container, Divider, Text } from "@common/components";
 import { TimeUtil } from "@common/utils";
-import { APP_VERSION, DESKTOP_APP_VERSION, IS_DESKTOP } from "@constants";
+import { APP_VERSION, DESKTOP_APP_VERSION, IS_DESKTOP, SPOTIFY_INTEGRATION } from "@constants";
 import { useDesktop } from "@desktop/hooks";
 import { useSettings } from "@settings/hooks";
 import { useNavigate } from "@solidjs/router";
-import { Accessor, Component, For, JSX, Show, onMount } from "solid-js";
+import { useSpotify } from "@spotify/hooks";
+import { Accessor, Component, For, JSX, JSXElement, Show, onMount } from "solid-js";
 import { Item, KeybindItem, SliderItem, SwitchItem, TextItem } from "./components";
 
 type SettingsCategory = {
@@ -22,7 +23,7 @@ type SettingsItemParams<Type, ValueType, Extra = object> = {
 
 type SettingsItem = {
 	label: string;
-	description?: string;
+	description?: string | (() => JSXElement);
 	hide?: boolean;
 } & (
 	| SettingsItemParams<"switch", boolean>
@@ -47,6 +48,7 @@ type SettingsItem = {
 export const Settings: Component = () => {
 	const app = useApp();
 	const desktop = useDesktop();
+	const spotify = useSpotify();
 	const { settings, setSettings } = useSettings();
 	const navigate = useNavigate();
 
@@ -147,6 +149,40 @@ export const Settings: Component = () => {
 								)
 							}
 							disabled={!settings["discord.rpcClientId"] || !settings["discord.rpcClientSecret"]}
+						>
+							<Text.Body2>Authenticate</Text.Body2>
+						</Button>
+					),
+				},
+			],
+		},
+		{
+			label: "Spotify",
+			show: SPOTIFY_INTEGRATION,
+			items: [
+				{
+					label: "Enable Spotify Integration",
+					description: () => <Text.Caption1 class="underline underline-offset-2">How to use?</Text.Caption1>,
+					type: "switch",
+					value: () => settings["spotify.enabled"],
+					onChange: () => setSettings("spotify.enabled", (v) => !v),
+				},
+				{
+					label: "Spotify Client ID",
+					type: "text",
+					hide: !settings["spotify.enabled"],
+					value: () => settings["spotify.clientId"],
+					onChange: (v) => setSettings("spotify.clientId", v),
+				},
+				{
+					type: "element",
+					label: "",
+					hide: !settings["spotify.enabled"],
+					element: () => (
+						<Button
+							class="px-2 py-0.5"
+							onClick={spotify.initialize}
+							disabled={!settings["spotify.clientId"]}
 						>
 							<Text.Body2>Authenticate</Text.Body2>
 						</Button>

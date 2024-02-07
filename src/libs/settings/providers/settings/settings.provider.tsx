@@ -27,6 +27,8 @@ export type Settings = {
 	["app.snowfall.speed"]: number;
 	["overlay.enabled"]: boolean;
 	["overlay.shortcut"]: string[];
+	["spotify.enabled"]: boolean;
+	["spotify.clientId"]: string;
 };
 
 const defaultSettings: Settings = {
@@ -48,6 +50,8 @@ const defaultSettings: Settings = {
 	["app.snowfall.speed"]: 50,
 	["overlay.enabled"]: true,
 	["overlay.shortcut"]: ["Control", "Shift", "B"],
+	["spotify.enabled"]: false,
+	["spotify.clientId"]: "",
 };
 
 export type SettingsContextStore = {

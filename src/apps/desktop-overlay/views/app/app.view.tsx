@@ -37,7 +37,7 @@ const ProvidedApp: Component = () => {
 	});
 
 	return (
-		<Container size="full" padless extraClass="flex-col-center space-y-6 h-full bg-black/50">
+		<Container size="full" padless transparent extraClass="flex-col-center space-y-6 h-full bg-black/50">
 			<div class="flex-row-center justify-center space-x-4 bg-black/90 w-full py-5">
 				<img class="w-12 h-12" src={queue.bot().iconUrl} />
 				<Text.H1 class="text-3xl font-brand font-black tracking-wide">{queue.bot().name}</Text.H1>

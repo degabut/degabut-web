@@ -1,11 +1,18 @@
 import { useApp } from "@app/hooks";
-import { Drawer } from "@common/components";
+import { Drawer, Icons } from "@common/components";
 import { useScreen } from "@common/hooks";
 import { RecapUtil } from "@common/utils";
 import { useDesktop } from "@desktop/hooks";
 import { useSettings } from "@settings/hooks";
 import { Component, For, Show } from "solid-js";
 import { BotSelector, Link } from "./components";
+
+type Link = {
+	icon: Icons;
+	label: string;
+	path: string;
+	disabled?: boolean;
+};
 
 type AppDrawerProps = {
 	isOpen: boolean;
@@ -24,12 +31,13 @@ export const AppDrawer: Component<AppDrawerProps> = (props) => {
 		if (!screen.gte.md) props.handleClose();
 	};
 
-	const links = [
+	const links = (): Link[] => [
 		{ icon: "degabutThin", label: "Queue", path: "/queue" },
 		{ icon: "search", label: "Search", path: "/search" },
 		{ icon: "audioPlaylist", label: "Playlist", path: "/playlist" },
 		{ icon: "heart", label: "For You", path: "/recommendation" },
-	] as const;
+		{ icon: "spotify", label: "Spotify", path: "/spotify", disabled: !settings["spotify.enabled"] },
+	];
 
 	return (
 		<Drawer
@@ -48,7 +56,7 @@ export const AppDrawer: Component<AppDrawerProps> = (props) => {
 						<BotSelector minimized={minimized} />
 
 						<div class="flex flex-col grow text-lg space-y-1.5">
-							<For each={links}>
+							<For each={links().filter((l) => !l.disabled)}>
 								{(link) => <Link {...link} onClick={onLinkClick} minimized={minimized} />}
 							</For>
 

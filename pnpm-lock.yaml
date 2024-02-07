@@ -1,6 +1,9 @@
 lockfileVersion: '6.0'
 
 dependencies:
+  '@fostertheweb/spotify-web-sdk':
+    specifier: ^1.2.3
+    version: 1.2.3
   '@solidjs/router':
     specifier: ^0.8.3
     version: 0.8.3(solid-js@1.8.3)
@@ -1755,6 +1758,10 @@ packages:
     resolution: {integrity: sha512-mjZVbpaeMZludF2fsWLD0Z9gCref1Tk4i9+wddjRvpUNqqcndPkBD09N/Mapey0b3jaXbLm2kICwFv2E64QinA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
+
+  /@fostertheweb/spotify-web-sdk@1.2.3:
+    resolution: {integrity: sha512-QAZJvzAukUe0G/WHVc2c3Jk9HmVJqrQeJ34mehJLYt4qh6gzw4VMXssjuzHON4VvucRS6LGslr3ACrOOVwsImw==}
+    dev: false
 
   /@humanwhocodes/config-array@0.11.13:
     resolution: {integrity: sha512-JSBDMiDKSzQVngfRjOdFXgFfklaXI4K9nLF49Auh21lmBWRLIK3+xTErTWD4KU54pb6coM6ESE7Awz/FNU3zgQ==}

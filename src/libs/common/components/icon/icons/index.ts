@@ -38,6 +38,7 @@ export { default as sortArrows } from "./sort-arrows.svg";
 export { default as soundFull } from "./sound-full.svg";
 export { default as soundMedium } from "./sound-medium.svg";
 export { default as soundOff } from "./sound-off.svg";
+export { default as spotify } from "./spotify.svg";
 export { default as squareLine } from "./square-line.svg";
 export { default as stars } from "./stars.svg";
 export { default as swap } from "./swap.svg";

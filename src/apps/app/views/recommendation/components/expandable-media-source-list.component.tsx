@@ -24,7 +24,7 @@ export const ExpandableMediaSourceList: Component<Props> = (props) => {
 		<div class="space-y-6 md:space-y-4">
 			<ShowMoreTitle {...props} />
 
-			<div class="grid grid-cols-1 2xl:grid-cols-2 2xl:gap-x-12 3xl:gap-x-24 gap-y-2">
+			<div class="grid grid-cols-1 xl:grid-cols-2 gap-x-6 2xl:gap-x-12 3xl:gap-x-24 gap-y-2">
 				<Show when={!props.isLoading} fallback={<For each={Array(10)}>{() => <Item.ListSkeleton />}</For>}>
 					<For each={props.mediaSources}>
 						{(mediaSource) => (

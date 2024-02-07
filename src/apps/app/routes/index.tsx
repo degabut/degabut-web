@@ -6,6 +6,7 @@ import {
 	Login,
 	Lyrics,
 	OAuth,
+	OAuthSpotify,
 	PlaylistDetail,
 	Playlists,
 	Queue,
@@ -14,6 +15,8 @@ import {
 	RichPresenceEditor,
 	Search,
 	Settings,
+	Spotify,
+	SpotifyPlaylist,
 } from "../views";
 
 export const appRoutes: RouteDefinition[] = [
@@ -31,6 +34,8 @@ export const appRoutes: RouteDefinition[] = [
 					{ path: "/search", component: () => <Search /> },
 					{ path: "/recommendation", component: () => <Recommendation /> },
 					{ path: "/recommendation/:id?", component: () => <Recommendation /> },
+					{ path: "/spotify", component: () => <Spotify /> },
+					{ path: "/spotify/playlist/:id", component: () => <SpotifyPlaylist /> },
 					{ path: "/playlist", component: () => <Playlists /> },
 					{ path: "/playlist/:id", component: () => <PlaylistDetail /> },
 					{
@@ -40,6 +45,7 @@ export const appRoutes: RouteDefinition[] = [
 							{ path: "/rich-presence", component: () => <RichPresenceEditor /> },
 						],
 					},
+					{ path: "/oauth/spotify", component: () => <OAuthSpotify /> },
 					{ path: "/join/:voiceChannelId?/:textChannelId?", component: () => <Join /> },
 				],
 			},
