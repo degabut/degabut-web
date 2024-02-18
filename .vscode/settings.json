@@ -4,12 +4,12 @@
 	"files.eol": "\n",
 	"[typescriptreact]": {
 		"editor.codeActionsOnSave": {
-			"source.organizeImports": true
+			"source.organizeImports": "explicit"
 		}
 	},
 	"[typescript]": {
 		"editor.codeActionsOnSave": {
-			"source.organizeImports": true
+			"source.organizeImports": "explicit"
 		}
 	},
 	"tailwindCSS.experimental.classRegex": ["\"([^\"]+?)\"\\s*:", "[a-zA-Z]*Class=\"(.*)\""],
