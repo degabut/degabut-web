@@ -1,9 +1,10 @@
-import { AbbreviationIcon, Button, Text } from "@common/components";
+import { AbbreviationIcon, ContextMenuButton, Text } from "@common/components";
 import { Component } from "solid-js";
 
 type Props = {
 	name: string;
 	onClickEdit: () => void;
+	onAddToQueue: () => void;
 	itemCount: number;
 	duration: number;
 };
@@ -33,18 +34,34 @@ export const MainPlaylist: Component<Props> = (props) => {
 		<div class="flex-row-center space-x-4">
 			<AbbreviationIcon text={props.name} size="xl" />
 
-			<div class="space-y-4">
+			<div class="space-y-4 flex-grow truncate">
 				<div class="flex-row-center justify-between md:justify-start md:space-x-8">
 					<Text.H1 truncate title={props.name}>
 						{props.name}
 					</Text.H1>
-					<Button icon="editPencil" iconSize="md" flat rounded onClick={() => props.onClickEdit()} />
 				</div>
 				<div class="flex md:flex-row space-x-8">
 					<Text.Body1>{itemCount()}</Text.Body1>
 					<Text.Body1>{duration()}</Text.Body1>
 				</div>
 			</div>
+
+			<ContextMenuButton
+				contextMenu={{
+					items: [
+						{
+							label: "Rename",
+							icon: "editPencil",
+							onClick: props.onClickEdit,
+						},
+						{
+							label: "Add to Queue",
+							icon: "plus",
+							onClick: props.onAddToQueue,
+						},
+					],
+				}}
+			/>
 		</div>
 	);
 };

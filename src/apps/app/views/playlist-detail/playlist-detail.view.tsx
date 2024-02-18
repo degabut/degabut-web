@@ -38,6 +38,7 @@ export const PlaylistDetail: Component = () => {
 					duration={playlist.totalDuration()}
 					itemCount={playlist.playlist()?.mediaSourceCount || 0}
 					onClickEdit={() => setIsEditModalOpen(true)}
+					onAddToQueue={() => queue.addPlaylist(params.id)}
 				/>
 			</Show>
 
