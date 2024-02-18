@@ -59,6 +59,7 @@ const Content: Component = () => {
 								<Title>Continue Listening</Title>
 								<MediaSource.List
 									mediaSource={mediaSource}
+									inQueue={queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id)}
 									contextMenu={MediaSourceContextMenuUtil.getContextMenu({
 										mediaSource,
 										queueStore: queue,
@@ -80,6 +81,7 @@ const Content: Component = () => {
 							{(mediaSource) => (
 								<MediaSource.List
 									mediaSource={mediaSource}
+									inQueue={queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id)}
 									contextMenu={MediaSourceContextMenuUtil.getContextMenu({
 										mediaSource,
 										queueStore: queue,
@@ -101,6 +103,7 @@ const Content: Component = () => {
 							{(mediaSource) => (
 								<MediaSource.List
 									mediaSource={mediaSource}
+									inQueue={queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id)}
 									contextMenu={MediaSourceContextMenuUtil.getContextMenu({
 										mediaSource,
 										queueStore: queue,
