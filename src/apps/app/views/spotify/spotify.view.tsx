@@ -6,23 +6,8 @@ import { useNavigate } from "@solidjs/router";
 import { SpotifyPlaylist } from "@spotify/components";
 import { useSpotify } from "@spotify/hooks";
 import { SpotifyContextMenuUtil } from "@spotify/utils/context-menu.util";
-import { Component, ParentComponent, Show } from "solid-js";
-import { SectionList, Title } from "./components";
-
-type ContainerProps = {
-	extraClass?: string;
-};
-
-const Container: ParentComponent<ContainerProps> = (props) => {
-	return (
-		<div
-			class="h-full md:overflow-y-auto bg-neutral-950 md:rounded-lg px-3 md:px-6 md:py-8"
-			classList={{ [props.extraClass || ""]: !!props.extraClass }}
-		>
-			{props.children}
-		</div>
-	);
-};
+import { Component, Show, onMount } from "solid-js";
+import { Container, SectionList, Title } from "./components";
 
 export const Spotify: Component = () => {
 	const spotify = useSpotify();
@@ -40,12 +25,14 @@ const Content: Component = () => {
 	const queue = useQueue();
 	const navigate = useNavigate();
 
+	onMount(() => app.setTitle("Spotify"));
+
 	return (
-		<div class="flex flex-col md:flex-row md:space-x-2 space-y-8 h-full">
-			<Container extraClass="w-full md:max-w-sm">
+		<div class="h-full overflow-y-auto flex flex-col lg:flex-row lg:space-x-2 lg:space-y-0 lg:bg-transparent bg-neutral-950 rounded-lg">
+			<Container extraClass="space-y-8 w-full lg:max-w-md max-w-full">
 				<Show when={spotify.playlists.data()} keyed>
 					{(playlists) => (
-						<SectionList label="Your Playlists" inline={false} items={playlists} isLoading={false}>
+						<SectionList inline={false} label="Your Playlists" items={playlists} isLoading={false}>
 							{(playlist) => (
 								<SpotifyPlaylist.List
 									onClick={() => navigate("/spotify/playlist/" + playlist.id)}
@@ -62,13 +49,13 @@ const Content: Component = () => {
 				</Show>
 			</Container>
 
-			<Container extraClass="w-full">
+			<Container extraClass="space-y-8 w-full">
 				<Show when={spotify.queue.data()?.currentlyPlaying} keyed>
 					{(currentlyPlaying) => {
 						const mediaSource = MediaSourceFactory.fromSpotifyTrack(currentlyPlaying);
 
 						return (
-							<div class="space-y-6 md:space-y-4">
+							<div class="space-y-6 lg:space-y-4">
 								<Title>Continue Listening</Title>
 								<MediaSource.List
 									mediaSource={mediaSource}
@@ -83,49 +70,47 @@ const Content: Component = () => {
 					}}
 				</Show>
 
-				<div class="w-full space-y-8">
-					<Show when={spotify.topTracks.data()} keyed>
-						{(topTracks) => (
-							<SectionList
-								label="Top Tracks"
-								items={topTracks.map(MediaSourceFactory.fromSpotifyTrack)}
-								isLoading={false}
-							>
-								{(mediaSource) => (
-									<MediaSource.List
-										mediaSource={mediaSource}
-										contextMenu={MediaSourceContextMenuUtil.getContextMenu({
-											mediaSource,
-											queueStore: queue,
-											appStore: app,
-										})}
-									/>
-								)}
-							</SectionList>
-						)}
-					</Show>
+				<Show when={spotify.topTracks.data()} keyed>
+					{(topTracks) => (
+						<SectionList
+							label="Top Tracks"
+							items={topTracks.map(MediaSourceFactory.fromSpotifyTrack)}
+							isLoading={false}
+						>
+							{(mediaSource) => (
+								<MediaSource.List
+									mediaSource={mediaSource}
+									contextMenu={MediaSourceContextMenuUtil.getContextMenu({
+										mediaSource,
+										queueStore: queue,
+										appStore: app,
+									})}
+								/>
+							)}
+						</SectionList>
+					)}
+				</Show>
 
-					<Show when={spotify.recentlyPlayed.data()} keyed>
-						{(recentlyPlayed) => (
-							<SectionList
-								label="Recently Played"
-								items={recentlyPlayed.map(MediaSourceFactory.fromSpotifyTrack)}
-								isLoading={false}
-							>
-								{(mediaSource) => (
-									<MediaSource.List
-										mediaSource={mediaSource}
-										contextMenu={MediaSourceContextMenuUtil.getContextMenu({
-											mediaSource,
-											queueStore: queue,
-											appStore: app,
-										})}
-									/>
-								)}
-							</SectionList>
-						)}
-					</Show>
-				</div>
+				<Show when={spotify.recentlyPlayed.data()} keyed>
+					{(recentlyPlayed) => (
+						<SectionList
+							label="Recently Played"
+							items={recentlyPlayed.map(MediaSourceFactory.fromSpotifyTrack)}
+							isLoading={false}
+						>
+							{(mediaSource) => (
+								<MediaSource.List
+									mediaSource={mediaSource}
+									contextMenu={MediaSourceContextMenuUtil.getContextMenu({
+										mediaSource,
+										queueStore: queue,
+										appStore: app,
+									})}
+								/>
+							)}
+						</SectionList>
+					)}
+				</Show>
 			</Container>
 		</div>
 	);

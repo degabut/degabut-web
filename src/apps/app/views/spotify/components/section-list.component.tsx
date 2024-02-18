@@ -1,22 +1,19 @@
 import { Item } from "@common/components";
 import { For, JSX, Show } from "solid-js";
-import { ShowMoreTitle, Title } from "./title.component";
+import { Title } from "./title.component";
 
 type Props<T> = {
 	items: T[];
 	label: string;
 	inline?: boolean;
 	isLoading: boolean;
-	onClickMore?: () => void;
 	children: (item: T) => JSX.Element;
 };
 
 export function SectionList<Item = unknown>(props: Props<Item>) {
 	return (
 		<div class="space-y-6 md:space-y-4">
-			<Show when={props.onClickMore} fallback={<Title>{props.label}</Title>}>
-				{(c) => <ShowMoreTitle {...props} onClickMore={c} />}
-			</Show>
+			<Title>{props.label}</Title>
 
 			<div
 				class="grid grid-cols-1 gap-x-6 2xl:gap-x-12 3xl:gap-x-24 gap-y-2"

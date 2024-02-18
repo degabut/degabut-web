@@ -18,8 +18,6 @@ export type SpotifyData = {
 export const useSpotifyData = (isConnected: Accessor<boolean>, client: SpotifySdk): SpotifyData => {
 	const api = new SpotifyApi(client);
 
-	// api.getQueue();
-
 	const playlists = createResource(isConnected, (c) => c && api.getSelfPlaylists(0, 10));
 	const recentlyPlayed = createResource(isConnected, (c) => c && api.getRecentlyPlayed(10));
 	const topTracks = createResource(isConnected, (c) => c && api.getTopTracks(0, 10));
