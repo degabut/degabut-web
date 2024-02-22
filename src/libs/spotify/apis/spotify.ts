@@ -93,10 +93,11 @@ export class SpotifyApi {
 	};
 
 	getQueue = async (): Promise<ISpotifyQueue | null> => {
-		const { currently_playing, queue } = await this.client.player.getUsersQueue();
+		const queue = await this.client.player.getUsersQueue();
 		return {
-			currentlyPlaying: this.isTrack(currently_playing) ? this.parseTrack(currently_playing) : null,
-			queue: queue.filter(this.isTrack).map(this.parseTrack),
+			currentlyPlaying:
+				queue && this.isTrack(queue.currently_playing) ? this.parseTrack(queue.currently_playing) : null,
+			queue: queue?.queue.filter(this.isTrack).map(this.parseTrack) || [],
 		};
 	};
 

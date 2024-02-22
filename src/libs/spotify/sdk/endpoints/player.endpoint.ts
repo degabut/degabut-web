@@ -37,7 +37,7 @@ export class PlayerEndpoint extends BaseEndpoint {
 	}
 
 	public getUsersQueue() {
-		return this.getRequest<Queue>("me/player/queue");
+		return this.getRequest<Queue | null>("me/player/queue");
 	}
 
 	public async transferPlayback(device_ids: string[], play?: boolean) {
