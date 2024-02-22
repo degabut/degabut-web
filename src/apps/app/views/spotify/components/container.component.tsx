@@ -7,7 +7,7 @@ type ContainerProps = {
 export const Container: ParentComponent<ContainerProps> = (props) => {
 	return (
 		<div
-			class="h-full lg:overflow-y-auto bg-neutral-950 lg:rounded-lg px-3 lg:px-6 lg:py-8 py-4"
+			class="h-full lg:overflow-y-auto bg-neutral-950 lg:rounded-lg px-3 md:px-6 lg:py-8 py-4"
 			classList={{ [props.extraClass || ""]: !!props.extraClass }}
 		>
 			{props.children}
