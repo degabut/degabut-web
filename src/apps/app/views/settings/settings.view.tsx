@@ -6,8 +6,9 @@ import { useDesktop } from "@desktop/hooks";
 import { useSettings } from "@settings/hooks";
 import { useNavigate } from "@solidjs/router";
 import { useSpotify } from "@spotify/hooks";
-import { Accessor, Component, For, JSX, JSXElement, Show, onMount } from "solid-js";
+import { Accessor, Component, For, JSX, JSXElement, Show, createSignal, onMount } from "solid-js";
 import { Item, KeybindItem, SliderItem, SwitchItem, TextItem } from "./components";
+import { SpotifyIntegrationTutorialModal } from "./components/spotify-integration-tutorial-modal.component";
 
 type SettingsCategory = {
 	label: string;
@@ -51,6 +52,7 @@ export const Settings: Component = () => {
 	const spotify = useSpotify();
 	const { settings, setSettings } = useSettings();
 	const navigate = useNavigate();
+	const [isSpotifyTutorialOpen, setIsSpotifyTutorialOpen] = createSignal(false);
 
 	onMount(() => app.setTitle("Settings"));
 
@@ -162,7 +164,14 @@ export const Settings: Component = () => {
 			items: [
 				{
 					label: "Enable Spotify Integration",
-					description: () => <Text.Caption1 class="underline underline-offset-2">How to use?</Text.Caption1>,
+					description: () => (
+						<Text.Caption1
+							class="underline underline-offset-2 cursor-pointer"
+							onClick={() => setIsSpotifyTutorialOpen(true)}
+						>
+							How to use?
+						</Text.Caption1>
+					),
 					type: "switch",
 					value: () => settings["spotify.enabled"],
 					onChange: () => setSettings("spotify.enabled", (v) => !v),
@@ -285,6 +294,11 @@ export const Settings: Component = () => {
 					</div>
 				</div>
 			</div>
+
+			<SpotifyIntegrationTutorialModal
+				isOpen={isSpotifyTutorialOpen()}
+				onClose={() => setIsSpotifyTutorialOpen(false)}
+			/>
 		</Container>
 	);
 };
