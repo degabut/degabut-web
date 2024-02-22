@@ -1,7 +1,9 @@
 import { useApp } from "@app/hooks";
+import { Button, RouterLink, Text } from "@common/components";
 import { MediaSource } from "@media-source/components";
 import { MediaSourceContextMenuUtil, MediaSourceFactory } from "@media-source/utils";
 import { useQueue } from "@queue/hooks";
+import { useSettings } from "@settings/hooks";
 import { useNavigate } from "@solidjs/router";
 import { SpotifyPlaylist } from "@spotify/components";
 import { useSpotify } from "@spotify/hooks";
@@ -11,10 +13,32 @@ import { Container, SectionList, Title } from "./components";
 
 export const Spotify: Component = () => {
 	const spotify = useSpotify();
+	const { settings } = useSettings();
 
 	return (
-		<Show when={spotify.isConnected()}>
-			<Content />
+		<Show when={!spotify.isConnected()} fallback={<Content />}>
+			<Container extraClass="flex-col-center justify-center h-full space-y-4">
+				<Show
+					when={!settings["spotify.clientId"]}
+					fallback={
+						<>
+							<Text.H1>Not Authenticated</Text.H1>
+							<Button class="px-4 py-1" onClick={spotify.authenticate}>
+								<Text.Body1>Authenticate</Text.Body1>
+							</Button>
+						</>
+					}
+				>
+					<Text.H1>Client ID is not set up</Text.H1>
+					<Text.Body1>
+						Set up on{" "}
+						<RouterLink class="underline underline-offset-2" href="/settings">
+							settings
+						</RouterLink>{" "}
+						page
+					</Text.Body1>
+				</Show>
+			</Container>
 		</Show>
 	);
 };
