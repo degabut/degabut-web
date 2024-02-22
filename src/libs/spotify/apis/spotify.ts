@@ -1,4 +1,4 @@
-import { MaxInt, SpotifyApi as SpotifySdk, Track, TrackItem } from "@fostertheweb/spotify-web-sdk";
+import { MaxInt, SpotifySdk, Track, TrackItem } from "../sdk";
 
 export type ISpotifyImage = {
 	height: number;

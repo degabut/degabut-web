@@ -1,4 +1,3 @@
-import { SpotifyApi as SpotifySdk } from "@fostertheweb/spotify-web-sdk";
 import { SpotifyApi } from "@spotify/apis";
 import {
 	useSpotifyQueue,
@@ -6,6 +5,7 @@ import {
 	useSpotifySelfPlaylists,
 	useSpotifyTopTracks,
 } from "@spotify/hooks";
+import { SpotifySdk } from "@spotify/sdk";
 import { Accessor, ResourceReturn, createResource } from "solid-js";
 
 export type SpotifyData = {

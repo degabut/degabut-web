@@ -1,6 +1,6 @@
 import { SPOTIFY_OAUTH_REDIRECT_URI } from "@constants";
-import { AuthorizationCodeWithPKCEStrategy, SpotifyApi as SpotifySdk } from "@fostertheweb/spotify-web-sdk";
 import { useSettings } from "@settings/hooks";
+import { SpotifySdk } from "@spotify/sdk";
 import { Accessor, ParentComponent, createContext, createEffect, createSignal, on } from "solid-js";
 import { useSpotifyData } from "./hooks";
 
@@ -33,9 +33,7 @@ const scopes = [
 export const SpotifyProvider: ParentComponent = (props) => {
 	const { settings } = useSettings();
 	let currentClientId = settings["spotify.clientId"];
-	let client = new SpotifySdk(
-		new AuthorizationCodeWithPKCEStrategy(settings["spotify.clientId"], SPOTIFY_OAUTH_REDIRECT_URI, scopes)
-	);
+	let client = new SpotifySdk(settings["spotify.clientId"], SPOTIFY_OAUTH_REDIRECT_URI, scopes);
 	const [isConnected, setIsConnected] = createSignal(false);
 	const data = useSpotifyData(isConnected, client);
 
@@ -65,7 +63,7 @@ export const SpotifyProvider: ParentComponent = (props) => {
 		if (!clientId) return;
 
 		client.logOut();
-		client = new SpotifySdk(new AuthorizationCodeWithPKCEStrategy(clientId, SPOTIFY_OAUTH_REDIRECT_URI, scopes));
+		client = new SpotifySdk(clientId, SPOTIFY_OAUTH_REDIRECT_URI, scopes);
 		await authenticate();
 	};
 
