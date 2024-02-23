@@ -27,12 +27,14 @@ export function contextMenu(el: HTMLElement, accessor: Accessor<ContextMenuDirec
 
 	const onContextMenu = (e: MouseEvent) => {
 		e.preventDefault();
+		const a = accessor();
+		if (!a.items.length) return;
 		setTimeout(() => {
 			contextMenu.show({
 				x: e.pageX,
 				y: e.pageY,
 				target: el,
-				...accessor(),
+				...a,
 			});
 		}, 0);
 	};
