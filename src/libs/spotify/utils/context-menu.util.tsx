@@ -1,10 +1,12 @@
 /* eslint-disable solid/reactivity */
 
 import { AppContextStore } from "@app/providers";
+import { AbbreviationIcon } from "@common/components";
 import { ContextMenuDirectiveParams, IContextMenuItem } from "@common/directives";
 import { PlaylistConfirmationUtil } from "@playlist/utils";
 import { QueueContextStore } from "@queue/providers";
 import { ISpotifyPlaylist, ISpotifySimplifiedPlaylist } from "@spotify/apis";
+import { Show } from "solid-js";
 
 type SpotifyPlaylistProps = {
 	playlist: ISpotifyPlaylist | ISpotifySimplifiedPlaylist;
@@ -55,9 +57,18 @@ export class SpotifyContextMenuUtil {
 			items,
 			header: (
 				<div class="flex-col-center justify-center py-4 space-y-1">
-					<div class="h-[9rem] text-center my-4">
-						<img class="w-full h-full" src={props.playlist.images.at(0)?.url} alt={props.playlist.name} />
-					</div>
+					<Show
+						when={props.playlist.images?.length}
+						fallback={<AbbreviationIcon text={props.playlist.name} size="xl" />}
+					>
+						<div class="h-[9rem] text-center my-4">
+							<img
+								class="w-full h-full"
+								src={props.playlist.images?.at(0)?.url}
+								alt={props.playlist.name}
+							/>
+						</div>
+					</Show>
 					<div class="flex-col-center space-y-2">
 						<div class="font-medium text-center">{props.playlist.name}</div>
 					</div>
