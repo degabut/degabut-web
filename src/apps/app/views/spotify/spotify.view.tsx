@@ -1,5 +1,5 @@
 import { useApp } from "@app/hooks";
-import { Button, RouterLink, Text } from "@common/components";
+import { Button, Item, RouterLink, Text } from "@common/components";
 import { MediaSource } from "@media-source/components";
 import { MediaSourceContextMenuUtil, MediaSourceFactory } from "@media-source/utils";
 import { useQueue } from "@queue/hooks";
@@ -56,7 +56,23 @@ const Content: Component = () => {
 			<Container extraClass="space-y-8 w-full lg:max-w-md max-w-full">
 				<Show when={spotify.playlists.data()} keyed>
 					{(playlists) => (
-						<SectionList inline={false} label="Your Playlists" items={playlists} isLoading={false}>
+						<SectionList
+							inline={false}
+							label="Your Playlists"
+							items={playlists}
+							isLoading={false}
+							firstElement={
+								<Item.Hint
+									label={() => (
+										<Text.Body1 truncate class="text-neutral-400">
+											Liked Tracks
+										</Text.Body1>
+									)}
+									icon="heartLine"
+									onClick={() => navigate("/spotify/liked")}
+								/>
+							}
+						>
 							{(playlist) => (
 								<SpotifyPlaylist.List
 									onClick={() => navigate("/spotify/playlist/" + playlist.id)}

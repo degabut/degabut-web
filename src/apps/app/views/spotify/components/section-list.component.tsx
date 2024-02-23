@@ -8,6 +8,7 @@ type Props<T> = {
 	inline?: boolean;
 	isLoading: boolean;
 	children: (item: T) => JSX.Element;
+	firstElement?: JSX.Element;
 };
 
 export function SectionList<Item = unknown>(props: Props<Item>) {
@@ -19,6 +20,7 @@ export function SectionList<Item = unknown>(props: Props<Item>) {
 				class="grid grid-cols-1 gap-x-6 2xl:gap-x-12 3xl:gap-x-24 gap-y-2"
 				classList={{ "xl:grid-cols-2": props.inline !== false }}
 			>
+				{props.firstElement}
 				<Show when={!props.isLoading} fallback={<For each={Array(10)}>{() => <Item.ListSkeleton />}</For>}>
 					<For each={props.items}>{(item) => props.children(item as Item)}</For>
 				</Show>

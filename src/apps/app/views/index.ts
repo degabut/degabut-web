@@ -14,4 +14,5 @@ export * from "./rich-presence-editor";
 export * from "./search";
 export * from "./settings";
 export * from "./spotify";
+export * from "./spotify-liked";
 export * from "./spotify-playlist";
