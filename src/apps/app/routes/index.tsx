@@ -16,6 +16,7 @@ import {
 	Search,
 	Settings,
 	Spotify,
+	SpotifyLiked,
 	SpotifyPlaylist,
 } from "../views";
 
@@ -28,16 +29,36 @@ export const appRoutes: RouteDefinition[] = [
 				path: "/",
 				component: () => <App />,
 				children: [
-					{ path: "/queue", component: () => <Queue /> },
-					{ path: "/queue/player", component: () => <QueueNowPlaying /> },
-					{ path: "/queue/lyrics", component: () => <Lyrics /> },
-					{ path: "/search", component: () => <Search /> },
-					{ path: "/recommendation", component: () => <Recommendation /> },
-					{ path: "/recommendation/:id?", component: () => <Recommendation /> },
-					{ path: "/spotify", component: () => <Spotify /> },
-					{ path: "/spotify/playlist/:id", component: () => <SpotifyPlaylist /> },
-					{ path: "/playlist", component: () => <Playlists /> },
-					{ path: "/playlist/:id", component: () => <PlaylistDetail /> },
+					{
+						path: "/queue",
+						children: [
+							{ path: "/", component: () => <Queue /> },
+							{ path: "/player", component: () => <QueueNowPlaying /> },
+							{ path: "/lyrics", component: () => <Lyrics /> },
+						],
+					},
+					{
+						path: "/recommendation",
+						children: [
+							{ path: "/", component: () => <Recommendation /> },
+							{ path: "/:id?", component: () => <Recommendation /> },
+						],
+					},
+					{
+						path: "/spotify",
+						children: [
+							{ path: "/", component: () => <Spotify /> },
+							{ path: "/liked", component: () => <SpotifyLiked /> },
+							{ path: "/playlist/:id", component: () => <SpotifyPlaylist /> },
+						],
+					},
+					{
+						path: "/playlist",
+						children: [
+							{ path: "/", component: () => <Playlists /> },
+							{ path: "/:id", component: () => <PlaylistDetail /> },
+						],
+					},
 					{
 						path: "/settings",
 						children: [
@@ -45,8 +66,9 @@ export const appRoutes: RouteDefinition[] = [
 							{ path: "/rich-presence", component: () => <RichPresenceEditor /> },
 						],
 					},
-					{ path: "/oauth/spotify", component: () => <OAuthSpotify /> },
+					{ path: "/search", component: () => <Search /> },
 					{ path: "/join/:voiceChannelId?/:textChannelId?", component: () => <Join /> },
+					{ path: "/oauth/spotify", component: () => <OAuthSpotify /> },
 				],
 			},
 			{ path: "/login", component: () => <Login /> },
