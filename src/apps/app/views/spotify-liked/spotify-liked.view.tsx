@@ -6,7 +6,7 @@ import { MediaSourceContextMenuUtil, MediaSourceFactory } from "@media-source/ut
 import { useQueue } from "@queue/hooks";
 import { useNavigate } from "@solidjs/router";
 import { useSpotifySelfTracks } from "@spotify/hooks";
-import { Component, createEffect, createSignal } from "solid-js";
+import { Component, createEffect } from "solid-js";
 
 export const SpotifyLiked: Component = () => {
 	const app = useApp();
@@ -14,10 +14,11 @@ export const SpotifyLiked: Component = () => {
 	const navigate = useNavigate();
 	let containerRef!: HTMLDivElement;
 
-	const [page, setPage] = createSignal(0);
-	const tracks = useSpotifySelfTracks(page);
-	useInfiniteScrolling({
-		callback: () => setPage((p) => p + 1),
+	const tracks = useSpotifySelfTracks({
+		onLoad: () => infinite.load(),
+	});
+	const infinite = useInfiniteScrolling({
+		callback: tracks.next,
 		container: () => containerRef,
 		disabled: () => !tracks.isFetchable(),
 	});

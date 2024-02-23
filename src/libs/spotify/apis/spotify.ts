@@ -57,13 +57,12 @@ export class SpotifyApi {
 		return playlists.items.map(this.parsePlaylist);
 	};
 
-	getPlaylistTracks = async (playlistId: string, page = 0): Promise<ISpotifyTrack[]> => {
-		const limit = 50;
+	getPlaylistTracks = async (playlistId: string, page = 0, limit = 50): Promise<ISpotifyTrack[]> => {
 		const tracks = await this.client.playlists.getPlaylistItems(
 			playlistId,
 			undefined,
 			"items(track(id,name,duration_ms,album(id,name,images),artists(id,name)))",
-			limit,
+			limit as MaxInt<50>,
 			page * limit
 		);
 

@@ -1,22 +1,34 @@
 import { ISpotifyTrack, SpotifyApi } from "@spotify/apis";
-import { Accessor, createEffect, createResource } from "solid-js";
+import { createEffect, createResource } from "solid-js";
 import { createStore } from "solid-js/store";
 import { useSpotify } from "./spotify.hook";
 
-export const useSpotifySelfTracks = (page: Accessor<number>, limit = 50) => {
+type Params = {
+	limit?: number;
+	onLoad?: () => void;
+};
+
+export const useSpotifySelfTracks = (params: Params) => {
 	const spotify = useSpotify();
 	const api = new SpotifyApi(spotify.client);
 	const [data, setData] = createStore<ISpotifyTrack[]>([]);
+	const limit = params.limit || 50;
+	let page = 0;
 
-	const [_data, { mutate, refetch }] = createResource(page, async (page) => {
-		const tracks = await api.getSavedTracks(page, limit);
-		return tracks;
-	});
+	const [_data, { mutate, refetch }] = createResource(() => api.getSavedTracks(page, limit));
 
 	createEffect(() => {
 		const newData = _data();
-		if (newData) setData((d) => [...d, ...newData]);
+		if (!newData?.length) return;
+
+		setData((d) => [...d, ...newData]);
+		params.onLoad && setTimeout(params.onLoad, 0);
 	});
+
+	const next = () => {
+		page++;
+		refetch();
+	};
 
 	const isFetchable = () => {
 		const length = _data()?.length || 0;
@@ -25,9 +37,9 @@ export const useSpotifySelfTracks = (page: Accessor<number>, limit = 50) => {
 
 	return {
 		data,
+		mutate,
 		isFetchable,
 		isLoading: () => _data.loading,
-		mutate,
-		refetch,
+		next,
 	};
 };

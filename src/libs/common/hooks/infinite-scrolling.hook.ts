@@ -1,7 +1,7 @@
 import { onCleanup, onMount } from "solid-js";
 
 type IUseInfiniteScrollingProps = {
-	callback: () => void;
+	callback: () => void | Promise<void>;
 	disabled: () => boolean;
 	container: () => HTMLElement;
 	bottomOffset?: number;
