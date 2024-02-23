@@ -1,4 +1,4 @@
-import { MaxInt, SpotifySdk, Track, TrackItem } from "../sdk";
+import { MaxInt, SimplifiedPlaylist, SpotifySdk, Track, TrackItem } from "../sdk";
 
 export type ISpotifyImage = {
 	height: number;
@@ -34,6 +34,9 @@ export type ISpotifySimplifiedPlaylist = {
 	id: string;
 	name: string;
 	images: ISpotifyImage[] | null;
+	tracks: {
+		total: number;
+	};
 };
 
 export type ISpotifyQueue = {
@@ -45,13 +48,13 @@ export class SpotifyApi {
 	constructor(private client: SpotifySdk) {}
 
 	getPlaylist = async (id: string): Promise<ISpotifySimplifiedPlaylist | null> => {
-		const playlist = await this.client.playlists.getPlaylist(id, undefined, "id,name,images");
-		return playlist ? { id: playlist.id, name: playlist.name, images: playlist.images } : null;
+		const playlist = await this.client.playlists.getPlaylist(id, undefined, "id,name,images,tracks(total)");
+		return playlist ? this.parsePlaylist(playlist) : null;
 	};
 
 	getSelfPlaylists = async (page = 0, limit = 50): Promise<ISpotifySimplifiedPlaylist[]> => {
 		const playlists = await this.client.currentUser.playlists.playlists(limit as MaxInt<50>, page * limit);
-		return playlists.items;
+		return playlists.items.map(this.parsePlaylist);
 	};
 
 	getPlaylistTracks = async (playlistId: string, page = 0): Promise<ISpotifyTrack[]> => {
@@ -117,6 +120,17 @@ export class SpotifyApi {
 			durationMs: track.duration_ms,
 			id: track.id,
 			name: track.name,
+		};
+	}
+
+	private parsePlaylist(playlist: SimplifiedPlaylist): ISpotifySimplifiedPlaylist {
+		return {
+			id: playlist.id,
+			name: playlist.name,
+			images: playlist.images,
+			tracks: {
+				total: playlist.tracks?.total || 0,
+			},
 		};
 	}
 }
