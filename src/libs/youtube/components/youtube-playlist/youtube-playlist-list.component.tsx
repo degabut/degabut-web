@@ -24,7 +24,7 @@ export const YouTubePlaylistList: Component<YouTubePlaylistListProps> = (props) 
 			onClick={() => props.onClick?.(props.playlist)}
 			extra={() => (
 				<>
-					<Text.Caption2 class="border border-neutral-600 rounded px-0.5 text-neutral-300">
+					<Text.Caption2 class="border border-neutral-600 rounded px-0.5 !text-neutral-300">
 						{props.playlist.videoCount} videos
 					</Text.Caption2>
 					<Show when={props.playlist.channel} keyed>
