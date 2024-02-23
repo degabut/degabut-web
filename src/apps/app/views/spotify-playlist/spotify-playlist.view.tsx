@@ -25,7 +25,7 @@ export const SpotifyPlaylist: Component = () => {
 			<Show when={!playlist.data.loading} fallback={<MainPlaylistSkeleton />}>
 				<MainPlaylist
 					name={playlist.data()?.name || ""}
-					imageUrl={playlist.data()?.images.at(0)?.url || ""}
+					imageUrl={playlist.data()?.images?.at(0)?.url || ""}
 					onAddToQueue={() => queue.addSpotifyPlaylist(params.id)}
 				/>
 			</Show>

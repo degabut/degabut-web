@@ -33,7 +33,7 @@ export type ISpotifyPlaylist = ISpotifySimplifiedPlaylist & {
 export type ISpotifySimplifiedPlaylist = {
 	id: string;
 	name: string;
-	images: ISpotifyImage[];
+	images: ISpotifyImage[] | null;
 };
 
 export type ISpotifyQueue = {

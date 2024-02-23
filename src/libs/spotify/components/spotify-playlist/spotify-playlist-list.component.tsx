@@ -1,4 +1,4 @@
-import { Item } from "@common/components";
+import { AbbreviationIcon, Item } from "@common/components";
 import { ContextMenuDirectiveParams, contextMenu } from "@common/directives";
 import { ISpotifyPlaylist, ISpotifySimplifiedPlaylist } from "@spotify/apis";
 import { Component, Show } from "solid-js";
@@ -19,8 +19,9 @@ export const SpotifyPlaylistList: Component<SpotifyPlaylistListProps> = (props) 
 		<Item.List
 			{...props}
 			title={props.playlist.name}
-			imageUrl={props.playlist.images.at(-1)?.url}
+			imageUrl={props.playlist.images?.at(-1)?.url}
 			onClick={() => props.onClick?.(props.playlist)}
+			left={!props.playlist.images?.length ? () => <AbbreviationIcon text={props.playlist.name} /> : undefined}
 		/>
 	);
 };
@@ -30,7 +31,7 @@ export const SpotifyPlaylistListBig: Component<SpotifyPlaylistListProps> = (prop
 		<Item.ListBig
 			{...props}
 			title={props.playlist.name}
-			imageUrl={props.playlist.images.at(0)?.url}
+			imageUrl={props.playlist.images?.at(0)?.url}
 			onClick={() => props.onClick?.(props.playlist)}
 		/>
 	);

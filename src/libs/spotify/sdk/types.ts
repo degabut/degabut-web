@@ -876,7 +876,7 @@ interface PlaylistBase {
 	followers: Followers;
 	href: string;
 	id: string;
-	images: Image[];
+	images: Image[] | null;
 	name: string;
 	owner: UserReference;
 	primary_color: string;
