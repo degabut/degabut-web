@@ -70,11 +70,7 @@ const Content: Component = () => {
 							)}
 							firstElement={() => (
 								<Item.Hint
-									label={() => (
-										<Text.Body1 truncate class="text-neutral-400">
-											Liked Tracks
-										</Text.Body1>
-									)}
+									label={() => <Text.Body1 truncate>Liked Tracks</Text.Body1>}
 									icon="heartLine"
 									onClick={() => navigate("/spotify/liked")}
 								/>
