@@ -90,8 +90,8 @@ export class SpotifyApi {
 	};
 
 	getCurrentlyPlaying = async (): Promise<ISpotifyTrack | null> => {
-		const track = await this.client.player.getPlaybackState();
-		return this.isTrack(track.item) ? this.parseTrack(track.item) : null;
+		const track = await this.client.player.getCurrentlyPlayingTrack();
+		return this.isTrack(track?.item) ? this.parseTrack(track.item) : null;
 	};
 
 	getQueue = async (): Promise<ISpotifyQueue | null> => {

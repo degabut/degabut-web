@@ -13,6 +13,7 @@ export * from "./input-keybind";
 export * from "./item";
 export * from "./keyboard-hint";
 export * from "./modal";
+export * from "./section-list";
 export * from "./select";
 export * from "./skeleton";
 export * from "./slider";

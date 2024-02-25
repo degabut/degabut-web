@@ -1,5 +1,5 @@
 import { useApp } from "@app/hooks";
-import { Button, Item, RouterLink, Text } from "@common/components";
+import { Button, Item, RouterLink, SectionList, Text } from "@common/components";
 import { MediaSource } from "@media-source/components";
 import { MediaSourceContextMenuUtil, MediaSourceFactory } from "@media-source/utils";
 import { useQueue } from "@queue/hooks";
@@ -9,7 +9,7 @@ import { SpotifyPlaylist } from "@spotify/components";
 import { useSpotify } from "@spotify/hooks";
 import { SpotifyContextMenuUtil } from "@spotify/utils/context-menu.util";
 import { Component, Show, onMount } from "solid-js";
-import { Container, SectionList, Title } from "./components";
+import { Container, RefreshButton } from "./components";
 
 export const Spotify: Component = () => {
 	const spotify = useSpotify();
@@ -60,8 +60,15 @@ const Content: Component = () => {
 							inline={false}
 							label="Your Playlists"
 							items={playlists}
-							isLoading={false}
-							firstElement={
+							skeletonCount={5}
+							isLoading={spotify.playlists.data.loading}
+							rightTitle={() => (
+								<RefreshButton
+									disabled={spotify.playlists.data.loading}
+									onClick={spotify.playlists.refetch}
+								/>
+							)}
+							firstElement={() => (
 								<Item.Hint
 									label={() => (
 										<Text.Body1 truncate class="text-neutral-400">
@@ -71,7 +78,7 @@ const Content: Component = () => {
 									icon="heartLine"
 									onClick={() => navigate("/spotify/liked")}
 								/>
-							}
+							)}
 						>
 							{(playlist) => (
 								<SpotifyPlaylist.List
@@ -90,13 +97,21 @@ const Content: Component = () => {
 			</Container>
 
 			<Container extraClass="space-y-8 w-full">
-				<Show when={spotify.queue.data()?.currentlyPlaying} keyed>
-					{(currentlyPlaying) => {
-						const mediaSource = MediaSourceFactory.fromSpotifyTrack(currentlyPlaying);
-
-						return (
-							<div class="space-y-6 lg:space-y-4">
-								<Title>Continue Listening</Title>
+				<Show when={spotify.currentlyPlaying.data()} keyed>
+					{(currentlyPlaying) => (
+						<SectionList
+							label="Continue Listening"
+							items={[MediaSourceFactory.fromSpotifyTrack(currentlyPlaying)]}
+							skeletonCount={1}
+							isLoading={spotify.currentlyPlaying.data.loading}
+							rightTitle={() => (
+								<RefreshButton
+									disabled={spotify.currentlyPlaying.data.loading}
+									onClick={spotify.currentlyPlaying.refetch}
+								/>
+							)}
+						>
+							{(mediaSource) => (
 								<MediaSource.List
 									mediaSource={mediaSource}
 									inQueue={queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id)}
@@ -106,9 +121,9 @@ const Content: Component = () => {
 										appStore: app,
 									})}
 								/>
-							</div>
-						);
-					}}
+							)}
+						</SectionList>
+					)}
 				</Show>
 
 				<Show when={spotify.topTracks.data()} keyed>
@@ -116,7 +131,13 @@ const Content: Component = () => {
 						<SectionList
 							label="Top Tracks"
 							items={topTracks.map(MediaSourceFactory.fromSpotifyTrack)}
-							isLoading={false}
+							isLoading={spotify.topTracks.data.loading}
+							rightTitle={() => (
+								<RefreshButton
+									disabled={spotify.topTracks.data.loading}
+									onClick={spotify.topTracks.refetch}
+								/>
+							)}
 						>
 							{(mediaSource) => (
 								<MediaSource.List
@@ -138,7 +159,13 @@ const Content: Component = () => {
 						<SectionList
 							label="Recently Played"
 							items={recentlyPlayed.map(MediaSourceFactory.fromSpotifyTrack)}
-							isLoading={false}
+							isLoading={spotify.recentlyPlayed.data.loading}
+							rightTitle={() => (
+								<RefreshButton
+									disabled={spotify.recentlyPlayed.data.loading}
+									onClick={spotify.recentlyPlayed.refetch}
+								/>
+							)}
 						>
 							{(mediaSource) => (
 								<MediaSource.List
