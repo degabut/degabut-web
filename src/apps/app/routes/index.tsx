@@ -18,7 +18,7 @@ import {
 	Spotify,
 	SpotifyAlbumDetail,
 	SpotifyLiked,
-	SpotifyPlaylist,
+	SpotifyPlaylistDetail,
 } from "../views";
 
 export const appRoutes: RouteDefinition[] = [
@@ -50,7 +50,7 @@ export const appRoutes: RouteDefinition[] = [
 						children: [
 							{ path: "/", component: () => <Spotify /> },
 							{ path: "/liked", component: () => <SpotifyLiked /> },
-							{ path: "/playlist/:id", component: () => <SpotifyPlaylist /> },
+							{ path: "/playlist/:id", component: () => <SpotifyPlaylistDetail /> },
 							{ path: "/album/:id", component: () => <SpotifyAlbumDetail /> },
 						],
 					},

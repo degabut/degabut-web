@@ -9,7 +9,7 @@ import { useSpotifyPlaylist, useSpotifyPlaylistTracks } from "@spotify/hooks";
 import { Component, Show, createEffect } from "solid-js";
 import { MainPlaylist, MainPlaylistSkeleton } from "./components";
 
-export const SpotifyPlaylist: Component = () => {
+export const SpotifyPlaylistDetail: Component = () => {
 	const app = useApp();
 	const queue = useQueue();
 	let container!: HTMLDivElement;
