@@ -1,4 +1,4 @@
-import { ISpotifySimplifiedPlaylist, ISpotifyTrack, SpotifyApi } from "@spotify/apis";
+import { ISpotifySavedAlbum, ISpotifySimplifiedPlaylist, ISpotifyTrack, SpotifyApi } from "@spotify/apis";
 import { SpotifySdk } from "@spotify/sdk";
 import { Accessor, Resource, ResourceReturn, createResource } from "solid-js";
 
@@ -10,6 +10,7 @@ type ParsedResourceReturn<T> = {
 
 export type SpotifyData = {
 	playlists: ParsedResourceReturn<ISpotifySimplifiedPlaylist[]>;
+	albums: ParsedResourceReturn<ISpotifySavedAlbum[]>;
 	recentlyPlayed: ParsedResourceReturn<ISpotifyTrack[]>;
 	topTracks: ParsedResourceReturn<ISpotifyTrack[]>;
 	currentlyPlaying: ParsedResourceReturn<ISpotifyTrack | null>;
@@ -18,7 +19,8 @@ export type SpotifyData = {
 export const useSpotifyData = (isConnected: Accessor<boolean>, client: SpotifySdk): SpotifyData => {
 	const api = new SpotifyApi(client);
 
-	const playlists = createResource(isConnected, (c) => c && api.getSelfPlaylists(0, 10));
+	const albums = createResource(isConnected, (c) => c && api.getSelfAlbums());
+	const playlists = createResource(isConnected, (c) => c && api.getSelfPlaylists());
 	const recentlyPlayed = createResource(isConnected, (c) => c && api.getRecentlyPlayed(10));
 	const topTracks = createResource(isConnected, (c) => c && api.getTopTracks(0, 10));
 	const currentlyPlaying = createResource(api.getCurrentlyPlaying);
@@ -30,6 +32,7 @@ export const useSpotifyData = (isConnected: Accessor<boolean>, client: SpotifySd
 	});
 
 	return {
+		albums: parseReturn(albums),
 		playlists: parseReturn(playlists),
 		recentlyPlayed: parseReturn(recentlyPlayed),
 		topTracks: parseReturn(topTracks),

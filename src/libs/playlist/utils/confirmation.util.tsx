@@ -1,6 +1,6 @@
 import { Text } from "@common/components";
 import { IPlaylist } from "@playlist/apis";
-import { ISpotifyPlaylist, ISpotifySimplifiedPlaylist } from "@spotify/apis";
+import { ISpotifyAlbum, ISpotifyPlaylist, ISpotifySavedAlbum, ISpotifySimplifiedPlaylist } from "@spotify/apis";
 import {
 	IMusicAlbum,
 	IMusicPlaylist,
@@ -20,7 +20,9 @@ export class PlaylistConfirmationUtil {
 			| IMusicPlaylist
 			| IMusicAlbum
 			| ISpotifySimplifiedPlaylist
-			| ISpotifyPlaylist,
+			| ISpotifyPlaylist
+			| ISpotifyAlbum
+			| ISpotifySavedAlbum,
 		onConfirm?: () => Promise<void>
 	) {
 		return {

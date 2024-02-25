@@ -5,7 +5,7 @@ import { MediaSourceContextMenuUtil, MediaSourceFactory } from "@media-source/ut
 import { useQueue } from "@queue/hooks";
 import { useSettings } from "@settings/hooks";
 import { useNavigate } from "@solidjs/router";
-import { SpotifyPlaylist } from "@spotify/components";
+import { SpotifyAlbum, SpotifyPlaylist } from "@spotify/components";
 import { useSpotify } from "@spotify/hooks";
 import { SpotifyContextMenuUtil } from "@spotify/utils/context-menu.util";
 import { Component, Show, onMount } from "solid-js";
@@ -54,41 +54,53 @@ const Content: Component = () => {
 	return (
 		<div class="h-full overflow-y-auto flex flex-col lg:flex-row lg:space-x-2 lg:space-y-0 lg:bg-transparent bg-neutral-950 rounded-lg">
 			<Container extraClass="space-y-8 w-full lg:max-w-md max-w-full">
-				<Show when={spotify.playlists.data()} keyed>
-					{(playlists) => (
-						<SectionList
-							inline={false}
-							label="Your Playlists"
-							items={playlists}
-							skeletonCount={5}
-							isLoading={spotify.playlists.data.loading}
-							rightTitle={() => (
-								<RefreshButton
-									disabled={spotify.playlists.data.loading}
-									onClick={spotify.playlists.refetch}
-								/>
-							)}
-							firstElement={() => (
-								<Item.Hint
-									label={() => <Text.Body1 truncate>Liked Tracks</Text.Body1>}
-									icon="heartLine"
-									onClick={() => navigate("/spotify/liked")}
-								/>
-							)}
-						>
-							{(playlist) => (
+				<Show when={spotify.playlists.data() || spotify.albums.data()} keyed>
+					<SectionList
+						inline={false}
+						label="Library"
+						items={[...(spotify.albums.data() || []), ...(spotify.playlists.data() || [])]}
+						skeletonCount={5}
+						isLoading={spotify.playlists.data.loading || spotify.albums.data.loading}
+						rightTitle={() => (
+							<RefreshButton
+								disabled={spotify.playlists.data.loading || spotify.albums.data.loading}
+								onClick={() => {
+									spotify.playlists.refetch();
+									spotify.albums.refetch();
+								}}
+							/>
+						)}
+						firstElement={() => (
+							<Item.Hint
+								label={() => <Text.Body1 truncate>Liked Tracks</Text.Body1>}
+								icon="heartLine"
+								onClick={() => navigate("/spotify/liked")}
+							/>
+						)}
+					>
+						{(item) =>
+							item.type === "playlist" ? (
 								<SpotifyPlaylist.List
-									onClick={() => navigate("/spotify/playlist/" + playlist.id)}
-									playlist={playlist}
+									onClick={() => navigate("/spotify/playlist/" + item.id)}
+									playlist={item}
 									contextMenu={SpotifyContextMenuUtil.getPlaylistContextMenu({
-										playlist,
+										playlist: item,
 										queueStore: queue,
 										appStore: app,
 									})}
 								/>
-							)}
-						</SectionList>
-					)}
+							) : (
+								<SpotifyAlbum.List
+									album={item}
+									contextMenu={SpotifyContextMenuUtil.getAlbumContextMenu({
+										album: item,
+										queueStore: queue,
+										appStore: app,
+									})}
+								/>
+							)
+						}
+					</SectionList>
 				</Show>
 			</Container>
 
