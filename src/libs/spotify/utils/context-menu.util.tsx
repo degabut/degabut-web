@@ -51,7 +51,7 @@ export class SpotifyContextMenuUtil {
 			items.push([
 				{
 					label: "Open on Spotify",
-					icon: "youtube",
+					icon: "linkExternal",
 					onClick: () =>
 						window.open(`https://open.spotify.com/playlist/${props.playlist.id}`, "_blank")?.focus(),
 				},
@@ -112,7 +112,7 @@ export class SpotifyContextMenuUtil {
 			items.push([
 				{
 					label: "Open on Spotify",
-					icon: "youtube",
+					icon: "linkExternal",
 					onClick: () => window.open(`https://open.spotify.com/album/${props.album.id}`, "_blank")?.focus(),
 				},
 			]);
