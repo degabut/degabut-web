@@ -16,6 +16,7 @@ import {
 	Search,
 	Settings,
 	Spotify,
+	SpotifyAlbumDetail,
 	SpotifyLiked,
 	SpotifyPlaylist,
 } from "../views";
@@ -50,6 +51,7 @@ export const appRoutes: RouteDefinition[] = [
 							{ path: "/", component: () => <Spotify /> },
 							{ path: "/liked", component: () => <SpotifyLiked /> },
 							{ path: "/playlist/:id", component: () => <SpotifyPlaylist /> },
+							{ path: "/album/:id", component: () => <SpotifyAlbumDetail /> },
 						],
 					},
 					{

@@ -1,17 +1,17 @@
 import { AbbreviationIcon, Item, Text } from "@common/components";
 import { ContextMenuDirectiveParams, contextMenu } from "@common/directives";
-import { ISpotifyAlbum, ISpotifySavedAlbum } from "@spotify/apis";
+import { ISpotifyAlbum, ISpotifySimplifiedAlbum } from "@spotify/apis";
 import { Component, Show } from "solid-js";
 
 contextMenu;
 
 export type SpotifyAlbumListProps = {
-	album: ISpotifySavedAlbum | ISpotifyAlbum;
+	album: ISpotifySimplifiedAlbum | ISpotifyAlbum;
 	contextMenu?: ContextMenuDirectiveParams;
 	extraContainerClass?: string;
 	extraContainerClassList?: Record<string, boolean>;
 	extraTitleClass?: string;
-	onClick?: (album: ISpotifySavedAlbum | ISpotifyAlbum) => void;
+	onClick?: (album: ISpotifySimplifiedAlbum | ISpotifyAlbum) => void;
 };
 
 export const SpotifyAlbumList: Component<SpotifyAlbumListProps> = (props) => {

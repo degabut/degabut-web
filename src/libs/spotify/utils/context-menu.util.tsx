@@ -5,7 +5,7 @@ import { AbbreviationIcon } from "@common/components";
 import { ContextMenuDirectiveParams, IContextMenuItem } from "@common/directives";
 import { PlaylistConfirmationUtil } from "@playlist/utils";
 import { QueueContextStore } from "@queue/providers";
-import { ISpotifyAlbum, ISpotifyPlaylist, ISpotifySavedAlbum, ISpotifySimplifiedPlaylist } from "@spotify/apis";
+import { ISpotifyAlbum, ISpotifyPlaylist, ISpotifySimplifiedAlbum, ISpotifySimplifiedPlaylist } from "@spotify/apis";
 import { Show } from "solid-js";
 
 type SpotifyPlaylistProps = {
@@ -16,7 +16,7 @@ type SpotifyPlaylistProps = {
 };
 
 type SpotifyAlbumProps = {
-	album: ISpotifyAlbum | ISpotifySavedAlbum;
+	album: ISpotifyAlbum | ISpotifySimplifiedAlbum;
 	queueStore: QueueContextStore;
 	appStore?: AppContextStore;
 	modify?: (current: IContextMenuItem[][]) => IContextMenuItem[][];
@@ -85,7 +85,7 @@ export class SpotifyContextMenuUtil {
 	}
 
 	static getAlbumContextMenu(props: SpotifyAlbumProps) {
-		const promptAddPlaylist = (album: ISpotifyAlbum | ISpotifySavedAlbum) => {
+		const promptAddPlaylist = (album: ISpotifyAlbum | ISpotifySimplifiedAlbum) => {
 			props.appStore?.setConfirmation(
 				PlaylistConfirmationUtil.addPlaylistConfirmation(album, () =>
 					props.queueStore.addSpotifyAlbum(album.id)

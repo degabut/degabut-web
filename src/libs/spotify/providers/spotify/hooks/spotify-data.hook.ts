@@ -1,4 +1,4 @@
-import { ISpotifySavedAlbum, ISpotifySimplifiedPlaylist, ISpotifyTrack, SpotifyApi } from "@spotify/apis";
+import { ISpotifyAlbum, ISpotifySimplifiedPlaylist, ISpotifyTrack, SpotifyApi } from "@spotify/apis";
 import { SpotifySdk } from "@spotify/sdk";
 import { Accessor, Resource, ResourceReturn, createResource } from "solid-js";
 
@@ -10,7 +10,7 @@ type ParsedResourceReturn<T> = {
 
 export type SpotifyData = {
 	playlists: ParsedResourceReturn<ISpotifySimplifiedPlaylist[]>;
-	albums: ParsedResourceReturn<ISpotifySavedAlbum[]>;
+	albums: ParsedResourceReturn<ISpotifyAlbum[]>;
 	recentlyPlayed: ParsedResourceReturn<ISpotifyTrack[]>;
 	topTracks: ParsedResourceReturn<ISpotifyTrack[]>;
 	currentlyPlaying: ParsedResourceReturn<ISpotifyTrack | null>;

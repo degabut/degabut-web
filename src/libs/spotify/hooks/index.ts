@@ -1,3 +1,5 @@
+export * from "./spotify-album-tracks.hook";
+export * from "./spotify-album.hook";
 export * from "./spotify-playlist-tracks.hook";
 export * from "./spotify-playlist.hook";
 export * from "./spotify-queue.hook";

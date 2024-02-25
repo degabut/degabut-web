@@ -91,6 +91,7 @@ const Content: Component = () => {
 								/>
 							) : (
 								<SpotifyAlbum.List
+									onClick={() => navigate("/spotify/album/" + item.id)}
 									album={item}
 									contextMenu={SpotifyContextMenuUtil.getAlbumContextMenu({
 										album: item,
