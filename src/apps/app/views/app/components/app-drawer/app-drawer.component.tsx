@@ -2,6 +2,7 @@ import { useApp } from "@app/hooks";
 import { Drawer, Icons } from "@common/components";
 import { useScreen } from "@common/hooks";
 import { RecapUtil } from "@common/utils";
+import { SPOTIFY_CLIENT_ID } from "@constants";
 import { useDesktop } from "@desktop/hooks";
 import { useSettings } from "@settings/hooks";
 import { Component, For, Show } from "solid-js";
@@ -36,7 +37,12 @@ export const AppDrawer: Component<AppDrawerProps> = (props) => {
 		{ icon: "search", label: "Search", path: "/search" },
 		{ icon: "audioPlaylist", label: "Playlist", path: "/playlist" },
 		{ icon: "heart", label: "For You", path: "/recommendation" },
-		{ icon: "spotify", label: "Spotify", path: "/spotify", disabled: !settings["spotify.enabled"] },
+		{
+			icon: "spotify",
+			label: "Spotify",
+			path: "/spotify",
+			disabled: !SPOTIFY_CLIENT_ID && !settings["spotify.enabled"],
+		},
 	];
 
 	return (

@@ -1,5 +1,6 @@
 import { useApp } from "@app/hooks";
-import { Button, Item, RouterLink, SectionList, Text } from "@common/components";
+import { Button, Icon, Item, RouterLink, SectionList, Text } from "@common/components";
+import { SPOTIFY_CLIENT_ID } from "@constants";
 import { MediaSource } from "@media-source/components";
 import { MediaSourceContextMenuUtil, MediaSourceFactory } from "@media-source/utils";
 import { useQueue } from "@queue/hooks";
@@ -17,27 +18,30 @@ export const Spotify: Component = () => {
 
 	return (
 		<Show when={!spotify.isConnected()} fallback={<Content />}>
-			<Container extraClass="flex-col-center justify-center h-full space-y-4">
-				<Show
-					when={!settings["spotify.clientId"]}
-					fallback={
-						<>
-							<Text.H1>Not Authenticated</Text.H1>
-							<Button class="px-4 py-1" onClick={spotify.authenticate}>
-								<Text.Body1>Authenticate</Text.Body1>
-							</Button>
-						</>
-					}
-				>
-					<Text.H1>Client ID is not set up</Text.H1>
-					<Text.Body1>
-						Set up on{" "}
-						<RouterLink class="underline underline-offset-2" href="/settings">
-							settings
-						</RouterLink>{" "}
-						page
-					</Text.Body1>
-				</Show>
+			<Container extraClass="flex-col-center justify-center h-full space-y-12">
+				<Icon name="spotify" size="4xl" class="fill-neutral-700" />
+
+				<div class="flex-col-center space-y-4 text-center">
+					<Show
+						when={!SPOTIFY_CLIENT_ID && !settings["spotify.clientId"]}
+						fallback={
+							<>
+								<Button rounded class="px-8 py-2.5" onClick={spotify.authenticate}>
+									<Text.Body1>Authenticate</Text.Body1>
+								</Button>
+							</>
+						}
+					>
+						<Text.H1>Client ID is not set up</Text.H1>
+						<Text.Body1>
+							Set up on{" "}
+							<RouterLink class="underline underline-offset-2" href="/settings">
+								settings
+							</RouterLink>{" "}
+							page
+						</Text.Body1>
+					</Show>
+				</div>
 			</Container>
 		</Show>
 	);

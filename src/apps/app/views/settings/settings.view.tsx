@@ -1,7 +1,7 @@
 import { useApp } from "@app/hooks";
 import { Button, Container, Divider, Text } from "@common/components";
 import { TimeUtil } from "@common/utils";
-import { APP_VERSION, DESKTOP_APP_VERSION, IS_DESKTOP, SPOTIFY_INTEGRATION } from "@constants";
+import { APP_VERSION, DESKTOP_APP_VERSION, IS_DESKTOP, SPOTIFY_CLIENT_ID, SPOTIFY_INTEGRATION } from "@constants";
 import { useDesktop } from "@desktop/hooks";
 import { useSettings } from "@settings/hooks";
 import { useNavigate } from "@solidjs/router";
@@ -160,7 +160,7 @@ export const Settings: Component = () => {
 		},
 		{
 			label: "Spotify",
-			show: SPOTIFY_INTEGRATION,
+			show: SPOTIFY_INTEGRATION && !SPOTIFY_CLIENT_ID,
 			items: [
 				{
 					label: "Enable Spotify Integration",

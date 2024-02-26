@@ -1,4 +1,4 @@
-import { SPOTIFY_OAUTH_REDIRECT_URI } from "@constants";
+import { SPOTIFY_CLIENT_ID, SPOTIFY_OAUTH_REDIRECT_URI } from "@constants";
 import { useSettings } from "@settings/hooks";
 import { SpotifySdk } from "@spotify/sdk";
 import { Accessor, ParentComponent, createContext, createEffect, createSignal, on } from "solid-js";
@@ -32,25 +32,24 @@ const scopes = [
 
 export const SpotifyProvider: ParentComponent = (props) => {
 	const { settings } = useSettings();
-	let currentClientId = settings["spotify.clientId"];
-	let client = new SpotifySdk(settings["spotify.clientId"], SPOTIFY_OAUTH_REDIRECT_URI, scopes);
+	const clientId = () => SPOTIFY_CLIENT_ID || settings["spotify.clientId"];
+
+	let currentClientId = clientId();
+	let client = new SpotifySdk(clientId(), SPOTIFY_OAUTH_REDIRECT_URI, scopes);
 	const [isConnected, setIsConnected] = createSignal(false);
 	const data = useSpotifyData(isConnected, client);
 
 	createEffect(() => {
-		if (!settings["spotify.enabled"]) return logout();
+		if (!settings["spotify.enabled"] && !SPOTIFY_CLIENT_ID) return logout();
 		updateIsConnected();
 	});
 
 	createEffect(
-		on(
-			() => settings["spotify.clientId"],
-			(clientId) => {
-				if (clientId === currentClientId) return;
-				currentClientId = clientId;
-				logout();
-			}
-		)
+		on(clientId, (clientId) => {
+			if (clientId === currentClientId) return;
+			currentClientId = clientId;
+			logout();
+		})
 	);
 
 	const updateIsConnected = async () => {
@@ -59,11 +58,11 @@ export const SpotifyProvider: ParentComponent = (props) => {
 	};
 
 	const initialize = async () => {
-		const clientId = settings["spotify.clientId"];
-		if (!clientId) return;
+		const id = clientId();
+		if (!id) return;
 
 		client.logOut();
-		client = new SpotifySdk(clientId, SPOTIFY_OAUTH_REDIRECT_URI, scopes);
+		client = new SpotifySdk(id, SPOTIFY_OAUTH_REDIRECT_URI, scopes);
 		await authenticate();
 	};
 
