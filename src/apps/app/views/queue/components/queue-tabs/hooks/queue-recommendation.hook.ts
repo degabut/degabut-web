@@ -1,6 +1,7 @@
 import { IMediaSource } from "@media-source/apis";
 import { MediaSourceFactory } from "@media-source/utils";
 import { ITrack } from "@queue/apis";
+import { useSpotify } from "@spotify/hooks";
 import { usePlayHistory } from "@user/hooks";
 import { useVideo } from "@youtube/hooks";
 import { Accessor, createEffect, createMemo, createSignal } from "solid-js";
@@ -11,6 +12,7 @@ type Params = {
 };
 
 export const useQueueRecommendation = (params: Params) => {
+	const spotify = useSpotify();
 	const [relatedTargetVideoIds, setRelatedTargetVideoIds] = createSignal<string[]>([]);
 	const [relatedVideos, setRelatedVideos] = createSignal<IMediaSource[]>([]);
 	const currentRelatedVideoId = createMemo(() => relatedTargetVideoIds()[0]);
@@ -57,13 +59,17 @@ export const useQueueRecommendation = (params: Params) => {
 		const queueTracks = params.queueTracks();
 		const mostPlayed = mostPlayedVideos.data() || [];
 		const lastPlayed = lastPlayedVideos.data() || [];
+		const spotifyTopTracks = spotify.topTracks.data().slice(0, 5).map(MediaSourceFactory.fromSpotifyTrack);
 
-		return [...mostPlayed, ...lastPlayed, ...relatedVideos()].reduce<IMediaSource[]>((curr, v) => {
-			if (!curr.find((cv) => cv.id === v.id) && !queueTracks.find((t) => t.mediaSource.id === v.id)) {
-				curr.push(v);
-			}
-			return curr;
-		}, []);
+		return [...spotifyTopTracks, ...mostPlayed, ...lastPlayed, ...relatedVideos()].reduce<IMediaSource[]>(
+			(curr, v) => {
+				if (!curr.find((cv) => cv.id === v.id) && !queueTracks.find((t) => t.mediaSource.id === v.id)) {
+					curr.push(v);
+				}
+				return curr;
+			},
+			[]
+		);
 	});
 
 	const isLoading = () => {
