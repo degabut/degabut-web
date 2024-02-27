@@ -43,7 +43,7 @@ export const Playlists: Component = () => {
 					rounded
 					icon="plus"
 					class="space-x-3 px-6 py-1.5"
-					disabled={(playlists.data()?.length || 0) >= 25}
+					disabled={(playlists.data().length || 0) >= 25}
 					onClick={() => setIsShowModalOpen(true)}
 				>
 					Create Playlist
@@ -54,7 +54,7 @@ export const Playlists: Component = () => {
 						when={!playlists.data.loading || playlists.data()}
 						fallback={<For each={Array(3)}>{() => <Playlist.ListSkeleton />}</For>}
 					>
-						<For each={playlists.data() || []}>
+						<For each={playlists.data()}>
 							{(p) => (
 								<Playlist.List
 									onClick={() => navigate("/playlist/" + p.id)}

@@ -6,7 +6,7 @@ export const useSpotifyPlaylist = (id: string) => {
 	const spotify = useSpotify();
 	const api = new SpotifyApi(spotify.client);
 
-	const [data, { mutate, refetch }] = createResource(() => api.getPlaylist(id));
+	const [data, { mutate, refetch }] = createResource(() => api.getPlaylist(id), { initialValue: null });
 
 	return {
 		data,

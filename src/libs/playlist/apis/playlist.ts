@@ -44,11 +44,11 @@ export class PlaylistApi {
 		return response.status === 200;
 	};
 
-	getPlaylist = async (id: string): Promise<IPlaylist | undefined> => {
+	getPlaylist = async (id: string): Promise<IPlaylist | null> => {
 		const response = await this.client.get(`/playlists/${id}`);
 
 		if (response.status === 200) return response.data;
-		else return undefined;
+		else return null;
 	};
 
 	getPlaylistMediaSources = async (playlistId: string): Promise<IPlaylistMediaSource[]> => {

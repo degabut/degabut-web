@@ -10,7 +10,7 @@ export const useYouTubePlaylists = (props: IUseYouTubePlaylistsProps) => {
 	const api = useApi();
 	const youtube = new YouTubeApi(api.youtubeClient);
 
-	const resource = createResource(props, youtube.searchPlaylists);
+	const resource = createResource(props, youtube.searchPlaylists, { initialValue: [] });
 
 	const [data, { refetch, mutate }] = resource;
 

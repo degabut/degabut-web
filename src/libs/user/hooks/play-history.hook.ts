@@ -22,21 +22,25 @@ export const usePlayHistory = (props: IUseVideosProps) => {
 	const api = useApi();
 	const user = new UserApi(api.client);
 
-	const resource = createResource(props, (value) => {
-		if (value.userId !== "me" && ("guild" in value || "voiceChannel" in value)) {
-			return [];
-		}
+	const resource = createResource(
+		props,
+		(value) => {
+			if (value.userId !== "me" && ("guild" in value || "voiceChannel" in value)) {
+				return [];
+			}
 
-		const { guild, voiceChannel } = value;
-		const baseProps = { guild, voiceChannel };
+			const { guild, voiceChannel } = value;
+			const baseProps = { guild, voiceChannel };
 
-		const params =
-			"last" in value
-				? { last: value.last, ...baseProps }
-				: { count: value.count, days: value.days, ...baseProps };
+			const params =
+				"last" in value
+					? { last: value.last, ...baseProps }
+					: { count: value.count, days: value.days, ...baseProps };
 
-		return value.userId === "me" ? user.getPlayHistory(params) : user.getUserPlayHistory(value.userId, params);
-	});
+			return value.userId === "me" ? user.getPlayHistory(params) : user.getUserPlayHistory(value.userId, params);
+		},
+		{ initialValue: [] }
+	);
 
 	const [data, { refetch, mutate }] = resource;
 

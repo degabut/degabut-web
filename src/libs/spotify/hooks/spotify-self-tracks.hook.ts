@@ -15,7 +15,7 @@ export const useSpotifySelfTracks = (params: Params) => {
 	const limit = params.limit || 50;
 	let page = 0;
 
-	const [_data, { mutate, refetch }] = createResource(() => api.getSavedTracks(page, limit));
+	const [_data, { mutate, refetch }] = createResource(() => api.getSavedTracks(page, limit), { initialValue: [] });
 
 	createEffect(() => {
 		const newData = _data();
@@ -31,7 +31,7 @@ export const useSpotifySelfTracks = (params: Params) => {
 	};
 
 	const isFetchable = () => {
-		const length = _data()?.length || 0;
+		const length = _data().length;
 		return !_data.loading && length === limit;
 	};
 

@@ -46,7 +46,7 @@ export const PlaylistDetail: Component = () => {
 
 			<Show when={!playlist.mediaSources.loading} fallback={<MediaSources.List data={[]} isLoading />}>
 				<MediaSources.List
-					data={playlist.mediaSources() || []}
+					data={playlist.mediaSources()}
 					mediaSourceProps={(pv) => ({
 						mediaSource: pv.mediaSource,
 						inQueue: queue.data.tracks?.some((t) => t.mediaSource.id === pv.mediaSource.id),

@@ -10,7 +10,7 @@ export const useRecap = (props: IUseRecapProps) => {
 	const api = useApi();
 	const user = new UserApi(api.client);
 
-	const resource = createResource(props, ({ year }) => user.getRecap(year));
+	const resource = createResource(props, ({ year }) => user.getRecap(year), { initialValue: null });
 
 	const [data, { refetch, mutate }] = resource;
 

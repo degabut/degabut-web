@@ -10,7 +10,7 @@ export const useVideos = (props: IUseVideosProps) => {
 	const api = useApi();
 	const youtube = new YouTubeApi(api.youtubeClient);
 
-	const resource = createResource(props, youtube.searchVideos);
+	const resource = createResource(props, youtube.searchVideos, { initialValue: [] });
 
 	const [data, { refetch, mutate }] = resource;
 

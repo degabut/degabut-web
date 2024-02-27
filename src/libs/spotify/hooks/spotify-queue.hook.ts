@@ -6,7 +6,7 @@ export const useSpotifyQueue = () => {
 	const spotify = useSpotify();
 	const api = new SpotifyApi(spotify.client);
 
-	const [data, { mutate, refetch }] = createResource(api.getQueue);
+	const [data, { mutate, refetch }] = createResource(api.getQueue, { initialValue: null });
 
 	return {
 		data,

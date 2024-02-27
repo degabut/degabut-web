@@ -12,11 +12,13 @@ export const usePlaylist = ({ playlistId }: IUsePlaylistProps) => {
 
 	const [mediaSources, { mutate: mutateMediaSources }] = createResource(
 		playlistId,
-		playlistApi.getPlaylistMediaSources
+		playlistApi.getPlaylistMediaSources,
+		{ initialValue: [] }
 	);
 	const [playlist, { refetch: refetchPlaylist, mutate: mutatePlaylist }] = createResource(
 		playlistId,
-		playlistApi.getPlaylist
+		playlistApi.getPlaylist,
+		{ initialValue: null }
 	);
 
 	const update = async (name: string) => {

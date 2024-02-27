@@ -6,7 +6,9 @@ export const useSpotifySelfPlaylists = (page: Accessor<number>, limit = 10) => {
 	const spotify = useSpotify();
 	const api = new SpotifyApi(spotify.client);
 
-	const [data, { mutate, refetch }] = createResource(page, (page) => api.getSelfPlaylists(page, limit));
+	const [data, { mutate, refetch }] = createResource(page, (page) => api.getSelfPlaylists(page, limit), {
+		initialValue: [],
+	});
 
 	return {
 		data,

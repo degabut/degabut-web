@@ -6,7 +6,9 @@ export const useSpotifyTopTracks = (page: Accessor<number>, limit = 10) => {
 	const spotify = useSpotify();
 	const api = new SpotifyApi(spotify.client);
 
-	const [data, { mutate, refetch }] = createResource(page, (page) => api.getTopTracks(page, limit));
+	const [data, { mutate, refetch }] = createResource(page, (page) => api.getTopTracks(page, limit), {
+		initialValue: [],
+	});
 
 	return {
 		data,

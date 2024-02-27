@@ -39,7 +39,7 @@ export const AddPlaylistMediaSourceModal: Component<Props> = (props) => {
 	});
 
 	const isInitialLoading = createMemo(() => {
-		return !playlists.data()?.length && playlists.data.loading;
+		return !playlists.data().length && playlists.data.loading;
 	});
 
 	const addToPlaylist = async (playlist: IPlaylist) => {
@@ -70,10 +70,10 @@ export const AddPlaylistMediaSourceModal: Component<Props> = (props) => {
 						</div>
 
 						<div class="py-8 px-2 md:p-8 !pt-0 space-y-3 overflow-auto">
-							<Show when={(playlists.data()?.length || 0) < 25 && !isInitialLoading()}>
+							<Show when={(playlists.data().length || 0) < 25 && !isInitialLoading()}>
 								<CreatePlaylistButton onClick={() => setIsCreateModalOpen(true)} />
 							</Show>
-							<For each={playlists.data() || []}>
+							<For each={playlists.data()}>
 								{(p) => <Playlist.List playlist={p} onClick={addToPlaylist} />}
 							</For>
 							<Show when={isInitialLoading()}>

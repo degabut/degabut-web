@@ -14,9 +14,7 @@ export const useSearchYouTubeMusic = (params: Params = {}) => {
 	const [keyword, setKeyword] = createSignal("");
 	const [debouncedKeyword, _setDebouncedKeyword] = createSignal("");
 
-	const [result] = createResource(debouncedKeyword, (keyword) => {
-		return youtubeMusic.search(keyword);
-	});
+	const [result] = createResource(debouncedKeyword, youtubeMusic.search, { initialValue: [] });
 
 	const flatResult = createMemo(() => {
 		const data = result();
