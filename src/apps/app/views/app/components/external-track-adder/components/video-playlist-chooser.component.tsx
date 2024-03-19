@@ -18,7 +18,7 @@ export const VideoPlaylistChooser: Component<Props> = (props) => {
 			extraContainerClass="absolute w-[42rem] overflow-auto"
 			isOpen={true}
 			closeOnEscape
-			onClickOutside={() => props.onClose()}
+			handleClose={() => props.onClose()}
 		>
 			<div class="space-y-8 py-8 px-2 md:px-8">
 				<div>

@@ -9,9 +9,8 @@ export const OAuthSpotify: Component = () => {
 	onMount(async () => {
 		try {
 			await spotify.authenticate();
-		} catch (err) {
-			/* */
-			console.error(err);
+		} catch {
+			// ignore
 		}
 		navigate("/spotify");
 	});

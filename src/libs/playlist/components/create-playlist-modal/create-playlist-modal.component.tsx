@@ -27,7 +27,7 @@ export const CreatePlaylistModal: Component<CreatePlaylistModalProps> = (props) 
 	return (
 		<Modal
 			isOpen={props.isOpen}
-			onClickOutside={() => props.onClose()}
+			handleClose={() => props.onClose()}
 			closeOnEscape
 			extraContainerClass="w-[24rem] max-h-[100vh] m-2"
 		>

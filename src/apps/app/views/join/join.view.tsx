@@ -15,7 +15,7 @@ type SearchParams = Params & {
 export const Join: Component = () => {
 	const queue = useQueue();
 	const navigate = useNavigate();
-	const params = useParams<{ voiceChannelId: string; textChannelId?: string }>();
+	const params = useParams<Params>();
 	const [searchParams] = useSearchParams<SearchParams>();
 
 	onMount(async () => {

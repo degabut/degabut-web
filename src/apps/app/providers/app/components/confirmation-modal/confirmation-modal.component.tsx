@@ -1,5 +1,6 @@
 import { Button, Modal } from "@common/components";
-import { Component, JSX, Show, createSignal, onCleanup, onMount } from "solid-js";
+import { useShortcut } from "@common/hooks";
+import { Component, JSX, Show, createSignal } from "solid-js";
 import { SetStoreFunction, createStore } from "solid-js/store";
 
 type Props = {
@@ -15,9 +16,9 @@ export const ConfirmationModal: Component<Props> = (props) => {
 	const [isLoading, setIsLoading] = createSignal(false);
 	const [state, setState] = createStore<object>(props.initialState);
 
-	const onKeyDown = (e: KeyboardEvent) => {
-		if (e.key === "Enter") props.onConfirm(state);
-	};
+	useShortcut({
+		shortcuts: [{ key: "Enter", handler: () => onConfirm() }],
+	});
 
 	const onConfirm = async () => {
 		setIsLoading(true);
@@ -25,20 +26,12 @@ export const ConfirmationModal: Component<Props> = (props) => {
 		setIsLoading(false);
 	};
 
-	onMount(() => {
-		document.addEventListener("keydown", onKeyDown);
-	});
-
-	onCleanup(() => {
-		document.removeEventListener("keydown", onKeyDown);
-	});
-
 	return (
 		<Modal
 			extraContainerClass="absolute w-[32rem] max-h-[70vh] break-words"
 			isOpen
 			closeOnEscape
-			onClickOutside={() => props.onClose()}
+			handleClose={() => props.onClose()}
 		>
 			<div class="space-y-8 p-8">
 				<div class="text-xl font-medium text-center mb-4">{props.title}</div>

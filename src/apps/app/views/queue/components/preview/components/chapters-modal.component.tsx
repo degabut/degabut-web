@@ -17,7 +17,7 @@ export const ChaptersModal: Component<ChaptersModalProps> = (props) => {
 			extraContainerClass="w-[42rem] top-[15vh] h-[90vh] md:h-[70vh]"
 			isOpen={props.isOpen}
 			closeOnEscape
-			onClickOutside={props.handleClose}
+			handleClose={props.handleClose}
 		>
 			<div class="flex flex-col h-full">
 				<div class="py-4 !pb-0">

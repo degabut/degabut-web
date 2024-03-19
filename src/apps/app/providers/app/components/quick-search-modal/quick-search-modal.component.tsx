@@ -100,7 +100,7 @@ export const QuickSearchModal: Component<Props> = (props) => {
 			closeOnEscape
 			closeOnPathChange
 			disableHashState
-			onClickOutside={() => props.onDone()}
+			handleClose={() => props.onDone()}
 		>
 			<form onSubmit={onSubmit} class="m-4">
 				<Select<SelectOptionItem>
@@ -167,11 +167,7 @@ export const QuickSearchModal: Component<Props> = (props) => {
 							return (
 								<Item.Hint
 									extraContainerClassList={extraContainerClass}
-									label={() => (
-										<Text.Body1 truncate class="text-neutral-400">
-											Add {item.label} to queue
-										</Text.Body1>
-									)}
+									label={() => <Text.Body1 truncate>Add {item.label} to queue</Text.Body1>}
 									icon="plus"
 								/>
 							);

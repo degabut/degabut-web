@@ -1,7 +1,7 @@
 import { clickOutside } from "@common/directives";
-import { useHashState } from "@common/hooks";
+import { useHashState, useShortcut } from "@common/hooks";
 import { useLocation } from "@solidjs/router";
-import { createEffect, onCleanup, onMount, ParentComponent, Show } from "solid-js";
+import { ParentComponent, Show, createEffect } from "solid-js";
 import { Button } from "../button";
 
 clickOutside;
@@ -13,40 +13,35 @@ type Props = {
 	hideCloseButton?: boolean;
 	disableHashState?: boolean;
 	closeOnPathChange?: boolean;
-	onClickOutside?: () => void;
+	handleClose: () => void;
 };
 
 export const Modal: ParentComponent<Props> = (props) => {
 	const location = useLocation();
-	const hash = useHashState({ onPopState: () => props.onClickOutside?.() });
+	const hash = useHashState({ onPopState: () => props.handleClose() });
 	let parentContainer!: HTMLDivElement;
 
-	createEffect(() => {
-		if (props.disableHashState !== true) {
-			props.isOpen ? hash.push() : hash.back();
-		}
+	useShortcut({
+		shortcuts: [
+			{
+				key: "Escape",
+				handler: (e) => {
+					if (props.isOpen && props.closeOnEscape) {
+						e.preventDefault();
+						props.handleClose();
+					}
+				},
+			},
+		],
 	});
 
 	createEffect(() => {
-		if (props.closeOnPathChange && location.pathname) {
-			props.onClickOutside?.();
-		}
+		if (props.disableHashState !== true) props.isOpen ? hash.push() : hash.back();
 	});
 
-	onMount(() => {
-		document.addEventListener("keydown", onKeyDown);
+	createEffect(() => {
+		if (props.closeOnPathChange && location.pathname) props.handleClose?.();
 	});
-
-	onCleanup(() => {
-		document.removeEventListener("keydown", onKeyDown);
-	});
-
-	const onKeyDown = (e: KeyboardEvent) => {
-		if (e.key === "Escape" && props.isOpen && props.closeOnEscape) {
-			e.preventDefault();
-			props.onClickOutside?.();
-		}
-	};
 
 	return (
 		<Show when={props.isOpen}>
@@ -55,7 +50,7 @@ export const Modal: ParentComponent<Props> = (props) => {
 					class="max-w-[calc(100vw-1.5rem)] rounded-lg bg-neutral-900"
 					classList={{ [props.extraContainerClass || ""]: !!props.extraContainerClass }}
 					use:clickOutside={{
-						handler: props.onClickOutside,
+						handler: props.handleClose,
 						target: parentContainer,
 					}}
 				>
@@ -65,7 +60,7 @@ export const Modal: ParentComponent<Props> = (props) => {
 								flat
 								icon="closeLine"
 								class="absolute right-2 top-2 md:right-4 md:top-4 p-2"
-								onClick={() => props.onClickOutside?.()}
+								onClick={() => props.handleClose?.()}
 							/>
 						</div>
 					</Show>

@@ -11,7 +11,9 @@ import { BotSelector, Link } from "./components";
 type Link = {
 	icon: Icons;
 	label: string;
-	path: string;
+	path?: string;
+	onClick?: () => void;
+	highlight?: boolean;
 	disabled?: boolean;
 };
 
@@ -43,6 +45,13 @@ export const AppDrawer: Component<AppDrawerProps> = (props) => {
 			path: "/spotify",
 			disabled: !SPOTIFY_CLIENT_ID && !settings["spotify.enabled"],
 		},
+		{
+			icon: "stars",
+			label: `Recap ${RecapUtil.getYear()}`,
+			onClick: () => window.open("/recap")?.focus(),
+			highlight: true,
+			disabled: !RecapUtil.getYear(),
+		},
 	];
 
 	return (
@@ -63,23 +72,14 @@ export const AppDrawer: Component<AppDrawerProps> = (props) => {
 
 						<div class="flex flex-col grow text-lg space-y-1.5">
 							<For each={links().filter((l) => !l.disabled)}>
-								{(link) => <Link {...link} onClick={onLinkClick} minimized={minimized} />}
-							</For>
-
-							<Show when={RecapUtil.getYear()} keyed>
-								{(year) => (
+								{(link) => (
 									<Link
+										{...link}
+										onClick={link.onClick ? link.onClick : onLinkClick}
 										minimized={minimized}
-										icon="stars"
-										highlight
-										label={`Recap ${year}`}
-										onClick={() => {
-											const win = window.open("/recap");
-											win?.focus();
-										}}
 									/>
 								)}
-							</Show>
+							</For>
 						</div>
 
 						<div class="flex flex-col space-y-1.5">

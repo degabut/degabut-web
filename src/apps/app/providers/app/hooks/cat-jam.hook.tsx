@@ -1,3 +1,4 @@
+import { useShortcut } from "@common/hooks";
 import { DelayUtil } from "@common/utils";
 import { IGuildMember, IJam, IJamCollection } from "@queue/apis";
 import { useQueue } from "@queue/hooks";
@@ -16,8 +17,6 @@ const CatJam: Component<CatJamProps> = (props) => {
 			? "/img/cat-jam-slow.gif"
 			: props.jamSpeed < 0.8
 			? "/img/cat-jiggy.gif"
-			: props.jamSpeed < 0.9
-			? "/img/toothless-dance.gif"
 			: props.jamSpeed < 0.95
 			? "/img/cat-jam-fast.gif"
 			: props.jamSpeed < 0.99
@@ -58,15 +57,21 @@ export const useCatJam = () => {
 	const { emitter, jam } = useQueue();
 
 	const throttledJam = DelayUtil.countedThrottle(jam, 350);
+	useShortcut({
+		shortcuts: [
+			{
+				key: "j",
+				handler: throttledJam,
+			},
+		],
+	});
 
 	onMount(() => {
 		emitter.on("member-jammed", onJam);
-		document.addEventListener("keydown", onKeyDown);
 	});
 
 	onCleanup(() => {
 		emitter.removeListener("member-jammed", onJam);
-		document.removeEventListener("keydown", onKeyDown);
 	});
 
 	const onJam = async (collection: IJamCollection) => {
@@ -74,16 +79,6 @@ export const useCatJam = () => {
 		for (const j of collection.jams) {
 			spawnJam({ ...j, member: collection.member });
 			await new Promise((r) => setTimeout(r, 350 / length));
-		}
-	};
-
-	const onKeyDown = (e: KeyboardEvent) => {
-		const target = e.target as Element | null;
-		const tagName = target?.tagName.toUpperCase();
-
-		if (tagName !== "INPUT" && tagName !== "TEXTAREA" && e.key.toLowerCase() === "j") {
-			e.preventDefault();
-			throttledJam();
 		}
 	};
 

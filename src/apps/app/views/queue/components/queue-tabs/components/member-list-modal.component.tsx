@@ -16,7 +16,7 @@ export const MemberListModal: Component<MemberListModalProps> = (props) => {
 		<Modal
 			isOpen={props.isOpen}
 			closeOnEscape
-			onClickOutside={() => props.handleClose()}
+			handleClose={() => props.handleClose()}
 			extraContainerClass="w-[32rem] top-[15vh] h-[90vh] md:h-[70vh]"
 		>
 			<div class="flex flex-col h-full">

@@ -10,7 +10,7 @@ export const SpotifyIntegrationTutorialModal: Component<Props> = (props) => {
 	return (
 		<Modal
 			isOpen={props.isOpen}
-			onClickOutside={props.onClose}
+			handleClose={props.onClose}
 			extraContainerClass="w-[42rem] top-[15vh] h-[90vh] md:h-[70vh]"
 			closeOnEscape
 		>

@@ -1,5 +1,5 @@
 import { Component } from "solid-js";
-import { MediaSourcesCard } from "./components/videos-card";
+import { MediaSourcesCard } from "./components";
 import { useRecommendation } from "./hooks";
 
 export const Recommendation: Component = () => {

@@ -58,7 +58,7 @@ export const AddPlaylistMediaSourceModal: Component<Props> = (props) => {
 			extraContainerClass="absolute w-[42rem] h-[90vh] md:h-[70vh] overflow-auto"
 			isOpen={props.isOpen}
 			closeOnEscape
-			onClickOutside={() => props.onClose()}
+			handleClose={() => props.onClose()}
 		>
 			<Show when={props.mediaSource} keyed>
 				{(m) => (

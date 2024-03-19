@@ -114,7 +114,7 @@ export const ShowMoreModal: Component<Props> = (props) => {
 			extraContainerClass="w-[42rem] top-[15vh] h-[90vh] md:h-[70vh]"
 			isOpen={props.isOpen}
 			closeOnEscape
-			onClickOutside={() => props.onClose()}
+			handleClose={() => props.onClose()}
 		>
 			<div class="flex flex-col h-full">
 				<div class="py-4 !pb-0">

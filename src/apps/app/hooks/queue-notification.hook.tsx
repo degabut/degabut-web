@@ -1,4 +1,3 @@
-/* eslint-disable solid/components-return-once */
 import { Text } from "@common/components";
 import { useNotification } from "@common/hooks";
 import { NotificationUtil } from "@common/utils";
