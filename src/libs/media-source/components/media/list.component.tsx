@@ -61,6 +61,11 @@ export const MediaSourceListBig: Component<MediaSourceListProps> = (props) => {
 			{...props}
 			title={props.mediaSource.title}
 			imageUrl={props.mediaSource.maxThumbnailUrl}
+			imageOverlayElement={() => (
+				<div class="absolute bottom-0 right-0 py-0.5 px-1.5 bg-black/75 rounded-tl">
+					<DurationBadge duration={props.mediaSource.duration} />
+				</div>
+			)}
 			extra={() => (
 				<>
 					<div class="flex-row-center space-x-2 text-sm">

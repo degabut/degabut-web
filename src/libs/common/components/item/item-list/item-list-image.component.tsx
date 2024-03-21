@@ -6,6 +6,7 @@ type Props = {
 	extraClass?: string;
 	extraContainerClass?: string;
 	hoverElement?: Accessor<JSX.Element>;
+	overlayElement?: Accessor<JSX.Element>;
 };
 
 export const ItemListImage: Component<Props> = (props) => {
@@ -16,6 +17,10 @@ export const ItemListImage: Component<Props> = (props) => {
 			class="w-12 h-12 relative shrink-0"
 			classList={{ [props.extraContainerClass || ""]: !!props.extraContainerClass }}
 		>
+			<Show when={props.overlayElement} keyed>
+				{(e) => <div class="transition absolute w-full h-full">{e()}</div>}
+			</Show>
+
 			<Show when={props.hoverElement} keyed>
 				{(e) => (
 					<div class="hidden md:block opacity-0 hover:opacity-100 transition absolute w-full h-full">
@@ -51,6 +56,10 @@ export const ItemListImageBig: Component<Props> = (props) => {
 					classList={{ [props.extraClass || ""]: !!props.extraClass }}
 				/>
 			</div>
+
+			<Show when={props.overlayElement} keyed>
+				{(e) => <div class="transition absolute w-full h-full">{e()}</div>}
+			</Show>
 
 			<Show when={props.hoverElement} keyed>
 				{(e) => (

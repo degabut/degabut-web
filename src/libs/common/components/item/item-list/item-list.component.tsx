@@ -11,6 +11,7 @@ type BaseProps = {
 	extra?: Accessor<JSX.Element>;
 	imageUrl?: string | string[];
 	imageHoverElement?: Accessor<JSX.Element>;
+	imageOverlayElement?: Accessor<JSX.Element>;
 	extraImageClass?: string;
 	contextMenu?: ContextMenuDirectiveParams;
 	hideContextMenuButton?: boolean;
@@ -46,6 +47,7 @@ export const ItemList: Component<ItemListProps> = (props) => {
 					<ItemListImage
 						imageUrl={imageUrl}
 						hoverElement={props.imageHoverElement}
+						overlayElement={props.imageOverlayElement}
 						title={typeof props.title === "string" ? props.title : undefined}
 						extraClass={`shrink-0 ${props.extraImageClass}`}
 					/>
@@ -107,6 +109,7 @@ export const ItemListBig: Component<BaseProps> = (props) => {
 					<ItemListImageBig
 						title={typeof props.title === "string" ? props.title : undefined}
 						hoverElement={props.imageHoverElement}
+						overlayElement={props.imageOverlayElement}
 						imageUrl={imageUrl}
 						extraClass={props.extraImageClass}
 					/>
