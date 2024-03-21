@@ -15,8 +15,8 @@ export const OAuth: Component = () => {
 	onMount(async () => {
 		const searchParams = new URLSearchParams(location.search);
 		const code = searchParams.get("code");
-		const redirectUri = new URL(OAUTH_URL).searchParams.get("redirect_uri");
-		if (!code || !redirectUri) return navigate("/login");
+		const redirectUri = new URL(OAUTH_URL).searchParams.get("redirect_uri") || undefined;
+		if (!code) return navigate("/login");
 
 		try {
 			const accessToken = await auth.getAccessToken(code, redirectUri);
