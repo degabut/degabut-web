@@ -1,5 +1,4 @@
-import { IRichPresenceAsset, IRichPresencePlaceholder, IRichPresenceTemplate } from "@desktop/hooks";
-import { IRichPresence } from "@desktop/providers";
+import { IRichPresence, IRichPresenceAsset, IRichPresencePlaceholder, IRichPresenceTemplate } from "../hooks";
 
 export class RichPresenceUtil {
 	static parseTemplate(

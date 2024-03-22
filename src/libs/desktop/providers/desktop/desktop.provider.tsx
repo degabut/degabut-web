@@ -1,18 +1,5 @@
+import { IRichPresence } from "@discord/hooks";
 import { Accessor, ParentComponent, createContext, createSignal } from "solid-js";
-
-export type IRichPresence = {
-	details: string;
-	state?: string;
-	largeImageText: string;
-	largeImageKey: string;
-	smallImageKey?: string;
-	smallImageText?: string;
-	startTimestamp?: number | null;
-	buttons?: {
-		label: string;
-		url: string;
-	}[];
-};
 
 interface DesktopAPI {
 	onAuthenticated: () => void;

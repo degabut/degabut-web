@@ -1,5 +1,5 @@
 import { Text } from "@common/components";
-import { IRichPresenceTemplate } from "@desktop/hooks";
+import { IRichPresenceTemplate } from "@discord/hooks";
 import { Component, Show } from "solid-js";
 
 type RichPresencePreviewProps = IRichPresenceTemplate;

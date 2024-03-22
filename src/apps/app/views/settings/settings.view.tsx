@@ -1,7 +1,14 @@
 import { useApp } from "@app/hooks";
 import { Button, Container, Divider, Text } from "@common/components";
 import { TimeUtil } from "@common/utils";
-import { APP_VERSION, DESKTOP_APP_VERSION, IS_DESKTOP, SPOTIFY_CLIENT_ID, SPOTIFY_INTEGRATION } from "@constants";
+import {
+	APP_VERSION,
+	DESKTOP_APP_VERSION,
+	IS_DESKTOP,
+	IS_DISCORD_EMBEDDED,
+	SPOTIFY_CLIENT_ID,
+	SPOTIFY_INTEGRATION,
+} from "@constants";
 import { useDesktop } from "@desktop/hooks";
 import { useSettings } from "@settings/hooks";
 import { useNavigate } from "@solidjs/router";
@@ -77,6 +84,7 @@ export const Settings: Component = () => {
 				{
 					label: "Enable Browser Notifications",
 					type: "switch",
+					hide: IS_DISCORD_EMBEDDED,
 					value: () => settings["notification.browser"],
 					onChange: () => setSettings("notification.browser", (v) => !v),
 				},
@@ -97,12 +105,13 @@ export const Settings: Component = () => {
 		},
 		{
 			label: "Discord",
-			show: IS_DESKTOP,
+			show: IS_DESKTOP || IS_DISCORD_EMBEDDED,
 			items: [
 				{
 					label: "Enable Rich Presence",
 					type: "switch",
 					description: "Show what you are currently listening to on Discord",
+					hide: IS_DISCORD_EMBEDDED,
 					value: () => settings["discord.richPresence"],
 					onChange: () => setSettings("discord.richPresence", (v) => !v),
 				},
@@ -120,6 +129,7 @@ export const Settings: Component = () => {
 					label: "Enable RPC Features",
 					type: "switch",
 					description: "Experimental!",
+					hide: IS_DISCORD_EMBEDDED,
 					value: () => settings["discord.rpc"],
 					onChange: () => setSettings("discord.rpc", (v) => !v),
 				},
@@ -160,7 +170,7 @@ export const Settings: Component = () => {
 		},
 		{
 			label: "Spotify",
-			show: SPOTIFY_INTEGRATION && !SPOTIFY_CLIENT_ID,
+			show: SPOTIFY_INTEGRATION && !SPOTIFY_CLIENT_ID && !IS_DISCORD_EMBEDDED,
 			items: [
 				{
 					label: "Enable Spotify Integration",
@@ -274,15 +284,17 @@ export const Settings: Component = () => {
 				</For>
 
 				<div class="flex flex-row justify-between">
-					<Button
-						rounded
-						class="max-w-max text-red-500 !border-red-500 hover:bg-red-500/10 px-8 py-1.5"
-						onClick={onClickLogout}
-					>
-						Logout
-					</Button>
+					<Show when={!IS_DISCORD_EMBEDDED}>
+						<Button
+							rounded
+							class="max-w-max text-red-500 !border-red-500 hover:bg-red-500/10 px-8 py-1.5"
+							onClick={onClickLogout}
+						>
+							Logout
+						</Button>
+					</Show>
 
-					<div class="flex flex-col text-right">
+					<div class="flex flex-col text-right w-full">
 						<Show when={DESKTOP_APP_VERSION} keyed fallback={<Text.Caption2>v{APP_VERSION}</Text.Caption2>}>
 							{(v) => (
 								<>

@@ -1,10 +1,22 @@
 import { TimeUtil, UrlUtil } from "@common/utils";
-import { IS_BROWSER } from "@constants";
-import { RichPresenceUtil } from "@desktop/utils/rich-presence.util";
 import { QueueContextStore } from "@queue/providers";
 import { useSettings } from "@settings/hooks";
-import { createEffect, onMount } from "solid-js";
-import { useDesktop } from "./desktop.hook";
+import { createEffect, createSignal, onMount } from "solid-js";
+import { RichPresenceUtil } from "../utils";
+
+export type IRichPresence = {
+	details: string;
+	state?: string;
+	largeImageText: string;
+	largeImageKey: string;
+	smallImageKey?: string;
+	smallImageText?: string;
+	startTimestamp?: number;
+	buttons?: {
+		label: string;
+		url: string;
+	}[];
+};
 
 export type IRichPresenceAsset = {
 	id: string;
@@ -51,21 +63,19 @@ export const defaultRichPresenceIdleTemplate: IRichPresenceTemplate = {
 };
 
 export const useRichPresence = (context: QueueContextStore) => {
-	if (IS_BROWSER) return;
-
-	const desktop = useDesktop();
 	const { settings } = useSettings();
+	const [activity, setActivity] = createSignal<IRichPresence | null>(null);
 	let currentActivity = "";
 
 	onMount(() => updateListeningActivity());
 
 	createEffect(() => {
 		if (settings["discord.richPresence"]) updateListeningActivity();
-		else desktop?.ipc.clearActivity?.();
+		else setActivity(null);
 	});
 
 	const updateListeningActivity = async () => {
-		if (!settings["discord.richPresence"]) return;
+		if (!settings["discord.richPresence"]) return setActivity(null);
 
 		const nowPlaying = context.data.nowPlaying;
 		const voiceChannel = context.data.voiceChannel;
@@ -121,6 +131,8 @@ export const useRichPresence = (context: QueueContextStore) => {
 		// TODO better way to check current activity
 		if (!data || (currentActivity && currentActivity === JSON.stringify(data))) return;
 		currentActivity = JSON.stringify(data);
-		desktop?.ipc.setActivity?.(RichPresenceUtil.toPresence(data));
+		setActivity(RichPresenceUtil.toPresence(data));
 	};
+
+	return activity;
 };

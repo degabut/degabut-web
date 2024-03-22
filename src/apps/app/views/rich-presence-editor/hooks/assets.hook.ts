@@ -1,5 +1,5 @@
 import { RICH_PRESENCE_CLIENT_ID } from "@constants";
-import { IRichPresenceAsset } from "@desktop/hooks";
+import { IRichPresenceAsset } from "@discord/hooks";
 import axios from "axios";
 import { createSignal, onMount } from "solid-js";
 

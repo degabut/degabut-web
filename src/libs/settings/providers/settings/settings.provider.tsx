@@ -1,11 +1,7 @@
 import { createPersistedStore } from "@common/hooks";
 import { bots } from "@constants";
-import {
-	IRichPresenceTemplate,
-	defaultRichPresenceIdleTemplate,
-	defaultRichPresenceTemplate,
-	useDesktop,
-} from "@desktop/hooks";
+import { useDesktop } from "@desktop/hooks";
+import { IRichPresenceTemplate, defaultRichPresenceIdleTemplate, defaultRichPresenceTemplate } from "@discord/hooks";
 import { ParentComponent, createContext } from "solid-js";
 
 export type Settings = {

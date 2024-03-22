@@ -49,6 +49,8 @@ export default defineConfig({
 			"@constants": path.resolve("./src/constants"),
 			"@media-source": path.resolve("./src/libs/media-source"),
 			"@spotify": path.resolve("./src/libs/spotify"),
+			"@discord/embedded-app-sdk": "@discord/embedded-app-sdk",
+			"@discord": path.resolve("./src/libs/discord"),
 		},
 	},
 	optimizeDeps: {

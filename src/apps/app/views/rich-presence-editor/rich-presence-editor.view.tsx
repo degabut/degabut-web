@@ -1,8 +1,8 @@
 import { Button, Container, Divider, Tabs, Text } from "@common/components";
 import { TimeUtil, UrlUtil } from "@common/utils";
 import { IS_DESKTOP, bots } from "@constants";
-import { IRichPresencePlaceholder, defaultRichPresenceTemplate } from "@desktop/hooks";
-import { RichPresenceUtil } from "@desktop/utils/rich-presence.util";
+import { IRichPresencePlaceholder, defaultRichPresenceTemplate } from "@discord/hooks";
+import { RichPresenceUtil } from "@discord/utils";
 import { useSettings } from "@settings/hooks";
 import { Navigate } from "@solidjs/router";
 import { Component, For, Show, createEffect, createMemo, createSignal } from "solid-js";

@@ -43,6 +43,8 @@
 			"@media-source/*": ["./src/libs/media-source/*"],
 			"@spotify": ["./src/libs/spotify"],
 			"@spotify/*": ["./src/libs/spotify/*"],
+			"@discord": ["./src/libs/discord"],
+			"@discord/*": ["./src/libs/discord/*"],
 			"@constants": ["./src/constants"]
 		}
 	}

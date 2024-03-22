@@ -19,8 +19,8 @@ export const OAuth: Component = () => {
 		if (!code) return navigate("/login");
 
 		try {
-			const accessToken = await auth.getAccessToken(code, redirectUri);
-			api.authManager.setAccessToken(accessToken);
+			const { token } = await auth.getAccessToken(code, redirectUri);
+			api.authManager.setAccessToken(token);
 			desktop?.ipc.onAuthenticated?.();
 
 			const stateString = searchParams.get("state");

@@ -1,10 +1,9 @@
-import { useQueueNotification } from "@app/hooks";
+import { useAppRichPresence, useQueueNotification } from "@app/hooks";
 import { AppProvider } from "@app/providers";
 import { useScreen } from "@common/hooks";
 import { NotificationProvider } from "@common/providers";
 import { NotificationUtil } from "@common/utils";
 import { breakpoints } from "@constants";
-import { useRichPresence } from "@desktop/hooks";
 import { useQueue } from "@queue/hooks";
 import { QueueProvider } from "@queue/providers";
 import { Outlet, useMatch } from "@solidjs/router";
@@ -42,7 +41,7 @@ const ProvidedApp: Component = () => {
 	const inQueue = useMatch(() => (screen.gte.md ? "/queue" : "/queue/player"));
 
 	useQueueNotification();
-	useRichPresence(queue);
+	useAppRichPresence();
 	NotificationUtil.requestPermission();
 
 	let previousWidth = window.screenX;
