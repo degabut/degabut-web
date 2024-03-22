@@ -1,3 +1,4 @@
+import axios from "axios";
 import { Cache } from "./cache";
 import type { AccessToken, ICachable } from "./types";
 import { AccessTokenUtil } from "./utils";
@@ -111,19 +112,9 @@ export class Auth {
 		params.append("redirect_uri", this.redirectUri);
 		params.append("code_verifier", verifier!);
 
-		const result = await fetch("https://accounts.spotify.com/api/token", {
-			method: "POST",
-			headers: { "Content-Type": "application/x-www-form-urlencoded" },
-			body: params,
-		});
+		const result = await axios.post("https://accounts.spotify.com/api/token", params);
+		if (result.status !== 200) throw new Error("Failed to exchange code for token");
 
-		const text = await result.text();
-
-		if (!result.ok) {
-			throw new Error(`Failed to exchange code for token: ${result.statusText}, ${text}`);
-		}
-
-		const json: AccessToken = JSON.parse(text);
-		return json;
+		return result.data;
 	}
 }

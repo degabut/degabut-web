@@ -1,3 +1,4 @@
+import axios from "axios";
 import type { AccessToken, ICachable } from "../types";
 
 export class AccessTokenUtil {
@@ -24,20 +25,10 @@ export class AccessTokenUtil {
 		params.append("grant_type", "refresh_token");
 		params.append("refresh_token", refreshToken);
 
-		const result = await fetch("https://accounts.spotify.com/api/token", {
-			method: "POST",
-			headers: { "Content-Type": "application/x-www-form-urlencoded" },
-			body: params,
-		});
+		const result = await axios.post("https://accounts.spotify.com/api/token", params);
+		if (result.status !== 200) throw new Error("Failed to refresh token");
 
-		const text = await result.text();
-
-		if (!result.ok) {
-			throw new Error(`Failed to refresh token: ${result.statusText}, ${text}`);
-		}
-
-		const json: AccessToken = JSON.parse(text);
-		return json;
+		return result.data;
 	}
 
 	public static generateCodeVerifier(length: number) {
