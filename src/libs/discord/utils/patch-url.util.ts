@@ -17,14 +17,39 @@ export class PatchUrlUtil {
 	static SUBSTITUTION_REGEX = /\{([a-z]+)\}/g;
 
 	static intercept(response: AxiosResponse, mappings: Mapping[]) {
+		const responseString = PatchUrlUtil.rewriteString(JSON.stringify(response.data), mappings);
+		response.data = JSON.parse(responseString);
+		return response;
+	}
+
+	static patchWebSocket(mappings: Mapping[]) {
+		class InterceptedWebSocket extends WebSocket {
+			constructor(url: string, protocols?: string | string[]) {
+				super(url, protocols);
+			}
+
+			set onmessage(event: (ev: MessageEvent) => any) {
+				super.onmessage = (ev: MessageEvent) => {
+					let data = ev.data;
+					data = PatchUrlUtil.rewriteString(data, mappings);
+					if (event) event({ ...ev, data });
+				};
+			}
+		}
+
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
+		window.WebSocket = InterceptedWebSocket;
+	}
+
+	private static rewriteString(original: string, mappings: Mapping[]): string {
 		for (const mapping of mappings) {
-			const responseString = JSON.stringify(response.data);
 			const targetUrl = `https://${mapping.target}`.replace(/%7B/g, "{").replace(/%7D/g, "}");
 			const targetRegEx = PatchUrlUtil.regexFromTarget(targetUrl, "g");
-			const match = responseString.match(targetRegEx);
+			const match = original.match(targetRegEx);
 			if (match == null) continue;
 
-			const newResponseString = responseString.replace(targetRegEx, (url) => {
+			original = original.replace(targetRegEx, (url) => {
 				const newUrl = PatchUrlUtil.matchAndRewriteUrl({
 					originalUrl: new URL(url),
 					prefix: mapping.prefix,
@@ -34,10 +59,9 @@ export class PatchUrlUtil {
 
 				return newUrl?.toString() || "";
 			});
-			response.data = JSON.parse(newResponseString);
 		}
 
-		return response;
+		return original;
 	}
 
 	// TODO move

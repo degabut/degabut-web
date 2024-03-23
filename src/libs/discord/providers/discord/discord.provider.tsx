@@ -38,7 +38,7 @@ export const DiscordProvider: ParentComponent = (props) => {
 			api.youtubeClient.interceptors.response.use((r) =>
 				PatchUrlUtil.intercept(r, DISCORD_ACTIVITY_URL_MAPPINGS)
 			);
-			// TODO intercept websocket received messages
+			PatchUrlUtil.patchWebSocket(DISCORD_ACTIVITY_URL_MAPPINGS);
 		}
 
 		discordSdk = new DiscordSDK(bots[0].id);
