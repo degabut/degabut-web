@@ -1,6 +1,6 @@
 import { Button, Container, Divider, Tabs, Text } from "@common/components";
 import { TimeUtil, UrlUtil } from "@common/utils";
-import { IS_DESKTOP, bots } from "@constants";
+import { IS_DESKTOP, IS_DISCORD_EMBEDDED, bots } from "@constants";
 import { IRichPresencePlaceholder, defaultRichPresenceTemplate } from "@discord/hooks";
 import { RichPresenceUtil } from "@discord/utils";
 import { useSettings } from "@settings/hooks";
@@ -14,7 +14,7 @@ type SettingsKey = "discord.richPresence.template" | "discord.richPresence.idleT
 
 export const RichPresenceEditor: Component = () => {
 	// eslint-disable-next-line solid/components-return-once
-	if (!IS_DESKTOP) return <Navigate href="/queue" />;
+	if (!IS_DESKTOP && !IS_DISCORD_EMBEDDED) return <Navigate href="/queue" />;
 
 	const assets = useAssets();
 	const { settings, setSettings } = useSettings();
