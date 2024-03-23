@@ -26,6 +26,7 @@ export const SliderItem: Component<Props> = (props) => {
 				min={props.min}
 				max={props.max}
 				step={props.step || 1}
+				disabled={props.disabled}
 			/>
 		</Item>
 	);

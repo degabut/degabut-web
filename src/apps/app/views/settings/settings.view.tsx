@@ -33,6 +33,7 @@ type SettingsItem = {
 	label: string;
 	description?: string | (() => JSXElement);
 	hide?: boolean;
+	disabled?: boolean;
 } & (
 	| SettingsItemParams<"switch", boolean>
 	| SettingsItemParams<"keybind", string[]>
@@ -111,7 +112,7 @@ export const Settings: Component = () => {
 					label: "Enable Rich Presence",
 					type: "switch",
 					description: "Show what you are currently listening to on Discord",
-					hide: IS_DISCORD_EMBEDDED,
+					disabled: IS_DISCORD_EMBEDDED,
 					value: () => settings["discord.richPresence"],
 					onChange: () => setSettings("discord.richPresence", (v) => !v),
 				},

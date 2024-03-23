@@ -7,7 +7,7 @@ type Props = ValueProps<boolean>;
 export const SwitchItem: Component<Props> = (props) => {
 	return (
 		<Item {...props}>
-			<Switch checked={props.value()} onChange={(c) => props.onChange?.(c)} />
+			<Switch checked={props.value()} onChange={(c) => props.onChange?.(c)} disabled={props.disabled} />
 		</Item>
 	);
 };

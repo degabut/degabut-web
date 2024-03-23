@@ -14,6 +14,7 @@ export const TextItem: Component<Props> = (props) => {
 				class="w-48 text-sm"
 				value={props.value()}
 				onInput={(v) => props.onChange?.(v.currentTarget.value)}
+				disabled={props.disabled}
 			/>
 		</Item>
 	);

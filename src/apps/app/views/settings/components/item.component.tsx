@@ -4,6 +4,7 @@ import { Accessor, JSX, ParentComponent, Show } from "solid-js";
 export type BaseProps = {
 	label: string;
 	type: string;
+	disabled?: boolean;
 	description?: string | (() => JSX.Element);
 };
 
