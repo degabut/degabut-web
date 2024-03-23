@@ -12,7 +12,7 @@ const EmptyNowPlaying: Component = () => {
 				<Text.H3 class="truncate text-neutral-500">It's lonely here...</Text.H3>
 			</div>
 
-			<div class="">
+			<div class="px-1">
 				<QueueSeekSlider value={0} max={0} />
 			</div>
 		</div>
@@ -28,10 +28,10 @@ export const MinimizedQueueNowPlaying: Component = () => {
 				<div class="relative w-full h-full">
 					<img
 						src={mediaSource.maxThumbnailUrl}
-						class="absolute blur-lg top-0 left-0 h-full w-full opacity-25"
+						class="absolute blur-lg top-0 left-0 h-full w-full opacity-50"
 					/>
 
-					<div class="flex flex-col justify-center bg-neutral-950 w-full h-full overflow-hidden p-4 space-y-4">
+					<div class="flex flex-col justify-center bg-neutral-950 w-full h-full overflow-hidden p-4 space-y-4 text-shadow">
 						<div class="flex-row-center space-x-3 z-10">
 							<img src={mediaSource.maxThumbnailUrl} class="w-16 aspect-square object-cover rounded-md" />
 							<div class="truncate space-y-1">
@@ -43,7 +43,7 @@ export const MinimizedQueueNowPlaying: Component = () => {
 							</div>
 						</div>
 
-						<div class="px-1">
+						<div class="px-1 z-10">
 							<QueueSeekSlider value={queue.data.position / 1000} max={mediaSource.duration} />
 						</div>
 					</div>
