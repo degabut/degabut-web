@@ -33,9 +33,9 @@ export const MinimizedQueueNowPlaying: Component = () => {
 
 					<div class="flex flex-col justify-center bg-neutral-950 w-full h-full overflow-hidden p-4 space-y-4">
 						<div class="flex-row-center space-x-3 z-10">
-							<img src={mediaSource.maxThumbnailUrl} class="w-16 aspect-square rounded-md" />
-							<div class="truncate space-y-0.5">
-								<Text.H4 class="truncate">{mediaSource.title}</Text.H4>
+							<img src={mediaSource.maxThumbnailUrl} class="w-16 aspect-square object-cover rounded-md" />
+							<div class="truncate space-y-1">
+								<Text.H3 class="truncate">{mediaSource.title}</Text.H3>
 								<div class="flex-row-center space-x-1.5">
 									<SourceBadge type={mediaSource.type} size="lg" />
 									<Text.Body2 class="text-neutral-300 truncate">{mediaSource.creator}</Text.Body2>
