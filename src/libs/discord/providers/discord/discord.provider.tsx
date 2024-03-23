@@ -29,6 +29,7 @@ export const DiscordProvider: ParentComponent = (props) => {
 
 	onMount(async () => {
 		// dynamic import
+		import("./font.css");
 		const { DiscordSDK, patchUrlMappings } = await import("@discord/embedded-app-sdk");
 
 		if (DISCORD_ACTIVITY_URL_MAPPINGS.length) {
