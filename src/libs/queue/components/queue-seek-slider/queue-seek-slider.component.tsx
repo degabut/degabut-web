@@ -6,7 +6,7 @@ type Props = {
 	max: number;
 	value: number;
 	disabled?: boolean;
-	onChange: (value: number) => void;
+	onChange?: (value: number) => void;
 };
 
 export const QueueSeekSlider: Component<Props> = (props) => {
@@ -24,7 +24,7 @@ export const QueueSeekSlider: Component<Props> = (props) => {
 	};
 
 	const onChange = (value: number) => {
-		props.onChange(value);
+		props.onChange?.(value);
 		isSeeking = false;
 	};
 

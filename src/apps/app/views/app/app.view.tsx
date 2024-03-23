@@ -4,6 +4,8 @@ import { useScreen } from "@common/hooks";
 import { NotificationProvider } from "@common/providers";
 import { NotificationUtil } from "@common/utils";
 import { breakpoints } from "@constants";
+import { MinimizedQueueNowPlaying } from "@discord/components";
+import { useDiscord } from "@discord/hooks";
 import { useQueue } from "@queue/hooks";
 import { QueueProvider } from "@queue/providers";
 import { Outlet, useMatch } from "@solidjs/router";
@@ -39,6 +41,7 @@ const ProvidedApp: Component = () => {
 	const screen = useScreen();
 	const queue = useQueue();
 	const inQueue = useMatch(() => (screen.gte.md ? "/queue" : "/queue/player"));
+	const discord = useDiscord();
 
 	useQueueNotification();
 	useAppRichPresence();
@@ -55,7 +58,7 @@ const ProvidedApp: Component = () => {
 	});
 
 	return (
-		<>
+		<Show when={!discord?.isMinimized()} fallback={<MinimizedQueueNowPlaying />}>
 			<div class="md:space-y-2 md:p-1.5 flex flex-col h-full">
 				<div class="flex h-full overflow-y-auto md:space-x-2">
 					<AppDrawer isOpen={isDrawerOpen()} handleClose={() => setIsDrawerOpen(false)} />
@@ -86,6 +89,6 @@ const ProvidedApp: Component = () => {
 			</div>
 
 			<ExternalTrackAdder />
-		</>
+		</Show>
 	);
 };
