@@ -5,7 +5,6 @@ import { DISCORD_ACTIVITY_APPLICATION_ID, DISCORD_ACTIVITY_URL_MAPPINGS, IS_DISC
 import type { DiscordSDK } from "@discord/embedded-app-sdk";
 import { IRichPresence } from "@discord/hooks";
 import { IVoiceChannelMin } from "@queue/apis";
-import { useBeforeLeave, useNavigate } from "@solidjs/router";
 import axios from "axios";
 import { Accessor, ParentComponent, Show, createContext, createSignal, onMount } from "solid-js";
 import { PatchUrlUtil } from "../../utils";
@@ -26,7 +25,6 @@ export const DiscordProvider: ParentComponent = (props) => {
 
 	const api = useApi();
 	const auth = useAuth();
-	const navigate = useNavigate();
 	let discordSdk: DiscordSDK;
 	const [isReady, setIsReady] = createSignal(false);
 	const [isMinimized, setIsMinimized] = createSignal(false);
@@ -50,25 +48,6 @@ export const DiscordProvider: ParentComponent = (props) => {
 		discordSdk = new DiscordSDK(DISCORD_ACTIVITY_APPLICATION_ID, { disableConsoleLogOverride: true });
 		await discordSdk.ready();
 		await authorizeAndAuthenticate();
-	});
-
-	useBeforeLeave((e) => {
-		const toParams = new URLSearchParams(e.to.toString().split("?")[1]);
-		if (toParams.get("frame_id")) return;
-		e.preventDefault();
-
-		const params = new URLSearchParams(location.search);
-		const newParams = new URLSearchParams({
-			instance_id: params.get("instance_id") || "",
-			channel_id: params.get("channel_id") || "",
-			guild_id: params.get("guild_id") || "",
-			frame_id: params.get("frame_id") || "",
-			platform: params.get("platform") || "",
-		});
-
-		const delimiter = e.to.toString().includes("?") ? "&" : "?";
-		const target = e.to.toString() + delimiter + newParams.toString();
-		navigate(target);
 	});
 
 	const authorizeAndAuthenticate = async () => {
