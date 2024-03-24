@@ -1,12 +1,13 @@
 import { useAuth } from "@auth/hooks";
 import { Spinner } from "@common/components";
-import { useApi, useScreen } from "@common/hooks";
-import { DISCORD_ACTIVITY_URL_MAPPINGS, IS_DISCORD_EMBEDDED, bots } from "@constants";
+import { useApi } from "@common/hooks";
+import { DISCORD_ACTIVITY_APPLICATION_ID, DISCORD_ACTIVITY_URL_MAPPINGS, IS_DISCORD_EMBEDDED } from "@constants";
 import type { DiscordSDK } from "@discord/embedded-app-sdk";
 import { IRichPresence } from "@discord/hooks";
+import { IVoiceChannelMin } from "@queue/apis";
 import { useBeforeLeave, useNavigate } from "@solidjs/router";
 import axios from "axios";
-import { Accessor, ParentComponent, Show, createContext, createMemo, createSignal, onMount } from "solid-js";
+import { Accessor, ParentComponent, Show, createContext, createSignal, onMount } from "solid-js";
 import { PatchUrlUtil } from "../../utils";
 
 export type DiscordContextStore = {
@@ -14,6 +15,7 @@ export type DiscordContextStore = {
 	setActivity: (activity: IRichPresence | null) => void;
 	isReady: Accessor<boolean>;
 	isMinimized: Accessor<boolean>;
+	currentChannel: Accessor<IVoiceChannelMin | null>;
 };
 
 export const DiscordContext = createContext<DiscordContextStore | undefined>();
@@ -24,10 +26,11 @@ export const DiscordProvider: ParentComponent = (props) => {
 
 	const api = useApi();
 	const auth = useAuth();
-	const screen = useScreen();
 	const navigate = useNavigate();
 	let discordSdk: DiscordSDK;
 	const [isReady, setIsReady] = createSignal(false);
+	const [isMinimized, setIsMinimized] = createSignal(false);
+	const [currentChannel, setCurrentChannel] = createSignal<IVoiceChannelMin | null>(null);
 
 	onMount(async () => {
 		// dynamic import
@@ -44,7 +47,7 @@ export const DiscordProvider: ParentComponent = (props) => {
 			PatchUrlUtil.patchWebSocket(DISCORD_ACTIVITY_URL_MAPPINGS);
 		}
 
-		discordSdk = new DiscordSDK(bots[0].id, { disableConsoleLogOverride: true });
+		discordSdk = new DiscordSDK(DISCORD_ACTIVITY_APPLICATION_ID, { disableConsoleLogOverride: true });
 		await discordSdk.ready();
 		await authorizeAndAuthenticate();
 	});
@@ -68,23 +71,33 @@ export const DiscordProvider: ParentComponent = (props) => {
 		navigate(target);
 	});
 
-	// TODO verify this
-	const isMinimized = createMemo(() => screen.size <= 320);
-
 	const authorizeAndAuthenticate = async () => {
 		setIsReady(false);
 		const { code } = await discordSdk.commands.authorize({
-			client_id: bots[0].id,
+			client_id: DISCORD_ACTIVITY_APPLICATION_ID,
 			response_type: "code",
 			prompt: "none",
-			scope: ["identify", "rpc.activities.write"],
+			scope: ["identify", "rpc.activities.write", "guilds"],
 		});
 
 		const { token, discordAccessToken } = await auth.getAccessToken(code);
 		api.authManager.setAccessToken(token);
 		await discordSdk.commands.authenticate({ access_token: discordAccessToken });
 
+		onAuthenticated();
 		setIsReady(true);
+	};
+
+	const onAuthenticated = async () => {
+		discordSdk.subscribe("ACTIVITY_LAYOUT_MODE_UPDATE", ({ layout_mode }) => setIsMinimized(layout_mode === 1));
+
+		if (discordSdk.channelId) {
+			const channel = await discordSdk.commands.getChannel({ channel_id: discordSdk.channelId });
+			setCurrentChannel({
+				id: channel.id,
+				name: channel.name || "",
+			});
+		}
 	};
 
 	const setActivity = (activity: IRichPresence | null) => {
@@ -112,6 +125,7 @@ export const DiscordProvider: ParentComponent = (props) => {
 				setActivity,
 				isReady,
 				isMinimized,
+				currentChannel,
 			}}
 		>
 			<Show

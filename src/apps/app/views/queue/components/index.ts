@@ -1,3 +1,3 @@
 export * from "./preview";
-export * from "./queue-not-found.view";
+export * from "./queue-not-found";
 export * from "./queue-tabs";
