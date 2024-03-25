@@ -24,7 +24,7 @@ type Props = {
 
 export const Preview: Component<Props> = (props) => {
 	return (
-		<div class="flex flex-col space-y-2">
+		<div class="flex flex-col space-y-2 overflow-hidden">
 			<Show when={!IS_DISCORD_EMBEDDED}>
 				<div class="flex-row-center space-x-2">
 					<SelectorButton
@@ -40,13 +40,18 @@ export const Preview: Component<Props> = (props) => {
 				</div>
 			</Show>
 
-			<div class="grow flex-row-center p-8">
-				<Show when={!props.isThumbnail} fallback={<PreviewThumbnail />}>
-					<div class="px-2 lg:px-4 xl:px-6 2xl:px-8 3xl:px-12 w-full">
-						<PreviewEmbed />
+			<Show
+				when={!props.isThumbnail}
+				fallback={
+					<div class="w-full h-full p-4 overflow-hidden">
+						<PreviewThumbnail />
 					</div>
-				</Show>
-			</div>
+				}
+			>
+				<div class="flex-row-center px-2 lg:px-4 xl:px-6 2xl:px-8 3xl:px-12 h-full">
+					<PreviewEmbed />
+				</div>
+			</Show>
 		</div>
 	);
 };

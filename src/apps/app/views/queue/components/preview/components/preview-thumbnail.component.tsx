@@ -1,55 +1,94 @@
 import { useApp } from "@app/hooks";
 import { Icon, Text } from "@common/components";
 import { contextMenu } from "@common/directives";
+import { useScreen } from "@common/hooks";
+import { IMediaSource } from "@media-source/apis";
 import { MediaSourceContextMenuUtil } from "@media-source/utils";
 import { QueueActions } from "@queue/components";
 import { useQueue } from "@queue/hooks";
 import { useNavigate } from "@solidjs/router";
-import { Component, Show } from "solid-js";
+import { Component, Show, createEffect, createSignal, on } from "solid-js";
 
 contextMenu;
 
 export const PreviewThumbnail: Component = () => {
+	let containerRef!: HTMLDivElement;
+	const queue = useQueue();
+	const screen = useScreen();
+
+	const [size, setSize] = createSignal(0);
+
+	createEffect(
+		on(
+			() => [screen.width, screen.height],
+			() => {
+				const rect = containerRef.getBoundingClientRect();
+				setSize(Math.min(rect.width, rect.height));
+			}
+		)
+	);
+
+	return (
+		<div class="flex-row-center justify-center h-full" ref={containerRef}>
+			<Show when={queue.data.nowPlaying} keyed fallback={<Skeleton size={size()} />}>
+				{({ mediaSource }) => <Thumbnail size={size()} mediaSource={mediaSource} />}
+			</Show>
+		</div>
+	);
+};
+
+type ThumbnailProps = {
+	size: number;
+	mediaSource: IMediaSource;
+};
+
+const Thumbnail: Component<ThumbnailProps> = (props) => {
 	const queue = useQueue();
 	const app = useApp();
 	const navigate = useNavigate();
 
 	return (
-		<Show when={queue.data.nowPlaying} keyed fallback={<Skeleton />}>
-			{({ mediaSource }) => (
-				<div
-					class="relative w-full max-w-[32rem] aspect-square mx-auto"
-					use:contextMenu={MediaSourceContextMenuUtil.getContextMenu({
-						queueStore: queue,
-						appStore: app,
-						navigate,
-						mediaSource,
-					})}
-				>
-					<div class="absolute w-full h-full opacity-0 hover:opacity-100 transition flex items-end">
-						<div class="w-full flex flex-col justify-end min-h-[50%] bg-gradient-to-t from-black to-black/0">
-							<div class="text-center space-y-2 truncate text-shadow px-4">
-								<Text.H1 truncate>{mediaSource.title}</Text.H1>
-								<Text.Body2 truncate>{mediaSource.creator}</Text.Body2>
-							</div>
-							<QueueActions
-								extraClass="w-full justify-evenly py-4"
-								extraButtonClass="p-4"
-								iconSize="lg"
-							/>
-						</div>
+		<div
+			class="relative max-w-[32rem] max-h-[32rem]"
+			style={{
+				width: `${props.size}px`,
+				height: `${props.size}px`,
+			}}
+			use:contextMenu={MediaSourceContextMenuUtil.getContextMenu({
+				queueStore: queue,
+				appStore: app,
+				navigate,
+				mediaSource: props.mediaSource,
+			})}
+		>
+			<div class="absolute w-full h-full opacity-0 hover:opacity-100 transition flex items-end">
+				<div class="w-full flex flex-col justify-end min-h-[50%] bg-gradient-to-t from-black to-black/0">
+					<div class="text-center space-y-2 truncate text-shadow px-4">
+						<Text.H1 truncate>{props.mediaSource.title}</Text.H1>
+						<Text.Body2 truncate>{props.mediaSource.creator}</Text.Body2>
 					</div>
-					<img src={mediaSource.maxThumbnailUrl} class="h-full object-cover" />
+					<QueueActions extraClass="w-full justify-evenly py-4" extraButtonClass="p-4" iconSize="lg" />
 				</div>
-			)}
-		</Show>
+			</div>
+			<img src={props.mediaSource.maxThumbnailUrl} class="h-full object-cover" />
+		</div>
 	);
 };
 
-const Skeleton: Component = () => {
+type SkeletonProps = {
+	size: number;
+};
+
+const Skeleton: Component<SkeletonProps> = (props) => {
 	return (
-		<div class="w-full max-w-[32rem] aspect-square mx-auto border border-white opacity-10 flex items-center justify-center">
-			<Icon name="musicNotes" extraClass="fill-white h-[50%] w-auto p-8" />
+		<div
+			class="max-w-[32rem] max-h-[32rem] mx-auto border border-white opacity-10 flex items-center justify-center"
+			style={{
+				width: `${props.size}px`,
+				height: `${props.size}px`,
+			}}
+		>
+			<Icon name="musicNotes" extraClass="fill-white h-[50%] max-h-48 w-auto p-4" />
 		</div>
 	);
 };
