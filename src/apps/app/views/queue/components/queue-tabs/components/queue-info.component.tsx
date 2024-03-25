@@ -1,7 +1,7 @@
 import { Button, Divider, Icon, Text } from "@common/components";
 import { TimeUtil } from "@common/utils";
 import { useQueue } from "@queue/hooks";
-import { Component, For, createSignal } from "solid-js";
+import { Component, For, Show, createSignal } from "solid-js";
 import { MemberListModal } from "./member-list-modal.component";
 
 type Props = {
@@ -55,19 +55,21 @@ export const QueueInfo: Component = () => {
 					>
 						<Icon name="people" size="lg" class="fill-neutral-500 mx-auto" />
 
-						<div class="flex-row-center overflow-x-clip -space-x-2">
-							<For each={queue.data.voiceChannel.members.filter((m) => m.isInVoiceChannel)}>
-								{(member) => (
-									<div class="rounded-full w-7 h-7 border-neutral-900 border-2">
-										<img
-											title={member.displayName}
-											class="rounded-full"
-											src={member.avatar || "/img/avatar.png"}
-										/>
-									</div>
-								)}
-							</For>
-						</div>
+						<Show when={queue.data.voiceChannel.members.length}>
+							<div class="flex-row-center overflow-x-clip -space-x-2">
+								<For each={queue.data.voiceChannel.members.filter((m) => m.isInVoiceChannel)}>
+									{(member) => (
+										<div class="rounded-full w-7 h-7 border-neutral-900 border-2">
+											<img
+												title={member.displayName}
+												class="rounded-full"
+												src={member.avatar || "/img/avatar.png"}
+											/>
+										</div>
+									)}
+								</For>
+							</div>
+						</Show>
 					</Button>
 				</div>
 			</div>

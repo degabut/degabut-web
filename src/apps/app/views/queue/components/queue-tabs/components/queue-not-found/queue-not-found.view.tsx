@@ -7,9 +7,9 @@ import { Component, Show } from "solid-js";
 import { JoinCurrentChannel, VoiceChannelHistoryList } from "./components";
 
 export const QueueNotFound: Component = () => {
-	const discord = useDiscord();
 	const app = useApp();
 	const api = useApi();
+	const discord = useDiscord();
 	const playerApi = new PlayerApi(api.client);
 
 	const join = async (voiceChannel: IVoiceChannelMin, textChannel?: ITextChannel | null) => {

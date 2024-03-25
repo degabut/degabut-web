@@ -1,15 +1,13 @@
 import { useApp } from "@app/hooks";
 import { Container } from "@common/components";
 import { useScreen } from "@common/hooks";
-import { useQueue } from "@queue/hooks";
 import { useSettings } from "@settings/hooks";
 import { Component, Show, createEffect, createSignal, onMount } from "solid-js";
-import { Preview, QueueNotFound, QueueTabs } from "./components";
+import { Preview, QueueTabs } from "./components";
 
 export const Queue: Component = () => {
 	const app = useApp();
 	const screen = useScreen();
-	const queue = useQueue();
 	const { settings, setSettings } = useSettings();
 	const [isThumbnail, setIsThumbnail] = createSignal(settings["queue.showThumbnail"]);
 
@@ -36,9 +34,7 @@ export const Queue: Component = () => {
 				<Preview isThumbnail={isThumbnail()} onChangeViewMode={setIsThumbnail} />
 			</Show>
 
-			<Show when={!queue.data.empty || queue.isInitialLoading()} fallback={<QueueNotFound />}>
-				<QueueTabs />
-			</Show>
+			<QueueTabs />
 		</Container>
 	);
 };

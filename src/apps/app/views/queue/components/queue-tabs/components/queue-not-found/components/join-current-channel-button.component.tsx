@@ -11,13 +11,13 @@ type JoinCurrentChannel = {
 export const JoinCurrentChannel: Component<JoinCurrentChannel> = (props) => {
 	const queue = useQueue();
 	return (
-		<div class="flex-row-center justify-center h-full text-neutral-300">
-			<Button class="px-8 py-2.5" onClick={() => props.onClickChannel(props.channel)}>
-				<div class="flex-col-center space-y-2">
-					<Text.H3>Bring {queue.bot().name} to</Text.H3>
+		<div class="flex-row-center justify-center py-4  text-neutral-300">
+			<Button class="px-12 py-2" onClick={() => props.onClickChannel(props.channel)}>
+				<div class="flex-col-center space-y-0.5">
+					<Text.Body1>Bring {queue.bot().name} to</Text.Body1>
 					<div class="flex-row-center space-x-2">
 						<Icon size="xl" name="soundFull" class="fill-neutral-500" />
-						<Text.H2>{props.channel.name}</Text.H2>
+						<Text.H3>{props.channel.name}</Text.H3>
 					</div>
 				</div>
 			</Button>
