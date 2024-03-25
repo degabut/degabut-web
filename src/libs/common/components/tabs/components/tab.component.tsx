@@ -5,6 +5,7 @@ import { ITabItem } from "../tabs.component";
 type LabelProps = {
 	label: string;
 	icon?: Icons;
+	disabled?: boolean;
 	isActive: boolean;
 };
 
@@ -15,6 +16,7 @@ const TabLabel = (props: LabelProps) => {
 			classList={{
 				"font-medium": props.isActive,
 				"text-neutral-400": !props.isActive,
+				"text-neutral-500": props.disabled,
 			}}
 		>
 			<Show when={props.icon} keyed>
@@ -28,6 +30,7 @@ const TabLabel = (props: LabelProps) => {
 type Props = {
 	item: ITabItem;
 	isActive: boolean;
+	disabled?: boolean;
 	extraContainerClass?: string;
 	onClick: (item: ITabItem) => void;
 };
@@ -35,13 +38,21 @@ type Props = {
 export const Tab: Component<Props> = (props) => {
 	return (
 		<div
-			class="grow cursor-pointer"
-			classList={{ [props.extraContainerClass || ""]: !!props.extraContainerClass }}
-			onClick={() => props.onClick(props.item)}
+			class="grow"
+			classList={{
+				[props.extraContainerClass || ""]: !!props.extraContainerClass,
+				"cursor-pointer": !props.disabled,
+			}}
+			onClick={() => !props.disabled && props.onClick(props.item)}
 		>
 			<div class="px-2 md:px-12 xl:px-14 py-3 md:py-2">
 				{"labelText" in props.item ? (
-					<TabLabel icon={props.item.icon} label={props.item.labelText} isActive={props.isActive} />
+					<TabLabel
+						icon={props.item.icon}
+						label={props.item.labelText}
+						disabled={props.disabled}
+						isActive={props.isActive}
+					/>
 				) : (
 					props.item.label({ isActive: props.isActive })
 				)}

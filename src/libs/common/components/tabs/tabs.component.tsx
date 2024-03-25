@@ -9,6 +9,7 @@ type LabelProps = {
 export type ITabItem = {
 	id: string;
 	element?: Accessor<JSX.Element>;
+	disabled?: Accessor<boolean>;
 } & (
 	| {
 			label: (props: LabelProps) => JSX.Element;
@@ -58,6 +59,7 @@ export const Tabs: Component<Props> = (props) => {
 										<Tab
 											item={item}
 											onClick={onChange}
+											disabled={item.disabled?.()}
 											isActive={item.id === activeItem.id}
 											extraContainerClass={props.extraTabClass}
 										/>
