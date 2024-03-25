@@ -40,7 +40,7 @@ export const Preview: Component<Props> = (props) => {
 				</div>
 			</Show>
 
-			<div class="grow flex-row-center">
+			<div class="grow flex-row-center p-8">
 				<Show when={!props.isThumbnail} fallback={<PreviewThumbnail />}>
 					<div class="px-2 lg:px-4 xl:px-6 2xl:px-8 3xl:px-12 w-full">
 						<PreviewEmbed />
