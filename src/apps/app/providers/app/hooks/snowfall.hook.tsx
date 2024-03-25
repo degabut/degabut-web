@@ -64,7 +64,7 @@ export const useSnowfall = () => {
 
 	createEffect(() => {
 		settings["app.snowfall.enabled"]
-			? start(settings["app.snowfall.amount"], settings["app.snowfall.speed"], screen.size)
+			? start(settings["app.snowfall.amount"], settings["app.snowfall.speed"], screen.width)
 			: stop();
 	});
 

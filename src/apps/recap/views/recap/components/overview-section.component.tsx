@@ -31,7 +31,7 @@ export const OverviewSection: Component<OverviewSectionProps> = (props) => {
 	const [isSaving, setIsSaving] = createSignal(false);
 
 	const scale = () => {
-		const width = screen.size;
+		const width = screen.width;
 		if (width >= 1024) return 1;
 		return width / (1024 + 16);
 	};

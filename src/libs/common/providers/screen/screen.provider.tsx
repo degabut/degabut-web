@@ -6,7 +6,8 @@ import { createStore } from "solid-js/store";
 type BreakpointEntries = Record<BreakpointKeys, boolean>;
 export type Screen = BreakpointEntries & {
 	gte: BreakpointEntries;
-	size: number;
+	width: number;
+	height: number;
 	breakpoint: BreakpointKeys;
 };
 
@@ -16,7 +17,8 @@ const defaultBreakpointsEntries = Object.fromEntries(breakpointsKeys.map((k) => 
 export const defaultScreenValue = {
 	...defaultBreakpointsEntries,
 	gte: { ...defaultBreakpointsEntries },
-	size: 0,
+	width: 0,
+	height: 0,
 	breakpoint: "xs" as BreakpointKeys,
 };
 
@@ -26,10 +28,12 @@ export const ScreenProvider: ParentComponent = (props) => {
 	const [screen, setScreen] = createStore<Screen>({ ...defaultScreenValue });
 
 	const throttledResizeHandler = DelayUtil.throttle(() => {
-		const size = window.innerWidth;
-		setScreen("size", size);
+		const width = window.innerWidth;
+		const height = window.innerHeight;
+		setScreen("width", width);
+		setScreen("height", height);
 
-		const breakpoint = (breakpointEntries.find(([, value]) => size >= value)?.[0] || "3xl") as BreakpointKeys;
+		const breakpoint = (breakpointEntries.find(([, value]) => width >= value)?.[0] || "3xl") as BreakpointKeys;
 		if (breakpoint !== screen.breakpoint) setScreen("breakpoint", breakpoint);
 	}, 250);
 
@@ -37,13 +41,13 @@ export const ScreenProvider: ParentComponent = (props) => {
 		on(
 			() => screen.breakpoint,
 			() => {
-				const size = screen.size;
+				const width = screen.width;
 				for (const [key, value] of breakpointEntries) {
-					if (size >= value && !screen[key]) setScreen(key, true);
+					if (width >= value && !screen[key]) setScreen(key, true);
 					else if (screen[key]) setScreen(key, false);
 
-					if (size >= value && !screen.gte[key]) setScreen("gte", key, true);
-					else if (size < value && screen.gte[key]) setScreen("gte", key, false);
+					if (width >= value && !screen.gte[key]) setScreen("gte", key, true);
+					else if (width < value && screen.gte[key]) setScreen("gte", key, false);
 				}
 			}
 		)

@@ -25,7 +25,7 @@ export function GridCol<Item = unknown>(props: Props<Item>) {
 		const colsEntries = Object.entries(props.cols) as [BreakpointKeys, number][];
 		const col = colsEntries
 			.sort(([a], [b]) => breakpointKeys.indexOf(a) - breakpointKeys.indexOf(b))
-			.find(([bp]) => breakpoints[bp] <= screen.size);
+			.find(([bp]) => breakpoints[bp] <= screen.width);
 
 		return col
 			? {
