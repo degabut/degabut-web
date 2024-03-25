@@ -16,7 +16,7 @@ const TabLabel = (props: LabelProps) => {
 			classList={{
 				"font-medium": props.isActive,
 				"text-neutral-400": !props.isActive,
-				"text-neutral-500": props.disabled,
+				"text-neutral-600": props.disabled,
 			}}
 		>
 			<Show when={props.icon} keyed>
