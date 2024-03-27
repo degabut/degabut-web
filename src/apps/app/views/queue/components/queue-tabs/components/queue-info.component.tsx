@@ -27,6 +27,7 @@ export const QueueInfo: Component = () => {
 	const [isListenersModalOpen, setIsListenersModalOpen] = createSignal(false);
 
 	const queueDuration = () => {
+		if (queue.data.empty) return "-";
 		return TimeUtil.secondsToTime(
 			queue.data.tracks?.reduce((curr, { mediaSource }) => curr + mediaSource.duration, 0) || 0
 		);
@@ -41,7 +42,7 @@ export const QueueInfo: Component = () => {
 
 				<InfoItem
 					title="Track Count"
-					description={queue.data.tracks?.length || 0}
+					description={!queue.data.empty ? queue.data.tracks?.length || 0 : "-"}
 					extraClass="flex-1 md:flex-grow-0"
 				/>
 
