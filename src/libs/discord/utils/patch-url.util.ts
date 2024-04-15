@@ -1,4 +1,4 @@
-import { AxiosResponse } from "axios";
+import type { AxiosResponse } from "axios";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 interface MatchAndRewriteURLInputs {
@@ -64,13 +64,11 @@ export class PatchUrlUtil {
 		return original;
 	}
 
-	// TODO move
 	private static regexFromTarget(target: string, flag?: string): RegExp {
 		const regexString = target.replace(PatchUrlUtil.SUBSTITUTION_REGEX, (_, name) => `(?<${name}>[\\w-]+)`);
 		return new RegExp(`${regexString}(/|$)`, flag);
 	}
 
-	// TODO move
 	private static matchAndRewriteUrl({
 		originalUrl,
 		prefix,

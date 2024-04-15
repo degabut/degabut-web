@@ -1,5 +1,5 @@
-import { SpotifyApi } from "@spotify/apis";
-import { Accessor, createResource } from "solid-js";
+import { createResource, type Accessor } from "solid-js";
+import { SpotifyApi } from "../apis";
 import { useSpotify } from "./spotify.hook";
 
 export const useSpotifyTopTracks = (page: Accessor<number>, limit = 10) => {

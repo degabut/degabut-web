@@ -1,5 +1,5 @@
-import { Icons } from "@common/components";
-import { Accessor, JSX, onCleanup, useContext } from "solid-js";
+import { onCleanup, useContext, type Accessor, type JSX } from "solid-js";
+import type { Icons } from "../components";
 import { ContextMenuContext } from "../providers";
 
 export type IContextMenuItem = {
@@ -25,17 +25,16 @@ export function contextMenu(el: HTMLElement, accessor: Accessor<ContextMenuDirec
 	const contextMenu = useContext(ContextMenuContext);
 	if (!contextMenu) return;
 
-	const onContextMenu = (e: MouseEvent) => {
+	const onContextMenu = (e: MouseEvent | KeyboardEvent) => {
 		e.preventDefault();
 		const a = accessor();
 		if (!a.items.length) return;
+
+		const x = e instanceof MouseEvent ? e.pageX : el.getBoundingClientRect().left;
+		const y = e instanceof MouseEvent ? e.pageY : el.getBoundingClientRect().bottom;
+
 		setTimeout(() => {
-			contextMenu.show({
-				x: e.pageX,
-				y: e.pageY,
-				target: el,
-				...a,
-			});
+			contextMenu.show({ x, y, target: el, ...a });
 		}, 0);
 	};
 
@@ -44,12 +43,24 @@ export function contextMenu(el: HTMLElement, accessor: Accessor<ContextMenuDirec
 		onContextMenu(e);
 	};
 
+	const onKeyPress = (e: KeyboardEvent) => {
+		if (e.key !== "Enter") return;
+		e.stopPropagation();
+		onContextMenu(e);
+	};
+
 	el.addEventListener("contextmenu", onContextMenu);
-	if (params.openWithClick) el.addEventListener("click", onClickContextMenu);
+	if (params.openWithClick) {
+		el.addEventListener("click", onClickContextMenu);
+		el.addEventListener("keypress", onKeyPress);
+	}
 
 	onCleanup(() => {
 		el.removeEventListener("contextmenu", onContextMenu);
-		if (params.openWithClick) el.removeEventListener("click", onClickContextMenu);
+		if (params.openWithClick) {
+			el.removeEventListener("click", onClickContextMenu);
+			el.removeEventListener("keypress", onKeyPress);
+		}
 	});
 }
 

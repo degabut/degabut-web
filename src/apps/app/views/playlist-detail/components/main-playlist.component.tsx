@@ -1,10 +1,10 @@
-import { AbbreviationIcon, ContextMenuButton, Text } from "@common/components";
-import { Component } from "solid-js";
+import { AbbreviationIcon, ContextMenuButton, Text } from "@common";
+import type { Component } from "solid-js";
 
 type Props = {
 	name: string;
 	onClickEdit: () => void;
-	onAddToQueue: () => void;
+	onClickAddToQueue: () => void;
 	itemCount: number;
 	duration: number;
 };
@@ -49,6 +49,7 @@ export const MainPlaylist: Component<Props> = (props) => {
 			<ContextMenuButton
 				contextMenu={{
 					items: [
+						// TODO add delete
 						{
 							label: "Rename",
 							icon: "editPencil",
@@ -57,7 +58,7 @@ export const MainPlaylist: Component<Props> = (props) => {
 						{
 							label: "Add to Queue",
 							icon: "plus",
-							onClick: props.onAddToQueue,
+							onClick: props.onClickAddToQueue,
 						},
 					],
 				}}

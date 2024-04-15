@@ -1,6 +1,6 @@
-import { Button, IconSize } from "@common/components";
-import { LoopMode } from "@queue/apis";
-import { Component, createEffect, createSignal } from "solid-js";
+import { Button, type IconSize } from "@common";
+import { createEffect, createSignal, type Component } from "solid-js";
+import { LoopMode } from "../../apis";
 
 type Props = {
 	defaultValue: LoopMode;

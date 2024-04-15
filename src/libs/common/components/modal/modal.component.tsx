@@ -1,7 +1,8 @@
-import { clickOutside } from "@common/directives";
-import { useHashState, useShortcut } from "@common/hooks";
 import { useLocation } from "@solidjs/router";
-import { ParentComponent, Show, createEffect } from "solid-js";
+import { Show, createEffect, type ParentComponent } from "solid-js";
+import { Portal } from "solid-js/web";
+import { clickOutside } from "../../directives";
+import { useHashState, usePortalFocus, useShortcut } from "../../hooks";
 import { Button } from "../button";
 
 clickOutside;
@@ -19,6 +20,7 @@ type Props = {
 export const Modal: ParentComponent<Props> = (props) => {
 	const location = useLocation();
 	const hash = useHashState({ onPopState: () => props.handleClose() });
+	usePortalFocus(() => props.isOpen);
 	let parentContainer!: HTMLDivElement;
 
 	useShortcut({
@@ -45,28 +47,28 @@ export const Modal: ParentComponent<Props> = (props) => {
 
 	return (
 		<Show when={props.isOpen}>
-			<div ref={parentContainer} class="fixed-screen flex items-center justify-center bg-black/75 z-30">
-				<div
-					class="max-w-[calc(100vw-1.5rem)] rounded-lg bg-neutral-900"
-					classList={{ [props.extraContainerClass || ""]: !!props.extraContainerClass }}
-					use:clickOutside={{
-						handler: props.handleClose,
-						target: parentContainer,
-					}}
-				>
-					<Show when={!props.hideCloseButton}>
-						<div class="sticky top-0 right-0 z-30">
+			<Portal>
+				<div ref={parentContainer} class="fixed-screen flex items-center justify-center bg-black/75">
+					<div
+						class="absolute max-w-[calc(100vw-1.5rem)] rounded-lg bg-neutral-900"
+						classList={{ [props.extraContainerClass || ""]: !!props.extraContainerClass }}
+						use:clickOutside={{
+							handler: props.handleClose,
+							target: parentContainer,
+						}}
+					>
+						<Show when={!props.hideCloseButton}>
 							<Button
 								flat
 								icon="closeLine"
 								class="absolute right-2 top-2 md:right-4 md:top-4 p-2"
 								onClick={() => props.handleClose?.()}
 							/>
-						</div>
-					</Show>
-					{props.children}
+						</Show>
+						{props.children}
+					</div>
 				</div>
-			</div>
+			</Portal>
 		</Show>
 	);
 };

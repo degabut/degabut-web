@@ -1,7 +1,7 @@
-import { Icon } from "@common/components";
+import { Icon } from "@common";
 import { createSortable, transformStyle, useDragDropContext } from "@thisbeyond/solid-dnd";
-import { Component } from "solid-js";
-import { MediaSource, MediaSourceListProps } from "../../media";
+import type { Component } from "solid-js";
+import { MediaSource, type MediaSourceListProps } from "../../media";
 
 type Props = {
 	initialId: string;

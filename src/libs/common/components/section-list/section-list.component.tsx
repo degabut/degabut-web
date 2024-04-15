@@ -1,5 +1,5 @@
-import { Item, Text } from "@common/components";
-import { Accessor, For, JSX, ParentComponent, Show } from "solid-js";
+import { For, Show, type Accessor, type JSX, type ParentComponent } from "solid-js";
+import { Item, Text } from "../";
 
 type TitleProps = {
 	right?: Accessor<JSX.Element>;

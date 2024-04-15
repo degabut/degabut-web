@@ -1,7 +1,6 @@
-import { useApi } from "@common/hooks";
-import { DelayUtil } from "@common/utils";
-import { YouTubeMusicApi } from "@youtube/apis";
+import { DelayUtil, useApi } from "@common";
 import { createEffect, createMemo, createResource, createSignal } from "solid-js";
+import { YouTubeMusicApi } from "../apis";
 
 type Params = {
 	debounce?: number;

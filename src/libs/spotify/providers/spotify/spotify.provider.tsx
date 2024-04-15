@@ -1,7 +1,7 @@
 import { SPOTIFY_CLIENT_ID, SPOTIFY_OAUTH_REDIRECT_URI } from "@constants";
-import { useSettings } from "@settings/hooks";
-import { SpotifySdk } from "@spotify/sdk";
-import { Accessor, ParentComponent, createContext, createEffect, createSignal, on } from "solid-js";
+import { useSettings } from "@settings";
+import { createContext, createEffect, createSignal, on, type Accessor, type ParentComponent } from "solid-js";
+import { SpotifySdk } from "../../sdk";
 import { useSpotifyData } from "./hooks";
 
 export type SpotifyContextStore = {
@@ -12,13 +12,7 @@ export type SpotifyContextStore = {
 	logout: () => void;
 } & ReturnType<typeof useSpotifyData>;
 
-export const SpotifyContext = createContext<SpotifyContextStore>({
-	isConnected: () => false,
-	client: {} as SpotifySdk,
-	initialize: async () => {},
-	authenticate: async () => {},
-	logout: () => {},
-} as SpotifyContextStore);
+export const SpotifyContext = createContext<SpotifyContextStore>({} as SpotifyContextStore);
 
 const scopes = [
 	"playlist-read-private",

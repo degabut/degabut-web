@@ -1,4 +1,4 @@
-import { useSettings } from "@settings/hooks";
+import { useSettings } from "@settings";
 import { createEffect } from "solid-js";
 
 export const useZoom = () => {

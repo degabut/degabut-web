@@ -1,6 +1,6 @@
-import { useApi } from "@common/hooks";
-import { Bot, bots } from "@constants";
-import { useSettings } from "@settings/hooks";
+import { useApi } from "@common";
+import { bots, type Bot } from "@constants";
+import { useSettings } from "@settings";
 import { createEffect, createSignal } from "solid-js";
 
 export const useBotSelector = () => {

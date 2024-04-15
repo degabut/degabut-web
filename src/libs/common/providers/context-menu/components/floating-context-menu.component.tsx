@@ -1,7 +1,7 @@
-import { Divider } from "@common/components";
-import { IContextMenuItem, clickOutside } from "@common/directives";
-import { Component, For, Show, createEffect } from "solid-js";
-import { ShowContextMenuParams } from "../context-menu.provider";
+import { For, Show, createEffect, type Component } from "solid-js";
+import { Divider } from "../../../components";
+import { clickOutside, type IContextMenuItem } from "../../../directives";
+import type { ShowContextMenuParams } from "../context-menu.provider";
 import { ContextMenuItem } from "./context-menu-item.component";
 
 clickOutside;
@@ -49,7 +49,7 @@ export const FloatingContextMenu: Component<FloatingContextMenuProps> = (props) 
 				keyed
 				fallback={
 					<For each={props.params.items as IContextMenuItem[]}>
-						{(item) => <ContextMenuItem variant="medium" item={item} onClick={props.onItemClick} />}
+						{(item) => <ContextMenuItem size="md" item={item} onClick={props.onItemClick} />}
 					</For>
 				}
 			>
@@ -57,7 +57,7 @@ export const FloatingContextMenu: Component<FloatingContextMenuProps> = (props) 
 					{(itemItems, i) => (
 						<>
 							<For each={itemItems}>
-								{(item) => <ContextMenuItem variant="medium" item={item} onClick={props.onItemClick} />}
+								{(item) => <ContextMenuItem size="md" item={item} onClick={props.onItemClick} />}
 							</For>
 
 							<Show when={i() < props.params.items.length - 1 && itemItems.length}>

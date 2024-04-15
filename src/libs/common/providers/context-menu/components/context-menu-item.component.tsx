@@ -1,21 +1,21 @@
-import { Icon, Text } from "@common/components";
-import { IContextMenuItem } from "@common/directives";
-import { Component, Show } from "solid-js";
+import { Show, type Component } from "solid-js";
+import { Button, Icon, Text } from "../../../components";
+import { type IContextMenuItem } from "../../../directives";
 
 type ContextMenuItemProps = {
 	item: IContextMenuItem;
-	variant: "medium" | "big";
+	size: "md" | "lg";
 	onClick: (item: IContextMenuItem) => void;
 };
 
 export const ContextMenuItem: Component<ContextMenuItemProps> = (props) => {
 	return (
-		<div
-			class="flex-row-center space-x-4 rounded"
+		<Button
+			flat
+			class="flex-row-center space-x-4 rounded w-full"
 			classList={{
-				"cursor-pointer hover:bg-white/10": !props.item.disabled,
-				"py-1.5 px-4": props.variant === "medium",
-				"py-4 px-6": props.variant === "big",
+				"py-1.5 px-4": props.size === "md",
+				"py-4 px-6": props.size === "lg",
 			}}
 			onClick={() => !props.item.disabled && props.onClick(props.item)}
 		>
@@ -35,6 +35,6 @@ export const ContextMenuItem: Component<ContextMenuItemProps> = (props) => {
 				{(url) => <img src={url} class="h-6 w-6" />}
 			</Show>
 			<Text.Body1 classList={{ "text-neutral-500": props.item.disabled }}>{props.item.label}</Text.Body1>
-		</div>
+		</Button>
 	);
 };

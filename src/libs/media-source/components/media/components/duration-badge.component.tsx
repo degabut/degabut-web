@@ -1,6 +1,5 @@
-import { Text } from "@common/components";
-import { TimeUtil } from "@common/utils";
-import { Component } from "solid-js";
+import { Text, TimeUtil } from "@common";
+import type { Component } from "solid-js";
 
 type Props = {
 	duration: number;

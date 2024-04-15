@@ -1,5 +1,6 @@
-import { Icon, Icons, IconSize, Text } from "@common/components";
-import { Component, JSX, Show } from "solid-js";
+import { Show, type Component, type JSX } from "solid-js";
+import { Icon, type IconSize, type Icons } from "../icon";
+import { Text } from "../text";
 
 type Props = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
 	rounded?: boolean;

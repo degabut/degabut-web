@@ -1,10 +1,10 @@
 /* eslint-disable solid/reactivity */
 
-import { AppContextStore } from "@app/providers";
-import { ContextMenuDirectiveParams, IContextMenuItem } from "@common/directives";
-import { PlaylistConfirmationUtil } from "@playlist/utils";
-import { QueueContextStore } from "@queue/providers";
-import { IYouTubePlaylistCompact } from "@youtube/apis";
+import type { AppContextStore } from "@app/providers";
+import type { ContextMenuDirectiveParams, IContextMenuItem } from "@common";
+import { PlaylistConfirmationUtil } from "@playlist";
+import type { QueueContextStore } from "@queue";
+import type { IYouTubePlaylistCompact } from "@youtube";
 
 type YouTubePlaylistProps = {
 	playlist: IYouTubePlaylistCompact;

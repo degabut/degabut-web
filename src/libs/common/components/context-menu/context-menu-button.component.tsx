@@ -1,5 +1,5 @@
-import { ContextMenuDirectiveParams, buttonContextMenu } from "@common/directives";
-import { Component } from "solid-js";
+import type { Component } from "solid-js";
+import { buttonContextMenu, type ContextMenuDirectiveParams } from "../../directives";
 import { Icon } from "../icon";
 
 buttonContextMenu;

@@ -2,24 +2,12 @@
 	"editor.formatOnSave": true,
 	"editor.tabSize": 2,
 	"files.eol": "\n",
-	"[typescriptreact]": {
-		"editor.codeActionsOnSave": {
-			"source.organizeImports": "explicit"
-		}
-	},
-	"[typescript]": {
-		"editor.codeActionsOnSave": {
-			"source.organizeImports": "explicit"
-		}
-	},
 	"tailwindCSS.experimental.classRegex": ["\"([^\"]+?)\"\\s*:", "[a-zA-Z]*Class=\"(.*)\""],
-	"search.exclude": {
-		"src/wailsjs": true
-	},
-	"typescript.tsdk": "node_modules\\typescript\\lib",
 	"[typescript][typescriptreact]": {
 		"editor.codeActionsOnSave": {
-			"source.organizeImports": "explicit"
+			"source.organizeImports": "explicit",
+			"source.fixAll": "always"
 		}
-	}
+	},
+	"typescript.tsdk": "node_modules\\typescript\\lib"
 }

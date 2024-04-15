@@ -1,25 +1,34 @@
-import { useApi } from "@common/hooks";
-import { Bot, bots } from "@constants";
-import { IPlayer, IQueue, LoopMode, PlayerApi, QueueApi } from "@queue/apis";
-import EventEmitter from "events";
-import { Accessor, ParentComponent, createContext, createEffect, createSignal, onCleanup, onMount } from "solid-js";
-import { createStore } from "solid-js/store";
-import TypedEventEmitter from "typed-emitter";
+import { useApi } from "@common";
+import { type Bot } from "@constants";
 import {
-	IHistory,
-	QueueEvents,
+	Show,
+	createContext,
+	createEffect,
+	createSignal,
+	onCleanup,
+	onMount,
+	useContext,
+	type Accessor,
+	type ParentComponent,
+} from "solid-js";
+import { createStore } from "solid-js/store";
+import type TypedEventEmitter from "typed-emitter";
+import { PlayerApi, QueueApi, type IPlayer, type IQueue } from "../../apis";
+import { defaultQueue } from "../../constants";
+import {
 	useBotSelector,
 	useQueueActions,
 	useQueueEventListener,
 	useQueueEvents,
 	useVoiceChannelHistory,
+	type QueueEvents,
 } from "./hooks";
 
 export type QueueResource = IQueue & IPlayer & { empty: boolean };
 
 export type QueueContextStore = {
 	data: QueueResource;
-	voiceChannelHistory: IHistory[];
+	voiceChannelHistory: ReturnType<typeof useVoiceChannelHistory>;
 	isInitialLoading: Accessor<boolean>;
 	freezeState: FreezeState;
 	bot: Accessor<Bot>;
@@ -27,31 +36,7 @@ export type QueueContextStore = {
 	emitter: TypedEventEmitter<QueueEvents>;
 } & ReturnType<typeof useQueueActions>;
 
-export const defaultQueue: QueueResource = {
-	guild: { icon: null, id: "", name: "" },
-	history: [],
-	isPaused: false,
-	loopMode: LoopMode.DISABLED,
-	nowPlaying: null,
-	position: 0,
-	shuffle: false,
-	textChannel: null,
-	tracks: [],
-	voiceChannel: { id: "", name: "", members: [] },
-	empty: true,
-};
-
-export const QueueContext = createContext<QueueContextStore>({
-	data: { ...defaultQueue },
-	voiceChannelHistory: [] as IHistory[],
-	isInitialLoading: () => true,
-	freezeState: {
-		queue: true,
-		track: true,
-	},
-	bot: () => bots[0],
-	emitter: new EventEmitter(),
-} as QueueContextStore);
+export const QueueContext = createContext<QueueContextStore>({} as QueueContextStore);
 
 export type FreezeState = {
 	queue: boolean;
@@ -91,7 +76,7 @@ export const QueueProvider: ParentComponent = (props) => {
 		}
 	};
 
-	const [queue, setQueue] = createStore<QueueResource>({ ...defaultQueue });
+	const [queue, setQueue] = createStore<QueueResource>(structuredClone(defaultQueue));
 	const { emitter, listen, close } = useQueueEvents();
 	const queueActions = useQueueActions({ queue, setFreezeState });
 	const voiceChannelHistory = useVoiceChannelHistory({ queue });
@@ -122,7 +107,7 @@ export const QueueProvider: ParentComponent = (props) => {
 		const bot = botSelector.bot();
 		setIsInitialLoading(true);
 		close();
-		setQueue({ ...defaultQueue });
+		setQueue(structuredClone(defaultQueue));
 		listen(bot.wsUrl);
 	});
 
@@ -136,5 +121,11 @@ export const QueueProvider: ParentComponent = (props) => {
 		...queueActions,
 	};
 
-	return <QueueContext.Provider value={store}>{props.children}</QueueContext.Provider>;
+	return (
+		<QueueContext.Provider value={store}>
+			<Show when={store.data}>{props.children}</Show>
+		</QueueContext.Provider>
+	);
 };
+
+export const useQueue = () => useContext(QueueContext);

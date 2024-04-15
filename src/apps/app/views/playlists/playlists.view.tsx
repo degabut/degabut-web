@@ -1,12 +1,9 @@
 import { useApp } from "@app/hooks";
-import { Button, Container } from "@common/components";
-import { IPlaylist } from "@playlist/apis";
-import { CreatePlaylistModal, Playlist } from "@playlist/components";
-import { usePlaylists } from "@playlist/hooks";
-import { PlaylistContextMenuUtil } from "@playlist/utils";
-import { useQueue } from "@queue/hooks";
-import { useNavigate } from "@solidjs/router";
-import { Component, For, Show, createSignal, onMount } from "solid-js";
+import { AppRoutes } from "@app/routes";
+import { Button, Container, useNavigate } from "@common";
+import { CreatePlaylistModal, Playlist, PlaylistContextMenuUtil, usePlaylists ,type  IPlaylist  } from "@playlist";
+import { useQueue } from "@queue";
+import { For, Show, createSignal, onMount, type Component } from "solid-js";
 
 export const Playlists: Component = () => {
 	const app = useApp();
@@ -15,9 +12,7 @@ export const Playlists: Component = () => {
 	const navigate = useNavigate();
 	const [isShowCreateModal, setIsShowModalOpen] = createSignal(false);
 
-	onMount(() => {
-		app.setTitle("Your Playlists");
-	});
+	onMount(() => app.setTitle("Your Playlists"));
 
 	const createPlaylist = async (name: string) => {
 		await playlists.createPlaylist(name);
@@ -57,7 +52,7 @@ export const Playlists: Component = () => {
 						<For each={playlists.data()}>
 							{(p) => (
 								<Playlist.List
-									onClick={() => navigate("/playlist/" + p.id)}
+									onClick={() => navigate(AppRoutes.PlaylistDetail, { params: { id: p.id } })}
 									contextMenu={PlaylistContextMenuUtil.getContextMenu({
 										playlist: p,
 										queueStore: queue,

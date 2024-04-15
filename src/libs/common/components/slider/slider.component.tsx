@@ -1,4 +1,4 @@
-import { Component, JSX, Show, createEffect, createSignal } from "solid-js";
+import { Show, createEffect, createSignal, type Component, type JSX } from "solid-js";
 import { Text } from "../text";
 
 type Props = JSX.InputHTMLAttributes<HTMLInputElement> & {

@@ -3,18 +3,6 @@ import { Cache } from "./cache";
 import type { AccessToken, ICachable } from "./types";
 import { AccessTokenUtil } from "./utils";
 
-export const emptyAccessToken: AccessToken = {
-	access_token: "emptyAccessToken",
-	token_type: "",
-	expires_in: 0,
-	refresh_token: "",
-	expires: -1,
-};
-
-export const isEmptyAccessToken = (value: unknown): boolean => {
-	return value === emptyAccessToken;
-};
-
 export interface CachedVerifier extends ICachable {
 	verifier: string;
 	expiresOnAccess: boolean;
@@ -56,7 +44,7 @@ export class Auth {
 		}
 
 		this.redirectToSpotify();
-		return emptyAccessToken;
+		return AccessTokenUtil.emptyAccessToken;
 	}
 
 	private async redirectToSpotify() {

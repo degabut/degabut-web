@@ -1,4 +1,4 @@
-import { Accessor, onCleanup } from "solid-js";
+import { onCleanup, type Accessor } from "solid-js";
 
 export type ClickOutsideParams =
 	| (() => void)

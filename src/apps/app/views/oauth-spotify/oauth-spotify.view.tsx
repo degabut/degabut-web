@@ -1,6 +1,7 @@
-import { useNavigate } from "@solidjs/router";
-import { useSpotify } from "@spotify/hooks";
-import { Component, onMount } from "solid-js";
+import { AppRoutes } from "@app/routes";
+import { Container, Spinner, useNavigate } from "@common";
+import { useSpotify } from "@spotify";
+import { onMount, type Component } from "solid-js";
 
 export const OAuthSpotify: Component = () => {
 	const spotify = useSpotify();
@@ -9,11 +10,14 @@ export const OAuthSpotify: Component = () => {
 	onMount(async () => {
 		try {
 			await spotify.authenticate();
-		} catch {
-			// ignore
+		} finally {
+			navigate(AppRoutes.Spotify);
 		}
-		navigate("/spotify");
 	});
 
-	return <></>;
+	return (
+		<Container size="content" centered extraClass="flex items-center h-full">
+			<Spinner size="3xl" />
+		</Container>
+	);
 };

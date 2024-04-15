@@ -1,5 +1,5 @@
-import { IMediaSource } from "@media-source/apis";
-import { AxiosInstance } from "axios";
+import type { IMediaSource } from "@media-source";
+import type { AxiosInstance } from "axios";
 
 type GetVideosParams = { guild?: boolean } | { voiceChannel?: boolean };
 

@@ -1,8 +1,8 @@
 import { useApp } from "@app/hooks";
-import { Container, Icon, Spinner } from "@common/components";
-import { useQueue } from "@queue/hooks";
-import { useLyrics, useTranscript, useVideoTranscript } from "@youtube/hooks";
-import { Component, For, Match, Switch, createEffect, createMemo, onMount } from "solid-js";
+import { Container, Icon, Spinner, useTimedText } from "@common";
+import { useQueue } from "@queue";
+import { useLyrics, useVideoTranscript } from "@youtube";
+import { For, Match, Switch, createEffect, createMemo, onMount, type Component } from "solid-js";
 import "./lyrics.style.css";
 
 const LyricsNotFound: Component = () => {
@@ -17,7 +17,7 @@ const LyricsNotFound: Component = () => {
 const Loading: Component = () => {
 	return (
 		<div class="flex-col-center w-full h-full justify-center space-y-4">
-			<Spinner size="lg" />
+			<Spinner size="2xl" />
 		</div>
 	);
 };
@@ -29,9 +29,9 @@ export const Lyrics: Component = () => {
 	const currentId = createMemo(() => queue.data.nowPlaying?.mediaSource.playedYoutubeVideoId || "");
 	const videoTranscripts = useVideoTranscript(currentId);
 	const lyrics = useLyrics(currentId);
-	const transcripts = useTranscript(() => ({
+	const timedText = useTimedText(() => ({
 		elapsed: queue.data.position || 0,
-		transcripts: videoTranscripts.data() || [],
+		timedTexts: videoTranscripts.data() || [],
 	}));
 	let initialScroll = true;
 	let lastScrollTime = 0;
@@ -39,11 +39,11 @@ export const Lyrics: Component = () => {
 	onMount(() => app.setTitle("Lyrics"));
 
 	createEffect(() => {
-		if (transcripts.index() === -1 && container) {
+		if (timedText.index() === -1 && container) {
 			container.scrollTop = 0;
 		} else {
 			if (Date.now() - lastScrollTime < 3000) return;
-			const index = transcripts.index();
+			const index = timedText.index();
 			if (initialScroll) {
 				setTimeout(() => scrollTo(index), 200);
 				initialScroll = false;
@@ -66,7 +66,7 @@ export const Lyrics: Component = () => {
 	return (
 		<Container
 			size="full"
-			extraClass="h-full overflow-y-auto flex flex-col items-center space-y-2.5"
+			extraClass="h-full flex flex-col items-center space-y-2.5"
 			centered
 			ref={container}
 			onScroll={onContainerScrollHandler}
@@ -81,12 +81,12 @@ export const Lyrics: Component = () => {
 							<div
 								class="space-y-1 py-2 text"
 								classList={{
-									"text-neutral-300": i() < transcripts.index(),
-									"text-neutral-500": i() > transcripts.index(),
-									"!text-neutral-300": i() === transcripts.index() + 1,
-									"!text-neutral-400": i() === transcripts.index() + 2,
-									"text-xl md:text-2xl": i() !== transcripts.index(),
-									"font-semibold text-2xl md:text-3xl !text-neutral-100": i() === transcripts.index(),
+									"text-neutral-300": i() < timedText.index(),
+									"text-neutral-500": i() > timedText.index(),
+									"!text-neutral-300": i() === timedText.index() + 1,
+									"!text-neutral-400": i() === timedText.index() + 2,
+									"text-xl md:text-2xl": i() !== timedText.index(),
+									"font-semibold text-2xl md:text-3xl !text-neutral-100": i() === timedText.index(),
 								}}
 							>
 								<For each={t.texts}>{(text) => <div>{text}</div>}</For>

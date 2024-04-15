@@ -1,5 +1,5 @@
-import { Button, Text } from "@common/components";
-import { Component } from "solid-js";
+import { Button, Text } from "@common";
+import type { Component } from "solid-js";
 
 type Props = {
 	onClick: () => void;

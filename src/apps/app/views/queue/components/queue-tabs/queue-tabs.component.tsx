@@ -1,7 +1,7 @@
-import { Tabs } from "@common/components";
-import { MediaSources } from "@media-source/components";
-import { useQueue } from "@queue/hooks";
-import { Component, Show } from "solid-js";
+import { Tabs } from "@common";
+import { MediaSources } from "@media-source";
+import { useQueue } from "@queue";
+import { Show, type Component } from "solid-js";
 import { QueueHint, QueueInfo, QueueNotFound, QueuePlayHistory, QueueTrackList } from "./components";
 
 export const QueueTabs: Component = () => {
@@ -36,7 +36,9 @@ export const QueueTabs: Component = () => {
 						disabled: () => queue.data.empty,
 						element: () => (
 							<Show when={!queue.isInitialLoading()} fallback={<MediaSources.List data={[]} isLoading />}>
-								<QueuePlayHistory />
+								<Show when={!queue.data.empty} fallback={<QueueNotFound />}>
+									<QueuePlayHistory />
+								</Show>
 							</Show>
 						),
 					},

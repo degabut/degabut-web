@@ -1,4 +1,4 @@
-import { SpotifySdk } from "../spotify-sdk";
+import type { SpotifySdk } from "../spotify-sdk";
 
 export class BaseEndpoint {
 	constructor(protected api: SpotifySdk) {}

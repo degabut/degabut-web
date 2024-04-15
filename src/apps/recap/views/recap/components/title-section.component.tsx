@@ -1,5 +1,5 @@
-import { Text } from "@common/components";
-import { Component } from "solid-js";
+import { Text } from "@common";
+import type { Component } from "solid-js";
 
 type TitleSectionProps = {
 	year: number;

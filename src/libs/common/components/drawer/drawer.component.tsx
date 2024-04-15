@@ -1,5 +1,5 @@
-import { resizable } from "@common/directives";
-import { Component, createSignal, JSX, Show } from "solid-js";
+import { Show, createSignal, type Component, type JSX } from "solid-js";
+import { resizable } from "../../directives";
 
 resizable;
 
@@ -25,9 +25,9 @@ export const Drawer: Component<Props> = (props) => {
 	};
 
 	return (
-		<div class="h-full absolute md:static top-0 z-20" classList={{ "right-0": props.right }}>
+		<div class="h-full absolute md:static top-0 z-50 md:z-0" classList={{ "right-0": props.right }}>
 			{props.isOpen && (
-				<div class="block md:hidden fixed-screen bg-black bg-opacity-50 -z-50" onClick={props.handleClose} />
+				<div class="block md:hidden fixed-screen bg-black bg-opacity-50" onClick={props.handleClose} />
 			)}
 
 			<div

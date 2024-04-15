@@ -1,14 +1,11 @@
 import { useApp } from "@app/hooks";
-import { MediaSources } from "@media-source/components";
-import { MediaSourceContextMenuUtil } from "@media-source/utils";
-import { useQueue } from "@queue/hooks";
-import { useNavigate } from "@solidjs/router";
-import { Component, Show } from "solid-js";
+import { MediaSourceContextMenuUtil, MediaSources } from "@media-source";
+import { useQueue } from "@queue";
+import { Show, type Component } from "solid-js";
 
 export const QueuePlayHistory: Component = () => {
 	const app = useApp();
 	const queue = useQueue();
-	const navigate = useNavigate();
 
 	return (
 		<Show when={queue.data.history} keyed>
@@ -23,7 +20,6 @@ export const QueuePlayHistory: Component = () => {
 							mediaSource: t.mediaSource,
 							appStore: app,
 							queueStore: queue,
-							navigate,
 						}),
 					})}
 				/>

@@ -1,10 +1,9 @@
-import { IMediaSource } from "@media-source/apis";
-import { MediaSourceFactory } from "@media-source/utils";
-import { ITrack } from "@queue/apis";
-import { useSpotify } from "@spotify/hooks";
-import { usePlayHistory } from "@user/hooks";
-import { useVideo } from "@youtube/hooks";
-import { Accessor, createEffect, createMemo, createSignal } from "solid-js";
+import { MediaSourceFactory ,type  IMediaSource  } from "@media-source";
+import type { ITrack } from "@queue";
+import { useSpotify } from "@spotify";
+import { usePlayHistory } from "@user";
+import { useVideo } from "@youtube";
+import { createEffect, createMemo, createSignal, type Accessor } from "solid-js";
 
 type Params = {
 	onLoad?: () => void;

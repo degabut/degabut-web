@@ -1,5 +1,6 @@
-import { Component } from "solid-js";
+import type { Component } from "solid-js";
 
+// TODO add size prop
 export type CheckboxProps = {
 	checked: boolean;
 	onChange?: (checked: boolean) => void;

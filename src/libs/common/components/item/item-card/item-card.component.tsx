@@ -1,6 +1,6 @@
-import { Text } from "@common/components";
-import { ContextMenuDirectiveParams, contextMenu } from "@common/directives";
-import { Accessor, Component, JSX, Show } from "solid-js";
+import { Show, type Accessor, type Component, type JSX } from "solid-js";
+import { Text } from "../../";
+import { contextMenu, type ContextMenuDirectiveParams } from "../../../directives";
 import { ItemCardImage } from "./item-card-image.component";
 
 contextMenu;

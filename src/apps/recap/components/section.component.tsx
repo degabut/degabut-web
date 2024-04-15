@@ -1,5 +1,5 @@
-import { Button, Text } from "@common/components";
-import { ParentComponent, Show } from "solid-js";
+import { Button, Text } from "@common";
+import { Show, type ParentComponent } from "solid-js";
 
 type SectionProps = {
 	id: string;

@@ -1,11 +1,12 @@
-import { RouteDefinition } from "@solidjs/router";
+import { NotificationProvider } from "@common";
+import { QueueProvider } from "@queue";
+import type { RouteDefinition } from "@solidjs/router";
+import { SpotifyProvider } from "@spotify";
+import { AppLayout } from "../layout";
+import { AppProvider, ErrorBoundaryProvider } from "../providers";
 import {
-	App,
-	Container,
 	Join,
-	Login,
 	Lyrics,
-	OAuth,
 	OAuthSpotify,
 	PlaylistDetail,
 	Playlists,
@@ -21,60 +22,56 @@ import {
 	SpotifyPlaylistDetail,
 } from "../views";
 
-export const appRoutes: RouteDefinition[] = [
+export enum AppRoutes {
+	Queue = "/queue",
+	Player = "/queue/player",
+	Lyrics = "/queue/lyrics",
+	Recommendation = "/recommendation/:id?",
+	Spotify = "/spotify",
+	SpotifyLiked = "/spotify/liked",
+	SpotifyPlaylist = "/spotify/playlist/:id",
+	SpotifyAlbum = "/spotify/album/:id",
+	Playlists = "/playlist",
+	PlaylistDetail = "/playlist/:id",
+	Settings = "/settings",
+	RichPresence = "/settings/rich-presence",
+	Search = "/search",
+	Join = "/join/:voiceChannelId?/:textChannelId?",
+	OAuthSpotify = "/oauth/spotify",
+}
+
+export const appRouteDefinitions: RouteDefinition[] = [
 	{
 		path: "/",
-		component: () => <Container />,
+		component: (props) => (
+			<ErrorBoundaryProvider>
+				<NotificationProvider>
+					<QueueProvider>
+						<AppProvider>
+							<SpotifyProvider>
+								<AppLayout {...props} />
+							</SpotifyProvider>
+						</AppProvider>
+					</QueueProvider>
+				</NotificationProvider>
+			</ErrorBoundaryProvider>
+		),
 		children: [
-			{
-				path: "/",
-				component: () => <App />,
-				children: [
-					{
-						path: "/queue",
-						children: [
-							{ path: "/", component: () => <Queue /> },
-							{ path: "/player", component: () => <QueueNowPlaying /> },
-							{ path: "/lyrics", component: () => <Lyrics /> },
-						],
-					},
-					{
-						path: "/recommendation",
-						children: [
-							{ path: "/", component: () => <Recommendation /> },
-							{ path: "/:id?", component: () => <Recommendation /> },
-						],
-					},
-					{
-						path: "/spotify",
-						children: [
-							{ path: "/", component: () => <Spotify /> },
-							{ path: "/liked", component: () => <SpotifyLiked /> },
-							{ path: "/playlist/:id", component: () => <SpotifyPlaylistDetail /> },
-							{ path: "/album/:id", component: () => <SpotifyAlbumDetail /> },
-						],
-					},
-					{
-						path: "/playlist",
-						children: [
-							{ path: "/", component: () => <Playlists /> },
-							{ path: "/:id", component: () => <PlaylistDetail /> },
-						],
-					},
-					{
-						path: "/settings",
-						children: [
-							{ path: "/", component: () => <Settings /> },
-							{ path: "/rich-presence", component: () => <RichPresenceEditor /> },
-						],
-					},
-					{ path: "/search", component: () => <Search /> },
-					{ path: "/join/:voiceChannelId?/:textChannelId?", component: () => <Join /> },
-					{ path: "/oauth/spotify", component: () => <OAuthSpotify /> },
-				],
-			},
-			{ path: "/login", component: () => <Login /> },
-			{ path: "/oauth", component: () => <OAuth /> },
+			{ path: AppRoutes.Queue, component: Queue },
+			{ path: AppRoutes.Player, component: QueueNowPlaying },
+			{ path: AppRoutes.Lyrics, component: Lyrics },
+			{ path: AppRoutes.Recommendation, component: Recommendation },
+			{ path: AppRoutes.Spotify, component: Spotify },
+			{ path: AppRoutes.SpotifyLiked, component: SpotifyLiked },
+			{ path: AppRoutes.SpotifyPlaylist, component: SpotifyPlaylistDetail },
+			{ path: AppRoutes.SpotifyAlbum, component: SpotifyAlbumDetail },
+			{ path: AppRoutes.Playlists, component: Playlists },
+			{ path: AppRoutes.PlaylistDetail, component: PlaylistDetail },
+			{ path: AppRoutes.Settings, component: Settings },
+			{ path: AppRoutes.RichPresence, component: RichPresenceEditor },
+			{ path: AppRoutes.Search, component: Search },
+			{ path: AppRoutes.Join, component: Join },
+			{ path: AppRoutes.OAuthSpotify, component: OAuthSpotify },
 		],
 	},
 ];

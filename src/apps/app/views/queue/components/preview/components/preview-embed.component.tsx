@@ -1,22 +1,12 @@
-import { useQueue } from "@queue/hooks";
-import { Video } from "@youtube/components";
-import { YouTubeIframeUtil } from "@youtube/utils";
-import { Component, createEffect, onCleanup, onMount } from "solid-js";
+import { useQueue } from "@queue";
+import { Video } from "@youtube";
+import { createEffect, onCleanup, type Component } from "solid-js";
 
 export const PreviewEmbed: Component = () => {
 	const queue = useQueue();
 
 	let player: YT.Player;
 	let iframe!: HTMLIFrameElement;
-
-	onMount(() => {
-		if (!window.YT) {
-			window.onYouTubeIframeAPIReady = onIframeReady;
-			YouTubeIframeUtil.loadApi();
-		} else {
-			onIframeReady();
-		}
-	});
 
 	onCleanup(() => {
 		player?.destroy();
@@ -28,8 +18,6 @@ export const PreviewEmbed: Component = () => {
 		const nowPlaying = queue.data.nowPlaying;
 		player?.cueVideoById(nowPlaying?.mediaSource.playedYoutubeVideoId || "0");
 	});
-
-	const onIframeReady = () => new YT.Player(iframe, { events: { onReady } });
 
 	const onReady = (e: YT.PlayerEvent) => {
 		player = e.target;
@@ -64,6 +52,7 @@ export const PreviewEmbed: Component = () => {
 
 	return (
 		<Video.Embed
+			onReady={onReady}
 			ref={iframe}
 			initialVideoId={queue.data.nowPlaying?.mediaSource.playedYoutubeVideoId || undefined}
 			initialParams={{ enableJsApi: true, disableKeyboard: true }}

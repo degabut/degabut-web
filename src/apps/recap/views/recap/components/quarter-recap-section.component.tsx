@@ -1,7 +1,6 @@
-import { Tabs, Text } from "@common/components";
-import { TimeUtil } from "@common/utils";
-import { IMonthly, IRecap } from "@user/apis";
-import { Component, Show } from "solid-js";
+import { Tabs, Text, TimeUtil } from "@common";
+import type { IMonthly, IRecap } from "@user";
+import { Show, type Component } from "solid-js";
 
 const TabContent: Component<{ month: IMonthly }> = (props) => {
 	return (

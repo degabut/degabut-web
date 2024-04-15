@@ -1,8 +1,8 @@
-import { Icon, Item, ItemListProps, Text } from "@common/components";
+import { Icon, Item, Text, type ItemListProps } from "@common";
 import { SPOTIFY_INTEGRATION } from "@constants";
-import { IMediaSource } from "@media-source/apis";
-import { IGuildMember } from "@queue/apis";
-import { Component, Show } from "solid-js";
+import type { IGuildMember } from "@queue";
+import { Show, type Component } from "solid-js";
+import { type IMediaSource } from "../../apis";
 import { DurationBadge, LiveBadge, SourceBadge } from "./components";
 
 export type MediaSourceListProps = Partial<ItemListProps> & {

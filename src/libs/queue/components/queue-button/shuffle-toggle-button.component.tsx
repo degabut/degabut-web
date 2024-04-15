@@ -1,5 +1,5 @@
-import { Button, IconSize } from "@common/components";
-import { Component, createEffect, createSignal } from "solid-js";
+import { Button, type IconSize } from "@common";
+import { createEffect, createSignal, type Component } from "solid-js";
 
 type Props = {
 	defaultValue: boolean;

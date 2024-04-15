@@ -1,5 +1,5 @@
-import { ISpotifyTrack } from "@spotify/apis";
-import { IVideoCompact } from "@youtube/apis";
+import type { ISpotifyTrack } from "@spotify";
+import type { IVideoCompact } from "@youtube";
 
 export enum MediaSourceTypes {
 	Youtube = "youtube",

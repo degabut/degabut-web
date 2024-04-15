@@ -1,4 +1,4 @@
-import { Component, For, Show } from "solid-js";
+import { For, Show, type Component } from "solid-js";
 
 type KbdProps = { key: string; small?: boolean; extraClass?: string };
 

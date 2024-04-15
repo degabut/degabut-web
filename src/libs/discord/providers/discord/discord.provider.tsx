@@ -1,23 +1,22 @@
-import { useAuth } from "@auth/hooks";
-import { Spinner } from "@common/components";
-import { useApi } from "@common/hooks";
+import { useAuth } from "@auth";
+import { Spinner, useApi } from "@common";
 import { DISCORD_ACTIVITY_APPLICATION_ID, DISCORD_ACTIVITY_URL_MAPPINGS, IS_DISCORD_EMBEDDED } from "@constants";
-import type { DiscordSDK } from "@discord/embedded-app-sdk";
-import { IRichPresence } from "@discord/hooks";
-import { IVoiceChannelMin } from "@queue/apis";
+import { type DiscordSDK } from "@discord/embedded-app-sdk";
+import { type IVoiceChannelMin } from "@queue";
 import axios from "axios";
-import { Accessor, ParentComponent, Show, createContext, createSignal, onMount } from "solid-js";
+import { Show, createContext, createSignal, onMount, useContext, type Accessor, type ParentComponent } from "solid-js";
+import { type IRichPresence } from "../../hooks";
 import { PatchUrlUtil } from "../../utils";
 
-export type DiscordContextStore = {
+type DiscordContextStore = {
 	authorizeAndAuthenticate: () => Promise<void>;
 	setActivity: (activity: IRichPresence | null) => void;
 	isReady: Accessor<boolean>;
-	isMinimized: Accessor<boolean>;
+	isPip: Accessor<boolean>;
 	currentChannel: Accessor<IVoiceChannelMin | null>;
 };
 
-export const DiscordContext = createContext<DiscordContextStore | undefined>();
+export const DiscordContext = createContext<DiscordContextStore>();
 
 export const DiscordProvider: ParentComponent = (props) => {
 	// eslint-disable-next-line solid/components-return-once
@@ -27,7 +26,7 @@ export const DiscordProvider: ParentComponent = (props) => {
 	const auth = useAuth();
 	let discordSdk: DiscordSDK;
 	const [isReady, setIsReady] = createSignal(false);
-	const [isMinimized, setIsMinimized] = createSignal(false);
+	const [isPip, setIsPip] = createSignal(false);
 	const [currentChannel, setCurrentChannel] = createSignal<IVoiceChannelMin | null>(null);
 
 	onMount(async () => {
@@ -68,7 +67,7 @@ export const DiscordProvider: ParentComponent = (props) => {
 	};
 
 	const onAuthenticated = async () => {
-		discordSdk.subscribe("ACTIVITY_LAYOUT_MODE_UPDATE", ({ layout_mode }) => setIsMinimized(layout_mode === 1));
+		discordSdk.subscribe("ACTIVITY_LAYOUT_MODE_UPDATE", ({ layout_mode }) => setIsPip(layout_mode === 1));
 
 		if (discordSdk.channelId) {
 			const channel = await discordSdk.commands.getChannel({ channel_id: discordSdk.channelId });
@@ -103,7 +102,7 @@ export const DiscordProvider: ParentComponent = (props) => {
 				authorizeAndAuthenticate,
 				setActivity,
 				isReady,
-				isMinimized,
+				isPip,
 				currentChannel,
 			}}
 		>
@@ -120,3 +119,5 @@ export const DiscordProvider: ParentComponent = (props) => {
 		</DiscordContext.Provider>
 	);
 };
+
+export const useDiscord = () => useContext(DiscordContext);

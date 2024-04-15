@@ -1,4 +1,4 @@
-import { Accessor, Component, JSX, Show } from "solid-js";
+import { Show, type Accessor, type Component, type JSX } from "solid-js";
 
 type Props = {
 	imageUrl: string | string[];

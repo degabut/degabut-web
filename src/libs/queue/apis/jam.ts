@@ -1,4 +1,4 @@
-import { IGuildMember } from "./queue";
+import type { IGuildMember } from "./queue";
 
 export interface IJamCollection {
 	member: IGuildMember;

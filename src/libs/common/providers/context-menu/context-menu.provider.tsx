@@ -1,6 +1,8 @@
-import { ContextMenuDirectiveParams, IContextMenuItem } from "@common/directives";
-import { useHashState, useScreen } from "@common/hooks";
-import { ParentComponent, Show, createContext, createEffect, createSignal, onMount } from "solid-js";
+import { Show, createContext, createEffect, createSignal, onMount, useContext, type ParentComponent } from "solid-js";
+import { Portal } from "solid-js/web";
+import { type ContextMenuDirectiveParams, type IContextMenuItem } from "../../directives";
+import { useHashState, usePortalFocus, useShortcut } from "../../hooks";
+import { useScreen } from "../screen";
 import { FloatingContextMenu, SlideUpContextMenu } from "./components";
 
 export type ShowContextMenuParams = ContextMenuDirectiveParams & {
@@ -20,6 +22,15 @@ export const ContextMenuProvider: ParentComponent = (props) => {
 	const hash = useHashState({ onPopState: () => setIsShowContextMenu(false) });
 	const [isShowContextMenu, setIsShowContextMenu] = createSignal(false);
 	const [params, setParams] = createSignal<ShowContextMenuParams>({ x: 0, y: 0, items: [], target: null });
+	usePortalFocus(isShowContextMenu);
+	useShortcut({
+		shortcuts: [
+			{
+				key: "Escape",
+				handler: () => setIsShowContextMenu(false),
+			},
+		],
+	});
 
 	const show = (params: ShowContextMenuParams) => {
 		setIsShowContextMenu(true);
@@ -53,26 +64,30 @@ export const ContextMenuProvider: ParentComponent = (props) => {
 
 	return (
 		<ContextMenuContext.Provider value={{ show }}>
-			<Show when={isShowContextMenu()}>
-				<Show
-					when={!screen.gte.md}
-					fallback={
-						<FloatingContextMenu
+			<Portal>
+				<Show when={isShowContextMenu()}>
+					<Show
+						when={!screen.gte.md}
+						fallback={
+							<FloatingContextMenu
+								params={params()}
+								onClickOutside={() => setIsShowContextMenu(false)}
+								onItemClick={onClick}
+								onPositionChange={(pos) => setParams((p) => ({ ...p, ...pos }))}
+							/>
+						}
+					>
+						<SlideUpContextMenu
 							params={params()}
 							onClickOutside={() => setIsShowContextMenu(false)}
 							onItemClick={onClick}
-							onPositionChange={(pos) => setParams((p) => ({ ...p, ...pos }))}
 						/>
-					}
-				>
-					<SlideUpContextMenu
-						params={params()}
-						onClickOutside={() => setIsShowContextMenu(false)}
-						onItemClick={onClick}
-					/>
+					</Show>
 				</Show>
-			</Show>
+			</Portal>
 			{props.children}
 		</ContextMenuContext.Provider>
 	);
 };
+
+export const useContextMenu = () => useContext(ContextMenuContext);

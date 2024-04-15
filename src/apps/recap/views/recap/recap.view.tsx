@@ -1,7 +1,6 @@
 import { useParams } from "@solidjs/router";
-import { IRecap } from "@user/apis";
-import { useRecap } from "@user/hooks";
-import { Component, For, Show } from "solid-js";
+import { useRecap ,type  IRecap  } from "@user";
+import { For, Show, type Component } from "solid-js";
 import { Section } from "../../components";
 import {
 	ActivitySection,

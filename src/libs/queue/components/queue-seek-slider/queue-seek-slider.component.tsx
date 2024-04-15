@@ -1,6 +1,5 @@
-import { Slider, Text } from "@common/components";
-import { TimeUtil } from "@common/utils";
-import { Component, createEffect, createSignal } from "solid-js";
+import { Slider, Text, TimeUtil } from "@common";
+import { createEffect, createSignal, type Component } from "solid-js";
 
 type Props = {
 	max: number;

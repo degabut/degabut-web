@@ -1,4 +1,4 @@
-import { Component } from "solid-js";
+import type { Component } from "solid-js";
 
 type Props = {
 	size?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";

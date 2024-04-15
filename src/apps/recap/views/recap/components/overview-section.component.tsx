@@ -1,10 +1,7 @@
-import { Button, Item, Text } from "@common/components";
-import { useScreen } from "@common/hooks";
-import { TimeUtil } from "@common/utils";
+import { Button, Item, Text, TimeUtil, useScreen } from "@common";
 import { YT_IMAGE_PROXY } from "@constants";
-import { IRecap } from "@user/apis";
-import DomToImage from "dom-to-image";
-import { Component, For, Show, createSignal } from "solid-js";
+import type { IRecap } from "@user";
+import { For, Show, createSignal, type Component } from "solid-js";
 
 type OverviewDataProps = {
 	label: string;
@@ -45,6 +42,8 @@ export const OverviewSection: Component<OverviewSectionProps> = (props) => {
 		const toScale = targetWidth / cardRect.width;
 
 		if (!image) {
+			const { DomToImage } = await import("dom-to-image");
+
 			image = await DomToImage.toPng(cardRef, {
 				width: 2048,
 				height: cardRect.height * toScale,

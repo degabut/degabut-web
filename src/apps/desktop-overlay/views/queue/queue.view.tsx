@@ -1,5 +1,5 @@
-import { useQueue } from "@queue/hooks";
-import { Component, Show } from "solid-js";
+import { useQueue } from "@queue";
+import { Show, type Component } from "solid-js";
 import { PlayerCard, TracksCard, VoiceChannelsCard } from "./components";
 
 export const Queue: Component = () => {
@@ -7,10 +7,7 @@ export const Queue: Component = () => {
 
 	return (
 		<div class="grid grid-cols-2 gap-2 lg:gap-4 2xl:gap-8 h-full">
-			<Show
-				when={!queue.data.empty || queue.isInitialLoading()}
-				fallback={<VoiceChannelsCard voiceChannels={queue.voiceChannelHistory} onClick={queue.join} />}
-			>
+			<Show when={!queue.data.empty || queue.isInitialLoading()} fallback={<VoiceChannelsCard />}>
 				<PlayerCard />
 				<TracksCard />
 			</Show>

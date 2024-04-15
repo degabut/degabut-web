@@ -1,6 +1,6 @@
-import { IContextMenuItem, clickOutside } from "@common/directives";
-import { Component, For } from "solid-js";
-import { ShowContextMenuParams } from "../context-menu.provider";
+import { For, type Component } from "solid-js";
+import { clickOutside, type IContextMenuItem } from "../../../directives";
+import type { ShowContextMenuParams } from "../context-menu.provider";
 import { ContextMenuItem } from "./context-menu-item.component";
 
 clickOutside;
@@ -21,7 +21,7 @@ export const SlideUpContextMenu: Component<SlideUpContextMenuProps> = (props) =>
 			>
 				<div class="px-2">{props.params.header}</div>
 				<For each={props.params.items.flat()}>
-					{(item) => <ContextMenuItem item={item} variant="big" onClick={props.onItemClick} />}
+					{(item) => <ContextMenuItem item={item} size="lg" onClick={props.onItemClick} />}
 				</For>
 			</div>
 		</div>

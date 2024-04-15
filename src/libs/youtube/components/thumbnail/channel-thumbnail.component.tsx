@@ -1,6 +1,6 @@
-import { Skeleton } from "@common/components";
-import { IThumbnail } from "@youtube/apis";
-import { Component, createMemo, Show } from "solid-js";
+import { Skeleton } from "@common";
+import type { IThumbnail } from "@youtube";
+import { Show, createMemo, type Component } from "solid-js";
 
 type Props = {
 	thumbnails: IThumbnail[];

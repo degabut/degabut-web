@@ -1,11 +1,9 @@
 import { useApp } from "@app/hooks";
-import { Button, Item, KeyboardHint, Text } from "@common/components";
-import { useInfiniteScrolling, useScreen } from "@common/hooks";
-import { MediaSources } from "@media-source/components";
-import { MediaSourceContextMenuUtil } from "@media-source/utils";
-import { useQueue } from "@queue/hooks";
-import { useNavigate } from "@solidjs/router";
-import { Component } from "solid-js";
+import { AppRoutes } from "@app/routes";
+import { Button, Item, KeyboardHint, Text, useInfiniteScrolling, useNavigate, useScreen } from "@common";
+import { MediaSourceContextMenuUtil, MediaSources } from "@media-source";
+import { useQueue } from "@queue";
+import type { Component } from "solid-js";
 import { useQueueRecommendation } from "../hooks";
 
 export const QueueHint: Component = () => {
@@ -44,7 +42,7 @@ export const QueueHint: Component = () => {
 						</div>
 					)}
 					icon="search"
-					onClick={() => (screen.gte.md ? app.setIsQuickSearchModalOpen(true) : navigate("/search"))}
+					onClick={() => (screen.gte.md ? app.setIsQuickSearchModalOpen(true) : navigate(AppRoutes.Search))}
 				/>
 				<Item.Hint
 					label={() => (
@@ -53,7 +51,7 @@ export const QueueHint: Component = () => {
 						</Text.Body1>
 					)}
 					icon="heartLine"
-					onClick={() => navigate("/recommendation")}
+					onClick={() => navigate(AppRoutes.Recommendation)}
 				/>
 			</div>
 
@@ -71,7 +69,6 @@ export const QueueHint: Component = () => {
 							mediaSource,
 							appStore: app,
 							queueStore: queue,
-							navigate,
 						}),
 						right: () => (
 							<Button

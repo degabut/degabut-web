@@ -2,6 +2,18 @@ import axios from "axios";
 import type { AccessToken, ICachable } from "../types";
 
 export class AccessTokenUtil {
+	public static emptyAccessToken: AccessToken = {
+		access_token: "emptyAccessToken",
+		token_type: "",
+		expires_in: 0,
+		refresh_token: "",
+		expires: -1,
+	};
+
+	public static isEmptyAccessToken(value: unknown): boolean {
+		return value === this.emptyAccessToken;
+	}
+
 	public static async refreshCachedAccessToken(clientId: string, item: AccessToken) {
 		const updated = await AccessTokenUtil.refreshToken(clientId, item.refresh_token);
 		return AccessTokenUtil.toCachable(updated);

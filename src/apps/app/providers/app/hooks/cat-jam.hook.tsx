@@ -1,8 +1,6 @@
-import { useShortcut } from "@common/hooks";
-import { DelayUtil } from "@common/utils";
-import { IGuildMember, IJam, IJamCollection } from "@queue/apis";
-import { useQueue } from "@queue/hooks";
-import { Component, onCleanup, onMount } from "solid-js";
+import { DelayUtil, useShortcut } from "@common";
+import { useQueue ,type  IGuildMember,type  IJam,type  IJamCollection  } from "@queue";
+import { onCleanup, onMount, type Component } from "solid-js";
 import { render } from "solid-js/web";
 
 type CatJamProps = {

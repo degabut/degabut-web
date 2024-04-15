@@ -1,4 +1,4 @@
-import { Accessor, createMemo } from "solid-js";
+import { createMemo, type Accessor } from "solid-js";
 
 type Props<T> = {
 	keyword: Accessor<string>;

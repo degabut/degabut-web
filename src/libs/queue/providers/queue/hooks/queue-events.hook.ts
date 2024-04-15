@@ -1,8 +1,15 @@
-import { useApi } from "@common/hooks";
-import { IGuildMember, IJamCollection, IMember, IPlayer, IQueue, ITrack } from "@queue/apis";
+import { useApi } from "@common";
 import { EventEmitter } from "events";
 import { onCleanup } from "solid-js";
-import TypedEmitter from "typed-emitter";
+import type TypedEmitter from "typed-emitter";
+import {
+	type IGuildMember,
+	type IJamCollection,
+	type IMember,
+	type IPlayer,
+	type IQueue,
+	type ITrack,
+} from "../../../apis";
 
 type Message = {
 	event: keyof QueueEvents;

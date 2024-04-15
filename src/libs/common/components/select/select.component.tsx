@@ -1,6 +1,6 @@
-import { clickOutside } from "@common/directives";
-import { Accessor, For, JSX, Show, createEffect, createSignal, onCleanup, onMount } from "solid-js";
-import { Input, InputProps } from "../input";
+import { For, Show, createEffect, createSignal, onCleanup, onMount, type Accessor, type JSX } from "solid-js";
+import { clickOutside } from "../../directives";
+import { Input, type InputProps } from "../input";
 
 clickOutside;
 

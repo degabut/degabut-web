@@ -1,4 +1,4 @@
-import { Accessor, Component, JSX, onCleanup, onMount } from "solid-js";
+import { onCleanup, onMount, type Accessor, type Component, type JSX } from "solid-js";
 
 export type InputProps = Omit<JSX.InputHTMLAttributes<HTMLInputElement>, "prefix"> & {
 	rounded?: boolean;

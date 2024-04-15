@@ -1,8 +1,6 @@
-import { AbbreviationIcon, Item, Text } from "@common/components";
-import { ContextMenuDirectiveParams, contextMenu } from "@common/directives";
-import { TimeUtil } from "@common/utils";
-import { IPlaylist } from "@playlist/apis";
-import { Component, Show } from "solid-js";
+import { AbbreviationIcon, Item, Text, TimeUtil, contextMenu, type ContextMenuDirectiveParams } from "@common";
+import { Show, type Component } from "solid-js";
+import { type IPlaylist } from "../../apis";
 
 contextMenu;
 

@@ -1,4 +1,4 @@
-import { useApi } from "@common/hooks";
+import { useApi } from "@common";
 import { createResource } from "solid-js";
 import { PlaylistApi } from "../apis";
 

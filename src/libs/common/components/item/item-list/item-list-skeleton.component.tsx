@@ -1,5 +1,5 @@
-import { Skeleton } from "@common/components";
-import { Component } from "solid-js";
+import type { Component } from "solid-js";
+import { Skeleton } from "../../";
 
 export const ItemListImageSkeleton: Component = () => {
 	return <Skeleton.Image extraClass="h-12 w-12" />;

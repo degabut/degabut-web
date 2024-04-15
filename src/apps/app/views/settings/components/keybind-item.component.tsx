@@ -1,6 +1,6 @@
-import { InputKeybind } from "@common/components";
-import { Component } from "solid-js";
-import { Item, ValueProps } from "./item.component";
+import { InputKeybind } from "@common";
+import type { Component } from "solid-js";
+import { Item, type ValueProps } from "./item.component";
 
 type Props = ValueProps<string[]>;
 

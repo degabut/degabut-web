@@ -1,6 +1,5 @@
-import { Button } from "@common/components/button";
-import { Icon, Icons } from "@common/components/icon";
-import { Accessor, Component, JSX } from "solid-js";
+import type { Accessor, Component, JSX } from "solid-js";
+import { Button, Icon, type Icons } from "../../";
 
 type ItemHintProps = {
 	icon: Icons;

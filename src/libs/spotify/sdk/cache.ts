@@ -1,5 +1,6 @@
-import { CachedVerifier, isEmptyAccessToken } from "./auth";
-import { AccessToken, ICachable } from "./types";
+import { type CachedVerifier } from "./auth";
+import type { AccessToken, ICachable } from "./types";
+import { AccessTokenUtil } from "./utils";
 
 type Cached = ICachable & AccessToken;
 
@@ -51,7 +52,7 @@ export class Cache {
 
 		const newCacheItem = await this.createFunction();
 		if (!newCacheItem) throw new Error("Could not create cache item");
-		if (!isEmptyAccessToken(newCacheItem)) this.setCache(Cache.tokenCacheKey, newCacheItem);
+		if (!AccessTokenUtil.isEmptyAccessToken(newCacheItem)) this.setCache(Cache.tokenCacheKey, newCacheItem);
 
 		return newCacheItem;
 	}

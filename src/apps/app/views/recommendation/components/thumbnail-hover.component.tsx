@@ -1,6 +1,5 @@
-import { Button, ContextMenuButton, Icons } from "@common/components";
-import { ContextMenuDirectiveParams } from "@common/directives";
-import { Component, Show, createSignal } from "solid-js";
+import { Button, ContextMenuButton, type ContextMenuDirectiveParams, type Icons } from "@common";
+import { Show, createSignal, type Component } from "solid-js";
 
 type ActionButtonProps = {
 	title: string;

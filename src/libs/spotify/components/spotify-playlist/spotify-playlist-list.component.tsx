@@ -1,7 +1,6 @@
-import { AbbreviationIcon, Item, Text } from "@common/components";
-import { ContextMenuDirectiveParams, contextMenu } from "@common/directives";
-import { ISpotifyPlaylist, ISpotifySimplifiedPlaylist } from "@spotify/apis";
-import { Component, Show } from "solid-js";
+import { AbbreviationIcon, Item, Text, contextMenu, type ContextMenuDirectiveParams } from "@common";
+import { Show, type Component } from "solid-js";
+import { type ISpotifyPlaylist, type ISpotifySimplifiedPlaylist } from "../../apis";
 
 contextMenu;
 

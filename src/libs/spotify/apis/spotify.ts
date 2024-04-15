@@ -1,4 +1,4 @@
-import { Album, MaxInt, SimplifiedPlaylist, SimplifiedTrack, SpotifySdk, Track, TrackItem } from "../sdk";
+import type { Album, MaxInt, SimplifiedPlaylist, SimplifiedTrack, SpotifySdk, Track, TrackItem } from "../sdk";
 
 export type ISpotifyImage = {
 	height: number;

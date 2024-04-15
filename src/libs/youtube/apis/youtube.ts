@@ -1,5 +1,5 @@
-import { AxiosInstance } from "axios";
-import { IMusicAlbum, IMusicPlaylist, IMusicSong, IMusicVideo } from "./youtube-music";
+import type { AxiosInstance } from "axios";
+import type { IMusicAlbum, IMusicPlaylist, IMusicSong, IMusicVideo } from "./youtube-music";
 
 export type IVideoLike = IVideoCompact | IVideo | IMusicVideo | IMusicSong;
 export type IYouTubePlaylistLike =

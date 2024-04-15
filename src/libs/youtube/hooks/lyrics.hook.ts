@@ -1,6 +1,6 @@
-import { useApi } from "@common/hooks";
-import { YouTubeMusicApi } from "@youtube/apis";
-import { Accessor, createResource } from "solid-js";
+import { useApi } from "@common";
+import { createResource, type Accessor } from "solid-js";
+import { YouTubeMusicApi } from "../apis";
 
 type IUseLyricsProps = Accessor<string>;
 

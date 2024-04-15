@@ -1,5 +1,5 @@
-import { Text } from "@common/components";
-import { Accessor, Component, JSX, ParentComponent, Show } from "solid-js";
+import { Text } from "@common";
+import { Show, type Accessor, type Component, type JSX, type ParentComponent } from "solid-js";
 import { SeeMoreButton, SeeMoreTextButton } from "./see-more-button.component";
 
 type TitleProps = {

@@ -1,14 +1,14 @@
-import { Text } from "@common/components";
-import { IPlaylist } from "@playlist/apis";
-import { ISpotifyAlbum, ISpotifyPlaylist, ISpotifySimplifiedAlbum, ISpotifySimplifiedPlaylist } from "@spotify/apis";
-import {
+import { Text } from "@common";
+import type { ISpotifyAlbum, ISpotifyPlaylist, ISpotifySimplifiedAlbum, ISpotifySimplifiedPlaylist } from "@spotify";
+import type {
 	IMusicAlbum,
 	IMusicPlaylist,
 	IYouTubeMixPlaylist,
 	IYouTubePlaylist,
 	IYouTubePlaylistCompact,
-} from "@youtube/apis";
+} from "@youtube";
 import { Show } from "solid-js";
+import { type IPlaylist } from "../apis";
 
 export class PlaylistConfirmationUtil {
 	static addPlaylistConfirmation(

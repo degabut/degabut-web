@@ -1,12 +1,9 @@
 import { useApp } from "@app/hooks";
-import { Container, Icon } from "@common/components";
-import { useInfiniteScrolling } from "@common/hooks";
-import { RecapUtil } from "@common/utils";
-import { MediaSources } from "@media-source/components";
-import { MediaSourceContextMenuUtil, MediaSourceFactory } from "@media-source/utils";
-import { useQueue } from "@queue/hooks";
-import { useNavigate, useParams } from "@solidjs/router";
-import { Component, Show, createEffect, createMemo, createSignal } from "solid-js";
+import { Container, Icon, RecapUtil, Text, useInfiniteScrolling } from "@common";
+import { MediaSourceContextMenuUtil, MediaSourceFactory, MediaSources } from "@media-source";
+import { useQueue } from "@queue";
+import { useParams } from "@solidjs/router";
+import { Show, createEffect, createMemo, createSignal, type Component } from "solid-js";
 import {
 	ExpandableMediaSourceGrid,
 	ExpandableMediaSourceList,
@@ -19,17 +16,16 @@ import { useRecommendation } from "./hooks";
 
 const RecommendationEmpty: Component = () => {
 	return (
-		<div class="flex-col-center w-full h-full justify-center space-y-4">
-			<Icon name="heartBroken" extraClass="fill-neutral-400/10 w-32" />
-			<div class="text-xl md:text-2xl text-center text-neutral-300">No Recommendation Found</div>
-		</div>
+		<Container size="full" extraClass="flex-col-center justify-center h-full space-y-6">
+			<Icon name="heartBroken" extraClass="fill-neutral-800 w-32" />
+			<Text.H1>No Recommendation Found</Text.H1>
+		</Container>
 	);
 };
 
 export const Recommendation: Component = () => {
 	const app = useApp();
 	const queue = useQueue();
-	const navigate = useNavigate();
 	const params = useParams<{ id: string }>();
 	const recommendation = useRecommendation({ userId: () => params.id || "me", onLoad: () => infinite.load() });
 	const [showMoreType, setShowMoreType] = createSignal<ShowMoreType | null>(null);
@@ -109,7 +105,6 @@ export const Recommendation: Component = () => {
 									contextMenu: MediaSourceContextMenuUtil.getContextMenu({
 										appStore: app,
 										queueStore: queue,
-										navigate,
 										mediaSource,
 									}),
 								};

@@ -1,12 +1,16 @@
 /* eslint-disable solid/reactivity */
 
-import { AppContextStore } from "@app/providers";
-import { AbbreviationIcon } from "@common/components";
-import { ContextMenuDirectiveParams, IContextMenuItem } from "@common/directives";
-import { PlaylistConfirmationUtil } from "@playlist/utils";
-import { QueueContextStore } from "@queue/providers";
-import { ISpotifyAlbum, ISpotifyPlaylist, ISpotifySimplifiedAlbum, ISpotifySimplifiedPlaylist } from "@spotify/apis";
+import type { AppContextStore } from "@app/providers";
+import { AbbreviationIcon, type ContextMenuDirectiveParams, type IContextMenuItem } from "@common";
+import { PlaylistConfirmationUtil } from "@playlist";
+import type { QueueContextStore } from "@queue";
 import { Show } from "solid-js";
+import {
+	type ISpotifyAlbum,
+	type ISpotifyPlaylist,
+	type ISpotifySimplifiedAlbum,
+	type ISpotifySimplifiedPlaylist,
+} from "../apis";
 
 type SpotifyPlaylistProps = {
 	playlist: ISpotifyPlaylist | ISpotifySimplifiedPlaylist;

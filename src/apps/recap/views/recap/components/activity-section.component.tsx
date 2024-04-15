@@ -1,6 +1,6 @@
-import { Text } from "@common/components";
-import { IRecap } from "@user/apis";
-import { Component } from "solid-js";
+import { Text } from "@common";
+import type { IRecap } from "@user";
+import type { Component } from "solid-js";
 
 type ActivityProps = {
 	title: string;

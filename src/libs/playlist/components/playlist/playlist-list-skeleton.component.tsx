@@ -1,5 +1,5 @@
-import { Skeleton } from "@common/components";
-import { Component } from "solid-js";
+import { Skeleton } from "@common";
+import type { Component } from "solid-js";
 
 export const PlaylistListSkeleton: Component = () => {
 	return (

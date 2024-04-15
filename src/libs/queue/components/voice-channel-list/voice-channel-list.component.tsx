@@ -1,18 +1,33 @@
-import { AbbreviationIcon, Item, Text } from "@common/components";
-import { IGuild, ITextChannel, IVoiceChannelMin } from "@queue/apis";
-import { Component, Show } from "solid-js";
+import { AbbreviationIcon, Item, Text } from "@common";
+import { Show, type Component } from "solid-js";
+import { type IGuild, type ITextChannel, type IVoiceChannelMin } from "../../apis";
 
 type VoiceChannelListProps = {
 	guild: IGuild;
 	voiceChannel: IVoiceChannelMin;
 	textChannel: ITextChannel | null;
 	onClick: (voiceChannel: IVoiceChannelMin, textChannel: ITextChannel | null) => void;
+	onClickRemove: (voiceChannel: IVoiceChannelMin, textChannel: ITextChannel | null) => void;
 };
 
 export const VoiceChannelList: Component<VoiceChannelListProps> = (props) => {
 	return (
 		<Item.List
 			onClick={() => props.onClick(props.voiceChannel, props.textChannel)}
+			contextMenu={{
+				items: [
+					{
+						label: "Join",
+						icon: "play",
+						onClick: () => props.onClick(props.voiceChannel, props.textChannel),
+					},
+					{
+						label: "Remove",
+						icon: "closeLine",
+						onClick: () => props.onClickRemove(props.voiceChannel, props.textChannel),
+					},
+				],
+			}}
 			title={() => (
 				<div class="flex space-x-2">
 					<Text.H4 truncate>{props.voiceChannel.name}</Text.H4>

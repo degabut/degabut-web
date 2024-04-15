@@ -1,9 +1,7 @@
 import { useApp } from "@app/hooks";
-import { MediaSourceListProps, MediaSources } from "@media-source/components";
-import { MediaSourceContextMenuUtil } from "@media-source/utils";
-import { ITrack } from "@queue/apis";
-import { useQueue } from "@queue/hooks";
-import { Component, Show } from "solid-js";
+import { MediaSourceContextMenuUtil, MediaSources, type MediaSourceListProps } from "@media-source";
+import { useQueue ,type  ITrack  } from "@queue";
+import { Show, type Component } from "solid-js";
 import { Card } from "../../../components";
 
 export const TracksCard: Component = () => {

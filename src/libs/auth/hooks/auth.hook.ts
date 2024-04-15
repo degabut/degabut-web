@@ -1,5 +1,5 @@
-import { Auth } from "@auth/apis";
-import { useApi } from "@common/hooks";
+import { useApi } from "@common";
+import { Auth } from "../apis";
 
 export const useAuth = () => {
 	const api = useApi();

@@ -1,6 +1,6 @@
-import { Item, Text } from "@common/components";
-import { IRecap } from "@user/apis";
-import { Component, For } from "solid-js";
+import { Item, Text } from "@common";
+import type { IRecap } from "@user";
+import { For, type Component } from "solid-js";
 
 type Props = {
 	recap: IRecap;

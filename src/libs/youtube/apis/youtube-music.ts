@@ -1,5 +1,5 @@
-import { AxiosInstance } from "axios";
-import { IThumbnail } from "./youtube";
+import type { AxiosInstance } from "axios";
+import type { IThumbnail } from "./youtube";
 
 export interface IShelf {
 	title: string;

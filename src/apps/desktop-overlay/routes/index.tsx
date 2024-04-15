@@ -1,19 +1,30 @@
-import { Navigate, RouteDefinition } from "@solidjs/router";
-import { App, Queue, Recommendation, Search } from "../views";
+import { QueueProvider } from "@queue";
+import { Navigate, type RouteDefinition } from "@solidjs/router";
+import { Main } from "../layout";
+import { Queue, Recommendation, Search } from "../views";
 
-export const desktopOverlayRoutes: RouteDefinition[] = [
+export enum DesktopOverlayRoutes {
+	Queue = "/desktop-overlay/queue",
+	Search = "/desktop-overlay/search",
+	Recommendation = "/desktop-overlay/recommendation",
+}
+
+export const desktopOverlayRouteDefinitions: RouteDefinition[] = [
 	{
-		path: "/desktop-overlay/*",
-		component: () => <Navigate href="/desktop-overlay/queue" />,
-	},
-	{
-		path: "/desktop-overlay",
-		component: () => <App />,
+		path: "/",
+		component: (props) => (
+			<QueueProvider>
+				<Main {...props} />
+			</QueueProvider>
+		),
 		children: [
-			{ path: "/queue", component: () => <Queue /> },
-			{ path: "/search", component: () => <Search /> },
-			{ path: "/recommendation", component: () => <Recommendation /> },
-			{ path: "*", component: () => <Navigate href="/desktop-overlay/queue" /> },
+			{
+				path: "/desktop-overlay/*",
+				component: () => <Navigate href={DesktopOverlayRoutes.Queue} />,
+			},
+			{ path: DesktopOverlayRoutes.Queue, component: Queue },
+			{ path: DesktopOverlayRoutes.Search, component: Search },
+			{ path: DesktopOverlayRoutes.Recommendation, component: Recommendation },
 		],
 	},
 ];

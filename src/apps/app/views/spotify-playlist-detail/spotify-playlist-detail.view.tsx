@@ -1,12 +1,10 @@
 import { useApp } from "@app/hooks";
-import { Container, Divider } from "@common/components";
-import { useInfiniteScrolling } from "@common/hooks";
-import { MediaSources } from "@media-source/components";
-import { MediaSourceContextMenuUtil, MediaSourceFactory } from "@media-source/utils";
-import { useQueue } from "@queue/hooks";
+import { Container, Divider, useInfiniteScrolling } from "@common";
+import { MediaSourceContextMenuUtil, MediaSourceFactory, MediaSources } from "@media-source";
+import { useQueue } from "@queue";
 import { useParams } from "@solidjs/router";
-import { useSpotifyPlaylist, useSpotifyPlaylistTracks } from "@spotify/hooks";
-import { Component, Show, createEffect } from "solid-js";
+import { useSpotifyPlaylist, useSpotifyPlaylistTracks } from "@spotify";
+import { Show, createEffect, type Component } from "solid-js";
 import { MainPlaylist, MainPlaylistSkeleton } from "./components";
 
 export const SpotifyPlaylistDetail: Component = () => {
@@ -26,6 +24,7 @@ export const SpotifyPlaylistDetail: Component = () => {
 		callback: tracks.next,
 		disabled: () => !tracks.isFetchable(),
 	});
+
 	createEffect(() => {
 		app.setTitle(playlist.data()?.name || "Your Playlist");
 	});

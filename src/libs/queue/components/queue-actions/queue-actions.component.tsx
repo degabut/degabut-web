@@ -1,7 +1,7 @@
-import { IconSize } from "@common/components";
-import { LoopMode } from "@queue/apis";
-import { useQueue } from "@queue/hooks";
-import { Component, JSX } from "solid-js";
+import type { IconSize } from "@common";
+import type { Component, JSX } from "solid-js";
+import { LoopMode } from "../../apis";
+import { useQueue } from "../../providers";
 import { QueueButton } from "../queue-button";
 
 type Props = {

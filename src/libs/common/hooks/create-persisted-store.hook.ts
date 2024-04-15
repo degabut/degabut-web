@@ -1,6 +1,6 @@
-import { DelayUtil, ObjectUtil } from "@common/utils";
 import { onCleanup, onMount } from "solid-js";
 import { createStore } from "solid-js/store";
+import { DelayUtil, ObjectUtil } from "../utils";
 
 type ValueBasicType = string | number | boolean | null | undefined;
 type ValueType = ValueBasicType | ValueBasicType[] | Record<string, ValueBasicType>;
@@ -11,6 +11,7 @@ type Params<S extends Record<string, ValueType>> = {
 	onChange?: <K extends keyof S>(key: K, after: S[K], before: S[K]) => void;
 };
 
+// TODO add array support
 export function createPersistedStore<S extends Record<string, ValueType>>(value: S, params: Params<S>) {
 	const persistedStore = localStorage.getItem(params.key);
 	let initialValue = value;

@@ -1,5 +1,5 @@
-import { Button, IconSize } from "@common/components";
-import { Component } from "solid-js";
+import { Button, type IconSize } from "@common";
+import type { Component } from "solid-js";
 
 type Props = {
 	onClick: () => void;

@@ -1,15 +1,14 @@
-import { Item } from "@common/components";
-import { useScreen } from "@common/hooks";
+import { Item, useScreen } from "@common";
 import {
 	DragDropProvider,
 	DragDropSensors,
-	DragEventHandler,
 	DragOverlay,
 	SortableProvider,
 	closestCenter,
+	type DragEventHandler,
 } from "@thisbeyond/solid-dnd";
 import { For, Show, createEffect, createMemo, createSignal } from "solid-js";
-import { MediaSourceListProps } from "../media";
+import type { MediaSourceListProps } from "../media";
 import { DummySortableMediaList, SortableMediaList, SortableMediaListMd } from "./components";
 
 type SortableData = {

@@ -1,7 +1,6 @@
-import { Button, Modal } from "@common/components";
-import { useShortcut } from "@common/hooks";
-import { Component, JSX, Show, createSignal } from "solid-js";
-import { SetStoreFunction, createStore } from "solid-js/store";
+import { Button, Modal, useShortcut } from "@common";
+import { Show, createSignal, type Component, type JSX } from "solid-js";
+import { createStore, type SetStoreFunction } from "solid-js/store";
 
 type Props = {
 	title: string;
@@ -35,6 +34,7 @@ export const ConfirmationModal: Component<Props> = (props) => {
 		>
 			<div class="space-y-8 p-8">
 				<div class="text-xl font-medium text-center mb-4">{props.title}</div>
+
 				{typeof props.message === "string" ? (
 					<div class="text-center">{props.message}</div>
 				) : (

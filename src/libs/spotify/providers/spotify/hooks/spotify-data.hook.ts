@@ -1,6 +1,6 @@
-import { ISpotifyAlbum, ISpotifySimplifiedPlaylist, ISpotifyTrack, SpotifyApi } from "@spotify/apis";
-import { SpotifySdk } from "@spotify/sdk";
-import { Accessor, InitializedResource, InitializedResourceReturn, createResource } from "solid-js";
+import { createResource, type Accessor, type InitializedResource, type InitializedResourceReturn } from "solid-js";
+import { SpotifyApi, type ISpotifyAlbum, type ISpotifySimplifiedPlaylist, type ISpotifyTrack } from "../../../apis";
+import type { SpotifySdk } from "../../../sdk";
 
 type ParsedResourceReturn<T> = {
 	data: InitializedResource<T>;

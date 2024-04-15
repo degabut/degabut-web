@@ -1,7 +1,8 @@
-import { Text } from "@common/components";
-import { useQueue } from "@queue/hooks";
-import { useNavigate, useParams, useSearchParams } from "@solidjs/router";
-import { Component, onMount } from "solid-js";
+import { AppRoutes } from "@app/routes";
+import { Container, Spinner, useNavigate } from "@common";
+import { useQueue } from "@queue";
+import { useParams, useSearchParams } from "@solidjs/router";
+import { onMount, type Component } from "solid-js";
 
 type Params = {
 	voiceChannelId: string;
@@ -21,16 +22,19 @@ export const Join: Component = () => {
 	onMount(async () => {
 		const voiceChannelId = params.voiceChannelId || searchParams.voiceChannelId;
 		const textChannelId = params.textChannelId || searchParams.textChannelId;
-		if (params.voiceChannelId) {
-			if (searchParams.bot) queue.setBot(+searchParams.bot);
-			await queue.join(voiceChannelId, textChannelId);
+		try {
+			if (voiceChannelId) {
+				if (searchParams.bot) queue.setBot(+searchParams.bot);
+				await queue.join(voiceChannelId, textChannelId);
+			}
+		} finally {
+			navigate(AppRoutes.Queue);
 		}
-		navigate("/app");
 	});
 
 	return (
-		<div class="flex-row-center justify-center h-full">
-			<Text.H2 class="text-xl">Loading...</Text.H2>
-		</div>
+		<Container size="content" centered extraClass="flex items-center h-full">
+			<Spinner size="3xl" />
+		</Container>
 	);
 };

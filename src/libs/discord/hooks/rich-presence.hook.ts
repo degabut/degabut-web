@@ -1,6 +1,5 @@
-import { TimeUtil, UrlUtil } from "@common/utils";
-import { QueueContextStore } from "@queue/providers";
-import { useSettings } from "@settings/hooks";
+import { TimeUtil, UrlUtil } from "@common";
+import type { QueueContextStore } from "@queue";
 import { createEffect, createSignal, onMount } from "solid-js";
 import { RichPresenceUtil } from "../utils";
 
@@ -44,46 +43,34 @@ type RichPresencePlaceholderKey =
 	| "botIconUrl";
 export type IRichPresencePlaceholder = Partial<Record<RichPresencePlaceholderKey, string>>;
 
-export const defaultRichPresenceTemplate: IRichPresenceTemplate = {
-	details: "{title}",
-	state: "{creator}",
-	smallImageKey: "{listenerKey}",
-	smallImageText: "{listenerText}",
-	largeImageKey: "{imageUrl}",
-	largeImageText: "{title}",
+type Params = {
+	enabled: boolean;
+	queueContext: QueueContextStore;
+	template: IRichPresenceTemplate;
+	idleTemplate: IRichPresenceTemplate;
 };
 
-export const defaultRichPresenceIdleTemplate: IRichPresenceTemplate = {
-	details: "Not listening to anything",
-	state: "💤",
-	smallImageKey: "",
-	smallImageText: "",
-	largeImageText: "Degabut",
-	largeImageKey: "degabut",
-};
-
-export const useRichPresence = (context: QueueContextStore) => {
-	const { settings } = useSettings();
+export const useRichPresence = (params: Params) => {
 	const [activity, setActivity] = createSignal<IRichPresence | null>(null);
 	let currentActivity = "";
 
 	onMount(() => updateListeningActivity());
 
 	createEffect(() => {
-		if (settings["discord.richPresence"]) updateListeningActivity();
+		if (params.enabled) updateListeningActivity();
 		else setActivity(null);
 	});
 
 	const updateListeningActivity = async () => {
-		if (!settings["discord.richPresence"]) return setActivity(null);
+		if (!params.enabled) return setActivity(null);
 
-		const nowPlaying = context.data.nowPlaying;
-		const voiceChannel = context.data.voiceChannel;
-		const bot = context.bot();
+		const nowPlaying = params.queueContext.data.nowPlaying;
+		const voiceChannel = params.queueContext.data.voiceChannel;
+		const bot = params.queueContext.bot();
 
 		let data;
 		if (!voiceChannel || !nowPlaying) {
-			const template = settings["discord.richPresence.idleTemplate"] || defaultRichPresenceIdleTemplate;
+			const template = params.idleTemplate;
 			const placeholder: IRichPresencePlaceholder = {
 				botIconUrl: UrlUtil.toAbsolute(bot.iconUrl),
 				botName: bot.name,
@@ -93,7 +80,7 @@ export const useRichPresence = (context: QueueContextStore) => {
 				...RichPresenceUtil.parseTemplate(template, placeholder),
 			};
 		} else {
-			const template = settings["discord.richPresence.template"] || defaultRichPresenceTemplate;
+			const template = params.template;
 
 			const otherMemberCount = voiceChannel.members.filter((m) => m.isInVoiceChannel).length - 1;
 			const placeholder: IRichPresencePlaceholder = {

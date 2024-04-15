@@ -1,19 +1,16 @@
 /* eslint-disable solid/reactivity */
-import { useNavigate } from "@solidjs/router";
 import { Show } from "solid-js";
 
-import { AppContextStore } from "@app/providers";
-import { ContextMenuDirectiveParams, IContextMenuItem } from "@common/directives";
-import { TimeUtil } from "@common/utils";
-import { IMediaSource } from "@media-source/apis";
-import { QueueContextStore } from "@queue/providers";
+import type { AppContextStore } from "@app/providers";
+import { TimeUtil, type ContextMenuDirectiveParams, type IContextMenuItem } from "@common";
+import type { QueueContextStore } from "@queue";
+import { type IMediaSource } from "../apis";
 
 type SourceProps = {
 	mediaSource: IMediaSource;
 	queueStore: QueueContextStore;
 	appStore?: AppContextStore;
 	openWithClick?: boolean;
-	navigate?: ReturnType<typeof useNavigate>;
 	modify?: (current: IContextMenuItem[][]) => IContextMenuItem[][];
 };
 

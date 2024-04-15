@@ -1,7 +1,5 @@
-import { useScreen } from "@common/hooks";
-import { TimeUtil } from "@common/utils";
-import { RandomUtil } from "@common/utils/random.util";
-import { useSettings } from "@settings/hooks";
+import { RandomUtil, TimeUtil, useScreen } from "@common";
+import { useSettings } from "@settings";
 import { createEffect, onCleanup } from "solid-js";
 
 const amountRange = [0.5, 8] as const; // average amount per 100px screen width

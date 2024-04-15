@@ -1,21 +1,5 @@
-import { Button, Text } from "@common/components";
-import { IS_DISCORD_EMBEDDED } from "@constants";
-import { Component, Show } from "solid-js";
-import { PreviewEmbed, PreviewThumbnail } from "./components";
-
-type SelectorButtonProps = {
-	text: string;
-	isActive: boolean;
-	onClick: () => void;
-};
-
-const SelectorButton: Component<SelectorButtonProps> = (props) => {
-	return (
-		<Button class="px-4 py-1" flat={!props.isActive} onClick={props.onClick}>
-			<Text.Body2>{props.text}</Text.Body2>
-		</Button>
-	);
-};
+import { Show, type Component } from "solid-js";
+import { PreviewEmbed, PreviewThumbnail, SelectorButton } from "./components";
 
 type Props = {
 	isThumbnail: boolean;
@@ -25,20 +9,18 @@ type Props = {
 export const Preview: Component<Props> = (props) => {
 	return (
 		<div class="flex flex-col space-y-2 overflow-hidden">
-			<Show when={!IS_DISCORD_EMBEDDED}>
-				<div class="flex-row-center space-x-2">
-					<SelectorButton
-						text="Thumbnail"
-						isActive={props.isThumbnail}
-						onClick={() => props.onChangeViewMode(true)}
-					/>
-					<SelectorButton
-						text="Video"
-						isActive={!props.isThumbnail}
-						onClick={() => props.onChangeViewMode(false)}
-					/>
-				</div>
-			</Show>
+			<div class="flex-row-center space-x-2">
+				<SelectorButton
+					text="Thumbnail"
+					isActive={props.isThumbnail}
+					onClick={() => props.onChangeViewMode(true)}
+				/>
+				<SelectorButton
+					text="Video"
+					isActive={!props.isThumbnail}
+					onClick={() => props.onChangeViewMode(false)}
+				/>
+			</div>
 
 			<Show
 				when={!props.isThumbnail}

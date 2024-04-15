@@ -1,5 +1,5 @@
-import { Text } from "@common/components";
-import { Accessor, JSX, ParentComponent, Show } from "solid-js";
+import { Text } from "@common";
+import { Show, type Accessor, type JSX, type ParentComponent } from "solid-js";
 
 export type BaseProps = {
 	label: string;

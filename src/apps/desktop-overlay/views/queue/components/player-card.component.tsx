@@ -1,13 +1,14 @@
-import { Text } from "@common/components";
-import { QueueActions, QueueSeekSlider, VolumeSlider } from "@queue/components";
-import { useQueue } from "@queue/hooks";
-import { useSettings } from "@settings/hooks";
-import { Component, Show } from "solid-js";
+import { Text } from "@common";
+import { useDesktop } from "@desktop";
+import { QueueActions, QueueSeekSlider, VolumeSlider, useQueue } from "@queue";
+import { useSettings } from "@settings";
+import { Show, type Component } from "solid-js";
 import { Card } from "../../../components";
 
 export const PlayerCard: Component = () => {
 	const queue = useQueue();
-	const { settings } = useSettings();
+	const desktop = useDesktop();
+	const { settings, setSettings } = useSettings();
 
 	return (
 		<Card>
@@ -46,7 +47,21 @@ export const PlayerCard: Component = () => {
 				<QueueActions
 					extra={() => (
 						<Show when={settings["discord.rpc"]}>
-							<VolumeSlider extraButtonClass="p-3 md:px-6" iconSize="lg" />
+							<VolumeSlider
+								extraButtonClass="p-3 md:px-6"
+								iconSize="lg"
+								value={settings["botVolumes"][queue.bot().id]}
+								onChange={(value) => {
+									setSettings("botVolumes", { [queue.bot().id]: value });
+									desktop?.ipc?.setBotVolume?.(value, queue.bot().id);
+								}}
+								onMuteToggled={(isMuted) => {
+									desktop?.ipc?.setBotVolume?.(
+										isMuted ? 0 : settings["botVolumes"][queue.bot().id],
+										queue.bot().id
+									);
+								}}
+							/>
 						</Show>
 					)}
 					extraClass="justify-evenly w-full"

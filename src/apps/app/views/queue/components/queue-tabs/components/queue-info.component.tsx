@@ -1,7 +1,6 @@
-import { Button, Divider, Icon, Text } from "@common/components";
-import { TimeUtil } from "@common/utils";
-import { useQueue } from "@queue/hooks";
-import { Component, For, Show, createSignal } from "solid-js";
+import { Button, Divider, Icon, Text, TimeUtil } from "@common";
+import { useQueue } from "@queue";
+import { For, Show, createSignal, type Component } from "solid-js";
 import { MemberListModal } from "./member-list-modal.component";
 
 type Props = {
@@ -54,7 +53,7 @@ export const QueueInfo: Component = () => {
 						flat
 						onClick={() => setIsListenersModalOpen(true)}
 					>
-						<Icon name="people" size="lg" class="fill-neutral-500 mx-auto" />
+						<Icon name="people" size="lg" class="fill-neutral-400 mx-auto" />
 
 						<Show when={queue.data.voiceChannel.members.length}>
 							<div class="flex-row-center overflow-x-clip -space-x-2">

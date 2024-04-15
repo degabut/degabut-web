@@ -1,5 +1,5 @@
-import { Button, Input, Modal, Text } from "@common/components";
-import { Component, createEffect, createSignal } from "solid-js";
+import { Button, Input, Modal, Text } from "@common";
+import { createEffect, createSignal, type Component } from "solid-js";
 
 type EditPlaylistModalProps = {
 	isOpen: boolean;

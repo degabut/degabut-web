@@ -1,4 +1,4 @@
-import { Mapping } from "@discord/utils";
+import type { Mapping } from "@discord";
 import { bots } from "./bot";
 
 export const RICH_PRESENCE_CLIENT_ID = import.meta.env.VITE_RICH_PRESENCE_CLIENT_ID || bots[0].id;

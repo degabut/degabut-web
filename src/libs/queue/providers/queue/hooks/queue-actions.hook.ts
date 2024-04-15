@@ -1,9 +1,9 @@
-import { MediaUrlId, useApi } from "@common/hooks";
-import { IMediaSource } from "@media-source/apis";
-import { ITrack, LoopMode, PlayerApi, QueueApi } from "@queue/apis";
+import { useApi } from "@common";
+import type { IMediaSource, MediaUrlId } from "@media-source";
 import { AxiosError } from "axios";
-import { SetStoreFunction } from "solid-js/store";
-import { FreezeState, QueueResource } from "../";
+import type { SetStoreFunction } from "solid-js/store";
+import type { FreezeState, QueueResource } from "../";
+import { PlayerApi, QueueApi, type ITrack, type LoopMode } from "../../../apis";
 
 type Params = {
 	queue: QueueResource;

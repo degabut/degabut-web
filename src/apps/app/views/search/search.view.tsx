@@ -1,14 +1,11 @@
 import { useApp } from "@app/hooks";
-import { Container, Icon, Input, Item, Text } from "@common/components";
-import { useMatchMediaUrlId, useScreen } from "@common/hooks";
-import { MediaSource } from "@media-source/components";
-import { MediaSourceContextMenuUtil, MediaSourceFactory } from "@media-source/utils";
-import { useQueue } from "@queue/hooks";
-import { useNavigate, useSearchParams } from "@solidjs/router";
-import { YouTubePlaylist } from "@youtube/components";
-import { useSearch } from "@youtube/hooks";
-import { YouTubeContextMenuUtil } from "@youtube/utils";
-import { Component, For, Show, onMount } from "solid-js";
+import { AppRoutes } from "@app/routes";
+import { Container, Icon, Input, Item, Text, useNavigate, useScreen } from "@common";
+import { MediaSource, MediaSourceContextMenuUtil, MediaSourceFactory, useMatchMediaUrlId } from "@media-source";
+import { useQueue } from "@queue";
+import { useSearchParams } from "@solidjs/router";
+import { YouTubeContextMenuUtil, YouTubePlaylist, useSearch } from "@youtube";
+import { For, Show, onMount, type Component } from "solid-js";
 
 const SearchResultSkeleton: Component<{ isSmall?: boolean }> = (props) => {
 	return (
@@ -74,7 +71,7 @@ export const Search: Component = () => {
 									icon="plus"
 									onClick={() => {
 										queue.addTrackById(item);
-										navigate("/queue");
+										navigate(AppRoutes.Queue);
 									}}
 								/>
 							)}
@@ -96,7 +93,6 @@ export const Search: Component = () => {
 											mediaSource,
 											appStore: app,
 											queueStore: queue,
-											navigate,
 										})}
 									/>
 								);

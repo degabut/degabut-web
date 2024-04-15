@@ -1,9 +1,10 @@
-import { IMember, IQueue, ITrack } from "@queue/apis";
 import { onMount } from "solid-js";
-import { SetStoreFunction } from "solid-js/store";
-import TypedEventEmitter from "typed-emitter";
-import { FreezeState, QueueResource, defaultQueue } from "../";
-import { QueueEvents } from "./queue-events.hook";
+import type { SetStoreFunction } from "solid-js/store";
+import type TypedEventEmitter from "typed-emitter";
+import { type FreezeState, type QueueResource } from "../";
+import { type IMember, type IQueue, type ITrack } from "../../../apis";
+import { defaultQueue } from "../../../constants";
+import type { QueueEvents } from "./queue-events.hook";
 
 type Params = {
 	setQueue: SetStoreFunction<QueueResource>;
@@ -48,7 +49,7 @@ export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, em
 	});
 
 	const resetQueue = () => {
-		setQueue({ ...defaultQueue });
+		setQueue(structuredClone(defaultQueue));
 	};
 
 	const updateMember = (member: IMember) => {
@@ -114,6 +115,7 @@ export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, em
 		setQueue({ tracks });
 	};
 
+	// TODO optimistic update
 	const onPlayerTick = (position: number) => {
 		if (lastTrackSeekedPosition >= 0) {
 			const diff = Math.abs(position - lastTrackSeekedPosition);

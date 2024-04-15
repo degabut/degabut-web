@@ -1,5 +1,6 @@
-import { IRichPresence } from "@discord/hooks";
-import { Accessor, ParentComponent, createContext, createSignal } from "solid-js";
+import { IS_DESKTOP, PROD } from "@constants";
+import type { IRichPresence } from "@discord";
+import { createContext, createSignal, useContext, type Accessor, type ParentComponent } from "solid-js";
 
 interface DesktopAPI {
 	onAuthenticated: () => void;
@@ -15,16 +16,17 @@ interface DesktopAPI {
 	handleUpdateDownloaded: (callback: () => void) => void;
 }
 
-export type DesktopContextStore = {
+type DesktopContextStore = {
 	ipc: Partial<DesktopAPI>;
 	isUpdateReady: Accessor<boolean>;
 };
 
-export const DesktopContext = createContext<DesktopContextStore | undefined>();
+const DesktopContext = createContext<DesktopContextStore>();
 
 export const DesktopProvider: ParentComponent = (props) => {
 	// eslint-disable-next-line solid/components-return-once
 	if (!("desktopAPI" in window)) return <>{props.children}</>;
+	if (IS_DESKTOP && PROD) document.addEventListener("contextmenu", (e) => e.preventDefault());
 
 	const ipc = window.desktopAPI as Partial<DesktopAPI>;
 	const [isUpdateReady, setIsUpdateReady] = createSignal(false);
@@ -33,3 +35,5 @@ export const DesktopProvider: ParentComponent = (props) => {
 
 	return <DesktopContext.Provider value={{ ipc, isUpdateReady }}>{props.children}</DesktopContext.Provider>;
 };
+
+export const useDesktop = () => useContext(DesktopContext);

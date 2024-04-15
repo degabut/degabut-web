@@ -1,6 +1,6 @@
-import { useScreen } from "@common/hooks";
-import { breakpointKeys, BreakpointKeys, breakpoints } from "@constants";
-import { createMemo, For, JSX } from "solid-js";
+import { For, createMemo, type JSX } from "solid-js";
+import { breakpointKeys, breakpoints, type BreakpointKeys } from "../../constants";
+import { useScreen } from "../../providers";
 
 type Props<Item> = {
 	extraClass?: string;

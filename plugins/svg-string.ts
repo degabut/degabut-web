@@ -1,6 +1,6 @@
 import { promises as fs } from "fs";
 import { extname } from "path";
-import { Plugin } from "vite";
+import type { Plugin } from "vite";
 
 // https://github.com/cobbcheng/vite-plugin-svgstring
 

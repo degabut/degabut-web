@@ -1,5 +1,5 @@
-import { Button, Input, InputProps, Text } from "@common/components";
-import { Component, createSignal, onCleanup } from "solid-js";
+import { createSignal, onCleanup, type Component } from "solid-js";
+import { Button, Input, Text, type InputProps } from "../";
 
 type Props = Omit<InputProps, "value" | "onChange"> & {
 	value: string[];
@@ -63,6 +63,7 @@ export const InputKeybind: Component<Props> = (props) => {
 			dense
 			{...props}
 			onChange={undefined}
+			onBlur={stopRecording}
 			outlined
 			readonly
 			class="!bg-transparent text-sm"

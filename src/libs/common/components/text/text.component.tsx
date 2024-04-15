@@ -1,4 +1,4 @@
-import { JSX, ParentComponent } from "solid-js";
+import type { JSX, ParentComponent } from "solid-js";
 
 type BaseHeadlineProps = JSX.HTMLAttributes<HTMLHeadingElement> & {
 	truncate?: boolean;

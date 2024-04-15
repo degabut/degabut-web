@@ -1,4 +1,4 @@
-import { Accessor, onCleanup } from "solid-js";
+import { onCleanup, type Accessor } from "solid-js";
 
 export function doubleClick(el: HTMLElement, handler: Accessor<() => void>) {
 	let lastClick = 0;

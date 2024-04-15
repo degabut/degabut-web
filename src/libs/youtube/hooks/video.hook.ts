@@ -1,6 +1,6 @@
-import { useApi } from "@common/hooks";
-import { YouTubeApi } from "@youtube/apis";
-import { Accessor, createResource } from "solid-js";
+import { useApi } from "@common";
+import { createResource, type Accessor } from "solid-js";
+import { YouTubeApi } from "../apis";
 
 type IUseVideoProps = {
 	videoId?: Accessor<string>;

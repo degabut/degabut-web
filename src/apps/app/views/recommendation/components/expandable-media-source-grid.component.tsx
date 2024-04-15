@@ -1,13 +1,9 @@
 import { useApp } from "@app/hooks";
-import { useApi } from "@common/hooks";
-import { IMediaSource } from "@media-source/apis";
-import { MediaSources } from "@media-source/components";
-import { MediaSourceContextMenuUtil } from "@media-source/utils";
-import { useQueue } from "@queue/hooks";
-import { useNavigate } from "@solidjs/router";
-import { UserApi } from "@user/apis";
-import { UserConfirmationUtil } from "@user/utils/confirmation.util";
-import { Component } from "solid-js";
+import { useApi } from "@common";
+import { MediaSourceContextMenuUtil, MediaSources, type IMediaSource } from "@media-source";
+import { useQueue } from "@queue";
+import { UserApi, UserConfirmationUtil } from "@user";
+import type { Component } from "solid-js";
 import { ThumbnailHover } from "./thumbnail-hover.component";
 import { ShowMoreTitle } from "./title.component";
 
@@ -25,14 +21,12 @@ export const ExpandableMediaSourceGrid: Component<Props> = (props) => {
 	const api = useApi();
 	const userApi = new UserApi(api.client);
 	const queue = useQueue();
-	const navigate = useNavigate();
 
 	const mediaSourceProps = (mediaSource: IMediaSource) => {
 		const inQueue = queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id);
 		const contextMenu = MediaSourceContextMenuUtil.getContextMenu({
 			appStore: app,
 			queueStore: queue,
-			navigate,
 			mediaSource,
 			modify: (items) => {
 				if (props.removable) {

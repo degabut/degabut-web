@@ -1,8 +1,8 @@
-import { createPersistedStore } from "@common/hooks";
+import { createPersistedStore } from "@common";
 import { bots } from "@constants";
-import { useDesktop } from "@desktop/hooks";
-import { IRichPresenceTemplate, defaultRichPresenceIdleTemplate, defaultRichPresenceTemplate } from "@discord/hooks";
-import { ParentComponent, createContext } from "solid-js";
+import { useDesktop } from "@desktop";
+import { defaultRichPresenceIdleTemplate, defaultRichPresenceTemplate, type IRichPresenceTemplate } from "@discord";
+import { createContext, type ParentComponent } from "solid-js";
 
 export type Settings = {
 	["botIndex"]: number;
@@ -55,10 +55,7 @@ export type SettingsContextStore = {
 	setSettings: <K extends keyof Settings>(key: K, value: Settings[K] | ((v: Settings[K]) => Settings[K])) => void;
 };
 
-export const SettingsContext = createContext<SettingsContextStore>({
-	settings: defaultSettings,
-	setSettings: () => {},
-});
+export const SettingsContext = createContext<SettingsContextStore>({} as SettingsContextStore);
 
 export const SettingsProvider: ParentComponent = (props) => {
 	const desktop = useDesktop();

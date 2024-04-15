@@ -1,11 +1,8 @@
 import { useApp } from "@app/hooks";
-import { Item } from "@common/components";
-import { IMediaSource } from "@media-source/apis";
-import { MediaSource } from "@media-source/components";
-import { MediaSourceContextMenuUtil } from "@media-source/utils";
-import { useQueue } from "@queue/hooks";
-import { useNavigate } from "@solidjs/router";
-import { Component, For, Show } from "solid-js";
+import { Item } from "@common";
+import { MediaSource, MediaSourceContextMenuUtil, type IMediaSource } from "@media-source";
+import { useQueue } from "@queue";
+import { For, Show, type Component } from "solid-js";
 import { ShowMoreTitle } from "./title.component";
 
 type Props = {
@@ -18,7 +15,6 @@ type Props = {
 export const ExpandableMediaSourceList: Component<Props> = (props) => {
 	const app = useApp();
 	const queue = useQueue();
-	const navigate = useNavigate();
 
 	return (
 		<div class="space-y-6 md:space-y-4">
@@ -34,7 +30,6 @@ export const ExpandableMediaSourceList: Component<Props> = (props) => {
 								contextMenu={MediaSourceContextMenuUtil.getContextMenu({
 									appStore: app,
 									queueStore: queue,
-									navigate,
 									mediaSource,
 								})}
 							/>

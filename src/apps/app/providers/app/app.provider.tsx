@@ -1,11 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useShortcut } from "@common/hooks";
-import { IMediaSource } from "@media-source/apis";
-import { AddPlaylistMediaSourceModal } from "@playlist/components";
-import { Accessor, JSX, ParentComponent, Setter, Show, createContext, createSignal } from "solid-js";
-import { SetStoreFunction } from "solid-js/store";
-import { ConfirmationModal, QuickSearchModal } from "./components";
-import { useCatJam, useSnowfall, useVersionCheck, useZoom } from "./hooks";
+import { useShortcut } from "@common";
+import type { IMediaSource } from "@media-source";
+import { AddPlaylistMediaSourceModal } from "@playlist";
+import {
+	Show,
+	createContext,
+	createSignal,
+	type Accessor,
+	type JSX,
+	type ParentComponent,
+	type Setter,
+} from "solid-js";
+import type { SetStoreFunction } from "solid-js/store";
+import { ConfirmationModal, ExternalTrackAdder, QuickSearchModal } from "./components";
+import { useAppRichPresence, useCatJam, useQueueNotification, useSnowfall, useVersionCheck, useZoom } from "./hooks";
 
 type Confirmation<T = object> = {
 	title: string;
@@ -24,19 +32,14 @@ export type AppContextStore = {
 	hasNewVersion: Accessor<boolean>;
 };
 
-export const AppContext = createContext<AppContextStore>({
-	title: () => "",
-	setTitle: () => {},
-	promptAddMediaToPlaylist: () => {},
-	setConfirmation: () => {},
-	setIsQuickSearchModalOpen: () => false,
-	hasNewVersion: () => false,
-});
+export const AppContext = createContext<AppContextStore>({} as AppContextStore);
 
 export const AppProvider: ParentComponent = (props) => {
 	useSnowfall();
 	useCatJam();
 	useZoom();
+	useQueueNotification();
+	useAppRichPresence();
 	const { hasNewVersion } = useVersionCheck();
 
 	const [title, setTitle] = createSignal("");
@@ -63,6 +66,8 @@ export const AppProvider: ParentComponent = (props) => {
 	return (
 		<AppContext.Provider value={store}>
 			{props.children}
+
+			<ExternalTrackAdder />
 
 			<QuickSearchModal isOpen={isQuickSearchModalOpen()} onDone={() => setIsQuickSearchModalOpen(false)} />
 

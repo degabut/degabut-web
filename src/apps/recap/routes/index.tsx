@@ -1,9 +1,13 @@
-import { RouteDefinition } from "@solidjs/router";
-import { Recap } from "../views";
+import { Recap } from "@recap/views";
+import type { RouteDefinition } from "@solidjs/router";
 
-export const recapRoutes: RouteDefinition[] = [
+export enum RecapRoutes {
+	Recap = "/recap/:year?",
+}
+
+export const recapRouteDefinitions: RouteDefinition[] = [
 	{
-		path: "/recap",
-		children: [{ path: "/:year?", component: () => <Recap /> }],
+		path: RecapRoutes.Recap,
+		component: Recap,
 	},
 ];

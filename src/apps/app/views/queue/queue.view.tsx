@@ -1,8 +1,7 @@
 import { useApp } from "@app/hooks";
-import { Container } from "@common/components";
-import { useScreen } from "@common/hooks";
-import { useSettings } from "@settings/hooks";
-import { Component, Show, createEffect, createSignal, onMount } from "solid-js";
+import { Container, useScreen } from "@common";
+import { useSettings } from "@settings";
+import { Show, createEffect, createSignal, onMount, type Component } from "solid-js";
 import { Preview, QueueTabs } from "./components";
 
 export const Queue: Component = () => {

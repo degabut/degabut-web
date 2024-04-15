@@ -1,5 +1,5 @@
-import { IMediaSource } from "@media-source/apis";
-import { usePlayHistory } from "@user/hooks";
+import type { IMediaSource } from "@media-source";
+import { usePlayHistory } from "@user";
 import { createMemo } from "solid-js";
 
 export const useRecommendation = () => {

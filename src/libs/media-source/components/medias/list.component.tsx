@@ -1,6 +1,6 @@
-import { Item } from "@common/components";
-import { Accessor, For, JSX, Show } from "solid-js";
-import { MediaSource, MediaSourceListProps } from "../media";
+import { Item } from "@common";
+import { For, Show, type Accessor, type JSX } from "solid-js";
+import { MediaSource, type MediaSourceListProps } from "../media";
 
 type MediaSourcesListProps<Data> = {
 	data: Data[];

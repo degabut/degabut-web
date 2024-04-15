@@ -1,7 +1,7 @@
-import { Grid, Item } from "@common/components";
-import { IMediaSource } from "@media-source/apis";
-import { Accessor, Component, JSX, Show } from "solid-js";
-import { MediaSource, MediaSourceCardProps } from "../media";
+import { Grid, Item } from "@common";
+import { Show, type Accessor, type Component, type JSX } from "solid-js";
+import { type IMediaSource } from "../../apis";
+import { MediaSource, type MediaSourceCardProps } from "../media";
 
 type MediaSourcesGridProps = {
 	data: IMediaSource[];

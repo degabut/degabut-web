@@ -1,4 +1,4 @@
-import { IRichPresence, IRichPresenceAsset, IRichPresencePlaceholder, IRichPresenceTemplate } from "../hooks";
+import type { IRichPresence, IRichPresenceAsset, IRichPresencePlaceholder, IRichPresenceTemplate } from "../hooks";
 
 export class RichPresenceUtil {
 	static parseTemplate(

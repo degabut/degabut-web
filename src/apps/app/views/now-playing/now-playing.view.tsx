@@ -1,64 +1,42 @@
 import { useApp } from "@app/hooks";
-import { Container, ContextMenuButton, RouterLink, Text } from "@common/components";
-import { DelayUtil } from "@common/utils";
-import { MediaSourceContextMenuUtil } from "@media-source/utils";
-import { QueueActions, QueueButton, QueueSeekSlider } from "@queue/components";
-import { useQueue } from "@queue/hooks";
-import { useNavigate } from "@solidjs/router";
-import { Component, Show, onMount } from "solid-js";
+import { AppRoutes } from "@app/routes";
+import { Container, ContextMenuButton, DelayUtil, Text, useNavigate } from "@common";
+import { MediaSourceContextMenuUtil, SourceBadge } from "@media-source";
+import { QueueActions, QueueButton, QueueSeekSlider, useQueue } from "@queue";
+import { Show, onMount, type Component } from "solid-js";
+import { PreviewThumbnail } from "./components";
 
 export const QueueNowPlaying: Component = () => {
 	const app = useApp();
 	const queue = useQueue();
 	const navigate = useNavigate();
 
-	const throttledJam = DelayUtil.countedThrottle(queue.jam, 350);
-
 	onMount(() => app.setTitle("Queue"));
 
 	return (
 		<Container size="full" centered bottomPadless extraClass="h-full pb-12">
-			<div class="relative z-0 flex flex-col space-y-6 h-full">
+			<div class="relative flex flex-col space-y-6 h-full">
 				<div class="flex-grow flex items-center justify-center px-4">
-					<Show when={queue.data.nowPlaying} keyed>
-						{({ mediaSource }) => (
-							<>
-								<img
-									src={mediaSource.maxThumbnailUrl}
-									alt={mediaSource.title}
-									class="object-cover max-w-[50vh] w-full aspect-square rounded-2xl"
-									onClick={throttledJam}
-								/>
-								<img
-									src={mediaSource.minThumbnailUrl}
-									class="absolute top-0 left-0 h-full max-h-[50vh] w-full blur-3xl -z-[1000] pointer-events-none"
-								/>
-							</>
-						)}
-					</Show>
+					<PreviewThumbnail
+						mediaSource={queue.data.nowPlaying?.mediaSource}
+						onClick={DelayUtil.countedThrottle(queue.jam, 350)}
+					/>
 				</div>
 
 				<div class="flex flex-col space-y-6 py-4">
-					<Show
-						when={queue.data.nowPlaying}
-						keyed
-						fallback={
-							<RouterLink
-								href="/recommendation"
-								class="flex flex-row items-center w-full space-x-4 px-1.5 py-2 hover:bg-white/[2.5%] rounded"
-							>
-								<div class="!w-16 !h-16 rounded border border-neutral-600" />
-								<div class="text-neutral-400">It's lonely here...</div>
-							</RouterLink>
-						}
-					>
+					<Show when={queue.data.nowPlaying} keyed>
 						{(track) => (
 							<div class="flex-row-center">
 								<div class="grow flex flex-col space-y-1.5 px-2 text-shadow truncate">
 									<Text.H2 truncate>{track.mediaSource.title}</Text.H2>
-									<Text.Body1 truncate class="text-neutral-300">
-										{track.mediaSource.creator}
-									</Text.Body1>
+
+									<div class="flex-row-center space-x-2.5">
+										<SourceBadge size="lg" type={track.mediaSource.type} />
+										<Text.Body1 truncate class="text-neutral-300">
+											{track.mediaSource.creator}
+										</Text.Body1>
+									</div>
+
 									<div class="flex-row-center space-x-2 truncate">
 										<Show when={track.requestedBy.avatar} keyed>
 											{(avatar) => <img src={avatar} class="h-6 w-6 rounded-full" />}
@@ -72,7 +50,6 @@ export const QueueNowPlaying: Component = () => {
 										mediaSource: track.mediaSource,
 										appStore: app,
 										queueStore: queue,
-										navigate,
 									})}
 								/>
 							</div>
@@ -89,13 +66,16 @@ export const QueueNowPlaying: Component = () => {
 					</div>
 
 					<QueueActions
+						iconSize="xl"
 						extra={() => (
-							<>
-								<QueueButton.Lyrics onClick={() => navigate("/queue/lyrics")} />
-								<QueueButton.Settings onClearQueue={queue.clear} onStopQueue={queue.stop} />
-							</>
+							<QueueButton.Lyrics
+								extraClass="p-4 grow justify-center"
+								iconSize="xl"
+								onClick={() => navigate(AppRoutes.Lyrics)}
+							/>
 						)}
-						extraClass="flex-wrap justify-between md:justify-start w-full md:space-x-6 px-2 pt-1.5"
+						extraClass="flex-items-center w-full space-x-2 px-2 pt-1.5"
+						extraButtonClass="p-4 grow justify-center"
 					/>
 				</div>
 			</div>

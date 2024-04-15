@@ -1,6 +1,6 @@
 import { useApp } from "@app/hooks";
-import { Button, Container, Divider, Text } from "@common/components";
-import { TimeUtil } from "@common/utils";
+import { AppRoutes } from "@app/routes";
+import { Button, Container, Divider, Text, TimeUtil, useNavigate } from "@common";
 import {
 	APP_VERSION,
 	DESKTOP_APP_VERSION,
@@ -9,11 +9,11 @@ import {
 	SPOTIFY_CLIENT_ID,
 	SPOTIFY_INTEGRATION,
 } from "@constants";
-import { useDesktop } from "@desktop/hooks";
-import { useSettings } from "@settings/hooks";
-import { useNavigate } from "@solidjs/router";
-import { useSpotify } from "@spotify/hooks";
-import { Accessor, Component, For, JSX, JSXElement, Show, createSignal, onMount } from "solid-js";
+import { useDesktop } from "@desktop";
+import { LoginRoutes } from "@login/routes";
+import { useSettings } from "@settings";
+import { useSpotify } from "@spotify";
+import { For, Show, createSignal, onMount, type Accessor, type Component, type JSX, type JSXElement } from "solid-js";
 import { Item, KeybindItem, SliderItem, SwitchItem, TextItem } from "./components";
 import { SpotifyIntegrationTutorialModal } from "./components/spotify-integration-tutorial-modal.component";
 
@@ -68,7 +68,7 @@ export const Settings: Component = () => {
 		app.setConfirmation({
 			title: "Logout",
 			message: "Are you sure you want to logout?",
-			onConfirm: () => navigate("/login"),
+			onConfirm: () => navigate(LoginRoutes.Login),
 		});
 	};
 
@@ -121,7 +121,7 @@ export const Settings: Component = () => {
 					label: "",
 					hide: !settings["discord.richPresence"],
 					element: () => (
-						<Button class="px-2 py-0.5" onClick={() => navigate("/settings/rich-presence")}>
+						<Button class="px-2 py-0.5" onClick={() => navigate(AppRoutes.RichPresence)}>
 							<Text.Body2>Customize</Text.Body2>
 						</Button>
 					),

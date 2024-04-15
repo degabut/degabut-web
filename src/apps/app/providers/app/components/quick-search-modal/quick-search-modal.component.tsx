@@ -1,17 +1,17 @@
 import { useApp } from "@app/hooks";
-import { Icon, Item, KeyboardHint, Modal, Select, Text } from "@common/components";
-import { MediaUrlId, useMatchMediaUrlId, useSearchable } from "@common/hooks";
-import { MediaSource } from "@media-source/components";
-import { MediaSourceContextMenuUtil, MediaSourceFactory } from "@media-source/utils";
-import { PlaylistConfirmationUtil } from "@playlist/utils";
-import { ITrack } from "@queue/apis";
-import { useQueue } from "@queue/hooks";
-import { useNavigate } from "@solidjs/router";
-import { IVideoCompact, IYouTubePlaylistCompact } from "@youtube/apis";
-import { YouTubePlaylist } from "@youtube/components";
-import { useSearch } from "@youtube/hooks";
-import { YouTubeContextMenuUtil } from "@youtube/utils";
-import { Component, Show, createSignal } from "solid-js";
+import { AppRoutes } from "@app/routes";
+import { Icon, Item, KeyboardHint, Modal, Select, Text, useNavigate, useSearchable, useShortcut } from "@common";
+import {
+	MediaSource,
+	MediaSourceContextMenuUtil,
+	MediaSourceFactory,
+	useMatchMediaUrlId,
+	type MediaUrlId,
+} from "@media-source";
+import { PlaylistConfirmationUtil } from "@playlist";
+import { useQueue ,type  ITrack  } from "@queue";
+import { YouTubeContextMenuUtil, YouTubePlaylist, useSearch ,type  IVideoCompact,type  IYouTubePlaylistCompact  } from "@youtube";
+import { Show, createSignal, type Component } from "solid-js";
 
 type SelectOptionItem = MediaUrlId | IVideoCompact | IYouTubePlaylistCompact | ITrack;
 
@@ -28,6 +28,16 @@ export const QuickSearchModal: Component<Props> = (props) => {
 	const [isLoading, setIsLoading] = createSignal(false);
 	const matchUrl = useMatchMediaUrlId("");
 	const search = useSearch();
+
+	useShortcut({
+		shortcuts: [
+			{
+				key: "Escape",
+				ignoreInput: true,
+				handler: () => props.onDone(),
+			},
+		],
+	});
 
 	const onInput = (e: InputEvent) => {
 		const value = (e.target as HTMLInputElement).value;
@@ -47,7 +57,7 @@ export const QuickSearchModal: Component<Props> = (props) => {
 	};
 
 	const onSelect = async (item: SelectOptionItem) => {
-		if ("requestedBy" in item) navigate("/queue");
+		if ("requestedBy" in item) navigate(AppRoutes.Queue);
 		else if ("duration" in item) {
 			if (!queue.data.empty) await addToQueue(item);
 		} else if ("videoCount" in item) {
@@ -139,13 +149,12 @@ export const QuickSearchModal: Component<Props> = (props) => {
 								<MediaSource.List
 									mediaSource={mediaSource}
 									inQueue={queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id)}
-									onClick={() => {}} // TODO
+									extraContainerClass="hover:bg-white/5 cursor-pointer"
 									contextMenu={MediaSourceContextMenuUtil.getContextMenu({
 										mediaSource,
 										appStore: app,
 										openWithClick: false,
 										queueStore: queue,
-										navigate,
 									})}
 									extraContainerClassList={extraContainerClass}
 								/>
@@ -154,12 +163,12 @@ export const QuickSearchModal: Component<Props> = (props) => {
 							return (
 								<YouTubePlaylist.List
 									playlist={item}
+									extraContainerClass="hover:bg-white/5 cursor-pointer"
 									contextMenu={YouTubeContextMenuUtil.getPlaylistContextMenu({
 										appStore: app,
 										queueStore: queue,
 										playlist: item,
 									})}
-									extraContainerClass="cursor-pointer px-2 py-1"
 									extraContainerClassList={extraContainerClass}
 								/>
 							);

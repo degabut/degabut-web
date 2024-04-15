@@ -1,5 +1,5 @@
-import { Accessor, Component, createSignal, For, JSX, onMount, Show } from "solid-js";
-import { Icons } from "../icon";
+import { createSignal, For, onMount, Show, type Accessor, type Component, type JSX } from "solid-js";
+import type { Icons } from "../icon";
 import { Tab } from "./components";
 
 type LabelProps = {

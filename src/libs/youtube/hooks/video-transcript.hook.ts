@@ -1,12 +1,8 @@
-import { useApi } from "@common/hooks";
-import { ITranscript, YouTubeApi } from "@youtube/apis";
-import { Accessor, createMemo, createResource } from "solid-js";
+import { useApi, type TimedText } from "@common";
+import { createMemo, createResource, type Accessor } from "solid-js";
+import { YouTubeApi } from "../apis";
 
 type IUseTranscriptProps = Accessor<string>;
-
-export type FormattedTranscript = Omit<ITranscript, "text"> & {
-	texts: string[];
-};
 
 export const useVideoTranscript = (videoId: IUseTranscriptProps) => {
 	const api = useApi();
@@ -16,7 +12,7 @@ export const useVideoTranscript = (videoId: IUseTranscriptProps) => {
 	const data = createMemo(() => {
 		if (_data.loading) return [];
 
-		const formatted: FormattedTranscript[] = [];
+		const formatted: TimedText[] = [];
 
 		for (const transcript of _data() || []) {
 			if (transcript.start === transcript.end || !transcript.text) continue;

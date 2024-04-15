@@ -1,7 +1,7 @@
-import { IGuild } from "@queue/apis";
 import { createEffect } from "solid-js";
 import { createStore } from "solid-js/store";
-import { QueueResource } from "../";
+import type { QueueResource } from "../";
+import { type IGuild } from "../../../apis";
 
 type Params = {
 	queue: QueueResource;
@@ -21,9 +21,21 @@ export interface IHistory {
 
 export const useVoiceChannelHistory = ({ queue }: Params) => {
 	const [history, setHistory] = createStore<IHistory[]>([]);
+	const key = "voice_channel_history";
 
-	const storedHistory = localStorage.getItem("voice_channel_history");
+	const storedHistory = localStorage.getItem(key);
 	if (storedHistory) setHistory(JSON.parse(storedHistory));
+
+	const deleteHistory = (voiceChannelId: string, textChannelId?: string) => {
+		setHistory((history) => {
+			history = history.filter(
+				(h) => h.voiceChannel.id !== voiceChannelId && h.textChannel?.id !== textChannelId
+			);
+			return [...history];
+		});
+
+		localStorage.setItem(key, JSON.stringify(history));
+	};
 
 	createEffect(() => {
 		if (queue.empty) return;
@@ -53,8 +65,8 @@ export const useVoiceChannelHistory = ({ queue }: Params) => {
 			return [...history];
 		});
 
-		localStorage.setItem("voice_channel_history", JSON.stringify(history));
+		localStorage.setItem(key, JSON.stringify(history));
 	});
 
-	return history;
+	return { history, deleteHistory };
 };

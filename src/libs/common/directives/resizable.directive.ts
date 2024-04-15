@@ -1,5 +1,5 @@
-import { DelayUtil } from "@common/utils";
-import { Accessor, createEffect, onCleanup } from "solid-js";
+import { createEffect, onCleanup, type Accessor } from "solid-js";
+import { DelayUtil } from "../utils";
 
 export type ResizableParams = {
 	onResize?: (width: number) => void;

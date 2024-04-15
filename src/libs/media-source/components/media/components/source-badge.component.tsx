@@ -1,5 +1,5 @@
-import { MediaSourceTypes } from "@media-source/apis";
-import { Component } from "solid-js";
+import type { Component } from "solid-js";
+import { MediaSourceTypes } from "../../../apis";
 
 type Props = {
 	type: MediaSourceTypes;

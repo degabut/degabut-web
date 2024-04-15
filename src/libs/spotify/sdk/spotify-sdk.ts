@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Auth, isEmptyAccessToken } from "./auth";
+import { Auth } from "./auth";
 import {
 	AlbumsEndpoint,
 	ArtistsEndpoint,
@@ -13,12 +13,13 @@ import {
 	PlaylistsEndpoint,
 	RecommendationsEndpoint,
 	SearchEndpoint,
-	SearchExecutionFunction,
 	ShowsEndpoint,
 	TracksEndpoint,
 	UsersEndpoint,
+	type SearchExecutionFunction,
 } from "./endpoints";
 import type { AccessToken, AuthenticationResponse } from "./types";
+import { AccessTokenUtil } from "./utils";
 
 export class SpotifySdk {
 	private static rootUrl: string = "https://api.spotify.com/v1/";
@@ -70,7 +71,7 @@ export class SpotifySdk {
 	): Promise<TReturnType> {
 		try {
 			const accessToken = await this.auth.getOrCreateAccessToken();
-			if (isEmptyAccessToken(accessToken)) {
+			if (AccessTokenUtil.isEmptyAccessToken(accessToken)) {
 				console.warn("No access token found, authenticating now.");
 				return null as TReturnType;
 			}
@@ -103,7 +104,7 @@ export class SpotifySdk {
 		const response = await this.auth.getOrCreateAccessToken(); // trigger any redirects
 
 		return {
-			authenticated: response.expires! > Date.now() && !isEmptyAccessToken(response),
+			authenticated: response.expires! > Date.now() && !AccessTokenUtil.isEmptyAccessToken(response),
 			accessToken: response,
 		};
 	}

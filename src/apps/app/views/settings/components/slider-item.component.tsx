@@ -1,7 +1,6 @@
-import { Slider } from "@common/components";
-import { DelayUtil } from "@common/utils";
-import { Component } from "solid-js";
-import { Item, ValueProps } from "./item.component";
+import { DelayUtil, Slider } from "@common";
+import type { Component } from "solid-js";
+import { Item, type ValueProps } from "./item.component";
 
 type Props = ValueProps<number> & {
 	min: number;

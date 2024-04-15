@@ -1,17 +1,13 @@
 import { useApp } from "@app/hooks";
-import { Container, Text } from "@common/components";
-import { useInfiniteScrolling } from "@common/hooks";
-import { MediaSources } from "@media-source/components";
-import { MediaSourceContextMenuUtil, MediaSourceFactory } from "@media-source/utils";
-import { useQueue } from "@queue/hooks";
-import { useNavigate } from "@solidjs/router";
-import { useSpotifySelfTracks } from "@spotify/hooks";
-import { Component, createEffect } from "solid-js";
+import { Container, Text, useInfiniteScrolling } from "@common";
+import { MediaSourceContextMenuUtil, MediaSourceFactory, MediaSources } from "@media-source";
+import { useQueue } from "@queue";
+import { useSpotifySelfTracks } from "@spotify";
+import { createEffect, type Component } from "solid-js";
 
 export const SpotifyLiked: Component = () => {
 	const app = useApp();
 	const queue = useQueue();
-	const navigate = useNavigate();
 	let containerRef!: HTMLDivElement;
 
 	const tracks = useSpotifySelfTracks({
@@ -44,7 +40,6 @@ export const SpotifyLiked: Component = () => {
 							mediaSource,
 							appStore: app,
 							queueStore: queue,
-							navigate,
 						}),
 					};
 				}}

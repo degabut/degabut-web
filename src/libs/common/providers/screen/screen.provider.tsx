@@ -1,10 +1,10 @@
-import { DelayUtil } from "@common/utils";
-import { BreakpointKeys, breakpoints } from "@constants";
-import { ParentComponent, createContext, createEffect, on, onCleanup, onMount } from "solid-js";
+import { createContext, createEffect, on, onCleanup, onMount, useContext, type ParentComponent } from "solid-js";
 import { createStore } from "solid-js/store";
+import { breakpoints, type BreakpointKeys } from "../../constants";
+import { DelayUtil } from "../../utils";
 
 type BreakpointEntries = Record<BreakpointKeys, boolean>;
-export type Screen = BreakpointEntries & {
+type Screen = BreakpointEntries & {
 	gte: BreakpointEntries;
 	width: number;
 	height: number;
@@ -14,7 +14,7 @@ export type Screen = BreakpointEntries & {
 const breakpointEntries = Object.entries(breakpoints) as [BreakpointKeys, number][];
 const breakpointsKeys = Object.keys(breakpoints) as BreakpointKeys[];
 const defaultBreakpointsEntries = Object.fromEntries(breakpointsKeys.map((k) => [k, false])) as BreakpointEntries;
-export const defaultScreenValue = {
+const defaultScreenValue = {
 	...defaultBreakpointsEntries,
 	gte: { ...defaultBreakpointsEntries },
 	width: 0,
@@ -64,3 +64,5 @@ export const ScreenProvider: ParentComponent = (props) => {
 
 	return <ScreenContext.Provider value={screen}>{props.children}</ScreenContext.Provider>;
 };
+
+export const useScreen = () => useContext(ScreenContext);

@@ -1,8 +1,7 @@
-import { Icon, Item, ItemCardProps } from "@common/components";
-import { contextMenu } from "@common/directives";
+import { Icon, Item, contextMenu, type ItemCardProps } from "@common";
 import { SPOTIFY_INTEGRATION } from "@constants";
-import { IMediaSource } from "@media-source/apis";
-import { Component, Show } from "solid-js";
+import { Show, type Component } from "solid-js";
+import { type IMediaSource } from "../../apis";
 import { DurationBadge, LiveBadge, SourceBadge } from "./components";
 
 contextMenu;

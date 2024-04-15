@@ -1,5 +1,4 @@
 export * from "./bot";
-export * from "./breakpoints";
 export * from "./desktop";
 export * from "./discord";
 export * from "./spotify";

@@ -1,15 +1,9 @@
 import { useApp } from "@app/hooks";
-import { Divider, Modal, Text } from "@common/components";
-import { useApi } from "@common/hooks";
-import { IMediaSource } from "@media-source/apis";
-import { MediaSources } from "@media-source/components";
-import { MediaSourceContextMenuUtil } from "@media-source/utils";
-import { useQueue } from "@queue/hooks";
-import { useNavigate } from "@solidjs/router";
-import { UserApi } from "@user/apis";
-import { usePlayHistory } from "@user/hooks";
-import { UserConfirmationUtil } from "@user/utils/confirmation.util";
-import { Component, createMemo } from "solid-js";
+import { Divider, Modal, Text, useApi } from "@common";
+import { MediaSourceContextMenuUtil, MediaSources ,type  IMediaSource  } from "@media-source";
+import { useQueue } from "@queue";
+import { UserApi, UserConfirmationUtil, usePlayHistory } from "@user";
+import { createMemo, type Component } from "solid-js";
 
 export enum ShowMoreType {
 	MostPlayed = 1,
@@ -31,7 +25,6 @@ export const ShowMoreModal: Component<Props> = (props) => {
 	const api = useApi();
 	const userApi = new UserApi(api.client);
 	const queue = useQueue();
-	const navigate = useNavigate();
 
 	const params = createMemo(() => {
 		switch (props.type) {
@@ -88,7 +81,6 @@ export const ShowMoreModal: Component<Props> = (props) => {
 				mediaSource,
 				appStore: app,
 				queueStore: queue,
-				navigate,
 				modify: (items) => {
 					if (removable) {
 						items[items.length - 2].push({
@@ -111,7 +103,7 @@ export const ShowMoreModal: Component<Props> = (props) => {
 
 	return (
 		<Modal
-			extraContainerClass="w-[42rem] top-[15vh] h-[90vh] md:h-[70vh]"
+			extraContainerClass="w-[42rem] h-[90vh] md:h-[70vh]"
 			isOpen={props.isOpen}
 			closeOnEscape
 			handleClose={() => props.onClose()}

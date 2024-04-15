@@ -1,6 +1,6 @@
-import { IMediaSource, MediaSourceTypes } from "@media-source/apis";
-import { ISpotifyTrack } from "@spotify/apis";
-import { IVideoCompact } from "@youtube/apis";
+import type { ISpotifyTrack } from "@spotify";
+import type { IVideoCompact } from "@youtube";
+import { MediaSourceTypes, type IMediaSource } from "../apis";
 
 export class MediaSourceFactory {
 	static fromYoutubeVideo(video: IVideoCompact) {

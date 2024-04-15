@@ -1,10 +1,8 @@
-import { Text } from "@common/components";
+import { Text } from "@common";
 import { Card } from "@desktop-overlay/components";
-import { IMediaSource } from "@media-source/apis";
-import { MediaSources } from "@media-source/components";
-import { MediaSourceContextMenuUtil } from "@media-source/utils";
-import { useQueue } from "@queue/hooks";
-import { Component } from "solid-js";
+import { MediaSourceContextMenuUtil, MediaSources ,type  IMediaSource  } from "@media-source";
+import { useQueue } from "@queue";
+import type { Component } from "solid-js";
 
 type MediaSourcesCardProps = {
 	title: string;

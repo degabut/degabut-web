@@ -1,5 +1,5 @@
-import { AbbreviationIcon, ContextMenuButton, Text } from "@common/components";
-import { Component, Show } from "solid-js";
+import { AbbreviationIcon, ContextMenuButton, Text } from "@common";
+import { Show, type Component } from "solid-js";
 
 type Props = {
 	name: string;

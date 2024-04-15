@@ -1,15 +1,11 @@
 import { useApp } from "@app/hooks";
-import { MediaSourceListProps, MediaSources } from "@media-source/components";
-import { MediaSourceContextMenuUtil } from "@media-source/utils";
-import { ITrack } from "@queue/apis";
-import { useQueue } from "@queue/hooks";
-import { useNavigate } from "@solidjs/router";
-import { Component, Show } from "solid-js";
+import { MediaSourceContextMenuUtil, MediaSources, type MediaSourceListProps } from "@media-source";
+import { useQueue ,type  ITrack  } from "@queue";
+import { Show, type Component } from "solid-js";
 
 export const QueueTrackList: Component = () => {
 	const app = useApp();
 	const queue = useQueue();
-	const navigate = useNavigate();
 
 	const mediaSourceProps = (t: ITrack) => {
 		const isActive = queue.data.nowPlaying?.id === t.id;
@@ -21,7 +17,6 @@ export const QueueTrackList: Component = () => {
 				mediaSource: t.mediaSource,
 				appStore: app,
 				queueStore: queue,
-				navigate,
 			}),
 		};
 

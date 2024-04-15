@@ -1,7 +1,6 @@
-import { Item, Text } from "@common/components";
-import { ContextMenuDirectiveParams, contextMenu } from "@common/directives";
-import { IYouTubeMixPlaylist, IYouTubePlaylist, IYouTubePlaylistCompact } from "@youtube/apis";
-import { Component, Show } from "solid-js";
+import { Item, Text, contextMenu, type ContextMenuDirectiveParams } from "@common";
+import type { IYouTubeMixPlaylist, IYouTubePlaylist, IYouTubePlaylistCompact } from "@youtube";
+import { Show, type Component } from "solid-js";
 import { Thumbnail } from "../thumbnail";
 
 contextMenu;
@@ -12,7 +11,7 @@ export type YouTubePlaylistListProps = {
 	extraContainerClass?: string;
 	extraContainerClassList?: Record<string, boolean>;
 	extraTitleClass?: string;
-	onClick?: (playlist: IYouTubePlaylistCompact | IYouTubePlaylist | IYouTubeMixPlaylist) => void;
+	onClick?: () => void;
 };
 
 export const YouTubePlaylistList: Component<YouTubePlaylistListProps> = (props) => {
@@ -21,7 +20,6 @@ export const YouTubePlaylistList: Component<YouTubePlaylistListProps> = (props) 
 			{...props}
 			title={props.playlist.title}
 			imageUrl={"thumbnails" in props.playlist ? props.playlist.thumbnails.map((t) => t.url) : []}
-			onClick={() => props.onClick?.(props.playlist)}
 			extra={() => (
 				<>
 					<Text.Caption2 class="border border-neutral-600 rounded px-0.5 !text-neutral-300">
@@ -46,7 +44,6 @@ export const YouTubePlaylistListBig: Component<YouTubePlaylistListProps> = (prop
 			{...props}
 			title={props.playlist.title}
 			imageUrl={"thumbnails" in props.playlist ? props.playlist.thumbnails.map((t) => t.url) : []}
-			onClick={() => props.onClick?.(props.playlist)}
 			extra={() => (
 				<>
 					<Text.Caption1>{props.playlist.videoCount} videos</Text.Caption1>

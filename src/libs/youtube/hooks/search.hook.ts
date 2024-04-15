@@ -1,6 +1,7 @@
-import { DelayUtil } from "@common/utils";
-import { useVideos, useYouTubePlaylists } from "@youtube/hooks";
+import { DelayUtil } from "@common";
 import { createEffect, createMemo, createSignal } from "solid-js";
+import { useYouTubePlaylists } from "./playlist.hook";
+import { useVideos } from "./videos.hook";
 
 type Params = {
 	debounce?: number;
@@ -13,9 +14,6 @@ export const useSearch = (params: Params = {}) => {
 	const [debouncedKeyword, _setDebouncedKeyword] = createSignal("");
 	const videos = useVideos(debouncedKeyword);
 	const playlists = useYouTubePlaylists(debouncedKeyword);
-	const [playlistStartIndex, setPlaylistStartIndex] = createSignal(-1);
-	const [playlistEndIndex, setPlaylistEndIndex] = createSignal(-1);
-	const [playlistCount, setPlaylistCount] = createSignal(-1);
 
 	const setDebouncedKeyword = DelayUtil.debounce(
 		(v: string) => _setDebouncedKeyword(v.startsWith("https://") ? "" : v),
@@ -29,11 +27,6 @@ export const useSearch = (params: Params = {}) => {
 			const relevantPlaylists = playlists.data().slice(0, params.playlistCount || 3) || [];
 			const restVideos = videos.data().slice(params.playlistStartIndex || 3) || [];
 
-			// set actual start index and count
-			setPlaylistCount(relevantPlaylists.length);
-			setPlaylistStartIndex(relevantPlaylists.length ? relevantVideos.length : -1);
-			setPlaylistEndIndex(relevantPlaylists.length ? relevantVideos.length + relevantPlaylists.length - 1 : -1);
-
 			return [...relevantVideos, ...relevantPlaylists, ...restVideos];
 		}
 		return [];
@@ -46,9 +39,6 @@ export const useSearch = (params: Params = {}) => {
 		setKeyword,
 		debouncedKeyword,
 		result,
-		playlistStartIndex,
-		playlistEndIndex,
-		playlistCount,
 		isLoading,
 		videos,
 		playlists,

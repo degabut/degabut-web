@@ -1,13 +1,15 @@
-import { Icon, Select } from "@common/components";
+import { Icon, Select } from "@common";
 import { Card } from "@desktop-overlay/components";
-import { MediaSource } from "@media-source/components";
-import { MediaSourceContextMenuUtil, MediaSourceFactory } from "@media-source/utils";
-import { useQueue } from "@queue/hooks";
-import { IVideoCompact, IYouTubePlaylistCompact } from "@youtube/apis";
-import { YouTubePlaylist } from "@youtube/components";
-import { useSearch } from "@youtube/hooks";
-import { YouTubeContextMenuUtil } from "@youtube/utils";
-import { Component, createSignal, onCleanup, onMount } from "solid-js";
+import { MediaSource, MediaSourceContextMenuUtil, MediaSourceFactory } from "@media-source";
+import { useQueue } from "@queue";
+import {
+	YouTubeContextMenuUtil,
+	YouTubePlaylist,
+	useSearch,
+	type IVideoCompact,
+	type IYouTubePlaylistCompact,
+} from "@youtube";
+import { createSignal, onCleanup, onMount, type Component } from "solid-js";
 
 type SelectOptionItem = IVideoCompact | IYouTubePlaylistCompact;
 
@@ -76,7 +78,7 @@ export const Search: Component = () => {
 							<MediaSource.List
 								mediaSource={mediaSource}
 								inQueue={queue.data.tracks?.some((t) => t.mediaSource.sourceId === item.id)}
-								onClick={() => {}} // TODO
+								onClick={() => {}}
 								contextMenu={MediaSourceContextMenuUtil.getContextMenu({
 									mediaSource,
 									queueStore: queue,
@@ -92,7 +94,7 @@ export const Search: Component = () => {
 									queueStore: queue,
 									playlist: item,
 								})}
-								extraContainerClass="cursor-pointer px-2 py-1"
+								onClick={() => {}}
 								extraContainerClassList={extraContainerClass}
 							/>
 						);

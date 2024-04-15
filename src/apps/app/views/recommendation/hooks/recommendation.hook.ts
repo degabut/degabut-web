@@ -1,9 +1,8 @@
-import { IMediaSource } from "@media-source/apis";
-import { useQueue } from "@queue/hooks";
-import { usePlayHistory } from "@user/hooks";
-import { IVideoCompact } from "@youtube/apis";
-import { useVideo } from "@youtube/hooks";
-import { Accessor, batch, createEffect, createMemo, createSignal } from "solid-js";
+import type { IMediaSource } from "@media-source";
+import { useQueue } from "@queue";
+import { usePlayHistory } from "@user";
+import { useVideo ,type  IVideoCompact  } from "@youtube";
+import { batch, createEffect, createMemo, createSignal, type Accessor } from "solid-js";
 
 type UseRecommendationParams = {
 	userId: Accessor<string>;

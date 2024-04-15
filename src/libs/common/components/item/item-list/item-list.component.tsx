@@ -1,6 +1,6 @@
-import { ContextMenuButton, Text } from "@common/components";
-import { ContextMenuDirectiveParams, contextMenu } from "@common/directives";
-import { Accessor, Component, JSX, Show } from "solid-js";
+import { Show, type Accessor, type Component, type JSX } from "solid-js";
+import { ContextMenuButton, Text } from "../../";
+import { contextMenu, type ContextMenuDirectiveParams } from "../../../directives";
 import { ItemListImage, ItemListImageBig } from "./item-list-image.component";
 import "./item-list.style.css";
 
@@ -39,6 +39,8 @@ export const ItemList: Component<ItemListProps> = (props) => {
 			}}
 			use:contextMenu={props.contextMenu}
 			onClick={() => props.onClick?.()}
+			onKeyPress={(e) => e.key === "Enter" && props.onClick?.()}
+			tabIndex={props.onClick || props.contextMenu?.openWithClick ? 0 : undefined}
 		>
 			{props.left?.()}
 
@@ -77,7 +79,11 @@ export const ItemList: Component<ItemListProps> = (props) => {
 			</div>
 
 			<Show when={props.right} keyed>
-				{(e) => <div classList={{ right: !props.rightVisible }}>{e()}</div>}
+				{(e) => (
+					<div inert={props.rightVisible ? false : true} classList={{ right: !props.rightVisible }}>
+						{e()}
+					</div>
+				)}
 			</Show>
 
 			<Show when={props.contextMenu && !props.hideContextMenuButton}>

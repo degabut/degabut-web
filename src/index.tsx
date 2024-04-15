@@ -1,14 +1,7 @@
 /* @refresh reload */
-import { Root } from "@root/views";
+import { routes } from "@root/routes";
 import { Router } from "@solidjs/router";
 import { render } from "solid-js/web";
 import "./index.css";
 
-render(
-	() => (
-		<Router>
-			<Root />
-		</Router>
-	),
-	document.getElementById("root") as HTMLElement
-);
+render(() => <Router>{routes}</Router>, document.getElementById("root") as HTMLElement);

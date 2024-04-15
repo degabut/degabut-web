@@ -1,5 +1,5 @@
-import { useApi } from "@common/hooks";
-import { Accessor, createResource } from "solid-js";
+import { useApi } from "@common";
+import { createResource, type Accessor } from "solid-js";
 import { UserApi } from "../apis";
 
 type BaseProps = {

@@ -1,6 +1,6 @@
-import { ContextMenuDirectiveParams, IContextMenuItem } from "@common/directives";
-import { IPlaylist } from "@playlist/apis";
-import { QueueContextStore } from "@queue/providers";
+import type { ContextMenuDirectiveParams, IContextMenuItem } from "@common";
+import type { QueueContextStore } from "@queue";
+import { type IPlaylist } from "../apis";
 
 type PlaylistProps = {
 	playlist: IPlaylist;
