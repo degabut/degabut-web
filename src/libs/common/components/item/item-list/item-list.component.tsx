@@ -79,11 +79,7 @@ export const ItemList: Component<ItemListProps> = (props) => {
 			</div>
 
 			<Show when={props.right} keyed>
-				{(e) => (
-					<div inert={props.rightVisible ? false : true} classList={{ right: !props.rightVisible }}>
-						{e()}
-					</div>
-				)}
+				{(e) => <div classList={{ right: !props.rightVisible }}>{e()}</div>}
 			</Show>
 
 			<Show when={props.contextMenu && !props.hideContextMenuButton}>

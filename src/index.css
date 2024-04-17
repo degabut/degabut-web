@@ -22,6 +22,10 @@ html {
 	scrollbar-color: rgb(64 64 64), transparent;
 }
 
+* {
+	@apply focus-within:opacity-100;
+}
+
 a {
 	-webkit-user-drag: none;
 }
