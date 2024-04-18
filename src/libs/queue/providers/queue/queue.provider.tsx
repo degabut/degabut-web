@@ -17,6 +17,7 @@ import { PlayerApi, QueueApi, type IPlayer, type IQueue } from "../../apis";
 import { defaultQueue } from "../../constants";
 import {
 	useBotSelector,
+	usePlayerPositionUpdater,
 	useQueueActions,
 	useQueueEventListener,
 	useQueueEvents,
@@ -81,6 +82,7 @@ export const QueueProvider: ParentComponent = (props) => {
 	const queueActions = useQueueActions({ queue, setFreezeState });
 	const voiceChannelHistory = useVoiceChannelHistory({ queue });
 	useQueueEventListener({ setQueue, setFreezeState, fetchQueue, emitter });
+	usePlayerPositionUpdater({ queue, setQueue });
 
 	onMount(() => {
 		document.addEventListener("visibilitychange", onVisibilityChange);

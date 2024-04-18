@@ -115,7 +115,6 @@ export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, em
 		setQueue({ tracks });
 	};
 
-	// TODO optimistic update
 	const onPlayerTick = (position: number) => {
 		if (lastTrackSeekedPosition >= 0) {
 			const diff = Math.abs(position - lastTrackSeekedPosition);
