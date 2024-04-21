@@ -12,6 +12,7 @@ export const ContextMenuItem: Component<ContextMenuItemProps> = (props) => {
 	return (
 		<Button
 			flat
+			disabled={props.item.disabled}
 			class="flex-row-center space-x-4 rounded w-full"
 			classList={{
 				"py-1.5 px-4": props.size === "md",
@@ -20,21 +21,12 @@ export const ContextMenuItem: Component<ContextMenuItemProps> = (props) => {
 			onClick={() => !props.item.disabled && props.onClick(props.item)}
 		>
 			<Show when={props.item.icon} keyed>
-				{(icon) => (
-					<Icon
-						name={icon}
-						extraClass="fill-current h-4 w-4"
-						extraClassList={{
-							"text-neutral-400": !props.item.disabled,
-							"text-neutral-600": !!props.item.disabled,
-						}}
-					/>
-				)}
+				{(icon) => <Icon name={icon} extraClass="fill-current h-4 w-4" />}
 			</Show>
 			<Show when={props.item.iconUrl} keyed>
 				{(url) => <img src={url} class="h-6 w-6" />}
 			</Show>
-			<Text.Body1 classList={{ "text-neutral-500": props.item.disabled }}>{props.item.label}</Text.Body1>
+			<Text.Body1>{props.item.label}</Text.Body1>
 		</Button>
 	);
 };
