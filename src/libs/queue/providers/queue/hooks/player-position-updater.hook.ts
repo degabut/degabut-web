@@ -12,7 +12,7 @@ export const usePlayerPositionUpdater = ({ queue, setQueue }: Params) => {
 
 	createEffect(() => {
 		clearInterval(tickInterval);
-		if (!queue.isPaused && queue.nowPlaying) tickInterval = setInterval(tick, 1000);
+		if (!queue.isPaused && queue.nowPlaying?.playedAt) tickInterval = setInterval(tick, 1000);
 	});
 
 	const tick = () => setQueue("position", (p) => p + 1000);
