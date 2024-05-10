@@ -108,6 +108,7 @@ export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, em
 	};
 
 	const setNowPlaying = (nowPlaying: ITrack | null) => {
+		setQueue("position", 0);
 		setQueue({ nowPlaying });
 	};
 
