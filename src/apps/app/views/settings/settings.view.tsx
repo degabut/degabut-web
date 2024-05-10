@@ -74,7 +74,7 @@ export const Settings: Component = () => {
 
 	const categories: Accessor<SettingsCategory[]> = () => [
 		{
-			label: "Notification",
+			label: "Preferences",
 			items: [
 				{
 					label: "Enable In App Notifications",
@@ -89,11 +89,13 @@ export const Settings: Component = () => {
 					value: () => settings["notification.browser"],
 					onChange: () => setSettings("notification.browser", (v) => !v),
 				},
-			],
-		},
-		{
-			label: "Appearance",
-			items: [
+				{
+					label: "Enable Media Session",
+					type: "switch",
+					description: "Control playback using media keys",
+					value: () => settings["app.mediaSession.enabled"],
+					onChange: (v) => setSettings("app.mediaSession.enabled", v),
+				},
 				{
 					label: "Zoom",
 					type: "slider",
