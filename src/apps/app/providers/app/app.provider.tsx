@@ -13,7 +13,15 @@ import {
 } from "solid-js";
 import type { SetStoreFunction } from "solid-js/store";
 import { ConfirmationModal, ExternalTrackAdder, QuickSearchModal } from "./components";
-import { useAppRichPresence, useCatJam, useQueueNotification, useSnowfall, useVersionCheck, useZoom } from "./hooks";
+import {
+	useAppRichPresence,
+	useCatJam,
+	useMediaSession,
+	useQueueNotification,
+	useSnowfall,
+	useVersionCheck,
+	useZoom,
+} from "./hooks";
 
 type Confirmation<T = object> = {
 	title: string;
@@ -40,6 +48,7 @@ export const AppProvider: ParentComponent = (props) => {
 	useZoom();
 	useQueueNotification();
 	useAppRichPresence();
+	useMediaSession();
 	const { hasNewVersion } = useVersionCheck();
 
 	const [title, setTitle] = createSignal("");
