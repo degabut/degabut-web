@@ -15,15 +15,15 @@ export const useMediaSession = () => {
 	});
 
 	createEffect(() => {
-		const { nowPlaying, position } = queue.data;
+		const { nowPlaying } = queue.data;
 
 		if (nowPlaying) {
 			mediaSession.playbackState = !queue.data.isPaused ? "playing" : "paused";
-			mediaSession.setPositionState({
-				duration: nowPlaying.mediaSource.duration / 1000,
-				playbackRate: 1,
-				position: position / 1000,
-			});
+
+			const position = queue.data.position / 1000;
+			const duration = nowPlaying.mediaSource.duration;
+			mediaSession.setPositionState({ duration, position, playbackRate: 1 });
+
 			mediaSession.metadata = new MediaMetadata({
 				title: nowPlaying.mediaSource.title,
 				artist: nowPlaying.mediaSource.creator,
