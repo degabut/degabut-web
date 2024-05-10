@@ -20,8 +20,10 @@ export const useMediaSession = () => {
 		if (nowPlaying) {
 			mediaSession.playbackState = !queue.data.isPaused ? "playing" : "paused";
 
-			const position = queue.data.position / 1000;
 			const duration = nowPlaying.mediaSource.duration;
+			let position = queue.data.position / 1000;
+			if (position > duration) position = 0;
+
 			mediaSession.setPositionState({ duration, position, playbackRate: 1 });
 
 			mediaSession.metadata = new MediaMetadata({
