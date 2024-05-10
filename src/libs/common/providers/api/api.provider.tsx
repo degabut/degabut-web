@@ -7,6 +7,7 @@ import { AuthManager } from "./auth-manager";
 
 type ApiContextStore = {
 	setClientUrl: (apiBaseUrl: string, youtubeBaseUrl: string) => void;
+	logout: (shouldRedirect?: boolean) => void;
 	authManager: AuthManager;
 	client: AxiosInstance;
 	youtubeClient: AxiosInstance;
@@ -46,15 +47,17 @@ export const ApiProvider: ParentComponent = (props) => {
 
 	const validateStatus = (status: number) => {
 		if (status >= 500) return false;
-		if (status === 401) {
-			// unauthorized redirect to login
-			const redirect = location.pathname + location.search;
-			if (!redirect.startsWith("/login")) {
-				navigate("/login?re=" + encodeURIComponent(redirect));
-			}
-		}
-
+		if (status === 401) logout();
 		return true;
+	};
+
+	const logout = (shouldRedirect = true) => {
+		const loginPath = "/login";
+		const redirect = location.pathname + location.search;
+		if (!redirect.startsWith(loginPath)) {
+			const path = shouldRedirect ? `${loginPath}?re=${encodeURIComponent(redirect)}` : loginPath;
+			navigate(path);
+		}
 	};
 
 	const setClientUrl = (apiBaseUrl: string, youtubeBaseUrl: string) => {
@@ -67,6 +70,7 @@ export const ApiProvider: ParentComponent = (props) => {
 			value={{
 				authManager,
 				client,
+				logout,
 				youtubeClient,
 				setClientUrl,
 			}}

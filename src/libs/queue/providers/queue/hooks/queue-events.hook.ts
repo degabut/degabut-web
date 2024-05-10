@@ -63,10 +63,16 @@ export const useQueueEvents = () => {
 	const api = useApi();
 	let ws: WebSocket | undefined;
 	let reconnectTimeout: NodeJS.Timeout;
+	let isAuthenticated = false;
 	const emitter = new EventEmitter() as TypedEmitter<QueueEvents>;
 
 	const listen = (url: string) => {
 		ws = new WebSocket(url);
+
+		emitter.once("identify", () => {
+			isAuthenticated = true;
+		});
+
 		ws.onmessage = ({ data }) => {
 			try {
 				const message = JSON.parse(data) as Message;
@@ -80,8 +86,13 @@ export const useQueueEvents = () => {
 		};
 		ws.onclose = (ev) => {
 			if (ev.code === 3333) return;
-			emitter.emit("closed", ev);
-			reconnectTimeout = setTimeout(() => listen(url), 5000);
+
+			if (isAuthenticated) {
+				emitter.emit("closed", ev);
+				reconnectTimeout = setTimeout(() => listen(url), 5000);
+			} else {
+				api.logout();
+			}
 		};
 	};
 
