@@ -1,6 +1,6 @@
 import { useApp } from "@app/hooks";
 import { MediaSourceContextMenuUtil, MediaSources, type MediaSourceListProps } from "@media-source";
-import { useQueue ,type  ITrack  } from "@queue";
+import { useQueue, type ITrack } from "@queue";
 import { Show, type Component } from "solid-js";
 
 export const QueueTrackList: Component = () => {

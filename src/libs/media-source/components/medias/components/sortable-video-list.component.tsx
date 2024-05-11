@@ -1,6 +1,6 @@
 import { Icon } from "@common";
 import { createSortable, transformStyle, useDragDropContext } from "@thisbeyond/solid-dnd";
-import type { Component } from "solid-js";
+import { type Component } from "solid-js";
 import { MediaSource, type MediaSourceListProps } from "../../media";
 
 type Props = {
@@ -23,7 +23,7 @@ export const SortableMediaList: Component<Props> = (props) => {
 			ref={sortable.ref}
 			style={transformStyle(sortable.transform)}
 			classList={{
-				"opacity-25": sortable.isActiveDraggable,
+				"focus-within:opacity-25": sortable.isActiveDraggable,
 				"transition-transform": !!state.active.draggable,
 			}}
 		>
@@ -51,9 +51,8 @@ export const SortableMediaListMd: Component<Props> = (props) => {
 	return (
 		<div
 			use:sortable
-			style={transformStyle(sortable.transform)}
 			classList={{
-				"opacity-25": sortable.isActiveDraggable,
+				"focus-within:!opacity-25": sortable.isActiveDraggable,
 				"transition-transform": !!state.active.draggable,
 			}}
 		>
