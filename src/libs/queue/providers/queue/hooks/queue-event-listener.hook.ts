@@ -22,8 +22,6 @@ type Params = {
  */
 
 export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, emitter }: Params) => {
-	let lastTrackSeekedPosition = -1;
-
 	onMount(() => {
 		emitter.on("queue-destroyed", resetQueue);
 		emitter.on("queue-left", resetQueue);
@@ -101,7 +99,6 @@ export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, em
 			history.splice(25);
 			return history;
 		});
-		lastTrackSeekedPosition = -1;
 		setNowPlaying(track);
 		setQueue("nowPlaying", "playedAt", new Date().toISOString());
 		setFreezeState({ seek: false });
@@ -117,17 +114,11 @@ export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, em
 	};
 
 	const onPlayerTick = (position: number) => {
-		if (lastTrackSeekedPosition >= 0) {
-			const diff = Math.abs(position - lastTrackSeekedPosition);
-			if (diff < 250 || diff > 2250) return;
-			lastTrackSeekedPosition = -1;
-			setFreezeState({ seek: false });
-		}
-
 		setQueue("position", position);
 	};
 
 	const onTrackSeeked = (position: number) => {
-		lastTrackSeekedPosition = position;
+		setQueue("position", position);
+		setFreezeState({ seek: false });
 	};
 };
