@@ -5,6 +5,19 @@ import { type ISpotifyImage } from "@spotify";
 import { type IThumbnail } from "@youtube";
 import { createEffect } from "solid-js";
 
+/**
+ * Implementing media session is currently pain in the ass
+ * due to the requirement of having an actual audio and video playing on the page.
+ *
+ * So I'm using a workaround (playing an empty audio) to make it work. It's not perfect
+ * I also need to find a way to make it work on the background on PWA context
+ * (probably using Push API & Service worker?)
+ *
+ * Related issues:
+ * - https://github.com/w3c/mediasession/issues/232
+ * - https://github.com/w3c/mediasession/issues/328
+ * - https://github.com/w3c/audio-session/issues/11
+ */
 export const useMediaSession = () => {
 	if (!("mediaSession" in navigator)) return;
 
@@ -20,7 +33,14 @@ export const useMediaSession = () => {
 	audio.src = audioSrc;
 
 	// trigger play on first user interaction, in case autoplay doesn't work
-	document.addEventListener("click", () => audio.play(), { once: true });
+	document.addEventListener(
+		"click",
+		() => {
+			audio.play();
+			if (queue.data.isPaused) audio.pause();
+		},
+		{ once: true }
+	);
 
 	createEffect(() => {
 		if (settings["app.mediaSession.enabled"]) {
@@ -43,7 +63,7 @@ export const useMediaSession = () => {
 		mediaSession.playbackState = isPaused ? "paused" : "playing";
 
 		if (nowPlaying) {
-			const duration = Math.round(nowPlaying.mediaSource.duration);
+			const duration = Math.round(nowPlaying.mediaSource.duration) || Infinity;
 			let position = Math.round(queue.data.position / 1000);
 			if (position > duration) position = duration;
 
