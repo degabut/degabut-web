@@ -58,7 +58,10 @@ export const ItemList: Component<ItemListProps> = (props) => {
 
 			<div
 				class="flex flex-col grow space-y-0.5 truncate"
-				classList={{ "ml-3": !!props.imageUrl || !!props.left }}
+				classList={{
+					"ml-3": !!props.imageUrl || !!props.left,
+					"mr-1.5 md:mr-3": !!props.right || (props.contextMenu && !props.hideContextMenuButton),
+				}}
 			>
 				{typeof props.title !== "string" ? (
 					props.title()

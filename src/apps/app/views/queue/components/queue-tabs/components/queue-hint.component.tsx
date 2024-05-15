@@ -76,7 +76,7 @@ export const QueueHint: Component = () => {
 								tabIndex={-1}
 								title="Add"
 								icon="plus"
-								class="shrink-0 justify-center w-10 h-10 ml-1.5 border-neutral-500 text-neutral-400 hover:!bg-transparent"
+								class="shrink-0 justify-center w-10 h-10 border-neutral-500 text-neutral-400 hover:!bg-transparent"
 								on:click={(ev) => {
 									ev.stopImmediatePropagation();
 									queue.addTrack(mediaSource);
