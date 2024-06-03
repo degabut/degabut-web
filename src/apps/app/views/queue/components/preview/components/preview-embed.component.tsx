@@ -1,17 +1,16 @@
 import { useQueue } from "@queue";
 import { Video } from "@youtube";
-import { createEffect, onCleanup, type Component } from "solid-js";
+import { createEffect, on, onCleanup, type Component } from "solid-js";
 
 export const PreviewEmbed: Component = () => {
 	const queue = useQueue();
 
-	let player: YT.Player;
+	let player: YT.Player | undefined;
 	let iframe!: HTMLIFrameElement;
 
 	onCleanup(() => {
 		player?.destroy();
 		queue.emitter.off("player-pause-state-changed", onPauseStateChange);
-		queue.emitter.off("player-tick", onTick);
 	});
 
 	createEffect(() => {
@@ -24,7 +23,6 @@ export const PreviewEmbed: Component = () => {
 		player.setVolume(0);
 
 		queue.emitter.on("player-pause-state-changed", onPauseStateChange);
-		queue.emitter.on("player-tick", onTick);
 
 		if (!queue.data.isPaused && queue.data.position) {
 			player.playVideo();
@@ -33,22 +31,29 @@ export const PreviewEmbed: Component = () => {
 	};
 
 	const onPauseStateChange = ({ isPaused }: { isPaused: boolean }) => {
-		if (isPaused) player.pauseVideo();
-		else player.playVideo();
+		if (isPaused) player?.pauseVideo();
+		else player?.playVideo();
 	};
 
-	const onTick = ({ position }: { position: number }) => {
-		if (player.getPlayerState() !== YT.PlayerState.PLAYING && !queue.data.isPaused) player.playVideo();
+	createEffect(
+		on(
+			() => queue.data.position,
+			(position) => {
+				if (!player) return;
 
-		if (!queue.data.nowPlaying?.mediaSource.duration) return;
+				if (player.getPlayerState() !== YT.PlayerState.PLAYING && !queue.data.isPaused) player.playVideo();
 
-		position = position / 1000;
+				if (!queue.data.nowPlaying?.mediaSource.duration) return;
 
-		const currentTime = player.getCurrentTime();
-		const diff = Math.abs(currentTime - position);
+				position = position / 1000;
 
-		if (diff > 0.5) player.seekTo(position, true);
-	};
+				const currentTime = player.getCurrentTime();
+				const diff = Math.abs(currentTime - position);
+
+				if (diff > 0.5) player.seekTo(position, true);
+			}
+		)
+	);
 
 	return (
 		<Video.Embed
