@@ -36,7 +36,6 @@ export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, em
 		emitter.on("player-pause-state-changed", ({ isPaused }) => partialUpdateQueue({ isPaused }));
 		emitter.on("player-tick", ({ position }) => onPlayerTick(position));
 		emitter.on("track-seeked", ({ position }) => onTrackSeeked(position));
-		emitter.on("track-added", ({ track }) => appendTrack(track));
 		emitter.on("tracks-added", ({ tracks }) => appendTrack(tracks));
 		emitter.on("track-removed", ({ track }) => removeTrack(track));
 		emitter.on("tracks-removed", ({ tracks }) => removeTrack(tracks));

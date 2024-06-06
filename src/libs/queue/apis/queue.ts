@@ -97,14 +97,14 @@ export class QueueApi {
 		return response.data.trackIds;
 	};
 
-	addTrackById = async (queueId: string, mediaSourceId: string): Promise<string> => {
+	addTrackById = async (queueId: string, mediaSourceId: string): Promise<string[]> => {
 		const response = await this.client.post(`/queues/${queueId}/tracks`, { mediaSourceId });
-		return response.data.trackId;
+		return response.data.trackIds;
 	};
 
-	addTrackByKeyword = async (queueId: string, keyword: string): Promise<string> => {
+	addTrackByKeyword = async (queueId: string, keyword: string): Promise<string[]> => {
 		const response = await this.client.post(`/queues/${queueId}/tracks`, { keyword });
-		return response.data.trackId;
+		return response.data.trackIds;
 	};
 
 	orderTrack = async (queueId: string, trackId: string, to: number): Promise<void> => {

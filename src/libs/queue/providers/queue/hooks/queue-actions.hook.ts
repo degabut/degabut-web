@@ -84,10 +84,10 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 	const addAndPlayTrack = (mediaSource: IMediaSource) => {
 		return modifyTrack(async (queueId) => {
 			let trackId = queue.tracks?.find((t) => t.mediaSource.id === mediaSource.id)?.id;
-			if (!trackId) trackId = await queueApi.addTrackById(queueId, mediaSource.id);
+			if (!trackId) [trackId] = await queueApi.addTrackById(queueId, mediaSource.id);
 
 			try {
-				await queueApi.playTrack(queueId, trackId);
+				if (queue.nowPlaying) await queueApi.playTrack(queueId, trackId);
 				if (queue.isPaused) await playerApi.unpause(queueId);
 			} catch {
 				// ignore error
