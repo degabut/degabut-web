@@ -35,6 +35,7 @@ type TrackSeededData = {
 export type QueueEvents = {
 	closed: (ev: CloseEvent) => void;
 	identify: () => void;
+	message: (data: Message) => void;
 	"member-jammed": (data: IJamCollection) => void;
 	"member-joined": (data: IMember) => void;
 	"member-left": (data: IMember) => void;
@@ -75,6 +76,7 @@ export const useQueueEvents = () => {
 		ws.onmessage = ({ data }) => {
 			try {
 				const message = JSON.parse(data) as Message;
+				emitter.emit("message", message);
 				emitter.emit(message.event, message.data);
 			} catch {
 				// ignore
