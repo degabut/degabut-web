@@ -25,7 +25,6 @@ type BaseProps = {
 export type ItemListProps = BaseProps & {
 	left?: Accessor<JSX.Element>;
 	right?: Accessor<JSX.Element>;
-	rightVisible?: boolean;
 };
 
 export const ItemList: Component<ItemListProps> = (props) => {
@@ -82,7 +81,7 @@ export const ItemList: Component<ItemListProps> = (props) => {
 			</div>
 
 			<Show when={props.right} keyed>
-				{(e) => <div classList={{ right: !props.rightVisible }}>{e()}</div>}
+				{(e) => <div class="right">{e()}</div>}
 			</Show>
 
 			<Show when={props.contextMenu && !props.hideContextMenuButton}>

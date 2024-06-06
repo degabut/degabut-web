@@ -24,26 +24,24 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 				<div class="flex-row-center">
 					<Show when={like} keyed>
 						{({ isLiked, like, unlike }) => (
-							<div class="hidden md:block">
-								<Button
-									flat
-									class="p-2"
-									title={isLiked() ? "Unlike" : "Like"}
-									on:click={(e) => {
-										e.stopImmediatePropagation();
-										if (isLiked()) unlike();
-										else like();
-									}}
-								>
-									<Icon name={isLiked() ? "heart" : "heartLine"} class="text-brand-600" size="lg" />
-								</Button>
-							</div>
+							<Button
+								flat
+								class="p-2 !hidden md:!block"
+								classList={{ "md:visible": isLiked() }}
+								title={isLiked() ? "Unlike" : "Like"}
+								on:click={(e) => {
+									e.stopImmediatePropagation();
+									if (isLiked()) unlike();
+									else like();
+								}}
+							>
+								<Icon name={isLiked() ? "heart" : "heartLine"} class="text-brand-600" size="lg" />
+							</Button>
 						)}
 					</Show>
 					{props.right?.()}
 				</div>
 			)}
-			rightVisible={like?.isLiked()}
 			extra={() => (
 				<div class="flex-row-center space-x-1.5">
 					<Show when={props.mediaSource.duration} fallback={<LiveBadge />}>

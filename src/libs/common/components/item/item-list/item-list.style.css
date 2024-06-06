@@ -1,7 +1,7 @@
 .right {
-	@apply md:opacity-0;
+	@apply md:invisible;
 }
 
 .item-list:hover .right {
-	@apply md:opacity-100;
+	@apply md:visible;
 }
