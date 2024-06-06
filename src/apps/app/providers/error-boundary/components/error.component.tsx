@@ -7,10 +7,7 @@ export const Error: Component<{ error: unknown }> = (props) => {
 	// eslint-disable-next-line solid/reactivity
 	console.error(props.error);
 	return (
-		<Container
-			size="full"
-			extraClass="flex flex-col justify-center h-full bg-gradient-to-b from-neutral-800 to-neutral-900"
-		>
+		<Container size="full" extraClass="flex flex-col justify-center h-full bg-neutral-850">
 			<div>
 				<Text.H1 class="text-9xl">:(</Text.H1>
 
