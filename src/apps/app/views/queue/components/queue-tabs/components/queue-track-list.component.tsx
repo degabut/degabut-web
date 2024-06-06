@@ -1,4 +1,5 @@
 import { useApp } from "@app/hooks";
+import { Icon } from "@common";
 import { MediaSourceContextMenuUtil, MediaSources, type MediaSourceListProps } from "@media-source";
 import { useQueue, type ITrack } from "@queue";
 import { Show, type Component } from "solid-js";
@@ -9,9 +10,20 @@ export const QueueTrackList: Component = () => {
 
 	const mediaSourceProps = (t: ITrack) => {
 		const isActive = queue.data.nowPlaying?.id === t.id;
+		const isInNextTrack = queue.data.nextTrackIds.includes(t.id);
+
 		const mediaSourceProps: MediaSourceListProps = {
 			mediaSource: t.mediaSource,
 			requestedBy: t.requestedBy,
+			imageOverlayElement: () => (
+				<Show when={isInNextTrack}>
+					<div class="absolute -bottom-2 -right-2">
+						<div title="Next Track" class="relative bg-neutral-950 rounded-full p-1">
+							<Icon name="play" class="text-brand-500" size="md" />
+						</div>
+					</div>
+				</Show>
+			),
 			extraTitleClass: isActive ? "!text-brand-600" : undefined,
 			contextMenu: MediaSourceContextMenuUtil.getContextMenu({
 				mediaSource: t.mediaSource,
