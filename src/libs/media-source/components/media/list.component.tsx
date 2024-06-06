@@ -43,16 +43,11 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 					{props.right?.()}
 				</div>
 			)}
+			rightVisible={like?.isLiked()}
 			extra={() => (
 				<div class="flex-row-center space-x-1.5">
 					<Show when={props.mediaSource.duration} fallback={<LiveBadge />}>
 						<DurationBadge duration={props.mediaSource.duration} />
-					</Show>
-
-					<Show when={like?.isLiked()}>
-						<div title="Liked">
-							<Icon name="heart" size="sm" class="text-brand-600" />
-						</div>
 					</Show>
 
 					<Show when={SPOTIFY_INTEGRATION}>
