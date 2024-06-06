@@ -86,6 +86,7 @@ export const QueueProvider: ParentComponent = (props) => {
 
 	onMount(() => {
 		document.addEventListener("visibilitychange", onVisibilityChange);
+		emitter.on("closed", () => setQueue(structuredClone(defaultQueue)));
 	});
 
 	onCleanup(() => {
