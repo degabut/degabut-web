@@ -1,4 +1,5 @@
 import { NotificationProvider } from "@common";
+import { MediaSourceLikeManagerProvider } from "@media-source";
 import { QueueProvider } from "@queue";
 import type { RouteDefinition } from "@solidjs/router";
 import { SpotifyProvider } from "@spotify";
@@ -49,7 +50,9 @@ export const appRouteDefinitions: RouteDefinition[] = [
 					<QueueProvider>
 						<AppProvider>
 							<SpotifyProvider>
-								<AppLayout {...props} />
+								<MediaSourceLikeManagerProvider>
+									<AppLayout {...props} />
+								</MediaSourceLikeManagerProvider>
 							</SpotifyProvider>
 						</AppProvider>
 					</QueueProvider>

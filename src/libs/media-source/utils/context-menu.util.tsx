@@ -5,6 +5,7 @@ import type { AppContextStore } from "@app/providers";
 import { TimeUtil, type ContextMenuDirectiveParams, type IContextMenuItem } from "@common";
 import type { QueueContextStore } from "@queue";
 import { type IMediaSource } from "../apis";
+import { useLikeMediaSource } from "../hooks";
 
 type SourceProps = {
 	mediaSource: IMediaSource;
@@ -16,51 +17,74 @@ type SourceProps = {
 
 export class MediaSourceContextMenuUtil {
 	static getContextMenu(props: SourceProps) {
-		const trackInQueue = props.queueStore.data.tracks?.findLast(
-			(t) => t.mediaSource.sourceId === props.mediaSource.sourceId
-		);
+		const like = useLikeMediaSource(() => props.mediaSource.id);
 
 		let items: IContextMenuItem[][] = [];
 
 		if (!props.queueStore.data.empty) {
+			const nowPlaying = props.queueStore.data.nowPlaying;
+			const trackInQueue = props.queueStore.data.tracks?.findLast(
+				(t) => t.mediaSource.sourceId === props.mediaSource.sourceId
+			);
+			const trackInNext = props.queueStore.data.nextTrackIds?.find((t) => t === trackInQueue?.id);
+
 			const firstSection: IContextMenuItem[] = [];
-			if (!trackInQueue) {
-				firstSection.push({
-					label: "Add to Queue",
-					icon: "plus",
-					onClick: () => props.queueStore.addTrack(props.mediaSource),
-					wait: true,
-				});
-			}
+
+			firstSection.push({
+				label: !trackInQueue ? "Add to Queue" : "Remove from Queue",
+				icon: !trackInQueue ? "plus" : "trashBin",
+				onClick: () =>
+					!trackInQueue
+						? props.queueStore.addTrack(props.mediaSource)
+						: props.queueStore.removeTrack(trackInQueue),
+				wait: true,
+			});
 
 			firstSection.push({
 				label: "Play",
 				icon: "play",
-				disabled: props.queueStore.data.nowPlaying?.mediaSource.sourceId === props.mediaSource.sourceId,
+				disabled: nowPlaying?.mediaSource.sourceId === props.mediaSource.sourceId,
 				onClick: () => props.queueStore.addAndPlayTrack(props.mediaSource),
 				wait: true,
 			});
 
-			if (trackInQueue) {
-				firstSection.push({
-					label: "Remove from Queue",
-					icon: "trashBin",
-					onClick: () => props.queueStore.removeTrack(trackInQueue),
-					wait: true,
-				});
-			}
+			firstSection.push({
+				label: !trackInNext ? "Play Next" : "Remove from Next",
+				icon: !trackInNext ? "playlistPlay" : "closeLine",
+				disabled: trackInQueue && nowPlaying?.id === trackInQueue?.id,
+				onClick: () =>
+					!trackInNext
+						? props.queueStore.addNextTrack(props.mediaSource)
+						: props.queueStore.removeNextTrack(trackInNext),
+				wait: true,
+			});
+
 			items.push(firstSection);
 		}
 
-		if (props.appStore) {
-			items.push([
-				{
+		if (like || props.appStore) {
+			const secondSection: IContextMenuItem[] = [];
+
+			if (like) {
+				secondSection.push({
+					label: !like.isLiked() ? "Like" : "Unlike",
+					icon: !like.isLiked() ? "heart" : "heartBroken",
+					onClick: () => (!like.isLiked() ? like.like() : like.unlike()),
+				});
+			}
+
+			if (props.appStore) {
+				secondSection.push({
 					label: "Add to Playlist",
 					icon: "plus",
 					onClick: () => props.appStore?.promptAddMediaToPlaylist(props.mediaSource),
-				},
-			]);
+				});
+			}
 
+			if (secondSection.length) items.push(secondSection);
+		}
+
+		if (props.appStore) {
 			items.push([
 				{
 					label: `Open on ${props.mediaSource.type === "youtube" ? "YouTube" : "Spotify"}`,

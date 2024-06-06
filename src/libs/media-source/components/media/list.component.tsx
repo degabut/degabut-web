@@ -1,8 +1,9 @@
-import { Icon, Item, Text, type ItemListProps } from "@common";
+import { Button, Icon, Item, Text, type ItemListProps } from "@common";
 import { SPOTIFY_INTEGRATION } from "@constants";
 import type { IGuildMember } from "@queue";
 import { Show, type Component } from "solid-js";
 import { type IMediaSource } from "../../apis";
+import { useLikeMediaSource } from "../../hooks";
 import { DurationBadge, LiveBadge, SourceBadge } from "./components";
 
 export type MediaSourceListProps = Partial<ItemListProps> & {
@@ -12,15 +13,46 @@ export type MediaSourceListProps = Partial<ItemListProps> & {
 };
 
 export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
+	const like = useLikeMediaSource(() => props.mediaSource.id);
+
 	return (
 		<Item.List
 			{...props}
 			title={props.mediaSource.title}
 			imageUrl={props.mediaSource.minThumbnailUrl}
+			right={() => (
+				<div class="flex-row-center">
+					<Show when={like} keyed>
+						{({ isLiked, like, unlike }) => (
+							<div class="hidden md:block">
+								<Button
+									flat
+									class="p-2"
+									title={isLiked() ? "Unlike" : "Like"}
+									on:click={(e) => {
+										e.stopImmediatePropagation();
+										if (isLiked()) unlike();
+										else like();
+									}}
+								>
+									<Icon name={isLiked() ? "heart" : "heartLine"} class="text-brand-600" size="lg" />
+								</Button>
+							</div>
+						)}
+					</Show>
+					{props.right?.()}
+				</div>
+			)}
 			extra={() => (
 				<div class="flex-row-center space-x-1.5">
 					<Show when={props.mediaSource.duration} fallback={<LiveBadge />}>
 						<DurationBadge duration={props.mediaSource.duration} />
+					</Show>
+
+					<Show when={like?.isLiked()}>
+						<div title="Liked">
+							<Icon name="heart" size="sm" class="text-brand-600" />
+						</div>
 					</Show>
 
 					<Show when={SPOTIFY_INTEGRATION}>
@@ -29,7 +61,7 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 
 					<Show when={props.inQueue}>
 						<div title="In Queue">
-							<Icon name="degabut" size="sm" class="fill-brand-600" />
+							<Icon name="degabut" size="sm" class="text-brand-600" />
 						</div>
 					</Show>
 
