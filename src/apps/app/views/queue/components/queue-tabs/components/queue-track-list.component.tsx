@@ -10,16 +10,19 @@ export const QueueTrackList: Component = () => {
 
 	const mediaSourceProps = (t: ITrack) => {
 		const isActive = queue.data.nowPlaying?.id === t.id;
-		const isInNextTrack = queue.data.nextTrackIds.includes(t.id);
+		const nextTrackIndex = queue.data.nextTrackIds.findIndex((id) => id === t.id);
 
 		const mediaSourceProps: MediaSourceListProps = {
 			mediaSource: t.mediaSource,
 			requestedBy: t.requestedBy,
 			imageOverlayElement: () => (
-				<Show when={isInNextTrack}>
+				<Show when={nextTrackIndex >= 0}>
 					<div class="absolute -bottom-2 -right-2">
-						<div title="Next Track" class="relative bg-neutral-950 rounded-full p-1">
-							<Icon name="play" class="text-brand-500" size="md" />
+						<div
+							title={"Next Track" + (nextTrackIndex > 0 ? ` (${nextTrackIndex + 1})` : "")}
+							class="relative bg-neutral-950 rounded-full p-0.5"
+						>
+							<Icon name="play" class="text-brand-600" size="md" />
 						</div>
 					</div>
 				</Show>
