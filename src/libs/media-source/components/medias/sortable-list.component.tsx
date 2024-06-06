@@ -83,7 +83,7 @@ export function SortableMediaSourcesList<Data = unknown>(props: SortableMediaSou
 
 	return (
 		<div
-			class="h-full overflow-y-auto"
+			class="h-full"
 			classList={{
 				"space-y-2": !props.dense,
 				"space-y-0.5": props.dense,
