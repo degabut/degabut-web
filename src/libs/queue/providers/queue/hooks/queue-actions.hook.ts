@@ -95,6 +95,21 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 		});
 	};
 
+	const addNextTrack = (mediaSource: IMediaSource) => {
+		return modifyTrack(async (queueId) => {
+			let trackId = queue.tracks?.find((t) => t.mediaSource.id === mediaSource.id)?.id;
+			if (!trackId) [trackId] = await queueApi.addTrackById(queueId, mediaSource.id);
+
+			if (queue.nowPlaying) queueApi.addNextTrack(queueId, trackId);
+		});
+	};
+
+	const removeNextTrack = (trackOrId: ITrack | string) => {
+		return modifyTrack((queueId) =>
+			queueApi.removeNextTrack(queueId, typeof trackOrId === "string" ? trackOrId : trackOrId.id)
+		);
+	};
+
 	const addPlaylist = (playlistId: string) => {
 		return modifyTrack((queueId) => queueApi.addPlaylist(queueId, playlistId));
 	};
@@ -174,6 +189,8 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 		addTrackById,
 		addTrackByKeyword,
 		addAndPlayTrack,
+		addNextTrack,
+		removeNextTrack,
 		addPlaylist,
 		addYouTubePlaylist,
 		addSpotifyPlaylist,

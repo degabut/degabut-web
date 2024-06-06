@@ -13,6 +13,7 @@ export interface IQueue {
 	shuffle: boolean;
 	loopMode: LoopMode;
 	nowPlaying: ITrack | null;
+	nextTrackIds: string[];
 	voiceChannel: IVoiceChannel;
 	textChannel: ITextChannel | null;
 	guild: IGuild;
@@ -121,6 +122,14 @@ export class QueueApi {
 
 	removeTracksByMemberId = async (queueId: string, memberId: string): Promise<void> => {
 		await this.client.delete(`/queues/${queueId}/tracks`, { data: { memberId } });
+	};
+
+	addNextTrack = async (queueId: string, trackId: string) => {
+		await this.client.post(`/queues/${queueId}/tracks/${trackId}/next`);
+	};
+
+	removeNextTrack = async (queueId: string, trackId: string) => {
+		await this.client.delete(`/queues/${queueId}/tracks/${trackId}/next`);
 	};
 
 	clearQueue = async (queueId: string, includeNowPlaying = false): Promise<void> => {
