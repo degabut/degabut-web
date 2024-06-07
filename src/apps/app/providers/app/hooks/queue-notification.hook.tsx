@@ -35,7 +35,8 @@ export const useQueueNotification = () => {
 				),
 			});
 		} else {
-			const track = tracks[0];
+			const track = tracks.at(0);
+			if (!track) return;
 
 			notification.push({
 				imageUrl: member.avatar,
