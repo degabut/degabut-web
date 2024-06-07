@@ -63,7 +63,7 @@ export const icons: Record<string, DynamicProps<(props: ComponentProps<"svg">) =
 	loop: { component: Loop },
 	menu: { component: Menu },
 	microphone: { component: Microphone },
-	musicNotes: { component: Music }, // todo
+	musicNotes: { component: Music },
 	pause: { component: Pause, viewBox: "5 5 14 14" },
 	people: { component: People },
 	play: { component: Play, viewBox: "6 5 14 14" },
