@@ -50,7 +50,7 @@ export class MediaSourceContextMenuUtil {
 
 			firstSection.push({
 				label: !trackInNext ? "Play Next" : "Remove from Next",
-				icon: !trackInNext ? "playlistPlay" : "closeLine",
+				icon: !trackInNext ? "playlistPlay" : "playlistRemove",
 				disabled: trackInQueue && nowPlaying?.id === trackInQueue?.id,
 				onClick: () =>
 					!trackInNext

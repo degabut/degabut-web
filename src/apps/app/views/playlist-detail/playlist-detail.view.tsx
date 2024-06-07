@@ -56,7 +56,7 @@ export const PlaylistDetail: Component = () => {
 							modify: (c) => {
 								c[1].push({
 									label: "Remove from Playlist",
-									icon: "trashBin",
+									icon: "playlistRemove",
 									onClick: () => pv && playlist.removeMediaSource(pv.id),
 								});
 								return c;

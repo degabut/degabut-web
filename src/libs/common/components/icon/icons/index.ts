@@ -23,6 +23,7 @@ import Play from "~icons/mdi/play";
 import PlaylistMusic from "~icons/mdi/playlist-music";
 import PlaylistPlay from "~icons/mdi/playlist-play";
 import PlaylistPlus from "~icons/mdi/playlist-plus";
+import PlaylistRemove from "~icons/mdi/playlist-remove";
 import Plus from "~icons/mdi/plus";
 import Reload from "~icons/mdi/reload";
 import Reorder from "~icons/mdi/reorder-horizontal";
@@ -69,6 +70,7 @@ export const icons: Record<string, DynamicProps<(props: ComponentProps<"svg">) =
 	playlistMusic: { component: PlaylistMusic },
 	playlistPlus: { component: PlaylistPlus },
 	playlistPlay: { component: PlaylistPlay },
+	playlistRemove: { component: PlaylistRemove },
 	plus: { component: Plus, viewBox: "5 5 14 14" },
 	reload: { component: Reload },
 	search: { component: Search, viewBox: "3 3 18 18" },
