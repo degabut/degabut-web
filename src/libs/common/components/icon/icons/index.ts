@@ -80,7 +80,7 @@ export const icons: Record<string, DynamicProps<(props: ComponentProps<"svg">) =
 	soundMedium: { component: SoundMedium, viewBox: "3 3 18 18" },
 	soundOff: { component: SoundOff, viewBox: "3 3 18 18" },
 	spotify: { component: Spotify },
-	stars: { component: Stars },
+	stars: { component: Stars, viewBox: "1 1 22 22" },
 	swap: { component: Swap, viewBox: "3 3 18 18" },
 	trashBin: { component: TrashBin, viewBox: "3 3 18 18" },
 	youtube: { component: Youtube },
