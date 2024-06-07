@@ -20,9 +20,9 @@ export const QueueTrackList: Component = () => {
 					<div class="absolute -bottom-2 -right-2">
 						<div
 							title={"Next Track" + (nextTrackIndex > 0 ? ` (${nextTrackIndex + 1})` : "")}
-							class="relative bg-neutral-950 rounded-full p-0.5"
+							class="relative bg-neutral-950 rounded-full p-1"
 						>
-							<Icon name="play" class="text-brand-600" size="md" />
+							<Icon name="play" class="text-brand-600" size="sm" />
 						</div>
 					</div>
 				</Show>
