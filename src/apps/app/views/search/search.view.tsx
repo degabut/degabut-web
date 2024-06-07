@@ -54,7 +54,7 @@ export const Search: Component = () => {
 				class="md:max-w-[32rem]"
 				value={query.keyword || ""}
 				onInput={onInput}
-				prefix={() => <Icon name="search" size="lg" extraClass="fill-current" />}
+				prefix={() => <Icon name="search" size="lg" />}
 			/>
 
 			<div class="lg:space-y-8 space-y-1.5">

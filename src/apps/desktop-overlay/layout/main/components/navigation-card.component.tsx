@@ -22,7 +22,7 @@ export const NavigationCard: Component<NavigationCardProps> = (props) => {
 				}}
 			>
 				<div class="flex-col-center space-y-3">
-					<Icon name={props.icon} size="xl" extraClass="fill-current mx-auto" />
+					<Icon name={props.icon} size="xl" extraClass="mx-auto" />
 					<Text.H3>{props.label}</Text.H3>
 				</div>
 			</Card>

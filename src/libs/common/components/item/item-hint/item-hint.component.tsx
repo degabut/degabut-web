@@ -21,7 +21,7 @@ export const ItemHint: Component<ItemHintProps> = (props) => {
 			}}
 		>
 			<div class="!w-12 !h-12 shrink-0 flex items-center justify-center rounded border border-neutral-600">
-				<Icon name={props.icon} size="lg" extraClass="fill-neutral-500" />
+				<Icon name={props.icon} size="lg" extraClass="text-neutral-500" />
 			</div>
 			{props.label()}
 		</Button>

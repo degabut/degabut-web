@@ -21,7 +21,7 @@ export const AbbreviationIcon: Component<Props> = (props) => {
 
 	return (
 		<div
-			class="flex-col-center justify-center border border-neutral-700 rounded"
+			class="flex-col-center justify-center border border-neutral-600 rounded"
 			classList={{
 				"w-12 h-12": size() === "md",
 				"text-2xl": size() === "md" && shortName().length === 1,

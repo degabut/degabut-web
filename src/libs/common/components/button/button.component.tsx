@@ -28,7 +28,7 @@ export const Button: Component<Props> = (props) => {
 			}}
 		>
 			<Show when={props.icon} keyed>
-				{(icon) => <Icon name={icon} size={props.iconSize || "md"} class="fill-current shrink-0" />}
+				{(icon) => <Icon name={icon} size={props.iconSize || "md"} class="shrink-0" />}
 			</Show>
 
 			<Show when={typeof props.children === "string"} fallback={props.children}>

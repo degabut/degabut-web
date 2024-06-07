@@ -53,7 +53,7 @@ export const QueueInfo: Component = () => {
 						flat
 						onClick={() => setIsListenersModalOpen(true)}
 					>
-						<Icon name="people" size="lg" class="fill-neutral-400 mx-auto" />
+						<Icon name="people" size="lg" class="text-neutral-400 mx-auto" />
 
 						<Show when={queue.data.voiceChannel.members.length}>
 							<div class="flex-row-center overflow-x-clip -space-x-2">

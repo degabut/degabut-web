@@ -8,7 +8,7 @@ import "./lyrics.style.css";
 const LyricsNotFound: Component = () => {
 	return (
 		<div class="flex-col-center w-full h-full justify-center space-y-4">
-			<Icon name="microphone" extraClass="fill-neutral-500 w-24 h-24" />
+			<Icon name="microphone" extraClass="text-neutral-500 w-24 h-24" />
 			<div class="text-xl md:text-2xl text-center text-neutral-300">No Lyrics Found</div>
 		</div>
 	);

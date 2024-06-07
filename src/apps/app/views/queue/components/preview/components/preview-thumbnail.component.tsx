@@ -1,6 +1,6 @@
 import { useApp } from "@app/hooks";
 import { Icon, Text, contextMenu, useScreen } from "@common";
-import { MediaSourceContextMenuUtil ,type  IMediaSource  } from "@media-source";
+import { MediaSourceContextMenuUtil, type IMediaSource } from "@media-source";
 import { QueueActions, useQueue } from "@queue";
 import { Show, createEffect, createSignal, on, type Component } from "solid-js";
 
@@ -75,13 +75,13 @@ type SkeletonProps = {
 const Skeleton: Component<SkeletonProps> = (props) => {
 	return (
 		<div
-			class="max-w-[32rem] max-h-[32rem] mx-auto border border-white opacity-10 flex items-center justify-center"
+			class="max-w-[32rem] max-h-[32rem] mx-auto border border-neutral-850 flex items-center justify-center"
 			style={{
 				width: `${props.size}px`,
 				height: `${props.size}px`,
 			}}
 		>
-			<Icon name="musicNotes" extraClass="fill-white h-[50%] max-h-48 w-auto p-4" />
+			<Icon name="musicNotes" extraClass="text-neutral-900 h-[50%] max-h-48 w-auto" />
 		</div>
 	);
 };

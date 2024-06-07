@@ -15,12 +15,12 @@ export const SkipButton: Component<Props> = (props) => {
 			onClick={() => props.onClick()}
 			title="Skip"
 			disabled={props.disabled}
-			icon="forward"
+			icon="skip"
 			iconSize={props.iconSize || "lg"}
 			class="p-2"
 			classList={{
-				"fill-neutral-600": props.disabled,
-				"hover:fill-white fill-neutral-300": !props.disabled,
+				"text-neutral-600": props.disabled,
+				"hover:text-white text-neutral-300": !props.disabled,
 				[props.extraClass || ""]: !!props.extraClass,
 			}}
 		/>

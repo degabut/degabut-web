@@ -76,7 +76,7 @@ export class MediaSourceContextMenuUtil {
 			if (props.appStore) {
 				secondSection.push({
 					label: "Add to Playlist",
-					icon: "plus",
+					icon: "playlistMusic",
 					onClick: () => props.appStore?.promptAddMediaToPlaylist(props.mediaSource),
 				});
 			}

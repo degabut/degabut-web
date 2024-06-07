@@ -17,7 +17,7 @@ import { useRecommendation } from "./hooks";
 const RecommendationEmpty: Component = () => {
 	return (
 		<Container size="full" extraClass="flex-col-center justify-center h-full space-y-6">
-			<Icon name="heartBroken" extraClass="fill-neutral-800 w-32" />
+			<Icon name="heartBroken" extraClass="text-neutral-700 w-32 h-32" />
 			<Text.H1>No Recommendation Found</Text.H1>
 		</Container>
 	);

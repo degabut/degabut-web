@@ -30,7 +30,7 @@ export const MediaSourceCard: Component<MediaSourceCardProps> = (props) => {
 
 					<Show when={props.inQueue}>
 						<div title="In Queue">
-							<Icon name="degabut" title="In Queue" class="fill-brand-600 w-3.5 h-3.5" />
+							<Icon name="degabut" title="In Queue" class="text-brand-600 w-3.5 h-3.5" />
 						</div>
 					</Show>
 				</div>

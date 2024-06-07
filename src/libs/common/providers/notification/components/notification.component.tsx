@@ -27,7 +27,7 @@ export const Notification: Component<NotificationProps> = (props) => {
 				class="flex-shrink-0 h-full px-2 py-4 hover:cursor-pointer text-neutral-400 hover:text-white"
 				onClick={onClickClose}
 			>
-				<Icon name="closeLine" size="sm" class="fill-current" />
+				<Icon name="closeLine" size="sm" />
 			</button>
 		</div>
 	);

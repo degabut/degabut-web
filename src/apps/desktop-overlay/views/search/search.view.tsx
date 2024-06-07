@@ -63,7 +63,7 @@ export const Search: Component = () => {
 					onInput: onInput,
 					placeholder: "Search for a song",
 					focusOnMount: true,
-					prefix: () => <Icon name="search" size="lg" extraClass="fill-current" />,
+					prefix: () => <Icon name="search" size="lg" />,
 				}}
 				extraResultContainerClass={isLoading() ? "opacity-50 pointer-events-none" : ""}
 				hideOptionOnClickOutside={false}

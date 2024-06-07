@@ -9,8 +9,14 @@ import {
 	type MediaUrlId,
 } from "@media-source";
 import { PlaylistConfirmationUtil } from "@playlist";
-import { useQueue ,type  ITrack  } from "@queue";
-import { YouTubeContextMenuUtil, YouTubePlaylist, useSearch ,type  IVideoCompact,type  IYouTubePlaylistCompact  } from "@youtube";
+import { useQueue, type ITrack } from "@queue";
+import {
+	YouTubeContextMenuUtil,
+	YouTubePlaylist,
+	useSearch,
+	type IVideoCompact,
+	type IYouTubePlaylistCompact,
+} from "@youtube";
 import { Show, createSignal, type Component } from "solid-js";
 
 type SelectOptionItem = MediaUrlId | IVideoCompact | IYouTubePlaylistCompact | ITrack;
@@ -122,7 +128,7 @@ export const QuickSearchModal: Component<Props> = (props) => {
 						onInput: onInput,
 						placeholder: "Search for a song",
 						focusOnMount: true,
-						prefix: () => <Icon name="search" size="lg" extraClass="fill-current" />,
+						prefix: () => <Icon name="search" size="lg" />,
 					}}
 					hideOptionOnClickOutside={false}
 					extraResultContainerClass="max-h-[50vh]"

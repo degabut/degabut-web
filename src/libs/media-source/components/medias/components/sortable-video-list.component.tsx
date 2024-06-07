@@ -32,10 +32,10 @@ export const SortableMediaList: Component<Props> = (props) => {
 				right={() => (
 					<div
 						{...sortable.dragActivators}
-						class="px-1 py-3 fill-neutral-400 hover:fill-neutral-100 touch-none"
+						class="px-2 py-3 text-neutral-400 hover:text-neutral-100 touch-none"
 						onClick={(e) => e.stopPropagation()}
 					>
-						<Icon name="sixDots" size="xl" />
+						<Icon name="reorder" size="md" />
 					</div>
 				)}
 				{...props.initialMediaSourceProps}
@@ -69,10 +69,10 @@ export const DummySortableMediaList: Component<DummyProps> = (props) => {
 			extraContextMenuButtonClass="hidden md:block"
 			right={() => (
 				<div
-					class="block md:hidden px-1 py-3 fill-neutral-400 hover:fill-neutral-100 touch-none"
+					class="block md:hidden px-1 py-3 text-neutral-400 hover:text-neutral-100 touch-none"
 					onClick={(e) => e.stopPropagation()}
 				>
-					<Icon name="sixDots" size="xl" />
+					<Icon name="reorder" size="md" />
 				</div>
 			)}
 			{...props.initialMediaSourceProps}

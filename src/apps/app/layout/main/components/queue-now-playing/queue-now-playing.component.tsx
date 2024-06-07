@@ -1,5 +1,5 @@
 import { AppRoutes } from "@app/routes";
-import { A, Icon, Text } from "@common";
+import { A, Text } from "@common";
 import { MediaSource } from "@media-source";
 import { useQueue } from "@queue";
 import { Show, type Component } from "solid-js";
@@ -44,11 +44,7 @@ export const QueueNowPlaying: Component = () => {
 							class="absolute top-0 left-0 h-full w-full blur-2xl opacity-75 -z-10 pointer-events-none"
 						/>
 
-						<MediaSource.List
-							mediaSource={mediaSource}
-							extraContainerClass="text-shadow"
-							right={() => <Icon name="musicNotes" extraClass="w-12 h-12 fill-white/10" />}
-						/>
+						<MediaSource.List mediaSource={mediaSource} extraContainerClass="text-shadow" />
 					</A>
 				</div>
 			)}

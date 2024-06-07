@@ -19,7 +19,7 @@ export const TabLabel = (props: LabelProps) => {
 			}}
 		>
 			<Show when={props.icon} keyed>
-				{(icon) => <Icon name={icon} size="md" extraClass="fill-current" />}
+				{(icon) => <Icon name={icon} size="md" />}
 			</Show>
 			<div>{props.label}</div>
 		</div>

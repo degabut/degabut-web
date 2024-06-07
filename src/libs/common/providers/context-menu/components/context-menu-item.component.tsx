@@ -15,13 +15,13 @@ export const ContextMenuItem: Component<ContextMenuItemProps> = (props) => {
 			disabled={props.item.disabled}
 			class="flex-row-center space-x-4 rounded w-full"
 			classList={{
-				"py-1.5 px-4": props.size === "md",
+				"py-2 px-4": props.size === "md",
 				"py-4 px-6": props.size === "lg",
 			}}
 			onClick={() => !props.item.disabled && props.onClick(props.item)}
 		>
 			<Show when={props.item.icon} keyed>
-				{(icon) => <Icon name={icon} extraClass="fill-current h-4 w-4" />}
+				{(icon) => <Icon name={icon} size="md" />}
 			</Show>
 			<Show when={props.item.iconUrl} keyed>
 				{(url) => <img src={url} class="h-6 w-6" />}
