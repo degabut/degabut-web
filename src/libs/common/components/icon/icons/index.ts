@@ -81,7 +81,7 @@ export const icons: Record<string, DynamicProps<(props: ComponentProps<"svg">) =
 	soundOff: { component: SoundOff, viewBox: "3 3 18 18" },
 	spotify: { component: Spotify },
 	stars: { component: Stars },
-	swap: { component: Swap },
+	swap: { component: Swap, viewBox: "3 3 18 18" },
 	trashBin: { component: TrashBin, viewBox: "3 3 18 18" },
 	youtube: { component: Youtube },
 };
