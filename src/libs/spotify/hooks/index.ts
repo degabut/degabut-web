@@ -7,4 +7,3 @@ export * from "./spotify-recently-played.hook";
 export * from "./spotify-self-playlists.hook";
 export * from "./spotify-self-tracks.hook";
 export * from "./spotify-top-tracks.hook";
-export * from "./spotify.hook";

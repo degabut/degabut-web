@@ -1,6 +1,6 @@
 import { createEffect, createResource, createSignal } from "solid-js";
 import { SpotifyApi, type ISpotifyTrack } from "../apis";
-import { useSpotify } from "./spotify.hook";
+import { useSpotify } from "../providers";
 
 type Params = {
 	id: string;

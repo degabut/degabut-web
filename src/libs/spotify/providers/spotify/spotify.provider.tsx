@@ -1,6 +1,14 @@
 import { SPOTIFY_CLIENT_ID, SPOTIFY_OAUTH_REDIRECT_URI } from "@constants";
 import { useSettings } from "@settings";
-import { createContext, createEffect, createSignal, on, type Accessor, type ParentComponent } from "solid-js";
+import {
+	createContext,
+	createEffect,
+	createSignal,
+	on,
+	useContext,
+	type Accessor,
+	type ParentComponent,
+} from "solid-js";
 import { SpotifySdk } from "../../sdk";
 import { useSpotifyData } from "./hooks";
 
@@ -81,3 +89,5 @@ export const SpotifyProvider: ParentComponent = (props) => {
 
 	return <SpotifyContext.Provider value={store}>{props.children}</SpotifyContext.Provider>;
 };
+
+export const useSpotify = () => useContext(SpotifyContext);
