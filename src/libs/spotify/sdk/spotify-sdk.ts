@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { type AxiosInstance } from "axios";
 import { Auth } from "./auth";
 import {
 	AlbumsEndpoint,
@@ -25,6 +25,8 @@ export class SpotifySdk {
 	private static rootUrl: string = "https://api.spotify.com/v1/";
 
 	private auth: Auth;
+
+	public httpClient: AxiosInstance;
 
 	public albums: AlbumsEndpoint;
 	public artists: ArtistsEndpoint;
@@ -61,6 +63,10 @@ export class SpotifySdk {
 		const search = new SearchEndpoint(this);
 		this.search = search.execute.bind(search);
 
+		this.httpClient = axios.create({
+			baseURL: SpotifySdk.rootUrl,
+		});
+
 		this.auth = new Auth(clientId, redirectUri, scopes);
 	}
 
@@ -77,14 +83,11 @@ export class SpotifySdk {
 			}
 
 			const token = accessToken?.access_token;
-			const fullUrl = SpotifySdk.rootUrl + url;
 
-			const result = await axios({
+			const result = await this.httpClient({
 				method,
-				url: fullUrl,
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
+				url,
+				headers: { Authorization: `Bearer ${token}` },
 				data: body ? (typeof body === "string" ? body : JSON.stringify(body)) : undefined,
 			});
 
