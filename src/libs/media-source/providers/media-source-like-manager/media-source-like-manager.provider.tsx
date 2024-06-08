@@ -1,4 +1,4 @@
-import { useApi } from "@common";
+import { DelayUtil, useApi } from "@common";
 import { useQueue } from "@queue";
 import { UserApi, type LikedMediaSourceDict } from "@user";
 import axios, { type AxiosResponse } from "axios";
@@ -18,6 +18,7 @@ export const MediaSourceLikeManagerProvider: ParentComponent = (props) => {
 	const queue = useQueue();
 	const user = new UserApi(api.client);
 	const [liked, setLiked] = createStore<LikedMediaSourceDict>({});
+	let queuedIds: string[] = [];
 
 	onMount(() => {
 		axios.interceptors.response.use((r) => responseInterceptor(r));
@@ -35,18 +36,37 @@ export const MediaSourceLikeManagerProvider: ParentComponent = (props) => {
 		// find media source id in response
 		const pattern = /(?<=")(youtube|spotify)\/[a-zA-Z0-9_-]+(?=")/g;
 		const matched = JSON.stringify(data).match(pattern);
+
 		const uniqueIds = [...new Set(matched)];
-		fetchLikedStatus(uniqueIds);
+		queueIds(uniqueIds);
 	};
 
-	const fetchLikedStatus = async (ids: string[]) => {
-		// filter out already fetched ids
+	const queueIds = (ids: string[]) => {
 		ids = ids.filter((id) => !(id in liked));
+		ids = ids.filter((id) => !queuedIds.includes(id));
 		if (!ids.length) return;
 
-		const result = await user.getIsLikedMediaSource(ids);
-		setLiked((c) => ({ ...c, ...result }));
+		queuedIds.push(...ids);
+		fetchLikedStatus();
 	};
+
+	const fetchLikedStatus = DelayUtil.throttle(
+		async () => {
+			if (!queuedIds.length) return;
+
+			const ids = queuedIds;
+			queuedIds = [];
+
+			const initialValues: LikedMediaSourceDict = {};
+			for (const id of ids) initialValues[id] = false;
+			setLiked((c) => ({ ...c, ...initialValues }));
+
+			const result = await user.getIsLikedMediaSource(ids);
+			setLiked((c) => ({ ...c, ...result }));
+		},
+		500,
+		{ leading: false }
+	);
 
 	const like = async (mediaSourceId: string) => {
 		setLiked(mediaSourceId, true);
