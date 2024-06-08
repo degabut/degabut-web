@@ -7,6 +7,7 @@ import { loginRouteDefinitions } from "@login/routes";
 import { recapRouteDefinitions } from "@recap/routes";
 import { SettingsProvider } from "@settings";
 import { Navigate, type RouteDefinition } from "@solidjs/router";
+import { SpotifyProvider } from "@spotify";
 
 export const routes: RouteDefinition[] = [
 	{
@@ -16,9 +17,11 @@ export const routes: RouteDefinition[] = [
 				<ContextMenuProvider>
 					<ApiProvider>
 						<DesktopProvider>
-							<DiscordProvider>
-								<SettingsProvider>{props.children}</SettingsProvider>
-							</DiscordProvider>
+							<SettingsProvider>
+								<DiscordProvider>
+									<SpotifyProvider>{props.children}</SpotifyProvider>
+								</DiscordProvider>
+							</SettingsProvider>
 						</DesktopProvider>
 					</ApiProvider>
 				</ContextMenuProvider>
