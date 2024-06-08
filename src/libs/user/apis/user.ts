@@ -33,13 +33,19 @@ export type IMostPlayed = {
 	mediaSource: IMediaSource;
 };
 
+export type ILikedMediaSource = {
+	likedAt: string;
+	mediaSource: IMediaSource;
+};
+
 export type LikedMediaSourceDict = Record<string, boolean>;
 
 export class UserApi {
 	constructor(private client: AxiosInstance) {}
 
-	getLikedMediaSource = async (): Promise<string[]> => {
-		// TODO implement
+	getLikedMediaSource = async (page: number, limit = 100): Promise<ILikedMediaSource[]> => {
+		const response = await this.client.get<ILikedMediaSource[]>("/me/liked", { params: { page, limit } });
+		if (response.status === 200) return response.data;
 		return [];
 	};
 
