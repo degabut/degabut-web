@@ -1,7 +1,7 @@
 import { useApp } from "@app/hooks";
 import { AppRoutes } from "@app/routes";
 import { Button, Item, KeyboardHint, Text, useInfiniteScrolling, useNavigate, useScreen } from "@common";
-import { MediaSourceContextMenuUtil, MediaSources } from "@media-source";
+import { MediaSources } from "@media-source";
 import { useQueue } from "@queue";
 import type { Component } from "solid-js";
 import { useQueueRecommendation } from "../hooks";
@@ -65,11 +65,6 @@ export const QueueHint: Component = () => {
 					mediaSourceProps={(mediaSource) => ({
 						mediaSource,
 						hideContextMenuButton: true,
-						contextMenu: MediaSourceContextMenuUtil.getContextMenu({
-							mediaSource,
-							appStore: app,
-							queueStore: queue,
-						}),
 						right: () => (
 							<Button
 								flat

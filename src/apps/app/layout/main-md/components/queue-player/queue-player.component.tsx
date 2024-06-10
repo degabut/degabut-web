@@ -1,8 +1,7 @@
-import { useApp } from "@app/hooks";
 import { AppRoutes } from "@app/routes";
 import { A, useNavigate } from "@common";
 import { useDesktop } from "@desktop";
-import { MediaSource, MediaSourceContextMenuUtil } from "@media-source";
+import { MediaSource } from "@media-source";
 import { QueueActions, QueueButton, QueueSeekSlider, VolumeSlider, useQueue } from "@queue";
 import { useSettings } from "@settings";
 import { Show, type Component } from "solid-js";
@@ -20,7 +19,6 @@ const EmptyNowPlaying: Component = () => {
 };
 
 export const QueuePlayer: Component = () => {
-	const app = useApp();
 	const queue = useQueue();
 	const desktop = useDesktop();
 	const navigate = useNavigate();
@@ -36,12 +34,7 @@ export const QueuePlayer: Component = () => {
 								mediaSource={t.mediaSource}
 								onClick={() => navigate(AppRoutes.Queue)}
 								hideContextMenuButton
-								contextMenu={MediaSourceContextMenuUtil.getContextMenu({
-									openWithClick: false,
-									mediaSource: t.mediaSource,
-									appStore: app,
-									queueStore: queue,
-								})}
+								contextMenu={{ openWithClick: false }}
 							/>
 						)}
 					</Show>

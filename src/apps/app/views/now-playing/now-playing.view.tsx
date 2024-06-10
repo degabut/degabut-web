@@ -1,7 +1,7 @@
 import { useApp } from "@app/hooks";
 import { AppRoutes } from "@app/routes";
 import { Container, ContextMenuButton, DelayUtil, Text, useNavigate } from "@common";
-import { MediaSourceContextMenuUtil, SourceBadge } from "@media-source";
+import { SourceBadge, useMediaSourceContextMenu } from "@media-source";
 import { QueueActions, QueueButton, QueueSeekSlider, useQueue } from "@queue";
 import { Show, onMount, type Component } from "solid-js";
 import { PreviewThumbnail } from "./components";
@@ -25,35 +25,35 @@ export const QueueNowPlaying: Component = () => {
 
 				<div class="flex flex-col space-y-6 py-4">
 					<Show when={queue.data.nowPlaying} keyed>
-						{(track) => (
-							<div class="flex-row-center">
-								<div class="grow flex flex-col space-y-1.5 px-2 text-shadow truncate">
-									<Text.H2 truncate>{track.mediaSource.title}</Text.H2>
+						{(track) => {
+							const nowPlayingContextMenu = useMediaSourceContextMenu(() => ({
+								mediaSource: track.mediaSource,
+							}));
 
-									<div class="flex-row-center space-x-2.5">
-										<SourceBadge size="lg" type={track.mediaSource.type} />
-										<Text.Body1 truncate class="text-neutral-300">
-											{track.mediaSource.creator}
-										</Text.Body1>
+							return (
+								<div class="flex-row-center">
+									<div class="grow flex flex-col space-y-1.5 px-2 text-shadow truncate">
+										<Text.H2 truncate>{track.mediaSource.title}</Text.H2>
+
+										<div class="flex-row-center space-x-2.5">
+											<SourceBadge size="lg" type={track.mediaSource.type} />
+											<Text.Body1 truncate class="text-neutral-300">
+												{track.mediaSource.creator}
+											</Text.Body1>
+										</div>
+
+										<div class="flex-row-center space-x-2 truncate">
+											<Show when={track.requestedBy.avatar} keyed>
+												{(avatar) => <img src={avatar} class="h-6 w-6 rounded-full" />}
+											</Show>
+											<Text.Caption1>{track.requestedBy.displayName}</Text.Caption1>
+										</div>
 									</div>
 
-									<div class="flex-row-center space-x-2 truncate">
-										<Show when={track.requestedBy.avatar} keyed>
-											{(avatar) => <img src={avatar} class="h-6 w-6 rounded-full" />}
-										</Show>
-										<Text.Caption1>{track.requestedBy.displayName}</Text.Caption1>
-									</div>
+									<ContextMenuButton contextMenu={nowPlayingContextMenu()} />
 								</div>
-
-								<ContextMenuButton
-									contextMenu={MediaSourceContextMenuUtil.getContextMenu({
-										mediaSource: track.mediaSource,
-										appStore: app,
-										queueStore: queue,
-									})}
-								/>
-							</div>
-						)}
+							);
+						}}
 					</Show>
 
 					<div class="w-full px-2">

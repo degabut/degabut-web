@@ -1,6 +1,6 @@
 import { useApp } from "@app/hooks";
 import { Container, Icon, RecapUtil, Text, useInfiniteScrolling } from "@common";
-import { MediaSourceContextMenuUtil, MediaSourceFactory, MediaSources } from "@media-source";
+import { MediaSourceFactory, MediaSources } from "@media-source";
 import { useQueue } from "@queue";
 import { useParams } from "@solidjs/router";
 import { Show, createEffect, createMemo, createSignal, type Component } from "solid-js";
@@ -102,11 +102,6 @@ export const Recommendation: Component = () => {
 								return {
 									mediaSource,
 									inQueue: queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id),
-									contextMenu: MediaSourceContextMenuUtil.getContextMenu({
-										appStore: app,
-										queueStore: queue,
-										mediaSource,
-									}),
 								};
 							}}
 						/>

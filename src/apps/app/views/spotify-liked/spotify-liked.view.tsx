@@ -1,6 +1,6 @@
 import { useApp } from "@app/hooks";
 import { Container, Text, useInfiniteScrolling } from "@common";
-import { MediaSourceContextMenuUtil, MediaSourceFactory, MediaSources } from "@media-source";
+import { MediaSourceFactory, MediaSources } from "@media-source";
 import { useQueue } from "@queue";
 import { useSpotifySelfTracks } from "@spotify";
 import { createEffect, type Component } from "solid-js";
@@ -36,11 +36,6 @@ export const SpotifyLiked: Component = () => {
 					return {
 						mediaSource,
 						inQueue: queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id),
-						contextMenu: MediaSourceContextMenuUtil.getContextMenu({
-							mediaSource,
-							appStore: app,
-							queueStore: queue,
-						}),
 					};
 				}}
 			/>

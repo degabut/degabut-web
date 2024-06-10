@@ -1,6 +1,6 @@
 import { useApp } from "@app/hooks";
 import { Container, Divider, useInfiniteScrolling } from "@common";
-import { MediaSourceContextMenuUtil, MediaSources } from "@media-source";
+import { MediaSources } from "@media-source";
 import { usePlaylist } from "@playlist";
 import { useQueue } from "@queue";
 import { useParams } from "@solidjs/router";
@@ -53,10 +53,7 @@ export const PlaylistDetail: Component = () => {
 				mediaSourceProps={(pv) => ({
 					mediaSource: pv.mediaSource,
 					inQueue: queue.data.tracks?.some((t) => t.mediaSource.id === pv.mediaSource.id),
-					contextMenu: MediaSourceContextMenuUtil.getContextMenu({
-						mediaSource: pv.mediaSource,
-						appStore: app,
-						queueStore: queue,
+					contextMenu: {
 						modify: (c) => {
 							c[1].push({
 								label: "Remove from Playlist",
@@ -65,7 +62,7 @@ export const PlaylistDetail: Component = () => {
 							});
 							return c;
 						},
-					}),
+					},
 				})}
 			/>
 

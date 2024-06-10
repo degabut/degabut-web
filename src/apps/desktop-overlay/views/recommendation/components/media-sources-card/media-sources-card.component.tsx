@@ -1,6 +1,6 @@
 import { Text } from "@common";
 import { Card } from "@desktop-overlay/components";
-import { MediaSourceContextMenuUtil, MediaSources ,type  IMediaSource  } from "@media-source";
+import { MediaSources, type IMediaSource } from "@media-source";
 import { useQueue } from "@queue";
 import type { Component } from "solid-js";
 
@@ -26,14 +26,7 @@ export const MediaSourcesCard: Component<MediaSourcesCardProps> = (props) => {
 						mediaSourceProps={(mediaSource) => ({
 							mediaSource,
 							inQueue: queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id),
-							contextMenu: MediaSourceContextMenuUtil.getContextMenu({
-								mediaSource,
-								queueStore: queue,
-								modify: (c) => {
-									if (queue.data.empty) return [];
-									return [c[0]];
-								},
-							}),
+							contextMenu: { modify: (c) => (queue.data.empty ? [] : [c[0]]) },
 						})}
 					/>
 				</div>

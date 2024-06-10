@@ -1,6 +1,6 @@
 import { useApp } from "@app/hooks";
 import { Container, Divider, useInfiniteScrolling } from "@common";
-import { MediaSourceContextMenuUtil, MediaSourceFactory, MediaSources } from "@media-source";
+import { MediaSourceFactory, MediaSources } from "@media-source";
 import { useQueue } from "@queue";
 import { useParams } from "@solidjs/router";
 import { useSpotifyPlaylist, useSpotifyPlaylistTracks } from "@spotify";
@@ -52,11 +52,6 @@ export const SpotifyPlaylistDetail: Component = () => {
 						return {
 							mediaSource,
 							inQueue: queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id),
-							contextMenu: MediaSourceContextMenuUtil.getContextMenu({
-								mediaSource,
-								appStore: app,
-								queueStore: queue,
-							}),
 						};
 					}}
 				/>

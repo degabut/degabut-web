@@ -1,6 +1,5 @@
-import { useApp } from "@app/hooks";
 import { Icon, Text, contextMenu, useScreen } from "@common";
-import { MediaSourceContextMenuUtil, type IMediaSource } from "@media-source";
+import { type IMediaSource } from "@media-source";
 import { QueueActions, useQueue } from "@queue";
 import { Show, createEffect, createSignal, on, type Component } from "solid-js";
 
@@ -38,9 +37,6 @@ type ThumbnailProps = {
 };
 
 const Thumbnail: Component<ThumbnailProps> = (props) => {
-	const queue = useQueue();
-	const app = useApp();
-
 	return (
 		<div
 			class="relative max-w-[32rem] max-h-[32rem]"
@@ -48,11 +44,6 @@ const Thumbnail: Component<ThumbnailProps> = (props) => {
 				width: `${props.size}px`,
 				height: `${props.size}px`,
 			}}
-			use:contextMenu={MediaSourceContextMenuUtil.getContextMenu({
-				queueStore: queue,
-				appStore: app,
-				mediaSource: props.mediaSource,
-			})}
 		>
 			<div class="absolute w-full h-full opacity-0 hover:opacity-100 transition flex items-end">
 				<div class="w-full flex flex-col justify-end min-h-[75%] bg-gradient-to-t from-black to-black/0">

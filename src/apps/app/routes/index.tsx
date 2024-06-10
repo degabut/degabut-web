@@ -49,11 +49,11 @@ export const appRouteDefinitions: RouteDefinition[] = [
 			<ErrorBoundaryProvider>
 				<NotificationProvider>
 					<QueueProvider>
-						<AppProvider>
-							<MediaSourceLikeManagerProvider>
+						<MediaSourceLikeManagerProvider>
+							<AppProvider>
 								<AppLayout {...props} />
-							</MediaSourceLikeManagerProvider>
-						</AppProvider>
+							</AppProvider>
+						</MediaSourceLikeManagerProvider>
 					</QueueProvider>
 				</NotificationProvider>
 			</ErrorBoundaryProvider>

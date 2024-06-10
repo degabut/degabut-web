@@ -1,6 +1,6 @@
 import { useApp } from "@app/hooks";
-import { MediaSourceContextMenuUtil, MediaSources, type MediaSourceListProps } from "@media-source";
-import { useQueue ,type  ITrack  } from "@queue";
+import { MediaSources, type MediaSourceListProps } from "@media-source";
+import { useQueue, type ITrack } from "@queue";
 import { Show, type Component } from "solid-js";
 import { Card } from "../../../components";
 
@@ -14,15 +14,12 @@ export const TracksCard: Component = () => {
 			mediaSource: t.mediaSource,
 			requestedBy: t.requestedBy,
 			extraTitleClass: isActive ? "!text-brand-600" : undefined,
-			contextMenu: MediaSourceContextMenuUtil.getContextMenu({
-				mediaSource: t.mediaSource,
-				queueStore: queue,
-				appStore: app,
+			contextMenu: {
 				modify: (c) => {
 					if (queue.data.empty) return [];
 					return [c[0]];
 				},
-			}),
+			},
 		};
 
 		return {

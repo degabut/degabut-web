@@ -1,6 +1,6 @@
 import { useApp } from "@app/hooks";
-import { useApi } from "@common";
-import { MediaSourceContextMenuUtil, MediaSources, type IMediaSource } from "@media-source";
+import { useApi, type IContextMenuItem } from "@common";
+import { MediaSources, type IMediaSource, type MediaSourceCardProps } from "@media-source";
 import { useQueue } from "@queue";
 import { UserApi, UserConfirmationUtil } from "@user";
 import type { Component } from "solid-js";
@@ -22,13 +22,10 @@ export const ExpandableMediaSourceGrid: Component<Props> = (props) => {
 	const userApi = new UserApi(api.client);
 	const queue = useQueue();
 
-	const mediaSourceProps = (mediaSource: IMediaSource) => {
+	const mediaSourceProps = (mediaSource: IMediaSource): MediaSourceCardProps => {
 		const inQueue = queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id);
-		const contextMenu = MediaSourceContextMenuUtil.getContextMenu({
-			appStore: app,
-			queueStore: queue,
-			mediaSource,
-			modify: (items) => {
+		const contextMenu = {
+			modify: (items: IContextMenuItem[][]) => {
 				if (props.removable) {
 					items[items.length - 2].push({
 						label: "Remove From History",
@@ -46,7 +43,7 @@ export const ExpandableMediaSourceGrid: Component<Props> = (props) => {
 				}
 				return items;
 			},
-		});
+		};
 
 		return {
 			mediaSource,
@@ -54,7 +51,7 @@ export const ExpandableMediaSourceGrid: Component<Props> = (props) => {
 			contextMenu,
 			imageHoverElement: () => (
 				<ThumbnailHover
-					contextMenu={contextMenu}
+					mediaSource={mediaSource}
 					showAddButtons={!queue.data.empty}
 					inQueue={!!inQueue}
 					isPlaying={queue.data.nowPlaying?.mediaSource.id === mediaSource.id}

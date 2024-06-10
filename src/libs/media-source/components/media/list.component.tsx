@@ -1,23 +1,35 @@
-import { Button, Icon, Item, Text, type ItemListProps } from "@common";
+import { Button, Icon, Item, Text, type IContextMenuItem, type ItemListProps } from "@common";
 import { SPOTIFY_INTEGRATION } from "@constants";
 import type { IGuildMember } from "@queue";
-import { Show, type Component } from "solid-js";
+import { Show, createMemo, mergeProps, type Component } from "solid-js";
 import { type IMediaSource } from "../../apis";
-import { useLikeMediaSource } from "../../hooks";
+import { useLikeMediaSource, useMediaSourceContextMenu } from "../../hooks";
 import { DurationBadge, LiveBadge, SourceBadge } from "./components";
 
-export type MediaSourceListProps = Partial<ItemListProps> & {
+export type MediaSourceListProps = Partial<Omit<ItemListProps, "contextMenu">> & {
 	mediaSource: IMediaSource;
 	requestedBy?: IGuildMember | null;
 	inQueue?: boolean;
+	contextMenu?: {
+		openWithClick?: boolean;
+		modify?: (current: IContextMenuItem[][]) => IContextMenuItem[][];
+	};
 };
 
 export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
+	const contextMenu = useMediaSourceContextMenu(() => ({ mediaSource: props.mediaSource }));
 	const like = useLikeMediaSource(() => props.mediaSource.id);
+
+	const mergedContextMenu = createMemo(() => {
+		const base = contextMenu() || undefined;
+		const merged = mergeProps(base, props.contextMenu);
+		return merged;
+	});
 
 	return (
 		<Item.List
 			{...props}
+			contextMenu={mergedContextMenu()}
 			title={props.mediaSource.title}
 			imageUrl={props.mediaSource.minThumbnailUrl}
 			right={() => (
@@ -81,9 +93,18 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 };
 
 export const MediaSourceListBig: Component<MediaSourceListProps> = (props) => {
+	const contextMenu = useMediaSourceContextMenu(() => ({ mediaSource: props.mediaSource }));
+
+	const mergedContextMenu = createMemo(() => {
+		const base = contextMenu() || undefined;
+		const merged = mergeProps(base, props.contextMenu);
+		return merged;
+	});
+
 	return (
 		<Item.ListBig
 			{...props}
+			contextMenu={mergedContextMenu()}
 			title={props.mediaSource.title}
 			imageUrl={props.mediaSource.maxThumbnailUrl}
 			imageOverlayElement={() => (

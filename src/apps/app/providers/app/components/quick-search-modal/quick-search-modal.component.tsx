@@ -1,13 +1,7 @@
 import { useApp } from "@app/hooks";
 import { AppRoutes } from "@app/routes";
 import { Icon, Item, KeyboardHint, Modal, Select, Text, useNavigate, useSearchable, useShortcut } from "@common";
-import {
-	MediaSource,
-	MediaSourceContextMenuUtil,
-	MediaSourceFactory,
-	useMatchMediaUrlId,
-	type MediaUrlId,
-} from "@media-source";
+import { MediaSource, MediaSourceFactory, useMatchMediaUrlId, type MediaUrlId } from "@media-source";
 import { PlaylistConfirmationUtil } from "@playlist";
 import { useQueue, type ITrack } from "@queue";
 import {
@@ -156,12 +150,7 @@ export const QuickSearchModal: Component<Props> = (props) => {
 									mediaSource={mediaSource}
 									inQueue={queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id)}
 									extraContainerClass="hover:bg-white/5 cursor-pointer"
-									contextMenu={MediaSourceContextMenuUtil.getContextMenu({
-										mediaSource,
-										appStore: app,
-										openWithClick: false,
-										queueStore: queue,
-									})}
+									contextMenu={{ openWithClick: false }}
 									extraContainerClassList={extraContainerClass}
 								/>
 							);

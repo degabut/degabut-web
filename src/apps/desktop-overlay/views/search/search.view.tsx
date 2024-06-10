@@ -1,6 +1,6 @@
 import { Icon, Select } from "@common";
 import { Card } from "@desktop-overlay/components";
-import { MediaSource, MediaSourceContextMenuUtil, MediaSourceFactory } from "@media-source";
+import { MediaSource, MediaSourceFactory } from "@media-source";
 import { useQueue } from "@queue";
 import {
 	YouTubeContextMenuUtil,
@@ -79,10 +79,6 @@ export const Search: Component = () => {
 								mediaSource={mediaSource}
 								inQueue={queue.data.tracks?.some((t) => t.mediaSource.sourceId === item.id)}
 								onClick={() => {}}
-								contextMenu={MediaSourceContextMenuUtil.getContextMenu({
-									mediaSource,
-									queueStore: queue,
-								})}
 								extraContainerClassList={extraContainerClass}
 							/>
 						);
