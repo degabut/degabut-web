@@ -42,7 +42,7 @@ export const MediaSourceLikeManagerProvider: ParentComponent = (props) => {
 	const extractMediaSourceIds = (data: string) => {
 		// find media source id in response
 		const pattern = /(?<=")(youtube|spotify)\/[a-zA-Z0-9_-]+(?=")/g;
-		const matched = JSON.stringify(data).match(pattern) || [];
+		const matched = data.match(pattern) || [];
 		queueIds(matched);
 	};
 
