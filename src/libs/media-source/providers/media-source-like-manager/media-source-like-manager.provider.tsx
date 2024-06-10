@@ -95,7 +95,7 @@ export const MediaSourceLikeManagerProvider: ParentComponent = (props) => {
 			const result = await user.getIsLikedMediaSource(ids);
 			setLiked((c) => ({ ...c, ...result }));
 		},
-		500,
+		350,
 		{ leading: false }
 	);
 
