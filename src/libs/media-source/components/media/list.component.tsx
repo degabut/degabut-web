@@ -43,7 +43,14 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 									toggle();
 								}}
 							>
-								<Icon name={isLiked() ? "heart" : "heartLine"} class="text-brand-600" size="md" />
+								<Icon
+									name={isLiked() ? "heart" : "heartLine"}
+									extraClassList={{
+										"text-brand-600": isLiked(),
+										"text-neutral-300": !isLiked(),
+									}}
+									size="md"
+								/>
 							</Button>
 						)}
 					</Show>
