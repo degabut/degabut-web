@@ -1,7 +1,7 @@
 import { useApp } from "@app/hooks";
 import { AppRoutes } from "@app/routes";
-import { Button, Container, useNavigate } from "@common";
-import { CreatePlaylistModal, Playlist, PlaylistContextMenuUtil, usePlaylists ,type  IPlaylist  } from "@playlist";
+import { Button, Container, Item, Text, useNavigate } from "@common";
+import { CreatePlaylistModal, Playlist, PlaylistContextMenuUtil, usePlaylists, type IPlaylist } from "@playlist";
 import { useQueue } from "@queue";
 import { For, Show, createSignal, onMount, type Component } from "solid-js";
 
@@ -45,6 +45,11 @@ export const Playlists: Component = () => {
 				</Button>
 
 				<div class="space-y-2">
+					<Item.Hint
+						icon="heartLine"
+						onClick={() => navigate(AppRoutes.Liked)}
+						label={() => <Text.Body1>Liked Song</Text.Body1>}
+					/>
 					<Show
 						when={!playlists.data.loading || playlists.data()}
 						fallback={<For each={Array(3)}>{() => <Playlist.ListSkeleton />}</For>}
