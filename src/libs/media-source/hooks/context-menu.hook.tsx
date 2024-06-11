@@ -8,8 +8,10 @@ import { useLikeMediaSource } from "./like-media-source.hook";
 
 type MediaSourceContextMenuProps = {
 	mediaSource: IMediaSource;
-	openWithClick?: boolean;
-	modify?: (current: IContextMenuItem[][]) => IContextMenuItem[][];
+	options?: {
+		openWithClick?: boolean;
+		modify?: (current: IContextMenuItem[][]) => IContextMenuItem[][];
+	};
 };
 
 export const useMediaSourceContextMenu = (
@@ -22,7 +24,7 @@ export const useMediaSourceContextMenu = (
 	const contextMenu = createMemo(() => {
 		let items: IContextMenuItem[][] = [];
 
-		const { mediaSource, modify, openWithClick } = props();
+		const { mediaSource, options } = props();
 		if (!mediaSource) return undefined;
 
 		const mediaSourceId = mediaSource.sourceId;
@@ -94,12 +96,11 @@ export const useMediaSourceContextMenu = (
 			]);
 		}
 
-		// TODO
-		if (modify) items = modify(items);
+		if (options?.modify) items = options?.modify(items);
 
 		return {
 			items,
-			openWithClick: openWithClick ?? true,
+			openWithClick: options?.openWithClick ?? true,
 			header: (
 				<div class="flex-col-center justify-center py-4 space-y-1">
 					<div class="flex w-[16rem] h-[9rem] items-center my-4">

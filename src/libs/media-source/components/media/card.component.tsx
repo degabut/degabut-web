@@ -1,6 +1,6 @@
 import { Icon, Item, contextMenu, type IContextMenuItem, type ItemCardProps } from "@common";
 import { SPOTIFY_INTEGRATION } from "@constants";
-import { Show, createMemo, mergeProps, type Component } from "solid-js";
+import { Show, type Component } from "solid-js";
 import { type IMediaSource } from "../../apis";
 import { useMediaSourceContextMenu } from "../../hooks";
 import { DurationBadge, LiveBadge, SourceBadge } from "./components";
@@ -17,19 +17,15 @@ export type MediaSourceCardProps = Partial<Omit<ItemCardProps, "contextMenu">> &
 };
 
 export const MediaSourceCard: Component<MediaSourceCardProps> = (props) => {
-	const contextMenu = useMediaSourceContextMenu(() => ({ mediaSource: props.mediaSource }));
-	// const like = useLikeMediaSource(() => props.mediaSource.id);
-
-	const mergedContextMenu = createMemo(() => {
-		const base = contextMenu() || undefined;
-		const merged = mergeProps(base, props.contextMenu);
-		return merged;
-	});
+	const contextMenu = useMediaSourceContextMenu(() => ({
+		mediaSource: props.mediaSource,
+		options: props.contextMenu,
+	}));
 
 	return (
 		<Item.Card
 			{...props}
-			contextMenu={mergedContextMenu()}
+			contextMenu={contextMenu()}
 			title={props.mediaSource.title}
 			description={props.mediaSource.creator}
 			imageUrl={props.mediaSource.maxThumbnailUrl}

@@ -1,7 +1,7 @@
 import { Button, Icon, Item, Text, type IContextMenuItem, type ItemListProps } from "@common";
 import { SPOTIFY_INTEGRATION } from "@constants";
 import type { IGuildMember } from "@queue";
-import { Show, createMemo, mergeProps, type Component } from "solid-js";
+import { Show, type Component } from "solid-js";
 import { type IMediaSource } from "../../apis";
 import { useLikeMediaSource, useMediaSourceContextMenu } from "../../hooks";
 import { DurationBadge, LiveBadge, SourceBadge } from "./components";
@@ -17,19 +17,16 @@ export type MediaSourceListProps = Partial<Omit<ItemListProps, "contextMenu">> &
 };
 
 export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
-	const contextMenu = useMediaSourceContextMenu(() => ({ mediaSource: props.mediaSource }));
+	const contextMenu = useMediaSourceContextMenu(() => ({
+		mediaSource: props.mediaSource,
+		options: props.contextMenu,
+	}));
 	const like = useLikeMediaSource(() => props.mediaSource.id);
-
-	const mergedContextMenu = createMemo(() => {
-		const base = contextMenu() || undefined;
-		const merged = mergeProps(base, props.contextMenu);
-		return merged;
-	});
 
 	return (
 		<Item.List
 			{...props}
-			contextMenu={mergedContextMenu()}
+			contextMenu={contextMenu()}
 			title={props.mediaSource.title}
 			imageUrl={props.mediaSource.minThumbnailUrl}
 			right={() => (
@@ -38,7 +35,7 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 						{({ isLiked, toggle }) => (
 							<Button
 								flat
-								class="p-2 !hidden md:!block"
+								class="p-2.5 !hidden md:!block"
 								classList={{ "md:visible": isLiked() }}
 								title={isLiked() ? "Unlike" : "Like"}
 								on:click={(e) => {
@@ -46,7 +43,7 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 									toggle();
 								}}
 							>
-								<Icon name={isLiked() ? "heart" : "heartLine"} class="text-brand-600" size="lg" />
+								<Icon name={isLiked() ? "heart" : "heartLine"} class="text-brand-600" size="md" />
 							</Button>
 						)}
 					</Show>
@@ -92,18 +89,15 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 };
 
 export const MediaSourceListBig: Component<MediaSourceListProps> = (props) => {
-	const contextMenu = useMediaSourceContextMenu(() => ({ mediaSource: props.mediaSource }));
-
-	const mergedContextMenu = createMemo(() => {
-		const base = contextMenu() || undefined;
-		const merged = mergeProps(base, props.contextMenu);
-		return merged;
-	});
+	const contextMenu = useMediaSourceContextMenu(() => ({
+		mediaSource: props.mediaSource,
+		options: props.contextMenu,
+	}));
 
 	return (
 		<Item.ListBig
 			{...props}
-			contextMenu={mergedContextMenu()}
+			contextMenu={contextMenu()}
 			title={props.mediaSource.title}
 			imageUrl={props.mediaSource.maxThumbnailUrl}
 			imageOverlayElement={() => (
