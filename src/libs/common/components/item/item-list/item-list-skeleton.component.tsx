@@ -1,8 +1,9 @@
 import type { Component } from "solid-js";
 import { Skeleton } from "../../";
+import "../item.css";
 
 export const ItemListImageSkeleton: Component = () => {
-	return <Skeleton.Image extraClass="h-12 w-12" />;
+	return <Skeleton.Image extraClass={"item-image"} />;
 };
 
 export const ItemListImageBigSkeleton: Component = () => {

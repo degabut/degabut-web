@@ -1,5 +1,6 @@
 import type { Accessor, Component, JSX } from "solid-js";
 import { Button, Icon, type Icons } from "../../";
+import "../item.css";
 
 type ItemHintProps = {
 	icon: Icons;
@@ -20,7 +21,7 @@ export const ItemHint: Component<ItemHintProps> = (props) => {
 				[props.extraContainerClass || ""]: !!props.extraContainerClass,
 			}}
 		>
-			<div class="!w-12 !h-12 shrink-0 flex items-center justify-center rounded border border-neutral-600">
+			<div class="item-image shrink-0 flex items-center justify-center rounded border border-neutral-600">
 				<Icon name={props.icon} size="lg" extraClass="text-neutral-400" />
 			</div>
 			{props.label()}

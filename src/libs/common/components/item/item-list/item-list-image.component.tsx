@@ -1,4 +1,5 @@
 import { Show, type Accessor, type Component, type JSX } from "solid-js";
+import "../item.css";
 
 type Props = {
 	imageUrl: string | string[];
@@ -14,7 +15,7 @@ export const ItemListImage: Component<Props> = (props) => {
 
 	return (
 		<div
-			class="w-12 h-12 relative shrink-0"
+			class="item-image relative shrink-0"
 			classList={{ [props.extraContainerClass || ""]: !!props.extraContainerClass }}
 		>
 			<Show when={props.overlayElement} keyed>
@@ -34,7 +35,7 @@ export const ItemListImage: Component<Props> = (props) => {
 				referrerpolicy="no-referrer"
 				src={src()}
 				alt={props.title}
-				class="h-12 w-12 object-cover rounded"
+				class="item-image object-cover rounded"
 				classList={{ [props.extraClass || ""]: !!props.extraClass }}
 			/>
 		</div>
