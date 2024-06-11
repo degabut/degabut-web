@@ -12,6 +12,20 @@ export const NowPlayingController: Component = () => {
 
 	return (
 		<div class="flex flex-col space-y-6 h-full">
+			<Show when={queue.data.nowPlaying} keyed>
+				{(track) => {
+					const nowPlayingContextMenu = useMediaSourceContextMenu(() => ({
+						mediaSource: track.mediaSource,
+					}));
+
+					return (
+						<div class="flex justify-end py-2">
+							<ContextMenuButton iconSize="lg" contextMenu={nowPlayingContextMenu()} />
+						</div>
+					);
+				}}
+			</Show>
+
 			<div class="relative flex-grow flex items-center justify-center px-4">
 				<PreviewThumbnail
 					mediaSource={queue.data.nowPlaying?.mediaSource}
@@ -21,28 +35,20 @@ export const NowPlayingController: Component = () => {
 
 			<div class="relative flex flex-col space-y-6">
 				<Show when={queue.data.nowPlaying} keyed>
-					{(track) => {
-						const nowPlayingContextMenu = useMediaSourceContextMenu(() => ({
-							mediaSource: track.mediaSource,
-						}));
+					{(track) => (
+						<div class="flex-row-center">
+							<div class="grow flex flex-col space-y-1.5 px-2 text-shadow truncate">
+								<Text.H2 truncate>{track.mediaSource.title}</Text.H2>
 
-						return (
-							<div class="flex-row-center">
-								<div class="grow flex flex-col space-y-1.5 px-2 text-shadow truncate">
-									<Text.H2 truncate>{track.mediaSource.title}</Text.H2>
-
-									<div class="flex-row-center space-x-2.5">
-										<SourceBadge size="lg" type={track.mediaSource.type} />
-										<Text.Body1 truncate class="text-neutral-300">
-											{track.mediaSource.creator}
-										</Text.Body1>
-									</div>
+								<div class="flex-row-center space-x-2.5">
+									<SourceBadge size="lg" type={track.mediaSource.type} />
+									<Text.Body1 truncate class="text-neutral-300">
+										{track.mediaSource.creator}
+									</Text.Body1>
 								</div>
-
-								<ContextMenuButton contextMenu={nowPlayingContextMenu()} />
 							</div>
-						);
-					}}
+						</div>
+					)}
 				</Show>
 
 				<div class="w-full px-2">
