@@ -8,7 +8,7 @@ type Props = {
 
 export const Preview: Component<Props> = (props) => {
 	return (
-		<div class="flex flex-col space-y-2 overflow-hidden">
+		<div class="flex flex-col h-full space-y-2 overflow-hidden">
 			<div class="flex-row-center space-x-2">
 				<SelectorButton
 					text="Thumbnail"

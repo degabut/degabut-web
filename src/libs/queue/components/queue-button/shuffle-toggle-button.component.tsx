@@ -29,6 +29,7 @@ export const ShuffleToggleButton: Component<Props> = (props) => {
 			iconSize={props.iconSize || "lg"}
 			class="p-2"
 			classList={{
+				"text-neutral-300": !shuffle(),
 				"text-brand-600 hover:!text-brand-600": shuffle() && !props.disabled,
 				"text-brand-800": shuffle() && props.disabled,
 				[props.extraClass || ""]: !!props.extraClass,

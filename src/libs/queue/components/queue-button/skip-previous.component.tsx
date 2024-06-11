@@ -8,14 +8,14 @@ type Props = {
 	iconSize?: IconSize;
 };
 
-export const SkipButton: Component<Props> = (props) => {
+export const SkipPreviousButton: Component<Props> = (props) => {
 	return (
 		<Button
 			flat
 			onClick={() => props.onClick()}
-			title="Skip"
+			title="Previous"
 			disabled={props.disabled}
-			icon="skip"
+			icon="skipPrevious"
 			iconSize={props.iconSize || "lg"}
 			class="p-2"
 			classList={{

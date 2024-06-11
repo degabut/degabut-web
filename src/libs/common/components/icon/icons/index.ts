@@ -2,6 +2,8 @@ import Degabut from "~icons/degabut/degabut";
 import DegabutThin from "~icons/degabut/degabut-thin";
 import ArrowDown from "~icons/mdi/arrow-down";
 import ArrowUp from "~icons/mdi/arrow-up";
+import ChevronDown from "~icons/mdi/chevron-down";
+import ChevronRight from "~icons/mdi/chevron-right";
 import Close from "~icons/mdi/close";
 import EditPencil from "~icons/mdi/edit";
 import Ellipsis from "~icons/mdi/ellipsis-vertical";
@@ -30,6 +32,7 @@ import LoopOne from "~icons/mdi/repeat-once";
 import Search from "~icons/mdi/search";
 import Shuffle from "~icons/mdi/shuffle-variant";
 import SkipNext from "~icons/mdi/skip-next";
+import SkipPrevious from "~icons/mdi/skip-previous";
 import Spotify from "~icons/mdi/spotify";
 import Stars from "~icons/mdi/stars";
 import Swap from "~icons/mdi/swap-horizontal";
@@ -43,13 +46,16 @@ import Youtube from "~icons/mdi/youtube";
 export const icons = {
 	arrowDown: { component: ArrowDown },
 	arrowUp: { component: ArrowUp },
+	chevronDown: { component: ChevronDown, viewBox: "5 5 14 14" },
+	chevronRight: { component: ChevronRight, viewBox: "5 5 14 14" },
 	closeLine: { component: Close, viewBox: "5 5 14 14" },
 	degabutThin: { component: Degabut, viewBox: "0 0 1024 1024" },
 	degabut: { component: DegabutThin, viewBox: "0 0 1024 1024" },
 	download: { component: Download },
 	editPencil: { component: EditPencil },
 	ellipsis: { component: Ellipsis, viewBox: "4 4 16 16" },
-	skip: { component: SkipNext, viewBox: "5 5 14 14" },
+	skipNext: { component: SkipNext, viewBox: "5 5 14 14" },
+	skipPrevious: { component: SkipPrevious, viewBox: "5 5 14 14" },
 	gear: { component: Gear },
 	heartBroken: { component: HeartBroken },
 	heartLine: { component: HeartLine },

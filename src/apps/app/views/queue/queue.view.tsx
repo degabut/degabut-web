@@ -3,6 +3,7 @@ import { Container, useScreen } from "@common";
 import { useSettings } from "@settings";
 import { Show, createEffect, createSignal, onMount, type Component } from "solid-js";
 import { Preview, QueueTabs } from "./components";
+import { QueueInfo } from "./components/queue-tabs/components";
 
 export const Queue: Component = () => {
 	const app = useApp();
@@ -15,25 +16,31 @@ export const Queue: Component = () => {
 	createEffect(() => setSettings("queue.showThumbnail", isThumbnail()));
 
 	return (
-		<Container
-			size="full"
-			padless
-			centered
-			extraClass="h-full"
-			extraClassList={{
-				"lg:grid": true,
+		<div
+			class="h-full"
+			classList={{
+				"lg:grid gap-x-2": settings["app.player.minimized"],
 				"grid-cols-2": isThumbnail(),
 				"grid-cols-[minmax(0,0.6fr)_minmax(0,0.4fr)]": !isThumbnail(),
-				"lg:gap-x-8 xl:gap-x-10 2xl:gap-x-16": true,
-				"space-y-8 md:space-y-0": true,
-				"pt-3 md:py-6 px-3 md:px-8 lg:pr-12 2xl:pr-16": true,
 			}}
 		>
-			<Show when={screen.gte.lg}>
-				<Preview isThumbnail={isThumbnail()} onChangeViewMode={setIsThumbnail} />
+			<Show when={screen.gte.lg && settings["app.player.minimized"]}>
+				<Container size="full" padless extraClass="h-full py-6 px-8">
+					<Preview isThumbnail={isThumbnail()} onChangeViewMode={setIsThumbnail} />
+				</Container>
 			</Show>
 
-			<QueueTabs />
-		</Container>
+			<div class="flex flex-col h-full overflow-y-auto md:space-y-2">
+				<div class="shrink">
+					<Container padless extraClass={"py-3 px-4 md:px-8"}>
+						<QueueInfo />
+					</Container>
+				</div>
+
+				<Container size="full" padless centered extraClass="h-full py-3 md:py-5 px-3 md:px-8">
+					<QueueTabs />
+				</Container>
+			</div>
+		</div>
 	);
 };

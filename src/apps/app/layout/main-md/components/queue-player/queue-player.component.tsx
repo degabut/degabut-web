@@ -1,5 +1,5 @@
 import { AppRoutes } from "@app/routes";
-import { A, useNavigate } from "@common";
+import { A, Button, useNavigate } from "@common";
 import { useDesktop } from "@desktop";
 import { MediaSource } from "@media-source";
 import { QueueActions, QueueButton, QueueSeekSlider, VolumeSlider, useQueue } from "@queue";
@@ -42,7 +42,11 @@ export const QueuePlayer: Component = () => {
 
 				<div class="flex-col-center pt-0.5">
 					<div class="-space-y-3.5 w-full max-w-[36rem] 2xl:max-w-[42rem]">
-						<QueueActions extraClass="justify-center space-x-6" />
+						<QueueActions
+							iconSize="md"
+							extraClass="justify-center space-x-2 lg:space-x-4"
+							extraButtonClass="p-2.5"
+						/>
 						<QueueSeekSlider
 							disabled={queue.freezeState.seek}
 							max={queue.data.nowPlaying?.mediaSource.duration || 0}
@@ -52,24 +56,35 @@ export const QueuePlayer: Component = () => {
 					</div>
 				</div>
 
-				<div class="flex items-center justify-end space-x-0.5">
-					<QueueButton.Lyrics iconSize="md" onClick={() => navigate(AppRoutes.Lyrics)} />
-					<QueueButton.Options iconSize="md" onClearQueue={queue.clear} onStopQueue={queue.stop} />
-					<Show when={settings["discord.rpc"]}>
-						<VolumeSlider
-							value={settings["botVolumes"][queue.bot().id]}
-							onChange={(value) => {
-								setSettings("botVolumes", { [queue.bot().id]: value });
-								desktop?.ipc?.setBotVolume?.(value, queue.bot().id);
-							}}
-							onMuteToggled={(isMuted) => {
-								desktop?.ipc?.setBotVolume?.(
-									isMuted ? 0 : settings["botVolumes"][queue.bot().id],
-									queue.bot().id
-								);
-							}}
-						/>
-					</Show>
+				<div class="flex-row-center justify-end space-x-4">
+					<div class="flex-row-center space-x-0.5">
+						<QueueButton.Lyrics iconSize="md" onClick={() => navigate(AppRoutes.Lyrics)} />
+						<QueueButton.Options iconSize="md" onClearQueue={queue.clear} onStopQueue={queue.stop} />
+						<Show when={settings["discord.rpc"]}>
+							<VolumeSlider
+								value={settings["botVolumes"][queue.bot().id]}
+								onChange={(value) => {
+									setSettings("botVolumes", { [queue.bot().id]: value });
+									desktop?.ipc?.setBotVolume?.(value, queue.bot().id);
+								}}
+								onMuteToggled={(isMuted) => {
+									desktop?.ipc?.setBotVolume?.(
+										isMuted ? 0 : settings["botVolumes"][queue.bot().id],
+										queue.bot().id
+									);
+								}}
+							/>
+						</Show>
+					</div>
+
+					<Button
+						flat
+						icon="chevronRight"
+						title="Expand"
+						class="p-2"
+						iconSize="md"
+						onClick={() => setSettings("app.player.minimized", false)}
+					/>
 				</div>
 			</div>
 		</Show>
