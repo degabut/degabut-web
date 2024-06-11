@@ -1,5 +1,3 @@
-import { type ComponentProps, type JSX } from "solid-js";
-import { type DynamicProps } from "solid-js/web";
 import Degabut from "~icons/degabut/degabut";
 import DegabutThin from "~icons/degabut/degabut-thin";
 import ArrowDown from "~icons/mdi/arrow-down";
@@ -42,7 +40,7 @@ import SoundMedium from "~icons/mdi/volume-medium";
 import SoundOff from "~icons/mdi/volume-mute";
 import Youtube from "~icons/mdi/youtube";
 
-export const icons: Record<string, DynamicProps<(props: ComponentProps<"svg">) => JSX.Element>> = {
+export const icons = {
 	arrowDown: { component: ArrowDown },
 	arrowUp: { component: ArrowUp },
 	closeLine: { component: Close, viewBox: "5 5 14 14" },
@@ -84,4 +82,4 @@ export const icons: Record<string, DynamicProps<(props: ComponentProps<"svg">) =
 	swap: { component: Swap, viewBox: "3 3 18 18" },
 	trashBin: { component: TrashBin, viewBox: "3 3 18 18" },
 	youtube: { component: Youtube },
-};
+} as const;
