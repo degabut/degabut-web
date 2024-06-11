@@ -44,7 +44,11 @@ export const QueueNowPlaying: Component = () => {
 							class="absolute top-0 left-0 h-full w-full blur-2xl opacity-75 -z-10 pointer-events-none"
 						/>
 
-						<MediaSource.List mediaSource={mediaSource} extraContainerClass="text-shadow" />
+						<MediaSource.List
+							mediaSource={mediaSource}
+							contextMenu={{ openWithClick: false }}
+							extraContainerClass="text-shadow"
+						/>
 					</A>
 				</div>
 			)}
