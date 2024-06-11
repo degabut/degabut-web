@@ -7,6 +7,7 @@ type Props = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
 	flat?: boolean;
 	icon?: Icons;
 	iconSize?: IconSize;
+	iconClassList?: Record<string, boolean | undefined>;
 };
 
 export const Button: Component<Props> = (props) => {
@@ -28,7 +29,14 @@ export const Button: Component<Props> = (props) => {
 			}}
 		>
 			<Show when={props.icon} keyed>
-				{(icon) => <Icon name={icon} size={props.iconSize || "md"} class="shrink-0" />}
+				{(icon) => (
+					<Icon
+						name={icon}
+						size={props.iconSize || "md"}
+						class="shrink-0"
+						extraClassList={props.iconClassList}
+					/>
+				)}
 			</Show>
 
 			<Show when={typeof props.children === "string"} fallback={props.children}>

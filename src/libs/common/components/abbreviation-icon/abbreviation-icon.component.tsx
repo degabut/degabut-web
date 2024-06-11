@@ -4,7 +4,7 @@ type Props = {
 	text: string;
 	size?: AbbreviationIconSize;
 	extraClass?: string;
-	extraClassList?: Record<string, boolean>;
+	extraClassList?: Record<string, boolean | undefined>;
 };
 
 type AbbreviationIconSize = "md" | "xl";

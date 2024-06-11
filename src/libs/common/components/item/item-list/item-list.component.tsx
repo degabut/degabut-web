@@ -16,7 +16,7 @@ type BaseProps = {
 	contextMenu?: ContextMenuDirectiveParams;
 	hideContextMenuButton?: boolean;
 	extraContainerClass?: string;
-	extraContainerClassList?: Record<string, boolean>;
+	extraContainerClassList?: Record<string, boolean | undefined>;
 	extraTitleClass?: string;
 	extraContextMenuButtonClass?: string;
 	onClick?: () => void;

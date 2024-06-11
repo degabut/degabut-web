@@ -6,7 +6,7 @@ type ItemHintProps = {
 	onClick?: () => void;
 	label: Accessor<JSX.Element>;
 	extraContainerClass?: string;
-	extraContainerClassList?: Record<string, boolean>;
+	extraContainerClassList?: Record<string, boolean | undefined>;
 };
 
 export const ItemHint: Component<ItemHintProps> = (props) => {

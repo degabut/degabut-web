@@ -11,7 +11,7 @@ type Props = JSX.InputHTMLAttributes<SVGSVGElement> & {
 	name: Icons;
 	size?: IconSize;
 	extraClass?: string;
-	extraClassList?: Record<string, boolean>;
+	extraClassList?: Record<string, boolean | undefined>;
 };
 
 export const Icon: Component<Props> = (props) => {
