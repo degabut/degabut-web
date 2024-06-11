@@ -35,7 +35,7 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 			right={() => (
 				<div class="flex-row-center">
 					<Show when={like} keyed>
-						{({ isLiked, like, unlike }) => (
+						{({ isLiked, toggle }) => (
 							<Button
 								flat
 								class="p-2 !hidden md:!block"
@@ -43,8 +43,7 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 								title={isLiked() ? "Unlike" : "Like"}
 								on:click={(e) => {
 									e.stopImmediatePropagation();
-									if (isLiked()) unlike();
-									else like();
+									toggle();
 								}}
 							>
 								<Icon name={isLiked() ? "heart" : "heartLine"} class="text-brand-600" size="lg" />

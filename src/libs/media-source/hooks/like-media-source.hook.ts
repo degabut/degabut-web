@@ -8,10 +8,12 @@ export const useLikeMediaSource = (id: Accessor<string>) => {
 	const isLiked = () => mediaSourceLikeManager.liked[id()];
 	const like = () => mediaSourceLikeManager.like(id());
 	const unlike = () => mediaSourceLikeManager.unlike(id());
+	const toggle = () => (isLiked() ? unlike() : like());
 
 	return {
 		isLiked,
 		like,
 		unlike,
+		toggle,
 	};
 };

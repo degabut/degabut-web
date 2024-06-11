@@ -69,7 +69,7 @@ export const useMediaSourceContextMenu = (
 				secondSection.push({
 					label: !like.isLiked() ? "Like" : "Unlike",
 					icon: !like.isLiked() ? "heart" : "heartBroken",
-					onClick: () => (!like.isLiked() ? like.like() : like.unlike()),
+					onClick: like.toggle,
 				});
 			}
 
