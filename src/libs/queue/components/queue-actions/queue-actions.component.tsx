@@ -9,13 +9,20 @@ type Props = {
 	extraButtonClass?: string;
 	iconSize?: IconSize;
 	extra?: () => JSX.Element;
+	vertical?: boolean;
 };
 
 export const QueueActions: Component<Props> = (props) => {
 	const queue = useQueue();
 
 	return (
-		<div class="flex-row-center" classList={{ [props.extraClass || ""]: !!props.extraClass }}>
+		<div
+			classList={{
+				[props.extraClass || ""]: !!props.extraClass,
+				"flex-col-center": !!props.vertical,
+				"flex-row-center": !props.vertical,
+			}}
+		>
 			<QueueButton.ShuffleToggle
 				defaultValue={!!queue.data.shuffle}
 				onChange={() => queue.toggleShuffle()}

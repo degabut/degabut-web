@@ -1,9 +1,10 @@
-import { Container } from "@common";
+import { resizable } from "@common";
 import { DesktopContainer } from "@desktop";
 import { useSettings } from "@settings";
 import { Show, type ParentComponent } from "solid-js";
-import { NowPlayingController } from "../../components";
-import { AppDrawer, QueuePlayer } from "./components";
+import { AppDrawer, NowPlayingDrawer, QueuePlayer } from "./components";
+
+resizable;
 
 export const MainMd: ParentComponent = (props) => {
 	const { settings } = useSettings();
@@ -17,11 +18,7 @@ export const MainMd: ParentComponent = (props) => {
 					<div class="relative h-full w-full overflow-y-auto">{props.children}</div>
 
 					<Show when={!settings["app.player.minimized"]}>
-						<div class="w-96 flex flex-row shrink-0">
-							<Container size="full" padless centered extraClass="h-full px-6 pb-12">
-								<NowPlayingController />
-							</Container>
-						</div>
+						<NowPlayingDrawer />
 					</Show>
 				</div>
 

@@ -4,7 +4,7 @@ import { Show, type Component } from "solid-js";
 
 type PreviewThumbnailProps = {
 	mediaSource?: IMediaSource;
-	onClick: () => void;
+	onClick?: () => void;
 };
 
 export const PreviewThumbnail: Component<PreviewThumbnailProps> = (props) => {
@@ -20,7 +20,7 @@ export const PreviewThumbnail: Component<PreviewThumbnailProps> = (props) => {
 						src={mediaSource.maxThumbnailUrl}
 						alt={mediaSource.title}
 						class="object-cover max-w-[50vh] w-full z-0 aspect-square rounded"
-						onClick={() => props.onClick()}
+						onClick={() => props.onClick?.()}
 					/>
 				</>
 			)}
