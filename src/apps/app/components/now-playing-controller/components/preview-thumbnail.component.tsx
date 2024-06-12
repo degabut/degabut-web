@@ -19,7 +19,7 @@ export const PreviewThumbnail: Component<PreviewThumbnailProps> = (props) => {
 					<img
 						src={mediaSource.maxThumbnailUrl}
 						alt={mediaSource.title}
-						class="object-cover max-w-[50vh] w-full z-0 aspect-square rounded-2xl"
+						class="object-cover max-w-[50vh] w-full z-0 aspect-square rounded"
 						onClick={() => props.onClick()}
 					/>
 				</>
@@ -30,7 +30,7 @@ export const PreviewThumbnail: Component<PreviewThumbnailProps> = (props) => {
 
 const Skeleton: Component = () => {
 	return (
-		<div class="max-w-[50vh] w-full aspect-square rounded-2xl border border-neutral-800 flex-row-center justify-center">
+		<div class="max-w-[50vh] w-full aspect-square rounded border border-neutral-800 flex-row-center justify-center">
 			<Icon class="text-neutral-850 w-24 h-24" name="musicNotes" />
 		</div>
 	);
