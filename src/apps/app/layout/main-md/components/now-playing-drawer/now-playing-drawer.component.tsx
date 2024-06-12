@@ -41,7 +41,10 @@ export const NowPlayingDrawer: Component = () => {
 						"left-0 hover:border-l": true,
 					}}
 				/>
-				<Show when={settings["app.player.size"] <= breakpoint} fallback={<NowPlayingController />}>
+				<Show
+					when={settings["app.player.size"] <= breakpoint}
+					fallback={<NowPlayingController showMinimizeButton />}
+				>
 					<VerticalNowPlayingController />
 				</Show>
 			</Container>

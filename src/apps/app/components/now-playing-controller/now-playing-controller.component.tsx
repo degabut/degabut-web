@@ -6,7 +6,11 @@ import { QueueActions, QueueSeekSlider, useQueue } from "@queue";
 import { useSettings } from "@settings";
 import { PreviewThumbnail } from "./components";
 
-export const NowPlayingController: Component = () => {
+type NowPlayingControllerProps = {
+	showMinimizeButton?: boolean;
+};
+
+export const NowPlayingController: Component<NowPlayingControllerProps> = (props) => {
 	const queue = useQueue();
 	const { setSettings } = useSettings();
 
@@ -100,14 +104,16 @@ export const NowPlayingController: Component = () => {
 								)}
 							</Show>
 
-							<Button
-								flat
-								icon="chevronDown"
-								title="Minimize"
-								onClick={() => setSettings("app.player.minimized", true)}
-								class="p-4"
-								iconSize="lg"
-							/>
+							<Show when={props.showMinimizeButton}>
+								<Button
+									flat
+									icon="chevronDown"
+									title="Minimize"
+									onClick={() => setSettings("app.player.minimized", true)}
+									class="p-4"
+									iconSize="lg"
+								/>
+							</Show>
 						</div>
 					</div>
 				</div>
