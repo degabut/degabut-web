@@ -1,4 +1,5 @@
 import type { Component } from "solid-js";
+import "../item/item.css";
 
 type Props = {
 	text: string;
@@ -23,7 +24,7 @@ export const AbbreviationIcon: Component<Props> = (props) => {
 		<div
 			class="flex-col-center justify-center border border-neutral-600 rounded"
 			classList={{
-				"w-12 h-12": size() === "md",
+				"item-image": size() === "md",
 				"text-2xl": size() === "md" && shortName().length === 1,
 				"text-xl": size() === "md" && shortName().length === 2,
 				"text-md": size() === "md" && shortName().length === 3,
