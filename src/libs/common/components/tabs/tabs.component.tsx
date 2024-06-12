@@ -22,6 +22,7 @@ export type ITabItem = {
 
 type Props = {
 	items: ITabItem[];
+	borderless?: boolean;
 	extraTabsClass?: string;
 	extraTabClass?: string;
 	extraContainerClass?: string;
@@ -49,7 +50,10 @@ export const Tabs: Component<Props> = (props) => {
 						class="flex flex-col"
 						classList={{ [props.extraContainerClass || ""]: !!props.extraContainerClass }}
 					>
-						<div class="flex overflow-x-auto overflow-y-hidden border-b items-center border-neutral-600">
+						<div
+							class="flex overflow-x-auto overflow-y-hidden  items-center"
+							classList={{ "border-b border-neutral-600": !props.borderless }}
+						>
 							<div
 								class="flex-row-center shrink-0 w-full"
 								classList={{ [props.extraTabsClass || ""]: !!props.extraTabsClass }}
