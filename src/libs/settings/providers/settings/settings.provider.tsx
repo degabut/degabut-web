@@ -43,7 +43,7 @@ const defaultSettings: Settings = {
 	["discord.rpcClientId"]: "",
 	["discord.rpcClientSecret"]: "",
 	["app.drawerSize"]: 256,
-	["app.player.size"]: 384,
+	["app.player.size"]: 360,
 	["app.player.minimized"]: false,
 	["app.textSize"]: 16,
 	["app.snowfall.enabled"]: true,

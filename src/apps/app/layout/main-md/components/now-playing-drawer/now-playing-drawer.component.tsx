@@ -12,10 +12,10 @@ export const NowPlayingDrawer: Component = () => {
 
 	return (
 		<div
-			class="shrink-0  max-w-3xl"
+			class="shrink-0 max-w-3xl"
 			style={{ width: `${settings["app.player.size"]}px` }}
 			classList={{
-				"min-w-96": settings["app.player.size"] > breakpoint,
+				"min-w-[22.5rem]": settings["app.player.size"] > breakpoint,
 				"min-w-16": settings["app.player.size"] <= breakpoint,
 			}}
 			use:resizable={{
