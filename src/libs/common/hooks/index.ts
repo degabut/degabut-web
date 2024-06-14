@@ -1,3 +1,4 @@
+export * from "./aspect-square.hook";
 export * from "./create-persisted-store.hook";
 export * from "./hash-state.hook";
 export * from "./infinite-scrolling.hook";

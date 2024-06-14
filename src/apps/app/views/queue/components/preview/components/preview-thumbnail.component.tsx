@@ -1,26 +1,14 @@
-import { Icon, Text, contextMenu, useScreen } from "@common";
+import { Icon, Text, contextMenu, useAspectSquare } from "@common";
 import { type IMediaSource } from "@media-source";
 import { QueueActions, useQueue } from "@queue";
-import { Show, createEffect, createSignal, on, type Component } from "solid-js";
+import { Show, type Component } from "solid-js";
 
 contextMenu;
 
 export const PreviewThumbnail: Component = () => {
 	let containerRef!: HTMLDivElement;
 	const queue = useQueue();
-	const screen = useScreen();
-
-	const [size, setSize] = createSignal(0);
-
-	createEffect(
-		on(
-			() => [screen.width, screen.height],
-			() => {
-				const rect = containerRef.getBoundingClientRect();
-				setSize(Math.min(rect.width, rect.height));
-			}
-		)
-	);
+	const size = useAspectSquare(() => containerRef);
 
 	return (
 		<div class="flex-row-center justify-center h-full" ref={containerRef}>
