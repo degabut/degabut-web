@@ -10,6 +10,7 @@ import Ellipsis from "~icons/mdi/ellipsis-vertical";
 import LinkExternal from "~icons/mdi/external-link";
 import List from "~icons/mdi/format-list-bulleted-square";
 import Gear from "~icons/mdi/gear";
+import GearPlay from "~icons/mdi/gear-play";
 import Menu from "~icons/mdi/hamburger-menu";
 import Heart from "~icons/mdi/heart";
 import HeartBroken from "~icons/mdi/heart-broken";
@@ -57,6 +58,7 @@ export const icons = {
 	skipNext: { component: SkipNext, viewBox: "5 5 14 14" },
 	skipPrevious: { component: SkipPrevious, viewBox: "5 5 14 14" },
 	gear: { component: Gear },
+	gearPlay: { component: GearPlay },
 	heartBroken: { component: HeartBroken },
 	heartLine: { component: HeartLine },
 	heart: { component: Heart },

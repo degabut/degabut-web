@@ -1,4 +1,4 @@
-import { Icon } from "@common";
+import { Icon, useAspectSquare } from "@common";
 import type { IMediaSource } from "@media-source";
 import { Show, type Component } from "solid-js";
 
@@ -8,30 +8,59 @@ type PreviewThumbnailProps = {
 };
 
 export const PreviewThumbnail: Component<PreviewThumbnailProps> = (props) => {
+	let containerRef!: HTMLDivElement;
+	const size = useAspectSquare(() => containerRef);
+
 	return (
-		<Show when={props.mediaSource} keyed fallback={<Skeleton />}>
-			{(mediaSource) => (
-				<>
-					<img
-						src={mediaSource.minThumbnailUrl}
-						class="absolute h-full aspect-square opacity-50 blur-[96px] pointer-events-none"
-					/>
-					<img
-						src={mediaSource.maxThumbnailUrl}
-						alt={mediaSource.title}
-						class="object-cover max-w-[50vh] w-full z-0 aspect-square rounded"
-						onClick={() => props.onClick?.()}
-					/>
-				</>
-			)}
-		</Show>
+		<div class="flex-row-center justify-center h-full" ref={containerRef}>
+			<Show when={props.mediaSource} keyed fallback={<Skeleton size={size()} />}>
+				{(mediaSource) => <Thumbnail size={size()} mediaSource={mediaSource} onClick={props.onClick} />}
+			</Show>
+		</div>
 	);
 };
 
-const Skeleton: Component = () => {
+type ThumbnailProps = {
+	size: number;
+	mediaSource: IMediaSource;
+	onClick?: () => void;
+};
+
+const Thumbnail: Component<ThumbnailProps> = (props) => {
 	return (
-		<div class="max-w-[50vh] w-full aspect-square rounded border border-neutral-800 flex-row-center justify-center">
-			<Icon class="text-neutral-850 w-24 h-24" name="musicNotes" />
+		<div
+			class="relative max-w-[24rem] max-h-[24rem]"
+			style={{
+				width: `${props.size}px`,
+				height: `${props.size}px`,
+			}}
+		>
+			<img
+				src={props.mediaSource.maxThumbnailUrl}
+				alt={props.mediaSource.title}
+				class="absolute h-full object-cover rounded"
+				onClick={() => props.onClick?.()}
+			/>
+		</div>
+	);
+};
+
+type SkeletonProps = {
+	size: number;
+};
+
+const Skeleton: Component<SkeletonProps> = (props) => {
+	return (
+		<div
+			class="absolute max-w-[24rem] max-h-[24rem] w-full"
+			style={{
+				width: `${props.size}px`,
+				height: `${props.size}px`,
+			}}
+		>
+			<div class="w-full h-full flex-row-center justify-center rounded border border-neutral-800 p-4">
+				<Icon class="text-neutral-850 w-full h-full max-w-32 max-h-32" name="musicNotes" />
+			</div>
 		</div>
 	);
 };

@@ -30,8 +30,8 @@ export const NowPlayingDrawer: Component = () => {
 				centered
 				extraClass="w-full relative flex flex-row shrink-0 flex-row-center h-full"
 				extraClassList={{
-					"px-6 pb-12": settings["app.player.size"] > breakpoint,
-					"px-1.5": settings["app.player.size"] <= breakpoint,
+					"p-6 pt-2.5": settings["app.player.size"] > breakpoint,
+					"px-1.5 bg-black": settings["app.player.size"] <= breakpoint,
 				}}
 			>
 				<div
