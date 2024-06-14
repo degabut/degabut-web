@@ -25,68 +25,68 @@ export const QueuePlayer: Component = () => {
 	const { settings, setSettings } = useSettings();
 
 	return (
-		<Show when={!queue.data.empty} keyed>
-			<div class="grid grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)_minmax(0,1fr)] gap-x-8 bg-black p-2 rounded-lg">
-				<div class="relative overflow-hidden rounded text-shadow w-full max-w-md xl:max-w-lg">
-					<Show when={queue.data.nowPlaying} fallback={<EmptyNowPlaying />} keyed>
-						{(t) => (
-							<MediaSource.List
-								mediaSource={t.mediaSource}
-								onClick={() => navigate(AppRoutes.Queue)}
-								hideContextMenuButton
-								contextMenu={{ openWithClick: false }}
-							/>
-						)}
-					</Show>
-				</div>
-
-				<div class="flex-col-center pt-0.5">
-					<div class="-space-y-3.5 w-full max-w-[36rem] 2xl:max-w-[42rem]">
-						<QueueActions
-							iconSize="md"
-							extraClass="justify-center space-x-2 lg:space-x-4"
-							extraButtonClass="p-2.5"
+		<div class="grid grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)_minmax(0,1fr)] gap-x-4 lg:gap-x-8 bg-black p-2 rounded-lg">
+			<div class="relative overflow-hidden rounded text-shadow w-full max-w-md xl:max-w-lg">
+				<Show when={queue.data.nowPlaying} fallback={<EmptyNowPlaying />} keyed>
+					{(t) => (
+						<MediaSource.List
+							mediaSource={t.mediaSource}
+							onClick={() => navigate(AppRoutes.Queue)}
+							hideContextMenuButton
+							contextMenu={{ openWithClick: false }}
 						/>
-						<QueueSeekSlider
-							disabled={queue.freezeState.seek}
-							max={queue.data.nowPlaying?.mediaSource.duration || 0}
-							value={(queue.data.position || 0) / 1000}
-							onChange={(value) => queue.seek(value * 1000)}
-						/>
-					</div>
-				</div>
+					)}
+				</Show>
+			</div>
 
-				<div class="flex-row-center justify-end space-x-4">
-					<div class="flex-row-center space-x-0.5">
-						<QueueButton.Lyrics iconSize="md" onClick={() => navigate(AppRoutes.Lyrics)} />
-						<QueueButton.Options iconSize="md" onClearQueue={queue.clear} onStopQueue={queue.stop} />
-						<Show when={settings["discord.rpc"]}>
-							<VolumeSlider
-								value={settings["botVolumes"][queue.bot().id]}
-								onChange={(value) => {
-									setSettings("botVolumes", { [queue.bot().id]: value });
-									desktop?.ipc?.setBotVolume?.(value, queue.bot().id);
-								}}
-								onMuteToggled={(isMuted) => {
-									desktop?.ipc?.setBotVolume?.(
-										isMuted ? 0 : settings["botVolumes"][queue.bot().id],
-										queue.bot().id
-									);
-								}}
-							/>
-						</Show>
-					</div>
-
-					<Button
-						flat
-						icon="chevronRight"
-						title="Expand"
-						class="p-2"
+			<div class="flex-col-center pt-0.5">
+				<div class="-space-y-3.5 w-full max-w-[36rem] 2xl:max-w-[42rem]">
+					<QueueActions
 						iconSize="md"
-						onClick={() => setSettings("app.player.minimized", false)}
+						extraClass="justify-center space-x-2 lg:space-x-4"
+						extraButtonClass="p-2.5"
+					/>
+					<QueueSeekSlider
+						disabled={queue.freezeState.seek}
+						max={queue.data.nowPlaying?.mediaSource.duration || 0}
+						value={(queue.data.position || 0) / 1000}
+						onChange={(value) => queue.seek(value * 1000)}
 					/>
 				</div>
 			</div>
-		</Show>
+
+			<div class="flex-row-center justify-end space-x-0.5 lg:space-x-1.5">
+				<QueueButton.Lyrics iconSize="md" onClick={() => navigate(AppRoutes.Lyrics)} />
+				<QueueButton.Options
+					disabled={queue.data.empty}
+					iconSize="md"
+					onClearQueue={queue.clear}
+					onStopQueue={queue.stop}
+				/>
+				<Show when={settings["discord.rpc"]}>
+					<VolumeSlider
+						value={settings["botVolumes"][queue.bot().id]}
+						onChange={(value) => {
+							setSettings("botVolumes", { [queue.bot().id]: value });
+							desktop?.ipc?.setBotVolume?.(value, queue.bot().id);
+						}}
+						onMuteToggled={(isMuted) => {
+							desktop?.ipc?.setBotVolume?.(
+								isMuted ? 0 : settings["botVolumes"][queue.bot().id],
+								queue.bot().id
+							);
+						}}
+					/>
+				</Show>
+				<Button
+					flat
+					icon="chevronRight"
+					title="Expand"
+					class="p-2"
+					iconSize="md"
+					onClick={() => setSettings("app.player.minimized", false)}
+				/>
+			</div>
+		</div>
 	);
 };

@@ -7,6 +7,7 @@ contextMenu;
 type Props = {
 	onClearQueue: (removeNowPlaying: boolean) => void;
 	onStopQueue: () => void;
+	disabled?: boolean;
 	extraClass?: string;
 	iconSize?: IconSize;
 };
@@ -68,6 +69,7 @@ export const OptionsButton: Component<Props> = (props) => {
 		>
 			<Button
 				flat
+				disabled={props.disabled}
 				class="p-2"
 				icon="menu"
 				iconSize={props.iconSize || "lg"}
