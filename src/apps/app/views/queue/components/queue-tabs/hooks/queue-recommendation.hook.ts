@@ -1,4 +1,4 @@
-import { MediaSourceFactory ,type  IMediaSource  } from "@media-source";
+import { MediaSourceFactory, type IMediaSource } from "@media-source";
 import type { ITrack } from "@queue";
 import { useSpotify } from "@spotify";
 import { usePlayHistory } from "@user";

@@ -67,7 +67,6 @@ export function contextMenu(el: HTMLElement, accessor: Accessor<ContextMenuDirec
 export function buttonContextMenu(el: HTMLElement, accessor: Accessor<ContextMenuDirectiveParams>) {
 	const contextMenu = useContext(ContextMenuContext);
 	if (contextMenu) {
-
 		const onClick = (e: MouseEvent) => {
 			e.stopPropagation();
 			const params = accessor();

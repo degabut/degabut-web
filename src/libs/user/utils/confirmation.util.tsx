@@ -1,5 +1,5 @@
 import { Text } from "@common";
-import { MediaSource ,type  IMediaSource  } from "@media-source";
+import { MediaSource, type IMediaSource } from "@media-source";
 
 export class UserConfirmationUtil {
 	static removePlayHistoryConfirmation(mediaSource: IMediaSource) {

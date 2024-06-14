@@ -1,5 +1,5 @@
 import { DelayUtil, useShortcut } from "@common";
-import { useQueue ,type  IGuildMember,type  IJam,type  IJamCollection  } from "@queue";
+import { useQueue, type IGuildMember, type IJam, type IJamCollection } from "@queue";
 import { onCleanup, onMount, type Component } from "solid-js";
 import { render } from "solid-js/web";
 

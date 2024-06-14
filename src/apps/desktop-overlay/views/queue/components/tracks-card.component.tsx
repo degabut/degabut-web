@@ -1,4 +1,3 @@
-import { useApp } from "@app/hooks";
 import { MediaSources, type MediaSourceListProps } from "@media-source";
 import { useQueue, type ITrack } from "@queue";
 import { Show, type Component } from "solid-js";
@@ -6,7 +5,6 @@ import { Card } from "../../../components";
 
 export const TracksCard: Component = () => {
 	const queue = useQueue();
-	const app = useApp();
 
 	const mediaSourceProps = (t: ITrack) => {
 		const isActive = queue.data.nowPlaying?.id === t.id;

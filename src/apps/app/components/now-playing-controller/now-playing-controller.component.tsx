@@ -21,7 +21,7 @@ export const NowPlayingController: Component = () => {
 
 			<div class="relative flex flex-col space-y-6 w-full h-full overflow-hidden max-w-lg">
 				<div class="flex-row-center space-x-2 justify-between">
-					<QueueButton.Options onClearQueue={() => queue.clear()} onStopQueue={() => queue.stop()} />
+					<QueueButton.Options onClearQueue={queue.clear} onStopQueue={queue.stop} />
 
 					<Show when={queue.data.nowPlaying} keyed>
 						{(track) => (

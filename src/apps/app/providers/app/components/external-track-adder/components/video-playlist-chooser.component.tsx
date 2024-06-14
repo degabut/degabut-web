@@ -1,6 +1,6 @@
 import { Divider, Modal, Text } from "@common";
 import { MediaSource, MediaSourceFactory } from "@media-source";
-import { YouTubePlaylist ,type  IVideo,type  IYouTubeMixPlaylist,type  IYouTubePlaylist  } from "@youtube";
+import { YouTubePlaylist, type IVideo, type IYouTubeMixPlaylist, type IYouTubePlaylist } from "@youtube";
 import type { Component } from "solid-js";
 
 type Props = {

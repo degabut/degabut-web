@@ -1,6 +1,6 @@
 import { AppRoutes } from "@app/routes";
 import { Divider, Item, Modal, Text, useNavigate } from "@common";
-import { useQueue ,type  IMember  } from "@queue";
+import { useQueue, type IMember } from "@queue";
 import { For, type Component } from "solid-js";
 
 type MemberListModalProps = {
