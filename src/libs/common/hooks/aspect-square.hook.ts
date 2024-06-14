@@ -1,4 +1,5 @@
 import { createEffect, createSignal, on, onCleanup, type Accessor } from "solid-js";
+import { DelayUtil } from "../utils";
 
 
 export const useAspectSquare = (el: Accessor<HTMLElement>) => {
@@ -16,10 +17,10 @@ export const useAspectSquare = (el: Accessor<HTMLElement>) => {
 
   onCleanup(() => observer.disconnect());
 
-  const onResize = (el: HTMLElement) => {
+  const onResize = DelayUtil.throttle((el: HTMLElement) => {
     const rect = el.getBoundingClientRect();
     setSize(Math.min(rect.width, rect.height));
-  };
+  }, 100);
 
   return size;
 };
