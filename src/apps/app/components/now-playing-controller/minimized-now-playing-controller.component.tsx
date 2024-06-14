@@ -5,7 +5,7 @@ import { useLikeMediaSource } from "@media-source";
 import { QueueActions, useQueue } from "@queue";
 import { useSettings } from "@settings";
 
-export const VerticalNowPlayingController: Component = () => {
+export const MinimizedNowPlayingController: Component = () => {
 	const queue = useQueue();
 	const { setSettings } = useSettings();
 

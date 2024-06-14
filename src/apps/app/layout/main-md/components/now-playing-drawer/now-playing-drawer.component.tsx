@@ -1,7 +1,7 @@
 import { Container, resizable } from "@common";
 import { useSettings } from "@settings";
 import { Show, type Component } from "solid-js";
-import { NowPlayingController, VerticalNowPlayingController } from "../../../../components";
+import { MinimizedNowPlayingController, NowPlayingController } from "../../../../components";
 
 resizable;
 
@@ -45,7 +45,7 @@ export const NowPlayingDrawer: Component = () => {
 					when={settings["app.player.size"] <= breakpoint}
 					fallback={<NowPlayingController showMinimizeButton />}
 				>
-					<VerticalNowPlayingController />
+					<MinimizedNowPlayingController />
 				</Show>
 			</Container>
 		</div>
