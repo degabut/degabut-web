@@ -3,16 +3,10 @@ import { Show, type Component } from "solid-js";
 import { Button, ContextMenuButton, DelayUtil, Text } from "@common";
 import { SourceBadge, useLikeMediaSource, useMediaSourceContextMenu } from "@media-source";
 import { QueueActions, QueueButton, QueueSeekSlider, useQueue } from "@queue";
-import { useSettings } from "@settings";
 import { PreviewThumbnail } from "./components";
 
-type NowPlayingControllerProps = {
-	showMinimizeButton?: boolean;
-};
-
-export const NowPlayingController: Component<NowPlayingControllerProps> = (props) => {
+export const NowPlayingController: Component = () => {
 	const queue = useQueue();
-	const { setSettings } = useSettings();
 
 	return (
 		<div class="flex justify-center h-full w-full">
@@ -56,22 +50,35 @@ export const NowPlayingController: Component<NowPlayingControllerProps> = (props
 					onClick={DelayUtil.countedThrottle(queue.jam, 350)}
 				/>
 
-				<div class="flex flex-col space-y-6">
+				<div class="h-full max-h-64 flex flex-col space-y-8">
 					<Show when={queue.data.nowPlaying} keyed>
-						{(track) => (
-							<div class="flex-row-center">
-								<div class="grow flex flex-col space-y-1.5 px-2 text-shadow truncate">
-									<Text.H2 truncate>{track.mediaSource.title}</Text.H2>
+						{(track) => {
+							const liked = useLikeMediaSource(() => track.mediaSource.id);
 
-									<div class="flex-row-center space-x-2.5">
-										<SourceBadge size="lg" type={track.mediaSource.type} />
-										<Text.Body1 truncate class="text-neutral-300">
-											{track.mediaSource.creator}
-										</Text.Body1>
+							return (
+								<div class="flex-row-center">
+									<div class="grow flex flex-col space-y-1.5 px-2 text-shadow truncate">
+										<Text.H2 truncate>{track.mediaSource.title}</Text.H2>
+
+										<div class="flex-row-center space-x-2.5">
+											<SourceBadge size="lg" type={track.mediaSource.type} />
+											<Text.Body1 truncate class="text-neutral-300">
+												{track.mediaSource.creator}
+											</Text.Body1>
+										</div>
 									</div>
+
+									<Button
+										flat
+										icon={liked?.isLiked() ? "heart" : "heartLine"}
+										iconClassList={{ "text-brand-600": liked?.isLiked() }}
+										onClick={liked?.toggle}
+										class="p-4"
+										iconSize="lg"
+									/>
 								</div>
-							</div>
-						)}
+							);
+						}}
 					</Show>
 
 					<div class="w-full px-2">
@@ -83,42 +90,7 @@ export const NowPlayingController: Component<NowPlayingControllerProps> = (props
 						/>
 					</div>
 
-					<div class="space-y-4 pt-1.5">
-						<QueueActions
-							iconSize="lg"
-							extraClass="flex-items-center justify-between"
-							extraButtonClass="p-4"
-						/>
-
-						<div class="flex-row-center justify-between w-full">
-							<Show when={queue.data.nowPlaying?.mediaSource} keyed>
-								{(mediaSource) => {
-									const liked = useLikeMediaSource(() => mediaSource.id);
-									return (
-										<Button
-											flat
-											icon={liked?.isLiked() ? "heart" : "heartLine"}
-											iconClassList={{ "text-brand-600": liked?.isLiked() }}
-											onClick={liked?.toggle}
-											class="p-4"
-											iconSize="lg"
-										/>
-									);
-								}}
-							</Show>
-
-							<Show when={props.showMinimizeButton}>
-								<Button
-									flat
-									icon="chevronDown"
-									title="Minimize"
-									onClick={() => setSettings("app.player.minimized", true)}
-									class="p-4"
-									iconSize="lg"
-								/>
-							</Show>
-						</div>
-					</div>
+					<QueueActions iconSize="lg" extraClass="flex-items-center justify-between" extraButtonClass="p-4" />
 				</div>
 			</div>
 		</div>

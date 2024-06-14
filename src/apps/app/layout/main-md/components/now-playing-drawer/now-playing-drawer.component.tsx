@@ -1,4 +1,4 @@
-import { Container, resizable } from "@common";
+import { Button, Container, resizable } from "@common";
 import { useSettings } from "@settings";
 import { Show, type Component } from "solid-js";
 import { MinimizedNowPlayingController, NowPlayingController } from "../../../../components";
@@ -28,9 +28,9 @@ export const NowPlayingDrawer: Component = () => {
 				size="full"
 				padless
 				centered
-				extraClass="w-full relative flex flex-row shrink-0 flex-row-center h-full"
+				extraClass="w-full relative flex-row-center shrink-0 h-full"
 				extraClassList={{
-					"p-6 pt-2.5": settings["app.player.size"] > breakpoint,
+					"px-4 pb-8 pt-2.5": settings["app.player.size"] > breakpoint,
 					"px-1.5 bg-black": settings["app.player.size"] <= breakpoint,
 				}}
 			>
@@ -41,12 +41,19 @@ export const NowPlayingDrawer: Component = () => {
 						"left-0 hover:border-l": true,
 					}}
 				/>
-				<Show
-					when={settings["app.player.size"] <= breakpoint}
-					fallback={<NowPlayingController showMinimizeButton />}
-				>
+
+				<Show when={settings["app.player.size"] <= breakpoint} fallback={<NowPlayingController />}>
 					<MinimizedNowPlayingController />
 				</Show>
+
+				<Button
+					flat
+					title="Minimize"
+					icon="chevronDown"
+					iconSize="sm"
+					onClick={() => setSettings("app.player.minimized", true)}
+					class="justify-center py-1 absolute bottom-0 left-0 w-full text-neutral-500 border-t border-t-neutral-850"
+				/>
 			</Container>
 		</div>
 	);
