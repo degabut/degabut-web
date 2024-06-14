@@ -29,7 +29,7 @@ type ThumbnailProps = {
 const Thumbnail: Component<ThumbnailProps> = (props) => {
 	return (
 		<div
-			class="relative max-w-[24rem] max-h-[24rem]"
+			class="absolute max-w-[24rem] max-h-[24rem]"
 			style={{
 				width: `${props.size}px`,
 				height: `${props.size}px`,
@@ -38,7 +38,7 @@ const Thumbnail: Component<ThumbnailProps> = (props) => {
 			<img
 				src={props.mediaSource.maxThumbnailUrl}
 				alt={props.mediaSource.title}
-				class="absolute h-full object-cover rounded"
+				class="h-full object-cover rounded"
 				onClick={() => props.onClick?.()}
 			/>
 		</div>
