@@ -46,6 +46,7 @@ export const QueueNowPlaying: Component = () => {
 
 						<MediaSource.List
 							mediaSource={mediaSource}
+							hideContextMenuButton
 							contextMenu={{ openWithClick: false }}
 							extraContainerClass="text-shadow"
 						/>
