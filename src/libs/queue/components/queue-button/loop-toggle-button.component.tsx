@@ -33,6 +33,7 @@ export const LoopToggleButton: Component<Props> = (props) => {
 			class="p-2"
 			disabled={props.disabled}
 			classList={{
+				"text-neutral-300": loopMode() === LoopMode.DISABLED,
 				"text-brand-600 hover:!text-brand-600": loopMode() !== LoopMode.DISABLED && !props.disabled,
 				"text-brand-800": loopMode() !== LoopMode.DISABLED && props.disabled,
 				[props.extraClass || ""]: !!props.extraClass,

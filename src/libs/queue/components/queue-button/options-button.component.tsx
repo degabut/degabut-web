@@ -70,7 +70,7 @@ export const OptionsButton: Component<Props> = (props) => {
 			<Button
 				flat
 				disabled={props.disabled}
-				class="p-2"
+				class="p-2 text-neutral-300"
 				icon="gearPlay"
 				iconSize={props.iconSize || "lg"}
 				title="Settings"

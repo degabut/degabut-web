@@ -12,7 +12,7 @@ export const LyricsButton: Component<Props> = (props) => {
 		<Button
 			flat
 			icon="microphone"
-			class="p-2"
+			class="p-2 text-neutral-300"
 			iconSize={props.iconSize || "lg"}
 			onClick={() => props.onClick()}
 			title="Lyrics"
