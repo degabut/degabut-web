@@ -59,7 +59,7 @@ const Skeleton: Component<SkeletonProps> = (props) => {
 			}}
 		>
 			<div class="w-full h-full flex-row-center justify-center rounded border border-neutral-800 p-4">
-				<Icon class="text-neutral-850 w-full h-full max-w-32 max-h-32" name="musicNotes" />
+				<Icon class="text-neutral-850 w-full h-full max-w-24 max-h-24" name="musicNotes" />
 			</div>
 		</div>
 	);

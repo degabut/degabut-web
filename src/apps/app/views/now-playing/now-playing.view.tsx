@@ -9,7 +9,7 @@ export const QueueNowPlaying: Component = () => {
 	onMount(() => app.setTitle("Queue"));
 
 	return (
-		<Container size="full" padless centered extraClass="h-full px-4 py-2">
+		<Container size="full" padless centered extraClass="h-full px-4 py-2.5">
 			<NowPlayingController />
 		</Container>
 	);
