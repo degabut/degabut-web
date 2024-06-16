@@ -38,6 +38,7 @@ export const PlaylistDetail: Component = () => {
 			<Show when={!playlist.isPlaylistLoading()} fallback={<MainPlaylistSkeleton />}>
 				<MainPlaylist
 					name={playlist.playlist()?.name || ""}
+					images={playlist.playlist()?.images || []}
 					itemCount={playlist.playlist()?.mediaSourceCount || 0}
 					onClickEdit={() => setIsEditModalOpen(true)}
 					onClickAddToQueue={() => queue.addPlaylist(params.id)}

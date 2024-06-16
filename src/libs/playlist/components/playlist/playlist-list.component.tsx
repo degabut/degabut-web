@@ -17,7 +17,7 @@ export const PlaylistList: Component<Props> = (props) => {
 		<Item.List
 			{...props}
 			title={props.playlist.name}
-			imageUrl={props.playlist.images.at(0)?.url}
+			imageUrl={props.playlist.images.sort((a, b) => a.width - b.width).at(0)?.url}
 			extra={() => (
 				<div>
 					<Show when={props.playlist.mediaSourceCount > 0}>

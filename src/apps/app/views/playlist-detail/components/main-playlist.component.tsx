@@ -1,8 +1,10 @@
 import { AbbreviationIcon, ContextMenuButton, Text } from "@common";
-import type { Component } from "solid-js";
+import { type IPlaylistImage } from "@playlist";
+import { Show, type Component } from "solid-js";
 
 type Props = {
 	name: string;
+	images: IPlaylistImage[];
 	onClickEdit: () => void;
 	onClickAddToQueue: () => void;
 	itemCount: number;
@@ -16,7 +18,12 @@ export const MainPlaylist: Component<Props> = (props) => {
 
 	return (
 		<div class="flex-row-center space-x-4">
-			<AbbreviationIcon text={props.name} size="xl" />
+			<Show when={props.images.length} fallback={<AbbreviationIcon text={props.name} size="xl" />}>
+				<img
+					class="rounded w-24 aspect-square object-cover"
+					src={props.images.sort((a, b) => b.width - a.width).at(0)?.url}
+				/>
+			</Show>
 
 			<div class="space-y-4 flex-grow truncate">
 				<div class="flex-row-center justify-between md:justify-start md:space-x-8">
