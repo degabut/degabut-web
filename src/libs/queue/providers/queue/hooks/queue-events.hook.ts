@@ -46,7 +46,6 @@ export type QueueEvents = {
 	"queue-created": (data: IQueue) => void;
 	"player-pause-state-changed": (data: IPlayer) => void;
 	"player-tick": (data: { position: number }) => void;
-	"track-removed": (data: TrackAction) => void;
 	"tracks-removed": (data: TracksAction) => void;
 	"track-skipped": (data: TrackAction) => void;
 	"next-track-added": (data: TrackAction) => void;

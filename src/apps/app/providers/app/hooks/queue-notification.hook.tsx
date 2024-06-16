@@ -13,13 +13,13 @@ export const useQueueNotification = () => {
 
 		emitter.on("queue-processed", onQueueProcessed);
 		emitter.on("tracks-added", onTracksAdded);
-		emitter.on("track-removed", onTrackRemoved);
+		emitter.on("tracks-removed", onTracksRemoved);
 	});
 
 	onCleanup(() => {
 		emitter.removeListener("queue-processed", onQueueProcessed);
 		emitter.removeListener("tracks-added", onTracksAdded);
-		emitter.removeListener("track-removed", onTrackRemoved);
+		emitter.removeListener("tracks-removed", onTracksRemoved);
 	});
 
 	const onTracksAdded = async ({ tracks, member }: { tracks: ITrack[]; member: IMember }) => {
@@ -51,14 +51,16 @@ export const useQueueNotification = () => {
 		}
 	};
 
-	const onTrackRemoved = async ({ track, member }: { track: ITrack; member: IMember | null }) => {
+	const onTracksRemoved = async ({ tracks, member }: { tracks: ITrack[]; member: IMember | null }) => {
 		if (!settings["notification.inApp"] || !member) return;
+
+		const title = tracks.length > 1 ? `${tracks.length} tracks` : tracks.at(0)?.mediaSource.title;
 
 		notification.push({
 			imageUrl: member.avatar,
 			message: () => (
-				<Text.Body2 title={`${member.displayName} removed ${track.mediaSource.title} from the queue`}>
-					<b>{member.displayName}</b> removed <b>{track.mediaSource.title}</b> from the queue
+				<Text.Body2 title={`${member.displayName} removed ${title} from the queue`}>
+					<b>{member.displayName}</b> removed <b>{title}</b> from the queue
 				</Text.Body2>
 			),
 		});

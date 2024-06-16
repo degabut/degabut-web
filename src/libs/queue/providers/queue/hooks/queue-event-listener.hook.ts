@@ -37,7 +37,6 @@ export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, em
 		emitter.on("player-tick", ({ position }) => onPlayerTick(position));
 		emitter.on("track-seeked", ({ position }) => onTrackSeeked(position));
 		emitter.on("tracks-added", ({ tracks }) => appendTrack(tracks));
-		emitter.on("track-removed", ({ track }) => removeTrack(track));
 		emitter.on("tracks-removed", ({ tracks }) => removeTrack(tracks));
 		emitter.on("next-track-added", ({ track }) => addNextTrack(track));
 		emitter.on("next-track-removed", ({ track }) => removeNextTrack(track));
@@ -82,8 +81,8 @@ export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, em
 		});
 	};
 
-	const removeTrack = (track: ITrack | ITrack[]) => {
-		const trackIds = Array.isArray(track) ? track.map((t) => t.id) : [track.id];
+	const removeTrack = (tracks: ITrack[]) => {
+		const trackIds = tracks.map((t) => t.id);
 		setQueue("tracks", (tracks) => tracks.filter((t) => !trackIds.includes(t.id)));
 	};
 
