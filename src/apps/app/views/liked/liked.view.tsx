@@ -24,7 +24,7 @@ export const Liked: Component = () => {
 
 				<div class="space-y-4 flex-grow truncate">
 					<div class="flex-row-center justify-between md:justify-start md:space-x-8">
-						<Text.H1 truncate>Liked Song</Text.H1>
+						<Text.H1 truncate>Liked Songs</Text.H1>
 					</div>
 				</div>
 			</div>

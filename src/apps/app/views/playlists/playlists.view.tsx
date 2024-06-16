@@ -48,7 +48,7 @@ export const Playlists: Component = () => {
 					<Item.Hint
 						icon="heartLine"
 						onClick={() => navigate(AppRoutes.Liked)}
-						label={() => <Text.Body1>Liked Song</Text.Body1>}
+						label={() => <Text.Body1>Liked Songs</Text.Body1>}
 					/>
 
 					<Show

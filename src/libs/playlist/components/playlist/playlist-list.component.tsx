@@ -10,7 +10,7 @@ type Props = Partial<ItemListProps> & {
 
 export const PlaylistList: Component<Props> = (props) => {
 	const countLabel = () => {
-		return props.playlist.mediaSourceCount === 1 ? "1 track" : props.playlist.mediaSourceCount + " tracks";
+		return props.playlist.mediaSourceCount === 1 ? "1 song" : props.playlist.mediaSourceCount + " songs";
 	};
 
 	return (
