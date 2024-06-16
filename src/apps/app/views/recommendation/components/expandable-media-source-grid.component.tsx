@@ -63,14 +63,12 @@ export const ExpandableMediaSourceGrid: Component<Props> = (props) => {
 	};
 
 	return (
-		<div class="space-y-4">
-			<MediaSources.Grid
-				title={() => <ShowMoreTitle {...props} />}
-				data={props.mediaSources}
-				isLoading={props.isLoading}
-				mediaSourceProps={mediaSourceProps}
-				skeletonCount={7}
-			/>
-		</div>
+		<MediaSources.Grid
+			title={() => <ShowMoreTitle {...props} />}
+			data={props.mediaSources}
+			isLoading={props.isLoading}
+			mediaSourceProps={mediaSourceProps}
+			skeletonCount={7}
+		/>
 	);
 };
