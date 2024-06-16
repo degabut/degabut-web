@@ -6,8 +6,15 @@ export interface IPlaylist {
 	name: string;
 	ownerId: string;
 	mediaSourceCount: number;
+	images: IPlaylistImage[];
 	createdAt: string;
 	updatedAt: string;
+}
+
+export interface IPlaylistImage {
+	url: string;
+	width: number;
+	height: number;
 }
 
 export interface IPlaylistMediaSource {

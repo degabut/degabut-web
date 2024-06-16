@@ -48,7 +48,7 @@ export const ModalContent: Component<ModalContentProps> = (props) => {
 									<CreatePlaylistButton onClick={() => setIsCreateModalOpen(true)} />
 								</Show>
 								<For each={playlists.data()}>
-									{(p) => <Playlist.List playlist={p} onClick={addToPlaylist} />}
+									{(p) => <Playlist.List playlist={p} onClick={() => addToPlaylist(p)} />}
 								</For>
 								<Show when={isInitialLoading()}>
 									<For each={Array(3)}>{() => <Playlist.ListSkeleton />}</For>

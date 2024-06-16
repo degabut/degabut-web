@@ -1,6 +1,6 @@
 import { useApp } from "@app/hooks";
 import { AppRoutes } from "@app/routes";
-import { Button, Container, Item, Text, useNavigate } from "@common";
+import { Container, Divider, Item, Text, useNavigate } from "@common";
 import { CreatePlaylistModal, Playlist, PlaylistContextMenuUtil, usePlaylists, type IPlaylist } from "@playlist";
 import { useQueue } from "@queue";
 import { For, Show, createSignal, onMount, type Component } from "solid-js";
@@ -34,25 +34,26 @@ export const Playlists: Component = () => {
 	return (
 		<>
 			<Container size="md" extraClass="space-y-6">
-				<Button
-					rounded
-					icon="plus"
-					class="space-x-3 px-6 py-1.5"
-					disabled={(playlists.data().length || 0) >= 25}
-					onClick={() => setIsShowModalOpen(true)}
-				>
-					Create Playlist
-				</Button>
+				<Text.H2 class="text-xl font-medium">Your Playlists</Text.H2>
+
+				<Divider />
 
 				<div class="space-y-2">
+					<Item.Hint
+						icon="plus"
+						onClick={() => navigate(AppRoutes.Liked)}
+						label={() => <Text.Body1>Create Playlist</Text.Body1>}
+					/>
+
 					<Item.Hint
 						icon="heartLine"
 						onClick={() => navigate(AppRoutes.Liked)}
 						label={() => <Text.Body1>Liked Song</Text.Body1>}
 					/>
+
 					<Show
-						when={!playlists.data.loading || playlists.data()}
-						fallback={<For each={Array(3)}>{() => <Playlist.ListSkeleton />}</For>}
+						when={!playlists.data.loading || playlists.data().length}
+						fallback={<For each={Array(5)}>{() => <Playlist.ListSkeleton />}</For>}
 					>
 						<For each={playlists.data()}>
 							{(p) => (

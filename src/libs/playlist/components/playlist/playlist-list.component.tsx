@@ -1,13 +1,11 @@
-import { AbbreviationIcon, Item, Text, TimeUtil, contextMenu, type ContextMenuDirectiveParams } from "@common";
+import { AbbreviationIcon, Item, Text, TimeUtil, contextMenu, type ItemListProps } from "@common";
 import { Show, type Component } from "solid-js";
 import { type IPlaylist } from "../../apis";
 
 contextMenu;
 
-type Props = {
+type Props = Partial<ItemListProps> & {
 	playlist: IPlaylist;
-	onClick?: (playlist: IPlaylist) => void;
-	contextMenu?: ContextMenuDirectiveParams;
 };
 
 export const PlaylistList: Component<Props> = (props) => {
@@ -17,9 +15,9 @@ export const PlaylistList: Component<Props> = (props) => {
 
 	return (
 		<Item.List
+			{...props}
 			title={props.playlist.name}
-			contextMenu={props.contextMenu}
-			onClick={() => props.onClick?.(props.playlist)}
+			imageUrl={props.playlist.images.at(0)?.url}
 			extra={() => (
 				<div>
 					<Show when={props.playlist.mediaSourceCount > 0}>
@@ -31,7 +29,11 @@ export const PlaylistList: Component<Props> = (props) => {
 					</Text.Caption2>
 				</div>
 			)}
-			left={() => <AbbreviationIcon text={props.playlist.name} />}
+			left={() => (
+				<Show when={!props.playlist.images.length}>
+					<AbbreviationIcon text={props.playlist.name} />
+				</Show>
+			)}
 		/>
 	);
 };
