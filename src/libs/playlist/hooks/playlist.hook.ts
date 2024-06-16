@@ -20,7 +20,7 @@ export const usePlaylist = (params: IUsePlaylistProps) => {
 		playlistApi.getPlaylist,
 		{ initialValue: null }
 	);
-	const [_mediaSources, { refetch: refetchMediaSources, mutate: mutateMediaSources }] = createResource(
+	const [_mediaSources, { refetch: refetchMediaSources }] = createResource(
 		() => playlistApi.getPlaylistMediaSources(params.playlistId, page, params.limit),
 		{ initialValue: [] }
 	);
@@ -44,7 +44,7 @@ export const usePlaylist = (params: IUsePlaylistProps) => {
 
 	const removeMediaSource = async (playlistMediaSourceId: string) => {
 		await playlistApi.removePlaylistMediaSource(params.playlistId, playlistMediaSourceId);
-		mutateMediaSources((mediaSources) => mediaSources?.filter((m) => m.id !== playlistMediaSourceId));
+		setMediaSources((mediaSources) => mediaSources?.filter((m) => m.id !== playlistMediaSourceId));
 		mutatePlaylist((playlist) => {
 			if (playlist) playlist.mediaSourceCount -= 1;
 			return playlist;
