@@ -101,8 +101,8 @@ export const Recommendation: Component = () => {
 					/>
 				</Show>
 
-				<Show when={recommendation.related().data.length || recommendation.related().loading}>
-					<div ref={containerElement}>
+				<div ref={containerElement}>
+					<Show when={recommendation.related().data.length || recommendation.related().loading}>
 						<MediaSources.List
 							title={() => <Title>For You</Title>}
 							isLoading={recommendation.related().loading}
@@ -116,8 +116,8 @@ export const Recommendation: Component = () => {
 								};
 							}}
 						/>
-					</div>
-				</Show>
+					</Show>
+				</div>
 			</Container>
 
 			<ShowMoreModal

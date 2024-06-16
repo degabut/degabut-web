@@ -94,7 +94,7 @@ export const useRecommendation = (params: UseRecommendationParams) => {
 
 	const [relatedTargetVideoIds, setRelatedTargetVideoIds] = createSignal<string[]>([]);
 	const [relatedVideos, setRelatedVideos] = createSignal<IVideoCompact[]>([]);
-	const currentRelatedVideoId = createMemo(() => relatedTargetVideoIds()[0]);
+	const [currentRelatedVideoId, setCurrentRelatedVideoId] = createSignal("");
 	const video = useVideo({ videoId: currentRelatedVideoId });
 
 	createEffect(() => {
@@ -134,6 +134,10 @@ export const useRecommendation = (params: UseRecommendationParams) => {
 	);
 
 	const loadNext = () => {
+		const firstVideoId = relatedTargetVideoIds().at(0);
+		if (!firstVideoId) return;
+
+		setCurrentRelatedVideoId(firstVideoId);
 		setRelatedTargetVideoIds((c) => c.slice(1));
 	};
 
