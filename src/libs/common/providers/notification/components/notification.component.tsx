@@ -18,7 +18,7 @@ export const Notification: Component<NotificationProps> = (props) => {
 	};
 
 	return (
-		<div class="flex flex-row-center w-80 bg-gray-800 p-2 pl-3 rounded">
+		<div class="flex flex-row-center max-w-96 w-full bg-gray-800 p-2 pl-3 rounded">
 			<Show when={props.imageUrl} keyed>
 				{(url) => <img src={url} class="flex-shrink-0 w-8 h-8 rounded-full" />}
 			</Show>
