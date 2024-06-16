@@ -35,7 +35,7 @@ export const CreatePlaylistModal: Component<CreatePlaylistModalProps> = (props) 
 				<div class="text-center text-xl font-medium">Create a New Playlist</div>
 
 				<Input
-					outlined
+					rounded
 					value={name()}
 					onInput={(e) => setName(e.currentTarget.value)}
 					focusOnMount

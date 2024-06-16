@@ -34,7 +34,7 @@ export const EditPlaylistModal: Component<EditPlaylistModalProps> = (props) => {
 				<Text.H2 class="text-center">Rename Playlist</Text.H2>
 
 				<Input
-					outlined
+					rounded
 					value={name()}
 					onInput={(e) => setName(e.currentTarget.value)}
 					focusOnMount
