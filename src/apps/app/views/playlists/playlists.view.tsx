@@ -10,13 +10,13 @@ export const Playlists: Component = () => {
 	const queue = useQueue();
 	const playlists = usePlaylists();
 	const navigate = useNavigate();
-	const [isShowCreateModal, setIsShowModalOpen] = createSignal(false);
+	const [isShowCreateModal, setIsShowCreateModalOpen] = createSignal(false);
 
 	onMount(() => app.setTitle("Your Playlists"));
 
 	const createPlaylist = async (name: string) => {
 		await playlists.createPlaylist(name);
-		setIsShowModalOpen(false);
+		setIsShowCreateModalOpen(false);
 	};
 
 	const promptDeletePlaylist = (playlist: IPlaylist) => {
@@ -41,7 +41,7 @@ export const Playlists: Component = () => {
 				<div class="space-y-2">
 					<Item.Hint
 						icon="plus"
-						onClick={() => navigate(AppRoutes.Liked)}
+						onClick={() => setIsShowCreateModalOpen(true)}
 						label={() => <Text.Body1>Create Playlist</Text.Body1>}
 					/>
 
@@ -75,7 +75,7 @@ export const Playlists: Component = () => {
 
 			<CreatePlaylistModal
 				isOpen={isShowCreateModal()}
-				onClose={() => setIsShowModalOpen(false)}
+				onClose={() => setIsShowCreateModalOpen(false)}
 				onSubmit={createPlaylist}
 			/>
 		</>
