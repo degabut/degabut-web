@@ -13,6 +13,7 @@ export const usePlaylist = (params: IUsePlaylistProps) => {
 	const playlistApi = new PlaylistApi(api.client);
 	const [mediaSources, setMediaSources] = createStore<IPlaylistMediaSource[]>([]);
 	let page = 1;
+	const limit = params.limit || 100;
 
 	const [playlist, { refetch: refetchPlaylist, mutate: mutatePlaylist }] = createResource(
 		params.playlistId,
@@ -20,7 +21,7 @@ export const usePlaylist = (params: IUsePlaylistProps) => {
 		{ initialValue: null }
 	);
 	const [_mediaSources, { refetch: refetchMediaSources }] = createResource(
-		() => playlistApi.getPlaylistMediaSources(params.playlistId, page, params.limit),
+		() => playlistApi.getPlaylistMediaSources(params.playlistId, page, limit),
 		{ initialValue: [] }
 	);
 
@@ -36,8 +37,12 @@ export const usePlaylist = (params: IUsePlaylistProps) => {
 		refetchMediaSources();
 	};
 
-	const update = async (name: string) => {
+	const renamePlaylist = async (name: string) => {
 		await playlistApi.updatePlaylist(params.playlistId, name);
+	};
+
+	const deletePlaylist = async () => {
+		await playlistApi.deletePlaylist(params.playlistId);
 	};
 
 	const removeMediaSource = async (playlistMediaSourceId: string) => {
@@ -58,7 +63,8 @@ export const usePlaylist = (params: IUsePlaylistProps) => {
 		refetchPlaylist,
 		nextMediaSources,
 		mediaSources,
-		update,
+		renamePlaylist,
+		deletePlaylist,
 		removeMediaSource,
 		isPlaylistLoading,
 		isMediaSourceLoading,

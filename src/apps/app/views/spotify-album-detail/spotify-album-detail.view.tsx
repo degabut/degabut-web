@@ -1,16 +1,14 @@
 import { useApp } from "@app/hooks";
-import { Container, Divider, useInfiniteScrolling } from "@common";
+import { Button, Container, ItemDetails, Text } from "@common";
 import { MediaSourceFactory, MediaSources } from "@media-source";
 import { useQueue } from "@queue";
 import { useParams } from "@solidjs/router";
 import { useSpotifyAlbum, useSpotifyAlbumTracks } from "@spotify";
 import { Show, createEffect, type Component } from "solid-js";
-import { MainAlbum, MainAlbumSkeleton } from "./components";
 
 export const SpotifyAlbumDetail: Component = () => {
 	const app = useApp();
 	const queue = useQueue();
-	let container!: HTMLDivElement;
 
 	const params = useParams<{ id: string }>();
 	const album = useSpotifyAlbum(params.id);
@@ -18,42 +16,59 @@ export const SpotifyAlbumDetail: Component = () => {
 		id: params.id,
 	});
 
-	useInfiniteScrolling({
-		container: () => container,
-		callback: tracks.next,
-		disabled: () => !tracks.isFetchable(),
-	});
 	createEffect(() => {
-		app.setTitle(album.data()?.name || "Your Album");
+		app.setTitle(album.data()?.name || "");
 	});
+
+	const descriptionText = () => {
+		const count = album.data()?.tracks.total;
+		return `${count} ${count === 1 ? "track" : "tracks"}`;
+	};
+
+	const canBeAdded = () => {
+		return !queue.data.empty && !album.data.loading && !!album.data()?.tracks.total;
+	};
 
 	return (
-		<Container size="md" ref={container}>
-			<Show when={!album.data.loading} fallback={<MainAlbumSkeleton />}>
-				<MainAlbum
-					name={album.data()?.name || ""}
-					imageUrl={album.data()?.images?.at(0)?.url || ""}
-					itemCount={album.data()?.tracks.total || 0}
-					onAddToQueue={() => queue.addSpotifyAlbum(params.id)}
-				/>
-			</Show>
-
-			<Divider extraClass="my-8" />
-
-			<Show when={!album.data.loading} fallback={<MediaSources.List data={[]} isLoading />}>
-				<MediaSources.List
-					data={tracks.data()}
-					showWhenLoading
-					isLoading={tracks.isLoading()}
-					mediaSourceProps={(track) => {
-						const mediaSource = MediaSourceFactory.fromSpotifyTrack(track);
-						return {
-							mediaSource,
-							inQueue: queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id),
-						};
-					}}
-				/>
-			</Show>
+		<Container size="md">
+			<ItemDetails
+				title={album.data()?.name || ""}
+				description={() => <Text.Body1>{descriptionText()}</Text.Body1>}
+				isLoading={album.data.loading}
+				infiniteCallback={tracks.next}
+				isInfiniteDisabled={!tracks.isFetchable()}
+				actions={() => (
+					<Button
+						onClick={() => queue.addSpotifyAlbum(params.id)}
+						disabled={queue.data.empty}
+						rounded
+						icon="plus"
+						class=" text-neutral-850 space-x-2 px-4 py-1.5"
+						classList={{
+							"!bg-brand-800 !border-brand-800": !canBeAdded(),
+							"bg-brand-600 hover:!bg-brand-500 !border-brand-600": canBeAdded(),
+						}}
+					>
+						<Text.Body1>Add to Queue</Text.Body1>
+					</Button>
+				)}
+				image={album.data()?.images?.at(0)?.url}
+			>
+				<Show when={!album.data.loading} fallback={<MediaSources.List data={[]} isLoading />}>
+					<MediaSources.List
+						data={tracks.data()}
+						showWhenLoading
+						isLoading={tracks.isLoading()}
+						mediaSourceProps={(track) => {
+							const mediaSource = MediaSourceFactory.fromSpotifyTrack(track);
+							return {
+								mediaSource,
+								inQueue: queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id),
+							};
+						}}
+					/>
+				</Show>
+			</ItemDetails>
 		</Container>
 	);
 };

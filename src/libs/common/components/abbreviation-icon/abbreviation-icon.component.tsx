@@ -29,7 +29,7 @@ export const AbbreviationIcon: Component<Props> = (props) => {
 				"text-xl": size() === "md" && shortName().length === 2,
 				"text-md": size() === "md" && shortName().length === 3,
 
-				"w-24 h-24": size() === "xl",
+				"w-24 h-24 md:w-32 md:h-32": size() === "xl",
 				"text-5xl": size() === "xl" && shortName().length === 1,
 				"text-4xl": size() === "xl" && shortName().length === 2,
 				"text-3xl": size() === "xl" && shortName().length === 3,
