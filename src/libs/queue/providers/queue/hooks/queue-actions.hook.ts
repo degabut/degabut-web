@@ -110,6 +110,10 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 		);
 	};
 
+	const addLastLiked = (lastLikedCount = 1000) => {
+		return modifyTrack((queueId) => queueApi.addLastLiked(queueId, lastLikedCount));
+	};
+
 	const addPlaylist = (playlistId: string) => {
 		return modifyTrack((queueId) => queueApi.addPlaylist(queueId, playlistId));
 	};
@@ -191,6 +195,7 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 		addAndPlayTrack,
 		addNextTrack,
 		removeNextTrack,
+		addLastLiked,
 		addPlaylist,
 		addYouTubePlaylist,
 		addSpotifyPlaylist,

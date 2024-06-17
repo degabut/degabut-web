@@ -108,6 +108,11 @@ export class QueueApi {
 		return response.data.trackIds;
 	};
 
+	addLastLiked = async (queueId: string, lastLikedCount = 1000): Promise<string[]> => {
+		const response = await this.client.post(`/queues/${queueId}/tracks`, { lastLikedCount });
+		return response.data.trackIds;
+	};
+
 	orderTrack = async (queueId: string, trackId: string, to: number): Promise<void> => {
 		await this.client.post(`/queues/${queueId}/tracks/${trackId}/order`, { to });
 	};
