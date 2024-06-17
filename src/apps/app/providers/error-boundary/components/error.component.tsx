@@ -1,4 +1,4 @@
-import { A, Container, Text } from "@common";
+import { A, Text } from "@common";
 import type { Component } from "solid-js";
 
 export const Error: Component<{ error: unknown }> = (props) => {
@@ -11,7 +11,7 @@ export const Error: Component<{ error: unknown }> = (props) => {
 	// eslint-disable-next-line solid/reactivity
 	console.error(props.error);
 	return (
-		<Container size="full" extraClass="flex flex-col justify-center h-full bg-neutral-850">
+		<div class="w-screen h-full p-8 flex flex-col justify-center bg-neutral-900">
 			<div>
 				<Text.H1 class="text-9xl">:(</Text.H1>
 
@@ -32,6 +32,6 @@ export const Error: Component<{ error: unknown }> = (props) => {
 					</Text.Caption2>
 				</div>
 			</div>
-		</Container>
+		</div>
 	);
 };
