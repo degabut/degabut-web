@@ -40,20 +40,6 @@ export function SortableTrackList(props: SortableTrackListProps) {
 					id={(m) => m.id}
 					customDragActivator={!screen.gte.md}
 					onSort={(e, { data }) => props.onSort?.(e, data)}
-					overlay={({ data }) => (
-						<MediaSource.List
-							extraContextMenuButtonClass="hidden md:block"
-							right={() => (
-								<div
-									class="block md:hidden px-1 py-3 text-neutral-400 hover:text-neutral-100 touch-none"
-									onClick={(e) => e.stopPropagation()}
-								>
-									<Icon name="reorder" size="md" />
-								</div>
-							)}
-							{...props.mediaSourceProps(data)}
-						/>
-					)}
 				>
 					{(track, sortable) => (
 						<MediaSource.List
@@ -61,7 +47,7 @@ export function SortableTrackList(props: SortableTrackListProps) {
 							right={() => (
 								<Show when={!screen.gte.md}>
 									<div
-										{...sortable.dragActivators}
+										{...sortable?.dragActivators}
 										class="px-2 py-3 text-neutral-400 hover:text-neutral-100 touch-none"
 										onClick={(e) => e.stopPropagation()}
 									>

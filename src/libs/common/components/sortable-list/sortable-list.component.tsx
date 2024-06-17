@@ -24,8 +24,8 @@ type SortableListProps<Data> = {
 	data: Data[];
 	id: (data: Data) => string;
 	customDragActivator?: boolean;
-	overlay: (data: SortableData<Data>) => JSX.Element;
-	children: (data: Data, sortable: ReturnType<typeof createSortable>) => JSX.Element;
+	children: (data: Data, sortable?: ReturnType<typeof createSortable>) => JSX.Element;
+	element?: keyof JSX.IntrinsicElements;
 	onSort?: (event: SortEvent, data: SortableData<Data>) => void;
 };
 
@@ -76,7 +76,12 @@ export function SortableList<Data = unknown>(props: SortableListProps<Data>) {
 			<SortableProvider ids={ids()}>
 				<For each={items()}>
 					{(p) => (
-						<List data={p.data} initialId={p.id} customDragActivator={props.customDragActivator}>
+						<List
+							data={p.data}
+							initialId={p.id}
+							element={props.element}
+							customDragActivator={props.customDragActivator}
+						>
 							{(data, sortable) => props.children(data, sortable)}
 						</List>
 					)}
@@ -85,7 +90,7 @@ export function SortableList<Data = unknown>(props: SortableListProps<Data>) {
 
 			<DragOverlay class="w-0">
 				<Show when={activeItem()} keyed>
-					{(i) => props.overlay(i)}
+					{({ data }) => props.children(data)}
 				</Show>
 			</DragOverlay>
 		</DragDropProvider>
