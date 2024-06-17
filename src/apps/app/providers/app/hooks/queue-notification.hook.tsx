@@ -1,7 +1,7 @@
 import { NotificationUtil, Text, useNotification } from "@common";
 import { useQueue, type IMember, type ITrack } from "@queue";
 import { useSettings } from "@settings";
-import { onCleanup, onMount } from "solid-js";
+import { createEffect, onCleanup, onMount } from "solid-js";
 
 export const useQueueNotification = () => {
 	const { emitter } = useQueue();
@@ -13,6 +13,12 @@ export const useQueueNotification = () => {
 		emitter.on("queue-cleared", onQueueCleared);
 		emitter.on("tracks-added", onTracksAdded);
 		emitter.on("tracks-removed", onTracksRemoved);
+	});
+
+	createEffect(() => {
+		if (settings["notification.browser"]) {
+			NotificationUtil.requestPermission();
+		}
 	});
 
 	onCleanup(() => {
