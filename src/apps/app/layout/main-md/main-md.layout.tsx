@@ -11,7 +11,7 @@ export const MainMd: ParentComponent = (props) => {
 
 	return (
 		<DesktopContainer>
-			<div class="p-2 flex flex-col h-full">
+			<div class="p-2 flex flex-col h-full space-y-2">
 				<div class="flex h-full overflow-hidden space-x-2">
 					<AppDrawer />
 
