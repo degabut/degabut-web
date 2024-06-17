@@ -65,6 +65,7 @@ export const useQueueEvents = () => {
 	let ws: WebSocket | undefined;
 	let reconnectTimeout: NodeJS.Timeout;
 	let isAuthenticated = false;
+	let isConnected = false;
 	const emitter = new EventEmitter() as TypedEmitter<QueueEvents>;
 
 	const listen = (url: string) => {
@@ -84,6 +85,7 @@ export const useQueueEvents = () => {
 			}
 		};
 		ws.onopen = async () => {
+			isConnected = true;
 			send("identify", { token: api.authManager.getAccessToken() });
 		};
 		ws.onclose = (ev) => {
@@ -92,9 +94,11 @@ export const useQueueEvents = () => {
 			if (isAuthenticated) {
 				emitter.emit("closed", ev);
 				reconnectTimeout = setTimeout(() => listen(url), 5000);
-			} else {
+			} else if (isConnected) {
 				api.logout();
 			}
+
+			isConnected = false;
 		};
 	};
 
