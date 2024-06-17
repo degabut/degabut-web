@@ -1,9 +1,9 @@
 import { useApp } from "@app/hooks";
 import { AppRoutes } from "@app/routes";
-import { Button, Item, KeyboardHint, Text, useInfiniteScrolling, useNavigate, useScreen } from "@common";
+import { Button, Divider, Item, KeyboardHint, Text, useInfiniteScrolling, useNavigate, useScreen } from "@common";
 import { MediaSources } from "@media-source";
 import { useQueue } from "@queue";
-import type { Component } from "solid-js";
+import { type Component } from "solid-js";
 import { useQueueRecommendation } from "../hooks";
 
 export const QueueHint: Component = () => {
@@ -24,7 +24,7 @@ export const QueueHint: Component = () => {
 	});
 
 	return (
-		<div class="space-y-6 md:space-y-4">
+		<div class="space-y-6">
 			<div class="space-y-2">
 				<Item.Hint
 					label={() => (
@@ -55,8 +55,11 @@ export const QueueHint: Component = () => {
 				/>
 			</div>
 
-			<div class="space-y-2" ref={containerElement}>
-				<Text.Body1 class="font-medium">Recommendation</Text.Body1>
+			<div class="space-y-4" ref={containerElement}>
+				<div class="flex-row-center justify-between space-x-2 md:space-x-4">
+					<Text.Body1 class="font-medium">Recommendation</Text.Body1>
+					<Divider dark />
+				</div>
 
 				<MediaSources.List
 					data={recommendation.mediaSources()}
