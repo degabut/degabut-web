@@ -29,7 +29,7 @@ export const Recommendation: Component = () => {
 	const queue = useQueue();
 	const navigate = useNavigate();
 	const params = useParams<{ id?: string }>();
-	const recommendation = useRecommendation({ userId: () => params.id || "me", onLoad: () => infinite.load() });
+	const recommendation = useRecommendation({ userId: () => params.id || "me" });
 	const [showMoreType, setShowMoreType] = createSignal<ShowMoreType | null>(null);
 	const recapYear = RecapUtil.getYear();
 	let containerElement!: HTMLDivElement;
@@ -38,7 +38,7 @@ export const Recommendation: Component = () => {
 		return queue.data.voiceChannel?.members.find((m) => m.id === params.id);
 	});
 
-	const infinite = useInfiniteScrolling({
+	useInfiniteScrolling({
 		callback: () => recommendation.loadNext(),
 		disabled: () => recommendation.related().loading,
 		container: () => containerElement,

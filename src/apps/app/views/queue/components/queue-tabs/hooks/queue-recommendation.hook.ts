@@ -6,7 +6,6 @@ import { useVideo } from "@youtube";
 import { createEffect, createMemo, createSignal, type Accessor } from "solid-js";
 
 type Params = {
-	onLoad?: () => void;
 	queueTracks: Accessor<ITrack[]>;
 };
 
@@ -30,7 +29,6 @@ export const useQueueRecommendation = (params: Params) => {
 					.slice(0, 5)
 					.map(MediaSourceFactory.fromYoutubeVideo),
 			]);
-			params.onLoad && setTimeout(params.onLoad, 0);
 		}
 	});
 
@@ -47,7 +45,6 @@ export const useQueueRecommendation = (params: Params) => {
 			}, []);
 
 		setRelatedTargetVideoIds(videoIds);
-		params.onLoad && setTimeout(params.onLoad, 0);
 	});
 
 	const loadNext = () => {

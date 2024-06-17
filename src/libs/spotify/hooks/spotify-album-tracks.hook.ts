@@ -4,7 +4,6 @@ import { useSpotify } from "../providers";
 
 type Params = {
 	id: string;
-	onLoad?: () => void;
 };
 
 export const useSpotifyAlbumTracks = (params: Params) => {
@@ -23,7 +22,6 @@ export const useSpotifyAlbumTracks = (params: Params) => {
 		if (!newData?.length) return;
 
 		setData((d) => [...d, ...newData]);
-		params.onLoad && setTimeout(params.onLoad, 0);
 	});
 
 	const next = () => {

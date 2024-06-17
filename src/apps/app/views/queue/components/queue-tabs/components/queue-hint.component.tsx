@@ -12,12 +12,11 @@ export const QueueHint: Component = () => {
 	const queue = useQueue();
 	const navigate = useNavigate();
 	const recommendation = useQueueRecommendation({
-		onLoad: () => infinite.load(),
 		queueTracks: () => queue.data.tracks || [],
 	});
 	let containerElement!: HTMLDivElement;
 
-	const infinite = useInfiniteScrolling({
+	useInfiniteScrolling({
 		callback: recommendation.loadNext,
 		disabled: () => recommendation.related.data.loading,
 		container: () => containerElement,

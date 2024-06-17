@@ -14,12 +14,9 @@ export const SpotifyPlaylistDetail: Component = () => {
 
 	const params = useParams<{ id: string }>();
 	const playlist = useSpotifyPlaylist(params.id);
-	const tracks = useSpotifyPlaylistTracks({
-		id: params.id,
-		onLoad: () => infinite.load(),
-	});
+	const tracks = useSpotifyPlaylistTracks(params.id);
 
-	const infinite = useInfiniteScrolling({
+	useInfiniteScrolling({
 		container: () => container,
 		callback: tracks.next,
 		disabled: () => !tracks.isFetchable(),

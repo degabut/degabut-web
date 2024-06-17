@@ -7,9 +7,9 @@ import { type Component } from "solid-js";
 export const Liked: Component = () => {
 	let containerElement!: HTMLDivElement;
 	const queue = useQueue();
-	const liked = useLiked({ onLoad: () => infinite.load() });
+	const liked = useLiked();
 
-	const infinite = useInfiniteScrolling({
+	useInfiniteScrolling({
 		callback: liked.next,
 		container: () => containerElement,
 		disabled: () => !liked.isFetchable(),

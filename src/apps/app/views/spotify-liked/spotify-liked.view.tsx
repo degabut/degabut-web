@@ -10,10 +10,8 @@ export const SpotifyLiked: Component = () => {
 	const queue = useQueue();
 	let containerRef!: HTMLDivElement;
 
-	const tracks = useSpotifySelfTracks({
-		onLoad: () => infinite.load(),
-	});
-	const infinite = useInfiniteScrolling({
+	const tracks = useSpotifySelfTracks();
+	useInfiniteScrolling({
 		callback: tracks.next,
 		container: () => containerRef,
 		disabled: () => !tracks.isFetchable(),

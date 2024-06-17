@@ -16,10 +16,9 @@ export const SpotifyAlbumDetail: Component = () => {
 	const album = useSpotifyAlbum(params.id);
 	const tracks = useSpotifyAlbumTracks({
 		id: params.id,
-		onLoad: () => infinite.load(),
 	});
 
-	const infinite = useInfiniteScrolling({
+	useInfiniteScrolling({
 		container: () => container,
 		callback: tracks.next,
 		disabled: () => !tracks.isFetchable(),

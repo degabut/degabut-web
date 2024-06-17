@@ -12,9 +12,9 @@ export const PlaylistDetail: Component = () => {
 	const app = useApp();
 	const queue = useQueue();
 	const params = useParams<{ id: string }>();
-	const playlist = usePlaylist({ playlistId: params.id, onLoad: () => infinite.load() });
+	const playlist = usePlaylist({ playlistId: params.id });
 
-	const infinite = useInfiniteScrolling({
+	useInfiniteScrolling({
 		callback: playlist.nextMediaSources,
 		container: () => containerElement,
 		disabled: () => !playlist.isMediaSourceFetchable(),

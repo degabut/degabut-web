@@ -6,7 +6,6 @@ import { batch, createEffect, createMemo, createResource, createSignal, on, type
 
 type UseRecommendationParams = {
 	userId: Accessor<string>;
-	onLoad?: () => void;
 };
 
 type ProcessorOptions<T> = {
@@ -101,7 +100,6 @@ export const useRecommendation = (params: UseRecommendationParams) => {
 		const videos = video.data()?.related;
 		if (videos) {
 			setRelatedVideos((c) => [...c, ...videos.filter((v) => !c.some((rv) => rv.id === v.id)).slice(0, 5)]);
-			params.onLoad && setTimeout(params.onLoad, 0);
 		}
 	});
 

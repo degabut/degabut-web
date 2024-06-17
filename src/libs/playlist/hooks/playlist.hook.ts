@@ -6,7 +6,6 @@ import { PlaylistApi, type IPlaylistMediaSource } from "../apis";
 type IUsePlaylistProps = {
 	playlistId: string;
 	limit?: number;
-	onLoad?: () => void;
 };
 
 export const usePlaylist = (params: IUsePlaylistProps) => {
@@ -30,7 +29,6 @@ export const usePlaylist = (params: IUsePlaylistProps) => {
 		if (!newMediaSource?.length) return;
 
 		setMediaSources((d) => [...d, ...newMediaSource]);
-		params.onLoad && setTimeout(params.onLoad, 0);
 	});
 
 	const nextMediaSources = () => {
