@@ -9,15 +9,15 @@ export const useQueueNotification = () => {
 	const notification = useNotification();
 
 	onMount(() => {
-		NotificationUtil.requestPermission();
-
 		emitter.on("queue-processed", onQueueProcessed);
+		emitter.on("queue-cleared", onQueueCleared);
 		emitter.on("tracks-added", onTracksAdded);
 		emitter.on("tracks-removed", onTracksRemoved);
 	});
 
 	onCleanup(() => {
 		emitter.removeListener("queue-processed", onQueueProcessed);
+		emitter.removeListener("queue-cleared", onQueueCleared);
 		emitter.removeListener("tracks-added", onTracksAdded);
 		emitter.removeListener("tracks-removed", onTracksRemoved);
 	});
@@ -61,6 +61,19 @@ export const useQueueNotification = () => {
 			message: () => (
 				<Text.Body2 title={`${member.displayName} removed ${title} from the queue`}>
 					<b>{member.displayName}</b> removed <b>{title}</b> from the queue
+				</Text.Body2>
+			),
+		});
+	};
+
+	const onQueueCleared = async ({ member }: { member: IMember }) => {
+		if (!settings["notification.inApp"]) return;
+
+		notification.push({
+			imageUrl: member.avatar,
+			message: () => (
+				<Text.Body2 title={`${member.displayName} cleared the queue`}>
+					<b>{member.displayName}</b> cleared the queue
 				</Text.Body2>
 			),
 		});
