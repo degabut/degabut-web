@@ -55,7 +55,7 @@ export const NotificationProvider: ParentComponent = (props) => {
 			<Show when={screen.gte.md}>
 				<Portal>
 					<div
-						class="fixed w-full flex flex-row justify-center space-y-3 z-20"
+						class="fixed left-1/2 z-20 -translate-x-1/2"
 						classList={{
 							"top-4": !IS_DESKTOP,
 							"top-8": IS_DESKTOP,
