@@ -1,16 +1,16 @@
 import { Icon } from "@common";
-import { MediaSources, type MediaSourceListProps } from "@media-source";
-import { useQueue, type ITrack } from "@queue";
+import { type MediaSourceListProps } from "@media-source";
+import { SortableTrackList, useQueue, type ITrack } from "@queue";
 import { Show, type Component } from "solid-js";
 
 export const QueueTrackList: Component = () => {
 	const queue = useQueue();
 
-	const mediaSourceProps = (t: ITrack) => {
+	const mediaSourceProps = (t: ITrack): MediaSourceListProps => {
 		const isActive = queue.data.nowPlaying?.id === t.id;
 		const nextTrackIndex = queue.data.nextTrackIds.findIndex((id) => id === t.id);
 
-		const mediaSourceProps: MediaSourceListProps = {
+		return {
 			mediaSource: t.mediaSource,
 			requestedBy: t.requestedBy,
 			imageOverlayElement: () => (
@@ -27,20 +27,15 @@ export const QueueTrackList: Component = () => {
 			),
 			extraTitleClass: isActive ? "!text-brand-600" : undefined,
 		};
-
-		return {
-			id: t.id,
-			mediaSourceProps,
-		};
 	};
 
 	return (
 		<Show when={queue.data.tracks.length}>
 			<div classList={{ "opacity-50 pointer-events-none": queue.freezeState.track }}>
-				<MediaSources.SortableList
-					data={queue.data.tracks}
+				<SortableTrackList
+					tracks={queue.data.tracks}
 					onSort={({ to }, data) => queue.changeTrackOrder(data.id, to)}
-					sortableProps={mediaSourceProps}
+					mediaSourceProps={mediaSourceProps}
 				/>
 			</div>
 		</Show>

@@ -17,6 +17,7 @@ export * from "./section-list";
 export * from "./select";
 export * from "./skeleton";
 export * from "./slider";
+export * from "./sortable-list";
 export * from "./spinner";
 export * from "./switch";
 export * from "./tabs";
