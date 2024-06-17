@@ -1,4 +1,4 @@
-import { createSignal, For, onMount, Show, type Accessor, type Component, type JSX } from "solid-js";
+import { createSignal, For, onMount, Show, type Accessor, type JSX } from "solid-js";
 import type { Icons } from "../icon";
 import { Tab } from "./components";
 
@@ -20,8 +20,9 @@ export type ITabItem = {
 	  }
 );
 
-type Props = {
-	items: ITabItem[];
+type Props<T extends ITabItem[]> = {
+	items: T;
+	initialActiveItemId?: T[number]["id"];
 	borderless?: boolean;
 	extraTabsClass?: string;
 	extraTabClass?: string;
@@ -30,11 +31,14 @@ type Props = {
 	onChange?: (item: ITabItem) => void;
 };
 
-export const Tabs: Component<Props> = (props) => {
+export function Tabs<T extends ITabItem[]>(props: Props<T>) {
 	const [activeItem, setActiveItem] = createSignal<ITabItem>();
 
 	onMount(() => {
-		setActiveItem(props.items[0]);
+		const initialItem = props.initialActiveItemId
+			? props.items.find((item) => item.id === props.initialActiveItemId)
+			: props.items[0];
+		setActiveItem(initialItem);
 	});
 
 	const onChange = (item: ITabItem) => {
@@ -82,4 +86,4 @@ export const Tabs: Component<Props> = (props) => {
 			}}
 		</Show>
 	);
-};
+}
