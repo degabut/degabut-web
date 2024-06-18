@@ -17,7 +17,6 @@ const Title: ParentComponent<TitleProps> = (props) => {
 type Props<T> = {
 	items: T[];
 	label: string;
-	inline?: boolean;
 	isLoading: boolean;
 	skeletonCount?: number;
 	children: (item: T) => JSX.Element;
@@ -27,13 +26,10 @@ type Props<T> = {
 
 export function SectionList<Item = unknown>(props: Props<Item>) {
 	return (
-		<div class="space-y-6 md:space-y-4">
+		<div class="space-y-6 md:space-y-4 @container">
 			<Title right={props.rightTitle}>{props.label}</Title>
 
-			<div
-				class="grid grid-cols-1 gap-x-6 2xl:gap-x-12 3xl:gap-x-24 gap-y-2"
-				classList={{ "xl:grid-cols-2": props.inline !== false }}
-			>
+			<div class="grid grid-cols-1 @3xl:grid-cols-2 gap-x-6 @2xl:gap-x-12 @4xl:gap-x-24 gap-y-2">
 				{props.firstElement?.()}
 				<Show
 					when={!props.isLoading}

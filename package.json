@@ -38,6 +38,7 @@
 		"@discord/embedded-app-sdk": "^1.0.2",
 		"@iconify-json/mdi": "^1.1.66",
 		"@solidjs/router": "^0.13.1",
+		"@tailwindcss/container-queries": "^0.1.1",
 		"@thisbeyond/solid-dnd": "^0.7.4",
 		"autoprefixer": "^10.4.16",
 		"axios": "^0.27.2",
