@@ -24,14 +24,12 @@ export const Liked: Component = () => {
 				actions={() => (
 					<Button
 						onClick={() => queue.addLastLiked()}
-						disabled={queue.data.empty}
+						fill
+						theme="brand"
+						disabled={!canBeAdded()}
 						rounded
 						icon="plus"
-						class=" text-neutral-850 space-x-2 px-4 py-1.5"
-						classList={{
-							"!bg-brand-800 !border-brand-800": !canBeAdded(),
-							"bg-brand-600 hover:!bg-brand-500 !border-brand-600": canBeAdded(),
-						}}
+						class="space-x-2 px-4 py-1.5"
 					>
 						<Text.Body1>Add to Queue</Text.Body1>
 					</Button>

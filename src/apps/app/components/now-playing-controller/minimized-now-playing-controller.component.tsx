@@ -18,8 +18,8 @@ export const MinimizedNowPlayingController: Component = () => {
 								<img src={track.mediaSource.maxThumbnailUrl} class="aspect-square" />
 								<Button
 									flat
+									theme={liked?.isLiked() ? "brand" : "default"}
 									icon={liked?.isLiked() ? "heart" : "heartLine"}
-									iconClassList={{ "text-brand-600": liked?.isLiked() }}
 									onClick={liked?.toggle}
 									class="p-2.5 justify-center"
 									iconSize="lg"

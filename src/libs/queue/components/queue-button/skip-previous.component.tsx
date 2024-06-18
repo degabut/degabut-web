@@ -18,11 +18,7 @@ export const SkipPreviousButton: Component<Props> = (props) => {
 			icon="skipPrevious"
 			iconSize={props.iconSize || "lg"}
 			class="p-2"
-			classList={{
-				"text-neutral-600": props.disabled,
-				"hover:text-white text-neutral-300": !props.disabled,
-				[props.extraClass || ""]: !!props.extraClass,
-			}}
+			classList={{ [props.extraClass || ""]: !!props.extraClass }}
 		/>
 	);
 };

@@ -74,15 +74,13 @@ export const PlaylistDetail: Component = () => {
 				actions={() => (
 					<div class="flex-row-center space-x-4">
 						<Button
+							fill
+							theme="brand"
 							onClick={() => queue.addPlaylist(params.id)}
-							disabled={queue.data.empty}
+							disabled={!canBeAdded()}
 							rounded
 							icon="plus"
 							class=" text-neutral-850 space-x-2 px-4 py-1.5"
-							classList={{
-								"!bg-brand-800 !border-brand-800": !canBeAdded(),
-								"bg-brand-600 hover:!bg-brand-500 !border-brand-600": canBeAdded(),
-							}}
 						>
 							<Text.Body1>Add to Queue</Text.Body1>
 						</Button>

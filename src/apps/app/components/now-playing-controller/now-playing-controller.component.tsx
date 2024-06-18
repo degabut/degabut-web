@@ -81,7 +81,7 @@ export const NowPlayingController: Component = () => {
 									<Button
 										flat
 										icon={liked?.isLiked() ? "heart" : "heartLine"}
-										iconClassList={{ "text-brand-600": liked?.isLiked() }}
+										theme={liked?.isLiked() ? "brand" : "default"}
 										onClick={liked?.toggle}
 										class="p-4"
 										iconSize="lg"

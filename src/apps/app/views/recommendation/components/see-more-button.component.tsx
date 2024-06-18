@@ -14,5 +14,5 @@ export const SeeMoreTextButton: Component<Props> = (props) => {
 };
 
 export const SeeMoreButton: Component<Props> = (props) => {
-	return <Button rounded flat icon="list" class="p-2 text-neutral-300" onClick={() => props.onClick()} />;
+	return <Button rounded flat icon="list" class="p-2" onClick={() => props.onClick()} />;
 };

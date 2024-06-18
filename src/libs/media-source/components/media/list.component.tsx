@@ -35,23 +35,17 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 						{({ isLiked, toggle }) => (
 							<Button
 								flat
+								icon={isLiked() ? "heart" : "heartLine"}
+								iconSize="md"
 								class="p-2.5 !hidden md:!block"
+								theme={isLiked() ? "brand" : "default"}
 								classList={{ "md:visible": isLiked() }}
 								title={isLiked() ? "Unlike" : "Like"}
 								on:click={(e) => {
 									e.stopImmediatePropagation();
 									toggle();
 								}}
-							>
-								<Icon
-									name={isLiked() ? "heart" : "heartLine"}
-									extraClassList={{
-										"text-brand-600": isLiked(),
-										"text-neutral-300": !isLiked(),
-									}}
-									size="md"
-								/>
-							</Button>
+							/>
 						)}
 					</Show>
 					{props.right?.()}
