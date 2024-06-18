@@ -1,4 +1,5 @@
-import { For, Show, createContext, createSignal, useContext, type ParentComponent } from "solid-js";
+import { IS_DESKTOP } from "@constants";
+import { Show, createContext, createSignal, useContext, type ParentComponent } from "solid-js";
 import { Portal } from "solid-js/web";
 import { TransitionGroup } from "solid-transition-group";
 import { useScreen } from "../screen";
@@ -14,16 +15,35 @@ export const NotificationContext = createContext<NotificationContextStore>({
 
 export const NotificationProvider: ParentComponent = (props) => {
 	const screen = useScreen();
-	const maxNotification = 5;
-	const [notifications, setNotifications] = createSignal<Notification[]>([]);
+	let nextTimeout: NodeJS.Timeout | null = null;
+	const [queuedNotifications, setQueuedNotifications] = createSignal<Notification[]>([]);
+	const [currentNotification, setCurrentNotification] = createSignal<Notification | null>(null);
 
 	const push = (notification: Notification) => {
-		setNotifications((prev) => [...prev, notification].slice(0, maxNotification));
-		setTimeout(() => remove(notification), 5000);
+		setQueuedNotifications((prev) => [...prev, notification]);
+		next();
 	};
 
-	const remove = (notification: Notification) => {
-		setNotifications((prev) => prev.filter((n) => n !== notification));
+	const next = (force = false) => {
+		if (force) {
+			clearTimeout(nextTimeout!);
+			nextTimeout = null;
+		}
+
+		if (nextTimeout) return;
+
+		setCurrentNotification(queuedNotifications().at(0) || null);
+		setQueuedNotifications((n) => {
+			n.shift();
+			return n;
+		});
+
+		if (!currentNotification()) return;
+
+		nextTimeout = setTimeout(() => {
+			nextTimeout = null;
+			next();
+		}, 3000);
 	};
 
 	const store = { push };
@@ -34,20 +54,22 @@ export const NotificationProvider: ParentComponent = (props) => {
 
 			<Show when={screen.gte.md}>
 				<Portal>
-					<div class="fixed bottom-24 right-4 flex flex-col space-y-3 z-20">
+					<div
+						class="fixed left-1/2 z-20 -translate-x-1/2"
+						classList={{
+							"top-4": !IS_DESKTOP,
+							"top-8": IS_DESKTOP,
+						}}
+					>
 						<TransitionGroup
 							onEnter={(el, done) => {
 								el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 150 }).finished.then(done);
 							}}
-							onExit={(el, done) => {
-								el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 150 }).finished.then(done);
-							}}
+							onExit={(_, done) => done()}
 						>
-							<For each={notifications()}>
-								{(notification) => (
-									<Notification {...notification} onClose={() => remove(notification)} />
-								)}
-							</For>
+							<Show when={currentNotification()} keyed>
+								{(notification) => <Notification {...notification} onClose={() => next(true)} />}
+							</Show>
 						</TransitionGroup>
 					</div>
 				</Portal>

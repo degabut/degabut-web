@@ -67,13 +67,17 @@ export const useMediaSession = () => {
 			let position = Math.round(queue.data.position / 1000);
 			if (position > duration) position = duration;
 
-			mediaSession.setPositionState({ duration, position, playbackRate: 1 });
+			try {
+				mediaSession.setPositionState({ duration, position, playbackRate: 1 });
 
-			mediaSession.metadata = new MediaMetadata({
-				title: nowPlaying.mediaSource.title,
-				artist: nowPlaying.mediaSource.creator,
-				artwork: getMediaSourceImages(nowPlaying.mediaSource),
-			});
+				mediaSession.metadata = new MediaMetadata({
+					title: nowPlaying.mediaSource.title,
+					artist: nowPlaying.mediaSource.creator,
+					artwork: getMediaSourceImages(nowPlaying.mediaSource),
+				});
+			} catch (err) {
+				console.error("Failed to set media session metadata", err);
+			}
 		} else {
 			mediaSession.metadata = null;
 			mediaSession.setPositionState();

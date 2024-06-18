@@ -36,10 +36,10 @@ export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, em
 		emitter.on("player-pause-state-changed", ({ isPaused }) => partialUpdateQueue({ isPaused }));
 		emitter.on("player-tick", ({ position }) => onPlayerTick(position));
 		emitter.on("track-seeked", ({ position }) => onTrackSeeked(position));
-		emitter.on("track-added", ({ track }) => appendTrack(track));
 		emitter.on("tracks-added", ({ tracks }) => appendTrack(tracks));
-		emitter.on("track-removed", ({ track }) => removeTrack(track));
 		emitter.on("tracks-removed", ({ tracks }) => removeTrack(tracks));
+		emitter.on("next-track-added", ({ track }) => addNextTrack(track));
+		emitter.on("next-track-removed", ({ track }) => removeNextTrack(track));
 		emitter.on("track-order-changed", orderTrack);
 		emitter.on("track-audio-started", onTrackAudioStarted);
 		emitter.on("queue-processed", setNowPlaying);
@@ -81,9 +81,20 @@ export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, em
 		});
 	};
 
-	const removeTrack = (track: ITrack | ITrack[]) => {
-		const trackIds = Array.isArray(track) ? track.map((t) => t.id) : [track.id];
+	const removeTrack = (tracks: ITrack[]) => {
+		const trackIds = tracks.map((t) => t.id);
 		setQueue("tracks", (tracks) => tracks.filter((t) => !trackIds.includes(t.id)));
+	};
+
+	const addNextTrack = (track: ITrack) => {
+		setQueue("nextTrackIds", (nextTracks) => {
+			nextTracks = nextTracks.filter((id) => id !== track.id);
+			return [track.id, ...nextTracks];
+		});
+	};
+
+	const removeNextTrack = (track: ITrack) => {
+		setQueue("nextTrackIds", (nextTracks) => nextTracks.filter((t) => t !== track.id));
 	};
 
 	const orderTrack = (trackIds: string[]) => {

@@ -1,5 +1,10 @@
 import { Button, Divider, Text } from "@common";
-import { RichPresenceUtil ,type  IRichPresenceAsset,type  IRichPresencePlaceholder,type  IRichPresenceTemplate  } from "@discord";
+import {
+	RichPresenceUtil,
+	type IRichPresenceAsset,
+	type IRichPresencePlaceholder,
+	type IRichPresenceTemplate,
+} from "@discord";
 import { For, Show, createMemo, createSignal, type Component } from "solid-js";
 import { AssetsTable, InputText, PlaceholdersTable, RichPresencePreview } from "./components";
 

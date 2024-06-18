@@ -84,15 +84,34 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 	const addAndPlayTrack = (mediaSource: IMediaSource) => {
 		return modifyTrack(async (queueId) => {
 			let trackId = queue.tracks?.find((t) => t.mediaSource.id === mediaSource.id)?.id;
-			if (!trackId) trackId = await queueApi.addTrackById(queueId, mediaSource.id);
+			if (!trackId) [trackId] = await queueApi.addTrackById(queueId, mediaSource.id);
 
 			try {
-				await queueApi.playTrack(queueId, trackId);
+				if (queue.nowPlaying) await queueApi.playTrack(queueId, trackId);
 				if (queue.isPaused) await playerApi.unpause(queueId);
 			} catch {
 				// ignore error
 			}
 		});
+	};
+
+	const addNextTrack = (mediaSource: IMediaSource) => {
+		return modifyTrack(async (queueId) => {
+			let trackId = queue.tracks?.find((t) => t.mediaSource.id === mediaSource.id)?.id;
+			if (!trackId) [trackId] = await queueApi.addTrackById(queueId, mediaSource.id);
+
+			if (queue.nowPlaying) queueApi.addNextTrack(queueId, trackId);
+		});
+	};
+
+	const removeNextTrack = (trackOrId: ITrack | string) => {
+		return modifyTrack((queueId) =>
+			queueApi.removeNextTrack(queueId, typeof trackOrId === "string" ? trackOrId : trackOrId.id)
+		);
+	};
+
+	const addLastLiked = (lastLikedCount = 1000) => {
+		return modifyTrack((queueId) => queueApi.addLastLiked(queueId, lastLikedCount));
 	};
 
 	const addPlaylist = (playlistId: string) => {
@@ -174,6 +193,9 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 		addTrackById,
 		addTrackByKeyword,
 		addAndPlayTrack,
+		addNextTrack,
+		removeNextTrack,
+		addLastLiked,
 		addPlaylist,
 		addYouTubePlaylist,
 		addSpotifyPlaylist,

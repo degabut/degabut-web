@@ -6,8 +6,15 @@ export interface IPlaylist {
 	name: string;
 	ownerId: string;
 	mediaSourceCount: number;
+	images: IPlaylistImage[];
 	createdAt: string;
 	updatedAt: string;
+}
+
+export interface IPlaylistImage {
+	url: string;
+	width: number;
+	height: number;
 }
 
 export interface IPlaylistMediaSource {
@@ -51,10 +58,14 @@ export class PlaylistApi {
 		else return null;
 	};
 
-	getPlaylistMediaSources = async (playlistId: string): Promise<IPlaylistMediaSource[]> => {
+	getPlaylistMediaSources = async (
+		playlistId: string,
+		page: number,
+		limit = 100
+	): Promise<IPlaylistMediaSource[]> => {
 		if (!playlistId) return [];
 
-		const response = await this.client.get(`/playlists/${playlistId}/media-sources`);
+		const response = await this.client.get(`/playlists/${playlistId}/media-sources`, { params: { page, limit } });
 		if (response.status !== 200) throw new Error(response.data.message);
 		return response.data;
 	};

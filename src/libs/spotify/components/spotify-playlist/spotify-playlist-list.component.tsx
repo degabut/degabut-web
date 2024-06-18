@@ -8,7 +8,7 @@ export type SpotifyPlaylistListProps = {
 	playlist: ISpotifySimplifiedPlaylist | ISpotifyPlaylist;
 	contextMenu?: ContextMenuDirectiveParams;
 	extraContainerClass?: string;
-	extraContainerClassList?: Record<string, boolean>;
+	extraContainerClassList?: Record<string, boolean | undefined>;
 	extraTitleClass?: string;
 	onClick?: (playlist: ISpotifySimplifiedPlaylist | ISpotifyPlaylist) => void;
 };

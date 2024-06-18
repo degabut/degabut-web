@@ -1,22 +1,56 @@
-import { Icon, Item, Text, type ItemListProps } from "@common";
+import { Button, Icon, Item, Text, type IContextMenuItem, type ItemListProps } from "@common";
 import { SPOTIFY_INTEGRATION } from "@constants";
 import type { IGuildMember } from "@queue";
 import { Show, type Component } from "solid-js";
 import { type IMediaSource } from "../../apis";
+import { useLikeMediaSource, useMediaSourceContextMenu } from "../../hooks";
 import { DurationBadge, LiveBadge, SourceBadge } from "./components";
 
-export type MediaSourceListProps = Partial<ItemListProps> & {
+export type MediaSourceListProps = Partial<Omit<ItemListProps, "contextMenu">> & {
 	mediaSource: IMediaSource;
 	requestedBy?: IGuildMember | null;
 	inQueue?: boolean;
+	contextMenu?: {
+		openWithClick?: boolean;
+		modify?: (current: IContextMenuItem[][]) => IContextMenuItem[][];
+	};
 };
 
 export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
+	const contextMenu = useMediaSourceContextMenu(() => ({
+		mediaSource: props.mediaSource,
+		options: props.contextMenu,
+	}));
+	const like = useLikeMediaSource(() => props.mediaSource.id);
+
 	return (
 		<Item.List
 			{...props}
+			contextMenu={contextMenu()}
 			title={props.mediaSource.title}
 			imageUrl={props.mediaSource.minThumbnailUrl}
+			right={() => (
+				<div class="flex-row-center">
+					<Show when={like} keyed>
+						{({ isLiked, toggle }) => (
+							<Button
+								flat
+								icon={isLiked() ? "heart" : "heartLine"}
+								iconSize="md"
+								class="p-2.5 !hidden md:!block"
+								theme={isLiked() ? "brand" : "default"}
+								classList={{ "md:visible": isLiked() }}
+								title={isLiked() ? "Unlike" : "Like"}
+								on:click={(e) => {
+									e.stopImmediatePropagation();
+									toggle();
+								}}
+							/>
+						)}
+					</Show>
+					{props.right?.()}
+				</div>
+			)}
 			extra={() => (
 				<div class="flex-row-center space-x-1.5">
 					<Show when={props.mediaSource.duration} fallback={<LiveBadge />}>
@@ -29,7 +63,7 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 
 					<Show when={props.inQueue}>
 						<div title="In Queue">
-							<Icon name="degabut" size="sm" class="fill-brand-600" />
+							<Icon name="degabut" size="sm" class="text-brand-600" />
 						</div>
 					</Show>
 
@@ -56,9 +90,15 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 };
 
 export const MediaSourceListBig: Component<MediaSourceListProps> = (props) => {
+	const contextMenu = useMediaSourceContextMenu(() => ({
+		mediaSource: props.mediaSource,
+		options: props.contextMenu,
+	}));
+
 	return (
 		<Item.ListBig
 			{...props}
+			contextMenu={contextMenu()}
 			title={props.mediaSource.title}
 			imageUrl={props.mediaSource.maxThumbnailUrl}
 			imageOverlayElement={() => (

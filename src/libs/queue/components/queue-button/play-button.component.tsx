@@ -21,14 +21,13 @@ export const PlayButton: Component<Props> = (props) => {
 
 	return (
 		<Button
-			flat
+			fill
+			rounded
 			disabled={props.disabled}
 			onClick={onClick}
 			iconSize={props.iconSize || "lg"}
 			class="p-2"
-			classList={{
-				[props.extraClass || ""]: !!props.extraClass,
-			}}
+			classList={{ [props.extraClass || ""]: !!props.extraClass }}
 			title={isPaused() ? "Resume" : "Pause"}
 			icon={isPaused() ? "play" : "pause"}
 		/>

@@ -1,8 +1,7 @@
-import { useApp } from "@app/hooks";
 import { AppRoutes } from "@app/routes";
-import { A, useNavigate } from "@common";
+import { A, Button, Icon, useNavigate } from "@common";
 import { useDesktop } from "@desktop";
-import { MediaSource, MediaSourceContextMenuUtil } from "@media-source";
+import { MediaSource } from "@media-source";
 import { QueueActions, QueueButton, QueueSeekSlider, VolumeSlider, useQueue } from "@queue";
 import { useSettings } from "@settings";
 import { Show, type Component } from "solid-js";
@@ -20,15 +19,14 @@ const EmptyNowPlaying: Component = () => {
 };
 
 export const QueuePlayer: Component = () => {
-	const app = useApp();
 	const queue = useQueue();
 	const desktop = useDesktop();
 	const navigate = useNavigate();
 	const { settings, setSettings } = useSettings();
 
 	return (
-		<Show when={!queue.data.empty} keyed>
-			<div class="grid grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)_minmax(0,1fr)] gap-x-8 bg-black p-2 rounded-lg">
+		<div class="flex bg-black rounded-lg">
+			<div class="grow grid grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)_minmax(0,1fr)] gap-x-4 lg:gap-x-8 p-2">
 				<div class="relative overflow-hidden rounded text-shadow w-full max-w-md xl:max-w-lg">
 					<Show when={queue.data.nowPlaying} fallback={<EmptyNowPlaying />} keyed>
 						{(t) => (
@@ -36,12 +34,7 @@ export const QueuePlayer: Component = () => {
 								mediaSource={t.mediaSource}
 								onClick={() => navigate(AppRoutes.Queue)}
 								hideContextMenuButton
-								contextMenu={MediaSourceContextMenuUtil.getContextMenu({
-									openWithClick: false,
-									mediaSource: t.mediaSource,
-									appStore: app,
-									queueStore: queue,
-								})}
+								contextMenu={{ openWithClick: false }}
 							/>
 						)}
 					</Show>
@@ -49,7 +42,11 @@ export const QueuePlayer: Component = () => {
 
 				<div class="flex-col-center pt-0.5">
 					<div class="-space-y-3.5 w-full max-w-[36rem] 2xl:max-w-[42rem]">
-						<QueueActions extraClass="justify-center space-x-6" />
+						<QueueActions
+							iconSize="md"
+							extraClass="justify-center space-x-2 lg:space-x-4"
+							extraButtonClass="p-2.5"
+						/>
 						<QueueSeekSlider
 							disabled={queue.freezeState.seek}
 							max={queue.data.nowPlaying?.mediaSource.duration || 0}
@@ -59,9 +56,14 @@ export const QueuePlayer: Component = () => {
 					</div>
 				</div>
 
-				<div class="flex items-center justify-end space-x-0.5">
+				<div class="flex-row-center justify-end space-x-0.5 lg:space-x-1.5">
 					<QueueButton.Lyrics iconSize="md" onClick={() => navigate(AppRoutes.Lyrics)} />
-					<QueueButton.Options iconSize="md" onClearQueue={queue.clear} onStopQueue={queue.stop} />
+					<QueueButton.Options
+						disabled={queue.data.empty}
+						iconSize="md"
+						onClearQueue={queue.clear}
+						onStopQueue={queue.stop}
+					/>
 					<Show when={settings["discord.rpc"]}>
 						<VolumeSlider
 							value={settings["botVolumes"][queue.bot().id]}
@@ -79,6 +81,15 @@ export const QueuePlayer: Component = () => {
 					</Show>
 				</div>
 			</div>
-		</Show>
+
+			<Button
+				flat
+				title="Expand"
+				class="h-full px-1 border-l border-neutral-900 text-neutral-500 rounded-r-lg"
+				onClick={() => setSettings("app.player.minimized", false)}
+			>
+				<Icon name="chevronRight" size="sm" />
+			</Button>
+		</div>
 	);
 };

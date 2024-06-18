@@ -35,7 +35,7 @@ export const CreatePlaylistModal: Component<CreatePlaylistModalProps> = (props) 
 				<div class="text-center text-xl font-medium">Create a New Playlist</div>
 
 				<Input
-					outlined
+					rounded
 					value={name()}
 					onInput={(e) => setName(e.currentTarget.value)}
 					focusOnMount
@@ -50,12 +50,12 @@ export const CreatePlaylistModal: Component<CreatePlaylistModalProps> = (props) 
 						flat
 						rounded
 						onClick={() => props.onClose()}
-						class="px-8 py-1.5 underline underline-offset-2 hover:bg-white/0"
+						class="px-8 py-1.5 underline underline-offset-2"
 					>
 						Cancel
 					</Button>
 
-					<Button class="px-4 py-1" type="submit" rounded disabled={isSubmitting() || !name()}>
+					<Button class="px-8 py-1.5" type="submit" rounded disabled={isSubmitting() || !name()}>
 						Create
 					</Button>
 				</div>

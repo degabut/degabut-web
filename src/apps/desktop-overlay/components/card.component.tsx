@@ -2,7 +2,7 @@ import type { ParentComponent } from "solid-js";
 
 type CardProps = {
 	extraClass?: string;
-	extraClassList?: Record<string, boolean>;
+	extraClassList?: Record<string, boolean | undefined>;
 };
 
 export const Card: ParentComponent<CardProps> = (props) => {

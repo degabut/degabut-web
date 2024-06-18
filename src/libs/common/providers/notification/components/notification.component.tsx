@@ -18,7 +18,7 @@ export const Notification: Component<NotificationProps> = (props) => {
 	};
 
 	return (
-		<div class="flex flex-row-center w-80 bg-gray-800 p-2 pl-3 rounded">
+		<div class="flex flex-row-center max-w-96 w-full bg-gray-800 p-2 pl-3 rounded">
 			<Show when={props.imageUrl} keyed>
 				{(url) => <img src={url} class="flex-shrink-0 w-8 h-8 rounded-full" />}
 			</Show>
@@ -27,7 +27,7 @@ export const Notification: Component<NotificationProps> = (props) => {
 				class="flex-shrink-0 h-full px-2 py-4 hover:cursor-pointer text-neutral-400 hover:text-white"
 				onClick={onClickClose}
 			>
-				<Icon name="closeLine" size="sm" class="fill-current" />
+				<Icon name="closeLine" size="sm" />
 			</button>
 		</div>
 	);

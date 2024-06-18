@@ -1,102 +1,174 @@
-import type { IMediaSource } from "@media-source";
+import { useApi } from "@common";
 import { useQueue } from "@queue";
-import { usePlayHistory } from "@user";
-import { useVideo ,type  IVideoCompact  } from "@youtube";
-import { batch, createEffect, createMemo, createSignal, type Accessor } from "solid-js";
+import { UserApi } from "@user";
+import { useVideo, type IVideoCompact } from "@youtube";
+import { batch, createEffect, createMemo, createResource, createSignal, on, type Accessor } from "solid-js";
 
 type UseRecommendationParams = {
 	userId: Accessor<string>;
-	onLoad?: () => void;
 };
 
-// TODO refactor
+type ProcessorOptions<T> = {
+	data: T[];
+	loading: boolean;
+	exclude?: T[];
+	identifier?: keyof T;
+	limit: number;
+};
+
+const processData = <T = unknown>(options: ProcessorOptions<T>) => {
+	const identifier = options.identifier || ("id" as keyof T);
+
+	const unique = options.data.reduce<T[]>((acc, cur) => {
+		if (
+			acc.some((v) => v[identifier] === cur[identifier]) ||
+			(options.exclude && options.exclude.some((v) => v[identifier] === cur[identifier]))
+		) {
+			return acc;
+		}
+
+		acc.push(cur);
+		return acc;
+	}, []);
+
+	return {
+		data: unique.slice(0, options.limit),
+		loading: options.loading,
+	};
+};
+
 export const useRecommendation = (params: UseRecommendationParams) => {
 	const queue = useQueue();
+	const api = useApi();
+	const user = new UserApi(api.client);
+
+	const [lastPlayedData, lastPlayedAction] = createResource(
+		params.userId,
+		(userId) => {
+			const params = { last: 20 };
+			if (userId === "me") return user.getPlayHistory(params);
+			return user.getUserPlayHistory(userId, params);
+		},
+		{ initialValue: [] }
+	);
+
+	const [recentMostPlayedData, recentMostPlayedAction] = createResource(
+		params.userId,
+		(userId) => {
+			const params = { days: 14, count: 10 };
+			if (userId === "me") return user.getPlayHistory(params);
+			return user.getUserPlayHistory(userId, params);
+		},
+		{ initialValue: [] }
+	);
+
+	const [mostPlayedData, mostPlayedAction] = createResource(
+		params.userId,
+		(userId) => {
+			const params = { days: 30, count: 10 };
+			if (userId === "me") return user.getPlayHistory(params);
+			return user.getUserPlayHistory(userId, params);
+		},
+		{ initialValue: [] }
+	);
+
+	const [lastLikedData, lastLikedAction] = createResource(
+		params.userId,
+		(userId) => {
+			if (userId === "me") return user.getLikedMediaSource(1, 10);
+			return [];
+		},
+		{ initialValue: [] }
+	);
+
+	const [channelRelatedData, channelRelatedAction] = createResource(
+		queue.data.empty,
+		(isEmpty) => {
+			if (isEmpty) return [];
+			const params = { voiceChannel: true, days: 14, count: 20 };
+			return user.getPlayHistory(params);
+		},
+		{ initialValue: [] }
+	);
+
 	const [relatedTargetVideoIds, setRelatedTargetVideoIds] = createSignal<string[]>([]);
 	const [relatedVideos, setRelatedVideos] = createSignal<IVideoCompact[]>([]);
-	const [lastPlayedParams, setLastPlayedParams] = createSignal({ userId: params.userId(), last: 20 });
-	const [mostPlayedParams, setMostPlayedParams] = createSignal({ userId: params.userId(), days: 30, count: 10 });
-	const [recentMostPlayedParams, setRecentMostPlayedParams] = createSignal({
-		userId: params.userId(),
-		days: 7,
-		count: 5,
-	});
-	const [channelRelatedParams, setChannelRelatedParams] = createSignal({
-		userId: params.userId(),
-		voiceChannel: true,
-		days: 14,
-		count: 20,
-	});
-	const currentRelatedVideoId = createMemo(() => relatedTargetVideoIds()[0]);
-
+	const [currentRelatedVideoId, setCurrentRelatedVideoId] = createSignal("");
 	const video = useVideo({ videoId: currentRelatedVideoId });
-	const lastPlayedVideos = usePlayHistory(lastPlayedParams);
-	const mostPlayedVideos = usePlayHistory(mostPlayedParams);
-	const recentMostPlayedVideos = usePlayHistory(recentMostPlayedParams);
-	const channelRelatedVideos = usePlayHistory(channelRelatedParams);
 
 	createEffect(() => {
 		const videos = video.data()?.related;
 		if (videos) {
 			setRelatedVideos((c) => [...c, ...videos.filter((v) => !c.some((rv) => rv.id === v.id)).slice(0, 5)]);
-			params.onLoad && setTimeout(params.onLoad, 0);
 		}
 	});
 
-	createEffect(() => {
-		const lastPlayed = lastPlayedVideos.data();
-		const mostPlayed = mostPlayedVideos.data();
-		if (!lastPlayed || !mostPlayed) return;
-		const videoIds = [...mostPlayed, ...lastPlayed]
-			.map((v) => v.youtubeVideoId || v.playedYoutubeVideoId)
-			.filter((v) => !!v) as string[];
+	createEffect(
+		on([() => mostPlayed(), () => lastPlayed()], ([mostPlayed, lastPlayed]) => {
+			if (mostPlayed.loading || lastPlayed.loading) return;
 
-		setRelatedTargetVideoIds(videoIds);
-		params.onLoad && setTimeout(params.onLoad, 0);
-	});
+			const ids = [
+				...new Set(
+					[...mostPlayed.data, ...lastPlayed.data].map((v) => v.youtubeVideoId || v.playedYoutubeVideoId)
+				),
+			].filter((id) => id) as string[];
 
-	createEffect(() => {
-		const userId = params.userId();
+			setRelatedTargetVideoIds(ids);
+		})
+	);
 
-		if (!userId) return;
-		if (userId === lastPlayedParams().userId && userId === mostPlayedParams().userId) return;
-
-		batch(() => {
-			lastPlayedVideos.mutate([]);
-			mostPlayedVideos.mutate([]);
-			recentMostPlayedVideos.mutate([]);
-			channelRelatedVideos?.mutate([]);
-			setRelatedVideos([]);
-			setLastPlayedParams((v) => ({ ...v, userId }));
-			setMostPlayedParams((v) => ({ ...v, userId }));
-			setRecentMostPlayedParams((v) => ({ ...v, userId }));
-			setChannelRelatedParams((v) => ({ ...v, userId }));
-		});
-	});
+	createEffect(
+		on(params.userId, () => {
+			batch(() => {
+				lastPlayedAction.mutate([]);
+				lastLikedAction.mutate([]);
+				mostPlayedAction.mutate([]);
+				recentMostPlayedAction.mutate([]);
+				channelRelatedAction.mutate([]);
+				setRelatedVideos([]);
+				setRelatedTargetVideoIds([]);
+			});
+		})
+	);
 
 	const loadNext = () => {
+		const firstVideoId = relatedTargetVideoIds().at(0);
+		if (!firstVideoId) return;
+
+		setCurrentRelatedVideoId(firstVideoId);
 		setRelatedTargetVideoIds((c) => c.slice(1));
 	};
 
 	const mostPlayed = createMemo(() => {
-		const allMostPlayed = [...(recentMostPlayedVideos.data() || []), ...(mostPlayedVideos.data() || [])];
-		const unique = allMostPlayed.reduce<IMediaSource[]>((acc, cur) => {
-			if (acc.some((v) => v.id === cur.id)) return acc;
-			acc.push(cur);
-			return acc;
-		}, []);
-		return {
-			data: unique.slice(0, 7),
-			loading: mostPlayedVideos.data.loading || recentMostPlayedVideos.data.loading,
-		};
+		return processData({
+			data: [...recentMostPlayedData(), ...mostPlayedData()],
+			loading: mostPlayedData.loading || recentMostPlayedData.loading,
+			limit: 7,
+		});
 	});
 
 	const lastPlayed = createMemo(() => {
-		const excludedVideos = mostPlayed().data;
-		const videos = lastPlayedVideos.data() || [];
+		return processData({
+			data: lastPlayedData(),
+			exclude: mostPlayed().data,
+			loading: lastPlayedData.loading,
+			limit: 7,
+		});
+	});
+
+	const channelRelated = createMemo(() => {
+		return processData({
+			data: channelRelatedData(),
+			exclude: [...mostPlayed().data, ...lastPlayed().data],
+			loading: channelRelatedData.loading,
+			limit: 10,
+		});
+	});
+
+	const lastLiked = createMemo(() => {
 		return {
-			data: videos.filter((v) => !excludedVideos.some((m) => m.id === v.id)).slice(0, 7),
-			loading: lastPlayedVideos.data.loading,
+			data: lastLikedData().map((d) => d.mediaSource),
+			loading: lastLikedData.loading,
 		};
 	});
 
@@ -104,22 +176,6 @@ export const useRecommendation = (params: UseRecommendationParams) => {
 		return {
 			data: relatedVideos(),
 			loading: video.data.loading,
-		};
-	});
-
-	const channelRelated = createMemo(() => {
-		if (params.userId() !== "me" || queue.data.empty) {
-			return {
-				data: [],
-				loading: false,
-			};
-		}
-
-		const excludedVideos = [...mostPlayed().data, ...lastPlayed().data];
-		const videos = channelRelatedVideos.data() || [];
-		return {
-			data: videos.filter((v) => !excludedVideos.some((m) => m.id === v.id)).slice(0, 10),
-			loading: channelRelatedVideos.data.loading,
 		};
 	});
 
@@ -139,14 +195,13 @@ export const useRecommendation = (params: UseRecommendationParams) => {
 	return {
 		lastPlayed,
 		mostPlayed,
+		lastLiked,
+		lastPlayedAction,
+		mostPlayedAction,
+		recentMostPlayedAction,
 		related,
 		channelRelated,
 		loadNext,
 		isEmpty,
-		raw: {
-			lastPlayed: lastPlayedVideos,
-			mostPlayed: mostPlayedVideos,
-			recentMostPlayed: recentMostPlayedVideos,
-		},
 	};
 };

@@ -11,7 +11,7 @@ type LabelProps = {
 export const TabLabel = (props: LabelProps) => {
 	return (
 		<div
-			class="flex-row-center space-x-2 justify-center"
+			class="flex-row-center space-x-2 justify-center px-2 md:px-12 xl:px-14 py-3 md:py-2"
 			classList={{
 				"font-medium": props.isActive,
 				"text-neutral-400": !props.isActive,
@@ -19,7 +19,7 @@ export const TabLabel = (props: LabelProps) => {
 			}}
 		>
 			<Show when={props.icon} keyed>
-				{(icon) => <Icon name={icon} size="md" extraClass="fill-current" />}
+				{(icon) => <Icon name={icon} size="md" />}
 			</Show>
 			<div>{props.label}</div>
 		</div>

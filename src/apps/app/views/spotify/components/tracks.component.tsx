@@ -1,13 +1,11 @@
-import { useApp } from "@app/hooks";
 import { SectionList } from "@common";
-import { MediaSource, MediaSourceContextMenuUtil, MediaSourceFactory } from "@media-source";
+import { MediaSource, MediaSourceFactory } from "@media-source";
 import { useQueue } from "@queue";
 import { useSpotify } from "@spotify";
 import { Show, type Component } from "solid-js";
 import { RefreshButton } from "./refresh-button.component";
 
 export const Tracks: Component = () => {
-	const app = useApp();
 	const spotify = useSpotify();
 	const queue = useQueue();
 
@@ -31,11 +29,6 @@ export const Tracks: Component = () => {
 							<MediaSource.List
 								mediaSource={mediaSource}
 								inQueue={queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id)}
-								contextMenu={MediaSourceContextMenuUtil.getContextMenu({
-									mediaSource,
-									queueStore: queue,
-									appStore: app,
-								})}
 							/>
 						)}
 					</SectionList>
@@ -59,11 +52,6 @@ export const Tracks: Component = () => {
 							<MediaSource.List
 								mediaSource={mediaSource}
 								inQueue={queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id)}
-								contextMenu={MediaSourceContextMenuUtil.getContextMenu({
-									mediaSource,
-									queueStore: queue,
-									appStore: app,
-								})}
 							/>
 						)}
 					</SectionList>
@@ -87,11 +75,6 @@ export const Tracks: Component = () => {
 							<MediaSource.List
 								mediaSource={mediaSource}
 								inQueue={queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id)}
-								contextMenu={MediaSourceContextMenuUtil.getContextMenu({
-									mediaSource,
-									queueStore: queue,
-									appStore: app,
-								})}
 							/>
 						)}
 					</SectionList>

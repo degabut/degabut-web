@@ -1,7 +1,7 @@
 import { useApp } from "@app/hooks";
 import { AppRoutes } from "@app/routes";
 import { Container, Icon, Input, Item, Text, useNavigate, useScreen } from "@common";
-import { MediaSource, MediaSourceContextMenuUtil, MediaSourceFactory, useMatchMediaUrlId } from "@media-source";
+import { MediaSource, MediaSourceFactory, useMatchMediaUrlId } from "@media-source";
 import { useQueue } from "@queue";
 import { useSearchParams } from "@solidjs/router";
 import { YouTubeContextMenuUtil, YouTubePlaylist, useSearch } from "@youtube";
@@ -54,7 +54,7 @@ export const Search: Component = () => {
 				class="md:max-w-[32rem]"
 				value={query.keyword || ""}
 				onInput={onInput}
-				prefix={() => <Icon name="search" size="lg" extraClass="fill-current" />}
+				prefix={() => <Icon name="search" size="lg" />}
 			/>
 
 			<div class="lg:space-y-8 space-y-1.5">
@@ -89,11 +89,6 @@ export const Search: Component = () => {
 										big={screen.gte.lg}
 										mediaSource={mediaSource}
 										inQueue={queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id)}
-										contextMenu={MediaSourceContextMenuUtil.getContextMenu({
-											mediaSource,
-											appStore: app,
-											queueStore: queue,
-										})}
 									/>
 								);
 							} else {

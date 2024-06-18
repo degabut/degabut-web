@@ -1,9 +1,11 @@
 import path from "path";
+import { FileSystemIconLoader } from "unplugin-icons/loaders";
+import Icons from "unplugin-icons/vite";
 import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
 import solidPlugin from "vite-plugin-solid";
 import packageJson from "./package.json";
-import { cyclicHmr, generateAppJson, svgString } from "./plugins";
+import { cyclicHmr, generateAppJson } from "./plugins";
 
 const pwa = VitePWA({
 	registerType: "autoUpdate",
@@ -21,7 +23,19 @@ const pwa = VitePWA({
 });
 
 export default defineConfig({
-	plugins: [solidPlugin(), svgString, pwa, generateAppJson, cyclicHmr],
+	plugins: [
+		solidPlugin(),
+		Icons({
+			compiler: "jsx",
+			jsx: "preact",
+			customCollections: {
+				degabut: FileSystemIconLoader("./src/libs/common/components/icon/icons"),
+			},
+		}),
+		pwa,
+		generateAppJson,
+		cyclicHmr,
+	],
 	build: {
 		target: "es6",
 		rollupOptions: {

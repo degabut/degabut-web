@@ -1,6 +1,5 @@
-import { useApp } from "@app/hooks";
 import { Item } from "@common";
-import { MediaSource, MediaSourceContextMenuUtil, type IMediaSource } from "@media-source";
+import { MediaSource, type IMediaSource } from "@media-source";
 import { useQueue } from "@queue";
 import { For, Show, type Component } from "solid-js";
 import { ShowMoreTitle } from "./title.component";
@@ -13,7 +12,6 @@ type Props = {
 };
 
 export const ExpandableMediaSourceList: Component<Props> = (props) => {
-	const app = useApp();
 	const queue = useQueue();
 
 	return (
@@ -27,11 +25,6 @@ export const ExpandableMediaSourceList: Component<Props> = (props) => {
 							<MediaSource.List
 								mediaSource={mediaSource}
 								inQueue={queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id)}
-								contextMenu={MediaSourceContextMenuUtil.getContextMenu({
-									appStore: app,
-									queueStore: queue,
-									mediaSource,
-								})}
 							/>
 						)}
 					</For>

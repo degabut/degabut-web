@@ -9,7 +9,7 @@ export type YouTubePlaylistListProps = {
 	playlist: IYouTubePlaylistCompact | IYouTubePlaylist | IYouTubeMixPlaylist;
 	contextMenu?: ContextMenuDirectiveParams;
 	extraContainerClass?: string;
-	extraContainerClassList?: Record<string, boolean>;
+	extraContainerClassList?: Record<string, boolean | undefined>;
 	extraTitleClass?: string;
 	onClick?: () => void;
 };

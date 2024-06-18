@@ -9,13 +9,35 @@ type Props = {
 	extraButtonClass?: string;
 	iconSize?: IconSize;
 	extra?: () => JSX.Element;
+	vertical?: boolean;
 };
 
 export const QueueActions: Component<Props> = (props) => {
 	const queue = useQueue();
 
 	return (
-		<div class="flex-row-center" classList={{ [props.extraClass || ""]: !!props.extraClass }}>
+		<div
+			classList={{
+				[props.extraClass || ""]: !!props.extraClass,
+				"flex-col-center": !!props.vertical,
+				"flex-row-center": !props.vertical,
+			}}
+		>
+			<QueueButton.ShuffleToggle
+				defaultValue={!!queue.data.shuffle}
+				onChange={() => queue.toggleShuffle()}
+				disabled={queue.freezeState.queue}
+				extraClass={props.extraButtonClass}
+				iconSize={props.iconSize}
+			/>
+
+			<QueueButton.SkipPrevious
+				onClick={() => queue.seek(0)}
+				disabled={queue.freezeState.queue || !queue.data.nowPlaying}
+				extraClass={props.extraButtonClass}
+				iconSize={props.iconSize}
+			/>
+
 			<QueueButton.Play
 				onChange={(isPaused) => (isPaused ? queue.pause() : queue.unpause())}
 				defaultValue={!!queue.data.isPaused}
@@ -24,17 +46,9 @@ export const QueueActions: Component<Props> = (props) => {
 				iconSize={props.iconSize}
 			/>
 
-			<QueueButton.Skip
+			<QueueButton.SkipNext
 				onClick={() => queue.skipTrack()}
 				disabled={queue.freezeState.queue || !queue.data.nowPlaying}
-				extraClass={props.extraButtonClass}
-				iconSize={props.iconSize}
-			/>
-
-			<QueueButton.ShuffleToggle
-				defaultValue={!!queue.data.shuffle}
-				onChange={() => queue.toggleShuffle()}
-				disabled={queue.freezeState.queue}
 				extraClass={props.extraButtonClass}
 				iconSize={props.iconSize}
 			/>

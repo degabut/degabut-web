@@ -1,20 +1,15 @@
 import { createEffect, createResource, createSignal } from "solid-js";
 import { SpotifyApi, type ISpotifyTrack } from "../apis";
-import { useSpotify } from "./spotify.hook";
+import { useSpotify } from "../providers";
 
-type Params = {
-	id: string;
-	onLoad?: () => void;
-};
-
-export const useSpotifyPlaylistTracks = (params: Params) => {
+export const useSpotifyPlaylistTracks = (id: string) => {
 	const spotify = useSpotify();
 	const api = new SpotifyApi(spotify.client);
 	const [data, setData] = createSignal<ISpotifyTrack[]>([]);
 	const limit = 50;
 	let page = 0;
 
-	const [_data, { mutate, refetch }] = createResource(() => api.getPlaylistTracks(params.id, page, limit), {
+	const [_data, { mutate, refetch }] = createResource(() => api.getPlaylistTracks(id, page, limit), {
 		initialValue: [],
 	});
 
@@ -23,7 +18,6 @@ export const useSpotifyPlaylistTracks = (params: Params) => {
 		if (!newData?.length) return;
 
 		setData((d) => [...d, ...newData]);
-		params.onLoad && setTimeout(params.onLoad, 0);
 	});
 
 	const next = () => {

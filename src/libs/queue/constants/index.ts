@@ -7,6 +7,7 @@ export const defaultQueue: QueueResource = {
 	isPaused: false,
 	loopMode: LoopMode.DISABLED,
 	nowPlaying: null,
+	nextTrackIds: [],
 	position: 0,
 	shuffle: false,
 	textChannel: null,

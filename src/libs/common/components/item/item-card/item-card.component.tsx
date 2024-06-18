@@ -13,7 +13,7 @@ export type ItemCardProps = {
 	extra?: Accessor<JSX.Element>;
 	contextMenu?: ContextMenuDirectiveParams;
 	extraContainerClass?: string;
-	extraContainerClassList?: Record<string, boolean>;
+	extraContainerClassList?: Record<string, boolean | undefined>;
 	extraImageClass?: string;
 	inQueue?: boolean;
 	onClick?: () => void;

@@ -1,9 +1,9 @@
 import { useApp } from "@app/hooks";
 import { AppRoutes } from "@app/routes";
-import { Button, Item, KeyboardHint, Text, useInfiniteScrolling, useNavigate, useScreen } from "@common";
-import { MediaSourceContextMenuUtil, MediaSources } from "@media-source";
+import { Button, Divider, Item, KeyboardHint, Text, useInfiniteScrolling, useNavigate, useScreen } from "@common";
+import { MediaSources } from "@media-source";
 import { useQueue } from "@queue";
-import type { Component } from "solid-js";
+import { type Component } from "solid-js";
 import { useQueueRecommendation } from "../hooks";
 
 export const QueueHint: Component = () => {
@@ -12,19 +12,18 @@ export const QueueHint: Component = () => {
 	const queue = useQueue();
 	const navigate = useNavigate();
 	const recommendation = useQueueRecommendation({
-		onLoad: () => infinite.load(),
 		queueTracks: () => queue.data.tracks || [],
 	});
 	let containerElement!: HTMLDivElement;
 
-	const infinite = useInfiniteScrolling({
+	useInfiniteScrolling({
 		callback: recommendation.loadNext,
 		disabled: () => recommendation.related.data.loading,
 		container: () => containerElement,
 	});
 
 	return (
-		<div class="space-y-6 md:space-y-4">
+		<div class="space-y-6">
 			<div class="space-y-2">
 				<Item.Hint
 					label={() => (
@@ -55,8 +54,11 @@ export const QueueHint: Component = () => {
 				/>
 			</div>
 
-			<div class="space-y-2" ref={containerElement}>
-				<Text.Body1 class="font-medium">Recommendation</Text.Body1>
+			<div class="space-y-4" ref={containerElement}>
+				<div class="flex-row-center justify-between space-x-2 md:space-x-4">
+					<Text.Body1 class="font-medium">Recommendation</Text.Body1>
+					<Divider dark />
+				</div>
 
 				<MediaSources.List
 					data={recommendation.mediaSources()}
@@ -65,11 +67,6 @@ export const QueueHint: Component = () => {
 					mediaSourceProps={(mediaSource) => ({
 						mediaSource,
 						hideContextMenuButton: true,
-						contextMenu: MediaSourceContextMenuUtil.getContextMenu({
-							mediaSource,
-							appStore: app,
-							queueStore: queue,
-						}),
 						right: () => (
 							<Button
 								flat

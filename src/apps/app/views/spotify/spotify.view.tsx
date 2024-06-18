@@ -43,7 +43,7 @@ export const Spotify: Component = () => {
 			}
 		>
 			<Container size="full" extraClass="flex-col-center justify-center h-full space-y-12">
-				<Icon name="spotify" size="4xl" class="fill-neutral-700" />
+				<Icon name="spotify" class="text-neutral-700 w-32 h-32" />
 
 				<div class="flex-col-center space-y-4 text-center">
 					<Show

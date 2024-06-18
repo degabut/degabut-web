@@ -8,7 +8,7 @@ type Props = {
 	bottomPadless?: boolean;
 	transparent?: boolean;
 	extraClass?: string;
-	extraClassList?: Record<string, boolean>;
+	extraClassList?: Record<string, boolean | undefined>;
 } & Omit<JSX.HTMLAttributes<HTMLDivElement>, "class" | "classList">;
 
 export const Container: ParentComponent<Props> = (props) => {

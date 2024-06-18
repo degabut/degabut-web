@@ -1,50 +1,73 @@
 import { useApi } from "@common";
-import { createResource, type Accessor } from "solid-js";
-import { PlaylistApi } from "../apis";
+import { createEffect, createResource } from "solid-js";
+import { createStore } from "solid-js/store";
+import { PlaylistApi, type IPlaylistMediaSource } from "../apis";
 
 type IUsePlaylistProps = {
-	playlistId: Accessor<string>;
+	playlistId: string;
+	limit?: number;
 };
 
-export const usePlaylist = ({ playlistId }: IUsePlaylistProps) => {
+export const usePlaylist = (params: IUsePlaylistProps) => {
 	const api = useApi();
 	const playlistApi = new PlaylistApi(api.client);
+	const [mediaSources, setMediaSources] = createStore<IPlaylistMediaSource[]>([]);
+	let page = 1;
+	const limit = params.limit || 100;
 
-	const [mediaSources, { mutate: mutateMediaSources }] = createResource(
-		playlistId,
-		playlistApi.getPlaylistMediaSources,
-		{ initialValue: [] }
-	);
 	const [playlist, { refetch: refetchPlaylist, mutate: mutatePlaylist }] = createResource(
-		playlistId,
+		params.playlistId,
 		playlistApi.getPlaylist,
 		{ initialValue: null }
 	);
+	const [_mediaSources, { refetch: refetchMediaSources }] = createResource(
+		() => playlistApi.getPlaylistMediaSources(params.playlistId, page, limit),
+		{ initialValue: [] }
+	);
 
-	const update = async (name: string) => {
-		await playlistApi.updatePlaylist(playlistId(), name);
+	createEffect(() => {
+		const newMediaSource = _mediaSources();
+		if (!newMediaSource?.length) return;
+
+		setMediaSources((d) => [...d, ...newMediaSource]);
+	});
+
+	const nextMediaSources = () => {
+		page++;
+		refetchMediaSources();
+	};
+
+	const renamePlaylist = async (name: string) => {
+		await playlistApi.updatePlaylist(params.playlistId, name);
+	};
+
+	const deletePlaylist = async () => {
+		await playlistApi.deletePlaylist(params.playlistId);
 	};
 
 	const removeMediaSource = async (playlistMediaSourceId: string) => {
-		await playlistApi.removePlaylistMediaSource(playlistId(), playlistMediaSourceId);
-		mutateMediaSources((mediaSources) => mediaSources?.filter((m) => m.id !== playlistMediaSourceId));
+		await playlistApi.removePlaylistMediaSource(params.playlistId, playlistMediaSourceId);
+		setMediaSources((mediaSources) => mediaSources?.filter((m) => m.id !== playlistMediaSourceId));
 		mutatePlaylist((playlist) => {
 			if (playlist) playlist.mediaSourceCount -= 1;
 			return playlist;
 		});
 	};
 
-	const totalDuration = () => mediaSources()?.reduce((acc, pv) => acc + pv.mediaSource.duration, 0) || 0;
-
-	const isLoading = () => mediaSources.loading || playlist.loading;
+	const isPlaylistLoading = () => playlist.loading;
+	const isMediaSourceLoading = () => _mediaSources.loading;
+	const isMediaSourceFetchable = () => !_mediaSources.loading && _mediaSources().length === params.limit;
 
 	return {
 		playlist,
 		refetchPlaylist,
+		nextMediaSources,
 		mediaSources,
-		update,
+		renamePlaylist,
+		deletePlaylist,
 		removeMediaSource,
-		isLoading,
-		totalDuration,
+		isPlaylistLoading,
+		isMediaSourceLoading,
+		isMediaSourceFetchable,
 	};
 };

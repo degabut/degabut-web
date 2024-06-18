@@ -1,33 +1,23 @@
-import { useApp } from "@app/hooks";
-import { MediaSourceContextMenuUtil, MediaSources, type MediaSourceListProps } from "@media-source";
-import { useQueue ,type  ITrack  } from "@queue";
+import { type MediaSourceListProps } from "@media-source";
+import { SortableTrackList, useQueue, type ITrack } from "@queue";
 import { Show, type Component } from "solid-js";
 import { Card } from "../../../components";
 
 export const TracksCard: Component = () => {
 	const queue = useQueue();
-	const app = useApp();
 
-	const mediaSourceProps = (t: ITrack) => {
+	const mediaSourceProps = (t: ITrack): MediaSourceListProps => {
 		const isActive = queue.data.nowPlaying?.id === t.id;
-		const mediaSourceProps: MediaSourceListProps = {
+		return {
 			mediaSource: t.mediaSource,
 			requestedBy: t.requestedBy,
 			extraTitleClass: isActive ? "!text-brand-600" : undefined,
-			contextMenu: MediaSourceContextMenuUtil.getContextMenu({
-				mediaSource: t.mediaSource,
-				queueStore: queue,
-				appStore: app,
+			contextMenu: {
 				modify: (c) => {
 					if (queue.data.empty) return [];
 					return [c[0]];
 				},
-			}),
-		};
-
-		return {
-			id: t.id,
-			mediaSourceProps,
+			},
 		};
 	};
 
@@ -37,11 +27,11 @@ export const TracksCard: Component = () => {
 				<Show when={queue.data.tracks} keyed>
 					{(tracks) => (
 						<div classList={{ "opacity-50 pointer-events-none": queue.freezeState.track }}>
-							<MediaSources.SortableList
+							<SortableTrackList
 								dense
-								data={tracks}
+								tracks={tracks}
 								onSort={({ to }, data) => queue.changeTrackOrder(data.id, to)}
-								sortableProps={mediaSourceProps}
+								mediaSourceProps={mediaSourceProps}
 							/>
 						</div>
 					)}

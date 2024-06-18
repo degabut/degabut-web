@@ -1,5 +1,8 @@
-import type { Component, JSX } from "solid-js";
-import * as icons from "./icons";
+/* eslint-disable import/no-unresolved */
+
+import { type Component, type JSX } from "solid-js";
+import { Dynamic } from "solid-js/web";
+import { icons } from "./icons";
 
 export type Icons = keyof typeof icons;
 export type IconSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
@@ -8,13 +11,14 @@ type Props = JSX.InputHTMLAttributes<SVGSVGElement> & {
 	name: Icons;
 	size?: IconSize;
 	extraClass?: string;
-	extraClassList?: Record<string, boolean>;
+	extraClassList?: Record<string, boolean | undefined>;
 };
 
 export const Icon: Component<Props> = (props) => {
 	return (
-		<svg
+		<Dynamic
 			{...props}
+			viewBox="2 2 20 20"
 			classList={{
 				"w-2 h-2": props.size === "xs",
 				"w-3 h-3": props.size === "sm",
@@ -26,8 +30,7 @@ export const Icon: Component<Props> = (props) => {
 				...props.extraClassList,
 				[props.extraClass || ""]: !!props.extraClass,
 			}}
-			// eslint-disable-next-line solid/no-innerhtml, import/namespace
-			innerHTML={icons[props.name]}
+			{...icons[props.name]}
 		/>
 	);
 };

@@ -1,4 +1,5 @@
-import { Button, ContextMenuButton, type ContextMenuDirectiveParams, type Icons } from "@common";
+import { Button, ContextMenuButton, type Icons } from "@common";
+import { useMediaSourceContextMenu, type IMediaSource } from "@media-source";
 import { Show, createSignal, type Component } from "solid-js";
 
 type ActionButtonProps = {
@@ -21,14 +22,11 @@ const ActionButton: Component<ActionButtonProps> = (props) => {
 	return (
 		<Button
 			rounded
-			flat
+			fill
+			theme="brand"
 			title={props.title}
 			disabled={isLoading() || props.disabled}
-			class="p-2.5"
-			classList={{
-				"bg-brand-900 !text-black": isLoading() || props.disabled,
-				"bg-brand-600 hover:!bg-brand-400 text-neutral-800 hover:!text-black": !isLoading() && !props.disabled,
-			}}
+			class="p-3"
 			icon={props.icon}
 			on:click={onClickHandler}
 		/>
@@ -36,7 +34,7 @@ const ActionButton: Component<ActionButtonProps> = (props) => {
 };
 
 type Props = {
-	contextMenu: ContextMenuDirectiveParams;
+	mediaSource: IMediaSource;
 	showAddButtons: boolean;
 	inQueue: boolean;
 	isPlaying: boolean;
@@ -45,10 +43,12 @@ type Props = {
 };
 
 export const ThumbnailHover: Component<Props> = (props) => {
+	const contextMenu = useMediaSourceContextMenu(() => ({ mediaSource: props.mediaSource }));
+
 	return (
 		<div class="hover:bg-black/50 w-full h-full">
 			<div class="absolute top-0 right-0">
-				<ContextMenuButton contextMenu={props.contextMenu} />
+				<ContextMenuButton contextMenu={contextMenu()} />
 			</div>
 
 			<Show when={props.showAddButtons}>

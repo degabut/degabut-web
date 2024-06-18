@@ -33,8 +33,58 @@ export type IMostPlayed = {
 	mediaSource: IMediaSource;
 };
 
+export type ILikedMediaSource = {
+	likedAt: string;
+	mediaSource: IMediaSource;
+};
+
+export type LikedMediaSourceDict = Record<string, boolean>;
+
 export class UserApi {
 	constructor(private client: AxiosInstance) {}
+
+	getLikedMediaSource = async (page: number, limit = 100): Promise<ILikedMediaSource[]> => {
+		const response = await this.client.get<ILikedMediaSource[]>("/me/liked", { params: { page, limit } });
+		if (response.status === 200) return response.data;
+		return [];
+	};
+
+	getIsLikedMediaSource = async (allMediaSourceIds: string[]): Promise<LikedMediaSourceDict> => {
+		// batch to 100 ids per request
+		const max = 100;
+		const promises: Promise<LikedMediaSourceDict>[] = [];
+
+		for (let i = 0; i < allMediaSourceIds.length; i += max) {
+			const mediaSourceIds = allMediaSourceIds.slice(i, i + max);
+			if (mediaSourceIds.length === 0) break;
+
+			const promise = async (): Promise<LikedMediaSourceDict> => {
+				const response = await this.client.post<boolean[]>("/me/liked/is-liked", { mediaSourceIds });
+				if (response.status >= 400) return {};
+
+				return response.data.reduce<LikedMediaSourceDict>((acc, r, i) => {
+					acc[mediaSourceIds[i]] = r;
+					return acc;
+				}, {});
+			};
+
+			promises.push(promise());
+		}
+
+		const responses = await Promise.all(promises);
+		let result: LikedMediaSourceDict = {};
+		for (const r of responses) result = { ...result, ...r };
+
+		return result;
+	};
+
+	likeMediaSource = async (mediaSourceId: string): Promise<void> => {
+		await this.client.post("/me/liked", { mediaSourceId });
+	};
+
+	unlikeMediaSource = async (mediaSourceId: string): Promise<void> => {
+		await this.client.delete(`/me/liked/${encodeURIComponent(mediaSourceId)}`);
+	};
 
 	getUserPlayHistory = async (
 		id: string,

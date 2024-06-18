@@ -1,10 +1,8 @@
-import { useApp } from "@app/hooks";
-import { MediaSourceContextMenuUtil, MediaSources } from "@media-source";
+import { MediaSources } from "@media-source";
 import { useQueue } from "@queue";
 import { Show, type Component } from "solid-js";
 
 export const QueuePlayHistory: Component = () => {
-	const app = useApp();
 	const queue = useQueue();
 
 	return (
@@ -16,11 +14,6 @@ export const QueuePlayHistory: Component = () => {
 						mediaSource: t.mediaSource,
 						requestedBy: t.requestedBy,
 						inQueue: queue.data.tracks?.some((qt) => qt.mediaSource.id === t.mediaSource.id),
-						contextMenu: MediaSourceContextMenuUtil.getContextMenu({
-							mediaSource: t.mediaSource,
-							appStore: app,
-							queueStore: queue,
-						}),
 					})}
 				/>
 			)}

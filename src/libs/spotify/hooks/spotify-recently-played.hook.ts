@@ -1,6 +1,6 @@
 import { createResource } from "solid-js";
 import { SpotifyApi } from "../apis";
-import { useSpotify } from "./spotify.hook";
+import { useSpotify } from "../providers";
 
 export const useSpotifyRecentlyPlayed = (limit = 10) => {
 	const spotify = useSpotify();

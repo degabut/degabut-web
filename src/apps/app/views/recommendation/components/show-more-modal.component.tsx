@@ -1,6 +1,6 @@
 import { useApp } from "@app/hooks";
 import { Divider, Modal, Text, useApi } from "@common";
-import { MediaSourceContextMenuUtil, MediaSources ,type  IMediaSource  } from "@media-source";
+import { MediaSources, type IMediaSource, type MediaSourceListProps } from "@media-source";
 import { useQueue } from "@queue";
 import { UserApi, UserConfirmationUtil, usePlayHistory } from "@user";
 import { createMemo, type Component } from "solid-js";
@@ -71,16 +71,13 @@ export const ShowMoreModal: Component<Props> = (props) => {
 
 	const mediaSources = usePlayHistory(params);
 
-	const mediaSourceProps = (mediaSource: IMediaSource) => {
+	const mediaSourceProps = (mediaSource: IMediaSource): MediaSourceListProps => {
 		const removable = props.type === ShowMoreType.RecentlyPlayed || props.type === ShowMoreType.MostPlayed;
 
 		return {
 			mediaSource,
 			inQueue: queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id),
-			contextMenu: MediaSourceContextMenuUtil.getContextMenu({
-				mediaSource,
-				appStore: app,
-				queueStore: queue,
+			contextMenu: {
 				modify: (items) => {
 					if (removable) {
 						items[items.length - 2].push({
@@ -97,7 +94,7 @@ export const ShowMoreModal: Component<Props> = (props) => {
 					}
 					return items;
 				},
-			}),
+			},
 		};
 	};
 

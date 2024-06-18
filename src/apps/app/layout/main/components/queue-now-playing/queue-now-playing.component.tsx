@@ -1,5 +1,5 @@
 import { AppRoutes } from "@app/routes";
-import { A, Icon, Text } from "@common";
+import { A, Text } from "@common";
 import { MediaSource } from "@media-source";
 import { useQueue } from "@queue";
 import { Show, type Component } from "solid-js";
@@ -46,8 +46,9 @@ export const QueueNowPlaying: Component = () => {
 
 						<MediaSource.List
 							mediaSource={mediaSource}
+							hideContextMenuButton
+							contextMenu={{ openWithClick: false }}
 							extraContainerClass="text-shadow"
-							right={() => <Icon name="musicNotes" extraClass="w-12 h-12 fill-white/10" />}
 						/>
 					</A>
 				</div>

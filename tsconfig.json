@@ -8,7 +8,7 @@
 		"esModuleInterop": true,
 		"jsx": "preserve",
 		"jsxImportSource": "solid-js",
-		"types": ["vite/client", "youtube"],
+		"types": ["vite/client", "unplugin-icons/types/solid", "youtube"],
 		"forceConsistentCasingInFileNames": true,
 		"noEmit": true,
 		"isolatedModules": true,

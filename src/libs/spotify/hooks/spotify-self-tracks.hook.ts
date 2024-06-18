@@ -1,18 +1,12 @@
 import { createEffect, createResource } from "solid-js";
 import { createStore } from "solid-js/store";
 import { SpotifyApi, type ISpotifyTrack } from "../apis";
-import { useSpotify } from "./spotify.hook";
+import { useSpotify } from "../providers";
 
-type Params = {
-	limit?: number;
-	onLoad?: () => void;
-};
-
-export const useSpotifySelfTracks = (params: Params) => {
+export const useSpotifySelfTracks = (limit = 50) => {
 	const spotify = useSpotify();
 	const api = new SpotifyApi(spotify.client);
 	const [data, setData] = createStore<ISpotifyTrack[]>([]);
-	const limit = params.limit || 50;
 	let page = 0;
 
 	const [_data, { mutate, refetch }] = createResource(() => api.getSavedTracks(page, limit), { initialValue: [] });
@@ -22,7 +16,6 @@ export const useSpotifySelfTracks = (params: Params) => {
 		if (!newData?.length) return;
 
 		setData((d) => [...d, ...newData]);
-		params.onLoad && setTimeout(params.onLoad, 0);
 	});
 
 	const next = () => {

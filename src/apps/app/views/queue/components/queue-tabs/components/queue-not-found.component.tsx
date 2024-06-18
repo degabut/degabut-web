@@ -57,7 +57,7 @@ const JoinCurrentChannel: Component<JoinCurrentChannelProps> = (props) => {
 				<div class="flex-col-center space-y-0.5">
 					<Text.Body1>Bring {queue.bot().name} to</Text.Body1>
 					<div class="flex-row-center space-x-2">
-						<Icon size="xl" name="soundFull" class="fill-neutral-500" />
+						<Icon size="xl" name="soundFull" class="text-neutral-500" />
 						<Text.H3>{props.channel.name}</Text.H3>
 					</div>
 				</div>

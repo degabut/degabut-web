@@ -35,6 +35,7 @@ type TrackSeededData = {
 export type QueueEvents = {
 	closed: (ev: CloseEvent) => void;
 	identify: () => void;
+	message: (data: string) => void;
 	"member-jammed": (data: IJamCollection) => void;
 	"member-joined": (data: IMember) => void;
 	"member-left": (data: IMember) => void;
@@ -45,10 +46,10 @@ export type QueueEvents = {
 	"queue-created": (data: IQueue) => void;
 	"player-pause-state-changed": (data: IPlayer) => void;
 	"player-tick": (data: { position: number }) => void;
-	"track-added": (data: TrackAction) => void;
-	"track-removed": (data: TrackAction) => void;
 	"tracks-removed": (data: TracksAction) => void;
 	"track-skipped": (data: TrackAction) => void;
+	"next-track-added": (data: TrackAction) => void;
+	"next-track-removed": (data: TrackAction) => void;
 	"track-seeked": (data: TrackSeededData) => void;
 	"track-order-changed": (data: string[]) => void;
 	"track-audio-started": (data: ITrack) => void;
@@ -64,6 +65,7 @@ export const useQueueEvents = () => {
 	let ws: WebSocket | undefined;
 	let reconnectTimeout: NodeJS.Timeout;
 	let isAuthenticated = false;
+	let isConnected = false;
 	const emitter = new EventEmitter() as TypedEmitter<QueueEvents>;
 
 	const listen = (url: string) => {
@@ -76,12 +78,14 @@ export const useQueueEvents = () => {
 		ws.onmessage = ({ data }) => {
 			try {
 				const message = JSON.parse(data) as Message;
+				emitter.emit("message", data);
 				emitter.emit(message.event, message.data);
 			} catch {
 				// ignore
 			}
 		};
 		ws.onopen = async () => {
+			isConnected = true;
 			send("identify", { token: api.authManager.getAccessToken() });
 		};
 		ws.onclose = (ev) => {
@@ -90,9 +94,11 @@ export const useQueueEvents = () => {
 			if (isAuthenticated) {
 				emitter.emit("closed", ev);
 				reconnectTimeout = setTimeout(() => listen(url), 5000);
-			} else {
+			} else if (isConnected) {
 				api.logout();
 			}
+
+			isConnected = false;
 		};
 	};
 

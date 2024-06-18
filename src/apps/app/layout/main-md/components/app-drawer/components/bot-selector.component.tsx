@@ -45,7 +45,7 @@ export const BotSelector: Component<Props> = (props) => {
 					</Text.H3>
 					<Show when={bots.length > 1}>
 						<div class="grow flex justify-end pl-4">
-							<Icon name="swap" class="fill-neutral-600" size="md" />
+							<Icon name="swap" class="text-neutral-600" size="lg" />
 						</div>
 					</Show>
 				</Show>

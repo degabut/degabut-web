@@ -1,16 +1,16 @@
 import { useApp } from "@app/hooks";
 import { AppRoutes } from "@app/routes";
 import { Icon, Item, KeyboardHint, Modal, Select, Text, useNavigate, useSearchable, useShortcut } from "@common";
-import {
-	MediaSource,
-	MediaSourceContextMenuUtil,
-	MediaSourceFactory,
-	useMatchMediaUrlId,
-	type MediaUrlId,
-} from "@media-source";
+import { MediaSource, MediaSourceFactory, useMatchMediaUrlId, type MediaUrlId } from "@media-source";
 import { PlaylistConfirmationUtil } from "@playlist";
-import { useQueue ,type  ITrack  } from "@queue";
-import { YouTubeContextMenuUtil, YouTubePlaylist, useSearch ,type  IVideoCompact,type  IYouTubePlaylistCompact  } from "@youtube";
+import { useQueue, type ITrack } from "@queue";
+import {
+	YouTubeContextMenuUtil,
+	YouTubePlaylist,
+	useSearch,
+	type IVideoCompact,
+	type IYouTubePlaylistCompact,
+} from "@youtube";
 import { Show, createSignal, type Component } from "solid-js";
 
 type SelectOptionItem = MediaUrlId | IVideoCompact | IYouTubePlaylistCompact | ITrack;
@@ -122,7 +122,7 @@ export const QuickSearchModal: Component<Props> = (props) => {
 						onInput: onInput,
 						placeholder: "Search for a song",
 						focusOnMount: true,
-						prefix: () => <Icon name="search" size="lg" extraClass="fill-current" />,
+						prefix: () => <Icon name="search" size="lg" />,
 					}}
 					hideOptionOnClickOutside={false}
 					extraResultContainerClass="max-h-[50vh]"
@@ -150,12 +150,7 @@ export const QuickSearchModal: Component<Props> = (props) => {
 									mediaSource={mediaSource}
 									inQueue={queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id)}
 									extraContainerClass="hover:bg-white/5 cursor-pointer"
-									contextMenu={MediaSourceContextMenuUtil.getContextMenu({
-										mediaSource,
-										appStore: app,
-										openWithClick: false,
-										queueStore: queue,
-									})}
+									contextMenu={{ openWithClick: false }}
 									extraContainerClassList={extraContainerClass}
 								/>
 							);

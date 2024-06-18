@@ -1,11 +1,12 @@
 import { NotificationProvider } from "@common";
+import { MediaSourceLikeManagerProvider } from "@media-source";
 import { QueueProvider } from "@queue";
 import type { RouteDefinition } from "@solidjs/router";
-import { SpotifyProvider } from "@spotify";
 import { AppLayout } from "../layout";
 import { AppProvider, ErrorBoundaryProvider } from "../providers";
 import {
 	Join,
+	Liked,
 	Lyrics,
 	OAuthSpotify,
 	PlaylistDetail,
@@ -26,6 +27,7 @@ export enum AppRoutes {
 	Queue = "/queue",
 	Player = "/queue/player",
 	Lyrics = "/queue/lyrics",
+	Liked = "/liked",
 	Recommendation = "/recommendation/:id?",
 	Spotify = "/spotify",
 	SpotifyLiked = "/spotify/liked",
@@ -47,11 +49,11 @@ export const appRouteDefinitions: RouteDefinition[] = [
 			<ErrorBoundaryProvider>
 				<NotificationProvider>
 					<QueueProvider>
-						<AppProvider>
-							<SpotifyProvider>
+						<MediaSourceLikeManagerProvider>
+							<AppProvider>
 								<AppLayout {...props} />
-							</SpotifyProvider>
-						</AppProvider>
+							</AppProvider>
+						</MediaSourceLikeManagerProvider>
 					</QueueProvider>
 				</NotificationProvider>
 			</ErrorBoundaryProvider>
@@ -60,6 +62,7 @@ export const appRouteDefinitions: RouteDefinition[] = [
 			{ path: AppRoutes.Queue, component: Queue },
 			{ path: AppRoutes.Player, component: QueueNowPlaying },
 			{ path: AppRoutes.Lyrics, component: Lyrics },
+			{ path: AppRoutes.Liked, component: Liked },
 			{ path: AppRoutes.Recommendation, component: Recommendation },
 			{ path: AppRoutes.Spotify, component: Spotify },
 			{ path: AppRoutes.SpotifyLiked, component: SpotifyLiked },

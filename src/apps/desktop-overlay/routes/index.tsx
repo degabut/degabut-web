@@ -1,3 +1,4 @@
+import { MediaSourceLikeManagerProvider } from "@media-source";
 import { QueueProvider } from "@queue";
 import { Navigate, type RouteDefinition } from "@solidjs/router";
 import { Main } from "../layout";
@@ -13,9 +14,11 @@ export const desktopOverlayRouteDefinitions: RouteDefinition[] = [
 	{
 		path: "/",
 		component: (props) => (
-			<QueueProvider>
-				<Main {...props} />
-			</QueueProvider>
+			<MediaSourceLikeManagerProvider>
+				<QueueProvider>
+					<Main {...props} />
+				</QueueProvider>
+			</MediaSourceLikeManagerProvider>
 		),
 		children: [
 			{

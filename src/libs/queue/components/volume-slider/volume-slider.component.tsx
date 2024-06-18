@@ -25,7 +25,7 @@ export const VolumeSlider: Component<VolumeSliderProps> = (props) => {
 	};
 
 	return (
-		<div class="flex flex-row space-x-2 items-center justify-center">
+		<div class="flex flex-row space-x-0.5 items-center justify-center">
 			<Button
 				flat
 				class="p-2"

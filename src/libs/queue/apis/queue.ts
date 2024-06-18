@@ -13,6 +13,7 @@ export interface IQueue {
 	shuffle: boolean;
 	loopMode: LoopMode;
 	nowPlaying: ITrack | null;
+	nextTrackIds: string[];
 	voiceChannel: IVoiceChannel;
 	textChannel: ITextChannel | null;
 	guild: IGuild;
@@ -97,14 +98,19 @@ export class QueueApi {
 		return response.data.trackIds;
 	};
 
-	addTrackById = async (queueId: string, mediaSourceId: string): Promise<string> => {
+	addTrackById = async (queueId: string, mediaSourceId: string): Promise<string[]> => {
 		const response = await this.client.post(`/queues/${queueId}/tracks`, { mediaSourceId });
-		return response.data.trackId;
+		return response.data.trackIds;
 	};
 
-	addTrackByKeyword = async (queueId: string, keyword: string): Promise<string> => {
+	addTrackByKeyword = async (queueId: string, keyword: string): Promise<string[]> => {
 		const response = await this.client.post(`/queues/${queueId}/tracks`, { keyword });
-		return response.data.trackId;
+		return response.data.trackIds;
+	};
+
+	addLastLiked = async (queueId: string, lastLikedCount = 1000): Promise<string[]> => {
+		const response = await this.client.post(`/queues/${queueId}/tracks`, { lastLikedCount });
+		return response.data.trackIds;
 	};
 
 	orderTrack = async (queueId: string, trackId: string, to: number): Promise<void> => {
@@ -121,6 +127,14 @@ export class QueueApi {
 
 	removeTracksByMemberId = async (queueId: string, memberId: string): Promise<void> => {
 		await this.client.delete(`/queues/${queueId}/tracks`, { data: { memberId } });
+	};
+
+	addNextTrack = async (queueId: string, trackId: string) => {
+		await this.client.post(`/queues/${queueId}/tracks/${trackId}/next`);
+	};
+
+	removeNextTrack = async (queueId: string, trackId: string) => {
+		await this.client.delete(`/queues/${queueId}/tracks/${trackId}/next`);
 	};
 
 	clearQueue = async (queueId: string, includeNowPlaying = false): Promise<void> => {

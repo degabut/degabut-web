@@ -1,5 +1,5 @@
 import { useParams } from "@solidjs/router";
-import { useRecap ,type  IRecap  } from "@user";
+import { useRecap, type IRecap } from "@user";
 import { For, Show, type Component } from "solid-js";
 import { Section } from "../../components";
 import {

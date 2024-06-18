@@ -24,15 +24,12 @@ export const ShuffleToggleButton: Component<Props> = (props) => {
 			flat
 			onClick={onClick}
 			title="Shuffle"
+			theme={shuffle() ? "brand" : "default"}
 			disabled={props.disabled}
 			icon="shuffle"
 			iconSize={props.iconSize || "lg"}
 			class="p-2"
-			classList={{
-				"text-brand-600 hover:!text-brand-600": shuffle() && !props.disabled,
-				"text-brand-800": shuffle() && props.disabled,
-				[props.extraClass || ""]: !!props.extraClass,
-			}}
+			classList={{ [props.extraClass || ""]: !!props.extraClass }}
 		/>
 	);
 };

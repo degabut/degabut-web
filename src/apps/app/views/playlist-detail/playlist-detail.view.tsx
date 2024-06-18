@@ -1,18 +1,20 @@
 import { useApp } from "@app/hooks";
-import { Container, Divider } from "@common";
-import { MediaSourceContextMenuUtil, MediaSources } from "@media-source";
+import { AppRoutes } from "@app/routes";
+import { Button, Container, ItemDetails, Text, useNavigate } from "@common";
+import { MediaSources } from "@media-source";
 import { usePlaylist } from "@playlist";
 import { useQueue } from "@queue";
 import { useParams } from "@solidjs/router";
-import { Show, createEffect, createSignal, type Component } from "solid-js";
-import { EditPlaylistModal, MainPlaylist, MainPlaylistSkeleton } from "./components";
+import { createEffect, createSignal, type Component } from "solid-js";
+import { EditPlaylistModal } from "./components";
 
 export const PlaylistDetail: Component = () => {
 	const app = useApp();
 	const queue = useQueue();
-
+	const navigate = useNavigate();
 	const params = useParams<{ id: string }>();
-	const playlist = usePlaylist({ playlistId: () => params.id });
+	const playlist = usePlaylist({ playlistId: params.id });
+
 	const [isEditModalOpen, setIsEditModalOpen] = createSignal(false);
 
 	createEffect(() => {
@@ -21,50 +23,100 @@ export const PlaylistDetail: Component = () => {
 	});
 
 	const editPlaylist = async (name: string) => {
-		await playlist.update(name);
+		await playlist.renamePlaylist(name);
 		setIsEditModalOpen(false);
 		await playlist.refetchPlaylist();
 	};
 
+	const canBeAdded = () => {
+		return !queue.data.empty && !playlist.isPlaylistLoading() && !!playlist.playlist()?.mediaSourceCount;
+	};
+
+	const descriptionText = () => {
+		const count = playlist.playlist()?.mediaSourceCount;
+		return `${count} ${count === 1 ? "song" : "songs"}`;
+	};
+
 	return (
 		<Container size="md">
-			<Show
-				when={!playlist.playlist.loading && !playlist.mediaSources.loading}
-				fallback={<MainPlaylistSkeleton />}
+			<ItemDetails
+				title={playlist.playlist()?.name || ""}
+				description={() => <Text.Body1>{descriptionText()}</Text.Body1>}
+				image={playlist.playlist()?.images?.sort((a, b) => b.width - a.width)[0]?.url}
+				isLoading={playlist.isPlaylistLoading()}
+				infiniteCallback={playlist.nextMediaSources}
+				isInfiniteDisabled={!playlist.isMediaSourceFetchable()}
+				contextMenu={{
+					items: [
+						{
+							label: "Add to Queue",
+							icon: "plus",
+							onClick: () => queue.addPlaylist(params.id),
+						},
+						{
+							label: "Rename",
+							icon: "editPencil",
+							onClick: () => setIsEditModalOpen(true),
+						},
+						{
+							label: "Delete",
+							icon: "trashBin",
+							onClick: () =>
+								app.setConfirmation({
+									title: `Delete ${playlist.playlist()?.name}`,
+									message: "Are you sure you want to delete this playlist?",
+									onConfirm: () =>
+										playlist.deletePlaylist().then(() => navigate(AppRoutes.Playlists)),
+								}),
+						},
+					],
+				}}
+				actions={() => (
+					<div class="flex-row-center space-x-4">
+						<Button
+							fill
+							theme="brand"
+							onClick={() => queue.addPlaylist(params.id)}
+							disabled={!canBeAdded()}
+							rounded
+							icon="plus"
+							class=" text-neutral-850 space-x-2 px-4 py-1.5"
+						>
+							<Text.Body1>Add to Queue</Text.Body1>
+						</Button>
+
+						<Button
+							onClick={() => setIsEditModalOpen(true)}
+							disabled={playlist.isPlaylistLoading()}
+							rounded
+							icon="editPencil"
+							class="space-x-2 px-4 py-1.5"
+						>
+							<Text.Body1>Rename</Text.Body1>
+						</Button>
+					</div>
+				)}
 			>
-				<MainPlaylist
-					name={playlist.playlist()?.name || ""}
-					duration={playlist.totalDuration()}
-					itemCount={playlist.playlist()?.mediaSourceCount || 0}
-					onClickEdit={() => setIsEditModalOpen(true)}
-					onClickAddToQueue={() => queue.addPlaylist(params.id)}
-				/>
-			</Show>
-
-			<Divider extraClass="my-8" />
-
-			<Show when={!playlist.mediaSources.loading} fallback={<MediaSources.List data={[]} isLoading />}>
 				<MediaSources.List
-					data={playlist.mediaSources()}
+					data={playlist.mediaSources}
+					isLoading={playlist.isMediaSourceLoading()}
+					showWhenLoading
 					mediaSourceProps={(pv) => ({
 						mediaSource: pv.mediaSource,
 						inQueue: queue.data.tracks?.some((t) => t.mediaSource.id === pv.mediaSource.id),
-						contextMenu: MediaSourceContextMenuUtil.getContextMenu({
-							mediaSource: pv.mediaSource,
-							appStore: app,
-							queueStore: queue,
+						contextMenu: {
 							modify: (c) => {
-								c[1].push({
+								c[c.length - 2].push({
 									label: "Remove from Playlist",
-									icon: "trashBin",
+									icon: "playlistRemove",
 									onClick: () => pv && playlist.removeMediaSource(pv.id),
 								});
 								return c;
 							},
-						}),
+						},
 					})}
 				/>
-			</Show>
+			</ItemDetails>
 
 			<EditPlaylistModal
 				defaultName={playlist.playlist()?.name || ""}

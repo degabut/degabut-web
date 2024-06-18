@@ -22,7 +22,7 @@ const Link: Component<Props> = (props) => {
 			}}
 		>
 			<div classList={{ "absolute top-0 border-b-2 border-current rounded-full w-full": !!isActive() }} />
-			<Icon name={props.icon} size="md" extraClass="fill-current" />
+			<Icon name={props.icon} size="md" />
 			<div>{props.label}</div>
 		</A>
 	);

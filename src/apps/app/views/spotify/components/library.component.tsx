@@ -23,7 +23,6 @@ export const Library: Component = () => {
 
 	return (
 		<SectionList
-			inline={false}
 			label="Library"
 			items={[...(spotify.albums.data() || []), ...(spotify.playlists.data() || [])]}
 			skeletonCount={5}

@@ -3,7 +3,6 @@ import { Spinner, useApi } from "@common";
 import { DISCORD_ACTIVITY_APPLICATION_ID, DISCORD_ACTIVITY_URL_MAPPINGS, IS_DISCORD_EMBEDDED } from "@constants";
 import { type DiscordSDK } from "@discord/embedded-app-sdk";
 import { type IVoiceChannelMin } from "@queue";
-import axios from "axios";
 import { Show, createContext, createSignal, onMount, useContext, type Accessor, type ParentComponent } from "solid-js";
 import { type IRichPresence } from "../../hooks";
 import { PatchUrlUtil } from "../../utils";
@@ -36,7 +35,6 @@ export const DiscordProvider: ParentComponent = (props) => {
 
 		if (DISCORD_ACTIVITY_URL_MAPPINGS.length) {
 			patchUrlMappings(DISCORD_ACTIVITY_URL_MAPPINGS);
-			axios.interceptors.response.use((r) => PatchUrlUtil.intercept(r, DISCORD_ACTIVITY_URL_MAPPINGS));
 			api.client.interceptors.response.use((r) => PatchUrlUtil.intercept(r, DISCORD_ACTIVITY_URL_MAPPINGS));
 			api.youtubeClient.interceptors.response.use((r) =>
 				PatchUrlUtil.intercept(r, DISCORD_ACTIVITY_URL_MAPPINGS)

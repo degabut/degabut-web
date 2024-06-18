@@ -160,7 +160,7 @@ export const ExternalTrackAdder = () => {
 					<div class="w-full max-w-md rounded border-neutral-500 p-4 bg-neutral-850">
 						<div class="flex flex-col space-y-8 justify-center items-center p-6 w-full border border-neutral-600 border-dashed rounded">
 							<Show when={!isLoading()} fallback={<Spinner size="2xl" />}>
-								<Icon name="link" extraClass="fill-neutral-400 w-24 h-24" />
+								<Icon name="link" extraClass="text-neutral-400 w-24 h-24" />
 							</Show>
 							<div class="flex flex-col space-y-4">
 								<Text.H1 class="text-neutral-300">Add to Queue</Text.H1>
