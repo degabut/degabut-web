@@ -57,7 +57,7 @@ export const NowPlayingController: Component = () => {
 					</Show>
 				</div>
 
-				<div class="h-full min-h-4 max-h-12 shrink-[2]" />
+				<div class="h-full min-h-4 max-h-12 shrink-[3]" />
 
 				<div class="w-full h-full px-2 shrink-[1]">
 					<PreviewThumbnail
@@ -66,7 +66,7 @@ export const NowPlayingController: Component = () => {
 					/>
 				</div>
 
-				<div class="h-full min-h-4 max-h-12 shrink-[2]" />
+				<div class="h-full min-h-4 max-h-12 shrink-[3]" />
 
 				<Show when={queue.data.nowPlaying} keyed>
 					{(track) => {
@@ -98,9 +98,7 @@ export const NowPlayingController: Component = () => {
 					}}
 				</Show>
 
-				<div class="h-full min-h-2 max-h-8 shrink-[3]" />
-
-				<div class="w-full px-2">
+				<div class="w-full px-2 pt-4">
 					<QueueSeekSlider
 						disabled={queue.freezeState.seek}
 						max={queue.data.nowPlaying?.mediaSource.duration || 0}
@@ -113,7 +111,7 @@ export const NowPlayingController: Component = () => {
 
 				<QueueActions iconSize="lg" extraClass="flex-items-center justify-between" extraButtonClass="p-4" />
 
-				<div class="h-full min-h-2 max-h-6 md:max-h-12 shrink-[3]" />
+				<div class="h-full min-h-2 max-h-6 md:max-h-12 shrink-[2]" />
 
 				<div class="flex flex-row-reverse justify-between px-1.5">
 					<QueueButton.Lyrics iconSize="md" extraClass="p-2.5" onClick={() => navigate(AppRoutes.Lyrics)} />
