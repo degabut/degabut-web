@@ -15,7 +15,7 @@ export const MinimizedNowPlayingController: Component = () => {
 						const liked = useLikeMediaSource(() => track.mediaSource.id);
 						return (
 							<>
-								<img src={track.mediaSource.maxThumbnailUrl} class="aspect-square" />
+								<img src={track.mediaSource.maxThumbnailUrl} class="aspect-square object-cover" />
 								<Button
 									flat
 									theme={liked?.isLiked() ? "brand" : "default"}
