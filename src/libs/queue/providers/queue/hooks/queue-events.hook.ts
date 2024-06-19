@@ -64,6 +64,7 @@ export const useQueueEvents = () => {
 	const api = useApi();
 	let ws: WebSocket | undefined;
 	let reconnectTimeout: NodeJS.Timeout;
+	let pingInterval: NodeJS.Timeout;
 	let isAuthenticated = false;
 	let isConnected = false;
 	const emitter = new EventEmitter() as TypedEmitter<QueueEvents>;
@@ -86,9 +87,15 @@ export const useQueueEvents = () => {
 		};
 		ws.onopen = async () => {
 			isConnected = true;
+
+			clearInterval(pingInterval);
+			pingInterval = setInterval(() => send("ping"), 30000);
+
 			send("identify", { token: api.authManager.getAccessToken() });
 		};
 		ws.onclose = (ev) => {
+			clearInterval(pingInterval);
+
 			if (ev.code === 3333) return;
 
 			if (isAuthenticated) {
@@ -122,7 +129,7 @@ export const useQueueEvents = () => {
 		clearTimeout(reconnectTimeout);
 	});
 
-	const send = (event: string, data: unknown) => {
+	const send = (event: string, data?: unknown) => {
 		const message = JSON.stringify({ event, data });
 		ws?.send(message);
 	};
