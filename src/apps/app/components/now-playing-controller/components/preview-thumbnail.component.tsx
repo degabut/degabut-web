@@ -29,7 +29,7 @@ type ThumbnailProps = {
 const Thumbnail: Component<ThumbnailProps> = (props) => {
 	return (
 		<div
-			class="absolute max-w-[24rem] max-h-[24rem]"
+			class="absolute max-w-[32rem] max-h-[32rem]"
 			style={{
 				width: `${props.size}px`,
 				height: `${props.size}px`,
@@ -52,7 +52,7 @@ type SkeletonProps = {
 const Skeleton: Component<SkeletonProps> = (props) => {
 	return (
 		<div
-			class="absolute max-w-[24rem] max-h-[24rem] w-full"
+			class="absolute aspect-square w-full"
 			style={{
 				width: `${props.size}px`,
 				height: `${props.size}px`,

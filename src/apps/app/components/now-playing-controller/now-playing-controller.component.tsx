@@ -57,12 +57,16 @@ export const NowPlayingController: Component = () => {
 					</Show>
 				</div>
 
-				<div class="w-full h-full py-6 shrink-[1]">
+				<div class="h-full min-h-4 max-h-12 shrink-[2]" />
+
+				<div class="w-full h-full px-2 shrink-[1]">
 					<PreviewThumbnail
 						mediaSource={queue.data.nowPlaying?.mediaSource}
 						onClick={DelayUtil.countedThrottle(queue.jam, 350)}
 					/>
 				</div>
+
+				<div class="h-full min-h-4 max-h-12 shrink-[2]" />
 
 				<Show when={queue.data.nowPlaying} keyed>
 					{(track) => {
@@ -94,7 +98,7 @@ export const NowPlayingController: Component = () => {
 					}}
 				</Show>
 
-				<div class="h-full min-h-2 max-h-8 shrink-[2]" />
+				<div class="h-full min-h-2 max-h-8 shrink-[3]" />
 
 				<div class="w-full px-2">
 					<QueueSeekSlider
@@ -105,11 +109,11 @@ export const NowPlayingController: Component = () => {
 					/>
 				</div>
 
-				<div class="h-full min-h-4 max-h-8 shrink-[2]" />
+				<div class="h-full min-h-4 max-h-8 shrink-[3]" />
 
 				<QueueActions iconSize="lg" extraClass="flex-items-center justify-between" extraButtonClass="p-4" />
 
-				<div class="h-full min-h-2 max-h-6 md:max-h-12 shrink-[2]" />
+				<div class="h-full min-h-2 max-h-6 md:max-h-12 shrink-[3]" />
 
 				<div class="flex flex-row-reverse justify-between px-1.5">
 					<QueueButton.Lyrics iconSize="md" extraClass="p-2.5" onClick={() => navigate(AppRoutes.Lyrics)} />
