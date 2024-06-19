@@ -55,7 +55,7 @@ export const Recommendation: Component = () => {
 				<RecommendationEmpty />
 			</Show>
 
-			<Container size="xl" extraClass="space-y-4 md:space-y-8">
+			<Container ref={containerElement} size="xl" extraClass="space-y-4 md:space-y-8">
 				{recapYear && !params.id && <RecapBanner year={recapYear} />}
 
 				<Show when={recommendation.mostPlayed().data.length || recommendation.mostPlayed().loading}>
@@ -101,23 +101,21 @@ export const Recommendation: Component = () => {
 					/>
 				</Show>
 
-				<div ref={containerElement}>
-					<Show when={recommendation.related().data.length || recommendation.related().loading}>
-						<MediaSources.List
-							title={() => <Title>For You</Title>}
-							isLoading={recommendation.related().loading}
-							showWhenLoading
-							data={recommendation.related().data}
-							mediaSourceProps={(video) => {
-								const mediaSource = MediaSourceFactory.fromYoutubeVideo(video);
-								return {
-									mediaSource,
-									inQueue: queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id),
-								};
-							}}
-						/>
-					</Show>
-				</div>
+				<Show when={recommendation.related().data.length || recommendation.related().loading}>
+					<MediaSources.List
+						title={() => <Title>For You</Title>}
+						isLoading={recommendation.related().loading}
+						showWhenLoading
+						data={recommendation.related().data}
+						mediaSourceProps={(video) => {
+							const mediaSource = MediaSourceFactory.fromYoutubeVideo(video);
+							return {
+								mediaSource,
+								inQueue: queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id),
+							};
+						}}
+					/>
+				</Show>
 			</Container>
 
 			<ShowMoreModal
