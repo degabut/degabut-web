@@ -1,12 +1,16 @@
+import { useApp } from "@app/hooks";
 import { Button, Container, Icon, ItemDetails, Text } from "@common";
 import { MediaSources } from "@media-source";
 import { useQueue } from "@queue";
 import { useLiked } from "@user";
-import { type Component } from "solid-js";
+import { onMount, type Component } from "solid-js";
 
 export const Liked: Component = () => {
+	const app = useApp();
 	const queue = useQueue();
 	const liked = useLiked();
+
+	onMount(() => app.setTitle("Liked Songs"));
 
 	const canBeAdded = () => {
 		return !queue.data.empty && !liked.isLoading() && !!liked.data.length;
