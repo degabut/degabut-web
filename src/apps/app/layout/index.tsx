@@ -1,4 +1,5 @@
 import { useScreen } from "@common";
+import { DesktopContainer } from "@desktop";
 import { useDiscord } from "@discord";
 import { Match, Switch, type ParentComponent } from "solid-js";
 import { DiscordActivityPip } from "./discord-activity-pip";
@@ -12,13 +13,15 @@ export const AppLayout: ParentComponent = (props) => {
 	const screen = useScreen();
 
 	return (
-		<Switch fallback={<Main {...props} />}>
-			<Match when={discord?.isPip()}>
-				<DiscordActivityPip />
-			</Match>
-			<Match when={screen.gte.md}>
-				<MainMd {...props} />
-			</Match>
-		</Switch>
+		<DesktopContainer>
+			<Switch fallback={<Main {...props} />}>
+				<Match when={discord?.isPip()}>
+					<DiscordActivityPip />
+				</Match>
+				<Match when={screen.gte.md}>
+					<MainMd {...props} />
+				</Match>
+			</Switch>
+		</DesktopContainer>
 	);
 };
