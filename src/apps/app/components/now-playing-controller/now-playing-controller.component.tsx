@@ -110,30 +110,12 @@ export const NowPlayingController: Component = () => {
 
 				<div class="h-full min-h-6 max-h-8 shrink-[2]" />
 
-				<QueueActions iconSize="lg" extraClass="flex-items-center justify-between" extraButtonClass="p-4" />
+				<QueueActions iconSize="lg" extraClass="flex-items-center justify-around" extraButtonClass="p-4" />
 
 				<div class="h-full min-h-4 max-h-6 md:max-h-12 shrink-[2]" />
 
-				<div class="flex flex-row-reverse justify-between px-1.5">
-					<QueueButton.Lyrics iconSize="md" extraClass="p-2.5" onClick={() => navigate(AppRoutes.Lyrics)} />
-
-					<Show when={settings["discord.rpc"]}>
-						<VolumeSlider
-							value={settings["botVolumes"][queue.bot().id]}
-							onChange={(value) => {
-								setSettings("botVolumes", { [queue.bot().id]: value });
-								desktop?.ipc?.setBotVolume?.(value, queue.bot().id);
-							}}
-							onMuteToggled={(isMuted) => {
-								desktop?.ipc?.setBotVolume?.(
-									isMuted ? 0 : settings["botVolumes"][queue.bot().id],
-									queue.bot().id
-								);
-							}}
-						/>
-					</Show>
-
-					<div class="w-9 h-9">
+				<div class="grid grid-cols-5 px-1.5">
+					<div class="w-9 h-9 mx-auto">
 						<Show when={queue.data.nowPlaying} keyed>
 							{(track) => (
 								<Button
@@ -146,6 +128,32 @@ export const NowPlayingController: Component = () => {
 								/>
 							)}
 						</Show>
+					</div>
+
+					<div class="col-span-3">
+						<Show when={settings["discord.rpc"]}>
+							<VolumeSlider
+								value={settings["botVolumes"][queue.bot().id]}
+								onChange={(value) => {
+									setSettings("botVolumes", { [queue.bot().id]: value });
+									desktop?.ipc?.setBotVolume?.(value, queue.bot().id);
+								}}
+								onMuteToggled={(isMuted) => {
+									desktop?.ipc?.setBotVolume?.(
+										isMuted ? 0 : settings["botVolumes"][queue.bot().id],
+										queue.bot().id
+									);
+								}}
+							/>
+						</Show>
+					</div>
+
+					<div class="mx-auto">
+						<QueueButton.Lyrics
+							iconSize="md"
+							extraClass="p-2.5"
+							onClick={() => navigate(AppRoutes.Lyrics)}
+						/>
 					</div>
 				</div>
 
