@@ -1,4 +1,6 @@
-import { Button, Container, resizable } from "@common";
+import { QueueTrackList } from "@app/views/queue/components/queue-tabs/components";
+import { Button, Container, Divider, Text, resizable } from "@common";
+import { useQueue } from "@queue";
 import { useSettings } from "@settings";
 import { Show, type Component } from "solid-js";
 import { MinimizedNowPlayingController, NowPlayingController } from "../../../../components";
@@ -9,6 +11,7 @@ export const NowPlayingDrawer: Component = () => {
 	let dragHandler!: HTMLDivElement;
 	const breakpoint = 128;
 	const { settings, setSettings } = useSettings();
+	const queue = useQueue();
 
 	return (
 		<div
@@ -28,9 +31,8 @@ export const NowPlayingDrawer: Component = () => {
 				size="full"
 				padless
 				centered
-				extraClass="w-full relative flex-row-center shrink-0 h-full"
+				extraClass="w-full h-full relative shrink-0"
 				extraClassList={{
-					"p-8 pt-4": settings["app.player.size"] > breakpoint,
 					"pb-2 px-1.5 bg-black": settings["app.player.size"] <= breakpoint,
 				}}
 			>
@@ -42,18 +44,29 @@ export const NowPlayingDrawer: Component = () => {
 					}}
 				/>
 
-				<Show when={settings["app.player.size"] <= breakpoint} fallback={<NowPlayingController />}>
-					<MinimizedNowPlayingController />
-				</Show>
+				<div class="flex flex-col h-full w-full">
+					<Show when={settings["app.player.size"] > breakpoint} fallback={<MinimizedNowPlayingController />}>
+						<div class="grow w-full px-8 pt-4 overflow-y-auto thin-scrollbar">
+							<NowPlayingController />
+							<Show when={!queue.data.empty && queue.data.tracks.length}>
+								<Divider extraClass="my-8" dark />
+								<div class="mx-auto max-w-lg space-y-2 h-full min-h-full">
+									<Text.H2 class="text-center">Queue</Text.H2>
+									<QueueTrackList />
+								</div>
+							</Show>
+						</div>
+					</Show>
 
-				<Button
-					flat
-					title="Minimize"
-					icon="chevronDown"
-					iconSize="sm"
-					onClick={() => setSettings("app.player.minimized", true)}
-					class="justify-center py-1 absolute bottom-0 left-0 w-full text-neutral-500 border-t border-t-neutral-850"
-				/>
+					<Button
+						flat
+						title="Minimize"
+						icon="chevronDown"
+						iconSize="sm"
+						onClick={() => setSettings("app.player.minimized", true)}
+						class="justify-center py-1 w-full text-neutral-500 border-t border-t-neutral-850"
+					/>
+				</div>
 			</Container>
 		</div>
 	);

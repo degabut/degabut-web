@@ -17,7 +17,7 @@ export const NowPlayingController: Component = () => {
 	const navigate = useNavigate();
 
 	return (
-		<div class="flex justify-center h-full w-full">
+		<div class="relative flex justify-center w-full h-full">
 			<Show when={queue.data.nowPlaying} keyed>
 				{(track) => (
 					<img
@@ -107,7 +107,7 @@ export const NowPlayingController: Component = () => {
 					/>
 				</div>
 
-				<div class="h-full min-h-4 max-h-8 shrink-[3]" />
+				<div class="h-full min-h-4 max-h-8 shrink-[2]" />
 
 				<QueueActions iconSize="lg" extraClass="flex-items-center justify-between" extraButtonClass="p-4" />
 

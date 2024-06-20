@@ -74,6 +74,10 @@ input:focus {
 	@apply bg-neutral-700;
 }
 
+.thin-scrollbar::-webkit-scrollbar {
+	@apply w-1 h-1;
+}
+
 .flex-row-center {
 	@apply flex flex-row items-center;
 }
