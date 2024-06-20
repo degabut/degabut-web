@@ -1,6 +1,4 @@
-import { QueueTrackList } from "@app/views/queue/components/queue-tabs/components";
-import { Button, Container, Divider, Text, resizable } from "@common";
-import { useQueue } from "@queue";
+import { Button, Container, resizable } from "@common";
 import { useSettings } from "@settings";
 import { Show, type Component } from "solid-js";
 import { MinimizedNowPlayingController, NowPlayingController } from "../../../../components";
@@ -11,7 +9,6 @@ export const NowPlayingDrawer: Component = () => {
 	let dragHandler!: HTMLDivElement;
 	const breakpoint = 128;
 	const { settings, setSettings } = useSettings();
-	const queue = useQueue();
 
 	return (
 		<div
@@ -39,22 +36,13 @@ export const NowPlayingDrawer: Component = () => {
 				<div
 					ref={dragHandler}
 					class="absolute top-0 h-full shrink w-2 border-neutral-500 cursor-col-resize select-none"
-					classList={{
-						"left-0 hover:border-l": true,
-					}}
+					classList={{ "left-0 hover:border-l": true }}
 				/>
 
 				<div class="flex flex-col h-full w-full">
 					<Show when={settings["app.player.size"] > breakpoint} fallback={<MinimizedNowPlayingController />}>
-						<div class="grow w-full px-8 pt-4 overflow-y-auto thin-scrollbar">
+						<div class="grow w-full px-8 pt-4 overflow-y-auto h-full thin-scrollbar">
 							<NowPlayingController />
-							<Show when={!queue.data.empty && queue.data.tracks.length}>
-								<Divider extraClass="my-8" dark />
-								<div class="mx-auto max-w-lg space-y-2 h-full min-h-full">
-									<Text.H2 class="text-center">Queue</Text.H2>
-									<QueueTrackList />
-								</div>
-							</Show>
 						</div>
 					</Show>
 

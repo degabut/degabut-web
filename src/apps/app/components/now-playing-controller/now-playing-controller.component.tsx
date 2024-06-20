@@ -2,7 +2,8 @@ import { Show, type Component } from "solid-js";
 
 import { useApp } from "@app/hooks";
 import { AppRoutes } from "@app/routes";
-import { Button, ContextMenuButton, DelayUtil, Text, useNavigate } from "@common";
+import { QueueTrackList } from "@app/views/queue/components/queue-tabs/components";
+import { Button, ContextMenuButton, DelayUtil, Divider, Text, useNavigate } from "@common";
 import { useDesktop } from "@desktop";
 import { SourceBadge, useLikeMediaSource, useMediaSourceContextMenu } from "@media-source";
 import { QueueActions, QueueButton, QueueSeekSlider, VolumeSlider, useQueue } from "@queue";
@@ -17,7 +18,7 @@ export const NowPlayingController: Component = () => {
 	const navigate = useNavigate();
 
 	return (
-		<div class="relative flex justify-center w-full h-full">
+		<div class="relative flex-col-center w-full h-full">
 			<Show when={queue.data.nowPlaying} keyed>
 				{(track) => (
 					<img
@@ -27,7 +28,7 @@ export const NowPlayingController: Component = () => {
 				)}
 			</Show>
 
-			<div class="relative flex flex-col w-full h-full overflow-hidden max-w-lg">
+			<div class="relative flex flex-col shrink-0 w-full min-h-full max-h-fit overflow-hidden max-w-lg ">
 				<div class="flex-row-center space-x-2 justify-between">
 					<QueueButton.Options
 						disabled={queue.data.empty}
@@ -57,16 +58,16 @@ export const NowPlayingController: Component = () => {
 					</Show>
 				</div>
 
-				<div class="h-full min-h-4 max-h-12 shrink-[3]" />
+				<div class="h-full min-h-2 max-h-4 shrink" />
 
-				<div class="w-full h-full px-2 shrink-[1]">
+				<div class="w-full h-full px-2 shrink">
 					<PreviewThumbnail
 						mediaSource={queue.data.nowPlaying?.mediaSource}
 						onClick={DelayUtil.countedThrottle(queue.jam, 350)}
 					/>
 				</div>
 
-				<div class="h-full min-h-4 max-h-12 shrink-[3]" />
+				<div class="h-full max-h-6 shrink" />
 
 				<Show when={queue.data.nowPlaying} keyed>
 					{(track) => {
@@ -74,8 +75,8 @@ export const NowPlayingController: Component = () => {
 
 						return (
 							<div class="flex-row-center">
-								<div class="grow flex flex-col space-y-2 px-2 text-shadow truncate">
-									<Text.H2 truncate>{track.mediaSource.title}</Text.H2>
+								<div class="grow flex flex-col space-y-1 px-2 text-shadow truncate">
+									<Text.H3 truncate>{track.mediaSource.title}</Text.H3>
 
 									<div class="flex-row-center space-x-2.5">
 										<SourceBadge size="lg" type={track.mediaSource.type} />
@@ -107,11 +108,11 @@ export const NowPlayingController: Component = () => {
 					/>
 				</div>
 
-				<div class="h-full min-h-4 max-h-8 shrink-[2]" />
+				<div class="h-full min-h-6 max-h-8 shrink-[2]" />
 
 				<QueueActions iconSize="lg" extraClass="flex-items-center justify-between" extraButtonClass="p-4" />
 
-				<div class="h-full min-h-2 max-h-6 md:max-h-12 shrink-[2]" />
+				<div class="h-full min-h-4 max-h-12 shrink-[2]" />
 
 				<div class="flex flex-row-reverse justify-between px-1.5">
 					<QueueButton.Lyrics iconSize="md" extraClass="p-2.5" onClick={() => navigate(AppRoutes.Lyrics)} />
@@ -148,8 +149,17 @@ export const NowPlayingController: Component = () => {
 					</div>
 				</div>
 
-				<div class="h-full max-h-4 shrink-[2]" />
+				<div class="h-full min-h-2 max-h-4 shrink-[2]" />
 			</div>
+
+			<Show when={!queue.data.empty && queue.data.tracks.length}>
+				<Divider extraClass="my-8" dark />
+				<div class="w-full max-w-lg space-y-4 h-full min-h-full">
+					<Text.H2 class="text-center">Queue</Text.H2>
+					<QueueTrackList />
+					<div class="h-8" />
+				</div>
+			</Show>
 		</div>
 	);
 };
