@@ -112,7 +112,7 @@ export const NowPlayingController: Component = () => {
 
 				<QueueActions iconSize="lg" extraClass="flex-items-center justify-between" extraButtonClass="p-4" />
 
-				<div class="h-full min-h-4 max-h-12 shrink-[2]" />
+				<div class="h-full min-h-4 max-h-6 md:max-h-12 shrink-[2]" />
 
 				<div class="flex flex-row-reverse justify-between px-1.5">
 					<QueueButton.Lyrics iconSize="md" extraClass="p-2.5" onClick={() => navigate(AppRoutes.Lyrics)} />
