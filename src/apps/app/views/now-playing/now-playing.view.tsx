@@ -6,7 +6,7 @@ import { NowPlayingController } from "../../components";
 export const QueueNowPlaying: Component = () => {
 	const app = useApp();
 
-	onMount(() => app.setTitle("Queue"));
+	onMount(() => app.setTitle(null));
 
 	return (
 		<Container size="full" padless centered extraClass="h-full px-4 py-2.5">
