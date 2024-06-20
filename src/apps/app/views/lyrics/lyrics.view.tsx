@@ -1,8 +1,8 @@
 import { useApp } from "@app/hooks";
-import { Container, Icon, Spinner, useTimedText } from "@common";
+import { Container, Icon, Spinner } from "@common";
 import { useQueue } from "@queue";
-import { useLyrics, useVideoTranscript } from "@youtube";
-import { For, Match, Switch, createEffect, createMemo, onMount, type Component } from "solid-js";
+import { useLyrics } from "@youtube";
+import { For, Match, Switch, createMemo, onMount, type Component } from "solid-js";
 import "./lyrics.style.css";
 
 const LyricsNotFound: Component = () => {
@@ -27,41 +27,36 @@ export const Lyrics: Component = () => {
 	const queue = useQueue();
 	const app = useApp();
 	const currentId = createMemo(() => queue.data.nowPlaying?.mediaSource.playedYoutubeVideoId || "");
-	const videoTranscripts = useVideoTranscript(currentId);
 	const lyrics = useLyrics(currentId);
-	const timedText = useTimedText(() => ({
-		elapsed: queue.data.position || 0,
-		timedTexts: videoTranscripts.data() || [],
-	}));
-	let initialScroll = true;
-	let lastScrollTime = 0;
+	// let initialScroll = true;
+	// let lastScrollTime = 0;
 
 	onMount(() => app.setTitle("Lyrics"));
 
-	createEffect(() => {
-		if (timedText.index() === -1 && container) {
-			container.scrollTop = 0;
-		} else {
-			if (Date.now() - lastScrollTime < 3000) return;
-			const index = timedText.index();
-			if (initialScroll) {
-				setTimeout(() => scrollTo(index), 200);
-				initialScroll = false;
-			} else {
-				scrollTo(index);
-			}
-		}
-	});
+	// createEffect(() => {
+	// 	if (timedText.index() === -1 && container) {
+	// 		container.scrollTop = 0;
+	// 	} else {
+	// 		if (Date.now() - lastScrollTime < 3000) return;
+	// 		const index = timedText.index();
+	// 		if (initialScroll) {
+	// 			setTimeout(() => scrollTo(index), 200);
+	// 			initialScroll = false;
+	// 		} else {
+	// 			scrollTo(index);
+	// 		}
+	// 	}
+	// });
 
-	const scrollTo = (index: number) => {
-		const element = container?.childNodes[index] as HTMLDivElement;
-		if (!element) return;
-		container.scrollTop = element.offsetTop - container.offsetHeight / 2.5 + element.offsetHeight / 2;
-	};
+	// const scrollTo = (index: number) => {
+	// 	const element = container?.childNodes[index] as HTMLDivElement;
+	// 	if (!element) return;
+	// 	container.scrollTop = element.offsetTop - container.offsetHeight / 2.5 + element.offsetHeight / 2;
+	// };
 
-	const onContainerScrollHandler = () => {
-		lastScrollTime = Date.now();
-	};
+	// const onContainerScrollHandler = () => {
+	// 	lastScrollTime = Date.now();
+	// };
 
 	return (
 		<Container
@@ -69,13 +64,13 @@ export const Lyrics: Component = () => {
 			extraClass="h-full flex flex-col items-center space-y-2.5"
 			centered
 			ref={container}
-			onScroll={onContainerScrollHandler}
+			// onScroll={onContainerScrollHandler}
 		>
 			<Switch fallback={<LyricsNotFound />}>
-				<Match when={videoTranscripts.isLoading() || lyrics.data.loading}>
+				<Match when={lyrics.data.loading}>
 					<Loading />
 				</Match>
-				<Match when={videoTranscripts.data().length}>
+				{/* <Match when={videoTranscripts.data().length}>
 					<For each={videoTranscripts.data()}>
 						{(t, i) => (
 							<div
@@ -93,7 +88,7 @@ export const Lyrics: Component = () => {
 							</div>
 						)}
 					</For>
-				</Match>
+				</Match> */}
 				<Match when={lyrics.data()} keyed>
 					{({ content, description }) => (
 						<>
