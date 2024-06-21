@@ -13,7 +13,7 @@ type Props = {
 };
 
 export const QueueActions: Component<Props> = (props) => {
-	const queue = useQueue();
+	const queue = useQueue()!;
 
 	return (
 		<div

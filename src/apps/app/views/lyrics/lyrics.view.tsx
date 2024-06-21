@@ -24,7 +24,7 @@ const Loading: Component = () => {
 
 export const Lyrics: Component = () => {
 	let container!: HTMLDivElement;
-	const queue = useQueue();
+	const queue = useQueue()!;
 	const app = useApp()!;
 	const currentId = createMemo(() => queue.data.nowPlaying?.mediaSource.playedYoutubeVideoId || "");
 	const lyrics = useLyrics(currentId);

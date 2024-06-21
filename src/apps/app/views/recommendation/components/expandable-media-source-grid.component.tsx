@@ -20,7 +20,7 @@ export const ExpandableMediaSourceGrid: Component<Props> = (props) => {
 	const app = useApp()!;
 	const api = useApi();
 	const userApi = new UserApi(api.client);
-	const queue = useQueue();
+	const queue = useQueue()!;
 
 	const mediaSourceProps = (mediaSource: IMediaSource): MediaSourceCardProps => {
 		const inQueue = queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id);

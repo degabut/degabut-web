@@ -7,7 +7,7 @@ import { RefreshButton } from "./refresh-button.component";
 
 export const Tracks: Component = () => {
 	const spotify = useSpotify();
-	const queue = useQueue();
+	const queue = useQueue()!;
 
 	return (
 		<div class="space-y-8">

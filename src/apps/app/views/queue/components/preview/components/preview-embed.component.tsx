@@ -3,7 +3,7 @@ import { Video } from "@youtube";
 import { createEffect, on, onCleanup, type Component } from "solid-js";
 
 export const PreviewEmbed: Component = () => {
-	const queue = useQueue();
+	const queue = useQueue()!;
 
 	let player: YT.Player | undefined;
 	let iframe!: HTMLIFrameElement;

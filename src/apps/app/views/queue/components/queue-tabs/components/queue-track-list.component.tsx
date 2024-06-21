@@ -4,7 +4,7 @@ import { SortableTrackList, useQueue, type ITrack } from "@queue";
 import { Show, type Component } from "solid-js";
 
 export const QueueTrackList: Component = () => {
-	const queue = useQueue();
+	const queue = useQueue()!;
 
 	const mediaSourceProps = (t: ITrack): MediaSourceListProps => {
 		const isActive = queue.data.nowPlaying?.id === t.id;

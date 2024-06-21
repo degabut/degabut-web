@@ -9,7 +9,7 @@ import { useQueueRecommendation } from "../hooks";
 export const QueueHint: Component = () => {
 	const app = useApp()!;
 	const screen = useScreen();
-	const queue = useQueue();
+	const queue = useQueue()!;
 	const navigate = useNavigate();
 	const recommendation = useQueueRecommendation({
 		queueTracks: () => queue.data.tracks || [],

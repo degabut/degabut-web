@@ -21,7 +21,7 @@ const InfoItem: Component<Props> = (props) => {
 };
 
 export const QueueInfo: Component = () => {
-	const queue = useQueue();
+	const queue = useQueue()!;
 
 	const [isListenersModalOpen, setIsListenersModalOpen] = createSignal(false);
 

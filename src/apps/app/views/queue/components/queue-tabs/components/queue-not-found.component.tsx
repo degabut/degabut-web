@@ -8,7 +8,7 @@ export const QueueNotFound: Component = () => {
 	const app = useApp()!;
 	const api = useApi();
 	const discord = useDiscord();
-	const queue = useQueue();
+	const queue = useQueue()!;
 	const playerApi = new PlayerApi(api.client);
 
 	const join = async (voiceChannel: IVoiceChannelMin, textChannel?: ITextChannel | null) => {
@@ -50,7 +50,7 @@ type JoinCurrentChannelProps = {
 };
 
 const JoinCurrentChannel: Component<JoinCurrentChannelProps> = (props) => {
-	const queue = useQueue();
+	const queue = useQueue()!;
 	return (
 		<div class="flex-row-center justify-center py-4  text-neutral-300">
 			<Button class="px-12 py-2" onClick={() => props.onClickChannel(props.channel)}>
@@ -72,7 +72,7 @@ type VoiceChannelHistoryListProps = {
 };
 
 const VoiceChannelHistoryList: Component<VoiceChannelHistoryListProps> = (props) => {
-	const queue = useQueue();
+	const queue = useQueue()!;
 
 	return (
 		<div class="space-y-2 h-full overflow-y-auto">

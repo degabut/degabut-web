@@ -21,7 +21,7 @@ const SearchResultSkeleton: Component<{ isSmall?: boolean }> = (props) => {
 
 export const Search: Component = () => {
 	const app = useApp()!;
-	const queue = useQueue();
+	const queue = useQueue()!;
 	const screen = useScreen();
 	const navigate = useNavigate();
 

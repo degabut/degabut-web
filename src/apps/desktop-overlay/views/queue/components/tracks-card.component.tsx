@@ -4,7 +4,7 @@ import { Show, type Component } from "solid-js";
 import { Card } from "../../../components";
 
 export const TracksCard: Component = () => {
-	const queue = useQueue();
+	const queue = useQueue()!;
 
 	const mediaSourceProps = (t: ITrack): MediaSourceListProps => {
 		const isActive = queue.data.nowPlaying?.id === t.id;

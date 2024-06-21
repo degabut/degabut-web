@@ -14,7 +14,7 @@ import { createSignal, onCleanup, onMount, type Component } from "solid-js";
 type SelectOptionItem = IVideoCompact | IYouTubePlaylistCompact;
 
 export const Search: Component = () => {
-	const queue = useQueue();
+	const queue = useQueue()!;
 
 	let inputRef!: HTMLInputElement;
 	const [isLoading, setIsLoading] = createSignal(false);

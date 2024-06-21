@@ -5,7 +5,7 @@ import { useSettings } from "@settings";
 import { createEffect } from "solid-js";
 
 export const useAppRichPresence = () => {
-	const queue = useQueue();
+	const queue = useQueue()!;
 	const { settings } = useSettings();
 
 	const presence = useRichPresence({

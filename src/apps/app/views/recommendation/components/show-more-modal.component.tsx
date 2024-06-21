@@ -24,7 +24,7 @@ export const ShowMoreModal: Component<Props> = (props) => {
 	const app = useApp()!;
 	const api = useApi();
 	const userApi = new UserApi(api.client);
-	const queue = useQueue();
+	const queue = useQueue()!;
 
 	const params = createMemo(() => {
 		switch (props.type) {

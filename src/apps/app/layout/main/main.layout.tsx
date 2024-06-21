@@ -7,7 +7,7 @@ import { AppDrawer } from "../main-md/components";
 import { AppHeader, NavigationBar, QueueNowPlaying } from "./components";
 
 export const Main: ParentComponent = (props) => {
-	const queue = useQueue();
+	const queue = useQueue()!;
 	const app = useApp()!;
 	const inPlayer = useMatch(() => AppRoutes.Player);
 

@@ -14,7 +14,7 @@ export const NowPlayingController: Component = () => {
 	const app = useApp()!;
 	const { settings, setSettings } = useSettings();
 	const desktop = useDesktop();
-	const queue = useQueue();
+	const queue = useQueue()!;
 	const navigate = useNavigate();
 
 	return (

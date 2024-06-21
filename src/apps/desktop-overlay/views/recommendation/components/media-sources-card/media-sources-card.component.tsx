@@ -11,7 +11,7 @@ type MediaSourcesCardProps = {
 };
 
 export const MediaSourcesCard: Component<MediaSourcesCardProps> = (props) => {
-	const queue = useQueue();
+	const queue = useQueue()!;
 
 	return (
 		<Card>

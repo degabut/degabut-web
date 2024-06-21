@@ -38,7 +38,7 @@ const processData = <T = unknown>(options: ProcessorOptions<T>) => {
 };
 
 export const useRecommendation = (params: UseRecommendationParams) => {
-	const queue = useQueue();
+	const queue = useQueue()!;
 	const api = useApi();
 	const user = new UserApi(api.client);
 

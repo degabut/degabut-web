@@ -8,7 +8,7 @@ import { RefreshButton } from "./refresh-button.component";
 
 export const Library: Component = () => {
 	const app = useApp()!;
-	const queue = useQueue();
+	const queue = useQueue()!;
 	const spotify = useSpotify();
 	const navigate = useNavigate();
 

@@ -22,7 +22,7 @@ type Props = {
 
 export const QuickSearchModal: Component<Props> = (props) => {
 	const app = useApp()!;
-	const queue = useQueue();
+	const queue = useQueue()!;
 	const navigate = useNavigate();
 
 	const [isLoading, setIsLoading] = createSignal(false);

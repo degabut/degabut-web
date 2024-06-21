@@ -7,7 +7,7 @@ contextMenu;
 
 export const PreviewThumbnail: Component = () => {
 	let containerRef!: HTMLDivElement;
-	const queue = useQueue();
+	const queue = useQueue()!;
 	const size = useAspectSquare(() => containerRef);
 
 	return (

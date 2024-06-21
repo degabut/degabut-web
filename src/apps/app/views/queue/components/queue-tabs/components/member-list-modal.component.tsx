@@ -9,7 +9,7 @@ type MemberListModalProps = {
 };
 
 export const MemberListModal: Component<MemberListModalProps> = (props) => {
-	const queue = useQueue();
+	const queue = useQueue()!;
 	const navigate = useNavigate();
 
 	return (

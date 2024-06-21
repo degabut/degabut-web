@@ -52,7 +52,7 @@ const CatJam: Component<CatJamProps> = (props) => {
 };
 
 export const useCatJam = () => {
-	const { emitter, jam } = useQueue();
+	const { emitter, jam } = useQueue()!;
 
 	const throttledJam = DelayUtil.countedThrottle(jam, 350);
 	useShortcut({

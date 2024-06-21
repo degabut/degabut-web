@@ -19,7 +19,7 @@ const EmptyNowPlaying: Component = () => {
 };
 
 export const QueuePlayer: Component = () => {
-	const queue = useQueue();
+	const queue = useQueue()!;
 	const desktop = useDesktop();
 	const navigate = useNavigate();
 	const { settings, setSettings } = useSettings();

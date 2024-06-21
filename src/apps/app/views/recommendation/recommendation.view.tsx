@@ -26,7 +26,7 @@ const RecommendationEmpty: Component = () => {
 
 export const Recommendation: Component = () => {
 	const app = useApp()!;
-	const queue = useQueue();
+	const queue = useQueue()!;
 	const navigate = useNavigate();
 	const params = useParams<{ id?: string }>();
 	const recommendation = useRecommendation({ userId: () => params.id || "me" });

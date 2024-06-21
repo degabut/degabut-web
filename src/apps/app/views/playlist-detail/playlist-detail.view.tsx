@@ -10,7 +10,7 @@ import { EditPlaylistModal } from "./components";
 
 export const PlaylistDetail: Component = () => {
 	const app = useApp()!;
-	const queue = useQueue();
+	const queue = useQueue()!;
 	const navigate = useNavigate();
 	const params = useParams<{ id: string }>();
 	const playlist = usePlaylist({ playlistId: params.id });

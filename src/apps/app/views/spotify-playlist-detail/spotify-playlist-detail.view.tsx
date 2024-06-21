@@ -8,7 +8,7 @@ import { Show, createEffect, type Component } from "solid-js";
 
 export const SpotifyPlaylistDetail: Component = () => {
 	const app = useApp()!;
-	const queue = useQueue();
+	const queue = useQueue()!;
 
 	const params = useParams<{ id: string }>();
 	const playlist = useSpotifyPlaylist(params.id);

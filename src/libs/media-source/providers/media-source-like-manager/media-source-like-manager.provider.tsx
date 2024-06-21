@@ -26,7 +26,7 @@ export const MediaSourceLikeManagerProvider: ParentComponent = (props) => {
 		api.client.interceptors.response.use(responseInterceptor);
 		api.youtubeClient.interceptors.response.use(youtubeResponseInterceptor);
 		spotify.client.httpClient.interceptors.response.use(spotifyResponseInterceptor);
-		if (queue.emitter) queue.emitter.on("message", extractMediaSourceIds);
+		if (queue?.emitter) queue.emitter.on("message", extractMediaSourceIds);
 	});
 
 	const responseInterceptor = (res: AxiosResponse) => {

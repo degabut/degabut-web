@@ -5,7 +5,7 @@ import { useLikeMediaSource } from "@media-source";
 import { QueueActions, QueueButton, useQueue } from "@queue";
 
 export const MinimizedNowPlayingController: Component = () => {
-	const queue = useQueue();
+	const queue = useQueue()!;
 
 	return (
 		<div class="grid grid-rows-5 py-4 h-full w-full">

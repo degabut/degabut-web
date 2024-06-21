@@ -7,7 +7,7 @@ import { onMount, type Component } from "solid-js";
 
 export const Liked: Component = () => {
 	const app = useApp()!;
-	const queue = useQueue();
+	const queue = useQueue()!;
 	const liked = useLiked();
 
 	onMount(() => app.setTitle("Liked Songs"));

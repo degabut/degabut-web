@@ -7,7 +7,7 @@ import { Show, type Component } from "solid-js";
 import { Card } from "../../../components";
 
 export const PlayerCard: Component = () => {
-	const queue = useQueue();
+	const queue = useQueue()!;
 	const desktop = useDesktop();
 	const { settings, setSettings } = useSettings();
 

@@ -12,7 +12,7 @@ type Props = {
 };
 
 export const ExpandableMediaSourceList: Component<Props> = (props) => {
-	const queue = useQueue();
+	const queue = useQueue()!;
 
 	return (
 		<div class="space-y-6 md:space-y-4">

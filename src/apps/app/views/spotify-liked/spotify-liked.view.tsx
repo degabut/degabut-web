@@ -7,7 +7,7 @@ import { createEffect, type Component } from "solid-js";
 
 export const SpotifyLiked: Component = () => {
 	const app = useApp()!;
-	const queue = useQueue();
+	const queue = useQueue()!;
 
 	const tracks = useSpotifySelfTracks();
 

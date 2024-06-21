@@ -10,7 +10,7 @@ export const Main: ParentComponent = (props) => {
 	// eslint-disable-next-line solid/components-return-once
 	if (!IS_DESKTOP) return <Navigate href="/" />;
 
-	const queue = useQueue();
+	const queue = useQueue()!;
 	const navigate = useNavigate();
 
 	useShortcut({

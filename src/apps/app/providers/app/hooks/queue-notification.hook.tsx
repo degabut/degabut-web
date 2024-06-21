@@ -4,7 +4,7 @@ import { useSettings } from "@settings";
 import { createEffect, onCleanup, onMount } from "solid-js";
 
 export const useQueueNotification = () => {
-	const { emitter } = useQueue();
+	const { emitter } = useQueue()!;
 	const { settings } = useSettings();
 	const notification = useNotification();
 

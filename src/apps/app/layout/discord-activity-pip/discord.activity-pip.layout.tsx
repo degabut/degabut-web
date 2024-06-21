@@ -19,7 +19,7 @@ const EmptyNowPlaying: Component = () => {
 };
 
 export const DiscordActivityPip: Component = () => {
-	const queue = useQueue();
+	const queue = useQueue()!;
 
 	return (
 		<Show when={queue.data.nowPlaying} keyed fallback={<EmptyNowPlaying />}>

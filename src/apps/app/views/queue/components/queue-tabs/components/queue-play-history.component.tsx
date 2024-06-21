@@ -3,7 +3,7 @@ import { useQueue } from "@queue";
 import { Show, type Component } from "solid-js";
 
 export const QueuePlayHistory: Component = () => {
-	const queue = useQueue();
+	const queue = useQueue()!;
 
 	return (
 		<Show when={queue.data.history} keyed>

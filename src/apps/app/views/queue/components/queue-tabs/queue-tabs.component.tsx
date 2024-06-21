@@ -5,7 +5,7 @@ import { Show, type Component } from "solid-js";
 import { QueueHint, QueueNotFound, QueuePlayHistory, QueueTrackList } from "./components";
 
 export const QueueTabs: Component = () => {
-	const queue = useQueue();
+	const queue = useQueue()!;
 
 	return (
 		<Tabs

@@ -3,7 +3,7 @@ import { VoiceChannelList, useQueue } from "@queue";
 import { For, type Component } from "solid-js";
 
 export const VoiceChannelsCard: Component = () => {
-	const queue = useQueue();
+	const queue = useQueue()!;
 
 	return (
 		<Card>

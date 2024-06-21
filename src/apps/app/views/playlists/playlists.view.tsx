@@ -7,7 +7,7 @@ import { For, Show, createSignal, onMount, type Component } from "solid-js";
 
 export const Playlists: Component = () => {
 	const app = useApp()!;
-	const queue = useQueue();
+	const queue = useQueue()!;
 	const playlists = usePlaylists();
 	const navigate = useNavigate();
 	const [isShowCreateModal, setIsShowCreateModalOpen] = createSignal(false);

@@ -37,7 +37,7 @@ export type QueueContextStore = {
 	emitter: TypedEventEmitter<QueueEvents>;
 } & ReturnType<typeof useQueueActions>;
 
-export const QueueContext = createContext<QueueContextStore>({} as QueueContextStore);
+export const QueueContext = createContext<QueueContextStore>();
 
 export type FreezeState = {
 	queue: boolean;

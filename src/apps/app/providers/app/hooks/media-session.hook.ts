@@ -23,7 +23,7 @@ export const useMediaSession = () => {
 
 	const mediaSession = navigator.mediaSession;
 	const { settings } = useSettings();
-	const queue = useQueue();
+	const queue = useQueue()!;
 
 	const audioSrc = "/audio/silence.mp3";
 	const audio = new Audio();

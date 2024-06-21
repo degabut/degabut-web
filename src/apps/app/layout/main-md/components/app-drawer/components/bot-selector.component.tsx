@@ -11,7 +11,7 @@ type Props = {
 };
 
 export const BotSelector: Component<Props> = (props) => {
-	const queue = useQueue();
+	const queue = useQueue()!;
 
 	return (
 		<div
