@@ -1,4 +1,4 @@
-import { useApp } from "@app/hooks";
+import { useApp } from "@app/providers";
 import { AppRoutes } from "@app/routes";
 import { useQueue } from "@queue";
 import { useMatch } from "@solidjs/router";
@@ -8,7 +8,7 @@ import { AppHeader, NavigationBar, QueueNowPlaying } from "./components";
 
 export const Main: ParentComponent = (props) => {
 	const queue = useQueue();
-	const app = useApp();
+	const app = useApp()!;
 	const inPlayer = useMatch(() => AppRoutes.Player);
 
 	const [isDrawerOpen, setIsDrawerOpen] = createSignal(false);

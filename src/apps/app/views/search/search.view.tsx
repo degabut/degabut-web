@@ -1,4 +1,4 @@
-import { useApp } from "@app/hooks";
+import { useApp } from "@app/providers";
 import { AppRoutes } from "@app/routes";
 import { Container, Icon, Input, Item, Text, useNavigate, useScreen } from "@common";
 import { MediaSource, MediaSourceFactory, useMatchMediaUrlId } from "@media-source";
@@ -20,7 +20,7 @@ const SearchResultSkeleton: Component<{ isSmall?: boolean }> = (props) => {
 };
 
 export const Search: Component = () => {
-	const app = useApp();
+	const app = useApp()!;
 	const queue = useQueue();
 	const screen = useScreen();
 	const navigate = useNavigate();

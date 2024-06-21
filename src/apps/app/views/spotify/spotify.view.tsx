@@ -1,4 +1,4 @@
-import { useApp } from "@app/hooks";
+import { useApp } from "@app/providers";
 import { AppRoutes } from "@app/routes";
 import { A, Button, Container, Icon, Text, useScreen } from "@common";
 import { SPOTIFY_CLIENT_ID } from "@constants";
@@ -8,7 +8,7 @@ import { Show, onMount, type Component } from "solid-js";
 import { Library, Tracks } from "./components";
 
 export const Spotify: Component = () => {
-	const app = useApp();
+	const app = useApp()!;
 	const spotify = useSpotify();
 	const screen = useScreen();
 	const { settings } = useSettings();

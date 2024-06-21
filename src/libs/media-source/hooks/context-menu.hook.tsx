@@ -1,5 +1,4 @@
-import { useApp } from "@app/hooks";
-import { type AppContextStore } from "@app/providers";
+import { useApp } from "@app/providers";
 import { TimeUtil, type ContextMenuDirectiveParams, type IContextMenuItem } from "@common";
 import { useQueue, type QueueContextStore } from "@queue";
 import { Show, createMemo, type Accessor } from "solid-js";
@@ -18,7 +17,7 @@ export const useMediaSourceContextMenu = (
 	props: Accessor<MediaSourceContextMenuProps>
 ): Accessor<ContextMenuDirectiveParams | undefined> => {
 	const queueStore = useQueue() as QueueContextStore | undefined;
-	const appStore = useApp() as AppContextStore | undefined;
+	const appStore = useApp();
 	const like = useLikeMediaSource(() => props().mediaSource.id);
 
 	const contextMenu = createMemo(() => {

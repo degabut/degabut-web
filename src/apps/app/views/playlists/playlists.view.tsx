@@ -1,4 +1,4 @@
-import { useApp } from "@app/hooks";
+import { useApp } from "@app/providers";
 import { AppRoutes } from "@app/routes";
 import { Container, Divider, Item, Text, useNavigate } from "@common";
 import { CreatePlaylistModal, Playlist, PlaylistContextMenuUtil, usePlaylists, type IPlaylist } from "@playlist";
@@ -6,7 +6,7 @@ import { useQueue } from "@queue";
 import { For, Show, createSignal, onMount, type Component } from "solid-js";
 
 export const Playlists: Component = () => {
-	const app = useApp();
+	const app = useApp()!;
 	const queue = useQueue();
 	const playlists = usePlaylists();
 	const navigate = useNavigate();

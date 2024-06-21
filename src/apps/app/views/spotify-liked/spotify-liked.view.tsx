@@ -1,4 +1,4 @@
-import { useApp } from "@app/hooks";
+import { useApp } from "@app/providers";
 import { Container, Icon, ItemDetails } from "@common";
 import { MediaSourceFactory, MediaSources } from "@media-source";
 import { useQueue } from "@queue";
@@ -6,7 +6,7 @@ import { useSpotifySelfTracks } from "@spotify";
 import { createEffect, type Component } from "solid-js";
 
 export const SpotifyLiked: Component = () => {
-	const app = useApp();
+	const app = useApp()!;
 	const queue = useQueue();
 
 	const tracks = useSpotifySelfTracks();

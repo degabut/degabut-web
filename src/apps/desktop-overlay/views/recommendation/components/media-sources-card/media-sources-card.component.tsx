@@ -26,7 +26,6 @@ export const MediaSourcesCard: Component<MediaSourcesCardProps> = (props) => {
 						mediaSourceProps={(mediaSource) => ({
 							mediaSource,
 							inQueue: queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id),
-							contextMenu: { modify: (c) => (queue.data.empty ? [] : [c[0]]) },
 						})}
 					/>
 				</div>

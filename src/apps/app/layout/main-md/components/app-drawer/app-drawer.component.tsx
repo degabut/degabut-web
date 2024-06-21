@@ -1,4 +1,4 @@
-import { useApp } from "@app/hooks";
+import { useApp } from "@app/providers";
 import { AppRoutes } from "@app/routes";
 import { Drawer, RecapUtil, useScreen, type Icons } from "@common";
 import { SPOTIFY_CLIENT_ID } from "@constants";
@@ -21,7 +21,7 @@ type AppDrawerProps = {
 };
 
 export const AppDrawer: Component<AppDrawerProps> = (props) => {
-	const app = useApp();
+	const app = useApp()!;
 	const { settings, setSettings } = useSettings();
 	const screen = useScreen();
 	const desktop = useDesktop();

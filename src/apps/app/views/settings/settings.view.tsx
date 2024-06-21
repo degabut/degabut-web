@@ -1,4 +1,4 @@
-import { useApp } from "@app/hooks";
+import { useApp } from "@app/providers";
 import { AppRoutes } from "@app/routes";
 import { Button, Container, Divider, Text, TimeUtil, useNavigate } from "@common";
 import {
@@ -55,7 +55,7 @@ type SettingsItem = {
 );
 
 export const Settings: Component = () => {
-	const app = useApp();
+	const app = useApp()!;
 	const desktop = useDesktop();
 	const spotify = useSpotify();
 	const { settings, setSettings } = useSettings();

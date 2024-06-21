@@ -1,10 +1,10 @@
-import { useApp } from "@app/hooks";
+import { useApp } from "@app/providers";
 import { Container } from "@common";
 import { onMount, type Component } from "solid-js";
 import { NowPlayingController } from "../../components";
 
 export const QueueNowPlaying: Component = () => {
-	const app = useApp();
+	const app = useApp()!;
 
 	onMount(() => app.setTitle(null));
 

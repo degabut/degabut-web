@@ -12,12 +12,6 @@ export const TracksCard: Component = () => {
 			mediaSource: t.mediaSource,
 			requestedBy: t.requestedBy,
 			extraTitleClass: isActive ? "!text-brand-600" : undefined,
-			contextMenu: {
-				modify: (c) => {
-					if (queue.data.empty) return [];
-					return [c[0]];
-				},
-			},
 		};
 	};
 

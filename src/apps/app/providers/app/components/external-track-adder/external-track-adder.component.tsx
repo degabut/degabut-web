@@ -1,4 +1,4 @@
-import { useApp } from "@app/hooks";
+import { useApp } from "@app/providers";
 import { Icon, Spinner, Text, useApi } from "@common";
 import { SPOTIFY_INTEGRATION } from "@constants";
 import { PlaylistConfirmationUtil } from "@playlist";
@@ -14,7 +14,7 @@ type VideoPlaylistOption = null | {
 };
 
 export const ExternalTrackAdder = () => {
-	const app = useApp();
+	const app = useApp()!;
 	const api = useApi();
 	const youtubeApi = new YouTubeApi(api.youtubeClient);
 	const queue = useQueue();

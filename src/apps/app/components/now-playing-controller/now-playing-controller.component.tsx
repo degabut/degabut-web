@@ -1,6 +1,6 @@
 import { Show, type Component } from "solid-js";
 
-import { useApp } from "@app/hooks";
+import { useApp } from "@app/providers";
 import { AppRoutes } from "@app/routes";
 import { QueueTrackList } from "@app/views/queue/components/queue-tabs/components";
 import { Button, ContextMenuButton, DelayUtil, Divider, Text, useNavigate } from "@common";
@@ -11,7 +11,7 @@ import { useSettings } from "@settings";
 import { PreviewThumbnail } from "./components";
 
 export const NowPlayingController: Component = () => {
-	const app = useApp();
+	const app = useApp()!;
 	const { settings, setSettings } = useSettings();
 	const desktop = useDesktop();
 	const queue = useQueue();

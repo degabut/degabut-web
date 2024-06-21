@@ -1,4 +1,4 @@
-import { useApp } from "@app/hooks";
+import { useApp } from "@app/providers";
 import { Button, Container, Icon, ItemDetails, Text } from "@common";
 import { MediaSources } from "@media-source";
 import { useQueue } from "@queue";
@@ -6,7 +6,7 @@ import { useLiked } from "@user";
 import { onMount, type Component } from "solid-js";
 
 export const Liked: Component = () => {
-	const app = useApp();
+	const app = useApp()!;
 	const queue = useQueue();
 	const liked = useLiked();
 

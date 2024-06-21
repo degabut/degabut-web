@@ -1,4 +1,4 @@
-import { useApp } from "@app/hooks";
+import { useApp } from "@app/providers";
 import { Container, useScreen } from "@common";
 import { useSettings } from "@settings";
 import { Show, createEffect, createSignal, onMount, type Component } from "solid-js";
@@ -6,7 +6,7 @@ import { Preview, QueueTabs } from "./components";
 import { QueueInfo } from "./components/queue-tabs/components";
 
 export const Queue: Component = () => {
-	const app = useApp();
+	const app = useApp()!;
 	const screen = useScreen();
 	const { settings, setSettings } = useSettings();
 	const [isThumbnail, setIsThumbnail] = createSignal(settings["queue.showThumbnail"]);

@@ -1,4 +1,4 @@
-import { useApp } from "@app/hooks";
+import { useApp } from "@app/providers";
 import { AppRoutes } from "@app/routes";
 import { Button, Divider, Item, KeyboardHint, Text, useInfiniteScrolling, useNavigate, useScreen } from "@common";
 import { MediaSources } from "@media-source";
@@ -7,7 +7,7 @@ import { type Component } from "solid-js";
 import { useQueueRecommendation } from "../hooks";
 
 export const QueueHint: Component = () => {
-	const app = useApp();
+	const app = useApp()!;
 	const screen = useScreen();
 	const queue = useQueue();
 	const navigate = useNavigate();

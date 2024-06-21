@@ -1,11 +1,11 @@
-import { useApp } from "@app/hooks";
+import { useApp } from "@app/providers";
 import { Button, Icon, Text, useApi } from "@common";
 import { useDiscord } from "@discord";
 import { PlayerApi, VoiceChannelList, useQueue, type ITextChannel, type IVoiceChannelMin } from "@queue";
 import { For, Show, type Component } from "solid-js";
 
 export const QueueNotFound: Component = () => {
-	const app = useApp();
+	const app = useApp()!;
 	const api = useApi();
 	const discord = useDiscord();
 	const queue = useQueue();

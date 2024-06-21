@@ -1,4 +1,4 @@
-import { useApp } from "@app/hooks";
+import { useApp } from "@app/providers";
 import { Button, Text } from "@common";
 import type { Component } from "solid-js";
 
@@ -7,7 +7,7 @@ type AppHeaderProps = {
 };
 
 export const AppHeader: Component<AppHeaderProps> = (props) => {
-	const app = useApp();
+	const app = useApp()!;
 
 	return (
 		<div class="flex-row-center bg-black border-b border-neutral-700 h-14 md:h-12 px-4 py-2 space-x-3">

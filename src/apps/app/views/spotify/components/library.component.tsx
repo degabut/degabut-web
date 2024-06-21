@@ -1,4 +1,4 @@
-import { useApp } from "@app/hooks";
+import { useApp } from "@app/providers";
 import { AppRoutes } from "@app/routes";
 import { Item, SectionList, Text, useNavigate } from "@common";
 import { useQueue } from "@queue";
@@ -7,7 +7,7 @@ import { createMemo, type Component } from "solid-js";
 import { RefreshButton } from "./refresh-button.component";
 
 export const Library: Component = () => {
-	const app = useApp();
+	const app = useApp()!;
 	const queue = useQueue();
 	const spotify = useSpotify();
 	const navigate = useNavigate();

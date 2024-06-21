@@ -1,4 +1,4 @@
-import { useApp } from "@app/hooks";
+import { useApp } from "@app/providers";
 import { AppRoutes } from "@app/routes";
 import { Container, Icon, RecapUtil, Text, useInfiniteScrolling, useNavigate } from "@common";
 import { MediaSourceFactory, MediaSources } from "@media-source";
@@ -25,7 +25,7 @@ const RecommendationEmpty: Component = () => {
 };
 
 export const Recommendation: Component = () => {
-	const app = useApp();
+	const app = useApp()!;
 	const queue = useQueue();
 	const navigate = useNavigate();
 	const params = useParams<{ id?: string }>();

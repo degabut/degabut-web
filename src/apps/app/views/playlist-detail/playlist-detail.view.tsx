@@ -1,4 +1,4 @@
-import { useApp } from "@app/hooks";
+import { useApp } from "@app/providers";
 import { AppRoutes } from "@app/routes";
 import { Button, Container, ItemDetails, Text, useNavigate } from "@common";
 import { MediaSources } from "@media-source";
@@ -9,7 +9,7 @@ import { createEffect, createSignal, type Component } from "solid-js";
 import { EditPlaylistModal } from "./components";
 
 export const PlaylistDetail: Component = () => {
-	const app = useApp();
+	const app = useApp()!;
 	const queue = useQueue();
 	const navigate = useNavigate();
 	const params = useParams<{ id: string }>();

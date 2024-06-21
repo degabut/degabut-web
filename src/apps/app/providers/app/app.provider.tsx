@@ -6,6 +6,7 @@ import {
 	Show,
 	createContext,
 	createSignal,
+	useContext,
 	type Accessor,
 	type JSX,
 	type ParentComponent,
@@ -40,7 +41,7 @@ export type AppContextStore = {
 	hasNewVersion: Accessor<boolean>;
 };
 
-export const AppContext = createContext<AppContextStore>({} as AppContextStore);
+export const AppContext = createContext<AppContextStore>();
 
 export const AppProvider: ParentComponent = (props) => {
 	useSnowfall();
@@ -104,3 +105,5 @@ export const AppProvider: ParentComponent = (props) => {
 		</AppContext.Provider>
 	);
 };
+
+export const useApp = () => useContext(AppContext);

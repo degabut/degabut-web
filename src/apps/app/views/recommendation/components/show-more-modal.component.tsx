@@ -1,4 +1,4 @@
-import { useApp } from "@app/hooks";
+import { useApp } from "@app/providers";
 import { Divider, Modal, Text, useApi } from "@common";
 import { MediaSources, type IMediaSource, type MediaSourceListProps } from "@media-source";
 import { useQueue } from "@queue";
@@ -21,7 +21,7 @@ type Props = {
 };
 
 export const ShowMoreModal: Component<Props> = (props) => {
-	const app = useApp();
+	const app = useApp()!;
 	const api = useApi();
 	const userApi = new UserApi(api.client);
 	const queue = useQueue();

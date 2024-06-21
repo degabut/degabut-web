@@ -1,4 +1,4 @@
-import { useApp } from "@app/hooks";
+import { useApp } from "@app/providers";
 import { AppRoutes } from "@app/routes";
 import { Icon, Item, KeyboardHint, Modal, Select, Text, useNavigate, useSearchable, useShortcut } from "@common";
 import { MediaSource, MediaSourceFactory, useMatchMediaUrlId, type MediaUrlId } from "@media-source";
@@ -21,7 +21,7 @@ type Props = {
 };
 
 export const QuickSearchModal: Component<Props> = (props) => {
-	const app = useApp();
+	const app = useApp()!;
 	const queue = useQueue();
 	const navigate = useNavigate();
 

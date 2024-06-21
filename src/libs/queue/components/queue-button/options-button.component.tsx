@@ -1,4 +1,4 @@
-import { useApp } from "@app/hooks";
+import { useApp } from "@app/providers";
 import { Button, Checkbox, Text, contextMenu, type IconSize } from "@common";
 import type { Component } from "solid-js";
 
@@ -13,7 +13,7 @@ type Props = {
 };
 
 export const OptionsButton: Component<Props> = (props) => {
-	const app = useApp();
+	const app = useApp()!;
 
 	// TODO move this
 	const contextMenuItems = () => [

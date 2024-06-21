@@ -1,4 +1,4 @@
-import { useApp } from "@app/hooks";
+import { useApp } from "@app/providers";
 import { useApi, type IContextMenuItem } from "@common";
 import { MediaSources, type IMediaSource, type MediaSourceCardProps } from "@media-source";
 import { useQueue } from "@queue";
@@ -17,7 +17,7 @@ type Props = {
 };
 
 export const ExpandableMediaSourceGrid: Component<Props> = (props) => {
-	const app = useApp();
+	const app = useApp()!;
 	const api = useApi();
 	const userApi = new UserApi(api.client);
 	const queue = useQueue();

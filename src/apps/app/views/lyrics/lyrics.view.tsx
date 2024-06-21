@@ -1,4 +1,4 @@
-import { useApp } from "@app/hooks";
+import { useApp } from "@app/providers";
 import { Container, Icon, Spinner } from "@common";
 import { useQueue } from "@queue";
 import { useLyrics } from "@youtube";
@@ -25,7 +25,7 @@ const Loading: Component = () => {
 export const Lyrics: Component = () => {
 	let container!: HTMLDivElement;
 	const queue = useQueue();
-	const app = useApp();
+	const app = useApp()!;
 	const currentId = createMemo(() => queue.data.nowPlaying?.mediaSource.playedYoutubeVideoId || "");
 	const lyrics = useLyrics(currentId);
 	// let initialScroll = true;

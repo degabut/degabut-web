@@ -1,4 +1,4 @@
-import { useApp } from "@app/hooks";
+import { useApp } from "@app/providers";
 import { Button, Container, ItemDetails, Text } from "@common";
 import { MediaSourceFactory, MediaSources } from "@media-source";
 import { useQueue } from "@queue";
@@ -7,7 +7,7 @@ import { useSpotifyPlaylist, useSpotifyPlaylistTracks } from "@spotify";
 import { Show, createEffect, type Component } from "solid-js";
 
 export const SpotifyPlaylistDetail: Component = () => {
-	const app = useApp();
+	const app = useApp()!;
 	const queue = useQueue();
 
 	const params = useParams<{ id: string }>();
