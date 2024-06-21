@@ -1,5 +1,5 @@
 import { AbbreviationIcon, Item, Text, contextMenu, type ContextMenuDirectiveParams } from "@common";
-import { Show, type Component } from "solid-js";
+import { type Component } from "solid-js";
 import { type ISpotifyAlbum, type ISpotifySimplifiedAlbum } from "../../apis";
 
 contextMenu;
@@ -29,24 +29,5 @@ export const SpotifyAlbumList: Component<SpotifyAlbumListProps> = (props) => {
 			}
 			left={!props.album.images?.length ? () => <AbbreviationIcon text={props.album.name} /> : undefined}
 		/>
-	);
-};
-
-export const SpotifyAlbumListBig: Component<SpotifyAlbumListProps> = (props) => {
-	return (
-		<Item.ListBig
-			{...props}
-			title={props.album.name}
-			imageUrl={props.album.images?.at(0)?.url}
-			onClick={() => props.onClick?.(props.album)}
-		/>
-	);
-};
-
-export const SpotifyAlbumListResponsive: Component<SpotifyAlbumListProps & { big?: boolean }> = (props) => {
-	return (
-		<Show when={props.big} fallback={<SpotifyAlbumList {...props} />}>
-			<SpotifyAlbumListBig {...props} />
-		</Show>
 	);
 };

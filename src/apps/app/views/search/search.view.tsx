@@ -7,18 +7,6 @@ import { useSearchParams } from "@solidjs/router";
 import { YouTubeContextMenuUtil, YouTubePlaylist, useSearch } from "@youtube";
 import { For, Show, onMount, type Component } from "solid-js";
 
-const SearchResultSkeleton: Component<{ isSmall?: boolean }> = (props) => {
-	return (
-		<For each={Array(5)}>
-			{() => (
-				<Show when={props.isSmall} fallback={<Item.ListBigSkeleton />}>
-					<Item.ListSkeleton />
-				</Show>
-			)}
-		</For>
-	);
-};
-
 export const Search: Component = () => {
 	const app = useApp()!;
 	const queue = useQueue()!;
@@ -57,7 +45,7 @@ export const Search: Component = () => {
 				prefix={() => <Icon name="search" size="lg" />}
 			/>
 
-			<div class="lg:space-y-8 space-y-1.5">
+			<div class="lg:space-y-2.5 space-y-2">
 				<Show when={!queue.data.empty && matchUrl.ids().length}>
 					<div class="space-y-1.5">
 						<For each={matchUrl.ids()}>
@@ -79,22 +67,27 @@ export const Search: Component = () => {
 					</div>
 				</Show>
 
-				<Show when={!search.isLoading()} fallback={<SearchResultSkeleton isSmall={!screen.gte.lg} />}>
+				<Show
+					when={!search.isLoading()}
+					fallback={
+						<For each={Array(5)}>{() => <Item.ListSkeleton size={screen.gte.md ? "lg" : "md"} />}</For>
+					}
+				>
 					<For each={search.result()}>
 						{(item) => {
 							if ("duration" in item) {
 								const mediaSource = MediaSourceFactory.fromYoutubeVideo(item);
 								return (
-									<MediaSource.ListResponsive
-										big={screen.gte.lg}
+									<MediaSource.List
+										size={screen.gte.md ? "lg" : "md"}
 										mediaSource={mediaSource}
 										inQueue={queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id)}
 									/>
 								);
 							} else {
 								return (
-									<YouTubePlaylist.ListResponsive
-										big={screen.gte.lg}
+									<YouTubePlaylist.List
+										size={screen.gte.md ? "lg" : "md"}
 										playlist={item}
 										contextMenu={YouTubeContextMenuUtil.getPlaylistContextMenu({
 											appStore: app,

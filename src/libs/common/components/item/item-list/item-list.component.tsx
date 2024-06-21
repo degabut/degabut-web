@@ -1,12 +1,14 @@
 import { Show, type Accessor, type Component, type JSX } from "solid-js";
 import { ContextMenuButton, Text } from "../../";
 import { contextMenu, type ContextMenuDirectiveParams } from "../../../directives";
-import { ItemListImage, ItemListImageBig } from "./item-list-image.component";
+import { ItemListImage } from "./item-list-image.component";
 import "./item-list.style.css";
 
 contextMenu;
 
-type BaseProps = {
+export type ItemListSize = "md" | "lg";
+
+export type ItemListProps = {
 	title: string | Accessor<JSX.Element>;
 	extra?: Accessor<JSX.Element>;
 	imageUrl?: string | string[];
@@ -20,10 +22,8 @@ type BaseProps = {
 	extraTitleClass?: string;
 	extraContextMenuButtonClass?: string;
 	onClick?: () => void;
-};
-
-export type ItemListProps = BaseProps & {
 	left?: Accessor<JSX.Element>;
+	size?: ItemListSize;
 	imageHoverOnParent?: boolean;
 	right?: Accessor<JSX.Element>;
 };
@@ -50,6 +50,7 @@ export const ItemList: Component<ItemListProps> = (props) => {
 						imageUrl={imageUrl}
 						hoverElement={props.imageHoverElement}
 						overlayElement={props.imageOverlayElement}
+						size={props.size}
 						imageHoverOnParent={props.imageHoverOnParent}
 						title={typeof props.title === "string" ? props.title : undefined}
 						extraClass={`shrink-0 ${props.extraImageClass}`}
@@ -58,8 +59,10 @@ export const ItemList: Component<ItemListProps> = (props) => {
 			</Show>
 
 			<div
-				class="flex flex-col grow space-y-0.5 truncate"
+				class="flex flex-col grow truncate"
 				classList={{
+					"space-y-0.5": !props.size || props.size === "md",
+					"space-y-1.5": props.size === "lg",
 					"ml-3": !!props.imageUrl || !!props.left,
 					"mr-1.5 md:mr-3": !!props.right || (props.contextMenu && !props.hideContextMenuButton),
 				}}
@@ -95,65 +98,5 @@ export const ItemList: Component<ItemListProps> = (props) => {
 				</div>
 			</Show>
 		</div>
-	);
-};
-
-export const ItemListBig: Component<BaseProps> = (props) => {
-	return (
-		<div
-			class="flex flex-col sm:flex-row sm:space-x-2 space-y-2 md:space-y-0 hover:bg-white/5 rounded"
-			classList={{
-				"cursor-pointer": !!props.onClick,
-				...props.extraContainerClassList,
-				[props.extraContainerClass || ""]: !!props.extraContainerClass,
-			}}
-			use:contextMenu={props.contextMenu}
-			onClick={() => props.onClick?.()}
-		>
-			<Show when={props.imageUrl} keyed>
-				{(imageUrl) => (
-					<ItemListImageBig
-						title={typeof props.title === "string" ? props.title : undefined}
-						hoverElement={props.imageHoverElement}
-						overlayElement={props.imageOverlayElement}
-						imageUrl={imageUrl}
-						extraClass={props.extraImageClass}
-					/>
-				)}
-			</Show>
-
-			<div class="flex flex-col w-full truncate px-2 pb-2 sm:pt-1">
-				<div class="flex-row-center truncate">
-					{typeof props.title !== "string" ? (
-						props.title()
-					) : (
-						<Text.H4
-							truncate
-							class="grow"
-							classList={{ [props.extraTitleClass || ""]: !!props.extraTitleClass }}
-							title={typeof props.title === "string" ? props.title : undefined}
-						>
-							{props.title}
-						</Text.H4>
-					)}
-
-					<Show when={props.contextMenu && !props.hideContextMenuButton}>
-						<ContextMenuButton contextMenu={props.contextMenu} />
-					</Show>
-				</div>
-
-				<Show when={props.extra} keyed>
-					{(e) => <div class="space-y-1">{e()}</div>}
-				</Show>
-			</div>
-		</div>
-	);
-};
-
-export const ItemListResponsive: Component<ItemListProps & { big?: boolean }> = (props) => {
-	return (
-		<Show when={props.big} fallback={<ItemList {...props} />}>
-			<ItemListBig {...props} />
-		</Show>
 	);
 };

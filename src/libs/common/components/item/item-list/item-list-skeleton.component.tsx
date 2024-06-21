@@ -1,39 +1,30 @@
 import type { Component } from "solid-js";
 import { Skeleton } from "../../";
 import "../item.css";
+import { type ItemListSize } from "./item-list.component";
 
-export const ItemListImageSkeleton: Component = () => {
-	return <Skeleton.Image extraClass={"item-image"} />;
+type ItemListSkeletonProps = {
+	size?: ItemListSize;
 };
 
-export const ItemListImageBigSkeleton: Component = () => {
-	return <Skeleton.Image extraClass="w-full sm:w-[16rem] aspect-video mx-auto" />;
-};
-
-export const ItemListSkeleton: Component = () => {
+export const ItemListImageSkeleton: Component<ItemListSkeletonProps> = (props) => {
 	return (
-		<div class="flex-row-center space-x-1.5 md:space-x-3 w-full p-1.5">
-			<ItemListImageSkeleton />
-			<div class="flex flex-col grow shrink space-y-2 py-1">
-				<Skeleton.Text extraClass="max-w-[32rem] h-4" />
-				<Skeleton.Text extraClass="max-w-[8rem] h-3" />
-			</div>
-		</div>
+		<Skeleton.Image
+			extraClassList={{
+				"item-image": !props.size || props.size === "md",
+				"item-image-lg": props.size === "lg",
+			}}
+		/>
 	);
 };
 
-export const ItemListBigSkeleton: Component = () => {
+export const ItemListSkeleton: Component<ItemListSkeletonProps> = (props) => {
 	return (
-		<div class="flex flex-col sm:flex-row sm:space-x-2 space-y-2 md:space-y-0">
-			<div class="sm:w-[20rem] w-full">
-				<ItemListImageBigSkeleton />
-			</div>
-			<div class="flex flex-col space-y-2 w-full px-2 py-3">
+		<div class="flex-row-center space-x-1.5 md:space-x-3 w-full p-1.5">
+			<ItemListImageSkeleton {...props} />
+			<div class="flex flex-col grow shrink space-y-2 py-1">
 				<Skeleton.Text extraClass="max-w-[32rem] h-4" />
-				<Skeleton.Text extraClass="max-w-[8rem] h-4" />
-				<div class="flex-row-center space-x-2 text-sm">
-					<Skeleton.Text extraClass="w-full max-w-[8rem] h-3" />
-				</div>
+				<Skeleton.Text extraClass="max-w-[8rem] h-3" />
 			</div>
 		</div>
 	);

@@ -36,7 +36,7 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 							<Button
 								flat
 								icon={isLiked() ? "heart" : "heartLine"}
-								iconSize="md"
+								iconSize={props.size === "lg" ? "lg" : "md"}
 								class="p-2.5 !hidden md:!block"
 								theme={isLiked() ? "brand" : "default"}
 								classList={{ "md:visible": isLiked() }}
@@ -86,46 +86,5 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 				</div>
 			)}
 		/>
-	);
-};
-
-export const MediaSourceListBig: Component<MediaSourceListProps> = (props) => {
-	const contextMenu = useMediaSourceContextMenu(() => ({
-		mediaSource: props.mediaSource,
-		options: props.contextMenu,
-	}));
-
-	return (
-		<Item.ListBig
-			{...props}
-			contextMenu={contextMenu()}
-			title={props.mediaSource.title}
-			imageUrl={props.mediaSource.maxThumbnailUrl}
-			imageOverlayElement={() => (
-				<div class="absolute bottom-0 right-0 py-0.5 px-1.5 bg-black/75 rounded-tl">
-					<DurationBadge duration={props.mediaSource.duration} />
-				</div>
-			)}
-			extra={() => (
-				<>
-					<div class="flex-row-center space-x-2 text-sm">
-						<Show when={props.mediaSource.creator} keyed>
-							{(c) => <Text.Body2 truncate>{c}</Text.Body2>}
-						</Show>
-					</div>
-					<Show when={!props.mediaSource.duration}>
-						<LiveBadge />
-					</Show>
-				</>
-			)}
-		/>
-	);
-};
-
-export const MediaSourceListResponsive: Component<MediaSourceListProps & { big?: boolean }> = (props) => {
-	return (
-		<Show when={props.big} fallback={<MediaSourceList {...props} />}>
-			<MediaSourceListBig {...props} />
-		</Show>
 	);
 };

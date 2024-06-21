@@ -1,11 +1,10 @@
-import { Item, Text, contextMenu, type ContextMenuDirectiveParams } from "@common";
+import { Item, Text, contextMenu, type ContextMenuDirectiveParams, type ItemListProps } from "@common";
 import type { IYouTubeMixPlaylist, IYouTubePlaylist, IYouTubePlaylistCompact } from "@youtube";
 import { Show, type Component } from "solid-js";
-import { Thumbnail } from "../thumbnail";
 
 contextMenu;
 
-export type YouTubePlaylistListProps = {
+export type YouTubePlaylistListProps = Partial<ItemListProps> & {
 	playlist: IYouTubePlaylistCompact | IYouTubePlaylist | IYouTubeMixPlaylist;
 	contextMenu?: ContextMenuDirectiveParams;
 	extraContainerClass?: string;
@@ -35,36 +34,5 @@ export const YouTubePlaylistList: Component<YouTubePlaylistListProps> = (props) 
 				</>
 			)}
 		/>
-	);
-};
-
-export const YouTubePlaylistListBig: Component<YouTubePlaylistListProps> = (props) => {
-	return (
-		<Item.ListBig
-			{...props}
-			title={props.playlist.title}
-			imageUrl={"thumbnails" in props.playlist ? props.playlist.thumbnails.map((t) => t.url) : []}
-			extra={() => (
-				<>
-					<Text.Caption1>{props.playlist.videoCount} videos</Text.Caption1>
-					<div class="flex-row-center space-x-2">
-						<Thumbnail.Channel
-							thumbnails={"thumbnails" in props.playlist ? props.playlist.thumbnails : []}
-						/>
-						<Show when={props.playlist.channel} keyed>
-							{(c) => <Text.Body2>{c.name}</Text.Body2>}
-						</Show>
-					</div>
-				</>
-			)}
-		/>
-	);
-};
-
-export const YouTubePlaylistListResponsive: Component<YouTubePlaylistListProps & { big?: boolean }> = (props) => {
-	return (
-		<Show when={props.big} fallback={<YouTubePlaylistList {...props} />}>
-			<YouTubePlaylistListBig {...props} />
-		</Show>
 	);
 };
