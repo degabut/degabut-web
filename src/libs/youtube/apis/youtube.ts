@@ -104,7 +104,7 @@ export class YouTubeApi {
 		if (!id) return null;
 
 		const response = await this.client.get("/videos/" + id);
-		if (response.status !== 200) throw new Error(response.data.message);
+		if (response.status !== 200) return null;
 		return response.data;
 	};
 
