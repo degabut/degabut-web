@@ -77,7 +77,6 @@ export const Search: Component = () => {
 						return (
 							<MediaSource.List
 								mediaSource={mediaSource}
-								inQueue={queue.data.tracks?.some((t) => t.mediaSource.sourceId === item.id)}
 								onClick={() => {}}
 								extraContainerClassList={extraContainerClass}
 							/>

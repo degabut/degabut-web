@@ -1,7 +1,6 @@
 import { useApp } from "@app/providers";
 import { Divider, Modal, Text, useApi } from "@common";
 import { MediaSources, type IMediaSource, type MediaSourceListProps } from "@media-source";
-import { useQueue } from "@queue";
 import { UserApi, UserConfirmationUtil, usePlayHistory } from "@user";
 import { createMemo, type Component } from "solid-js";
 
@@ -24,7 +23,6 @@ export const ShowMoreModal: Component<Props> = (props) => {
 	const app = useApp()!;
 	const api = useApi();
 	const userApi = new UserApi(api.client);
-	const queue = useQueue()!;
 
 	const params = createMemo(() => {
 		switch (props.type) {
@@ -76,7 +74,6 @@ export const ShowMoreModal: Component<Props> = (props) => {
 
 		return {
 			mediaSource,
-			inQueue: queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id),
 			contextMenu: {
 				modify: (items) => {
 					if (removable) {

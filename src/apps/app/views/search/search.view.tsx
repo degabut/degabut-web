@@ -78,11 +78,7 @@ export const Search: Component = () => {
 							if ("duration" in item) {
 								const mediaSource = MediaSourceFactory.fromYoutubeVideo(item);
 								return (
-									<MediaSource.List
-										size={screen.gte.md ? "lg" : "md"}
-										mediaSource={mediaSource}
-										inQueue={queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id)}
-									/>
+									<MediaSource.List size={screen.gte.md ? "lg" : "md"} mediaSource={mediaSource} />
 								);
 							} else {
 								return (

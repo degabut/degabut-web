@@ -1,13 +1,11 @@
 import { SectionList } from "@common";
 import { MediaSource, MediaSourceFactory } from "@media-source";
-import { useQueue } from "@queue";
 import { useSpotify } from "@spotify";
 import { Show, type Component } from "solid-js";
 import { RefreshButton } from "./refresh-button.component";
 
 export const Tracks: Component = () => {
 	const spotify = useSpotify();
-	const queue = useQueue()!;
 
 	return (
 		<div class="space-y-8">
@@ -25,12 +23,7 @@ export const Tracks: Component = () => {
 							/>
 						)}
 					>
-						{(mediaSource) => (
-							<MediaSource.List
-								mediaSource={mediaSource}
-								inQueue={queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id)}
-							/>
-						)}
+						{(mediaSource) => <MediaSource.List mediaSource={mediaSource} />}
 					</SectionList>
 				)}
 			</Show>
@@ -48,12 +41,7 @@ export const Tracks: Component = () => {
 							/>
 						)}
 					>
-						{(mediaSource) => (
-							<MediaSource.List
-								mediaSource={mediaSource}
-								inQueue={queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id)}
-							/>
-						)}
+						{(mediaSource) => <MediaSource.List mediaSource={mediaSource} />}
 					</SectionList>
 				)}
 			</Show>
@@ -71,12 +59,7 @@ export const Tracks: Component = () => {
 							/>
 						)}
 					>
-						{(mediaSource) => (
-							<MediaSource.List
-								mediaSource={mediaSource}
-								inQueue={queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id)}
-							/>
-						)}
+						{(mediaSource) => <MediaSource.List mediaSource={mediaSource} />}
 					</SectionList>
 				)}
 			</Show>

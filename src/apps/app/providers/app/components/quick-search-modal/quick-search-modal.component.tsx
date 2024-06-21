@@ -148,7 +148,6 @@ export const QuickSearchModal: Component<Props> = (props) => {
 							return (
 								<MediaSource.List
 									mediaSource={mediaSource}
-									inQueue={queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id)}
 									extraContainerClass="hover:bg-white/5 cursor-pointer"
 									contextMenu={{ openWithClick: false }}
 									extraContainerClassList={extraContainerClass}

@@ -1,7 +1,7 @@
 import { Button, Icon, Item, Text, useGlobalShortcut, type IContextMenuItem, type ItemListProps } from "@common";
 import { SPOTIFY_INTEGRATION } from "@constants";
 import { useQueue, type IGuildMember } from "@queue";
-import { Show, type Component } from "solid-js";
+import { Show, createMemo, type Component } from "solid-js";
 import { type IMediaSource } from "../../apis";
 import { useLikeMediaSource, useMediaSourceContextMenu } from "../../hooks";
 import { DurationBadge, LiveBadge, SourceBadge } from "./components";
@@ -9,7 +9,6 @@ import { DurationBadge, LiveBadge, SourceBadge } from "./components";
 export type MediaSourceListProps = Partial<Omit<ItemListProps, "contextMenu">> & {
 	mediaSource: IMediaSource;
 	requestedBy?: IGuildMember | null;
-	inQueue?: boolean;
 	contextMenu?: {
 		openWithClick?: boolean;
 		modify?: (current: IContextMenuItem[][]) => IContextMenuItem[][];
@@ -24,6 +23,7 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 		options: props.contextMenu,
 	}));
 	const like = useLikeMediaSource(() => props.mediaSource.id);
+	const inQueue = createMemo(() => queue?.data.tracks?.some((t) => t.mediaSource.id === props.mediaSource.id));
 
 	return (
 		<Item.List
@@ -33,7 +33,10 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 			imageUrl={props.mediaSource.minThumbnailUrl}
 			imageHoverOnParent
 			imageHoverElement={() => (
-				<Show when={!queue?.data.empty && !props.imageHoverElement} fallback={props.imageHoverElement?.()}>
+				<Show
+					when={!queue?.data.empty && !props.imageHoverElement && !inQueue()}
+					fallback={props.imageHoverElement?.()}
+				>
 					<button
 						title={globalShortcut.shift ? "Play" : "Add to Queue"}
 						class="flex-row-center justify-center w-full h-full bg-black/60 hover:bg-black/50"
@@ -84,7 +87,7 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 						<SourceBadge type={props.mediaSource.type} />
 					</Show>
 
-					<Show when={props.inQueue}>
+					<Show when={inQueue()}>
 						<div title="In Queue">
 							<Icon name="degabut" size="sm" class="text-brand-600" />
 						</div>
