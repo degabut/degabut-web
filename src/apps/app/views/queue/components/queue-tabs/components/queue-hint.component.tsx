@@ -66,20 +66,22 @@ export const QueueHint: Component = () => {
 					isLoading={recommendation.isLoading() || recommendation.related.data.loading}
 					mediaSourceProps={(mediaSource) => ({
 						mediaSource,
-						hideContextMenuButton: true,
-						right: () => (
-							<Button
-								flat
-								tabIndex={-1}
-								title="Add"
-								icon="plus"
-								class="shrink-0 justify-center w-10 h-10 border-neutral-500 text-neutral-400 hover:!bg-transparent"
-								on:click={(ev) => {
-									ev.stopImmediatePropagation();
-									queue.addTrack(mediaSource);
-								}}
-							/>
-						),
+						hideContextMenuButton: !screen.gte.md,
+						right: !screen.gte.md
+							? () => (
+									<Button
+										flat
+										tabIndex={-1}
+										title="Add"
+										icon="plus"
+										class="shrink-0 justify-center w-10 h-10 border-neutral-500 text-neutral-400 hover:!bg-transparent"
+										on:click={(ev) => {
+											ev.stopImmediatePropagation();
+											queue.addTrack(mediaSource);
+										}}
+									/>
+							  )
+							: undefined,
 					})}
 				/>
 			</div>

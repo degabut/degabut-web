@@ -1,7 +1,15 @@
 .child-visible {
-	@apply md:invisible;
+	@apply invisible;
 }
 
 .item-list:hover .child-visible {
+	@apply visible;
+}
+
+.child-md-visible {
+	@apply md:invisible;
+}
+
+.item-list:hover .child-md-visible {
 	@apply md:visible;
 }

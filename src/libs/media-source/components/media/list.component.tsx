@@ -1,6 +1,6 @@
-import { Button, Icon, Item, Text, type IContextMenuItem, type ItemListProps } from "@common";
+import { Button, Icon, Item, Text, useGlobalShortcut, type IContextMenuItem, type ItemListProps } from "@common";
 import { SPOTIFY_INTEGRATION } from "@constants";
-import type { IGuildMember } from "@queue";
+import { useQueue, type IGuildMember } from "@queue";
 import { Show, type Component } from "solid-js";
 import { type IMediaSource } from "../../apis";
 import { useLikeMediaSource, useMediaSourceContextMenu } from "../../hooks";
@@ -17,6 +17,8 @@ export type MediaSourceListProps = Partial<Omit<ItemListProps, "contextMenu">> &
 };
 
 export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
+	const queue = useQueue();
+	const globalShortcut = useGlobalShortcut();
 	const contextMenu = useMediaSourceContextMenu(() => ({
 		mediaSource: props.mediaSource,
 		options: props.contextMenu,
@@ -29,6 +31,27 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 			contextMenu={contextMenu()}
 			title={props.mediaSource.title}
 			imageUrl={props.mediaSource.minThumbnailUrl}
+			imageHoverOnParent
+			imageHoverElement={() => (
+				<Show when={!queue?.data.empty && !props.imageHoverElement} fallback={props.imageHoverElement?.()}>
+					<button
+						title={globalShortcut.shift ? "Play" : "Add to Queue"}
+						class="flex-row-center justify-center w-full h-full bg-black/60 hover:bg-black/50"
+						on:click={async (e) => {
+							e.stopImmediatePropagation();
+
+							if (globalShortcut.shift) await queue?.addAndPlayTrack(props.mediaSource);
+							else await queue?.addTrack(props.mediaSource);
+						}}
+					>
+						<Icon
+							name={globalShortcut.shift ? "play" : "plus"}
+							size={props.size === "lg" ? "lg" : "md"}
+							class="text-white"
+						/>
+					</button>
+				</Show>
+			)}
 			right={() => (
 				<div class="flex-row-center">
 					<Show when={like} keyed>

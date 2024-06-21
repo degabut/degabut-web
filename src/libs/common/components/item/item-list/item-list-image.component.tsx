@@ -32,7 +32,7 @@ export const ItemListImage: Component<Props> = (props) => {
 			<Show when={props.hoverElement} keyed>
 				{(e) => (
 					<div
-						class="hidden md:block  transition absolute w-full h-full"
+						class="transition absolute w-full h-full"
 						classList={{
 							"child-visible": props.imageHoverOnParent,
 							"opacity-0 hover:opacity-100": !props.imageHoverOnParent,
