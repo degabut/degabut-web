@@ -1,7 +1,7 @@
-.right {
+.child-visible {
 	@apply md:invisible;
 }
 
-.item-list:hover .right {
+.item-list:hover .child-visible {
 	@apply md:visible;
 }

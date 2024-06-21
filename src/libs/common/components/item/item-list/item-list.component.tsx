@@ -24,6 +24,7 @@ type BaseProps = {
 
 export type ItemListProps = BaseProps & {
 	left?: Accessor<JSX.Element>;
+	imageHoverOnParent?: boolean;
 	right?: Accessor<JSX.Element>;
 };
 
@@ -49,6 +50,7 @@ export const ItemList: Component<ItemListProps> = (props) => {
 						imageUrl={imageUrl}
 						hoverElement={props.imageHoverElement}
 						overlayElement={props.imageOverlayElement}
+						imageHoverOnParent={props.imageHoverOnParent}
 						title={typeof props.title === "string" ? props.title : undefined}
 						extraClass={`shrink-0 ${props.extraImageClass}`}
 					/>
@@ -81,12 +83,12 @@ export const ItemList: Component<ItemListProps> = (props) => {
 			</div>
 
 			<Show when={props.right} keyed>
-				{(e) => <div class="right">{e()}</div>}
+				{(e) => <div class="child-visible">{e()}</div>}
 			</Show>
 
 			<Show when={props.contextMenu && !props.hideContextMenuButton}>
 				<div
-					class="right"
+					class="child-visible"
 					classList={{ [props.extraContextMenuButtonClass || ""]: !!props.extraContextMenuButtonClass }}
 				>
 					<ContextMenuButton contextMenu={props.contextMenu} />
