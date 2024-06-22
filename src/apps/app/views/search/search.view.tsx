@@ -86,6 +86,7 @@ export const Search: Component = () => {
 										size={screen.gte.md ? "lg" : "md"}
 										playlist={item}
 										contextMenu={YouTubeContextMenuUtil.getPlaylistContextMenu({
+											openWithClick: true,
 											appStore: app,
 											queueStore: queue,
 											playlist: item,

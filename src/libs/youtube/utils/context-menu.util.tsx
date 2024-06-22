@@ -8,6 +8,7 @@ import type { IYouTubePlaylistCompact } from "@youtube";
 
 type YouTubePlaylistProps = {
 	playlist: IYouTubePlaylistCompact;
+	openWithClick?: boolean;
 	queueStore: QueueContextStore;
 	appStore?: AppContextStore;
 	modify?: (current: IContextMenuItem[][]) => IContextMenuItem[][];
@@ -53,6 +54,7 @@ export class YouTubeContextMenuUtil {
 
 		return {
 			items,
+			openWithClick: props.openWithClick,
 			header: (
 				<div class="flex-col-center justify-center py-4 space-y-1">
 					<div class="w-[16rem] h-[9rem] text-center my-4">
