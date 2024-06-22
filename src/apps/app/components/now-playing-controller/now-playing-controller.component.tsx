@@ -23,7 +23,7 @@ export const NowPlayingController: Component = () => {
 				{(track) => (
 					<img
 						src={track.mediaSource.minThumbnailUrl}
-						class="absolute top-0 w-full h-2/3 opacity-25 blur-3xl pointer-events-none"
+						class="absolute top-0 w-full h-2/3 opacity-40 blur-3xl pointer-events-none"
 					/>
 				)}
 			</Show>
