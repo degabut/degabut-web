@@ -1,5 +1,5 @@
 import type { ISpotifyTrack } from "@spotify";
-import type { IVideoCompact } from "@youtube";
+import type { IMusicSong, IMusicVideo, IVideoCompact } from "@youtube";
 import { MediaSourceTypes, type IMediaSource } from "../apis";
 
 export class MediaSourceFactory {
@@ -14,6 +14,22 @@ export class MediaSourceFactory {
 			url: `https://youtu.be/${video.id}`,
 			sourceId: video.id,
 			playedYoutubeVideoId: video.id,
+		};
+
+		return media;
+	}
+
+	static fromYoutubeMusic(music: IMusicSong | IMusicVideo) {
+		const media: IMediaSource = {
+			...music,
+			id: `youtube/${music.id}`,
+			creator: music.artists.map((a) => a.name).join(", "),
+			maxThumbnailUrl: music.thumbnails.at(-1)?.url || "",
+			minThumbnailUrl: music.thumbnails.at(0)?.url || "",
+			type: MediaSourceTypes.Youtube,
+			url: `https://youtu.be/${music.id}`,
+			sourceId: music.id,
+			playedYoutubeVideoId: music.id,
 		};
 
 		return media;
