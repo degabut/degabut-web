@@ -13,6 +13,7 @@ export const QueueTrackList: Component = () => {
 		return {
 			mediaSource: t.mediaSource,
 			requestedBy: t.requestedBy,
+			hideInQueue: true,
 			imageOverlayElement: () => (
 				<Show when={nextTrackIndex >= 0}>
 					<div class="absolute -bottom-2 -right-2">
