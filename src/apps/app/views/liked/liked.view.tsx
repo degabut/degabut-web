@@ -33,9 +33,9 @@ export const Liked: Component = () => {
 						disabled={!canBeAdded()}
 						rounded
 						icon="plus"
-						class="space-x-2 px-4 py-1.5"
+						class="space-x-2 px-8 py-2"
 					>
-						<Text.Body1>Add to Queue</Text.Body1>
+						<Text.Body1 class="font-medium">Add to Queue</Text.Body1>
 					</Button>
 				)}
 				isInfiniteDisabled={!liked.isFetchable()}
