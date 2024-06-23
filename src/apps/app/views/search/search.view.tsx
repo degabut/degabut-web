@@ -45,7 +45,7 @@ export const Search: Component = () => {
 				prefix={() => <Icon name="search" size="lg" />}
 			/>
 
-			<div class="lg:space-y-2.5 space-y-2">
+			<div class="md:space-y-2.5 space-y-2">
 				<Show when={!queue.data.empty && matchUrl.ids().length}>
 					<div class="space-y-1.5">
 						<For each={matchUrl.ids()}>
