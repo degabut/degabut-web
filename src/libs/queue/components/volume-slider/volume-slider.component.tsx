@@ -5,6 +5,7 @@ type VolumeSliderProps = {
 	value: number;
 	onChange: (value: number) => void;
 	onMuteToggled: (isMuted: boolean) => void;
+	extraContainerClass?: string;
 	extraButtonClass?: string;
 	iconSize?: IconSize;
 };
@@ -25,7 +26,10 @@ export const VolumeSlider: Component<VolumeSliderProps> = (props) => {
 	};
 
 	return (
-		<div class="flex flex-row space-x-0.5 items-center justify-center">
+		<div
+			class="flex flex-row items-center justify-center w-full h-full space-x-1"
+			classList={{ [props.extraContainerClass || ""]: !!props.extraContainerClass }}
+		>
 			<Button
 				flat
 				class="p-2"
@@ -43,10 +47,11 @@ export const VolumeSlider: Component<VolumeSliderProps> = (props) => {
 			<Slider
 				min={0}
 				max={200}
+				step={1}
 				tooltip
 				value={isMuted() ? 0 : props.value}
 				onInput={onVolumeChange}
-				class="h-1 w-24 accent-brand-600"
+				class="h-1 w-full accent-brand-600"
 			/>
 		</div>
 	);

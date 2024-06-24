@@ -112,9 +112,9 @@ export const NowPlayingController: Component = () => {
 
 				<QueueActions iconSize="lg" extraClass="flex-items-center justify-around" extraButtonClass="p-4" />
 
-				<div class="h-full min-h-4 max-h-6 md:max-h-12 shrink-[2]" />
+				<div class="h-full min-h-4 max-h-6 md:max-h-10 shrink-[2]" />
 
-				<div class="grid grid-cols-5 px-1.5">
+				<div class="grid grid-cols-5 gap-x-3 px-1.5">
 					<div class="w-9 h-9 mx-auto">
 						<Show when={queue.data.nowPlaying} keyed>
 							{(track) => (
@@ -130,9 +130,10 @@ export const NowPlayingController: Component = () => {
 						</Show>
 					</div>
 
-					<div class="col-span-3">
+					<div class="col-span-3 mx-auto">
 						<Show when={settings["discord.rpc"]}>
 							<VolumeSlider
+								extraContainerClass="max-w-40"
 								value={settings["botVolumes"][queue.bot().id]}
 								onChange={(value) => {
 									setSettings("botVolumes", { [queue.bot().id]: value });
@@ -157,7 +158,7 @@ export const NowPlayingController: Component = () => {
 					</div>
 				</div>
 
-				<div class="h-full min-h-2 max-h-4 shrink-[2]" />
+				<div class="h-full min-h-2 max-h-4 md:max-h-6 shrink-[2]" />
 			</div>
 
 			<Show when={!queue.data.empty && queue.data.tracks.length}>

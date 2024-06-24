@@ -30,7 +30,7 @@ export const NowPlayingDrawer: Component = () => {
 				centered
 				extraClass="w-full h-full relative shrink-0"
 				extraClassList={{
-					"pb-2 px-1.5 bg-black": settings["app.player.size"] <= breakpoint,
+					"bg-black": settings["app.player.size"] <= breakpoint,
 				}}
 			>
 				<div
@@ -40,7 +40,14 @@ export const NowPlayingDrawer: Component = () => {
 				/>
 
 				<div class="flex flex-col h-full w-full">
-					<Show when={settings["app.player.size"] > breakpoint} fallback={<MinimizedNowPlayingController />}>
+					<Show
+						when={settings["app.player.size"] > breakpoint}
+						fallback={
+							<div class="px-1.5 h-full">
+								<MinimizedNowPlayingController />
+							</div>
+						}
+					>
 						<div class="grow w-full px-8 pt-4 overflow-y-auto h-full thin-scrollbar">
 							<NowPlayingController />
 						</div>

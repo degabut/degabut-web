@@ -66,6 +66,7 @@ export const QueuePlayer: Component = () => {
 					/>
 					<Show when={settings["discord.rpc"]}>
 						<VolumeSlider
+							extraContainerClass="max-w-36"
 							value={settings["botVolumes"][queue.bot().id]}
 							onChange={(value) => {
 								setSettings("botVolumes", { [queue.bot().id]: value });

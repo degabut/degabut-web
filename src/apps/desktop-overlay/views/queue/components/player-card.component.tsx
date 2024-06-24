@@ -73,13 +73,14 @@ export const PlayerCard: Component = () => {
 				</div>
 
 				<div class="w-full relative">
-					<QueueActions extraClass="justify-between w-full" extraButtonClass="p-4" iconSize="lg" />
+					<QueueActions extraClass="justify-around w-full" extraButtonClass="p-4" iconSize="lg" />
 
 					<Divider dark extraClass="mt-8 mb-4" />
 
-					<div class="flex-row-center w-full">
+					<div class="flex-row-center justify-center">
 						<Show when={settings["discord.rpc"]}>
 							<VolumeSlider
+								extraContainerClass="max-w-44"
 								extraButtonClass="p-2.5"
 								iconSize="md"
 								value={settings["botVolumes"][queue.bot().id]}
