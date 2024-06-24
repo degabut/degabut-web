@@ -48,18 +48,16 @@ export const PlayerCard: Component = () => {
 											</div>
 										)}
 									</Show>
-
-									<div>
-										<Button
-											flat
-											theme={like?.isLiked() ? "brand" : "default"}
-											icon={like?.isLiked() ? "heart" : "heartLine"}
-											class="p-4"
-											iconSize="lg"
-											onClick={like?.toggle}
-										/>
-									</div>
 								</div>
+
+								<Button
+									flat
+									theme={like?.isLiked() ? "brand" : "default"}
+									icon={like?.isLiked() ? "heart" : "heartLine"}
+									class="p-4"
+									iconSize="lg"
+									onClick={like?.toggle}
+								/>
 							</div>
 						);
 					}}
