@@ -9,7 +9,7 @@ export const useBotSelector = () => {
 	const [bot, _setBot] = createSignal<Bot>({ ...bots[settings.botIndex] });
 
 	createEffect(() => {
-		const bot = bots.at(settings.botIndex);
+		const bot = bots.at(settings.botIndex) || bots.at(0);
 		if (!bot) return;
 		_setBot(bot);
 	});
