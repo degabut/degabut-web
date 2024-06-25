@@ -51,6 +51,7 @@ export const Search: Component = () => {
 						<For each={matchUrl.ids()}>
 							{(item) => (
 								<Item.Hint
+									size="lg"
 									label={() => (
 										<Text.Body1 truncate class="text-neutral-400">
 											Add {item.label} to queue
