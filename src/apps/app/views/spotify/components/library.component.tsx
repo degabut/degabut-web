@@ -1,6 +1,6 @@
 import { useApp } from "@app/providers";
 import { AppRoutes } from "@app/routes";
-import { Item, SectionList, Text, useNavigate } from "@common";
+import { Item, SectionList, useNavigate } from "@common";
 import { useQueue } from "@queue";
 import { SpotifyAlbum, SpotifyContextMenuUtil, SpotifyPlaylist, useSpotify } from "@spotify";
 import { createMemo, type Component } from "solid-js";
@@ -29,11 +29,7 @@ export const Library: Component = () => {
 			isLoading={isLoading()}
 			rightTitle={() => <RefreshButton disabled={isLoading()} onClick={refresh} />}
 			firstElement={() => (
-				<Item.Hint
-					label={() => <Text.Body1 truncate>Liked Tracks</Text.Body1>}
-					icon="heartLine"
-					onClick={() => navigate(AppRoutes.SpotifyLiked)}
-				/>
+				<Item.Hint label="Liked tracks" icon="heartLine" onClick={() => navigate(AppRoutes.SpotifyLiked)} />
 			)}
 		>
 			{(item) =>

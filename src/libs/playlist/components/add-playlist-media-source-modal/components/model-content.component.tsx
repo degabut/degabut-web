@@ -43,7 +43,7 @@ export const ModalContent: Component<ModalContentProps> = (props) => {
 								<Divider extraClass="my-4" />
 							</div>
 
-							<div class="py-8 px-2 md:p-8 !pt-0 space-y-3 overflow-auto">
+							<div class="py-8 px-2 md:p-8 !pt-0 space-y-2 overflow-auto">
 								<Show when={(playlists.data().length || 0) < 25 && !isInitialLoading()}>
 									<CreatePlaylistButton onClick={() => setIsCreateModalOpen(true)} />
 								</Show>

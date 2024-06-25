@@ -33,7 +33,7 @@ export const ItemHint: Component<ItemHintProps> = (props) => {
 				<Icon name={props.icon} size="lg" extraClass="text-neutral-500" />
 			</div>
 			{typeof props.label === "string" ? (
-				<Text.Body1 class="text-neutral-400">{props.label}</Text.Body1>
+				<Text.Body1 class="text-neutral-400 truncate">{props.label}</Text.Body1>
 			) : (
 				props.label()
 			)}

@@ -1,4 +1,4 @@
-import { Item, Text } from "@common";
+import { Item } from "@common";
 import type { Component } from "solid-js";
 
 type Props = {
@@ -6,5 +6,5 @@ type Props = {
 };
 
 export const CreatePlaylistButton: Component<Props> = (props) => {
-	return <Item.Hint icon="plus" label={() => <Text.Body1>Create New Playlist</Text.Body1>} onClick={props.onClick} />;
+	return <Item.Hint icon="plus" label="Create new playlist" onClick={props.onClick} />;
 };
