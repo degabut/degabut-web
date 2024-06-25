@@ -10,6 +10,7 @@ import { BotSelector, Link } from "./components";
 
 type LinkItem = {
 	icon: Icons;
+	activeIcon?: Icons;
 	label: string;
 	highlight?: boolean;
 	disabled?: boolean;
@@ -33,8 +34,9 @@ export const AppDrawer: Component<AppDrawerProps> = (props) => {
 	const links = (): LinkItem[] => [
 		{ icon: "degabutThin", label: "Queue", path: AppRoutes.Queue },
 		{ icon: "search", label: "Search", path: AppRoutes.Search },
-		{ icon: "playlistMusic", label: "Playlist", path: AppRoutes.Playlists },
-		{ icon: "heart", label: "For You", path: AppRoutes.Recommendation },
+		{ icon: "playlistMusicLine", activeIcon: "playlistMusic", label: "Playlist", path: AppRoutes.Playlists },
+		{ icon: "heartLine", activeIcon: "heart", label: "Liked", path: AppRoutes.Liked },
+		{ icon: "libraryMusicLine", activeIcon: "libraryMusic", label: "For You", path: AppRoutes.Recommendation },
 		{
 			icon: "spotify",
 			label: "Spotify",

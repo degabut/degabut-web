@@ -15,6 +15,8 @@ import Menu from "~icons/mdi/hamburger-menu";
 import Heart from "~icons/mdi/heart";
 import HeartBroken from "~icons/mdi/heart-broken";
 import HeartLine from "~icons/mdi/heart-outline";
+import LibraryMusic from "~icons/mdi/library-music";
+import LibraryMusicLine from "~icons/mdi/library-music-outline";
 import Link from "~icons/mdi/link-variant";
 import Microphone from "~icons/mdi/microphone-variant";
 import Music from "~icons/mdi/music";
@@ -22,6 +24,7 @@ import Pause from "~icons/mdi/pause";
 import People from "~icons/mdi/people";
 import Play from "~icons/mdi/play";
 import PlaylistMusic from "~icons/mdi/playlist-music";
+import PlaylistMusicLine from "~icons/mdi/playlist-music-outline";
 import PlaylistPlay from "~icons/mdi/playlist-play";
 import PlaylistPlus from "~icons/mdi/playlist-plus";
 import PlaylistRemove from "~icons/mdi/playlist-remove";
@@ -62,6 +65,8 @@ export const icons = {
 	heartBroken: { component: HeartBroken },
 	heartLine: { component: HeartLine },
 	heart: { component: Heart },
+	libraryMusic: { component: LibraryMusic },
+	libraryMusicLine: { component: LibraryMusicLine },
 	linkExternal: { component: LinkExternal },
 	link: { component: Link },
 	list: { component: List },
@@ -74,6 +79,7 @@ export const icons = {
 	people: { component: People },
 	play: { component: Play, viewBox: "6 5 14 14" },
 	playlistMusic: { component: PlaylistMusic },
+	playlistMusicLine: { component: PlaylistMusicLine },
 	playlistPlus: { component: PlaylistPlus },
 	playlistPlay: { component: PlaylistPlay },
 	playlistRemove: { component: PlaylistRemove },

@@ -4,6 +4,7 @@ import { Show, type Component } from "solid-js";
 
 type Props = {
 	icon: Icons;
+	activeIcon?: Icons;
 	label: string;
 	highlight?: boolean;
 	path?: string;
@@ -28,7 +29,7 @@ export const Link: Component<Props> = (props) => {
 
 			<Button
 				flat
-				icon={props.icon}
+				icon={props.activeIcon && isActive() ? props.activeIcon : props.icon}
 				title={props.minimized ? props.label : undefined}
 				iconSize="lg"
 				class="w-full space-x-4 px-4 py-3.5 md:py-2.5"
