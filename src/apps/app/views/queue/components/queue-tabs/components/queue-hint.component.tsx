@@ -45,14 +45,14 @@ export const QueueHint: Component = () => {
 				/>
 				<Item.Hint
 					label="Look at recommendations"
-					icon="heartLine"
+					icon="libraryMusicLine"
 					onClick={() => navigate(AppRoutes.Recommendation)}
 				/>
 			</div>
 
 			<div class="space-y-4" ref={containerElement}>
 				<div class="flex-row-center justify-between space-x-2 md:space-x-4">
-					<Text.Body1 class="font-medium">Recommendation</Text.Body1>
+					<Text.Body1 class="font-medium">Recommendations</Text.Body1>
 					<Divider dark />
 				</div>
 
