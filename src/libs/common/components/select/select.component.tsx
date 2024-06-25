@@ -7,6 +7,8 @@ clickOutside;
 type Props<Item = unknown> = {
 	inputProps: InputProps;
 	options: Item[];
+	isLoading?: boolean;
+	skeleton?: Accessor<JSX.Element>;
 	extraResultContainerClass?: string;
 	hideOptionOnClickOutside?: boolean;
 	children: (item: Item, isSelected: boolean, index: number) => JSX.Element;
@@ -71,7 +73,7 @@ export function Select<Item = unknown>(props: Props<Item>) {
 
 			{props.hint?.()}
 
-			<Show when={props.options.length && isShowOptionList()}>
+			<Show when={(props.options.length && isShowOptionList()) || (props.isLoading && props.skeleton)}>
 				<div
 					ref={optionList}
 					class="overflow-y-scroll space-y-1.5"
@@ -84,6 +86,7 @@ export function Select<Item = unknown>(props: Props<Item>) {
 							</div>
 						)}
 					</For>
+					<Show when={props.isLoading}>{props.skeleton?.()}</Show>
 				</div>
 			</Show>
 		</div>

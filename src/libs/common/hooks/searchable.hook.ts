@@ -1,6 +1,7 @@
 import { createMemo, type Accessor } from "solid-js";
 
 type Props<T> = {
+	minimumKeywordLength?: number;
 	keyword: Accessor<string>;
 	items: Accessor<T[]>;
 	keys: (item: T) => string[];
@@ -12,9 +13,7 @@ export function useSearchable<T = unknown>(props: Props<T>) {
 		const items = props.items();
 		const keyword = props.keyword().toLowerCase();
 
-		if (!keyword.length) {
-			return props.returnEmptyOnEmptyKeyword ? [] : items;
-		}
+		if (!keyword.length || keyword.length < (props.minimumKeywordLength || 0)) return [];
 
 		const keywords = keyword.split(" ");
 		const result = items.filter((item) => {

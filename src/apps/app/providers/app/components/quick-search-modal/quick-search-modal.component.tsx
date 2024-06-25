@@ -11,7 +11,7 @@ import {
 	type IVideoCompact,
 	type IYouTubePlaylistCompact,
 } from "@youtube";
-import { Show, createSignal, type Component } from "solid-js";
+import { For, Show, createSignal, type Component } from "solid-js";
 
 type SelectOptionItem = MediaUrlId | IVideoCompact | IYouTubePlaylistCompact | ITrack;
 
@@ -87,13 +87,13 @@ export const QuickSearchModal: Component<Props> = (props) => {
 
 	const tracks = useSearchable({
 		keyword: search.keyword,
+		minimumKeywordLength: 3,
 		items: () => queue.data.tracks || [],
 		keys: ({ mediaSource, requestedBy }) => {
 			const keys = [mediaSource.title, requestedBy.displayName, requestedBy.nickname, requestedBy.username];
 			if (mediaSource.creator) keys.push(mediaSource.creator);
 			return keys;
 		},
-		returnEmptyOnEmptyKeyword: true,
 	});
 
 	const items = () => {
@@ -132,15 +132,15 @@ export const QuickSearchModal: Component<Props> = (props) => {
 					options={items()}
 					onSelect={onSelect}
 					hint={() => (
-						<Show when={search.result().length}>
-							<div class="flex flex-row justify-between px-4 text-sm">
-								<KeyboardHint keys={["↑", "↓"]} label="Navigate" />
-								<Show when={!queue.data.empty}>
-									<KeyboardHint key="Enter" label="Add to Queue" />
-								</Show>
-							</div>
-						</Show>
+						<div class="flex flex-row justify-between px-4 text-sm">
+							<KeyboardHint keys={["↑", "↓"]} label="Navigate" />
+							<Show when={!queue.data.empty && items().length && !search.isLoading()}>
+								<KeyboardHint key="Enter" label="Add to Queue" />
+							</Show>
+						</div>
 					)}
+					isLoading={search.isLoading()}
+					skeleton={() => <For each={Array(3)}>{() => <Item.ListSkeleton />}</For>}
 				>
 					{(item, isSelected) => {
 						const extraContainerClass = { "!bg-white/10": isSelected };
