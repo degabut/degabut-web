@@ -97,7 +97,10 @@ export const QuickSearchModal: Component<Props> = (props) => {
 	});
 
 	const items = () => {
-		const i: SelectOptionItem[] = [...tracks(), ...search.result()];
+		const i: SelectOptionItem[] = [
+			...tracks(),
+			...search.result().filter((r) => !tracks().find((t) => t.mediaSource.youtubeVideoId === r.id)),
+		];
 		if (!queue.data.empty) i.unshift(...matchUrl.ids());
 		return i;
 	};
