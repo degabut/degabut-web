@@ -1,6 +1,6 @@
 import { useApp } from "@app/providers";
 import { AppRoutes } from "@app/routes";
-import { Button, Container, ItemDetails, Text, useNavigate } from "@common";
+import { Button, Container, Item, ItemDetails, Text, useNavigate } from "@common";
 import { MediaSources } from "@media-source";
 import { usePlaylist } from "@playlist";
 import { useQueue } from "@queue";
@@ -97,25 +97,33 @@ export const PlaylistDetail: Component = () => {
 					</div>
 				)}
 			>
-				<MediaSources.List
-					data={playlist.mediaSources}
-					isLoading={playlist.isMediaSourceLoading()}
-					showWhenLoading
-					mediaSourceProps={(pv) => ({
-						mediaSource: pv.mediaSource,
-						inQueue: queue.data.tracks?.some((t) => t.mediaSource.id === pv.mediaSource.id),
-						contextMenu: {
-							modify: (c) => {
-								c[c.length - 2].push({
-									label: "Remove from Playlist",
-									icon: "playlistRemove",
-									onClick: () => pv && playlist.removeMediaSource(pv.id),
-								});
-								return c;
+				<div class="space-y-2">
+					<Item.Hint
+						icon="libraryMusic"
+						label="Explore songs to add to this playlist"
+						onClick={() => navigate(AppRoutes.Recommendation)}
+					/>
+
+					<MediaSources.List
+						data={playlist.mediaSources}
+						isLoading={playlist.isMediaSourceLoading()}
+						showWhenLoading
+						mediaSourceProps={(pv) => ({
+							mediaSource: pv.mediaSource,
+							inQueue: queue.data.tracks?.some((t) => t.mediaSource.id === pv.mediaSource.id),
+							contextMenu: {
+								modify: (c) => {
+									c[c.length - 2].push({
+										label: "Remove from Playlist",
+										icon: "playlistRemove",
+										onClick: () => pv && playlist.removeMediaSource(pv.id),
+									});
+									return c;
+								},
 							},
-						},
-					})}
-				/>
+						})}
+					/>
+				</div>
 			</ItemDetails>
 
 			<EditPlaylistModal

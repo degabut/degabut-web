@@ -1,5 +1,6 @@
 import { useApp } from "@app/providers";
-import { Button, Container, Icon, ItemDetails, Text } from "@common";
+import { AppRoutes } from "@app/routes";
+import { Button, Container, Icon, Item, ItemDetails, Text, useNavigate } from "@common";
 import { MediaSources } from "@media-source";
 import { useQueue } from "@queue";
 import { useLiked } from "@user";
@@ -8,6 +9,7 @@ import { onMount, type Component } from "solid-js";
 export const Liked: Component = () => {
 	const app = useApp()!;
 	const queue = useQueue()!;
+	const navigate = useNavigate();
 	const liked = useLiked();
 
 	onMount(() => app.setTitle("Liked Songs"));
@@ -41,15 +43,23 @@ export const Liked: Component = () => {
 				isInfiniteDisabled={!liked.isFetchable()}
 				infiniteCallback={liked.next}
 			>
-				<MediaSources.List
-					data={liked.data}
-					isLoading={liked.isLoading()}
-					showWhenLoading
-					mediaSourceProps={({ mediaSource }) => ({
-						mediaSource,
-						inQueue: queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id),
-					})}
-				/>
+				<div class="space-y-2">
+					<Item.Hint
+						icon="libraryMusic"
+						label="Explore songs to like"
+						onClick={() => navigate(AppRoutes.Recommendation)}
+					/>
+
+					<MediaSources.List
+						data={liked.data}
+						isLoading={liked.isLoading()}
+						showWhenLoading
+						mediaSourceProps={({ mediaSource }) => ({
+							mediaSource,
+							inQueue: queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id),
+						})}
+					/>
+				</div>
 			</ItemDetails>
 		</Container>
 	);

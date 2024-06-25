@@ -1,10 +1,10 @@
 import { useApp } from "@app/providers";
 import { AppRoutes } from "@app/routes";
-import { Container, Icon, Input, Item, Text, useNavigate, useScreen } from "@common";
+import { Container, Icon, Input, Item, useNavigate, useScreen } from "@common";
 import { MediaSource, MediaSourceFactory, useMatchMediaUrlId } from "@media-source";
 import { useQueue } from "@queue";
 import { useSearchParams } from "@solidjs/router";
-import { YouTubeContextMenuUtil, YouTubePlaylist, useSearch } from "@youtube";
+import { YouTubeContextMenuUtil, YouTubePlaylist, useSearchYouTubeMusic } from "@youtube";
 import { For, Show, onMount, type Component } from "solid-js";
 
 export const Search: Component = () => {
@@ -15,10 +15,7 @@ export const Search: Component = () => {
 
 	const [query, setQuery] = useSearchParams<{ keyword: string }>();
 	const matchUrl = useMatchMediaUrlId(query.keyword || "");
-	const search = useSearch({
-		playlistCount: 5,
-		playlistStartIndex: 5,
-	});
+	const search = useSearchYouTubeMusic();
 
 	onMount(() => {
 		app.setTitle("Search");
@@ -52,11 +49,7 @@ export const Search: Component = () => {
 							{(item) => (
 								<Item.Hint
 									size="lg"
-									label={() => (
-										<Text.Body1 truncate class="text-neutral-400">
-											Add {item.label} to queue
-										</Text.Body1>
-									)}
+									label={`Add ${item.label} to queue`}
 									icon="plus"
 									onClick={() => {
 										queue.addTrackById(item);
@@ -74,14 +67,14 @@ export const Search: Component = () => {
 						<For each={Array(5)}>{() => <Item.ListSkeleton size={screen.gte.md ? "lg" : "md"} />}</For>
 					}
 				>
-					<For each={search.result()}>
+					<For each={search.flatResult().items}>
 						{(item) => {
 							if ("duration" in item) {
-								const mediaSource = MediaSourceFactory.fromYoutubeVideo(item);
+								const mediaSource = MediaSourceFactory.fromYoutubeMusic(item);
 								return (
 									<MediaSource.List size={screen.gte.md ? "lg" : "md"} mediaSource={mediaSource} />
 								);
-							} else {
+							} else if (item.id === "") {
 								return (
 									<YouTubePlaylist.List
 										size={screen.gte.md ? "lg" : "md"}

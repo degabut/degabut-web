@@ -1,5 +1,5 @@
 import type { Accessor, Component, JSX } from "solid-js";
-import { Button, Icon, type Icons } from "../../";
+import { Button, Icon, Text, type Icons } from "../../";
 import { type ItemListSize } from "../item-list";
 import "../item.css";
 
@@ -7,7 +7,7 @@ type ItemHintProps = {
 	icon: Icons;
 	size?: ItemListSize;
 	onClick?: () => void;
-	label: Accessor<JSX.Element>;
+	label: string | Accessor<JSX.Element>;
 	extraContainerClass?: string;
 	extraContainerClassList?: Record<string, boolean | undefined>;
 };
@@ -30,9 +30,13 @@ export const ItemHint: Component<ItemHintProps> = (props) => {
 					"item-image-lg": props.size === "lg",
 				}}
 			>
-				<Icon name={props.icon} size="lg" extraClass="text-neutral-400" />
+				<Icon name={props.icon} size="lg" extraClass="text-neutral-500" />
 			</div>
-			{props.label()}
+			{typeof props.label === "string" ? (
+				<Text.Body1 class="text-neutral-400">{props.label}</Text.Body1>
+			) : (
+				props.label()
+			)}
 		</Button>
 	);
 };

@@ -44,11 +44,7 @@ export const QueueHint: Component = () => {
 					onClick={() => (screen.gte.md ? app.setIsQuickSearchModalOpen(true) : navigate(AppRoutes.Search))}
 				/>
 				<Item.Hint
-					label={() => (
-						<Text.Body1 truncate class="text-neutral-400">
-							Look at recommendations
-						</Text.Body1>
-					)}
+					label="Look at recommendations"
 					icon="heartLine"
 					onClick={() => navigate(AppRoutes.Recommendation)}
 				/>

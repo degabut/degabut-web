@@ -39,18 +39,11 @@ export const Playlists: Component = () => {
 				<Divider />
 
 				<div class="space-y-2">
-					<Item.Hint
-						icon="plus"
-						onClick={() => setIsShowCreateModalOpen(true)}
-						label={() => <Text.Body1>Create Playlist</Text.Body1>}
-					/>
+					<Item.Hint icon="plus" onClick={() => setIsShowCreateModalOpen(true)} label="Create playlist" />
+					<Item.Hint icon="heartLine" onClick={() => navigate(AppRoutes.Liked)} label="Liked songs" />
+				</div>
 
-					<Item.Hint
-						icon="heartLine"
-						onClick={() => navigate(AppRoutes.Liked)}
-						label={() => <Text.Body1>Liked Songs</Text.Body1>}
-					/>
-
+				<div class="space-y-2">
 					<Show
 						when={!playlists.data.loading || playlists.data().length}
 						fallback={<For each={Array(5)}>{() => <Playlist.ListSkeleton />}</For>}
