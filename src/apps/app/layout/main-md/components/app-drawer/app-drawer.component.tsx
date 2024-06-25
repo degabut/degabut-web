@@ -34,8 +34,8 @@ export const AppDrawer: Component<AppDrawerProps> = (props) => {
 	const links = (): LinkItem[] => [
 		{ icon: "degabutThin", label: "Queue", path: AppRoutes.Queue },
 		{ icon: "search", label: "Search", path: AppRoutes.Search },
-		{ icon: "playlistMusicLine", activeIcon: "playlistMusic", label: "Playlist", path: AppRoutes.Playlists },
 		{ icon: "heartLine", activeIcon: "heart", label: "Liked", path: AppRoutes.Liked },
+		{ icon: "playlistMusicLine", activeIcon: "playlistMusic", label: "Playlist", path: AppRoutes.Playlists },
 		{ icon: "libraryMusicLine", activeIcon: "libraryMusic", label: "For You", path: AppRoutes.Recommendation },
 		{
 			icon: "spotify",
