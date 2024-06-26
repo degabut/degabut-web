@@ -13,7 +13,6 @@ export type ItemListProps = {
 	extra?: Accessor<JSX.Element>;
 	imageUrl?: string | string[];
 	imageHoverElement?: Accessor<JSX.Element>;
-	imageOverlayElement?: Accessor<JSX.Element>;
 	extraImageClass?: string;
 	contextMenu?: ContextMenuDirectiveParams;
 	hideContextMenuButton?: boolean;
@@ -49,7 +48,6 @@ export const ItemList: Component<ItemListProps> = (props) => {
 					<ItemListImage
 						imageUrl={imageUrl}
 						hoverElement={props.imageHoverElement}
-						overlayElement={props.imageOverlayElement}
 						size={props.size}
 						imageHoverOnParent={props.imageHoverOnParent}
 						title={typeof props.title === "string" ? props.title : undefined}

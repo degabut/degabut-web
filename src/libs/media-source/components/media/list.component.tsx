@@ -35,29 +35,29 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 			imageUrl={props.mediaSource.minThumbnailUrl}
 			imageHoverOnParent
 			imageHoverElement={() => (
-				<Show
-					when={!queue?.data.empty && !props.imageHoverElement && !isNowPlaying()}
-					fallback={props.imageHoverElement?.()}
-				>
-					<button
-						title={globalShortcut.shift || inQueue() ? "Play" : "Add to Queue"}
-						class="flex-row-center justify-center w-full h-full bg-black/60 hover:bg-black/50"
-						on:click={async (e) => {
-							e.stopImmediatePropagation();
+				<>
+					<Show when={!queue?.data.empty && !isNowPlaying()} fallback={props.imageHoverElement?.()}>
+						<button
+							title={globalShortcut.shift || inQueue() ? "Play" : "Add to Queue"}
+							class="flex-row-center justify-center w-full h-full bg-black/60 hover:bg-black/50"
+							on:click={async (e) => {
+								e.stopImmediatePropagation();
 
-							const track = inQueue();
-							if (track) await queue?.playTrack(track);
-							else if (globalShortcut.shift) await queue?.addAndPlayTrack(props.mediaSource);
-							else await queue?.addTrack(props.mediaSource);
-						}}
-					>
-						<Icon
-							name={globalShortcut.shift || inQueue() ? "play" : "plus"}
-							size={props.size === "lg" ? "lg" : "md"}
-							class="text-white"
-						/>
-					</button>
-				</Show>
+								const track = inQueue();
+								if (track) await queue?.playTrack(track);
+								else if (globalShortcut.shift) await queue?.addAndPlayTrack(props.mediaSource);
+								else await queue?.addTrack(props.mediaSource);
+							}}
+						>
+							<Icon
+								name={globalShortcut.shift || inQueue() ? "play" : "plus"}
+								size={props.size === "lg" ? "lg" : "md"}
+								class="text-white"
+							/>
+						</button>
+					</Show>
+					{props.imageHoverElement?.()}
+				</>
 			)}
 			right={() => (
 				<div class="flex-row-center">

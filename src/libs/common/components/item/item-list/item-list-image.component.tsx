@@ -9,7 +9,6 @@ type Props = {
 	extraClass?: string;
 	extraContainerClass?: string;
 	hoverElement?: Accessor<JSX.Element>;
-	overlayElement?: Accessor<JSX.Element>;
 	imageHoverOnParent?: boolean;
 };
 
@@ -25,14 +24,10 @@ export const ItemListImage: Component<Props> = (props) => {
 				[props.extraContainerClass || ""]: !!props.extraContainerClass,
 			}}
 		>
-			<Show when={props.overlayElement} keyed>
-				{(e) => <div class="transition absolute w-full h-full">{e()}</div>}
-			</Show>
-
 			<Show when={props.hoverElement} keyed>
 				{(e) => (
 					<div
-						class="transition absolute w-full h-full"
+						class="absolute w-full h-full"
 						classList={{
 							"child-visible": props.imageHoverOnParent,
 							"opacity-0 hover:opacity-100": !props.imageHoverOnParent,

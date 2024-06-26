@@ -14,9 +14,9 @@ export const QueueTrackList: Component = () => {
 			mediaSource: t.mediaSource,
 			requestedBy: t.requestedBy,
 			hideInQueue: true,
-			imageOverlayElement: () => (
+			imageHoverElement: () => (
 				<Show when={nextTrackIndex >= 0}>
-					<div class="absolute -bottom-2 -right-2">
+					<div class="absolute visible -bottom-2 -right-2">
 						<div
 							title={"Next Track" + (nextTrackIndex > 0 ? ` (${nextTrackIndex + 1})` : "")}
 							class="relative bg-neutral-950 rounded-full p-1.5"
