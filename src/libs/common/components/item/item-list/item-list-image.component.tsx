@@ -43,7 +43,8 @@ export const ItemListImage: Component<Props> = (props) => {
 				referrerpolicy="no-referrer"
 				src={src()}
 				alt={props.title}
-				class="w-full rounded aspect-square object-cover "
+				class="w-full rounded aspect-square object-cover"
+				classList={{ [props.extraClass || ""]: !!props.extraClass }}
 			/>
 		</div>
 	);
