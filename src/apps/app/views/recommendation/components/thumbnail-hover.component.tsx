@@ -1,5 +1,5 @@
 import { Button, ContextMenuButton, type Icons } from "@common";
-import { useMediaSourceContextMenu, type IMediaSource } from "@media-source";
+import { useLikeMediaSource, useMediaSourceContextMenu, type IMediaSource } from "@media-source";
 import { Show, createSignal, type Component } from "solid-js";
 
 type ActionButtonProps = {
@@ -44,10 +44,24 @@ type Props = {
 
 export const ThumbnailHover: Component<Props> = (props) => {
 	const contextMenu = useMediaSourceContextMenu(() => ({ mediaSource: props.mediaSource }));
+	const liked = useLikeMediaSource(() => props.mediaSource.id);
 
 	return (
 		<div class="hover:bg-black/50 w-full h-full">
-			<div class="absolute top-0 right-0">
+			<div class="absolute top-0 w-full p-1 flex justify-between">
+				<Button
+					flat
+					icon={liked?.isLiked() ? "heart" : "heartLine"}
+					theme={liked?.isLiked() ? "brand" : "default"}
+					on:click={(e) => {
+						e.stopImmediatePropagation();
+						liked?.toggle();
+						e.currentTarget.blur();
+					}}
+					class="p-2"
+					classList={{ visible: liked?.isLiked() }}
+					iconSize="lg"
+				/>
 				<ContextMenuButton contextMenu={contextMenu()} />
 			</div>
 
