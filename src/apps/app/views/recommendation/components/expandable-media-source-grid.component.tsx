@@ -4,7 +4,6 @@ import { MediaSources, type IMediaSource, type MediaSourceCardProps } from "@med
 import { useQueue } from "@queue";
 import { UserApi, UserConfirmationUtil } from "@user";
 import type { Component } from "solid-js";
-import { ThumbnailHover } from "./thumbnail-hover.component";
 import { ShowMoreTitle } from "./title.component";
 
 type Props = {
@@ -49,16 +48,6 @@ export const ExpandableMediaSourceGrid: Component<Props> = (props) => {
 			mediaSource,
 			inQueue,
 			contextMenu,
-			imageHoverElement: () => (
-				<ThumbnailHover
-					mediaSource={mediaSource}
-					showAddButtons={!queue.data.empty}
-					inQueue={!!inQueue}
-					isPlaying={queue.data.nowPlaying?.mediaSource.id === mediaSource.id}
-					onPlay={() => queue.addAndPlayTrack(mediaSource)}
-					onAddToQueue={() => queue.addTrack(mediaSource)}
-				/>
-			),
 		};
 	};
 

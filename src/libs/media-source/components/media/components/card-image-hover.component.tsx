@@ -42,7 +42,7 @@ type Props = {
 	onPlay: () => Promise<void>;
 };
 
-export const ThumbnailHover: Component<Props> = (props) => {
+export const CardImageHover: Component<Props> = (props) => {
 	const contextMenu = useMediaSourceContextMenu(() => ({ mediaSource: props.mediaSource }));
 	const liked = useLikeMediaSource(() => props.mediaSource.id);
 
@@ -71,7 +71,7 @@ export const ThumbnailHover: Component<Props> = (props) => {
 						title="Add to Queue"
 						icon="plus"
 						disabled={props.inQueue}
-						onClick={() => props.onAddToQueue?.()}
+						onClick={() => props.onAddToQueue()}
 					/>
 					<ActionButton title="Play" icon="play" disabled={props.isPlaying} onClick={() => props.onPlay()} />
 				</div>

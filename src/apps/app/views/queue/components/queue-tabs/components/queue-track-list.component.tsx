@@ -7,7 +7,6 @@ export const QueueTrackList: Component = () => {
 	const queue = useQueue()!;
 
 	const mediaSourceProps = (t: ITrack): MediaSourceListProps => {
-		const isActive = queue.data.nowPlaying?.id === t.id;
 		const nextTrackIndex = queue.data.nextTrackIds.findIndex((id) => id === t.id);
 
 		return {
@@ -26,7 +25,6 @@ export const QueueTrackList: Component = () => {
 					</div>
 				</Show>
 			),
-			extraTitleClass: isActive ? "!text-brand-600" : undefined,
 		};
 	};
 

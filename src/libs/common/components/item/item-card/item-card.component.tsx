@@ -15,6 +15,7 @@ export type ItemCardProps = {
 	extraContainerClass?: string;
 	extraContainerClassList?: Record<string, boolean | undefined>;
 	extraImageClass?: string;
+	extraTitleClass?: string;
 	inQueue?: boolean;
 	onClick?: () => void;
 };
@@ -39,7 +40,10 @@ export const ItemCard: Component<ItemCardProps> = (props) => {
 			/>
 
 			<div class="flex flex-col space-y-0.5">
-				<Text.Body1 class="w-full truncate font-normal hover:underline underline-offset-2">
+				<Text.Body1
+					class="w-full truncate font-normal hover:underline underline-offset-2"
+					classList={{ [props.extraTitleClass || ""]: !!props.extraTitleClass }}
+				>
 					{props.title}
 				</Text.Body1>
 				<Show when={props.description} keyed>
