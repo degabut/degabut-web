@@ -41,12 +41,14 @@ export function GridCol<Item = unknown>(props: Props<Item>) {
 		return props.items.slice(0, c.count * (props.maxRows ?? Infinity));
 	};
 
+	const repeatCount = () => Math.min(col()?.count ?? 1, items().length);
+
 	return (
 		<div
 			class="grid auto-cols-fr"
 			classList={{ [props.extraClass ?? ""]: !!props.extraClass }}
 			style={{
-				"grid-template-columns": `repeat(${col()?.count ?? 1}, minmax(${props.minWidth || 0}, 1fr))`,
+				"grid-template-columns": `repeat(${repeatCount()}, minmax(${props.minWidth || 0}, 0fr))`,
 			}}
 		>
 			<For each={items()}>
