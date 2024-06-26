@@ -2,7 +2,6 @@ import { Show, type Accessor, type Component, type JSX } from "solid-js";
 import { ContextMenuButton, Text } from "../../";
 import { contextMenu, type ContextMenuDirectiveParams } from "../../../directives";
 import { ItemListImage } from "./item-list-image.component";
-import "./item-list.style.css";
 
 contextMenu;
 
@@ -30,7 +29,7 @@ export type ItemListProps = {
 export const ItemList: Component<ItemListProps> = (props) => {
 	return (
 		<div
-			class="item-list flex-row-center items-stretch w-full p-1.5 active:bg-white/5 rounded"
+			class="group/item-list flex-row-center items-stretch w-full p-1.5 active:bg-white/5 rounded"
 			classList={{
 				"cursor-pointer hover:bg-white/5": !!props.onClick || props.contextMenu?.openWithClick,
 				...props.extraContainerClassList,
@@ -84,12 +83,12 @@ export const ItemList: Component<ItemListProps> = (props) => {
 			</div>
 
 			<Show when={props.right} keyed>
-				{(e) => <div class="child-md-visible">{e()}</div>}
+				{(e) => <div class="invisible group-hover/item-list:visible">{e()}</div>}
 			</Show>
 
 			<Show when={props.contextMenu && !props.hideContextMenuButton}>
 				<div
-					class="child-md-visible"
+					class="invisible group-hover/item-list:visible"
 					classList={{ [props.extraContextMenuButtonClass || ""]: !!props.extraContextMenuButtonClass }}
 				>
 					<ContextMenuButton contextMenu={props.contextMenu} />

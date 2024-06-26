@@ -24,7 +24,7 @@ export const ItemCard: Component<ItemCardProps> = (props) => {
 		<div
 			class="flex flex-col space-y-2"
 			classList={{
-				"cursor-pointer ": !!props.onClick || props.contextMenu?.openWithClick,
+				"cursor-pointer": !!props.onClick || props.contextMenu?.openWithClick,
 				...props.extraContainerClassList,
 				[props.extraContainerClass || ""]: !!props.extraContainerClass,
 			}}

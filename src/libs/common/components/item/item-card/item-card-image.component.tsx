@@ -11,17 +11,17 @@ export const ItemCardImage: Component<Props> = (props) => {
 	const src = () => (typeof props.imageUrl === "string" ? props.imageUrl : props.imageUrl.at(-1));
 
 	return (
-		<div class="relative">
+		<div class="group/item-card-image relative">
 			<Show when={props.hoverElement} keyed>
-				{(e) => (
-					<div class="hidden md:block opacity-0 hover:opacity-100 transition absolute w-full h-full">
-						{e()}
-					</div>
-				)}
+				{(e) => <div class="absolute w-full h-full invisible group-hover/item-card-image:visible">{e()}</div>}
 			</Show>
+
 			<img
+				loading="lazy"
+				referrerpolicy="no-referrer"
 				src={src()}
-				class="w-full rounded-md aspect-square object-cover"
+				alt={props.title}
+				class="w-full rounded aspect-square object-cover"
 				classList={{ [props.extraClass || ""]: !!props.extraClass }}
 			/>
 		</div>

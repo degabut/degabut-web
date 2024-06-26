@@ -17,7 +17,7 @@ export const ItemListImage: Component<Props> = (props) => {
 
 	return (
 		<div
-			class="relative shrink-0"
+			class="group/item-list-image relative shrink-0"
 			classList={{
 				"item-image": !props.size || props.size === "md",
 				"item-image-lg": props.size === "lg",
@@ -27,10 +27,10 @@ export const ItemListImage: Component<Props> = (props) => {
 			<Show when={props.hoverElement} keyed>
 				{(e) => (
 					<div
-						class="absolute w-full h-full"
+						class="absolute w-full h-full invisible"
 						classList={{
-							"child-visible": props.imageHoverOnParent,
-							"opacity-0 hover:opacity-100": !props.imageHoverOnParent,
+							"group-hover/item-list:visible": props.imageHoverOnParent,
+							"group-hover/item-list-image:visible": !props.imageHoverOnParent,
 						}}
 					>
 						{e()}
@@ -43,12 +43,7 @@ export const ItemListImage: Component<Props> = (props) => {
 				referrerpolicy="no-referrer"
 				src={src()}
 				alt={props.title}
-				class="object-cover rounded"
-				classList={{
-					"item-image": !props.size || props.size === "md",
-					"item-image-lg": props.size === "lg",
-					[props.extraClass || ""]: !!props.extraClass,
-				}}
+				class="w-full rounded aspect-square object-cover "
 			/>
 		</div>
 	);
