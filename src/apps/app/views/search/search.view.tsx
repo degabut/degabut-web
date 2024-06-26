@@ -4,7 +4,7 @@ import { Container, Icon, Input, Item, useNavigate, useScreen } from "@common";
 import { MediaSource, MediaSourceFactory, useMatchMediaUrlId } from "@media-source";
 import { useQueue } from "@queue";
 import { useSearchParams } from "@solidjs/router";
-import { YouTubeContextMenuUtil, YouTubePlaylist, useSearchYouTubeMusic } from "@youtube";
+import { YouTubeContextMenuUtil, YouTubePlaylist, useSearch } from "@youtube";
 import { For, Show, onMount, type Component } from "solid-js";
 
 export const Search: Component = () => {
@@ -15,7 +15,10 @@ export const Search: Component = () => {
 
 	const [query, setQuery] = useSearchParams<{ keyword: string }>();
 	const matchUrl = useMatchMediaUrlId(query.keyword || "");
-	const search = useSearchYouTubeMusic();
+	const search = useSearch({
+		playlistCount: 5,
+		playlistStartIndex: 5,
+	});
 
 	onMount(() => {
 		app.setTitle("Search");
@@ -67,14 +70,14 @@ export const Search: Component = () => {
 						<For each={Array(5)}>{() => <Item.ListSkeleton size={screen.gte.md ? "lg" : "md"} />}</For>
 					}
 				>
-					<For each={search.flatResult().items}>
+					<For each={search.result()}>
 						{(item) => {
 							if ("duration" in item) {
-								const mediaSource = MediaSourceFactory.fromYoutubeMusic(item);
+								const mediaSource = MediaSourceFactory.fromYoutubeVideo(item);
 								return (
 									<MediaSource.List size={screen.gte.md ? "lg" : "md"} mediaSource={mediaSource} />
 								);
-							} else if (item.id === "") {
+							} else {
 								return (
 									<YouTubePlaylist.List
 										size={screen.gte.md ? "lg" : "md"}
