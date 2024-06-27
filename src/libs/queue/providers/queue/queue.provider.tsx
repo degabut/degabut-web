@@ -52,6 +52,7 @@ export const QueueProvider: ParentComponent = (props) => {
 	const botSelector = useBotSelector();
 
 	let lastHidden = 0;
+	let resetQueueTimeout: NodeJS.Timeout | null = null;
 	const [isInitialLoading, setIsInitialLoading] = createSignal(true);
 	const [freezeState, setFreezeState] = createStore<FreezeState>({
 		queue: true,
@@ -86,7 +87,15 @@ export const QueueProvider: ParentComponent = (props) => {
 
 	onMount(() => {
 		document.addEventListener("visibilitychange", onVisibilityChange);
-		emitter.on("closed", () => setQueue(structuredClone(defaultQueue)));
+		emitter.on("closed", () => {
+			resetQueueTimeout = setTimeout(resetQueue, 10000);
+		});
+		emitter.on("identify", () => {
+			if (resetQueueTimeout) {
+				clearTimeout(resetQueueTimeout);
+				resetQueueTimeout = null;
+			}
+		});
 	});
 
 	onCleanup(() => {
@@ -110,9 +119,13 @@ export const QueueProvider: ParentComponent = (props) => {
 		const bot = botSelector.bot();
 		setIsInitialLoading(true);
 		close();
-		setQueue(structuredClone(defaultQueue));
+		resetQueue();
 		listen(bot.wsUrl);
 	});
+
+	const resetQueue = () => {
+		setQueue(structuredClone(defaultQueue));
+	};
 
 	const store: QueueContextStore = {
 		data: queue,
