@@ -1,6 +1,6 @@
 import { useApp } from "@app/providers";
 import { AppRoutes } from "@app/routes";
-import { Button, Container, Divider, Text, TimeUtil, useNavigate } from "@common";
+import { Button, Container, Divider, KeyboardHint, Text, TimeUtil, useNavigate } from "@common";
 import {
 	APP_VERSION,
 	DESKTOP_APP_VERSION,
@@ -227,6 +227,21 @@ export const Settings: Component = () => {
 					type: "keybind",
 					value: () => settings["overlay.shortcut"],
 					onChange: (v) => setSettings("overlay.shortcut", v),
+				},
+		{
+			label: "Jam",
+			items: [
+				{
+					label: "Enable Jamming Cat",
+					description: () => (
+						<div class="flex-row-center space-x-2">
+							<Text.Caption1>Show jamming cat by pressing</Text.Caption1>
+							<KeyboardHint small key="J" />
+						</div>
+					),
+					type: "switch",
+					value: () => settings["app.catJam.enabled"],
+					onChange: () => setSettings("app.catJam.enabled", (v) => !v),
 				},
 			],
 		},

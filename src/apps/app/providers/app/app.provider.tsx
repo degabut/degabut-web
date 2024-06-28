@@ -2,6 +2,7 @@
 import { useShortcut } from "@common";
 import type { IMediaSource } from "@media-source";
 import { AddPlaylistMediaSourceModal } from "@playlist";
+import { useSettings } from "@settings";
 import {
 	Show,
 	createContext,
@@ -44,12 +45,13 @@ export type AppContextStore = {
 export const AppContext = createContext<AppContextStore>();
 
 export const AppProvider: ParentComponent = (props) => {
+	const { settings } = useSettings();
 	useSnowfall();
-	useCatJam();
 	useZoom();
 	useQueueNotification();
 	useAppRichPresence();
 	useMediaSession();
+	useCatJam({ enabled: () => settings["app.catJam.enabled"] });
 	const { hasNewVersion } = useVersionCheck();
 
 	const [title, setTitle] = createSignal("");

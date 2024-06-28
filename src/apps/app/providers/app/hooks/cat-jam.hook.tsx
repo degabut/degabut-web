@@ -1,6 +1,6 @@
 import { DelayUtil, useShortcut } from "@common";
 import { useQueue, type IGuildMember, type IJam, type IJamCollection } from "@queue";
-import { onCleanup, onMount, type Component } from "solid-js";
+import { createEffect, onMount, type Accessor, type Component } from "solid-js";
 import { render } from "solid-js/web";
 
 type CatJamProps = {
@@ -51,7 +51,11 @@ const CatJam: Component<CatJamProps> = (props) => {
 	);
 };
 
-export const useCatJam = () => {
+type Params = {
+	enabled: Accessor<boolean>;
+};
+
+export const useCatJam = (params: Params) => {
 	const { emitter, jam } = useQueue()!;
 
 	const throttledJam = DelayUtil.countedThrottle(jam, 350);
@@ -59,17 +63,16 @@ export const useCatJam = () => {
 		shortcuts: [
 			{
 				key: "j",
-				handler: throttledJam,
+				handler: () => {
+					if (params.enabled()) throttledJam();
+				},
 			},
 		],
 	});
 
-	onMount(() => {
-		emitter.on("member-jammed", onJam);
-	});
-
-	onCleanup(() => {
-		emitter.removeListener("member-jammed", onJam);
+	createEffect(() => {
+		if (params.enabled()) emitter.on("member-jammed", onJam);
+		else emitter.removeListener("member-jammed", onJam);
 	});
 
 	const onJam = async (collection: IJamCollection) => {
