@@ -14,6 +14,7 @@ export type MediaSourceListProps = Partial<Omit<ItemListProps, "contextMenu">> &
 		openWithClick?: boolean;
 		modify?: (current: IContextMenuItem[][]) => IContextMenuItem[][];
 	};
+	lightExtra?: boolean;
 };
 
 export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
@@ -100,7 +101,11 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 
 					<div class="flex-row-center truncate space-x-1.5">
 						<Show when={props.mediaSource.creator} keyed>
-							{(c) => <Text.Caption1 truncate>{c}</Text.Caption1>}
+							{(c) => (
+								<Text.Caption1 light={props.lightExtra} truncate>
+									{c}
+								</Text.Caption1>
+							)}
 						</Show>
 						{props.requestedBy && (
 							<>
@@ -109,7 +114,9 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 									<Show when={props.requestedBy.avatar} keyed>
 										{(avatar) => <img src={avatar} class="h-4 w-4 rounded-full" />}
 									</Show>
-									<Text.Caption2>{props.requestedBy.displayName}</Text.Caption2>
+									<Text.Caption2 light={props.lightExtra}>
+										{props.requestedBy.displayName}
+									</Text.Caption2>
 								</div>
 							</>
 						)}
