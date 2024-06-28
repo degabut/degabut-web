@@ -24,7 +24,7 @@ export const Item: ParentComponent<BaseProps> = (props) => {
 					}
 				</Show>
 			</div>
-			{props.children}
+			<div class="shrink-0">{props.children}</div>
 		</div>
 	);
 };
