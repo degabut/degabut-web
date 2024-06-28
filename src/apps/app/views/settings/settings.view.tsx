@@ -262,11 +262,11 @@ export const Settings: Component = () => {
 
 	return (
 		<Container size="sm" centered>
-			<div class="flex flex-col space-y-8">
+			<div class="flex flex-col space-y-12">
 				<For each={categories()}>
 					{(c) => (
 						<Show when={"show" in c ? c.show : true}>
-							<div class="space-y-4">
+							<div class="space-y-4 md:space-y-6">
 								<Text.H4 class="uppercase font-medium text-neutral-400">{c.label}</Text.H4>
 								<For each={c.items.filter((i) => !i.hide)}>
 									{(i) => (
