@@ -14,7 +14,7 @@ import { LoginRoutes } from "@login/routes";
 import { useSettings } from "@settings";
 import { useSpotify } from "@spotify";
 import { For, Show, createSignal, onMount, type Accessor, type Component, type JSX, type JSXElement } from "solid-js";
-import { Item, KeybindItem, SliderItem, SwitchItem, TextItem } from "./components";
+import { Item, KeybindItem, SliderItem, SwitchItem, TextItem, type SliderItemProps } from "./components";
 import { SpotifyIntegrationTutorialModal } from "./components/spotify-integration-tutorial-modal.component";
 
 type SettingsCategory = {
@@ -38,20 +38,8 @@ type SettingsItem = {
 	| SettingsItemParams<"switch", boolean>
 	| SettingsItemParams<"keybind", string[]>
 	| SettingsItemParams<"text" | "password", string>
-	| SettingsItemParams<
-			"slider",
-			number,
-			{
-				onInput?: (v: number) => void;
-				min: number;
-				max: number;
-				step?: number;
-			}
-	  >
-	| {
-			type: "element";
-			element: Accessor<JSX.Element>;
-	  }
+	| SettingsItemParams<"slider", number, SliderItemProps>
+	| { type: "element"; element: Accessor<JSX.Element> }
 );
 
 export const Settings: Component = () => {

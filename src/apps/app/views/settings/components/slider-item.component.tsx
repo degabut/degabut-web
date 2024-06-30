@@ -2,14 +2,14 @@ import { DelayUtil, Slider } from "@common";
 import type { Component } from "solid-js";
 import { Item, type ValueProps } from "./item.component";
 
-type Props = ValueProps<number> & {
+export type SliderItemProps = ValueProps<number> & {
 	min: number;
 	max: number;
 	step?: number;
 	onInput?: (v: number) => void;
 };
 
-export const SliderItem: Component<Props> = (props) => {
+export const SliderItem: Component<SliderItemProps> = (props) => {
 	const throttledOnInput = DelayUtil.throttle((e: { target: HTMLInputElement }) => {
 		props.onInput?.(+e.target.value);
 	}, 500);
