@@ -27,7 +27,7 @@ type ThumbnailProps = {
 const Thumbnail: Component<ThumbnailProps> = (props) => {
 	return (
 		<div
-			class="relative max-w-[32rem] max-h-[32rem]"
+			class="relative max-w-[32rem] max-h-[32rem] transition-all"
 			style={{
 				width: `${props.size}px`,
 				height: `${props.size}px`,
@@ -54,7 +54,7 @@ type SkeletonProps = {
 const Skeleton: Component<SkeletonProps> = (props) => {
 	return (
 		<div
-			class="max-w-[32rem] max-h-[32rem] mx-auto border border-neutral-850 flex items-center justify-center rounded"
+			class="max-w-[32rem] max-h-[32rem] transition-all mx-auto border border-neutral-850 flex items-center justify-center rounded"
 			style={{
 				width: `${props.size}px`,
 				height: `${props.size}px`,
