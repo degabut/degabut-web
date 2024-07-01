@@ -20,7 +20,7 @@ export const Login: Component = () => {
 		if (api.authManager.hasAccessToken()) {
 			api.authManager.resetAccessToken();
 			localStorage.clear();
-			desktop?.ipc.onLoggedOut?.();
+			desktop?.ipc.emit?.("logged-out");
 		}
 	});
 

@@ -156,10 +156,10 @@ export const Settings: Component = () => {
 						<Button
 							class="px-2 py-0.5"
 							onClick={() =>
-								desktop?.ipc.authenticateRpc?.(
-									settings["discord.rpcClientId"],
-									settings["discord.rpcClientSecret"]
-								)
+								desktop?.ipc.send?.("authenticate-rpc", {
+									clientId: settings["discord.rpcClientId"],
+									clientSecret: settings["discord.rpcClientSecret"],
+								})
 							}
 							disabled={!settings["discord.rpcClientId"] || !settings["discord.rpcClientSecret"]}
 						>
@@ -226,6 +226,47 @@ export const Settings: Component = () => {
 					value: () => settings["overlay.shortcut"],
 					onChange: (v) => setSettings("overlay.shortcut", v),
 				},
+				{
+					label: "Enable Now Playing Overlay",
+					description: "Show an overlay with the currently playing song on your screen",
+					type: "switch",
+					value: () => settings["overlay.nowPlaying.enabled"],
+					onChange: (v) => setSettings("overlay.nowPlaying.enabled", v),
+				},
+				{
+					label: "Now Playing Overlay Opacity",
+					type: "slider",
+					min: 0,
+					max: 100,
+					step: 5,
+					value: () => settings["overlay.nowPlaying.opacity"],
+					onInput: (v) => setSettings("overlay.nowPlaying.opacity", v),
+				},
+				{
+					label: "Now Playing Overlay Position",
+					type: "options",
+					options: [
+						{ value: "tl", label: "Top Left" },
+						{ value: "tr", label: "Top Right" },
+						{ value: "bl", label: "Bottom Left" },
+						{ value: "br", label: "Bottom Right" },
+					],
+					value: () => settings["overlay.nowPlaying.position"],
+					onChange: (v) => setSettings("overlay.nowPlaying.position", v as "tl" | "tr" | "bl" | "br"),
+				},
+				{
+					label: "Now Playing Overlay Size",
+					type: "options",
+					options: [
+						{ value: "sm", label: "Small" },
+						{ value: "md", label: "Normal" },
+						{ value: "lg", label: "Large" },
+					],
+					value: () => settings["overlay.nowPlaying.size"],
+					onChange: (v) => setSettings("overlay.nowPlaying.size", v as "md" | "lg"),
+				},
+			],
+		},
 		{
 			label: "Jam",
 			items: [
@@ -240,6 +281,14 @@ export const Settings: Component = () => {
 					type: "switch",
 					value: () => settings["app.catJam.enabled"],
 					onChange: () => setSettings("app.catJam.enabled", (v) => !v),
+				},
+				{
+					label: "Enable Overlay Jamming Cat",
+					description: "Show jamming cat on your screen",
+					hide: !IS_DESKTOP,
+					type: "switch",
+					value: () => settings["overlay.catJam.enabled"],
+					onChange: (v) => setSettings("overlay.catJam.enabled", v),
 				},
 			],
 		},
@@ -274,7 +323,7 @@ export const Settings: Component = () => {
 	];
 
 	return (
-		<Container size="sm" centered>
+		<Container size="md" centered>
 			<div class="flex flex-col space-y-12">
 				<For each={categories()}>
 					{(c) => (

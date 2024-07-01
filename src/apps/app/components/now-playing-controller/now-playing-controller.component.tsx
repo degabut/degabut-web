@@ -135,15 +135,15 @@ export const NowPlayingController: Component = () => {
 							<VolumeSlider
 								extraContainerClass="max-w-40"
 								value={settings["botVolumes"][queue.bot().id]}
-								onChange={(value) => {
-									setSettings("botVolumes", { [queue.bot().id]: value });
-									desktop?.ipc?.setBotVolume?.(value, queue.bot().id);
+								onChange={(volume) => {
+									setSettings("botVolumes", { [queue.bot().id]: volume });
+									desktop?.ipc.send?.("set-bot-volume", { volume, id: queue.bot().id });
 								}}
 								onMuteToggled={(isMuted) => {
-									desktop?.ipc?.setBotVolume?.(
-										isMuted ? 0 : settings["botVolumes"][queue.bot().id],
-										queue.bot().id
-									);
+									desktop?.ipc.send?.("set-bot-volume", {
+										volume: isMuted ? 0 : settings["botVolumes"][queue.bot().id],
+										id: queue.bot().id,
+									});
 								}}
 							/>
 						</Show>

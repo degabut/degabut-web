@@ -27,6 +27,11 @@ export type Settings = {
 	["app.mediaSession.enabled"]: boolean;
 	["overlay.enabled"]: boolean;
 	["overlay.shortcut"]: string[];
+	["overlay.nowPlaying.enabled"]: boolean;
+	["overlay.nowPlaying.opacity"]: number;
+	["overlay.nowPlaying.position"]: "tl" | "tr" | "bl" | "br";
+	["overlay.nowPlaying.size"]: "sm" | "md" | "lg";
+	["overlay.catJam.enabled"]: boolean;
 	["spotify.enabled"]: boolean;
 	["spotify.clientId"]: string;
 };
@@ -54,6 +59,11 @@ const defaultSettings: Settings = {
 	["app.mediaSession.enabled"]: true,
 	["overlay.enabled"]: true,
 	["overlay.shortcut"]: ["Control", "Shift", "B"],
+	["overlay.nowPlaying.enabled"]: false,
+	["overlay.nowPlaying.opacity"]: 75,
+	["overlay.nowPlaying.position"]: "tr",
+	["overlay.nowPlaying.size"]: "md",
+	["overlay.catJam.enabled"]: true,
 	["spotify.enabled"]: false,
 	["spotify.clientId"]: "",
 };
@@ -70,12 +80,13 @@ export const SettingsProvider: ParentComponent = (props) => {
 
 	const [settings, setSettings] = createPersistedStore(defaultSettings, {
 		key: "settings",
+		persistThrottle: 250,
 		onChange: (key, value, before) => {
-			desktop?.ipc.onSettingsChanged?.(
+			desktop?.ipc.emit?.("settings-changed", {
 				key,
-				typeof value === "object" ? JSON.parse(JSON.stringify(value)) : value,
-				typeof before === "object" ? JSON.parse(JSON.stringify(before)) : before
-			);
+				value: typeof value === "object" ? JSON.parse(JSON.stringify(value)) : value,
+				previous: typeof before === "object" ? JSON.parse(JSON.stringify(before)) : before,
+			});
 		},
 	});
 

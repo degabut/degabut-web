@@ -22,10 +22,10 @@ export const useAppRichPresence = () => {
 		const a = presence();
 
 		if (a) {
-			desktop?.ipc.setActivity?.(a);
+			desktop?.ipc.send?.("set-activity", a);
 			discord?.setActivity(a);
-		} else {
-			desktop?.ipc.clearActivity?.();
+		} else if (!settings["discord.richPresence"]) {
+			desktop?.ipc.send?.("clear-activity");
 			discord?.setActivity(null);
 		}
 	});

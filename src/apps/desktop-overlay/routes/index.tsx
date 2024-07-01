@@ -1,7 +1,7 @@
 import { MediaSourceLikeManagerProvider } from "@media-source";
 import { QueueProvider } from "@queue";
 import { Navigate, type RouteDefinition } from "@solidjs/router";
-import { Main } from "../layout";
+import { DesktopOverlayLayout } from "../layout";
 import { Queue, Recommendation, Search } from "../views";
 
 export enum DesktopOverlayRoutes {
@@ -16,7 +16,7 @@ export const desktopOverlayRouteDefinitions: RouteDefinition[] = [
 		component: (props) => (
 			<MediaSourceLikeManagerProvider>
 				<QueueProvider>
-					<Main {...props} />
+					<DesktopOverlayLayout {...props} />
 				</QueueProvider>
 			</MediaSourceLikeManagerProvider>
 		),

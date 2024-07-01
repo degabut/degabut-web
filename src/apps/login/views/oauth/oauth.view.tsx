@@ -23,7 +23,7 @@ export const OAuth: Component = () => {
 		try {
 			const { token } = await auth.getAccessToken(code, redirectUri);
 			api.authManager.setAccessToken(token);
-			desktop?.ipc.onAuthenticated?.();
+			desktop?.ipc.emit?.("authenticated");
 
 			const stateString = searchParams.get("state");
 			if (stateString) {
