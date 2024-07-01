@@ -62,30 +62,32 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 					{props.imageHoverElement?.()}
 				</>
 			)}
-			right={() => (
-				<Show when={!props.hideRight}>
-					<div class="flex-row-center">
-						<Show when={like} keyed>
-							{({ isLiked, toggle }) => (
-								<Button
-									flat
-									icon={isLiked() ? "heart" : "heartLine"}
-									iconSize={props.size === "lg" ? "lg" : "md"}
-									class="p-2.5 !hidden md:!block"
-									theme={isLiked() ? "brand" : "default"}
-									classList={{ "md:visible": isLiked() }}
-									title={isLiked() ? "Unlike" : "Like"}
-									on:click={(e) => {
-										e.stopImmediatePropagation();
-										toggle();
-									}}
-								/>
-							)}
-						</Show>
-						{props.right?.()}
-					</div>
-				</Show>
-			)}
+			right={
+				!props.hideRight
+					? () => (
+							<div class="flex-row-center">
+								<Show when={like} keyed>
+									{({ isLiked, toggle }) => (
+										<Button
+											flat
+											icon={isLiked() ? "heart" : "heartLine"}
+											iconSize={props.size === "lg" ? "lg" : "md"}
+											class="p-2.5 !hidden md:!block"
+											theme={isLiked() ? "brand" : "default"}
+											classList={{ "md:visible": isLiked() }}
+											title={isLiked() ? "Unlike" : "Like"}
+											on:click={(e) => {
+												e.stopImmediatePropagation();
+												toggle();
+											}}
+										/>
+									)}
+								</Show>
+								{props.right?.()}
+							</div>
+					  )
+					: undefined
+			}
 			extra={() => (
 				<div class="flex-row-center space-x-1.5">
 					<Show when={props.mediaSource.duration} fallback={<LiveBadge />}>
