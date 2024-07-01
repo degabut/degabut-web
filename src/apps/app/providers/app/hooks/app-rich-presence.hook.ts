@@ -9,9 +9,9 @@ export const useAppRichPresence = () => {
 	const { settings } = useSettings();
 
 	const presence = useRichPresence({
-		enabled: settings["discord.richPresence"],
-		idleTemplate: settings["discord.richPresence.idleTemplate"],
-		template: settings["discord.richPresence.template"],
+		enabled: () => settings["discord.richPresence"],
+		idleTemplate: () => settings["discord.richPresence.idleTemplate"],
+		template: () => settings["discord.richPresence.template"],
 		queueContext: queue,
 	});
 

@@ -1,6 +1,6 @@
 import { TimeUtil, UrlUtil } from "@common";
 import type { QueueContextStore } from "@queue";
-import { createEffect, createSignal, onMount } from "solid-js";
+import { createEffect, createSignal, onMount, type Accessor } from "solid-js";
 import { RichPresenceUtil } from "../utils";
 
 export type IRichPresence = {
@@ -44,10 +44,10 @@ type RichPresencePlaceholderKey =
 export type IRichPresencePlaceholder = Partial<Record<RichPresencePlaceholderKey, string>>;
 
 type Params = {
-	enabled: boolean;
+	enabled: Accessor<boolean>;
 	queueContext: QueueContextStore;
-	template: IRichPresenceTemplate;
-	idleTemplate: IRichPresenceTemplate;
+	template: Accessor<IRichPresenceTemplate>;
+	idleTemplate: Accessor<IRichPresenceTemplate>;
 };
 
 export const useRichPresence = (params: Params) => {
@@ -57,7 +57,7 @@ export const useRichPresence = (params: Params) => {
 	onMount(() => updateListeningActivity());
 
 	createEffect(() => {
-		if (params.enabled) updateListeningActivity();
+		if (params.enabled()) updateListeningActivity();
 		else setActivity(null);
 	});
 
@@ -70,7 +70,7 @@ export const useRichPresence = (params: Params) => {
 
 		let data;
 		if (!voiceChannel || !nowPlaying) {
-			const template = params.idleTemplate;
+			const template = params.idleTemplate();
 			const placeholder: IRichPresencePlaceholder = {
 				botIconUrl: UrlUtil.toAbsolute(bot.iconUrl),
 				botName: bot.name,
@@ -80,7 +80,7 @@ export const useRichPresence = (params: Params) => {
 				...RichPresenceUtil.parseTemplate(template, placeholder),
 			};
 		} else {
-			const template = params.template;
+			const template = params.template();
 
 			const otherMemberCount = voiceChannel.members.filter((m) => m.isInVoiceChannel).length - 1;
 			const placeholder: IRichPresencePlaceholder = {
@@ -116,7 +116,7 @@ export const useRichPresence = (params: Params) => {
 		}
 
 		// TODO better way to check current activity
-		if (!data || (currentActivity && currentActivity === JSON.stringify(data))) return;
+		if (activity() && (!data || currentActivity === JSON.stringify(data))) return;
 		currentActivity = JSON.stringify(data);
 		setActivity(RichPresenceUtil.toPresence(data));
 	};
