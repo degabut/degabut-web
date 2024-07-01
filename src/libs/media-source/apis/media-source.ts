@@ -6,6 +6,12 @@ export enum MediaSourceTypes {
 	Spotify = "spotify",
 }
 
+export type IMediaSourceImage = {
+	url: string;
+	width: number;
+	height: number;
+};
+
 export type IMediaSource = {
 	id: string;
 	sourceId: string;
@@ -13,6 +19,7 @@ export type IMediaSource = {
 	title: string;
 	creator: string;
 	duration: number;
+	images: IMediaSourceImage[];
 	maxThumbnailUrl: string;
 	minThumbnailUrl: string;
 	playedYoutubeVideoId: string | null;

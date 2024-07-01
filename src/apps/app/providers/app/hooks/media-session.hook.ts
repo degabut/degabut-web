@@ -86,7 +86,7 @@ export const useMediaSession = () => {
 
 	const getMediaSourceImages = (mediaSource: IMediaSource): MediaImage[] => {
 		const { youtubeVideo, spotifyTrack } = mediaSource;
-		let images: (IThumbnail | ISpotifyImage)[] = [];
+		let images: (IThumbnail | ISpotifyImage)[] = mediaSource.images;
 
 		if (youtubeVideo) images = youtubeVideo.thumbnails;
 		if (spotifyTrack?.album) images = spotifyTrack.album.images;
