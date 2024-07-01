@@ -1,4 +1,4 @@
-import { AbbreviationIcon, Item, Text, TimeUtil, contextMenu, type ItemListProps } from "@common";
+import { Item, Text, TimeUtil, contextMenu, type ItemListProps } from "@common";
 import { Show, type Component } from "solid-js";
 import { type IPlaylist } from "../../apis";
 
@@ -28,11 +28,6 @@ export const PlaylistList: Component<Props> = (props) => {
 						{TimeUtil.getRelativeTime(props.playlist.createdAt)}
 					</Text.Caption2>
 				</div>
-			)}
-			left={() => (
-				<Show when={!props.playlist.images.length}>
-					<AbbreviationIcon text={props.playlist.name} />
-				</Show>
 			)}
 		/>
 	);

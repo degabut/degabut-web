@@ -1,5 +1,5 @@
 import { Show, type Accessor, type Component, type JSX } from "solid-js";
-import { ContextMenuButton, Text } from "../../";
+import { AbbreviationIcon, ContextMenuButton, Text } from "../../";
 import { contextMenu, type ContextMenuDirectiveParams } from "../../../directives";
 import { ItemListImage } from "./item-list-image.component";
 
@@ -10,6 +10,7 @@ export type ItemListSize = "sm" | "md" | "lg";
 export type ItemListProps = {
 	title: string | Accessor<JSX.Element>;
 	extra?: Accessor<JSX.Element>;
+	imageText?: string;
 	imageUrl?: string | string[];
 	imageHoverElement?: Accessor<JSX.Element>;
 	extraImageClass?: string;
@@ -43,7 +44,11 @@ export const ItemList: Component<ItemListProps> = (props) => {
 			{props.left?.()}
 
 			<Show when={props.size !== "sm"}>
-				<Show when={props.imageUrl} keyed>
+				<Show
+					when={props.imageUrl}
+					keyed
+					fallback={typeof props.title === "string" && <AbbreviationIcon text={props.title} />}
+				>
 					{(imageUrl) => (
 						<ItemListImage
 							imageUrl={imageUrl}
@@ -62,7 +67,8 @@ export const ItemList: Component<ItemListProps> = (props) => {
 				classList={{
 					"space-y-0.5": !props.size || props.size === "md",
 					"space-y-1.5": props.size === "lg",
-					"ml-3": (!!props.imageUrl || !!props.left) && props.size !== "sm",
+					"ml-3":
+						(!!props.imageUrl || !!props.left || typeof props.title === "string") && props.size !== "sm",
 					"mr-1.5 md:mr-3": !!props.right || (props.contextMenu && !props.hideContextMenuButton),
 				}}
 			>

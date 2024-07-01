@@ -1,4 +1,4 @@
-import { AbbreviationIcon, Item, Text, contextMenu, type ContextMenuDirectiveParams } from "@common";
+import { Item, Text, contextMenu, type ContextMenuDirectiveParams } from "@common";
 import { type Component } from "solid-js";
 import { type ISpotifyAlbum, type ISpotifySimplifiedAlbum } from "../../apis";
 
@@ -27,7 +27,6 @@ export const SpotifyAlbumList: Component<SpotifyAlbumListProps> = (props) => {
 					</Text.Caption2>
 				)
 			}
-			left={!props.album.images?.length ? () => <AbbreviationIcon text={props.album.name} /> : undefined}
 		/>
 	);
 };
