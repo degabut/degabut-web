@@ -14,7 +14,16 @@ import { LoginRoutes } from "@login/routes";
 import { useSettings } from "@settings";
 import { useSpotify } from "@spotify";
 import { For, Show, createSignal, onMount, type Accessor, type Component, type JSX, type JSXElement } from "solid-js";
-import { Item, KeybindItem, SliderItem, SwitchItem, TextItem, type SliderItemProps } from "./components";
+import {
+	Item,
+	KeybindItem,
+	OptionsItem,
+	SliderItem,
+	SwitchItem,
+	TextItem,
+	type OptionsItemProps,
+	type SliderItemProps,
+} from "./components";
 import { SpotifyIntegrationTutorialModal } from "./components/spotify-integration-tutorial-modal.component";
 
 type SettingsCategory = {
@@ -39,6 +48,7 @@ type SettingsItem = {
 	| SettingsItemParams<"keybind", string[]>
 	| SettingsItemParams<"text" | "password", string>
 	| SettingsItemParams<"slider", number, SliderItemProps>
+	| SettingsItemParams<"options", string, OptionsItemProps>
 	| { type: "element"; element: Accessor<JSX.Element> }
 );
 
@@ -278,6 +288,7 @@ export const Settings: Component = () => {
 											{i.type === "switch" && <SwitchItem {...i} />}
 											{(i.type === "text" || i.type === "password") && <TextItem {...i} />}
 											{i.type === "slider" && <SliderItem {...i} />}
+											{i.type === "options" && <OptionsItem {...i} />}
 											{i.type === "element" && <Item {...i}>{i.element()}</Item>}
 										</>
 									)}
