@@ -30,14 +30,13 @@ export const ChaptersModal: Component<ChaptersModalProps> = (props) => {
 							<Item.List
 								title={c.title}
 								imageUrl={c.thumbnails[0].url}
-								extraTitleClass={
-									props.position >= c.start &&
-									(props.chapters.at(i() + 1)
-										? props.position < props.chapters[i() + 1]?.start
-										: true)
-										? "text-brand-600"
-										: ""
-								}
+								extraTitleClassList={{
+									"text-brand-600":
+										props.position >= c.start &&
+										(props.chapters.at(i() + 1)
+											? props.position < props.chapters[i() + 1]?.start
+											: true),
+								}}
 								onClick={() => props.onClickChapter(c)}
 								extra={() => <DurationBadge duration={c.start / 1000} />}
 							/>

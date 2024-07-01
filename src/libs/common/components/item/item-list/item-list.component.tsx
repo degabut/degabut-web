@@ -5,7 +5,7 @@ import { ItemListImage } from "./item-list-image.component";
 
 contextMenu;
 
-export type ItemListSize = "md" | "lg";
+export type ItemListSize = "sm" | "md" | "lg";
 
 export type ItemListProps = {
 	title: string | Accessor<JSX.Element>;
@@ -17,7 +17,7 @@ export type ItemListProps = {
 	hideContextMenuButton?: boolean;
 	extraContainerClass?: string;
 	extraContainerClassList?: Record<string, boolean | undefined>;
-	extraTitleClass?: string;
+	extraTitleClassList?: Record<string, boolean | undefined>;
 	extraContextMenuButtonClass?: string;
 	onClick?: () => void;
 	left?: Accessor<JSX.Element>;
@@ -42,17 +42,19 @@ export const ItemList: Component<ItemListProps> = (props) => {
 		>
 			{props.left?.()}
 
-			<Show when={props.imageUrl} keyed>
-				{(imageUrl) => (
-					<ItemListImage
-						imageUrl={imageUrl}
-						hoverElement={props.imageHoverElement}
-						size={props.size}
-						imageHoverOnParent={props.imageHoverOnParent}
-						title={typeof props.title === "string" ? props.title : undefined}
-						extraClass={`shrink-0 ${props.extraImageClass}`}
-					/>
-				)}
+			<Show when={props.size !== "sm"}>
+				<Show when={props.imageUrl} keyed>
+					{(imageUrl) => (
+						<ItemListImage
+							imageUrl={imageUrl}
+							hoverElement={props.imageHoverElement}
+							size={props.size}
+							imageHoverOnParent={props.imageHoverOnParent}
+							title={typeof props.title === "string" ? props.title : undefined}
+							extraClass={`shrink-0 ${props.extraImageClass}`}
+						/>
+					)}
+				</Show>
 			</Show>
 
 			<div
@@ -60,7 +62,7 @@ export const ItemList: Component<ItemListProps> = (props) => {
 				classList={{
 					"space-y-0.5": !props.size || props.size === "md",
 					"space-y-1.5": props.size === "lg",
-					"ml-3": !!props.imageUrl || !!props.left,
+					"ml-3": (!!props.imageUrl || !!props.left) && props.size !== "sm",
 					"mr-1.5 md:mr-3": !!props.right || (props.contextMenu && !props.hideContextMenuButton),
 				}}
 			>
@@ -70,7 +72,10 @@ export const ItemList: Component<ItemListProps> = (props) => {
 					<Text.Body1
 						truncate
 						class="font-normal"
-						classList={{ [props.extraTitleClass || ""]: !!props.extraTitleClass }}
+						classList={{
+							...props.extraTitleClassList,
+							"text-sm": props.size === "sm",
+						}}
 						title={props.title as string}
 					>
 						{props.title}

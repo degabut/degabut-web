@@ -11,7 +11,7 @@ export const TracksCard: Component = () => {
 		return {
 			mediaSource: t.mediaSource,
 			requestedBy: t.requestedBy,
-			extraTitleClass: isActive ? "!text-brand-600" : undefined,
+			extraTitleClassList: { "test-brand-600": isActive },
 		};
 	};
 

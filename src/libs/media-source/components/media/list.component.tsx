@@ -36,7 +36,7 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 			title={props.mediaSource.title}
 			imageUrl={props.mediaSource.minThumbnailUrl}
 			imageHoverOnParent
-			extraTitleClass={isNowPlaying() ? "!text-brand-600" : ""}
+			extraTitleClassList={{ "text-brand-600": !!isNowPlaying(), ...props.extraTitleClassList }}
 			imageHoverElement={() => (
 				<>
 					<Show when={!queue?.data.empty && !isNowPlaying()} fallback={props.imageHoverElement?.()}>
