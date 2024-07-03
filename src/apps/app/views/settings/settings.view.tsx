@@ -353,7 +353,7 @@ export const Settings: Component = () => {
 					<Show when={!IS_DISCORD_EMBEDDED}>
 						<Button
 							rounded
-							class="max-w-max text-red-500 !border-red-500 hover:bg-red-500/10 px-8 py-1.5"
+							class="max-w-max text-red-500 !outline-red-500 hover:bg-red-500/10 px-8 py-1.5"
 							onClick={onClickLogout}
 						>
 							Logout
