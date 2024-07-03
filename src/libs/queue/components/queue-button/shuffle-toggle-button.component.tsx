@@ -22,6 +22,7 @@ export const ShuffleToggleButton: Component<Props> = (props) => {
 	return (
 		<Button
 			flat
+			iconActive={shuffle()}
 			onClick={onClick}
 			title="Shuffle"
 			theme={shuffle() ? "brand" : "default"}

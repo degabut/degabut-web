@@ -26,6 +26,7 @@ export const LoopToggleButton: Component<Props> = (props) => {
 	return (
 		<Button
 			flat
+			iconActive={loopMode() !== LoopMode.DISABLED}
 			onClick={onClick}
 			title="Loop"
 			icon={loopMode() === LoopMode.TRACK ? "loopOne" : "loop"}

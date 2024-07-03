@@ -10,6 +10,7 @@ type Props = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
 	icon?: Icons;
 	iconSize?: IconSize;
 	iconClassList?: Record<string, boolean | undefined>;
+	iconActive?: boolean;
 };
 
 export const Button: Component<Props> = (props) => {
@@ -58,7 +59,7 @@ export const Button: Component<Props> = (props) => {
 		<button
 			type="button"
 			{...props}
-			class="flex-row-center"
+			class="flex-row-center relative"
 			classList={{
 				"rounded-full": props.rounded,
 				rounded: !props.rounded,
@@ -76,6 +77,10 @@ export const Button: Component<Props> = (props) => {
 						extraClassList={props.iconClassList}
 					/>
 				)}
+			</Show>
+
+			<Show when={props.iconActive}>
+				<div class="absolute bottom-0 left-1/2 -translate-x-1/2 font-extrabold">.</div>
 			</Show>
 
 			<Show when={typeof props.children === "string"} fallback={props.children}>
