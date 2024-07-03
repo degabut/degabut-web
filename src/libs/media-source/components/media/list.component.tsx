@@ -10,7 +10,9 @@ export type MediaSourceListProps = Partial<Omit<ItemListProps, "contextMenu">> &
 	mediaSource: IMediaSource;
 	requestedBy?: IGuildMember | null;
 	hideInQueue?: boolean;
-	hideRight?: boolean;
+	hideDefaultRight?: boolean;
+	disableActiveTitle?: boolean;
+	alwaysShowLikeButton?: boolean;
 	contextMenu?: {
 		openWithClick?: boolean;
 		modify?: (current: IContextMenuItem[][]) => IContextMenuItem[][];
@@ -36,7 +38,10 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 			title={props.mediaSource.title}
 			imageUrl={props.mediaSource.minThumbnailUrl}
 			imageHoverOnParent
-			extraTitleClassList={{ "text-brand-600": !!isNowPlaying(), ...props.extraTitleClassList }}
+			extraTitleClassList={{
+				"text-brand-600": !props.disableActiveTitle && !!isNowPlaying(),
+				...props.extraTitleClassList,
+			}}
 			imageHoverElement={() => (
 				<>
 					<Show when={!queue?.data.empty && !isNowPlaying()} fallback={props.imageHoverElement?.()}>
@@ -62,32 +67,30 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 					{props.imageHoverElement?.()}
 				</>
 			)}
-			right={
-				!props.hideRight
-					? () => (
-							<div class="flex-row-center">
-								<Show when={like} keyed>
-									{({ isLiked, toggle }) => (
-										<Button
-											flat
-											icon={isLiked() ? "heart" : "heartLine"}
-											iconSize={props.size === "lg" ? "lg" : "md"}
-											class="p-2.5 !hidden md:!block"
-											theme={isLiked() ? "brand" : "default"}
-											classList={{ "md:visible": isLiked() }}
-											title={isLiked() ? "Unlike" : "Like"}
-											on:click={(e) => {
-												e.stopImmediatePropagation();
-												toggle();
-											}}
-										/>
-									)}
-								</Show>
-								{props.right?.()}
-							</div>
-					  )
-					: undefined
-			}
+			right={() => (
+				<Show when={!props.hideDefaultRight || props.alwaysShowLikeButton} fallback={props.right?.()}>
+					<div class="flex-row-center">
+						<Show when={like} keyed>
+							{({ isLiked, toggle }) => (
+								<Button
+									flat
+									icon={isLiked() ? "heart" : "heartLine"}
+									iconSize={props.size === "lg" ? "lg" : "md"}
+									class="p-2.5 !hidden md:!block"
+									theme={isLiked() ? "brand" : "secondary"}
+									classList={{ "md:visible": isLiked(), visible: props.alwaysShowLikeButton }}
+									title={isLiked() ? "Unlike" : "Like"}
+									on:click={(e) => {
+										e.stopImmediatePropagation();
+										toggle();
+									}}
+								/>
+							)}
+						</Show>
+						{props.right?.()}
+					</div>
+				</Show>
+			)}
 			extra={() => (
 				<div class="flex-row-center space-x-1.5">
 					<Show when={props.mediaSource.duration} fallback={<LiveBadge />}>
