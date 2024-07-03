@@ -9,7 +9,7 @@ type Props = {
 export const Preview: Component<Props> = (props) => {
 	return (
 		<div class="flex flex-col h-full space-y-2 overflow-hidden">
-			<div class="flex-row-center space-x-2">
+			<div class="flex-row-center space-x-2 p-0.5">
 				<SelectorButton
 					text="Thumbnail"
 					isActive={props.isThumbnail}
