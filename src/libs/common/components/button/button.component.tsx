@@ -6,7 +6,7 @@ type Props = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
 	rounded?: boolean;
 	flat?: boolean;
 	fill?: boolean;
-	theme?: "brand" | "default";
+	theme?: "brand" | "default" | "secondary";
 	icon?: Icons;
 	iconSize?: IconSize;
 	iconClassList?: Record<string, boolean | undefined>;
@@ -31,6 +31,25 @@ export const Button: Component<Props> = (props) => {
 				return {
 					"outline outline-1 outline-brand-800 text-brand-800": props.disabled,
 					"outline outline-1 outline-brand-600 text-brand-600 hover:bg-white/5 active:bg-white/5":
+						!props.disabled,
+				};
+			}
+		} else if (props.theme === "secondary") {
+			if (props.flat) {
+				return {
+					"text-neutral-700": props.disabled,
+					"hover:text-neutral-100 text-neutral-400 hover:bg-white/5 active:bg-white/5": !props.disabled,
+				};
+			} else if (props.fill) {
+				return {
+					"text-neutral-900": true,
+					"bg-neutral-400 hover:bg-neutral-200": !props.disabled,
+					"bg-neutral-700": props.disabled,
+				};
+			} else {
+				return {
+					"outline outline-1 outline-neutral-800 bg-white/5 text-neutral-700": props.disabled,
+					"outline outline-1 outline-neutral-600 text-neutral-400 hover:bg-white/5 active:bg-white/5":
 						!props.disabled,
 				};
 			}
