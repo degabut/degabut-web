@@ -99,7 +99,7 @@ export const ItemList: Component<ItemListProps> = (props) => {
 
 			<Show when={props.contextMenu && !props.hideContextMenuButton}>
 				<div
-					class="invisible group-hover/item-list:visible"
+					class="visible md:invisible group-hover/item-list:visible"
 					classList={{ [props.extraContextMenuButtonClass || ""]: !!props.extraContextMenuButtonClass }}
 				>
 					<ContextMenuButton contextMenu={props.contextMenu} />
