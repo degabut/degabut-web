@@ -78,7 +78,7 @@ export const NowPlayingController: Component = () => {
 								<div class="grow flex flex-col space-y-1 px-2 text-shadow truncate">
 									<Text.H3 truncate>{track.mediaSource.title}</Text.H3>
 
-									<div class="flex-row-center space-x-2.5">
+									<div class="flex-row-center space-x-1.5">
 										<SourceBadge size="lg" type={track.mediaSource.type} />
 										<Text.Body1 truncate class="text-neutral-300">
 											{track.mediaSource.creator}

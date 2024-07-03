@@ -48,7 +48,7 @@ export const NowPlayingDrawer: Component = () => {
 							</div>
 						}
 					>
-						<div class="grow w-full px-8 pt-4 overflow-y-auto h-full thin-scrollbar">
+						<div class="grow w-full px-6 pt-4 overflow-y-auto h-full thin-scrollbar">
 							<NowPlayingController />
 						</div>
 					</Show>
