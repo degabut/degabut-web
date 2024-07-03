@@ -48,7 +48,7 @@ export function SortableTrackList(props: SortableTrackListProps) {
 								<Show when={!screen.gte.md}>
 									<div
 										{...sortable?.dragActivators}
-										class="px-2 py-3 text-neutral-400 hover:text-neutral-100 touch-none"
+										class="visible px-2 py-3 text-neutral-400 hover:text-neutral-100 touch-none"
 										onClick={(e) => e.stopPropagation()}
 									>
 										<Icon name="reorder" size="md" />
