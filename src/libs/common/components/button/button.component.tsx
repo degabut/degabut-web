@@ -28,8 +28,9 @@ export const Button: Component<Props> = (props) => {
 				};
 			} else {
 				return {
-					"border border-brand-800 text-brand-800": props.disabled,
-					"border border-brand-600 text-brand-600 hover:bg-white/5 active:bg-white/5": !props.disabled,
+					"outline outline-1 outline-brand-800 text-brand-800": props.disabled,
+					"outline outline-1 outline-brand-600 text-brand-600 hover:bg-white/5 active:bg-white/5":
+						!props.disabled,
 				};
 			}
 		} else {
@@ -46,8 +47,8 @@ export const Button: Component<Props> = (props) => {
 				};
 			} else {
 				return {
-					"border border-neutral-600 bg-white/5 text-neutral-500": props.disabled,
-					"border border-neutral-500 hover:bg-white/5 active:bg-white/5": !props.disabled,
+					"outline outline-1 outline-neutral-600 bg-white/5 text-neutral-500": props.disabled,
+					"outline outline-1 outline-neutral-500 hover:bg-white/5 active:bg-white/5": !props.disabled,
 				};
 			}
 		}
