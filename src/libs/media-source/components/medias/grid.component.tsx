@@ -20,7 +20,7 @@ export const MediaSourcesGrid: Component<MediaSourcesGridProps> = (props) => {
 			{props.title?.()}
 
 			<Grid.Col
-				extraClass="gap-3 md:gap-5 pb-2 overflow-x-auto snap-x"
+				extraClass="gap-3 md:gap-5 pb-2 overflow-x-auto"
 				minWidth={minWidth}
 				items={
 					!props.isLoading
@@ -34,7 +34,7 @@ export const MediaSourcesGrid: Component<MediaSourcesGridProps> = (props) => {
 			>
 				{(p) => (
 					<Show when={!props.isLoading} fallback={<Item.CardSkeleton />}>
-						<MediaSource.Card extraContainerClass="snap-center" {...p} />
+						<MediaSource.Card {...p} />
 					</Show>
 				)}
 			</Grid.Col>
