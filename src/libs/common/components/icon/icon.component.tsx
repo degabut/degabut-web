@@ -5,7 +5,7 @@ import { Dynamic } from "solid-js/web";
 import { icons } from "./icons";
 
 export type Icons = keyof typeof icons;
-export type IconSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
+export type IconSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
 
 type Props = JSX.InputHTMLAttributes<SVGSVGElement> & {
 	name: Icons;
