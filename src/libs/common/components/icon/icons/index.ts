@@ -5,6 +5,7 @@ import ArrowUp from "~icons/mdi/arrow-up";
 import ChevronDown from "~icons/mdi/chevron-down";
 import ChevronRight from "~icons/mdi/chevron-right";
 import Close from "~icons/mdi/close";
+import Dot from "~icons/mdi/dot";
 import EditPencil from "~icons/mdi/edit";
 import Ellipsis from "~icons/mdi/ellipsis-vertical";
 import LinkExternal from "~icons/mdi/external-link";
@@ -56,6 +57,7 @@ export const icons = {
 	degabutThin: { component: Degabut, viewBox: "0 0 1024 1024" },
 	degabut: { component: DegabutThin, viewBox: "0 0 1024 1024" },
 	download: { component: Download },
+	dot: { component: Dot },
 	editPencil: { component: EditPencil },
 	ellipsis: { component: Ellipsis, viewBox: "4 4 16 16" },
 	skipNext: { component: SkipNext, viewBox: "5 5 14 14" },

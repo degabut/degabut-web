@@ -59,7 +59,7 @@ export const Button: Component<Props> = (props) => {
 		<button
 			type="button"
 			{...props}
-			class="flex-row-center relative"
+			class="flex-row-center"
 			classList={{
 				"rounded-full": props.rounded,
 				rounded: !props.rounded,
@@ -70,17 +70,21 @@ export const Button: Component<Props> = (props) => {
 		>
 			<Show when={props.icon} keyed>
 				{(icon) => (
-					<Icon
-						name={icon}
-						size={props.iconSize || "md"}
-						class="shrink-0"
-						extraClassList={props.iconClassList}
-					/>
-				)}
-			</Show>
+					<div class="relative">
+						<Icon
+							name={icon}
+							size={props.iconSize || "md"}
+							class="shrink-0"
+							extraClassList={props.iconClassList}
+						/>
 
-			<Show when={props.iconActive}>
-				<div class="absolute bottom-0 left-1/2 -translate-x-1/2 font-extrabold">.</div>
+						<Show when={props.iconActive}>
+							<div class="absolute -bottom-[80%]">
+								<Icon name="dot" size={props.iconSize || "md"} />
+							</div>
+						</Show>
+					</div>
+				)}
 			</Show>
 
 			<Show when={typeof props.children === "string"} fallback={props.children}>
