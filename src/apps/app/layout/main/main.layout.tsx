@@ -14,7 +14,7 @@ export const Main: ParentComponent = (props) => {
 	const [isDrawerOpen, setIsDrawerOpen] = createSignal(false);
 
 	return (
-		<div class="flex flex-col h-full">
+		<div class="relative flex flex-col h-full">
 			<div class="flex h-full overflow-hidden">
 				<AppDrawer isOpen={isDrawerOpen()} handleClose={() => setIsDrawerOpen(false)} />
 
