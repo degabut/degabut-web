@@ -18,11 +18,11 @@ export const Notification: Component<NotificationProps> = (props) => {
 	};
 
 	return (
-		<div class="flex flex-row-center max-w-96 w-full bg-gray-800 p-2 pl-3 rounded">
+		<div class="flex flex-row-center w-96 bg-gray-800 py-2 px-3 space-x-3 rounded">
 			<Show when={props.imageUrl} keyed>
 				{(url) => <img src={url} class="flex-shrink-0 w-8 h-8 rounded-full" />}
 			</Show>
-			<div class="line-clamp-2 ml-3 flex-grow">{props.message()}</div>
+			<div class="line-clamp-2 flex-grow">{props.message()}</div>
 			<button
 				class="flex-shrink-0 h-full px-2 py-4 hover:cursor-pointer text-neutral-400 hover:text-white"
 				onClick={onClickClose}
