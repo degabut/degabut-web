@@ -98,12 +98,6 @@ export const PlaylistDetail: Component = () => {
 				)}
 			>
 				<div class="space-y-2">
-					<Item.Hint
-						icon="libraryMusic"
-						label="Explore songs to add to this playlist"
-						onClick={() => navigate(AppRoutes.Recommendation)}
-					/>
-
 					<MediaSources.List
 						data={playlist.mediaSources}
 						isLoading={playlist.isMediaSourceLoading()}
@@ -122,6 +116,12 @@ export const PlaylistDetail: Component = () => {
 								},
 							},
 						})}
+					/>
+
+					<Item.Hint
+						icon="libraryMusic"
+						label="Explore songs to add to this playlist"
+						onClick={() => navigate(AppRoutes.Recommendation)}
 					/>
 				</div>
 			</ItemDetails>

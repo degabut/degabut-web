@@ -1,5 +1,5 @@
 import { AppRoutes } from "@app/routes";
-import { A, Text } from "@common";
+import { A, Text, useNavigate } from "@common";
 import { MediaSource } from "@media-source";
 import { useQueue } from "@queue";
 import { Show, type Component } from "solid-js";
@@ -20,11 +20,12 @@ const EmptyNowPlaying: Component = () => {
 
 export const QueueNowPlaying: Component = () => {
 	const queue = useQueue()!;
+	const navigate = useNavigate();
 
 	return (
 		<Show when={queue.data.nowPlaying} keyed fallback={<EmptyNowPlaying />}>
 			{({ mediaSource }) => (
-				<div class="bg-neutral-950 w-full h-full relative p-1.5">
+				<div class="relative bg-neutral-950 w-full h-full p-1.5">
 					<Show when={queue.data.position} keyed>
 						{(position) => (
 							<div
@@ -34,23 +35,23 @@ export const QueueNowPlaying: Component = () => {
 						)}
 					</Show>
 
-					<A
-						href={AppRoutes.Player}
-						class="relative overflow-hidden flex-row-center rounded z-0"
-						title={mediaSource.title}
-					>
+					<div class="relative overflow-hidden rounded" title={mediaSource.title}>
 						<img
 							src={mediaSource.minThumbnailUrl}
-							class="absolute top-0 left-0 h-full w-full blur-2xl opacity-75 -z-10 pointer-events-none"
+							class="absolute top-0 left-0 h-full w-full blur-2xl opacity-75 pointer-events-none"
 						/>
 
 						<MediaSource.List
+							extraContainerClass="relative text-shadow"
 							mediaSource={mediaSource}
+							onClick={() => navigate(AppRoutes.Player)}
+							disableActiveTitle
+							hideInQueue
+							alwaysShowLikeButton
 							hideContextMenuButton
 							contextMenu={{ openWithClick: false }}
-							extraContainerClass="text-shadow"
 						/>
-					</A>
+					</div>
 				</div>
 			)}
 		</Show>

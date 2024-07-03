@@ -32,7 +32,11 @@ export const QueuePlayer: Component = () => {
 						{(t) => (
 							<MediaSource.List
 								mediaSource={t.mediaSource}
+								extraContainerClass="max-w-max"
 								onClick={() => navigate(AppRoutes.Queue)}
+								disableActiveTitle
+								hideInQueue
+								alwaysShowLikeButton
 								hideContextMenuButton
 								contextMenu={{ openWithClick: false }}
 							/>
@@ -41,7 +45,7 @@ export const QueuePlayer: Component = () => {
 				</div>
 
 				<div class="flex-col-center pt-0.5">
-					<div class="-space-y-3.5 w-full max-w-[36rem] 2xl:max-w-[42rem]">
+					<div class="-space-y-3 w-full max-w-[36rem] 2xl:max-w-[40rem]">
 						<QueueActions
 							iconSize="md"
 							extraClass="justify-center space-x-2 lg:space-x-4"

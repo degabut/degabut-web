@@ -76,9 +76,13 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 									flat
 									icon={isLiked() ? "heart" : "heartLine"}
 									iconSize={props.size === "lg" ? "lg" : "md"}
-									class="p-2.5 !hidden md:!block"
+									class="p-2.5"
 									theme={isLiked() ? "brand" : "secondary"}
-									classList={{ "md:visible": isLiked(), visible: props.alwaysShowLikeButton }}
+									classList={{
+										"md:visible": isLiked(),
+										"!hidden md:!block": !props.alwaysShowLikeButton,
+										visible: props.alwaysShowLikeButton,
+									}}
 									title={isLiked() ? "Unlike" : "Like"}
 									on:click={(e) => {
 										e.stopImmediatePropagation();

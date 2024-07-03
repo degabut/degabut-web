@@ -94,7 +94,7 @@ export const ItemList: Component<ItemListProps> = (props) => {
 			</div>
 
 			<Show when={props.right} keyed>
-				{(e) => <div class="invisible group-hover/item-list:visible">{e()}</div>}
+				{(e) => <div class="invisible shrink-0 group-hover/item-list:visible">{e()}</div>}
 			</Show>
 
 			<Show when={props.contextMenu && !props.hideContextMenuButton}>

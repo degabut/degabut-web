@@ -44,12 +44,6 @@ export const Liked: Component = () => {
 				infiniteCallback={liked.next}
 			>
 				<div class="space-y-2">
-					<Item.Hint
-						icon="libraryMusic"
-						label="Explore songs to like"
-						onClick={() => navigate(AppRoutes.Recommendation)}
-					/>
-
 					<MediaSources.List
 						data={liked.data}
 						isLoading={liked.isLoading()}
@@ -58,6 +52,12 @@ export const Liked: Component = () => {
 							mediaSource,
 							inQueue: queue.data.tracks?.some((t) => t.mediaSource.id === mediaSource.id),
 						})}
+					/>
+
+					<Item.Hint
+						icon="libraryMusic"
+						label="Explore songs to like"
+						onClick={() => navigate(AppRoutes.Recommendation)}
 					/>
 				</div>
 			</ItemDetails>

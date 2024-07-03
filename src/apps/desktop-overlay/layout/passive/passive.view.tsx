@@ -37,7 +37,7 @@ export const Passive: Component = () => {
 							extraContainerClass="relative overflow-hidden bg-black/90 text-shadow"
 							extraTitleClassList={{ "text-lg": settings["overlay.nowPlaying.size"] === "lg" }}
 							hideInQueue
-							hideRight
+							hideDefaultRight
 							hideContextMenuButton
 							lightExtra
 							left={() => (
