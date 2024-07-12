@@ -163,7 +163,7 @@ export const NowPlayingController: Component = () => {
 
 			<Show when={!queue.data.empty && queue.data.tracks.length}>
 				<Divider extraClass="my-8" dark />
-				<div class="w-full max-w-lg space-y-4 h-full min-h-full">
+				<div class="w-full max-w-lg space-y-4 max-h-fit min-h-full">
 					<Text.H2 class="text-center">Queue</Text.H2>
 					<QueueTrackList />
 					<div class="h-8" />
