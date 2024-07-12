@@ -1,2 +1,2 @@
-export * from "./media";
-export * from "./medias";
+export * from "./media-source";
+export * from "./media-sources";
