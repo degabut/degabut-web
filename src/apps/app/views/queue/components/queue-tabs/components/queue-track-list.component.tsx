@@ -30,13 +30,12 @@ export const QueueTrackList: Component = () => {
 
 	return (
 		<Show when={queue.data.tracks.length}>
-			<div classList={{ "opacity-50 pointer-events-none": queue.freezeState.track }}>
-				<SortableTrackList
-					tracks={queue.data.tracks}
-					onSort={({ to }, data) => queue.changeTrackOrder(data.id, to)}
-					mediaSourceProps={mediaSourceProps}
-				/>
-			</div>
+			<SortableTrackList
+				tracks={queue.data.tracks}
+				onSort={({ to }, data) => queue.changeTrackOrder(data.id, to)}
+				mediaSourceProps={mediaSourceProps}
+				extraContainerClassList={{ "opacity-50 pointer-events-none": queue.freezeState.track }}
+			/>
 		</Show>
 	);
 };

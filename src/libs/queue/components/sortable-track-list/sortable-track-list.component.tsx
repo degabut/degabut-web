@@ -14,6 +14,7 @@ type SortableTrackListProps = {
 	dense?: boolean;
 	isLoading?: boolean;
 	showWhenLoading?: boolean;
+	extraContainerClassList?: Record<string, boolean | undefined>;
 	onSort?: (event: SortEvent, track: ITrack) => void;
 };
 
@@ -32,6 +33,7 @@ export function SortableTrackList(props: SortableTrackListProps) {
 			classList={{
 				"space-y-2": !props.dense,
 				"space-y-0.5": props.dense,
+				...props.extraContainerClassList,
 			}}
 		>
 			<Show when={props.showWhenLoading || !props.isLoading}>
