@@ -12,6 +12,7 @@
 	},
 	"license": "MIT",
 	"devDependencies": {
+		"@interactjs/types": "^1.10.27",
 		"@svgr/core": "^8.1.0",
 		"@svgr/plugin-jsx": "^8.1.0",
 		"@types/dom-to-image": "^2.6.7",
@@ -37,6 +38,10 @@
 	"dependencies": {
 		"@discord/embedded-app-sdk": "^1.0.2",
 		"@iconify-json/mdi": "^1.1.66",
+		"@interactjs/actions": "^1.10.27",
+		"@interactjs/auto-start": "^1.10.27",
+		"@interactjs/inertia": "^1.10.27",
+		"@interactjs/interact": "^1.10.27",
 		"@solidjs/router": "^0.13.1",
 		"@tailwindcss/container-queries": "^0.1.1",
 		"@thisbeyond/solid-dnd": "^0.7.4",

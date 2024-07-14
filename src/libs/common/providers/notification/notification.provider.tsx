@@ -2,7 +2,6 @@ import { IS_DESKTOP } from "@constants";
 import { Show, createContext, createSignal, useContext, type ParentComponent } from "solid-js";
 import { Portal } from "solid-js/web";
 import { TransitionGroup } from "solid-transition-group";
-import { useScreen } from "../screen";
 import { Notification } from "./components";
 
 type NotificationContextStore = {
@@ -14,7 +13,6 @@ export const NotificationContext = createContext<NotificationContextStore>({
 });
 
 export const NotificationProvider: ParentComponent = (props) => {
-	const screen = useScreen();
 	let nextTimeout: NodeJS.Timeout | null = null;
 	const [queuedNotifications, setQueuedNotifications] = createSignal<Notification[]>([]);
 	const [currentNotification, setCurrentNotification] = createSignal<Notification | null>(null);
@@ -52,28 +50,26 @@ export const NotificationProvider: ParentComponent = (props) => {
 		<NotificationContext.Provider value={store}>
 			{props.children}
 
-			<Show when={screen.gte.md}>
-				<Portal>
-					<div
-						class="fixed left-1/2 z-20 -translate-x-1/2"
-						classList={{
-							"top-4": !IS_DESKTOP,
-							"top-8": IS_DESKTOP,
+			<Portal>
+				<div
+					class="fixed left-1/2 z-20 -translate-x-1/2 w-full px-4 md:px-0 md:w-fit"
+					classList={{
+						"top-4": !IS_DESKTOP,
+						"top-8": IS_DESKTOP,
+					}}
+				>
+					<TransitionGroup
+						onEnter={(el, done) => {
+							el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 150 }).finished.then(done);
 						}}
+						onExit={(_, done) => done()}
 					>
-						<TransitionGroup
-							onEnter={(el, done) => {
-								el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 150 }).finished.then(done);
-							}}
-							onExit={(_, done) => done()}
-						>
-							<Show when={currentNotification()} keyed>
-								{(notification) => <Notification {...notification} onClose={() => next(true)} />}
-							</Show>
-						</TransitionGroup>
-					</div>
-				</Portal>
-			</Show>
+						<Show when={currentNotification()} keyed>
+							{(notification) => <Notification {...notification} onClose={() => next(true)} />}
+						</Show>
+					</TransitionGroup>
+				</div>
+			</Portal>
 		</NotificationContext.Provider>
 	);
 };
