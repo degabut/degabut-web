@@ -55,7 +55,7 @@ const MemberList: Component<MemberListProps> = (props) => {
 			contextMenu={{
 				openWithClick: true,
 				header: (
-					<div class="flex-row-center justify-center space-x-4 py-4 pb-8 w-full">
+					<div class="flex-row-center justify-center space-x-4 pb-8 w-full">
 						<img src={props.member.avatar || "/img/avatar.png"} class="rounded-full w-16 h-16" />
 						<div class="space-y-2">
 							<Text.H3>{props.member.displayName}</Text.H3>

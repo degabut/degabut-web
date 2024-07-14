@@ -58,7 +58,7 @@ export const OptionsButton: Component<Props> = (props) => {
 			use:contextMenu={{
 				items: contextMenuItems(),
 				header: (
-					<div class="flex-col-center justify-center pt-4 pb-8 space-y-1">
+					<div class="flex-col-center justify-center pb-8 space-y-1">
 						<div class="flex-col-center space-y-2">
 							<div class="font-medium text-center">Queue Options</div>
 						</div>

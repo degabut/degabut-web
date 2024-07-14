@@ -19,7 +19,7 @@ export const BotSelector: Component<Props> = (props) => {
 				bots.length > 1
 					? {
 							openWithClick: true,
-							header: <Text.H3 class="text-center pt-4">Choose Bot</Text.H3>,
+							header: <Text.H3 class="text-center">Choose Bot</Text.H3>,
 							items: bots.map((b, i) => ({
 								label: b.name || "Degabut",
 								iconUrl: b.iconUrl,

@@ -56,7 +56,7 @@ export class YouTubeContextMenuUtil {
 			items,
 			openWithClick: props.openWithClick,
 			header: (
-				<div class="flex-col-center justify-center py-4 space-y-1">
+				<div class="flex-col-center justify-center space-y-1">
 					<div class="w-[16rem] h-[9rem] text-center my-4">
 						<img
 							class="w-full h-full"

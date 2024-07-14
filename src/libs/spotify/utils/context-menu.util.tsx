@@ -67,7 +67,7 @@ export class SpotifyContextMenuUtil {
 		return {
 			items,
 			header: (
-				<div class="flex-col-center justify-center py-4 space-y-1">
+				<div class="flex-col-center justify-center space-y-1">
 					<Show
 						when={props.playlist.images?.length}
 						fallback={<AbbreviationIcon text={props.playlist.name} size="xl" />}

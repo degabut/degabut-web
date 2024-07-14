@@ -101,7 +101,7 @@ export const useMediaSourceContextMenu = (
 			items,
 			openWithClick: options?.openWithClick ?? true,
 			header: (
-				<div class="flex-col-center justify-center py-4 space-y-1">
+				<div class="flex-col-center justify-center space-y-1">
 					<div class="flex w-[16rem] h-[9rem] items-center my-4">
 						<img class="h-full mx-auto" src={mediaSource.maxThumbnailUrl} alt={mediaSource.title} />
 					</div>
