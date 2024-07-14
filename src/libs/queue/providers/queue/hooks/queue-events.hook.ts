@@ -96,8 +96,6 @@ export const useQueueEvents = () => {
 		ws.onclose = (ev) => {
 			clearInterval(pingInterval);
 
-			if (ev.code === 3333) return;
-
 			if (isAuthenticated) {
 				emitter.emit("closed", ev);
 				reconnectTimeout = setTimeout(() => listen(url), 5000);
@@ -130,8 +128,9 @@ export const useQueueEvents = () => {
 	});
 
 	const send = (event: string, data?: unknown) => {
+		if (!ws?.OPEN) return;
 		const message = JSON.stringify({ event, data });
-		ws?.send(message);
+		ws.send(message);
 	};
 
 	return { listen, close, emitter };
