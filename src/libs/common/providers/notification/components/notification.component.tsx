@@ -32,7 +32,7 @@ export const Notification: Component<NotificationProps> = (props) => {
 						event.target.style.transition = "";
 						event.target.style.transform = `translate(${x}px`;
 
-						if (Math.abs(x) > event.target.clientWidth / 3) {
+						if (!event.interaction.pointerIsDown && Math.abs(x) > event.target.clientWidth / 3) {
 							const translate = x > 0 ? "100%" : "-100%";
 							event.interaction.end();
 							event.target.style.transition = "transform 0.15s";
@@ -59,7 +59,7 @@ export const Notification: Component<NotificationProps> = (props) => {
 	};
 
 	return (
-		<div ref={ref} class="flex flex-row-center w-full md:w-96 bg-gray-800 py-2 px-3 space-x-3 rounded">
+		<div ref={ref} class="flex flex-row-center w-full md:w-96 bg-gray-800 py-2 px-3 space-x-3 rounded touch-none">
 			<Show when={props.imageUrl} keyed>
 				{(url) => <img src={url} class="flex-shrink-0 w-8 h-8 rounded-full" />}
 			</Show>
