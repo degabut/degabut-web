@@ -36,6 +36,7 @@ export const useMediaSession = () => {
 	document.addEventListener(
 		"click",
 		() => {
+			if (!audio.src.endsWith(audioSrc)) return;
 			audio.play();
 			if (queue.data.isPaused) audio.pause();
 		},
