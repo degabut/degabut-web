@@ -20,7 +20,7 @@ export function List<Data>(props: Props<Data>) {
 			ref={sortable.ref}
 			style={transformStyle(sortable.transform)}
 			classList={{
-				"focus-within:opacity-25": sortable.isActiveDraggable,
+				"focus-within:!opacity-25": sortable.isActiveDraggable,
 				"transition-transform": !!state.active.draggable,
 			}}
 			{...(!props.customDragActivator ? sortable.dragActivators : {})}
