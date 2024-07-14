@@ -26,14 +26,18 @@ export const GlobalShortcutProvider: ParentComponent = (props) => {
 		if (e.altKey !== modifier.alt) setModifier("alt", e.altKey);
 	};
 
+	const resetModifier = () => setModifier({ ...defaultModifierValue });
+
 	onMount(() => {
 		window.addEventListener("keydown", onKey);
 		window.addEventListener("keyup", onKey);
+		window.addEventListener("blur", resetModifier);
 	});
 
 	onCleanup(() => {
 		window.removeEventListener("keydown", onKey);
 		window.removeEventListener("keyup", onKey);
+		window.addEventListener("blur", resetModifier);
 	});
 
 	return <GlobalShortcutContext.Provider value={modifier}>{props.children}</GlobalShortcutContext.Provider>;
