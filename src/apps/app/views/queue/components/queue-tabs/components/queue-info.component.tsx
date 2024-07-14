@@ -37,7 +37,7 @@ export const QueueInfo: Component = () => {
 			<div class="flex flex-row justify-between md:justify-start space-x-3 md:space-x-5 truncate">
 				<InfoItem title="Queue Duration" description={queueDuration()} extraClass="flex-1 md:flex-grow-0" />
 
-				<Divider vertical />
+				<Divider vertical dark />
 
 				<InfoItem
 					title="Track Count"
@@ -45,7 +45,7 @@ export const QueueInfo: Component = () => {
 					extraClass="flex-1 md:flex-grow-0"
 				/>
 
-				<Divider vertical />
+				<Divider vertical dark />
 
 				<div class="flex-1 md:flex-grow-0">
 					<Button
