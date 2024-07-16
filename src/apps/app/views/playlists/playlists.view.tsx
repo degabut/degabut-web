@@ -46,7 +46,7 @@ export const Playlists: Component = () => {
 				<div class="space-y-2">
 					<Show
 						when={!playlists.data.loading || playlists.data().length}
-						fallback={<For each={Array(5)}>{() => <Playlist.ListSkeleton />}</For>}
+						fallback={<For each={Array(5)}>{() => <Item.ListSkeleton />}</For>}
 					>
 						<For each={playlists.data()}>
 							{(p) => (

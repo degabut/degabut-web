@@ -1,4 +1,4 @@
-import { Divider, Text } from "@common";
+import { Divider, Item, Text } from "@common";
 import { MediaSource, type IMediaSource } from "@media-source";
 import { For, Show, createMemo, createSignal, type Component } from "solid-js";
 import { type IPlaylist } from "../../../apis";
@@ -51,7 +51,7 @@ export const ModalContent: Component<ModalContentProps> = (props) => {
 									{(p) => <Playlist.List playlist={p} onClick={() => addToPlaylist(p)} />}
 								</For>
 								<Show when={isInitialLoading()}>
-									<For each={Array(3)}>{() => <Playlist.ListSkeleton />}</For>
+									<For each={Array(3)}>{() => <Item.ListSkeleton />}</For>
 								</Show>
 							</div>
 						</div>
