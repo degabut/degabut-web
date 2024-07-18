@@ -1,6 +1,6 @@
 import { TimeUtil, UrlUtil } from "@common";
 import type { QueueContextStore } from "@queue";
-import { createEffect, createSignal, onMount, type Accessor } from "solid-js";
+import { createEffect, createSignal, type Accessor } from "solid-js";
 import { RichPresenceUtil } from "../utils";
 
 export type IRichPresence = {
@@ -54,15 +54,8 @@ export const useRichPresence = (params: Params) => {
 	const [activity, setActivity] = createSignal<IRichPresence | null>(null);
 	let currentActivity = "";
 
-	onMount(() => updateListeningActivity());
-
 	createEffect(() => {
-		if (params.enabled()) updateListeningActivity();
-		else setActivity(null);
-	});
-
-	const updateListeningActivity = async () => {
-		if (!params.enabled) return setActivity(null);
+		if (!params.enabled()) return setActivity(null);
 
 		const nowPlaying = params.queueContext.data.nowPlaying;
 		const voiceChannel = params.queueContext.data.voiceChannel;
@@ -116,10 +109,10 @@ export const useRichPresence = (params: Params) => {
 		}
 
 		// TODO better way to check current activity
-		if (activity() && (!data || currentActivity === JSON.stringify(data))) return;
+		if (!data || currentActivity === JSON.stringify(data)) return;
 		currentActivity = JSON.stringify(data);
 		setActivity(RichPresenceUtil.toPresence(data));
-	};
+	});
 
 	return activity;
 };
