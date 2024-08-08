@@ -31,7 +31,7 @@ export function SortableTrackList(props: SortableTrackListProps) {
 		<div
 			class="h-full"
 			classList={{
-				"space-y-2": !props.dense,
+				"space-y-2.5": !props.dense,
 				"space-y-0.5": props.dense,
 				...props.extraContainerClassList,
 			}}

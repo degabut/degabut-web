@@ -1,5 +1,5 @@
 .item-image {
-	@apply w-12 h-12;
+	@apply w-[3.25rem] h-[3.25rem];
 }
 
 .item-image-lg {

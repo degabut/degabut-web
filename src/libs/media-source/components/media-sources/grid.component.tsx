@@ -20,7 +20,7 @@ export const MediaSourcesGrid: Component<MediaSourcesGridProps> = (props) => {
 			{props.title?.()}
 
 			<Grid.Col
-				extraClass="gap-3 md:gap-5 pb-2 overflow-x-auto"
+				extraClass="gap-6 pb-2 overflow-x-auto"
 				minWidth={minWidth}
 				items={
 					!props.isLoading

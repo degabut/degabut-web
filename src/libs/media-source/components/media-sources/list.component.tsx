@@ -19,7 +19,7 @@ export function MediaSourcesList<Data = unknown>(props: MediaSourcesListProps<Da
 
 			<div
 				classList={{
-					"space-y-2": !props.dense,
+					"space-y-2.5": !props.dense,
 					"space-y-0.5": props.dense,
 				}}
 			>

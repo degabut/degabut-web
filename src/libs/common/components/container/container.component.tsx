@@ -30,26 +30,27 @@ export const Container: ParentComponent<Props> = (props) => {
 			"max-w-7xl 3xl:max-w-8xl": props.size === "xl",
 			"max-w-fit": props.size === "content",
 			"mx-auto": props.centered,
-			"overflow-y-auto": true,
 			...props.extraClassList,
 			[props.extraClass || ""]: !!props.extraClass,
 		};
 	};
 
 	return (
-		<Show
-			when={!props.fit}
-			fallback={
-				<div classList={{ ...wrapperClassList(), ...contentClassList() }} {...props}>
-					{props.children}
+		<div class="h-full w-full overflow-y-hidden md:rounded-lg">
+			<Show
+				when={!props.fit}
+				fallback={
+					<div classList={{ ...wrapperClassList(), ...contentClassList() }} {...props}>
+						{props.children}
+					</div>
+				}
+			>
+				<div classList={wrapperClassList()}>
+					<div classList={contentClassList()} {...props}>
+						{props.children}
+					</div>
 				</div>
-			}
-		>
-			<div classList={wrapperClassList()}>
-				<div classList={contentClassList()} {...props}>
-					{props.children}
-				</div>
-			</div>
-		</Show>
+			</Show>
+		</div>
 	);
 };

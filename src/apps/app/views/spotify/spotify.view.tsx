@@ -29,7 +29,7 @@ export const Spotify: Component = () => {
 					}
 				>
 					<div class="h-full flex flex-row space-x-2">
-						<Container fit size="full" extraClass="max-w-md">
+						<Container fit size="sm">
 							<Show when={spotify.playlists.data() || spotify.albums.data()} keyed>
 								<Library />
 							</Show>
