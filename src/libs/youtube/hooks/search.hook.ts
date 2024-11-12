@@ -22,7 +22,7 @@ export const useSearch = (params: Params = {}) => {
 	createEffect(() => setDebouncedKeyword(keyword()));
 
 	const result = createMemo(() => {
-		if (videos.data().length && !videos.data.loading && playlists.data().length && !playlists.data.loading) {
+		if (videos.data() && !videos.data.loading && !playlists.data.loading) {
 			const relevantVideos = videos.data().slice(0, params.playlistStartIndex || 3) || [];
 			const relevantPlaylists = playlists.data().slice(0, params.playlistCount || 3) || [];
 			const restVideos = videos.data().slice(params.playlistStartIndex || 3) || [];
