@@ -5,6 +5,7 @@ type Props = {
 	max: number;
 	value: number;
 	disabled?: boolean;
+	viewOnly?: boolean;
 	onChange?: (value: number) => void;
 };
 
@@ -44,7 +45,8 @@ export const QueueSeekSlider: Component<Props> = (props) => {
 					class="absolute w-full h-0.5"
 					classList={{
 						"opacity-100 block bg-neutral-800": props.max <= 0,
-						"hidden md:block bg-neutral-600 opacity-100 hover:opacity-0": props.max > 0,
+						"bg-neutral-600 opacity-100 hover:opacity-0": props.max > 0,
+						"hidden md:block": !props.viewOnly,
 					}}
 				>
 					<div
@@ -54,8 +56,12 @@ export const QueueSeekSlider: Component<Props> = (props) => {
 				</div>
 
 				<Slider
-					class="absolute md:opacity-0 hover:opacity-100 w-full h-0.5 appearance-none accent-brand-600"
-					classList={{ "!opacity-0": props.max <= 0 }}
+					class="absolute w-full h-0.5 appearance-none accent-brand-600"
+					classList={{
+						"!opacity-0": props.max <= 0,
+						"opacity-0": props.viewOnly,
+						"md:opacity-0 hover:opacity-100": !props.viewOnly,
+					}}
 					style={{ background: backgroundStyle() }}
 					disabled={props.disabled}
 					min={0}

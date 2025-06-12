@@ -6,11 +6,13 @@ module.exports = {
 	theme: {
 		extend: {
 			screens: {
+				"discord-pip": "192px",
 				"3xl": "2048px",
 			},
 			maxWidth: {
 				"8xl": "1408px",
 			},
+
 			colors: {
 				brand: {
 					DEFAULT: "#ECE350",
