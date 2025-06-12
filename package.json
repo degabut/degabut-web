@@ -36,7 +36,7 @@
 		"vite-plugin-solid": "^2.7.2"
 	},
 	"dependencies": {
-		"@discord/embedded-app-sdk": "^1.0.2",
+		"@discord/embedded-app-sdk": "^2.0.0",
 		"@iconify-json/mdi": "^1.1.66",
 		"@interactjs/actions": "^1.10.27",
 		"@interactjs/auto-start": "^1.10.27",
