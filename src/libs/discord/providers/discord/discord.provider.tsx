@@ -45,6 +45,21 @@ export const DiscordProvider: ParentComponent = (props) => {
 		discordSdk = new DiscordSDK(DISCORD_ACTIVITY_APPLICATION_ID, { disableConsoleLogOverride: true });
 		await discordSdk.ready();
 		await authorizeAndAuthenticate();
+
+		// capture open new tab
+		window.open = (function (open) {
+			return function (url, target, features) {
+				// set name if missing here
+				if (url && target === "_blank") {
+					discordSdk.commands.openExternalLink({
+						url: url.toString(),
+					});
+					return null;
+				} else {
+					return open.call(window, url, target, features);
+				}
+			};
+		})(window.open);
 	});
 
 	const authorizeAndAuthenticate = async () => {
