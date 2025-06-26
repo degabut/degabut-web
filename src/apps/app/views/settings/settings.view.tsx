@@ -171,7 +171,7 @@ export const Settings: Component = () => {
 		},
 		{
 			label: "Spotify",
-			show: SPOTIFY_INTEGRATION && !SPOTIFY_CLIENT_ID && !IS_DISCORD_EMBEDDED,
+			show: SPOTIFY_INTEGRATION && !SPOTIFY_CLIENT_ID,
 			items: [
 				{
 					label: "Enable Spotify Integration",
