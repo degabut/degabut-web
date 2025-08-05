@@ -2,7 +2,7 @@ import { onMount } from "solid-js";
 import type { SetStoreFunction } from "solid-js/store";
 import type TypedEventEmitter from "typed-emitter";
 import { type FreezeState, type QueueResource } from "../";
-import { type IMember, type IQueue, type ITrack } from "../../../apis";
+import { type IMember, type IPlayerFilters, type IQueue, type ITrack } from "../../../apis";
 import { defaultQueue } from "../../../constants";
 import type { QueueEvents } from "./queue-events.hook";
 
@@ -34,6 +34,7 @@ export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, em
 		emitter.on("queue-shuffle-toggled", partialUpdateQueue);
 		emitter.on("queue-created", updateQueue);
 		emitter.on("player-pause-state-changed", ({ isPaused }) => partialUpdateQueue({ isPaused }));
+		emitter.on("player-filters-changed", ({ filters }) => updateFilters(filters));
 		emitter.on("player-tick", ({ position }) => onPlayerTick(position));
 		emitter.on("track-seeked", ({ position }) => onTrackSeeked(position));
 		emitter.on("tracks-added", ({ tracks }) => appendTrack(tracks));
@@ -72,6 +73,16 @@ export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, em
 		for (const [key, value] of Object.entries(queue)) {
 			setQueue(key as keyof QueueResource, value);
 		}
+	};
+
+	const updateFilters = (filters: IPlayerFilters) => {
+		setQueue("filters", {
+			equalizer: filters.equalizer || undefined,
+			timescale: filters.timescale || undefined,
+			tremolo: filters.tremolo || undefined,
+			vibrato: filters.vibrato || undefined,
+			rotation: filters.rotation || undefined,
+		});
 	};
 
 	const appendTrack = (newTracks: ITrack | ITrack[]) => {

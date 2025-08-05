@@ -1,5 +1,6 @@
 import { useApp } from "@app/providers";
-import { Button, Checkbox, Text, contextMenu, type IconSize } from "@common";
+import { AppRoutes } from "@app/routes";
+import { Button, Checkbox, Text, contextMenu, useNavigate, type IContextMenuItem, type IconSize } from "@common";
 import type { Component } from "solid-js";
 
 contextMenu;
@@ -14,11 +15,18 @@ type Props = {
 
 export const OptionsButton: Component<Props> = (props) => {
 	const app = useApp()!;
+	const navigate = useNavigate();
 
 	// TODO move this
-	const contextMenuItems = () => [
+	const contextMenuItems: () => IContextMenuItem[] = () => [
+		{
+			label: "Filters",
+			icon: "equalizer",
+			onClick: () => navigate(AppRoutes.Filters),
+		},
 		{
 			label: "Clear Queue",
+			icon: "trashBin",
 			onClick: () => {
 				app.setConfirmation({
 					title: "Clear Queue",
@@ -43,6 +51,7 @@ export const OptionsButton: Component<Props> = (props) => {
 		},
 		{
 			label: "Disconnect",
+			icon: "closeLine",
 			onClick: () => {
 				app.setConfirmation({
 					title: "Disconnect",

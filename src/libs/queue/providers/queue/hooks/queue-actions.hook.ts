@@ -2,8 +2,8 @@ import { useApi } from "@common";
 import type { IMediaSource, MediaUrlId } from "@media-source";
 import { AxiosError } from "axios";
 import type { SetStoreFunction } from "solid-js/store";
-import type { FreezeState, QueueResource } from "../";
-import { PlayerApi, QueueApi, type ITrack, type LoopMode } from "../../../apis";
+import type { FreezeState, IPlayerFiltersState, QueueResource } from "../";
+import { PlayerApi, QueueApi, type IPlayerFilters, type ITrack, type LoopMode } from "../../../apis";
 
 type Params = {
 	queue: QueueResource;
@@ -29,6 +29,20 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 
 	const unpause = () => {
 		return modifyQueue((queueId) => playerApi.unpause(queueId));
+	};
+
+	const setFilters = (formattedFilters: IPlayerFiltersState) => {
+		if (queue.empty) return;
+
+		const filters: IPlayerFilters = {
+			equalizer: formattedFilters.equalizer.enabled ? formattedFilters.equalizer.bands : undefined,
+			timescale: formattedFilters.timescale.enabled ? formattedFilters.timescale : undefined,
+			tremolo: formattedFilters.tremolo.enabled ? formattedFilters.tremolo : undefined,
+			vibrato: formattedFilters.vibrato.enabled ? formattedFilters.vibrato : undefined,
+			rotation: formattedFilters.rotation.enabled ? formattedFilters.rotation : undefined,
+		};
+
+		return playerApi.setFilters(queue.voiceChannel.id, filters);
 	};
 
 	const changeTrackOrder = (trackId: string, toIndex: number) => {
@@ -206,6 +220,7 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 		stop,
 		pause,
 		unpause,
+		setFilters,
 		jam,
 	};
 };

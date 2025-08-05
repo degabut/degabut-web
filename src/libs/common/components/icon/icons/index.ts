@@ -8,6 +8,7 @@ import Close from "~icons/mdi/close";
 import Dot from "~icons/mdi/dot";
 import EditPencil from "~icons/mdi/edit";
 import Ellipsis from "~icons/mdi/ellipsis-vertical";
+import EqualizerVertical from "~icons/mdi/equalizer-vertical";
 import LinkExternal from "~icons/mdi/external-link";
 import List from "~icons/mdi/format-list-bulleted-square";
 import Gear from "~icons/mdi/gear";
@@ -60,6 +61,7 @@ export const icons = {
 	dot: { component: Dot },
 	editPencil: { component: EditPencil },
 	ellipsis: { component: Ellipsis, viewBox: "4 4 16 16" },
+	equalizer: { component: EqualizerVertical },
 	skipNext: { component: SkipNext, viewBox: "5 5 14 14" },
 	skipPrevious: { component: SkipPrevious, viewBox: "5 5 14 14" },
 	gear: { component: Gear },

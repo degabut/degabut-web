@@ -1,3 +1,4 @@
+import { Filters } from "@app/views/filters";
 import { NotificationProvider } from "@common";
 import { MediaSourceLikeManagerProvider } from "@media-source";
 import { QueueProvider } from "@queue";
@@ -26,6 +27,7 @@ import {
 export enum AppRoutes {
 	Queue = "/queue",
 	Player = "/queue/player",
+	Filters = "/queue/filters",
 	Lyrics = "/queue/lyrics",
 	Liked = "/liked",
 	Recommendation = "/recommendation/:id?",
@@ -62,6 +64,7 @@ export const appRouteDefinitions: RouteDefinition[] = [
 			{ path: AppRoutes.Queue, component: Queue },
 			{ path: AppRoutes.Player, component: QueueNowPlaying },
 			{ path: AppRoutes.Lyrics, component: Lyrics },
+			{ path: AppRoutes.Filters, component: Filters },
 			{ path: AppRoutes.Liked, component: Liked },
 			{ path: AppRoutes.Recommendation, component: Recommendation },
 			{ path: AppRoutes.Spotify, component: Spotify },

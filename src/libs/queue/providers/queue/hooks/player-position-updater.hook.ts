@@ -15,5 +15,8 @@ export const usePlayerPositionUpdater = ({ queue, setQueue }: Params) => {
 		if (!queue.isPaused && queue.nowPlaying?.playedAt) tickInterval = setInterval(tick, 1000);
 	});
 
-	const tick = () => setQueue("position", (p) => p + 1000);
+	const tick = () => {
+		const multiplier = (queue.filtersState.timescale.speed || 1) * (queue.filtersState.timescale.rate || 1);
+		setQueue("position", (p) => p + 1000 * multiplier);
+	};
 };

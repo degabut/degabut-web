@@ -25,7 +25,37 @@ import {
 	type QueueEvents,
 } from "./hooks";
 
-export type QueueResource = IQueue & IPlayer & { empty: boolean };
+export interface IPlayerFiltersState {
+	equalizer: {
+		enabled: boolean;
+		bands: {
+			band: number;
+			gain: number;
+		}[];
+	};
+	timescale: {
+		enabled: boolean;
+		speed: number;
+		pitch: number;
+		rate: number;
+	};
+	tremolo: {
+		enabled: boolean;
+		frequency: number;
+		depth: number;
+	};
+	vibrato: {
+		enabled: boolean;
+		frequency: number;
+		depth: number;
+	};
+	rotation: {
+		enabled: boolean;
+		rotationHz: number;
+	};
+}
+
+export type QueueResource = IQueue & IPlayer & { empty: boolean; filtersState: IPlayerFiltersState };
 
 export type QueueContextStore = {
 	data: QueueResource;
@@ -68,11 +98,12 @@ export const QueueProvider: ParentComponent = (props) => {
 			const player = await playerApi.getPlayer(queue.voiceChannel.id);
 			if (!player) return setQueue({ empty: true });
 
-			setQueue({
+			setQueue((q) => ({
+				...q,
 				...queue,
 				...player,
 				empty: false,
-			});
+			}));
 		} finally {
 			setIsInitialLoading(false);
 		}
@@ -113,6 +144,37 @@ export const QueueProvider: ParentComponent = (props) => {
 
 	createEffect(() => {
 		if (queue) setFreezeState({ track: false, queue: false, seek: false });
+	});
+
+	createEffect(() => {
+		setQueue("filtersState", (f) => {
+			return {
+				equalizer: {
+					enabled: !!queue.filters?.equalizer,
+					bands: queue.filters?.equalizer || f.equalizer.bands,
+				},
+				timescale: {
+					enabled: !!queue.filters?.timescale,
+					speed: queue.filters?.timescale?.speed || f.timescale.speed,
+					pitch: queue.filters?.timescale?.pitch || f.timescale.pitch,
+					rate: queue.filters?.timescale?.rate || f.timescale.rate,
+				},
+				tremolo: {
+					enabled: !!queue.filters?.tremolo,
+					frequency: queue.filters?.tremolo?.frequency || f.tremolo.frequency,
+					depth: queue.filters?.tremolo?.depth || f.tremolo.depth,
+				},
+				vibrato: {
+					enabled: !!queue.filters?.vibrato,
+					frequency: queue.filters?.vibrato?.frequency || f.vibrato.frequency,
+					depth: queue.filters?.vibrato?.depth || f.vibrato.depth,
+				},
+				rotation: {
+					enabled: !!queue.filters?.rotation,
+					rotationHz: queue.filters?.rotation?.rotationHz || f.rotation.rotationHz,
+				},
+			};
+		});
 	});
 
 	createEffect(() => {

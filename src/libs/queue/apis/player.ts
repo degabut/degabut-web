@@ -1,8 +1,36 @@
 import type { AxiosInstance } from "axios";
 
+export interface IPlayerFilters {
+	equalizer?: {
+		band: number;
+		gain: number;
+	}[];
+	timescale?: {
+		enabled?: boolean;
+		speed?: number;
+		pitch?: number;
+		rate?: number;
+	};
+	tremolo?: {
+		enabled?: boolean;
+		frequency?: number;
+		depth?: number;
+	};
+	vibrato?: {
+		enabled?: boolean;
+		frequency?: number;
+		depth?: number;
+	};
+	rotation?: {
+		enabled?: boolean;
+		rotationHz?: number;
+	};
+}
+
 export interface IPlayer {
 	position: number;
 	isPaused: boolean;
+	filters?: IPlayerFilters;
 }
 
 export class PlayerApi {
@@ -38,5 +66,9 @@ export class PlayerApi {
 
 	unpause = async (queueId: string): Promise<void> => {
 		await this.client.post(`/players/${queueId}/unpause`);
+	};
+
+	setFilters = async (queueId: string, filters: IPlayerFilters): Promise<void> => {
+		await this.client.put(`/players/${queueId}/filters`, filters);
 	};
 }

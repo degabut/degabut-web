@@ -7,6 +7,7 @@ import {
 	type IJamCollection,
 	type IMember,
 	type IPlayer,
+	type IPlayerFilters,
 	type IQueue,
 	type ITrack,
 } from "../../../apis";
@@ -45,6 +46,7 @@ export type QueueEvents = {
 	"queue-shuffle-toggled": (data: IQueue) => void;
 	"queue-created": (data: IQueue) => void;
 	"player-pause-state-changed": (data: IPlayer) => void;
+	"player-filters-changed": (data: {filters: IPlayerFilters}) => void;
 	"player-tick": (data: { position: number }) => void;
 	"tracks-removed": (data: TracksAction) => void;
 	"track-skipped": (data: TrackAction) => void;
