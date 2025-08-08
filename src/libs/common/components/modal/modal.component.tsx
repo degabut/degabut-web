@@ -48,7 +48,7 @@ export const Modal: ParentComponent<Props> = (props) => {
 	return (
 		<Show when={props.isOpen}>
 			<Portal>
-				<div ref={parentContainer} class="fixed-screen flex items-center justify-center bg-black/75">
+				<div ref={parentContainer} class="fixed-screen flex items-center justify-center bg-black/75 z-30">
 					<div
 						class="absolute max-w-[calc(100vw-1.5rem)] rounded-lg bg-neutral-900"
 						classList={{ [props.extraContainerClass || ""]: !!props.extraContainerClass }}

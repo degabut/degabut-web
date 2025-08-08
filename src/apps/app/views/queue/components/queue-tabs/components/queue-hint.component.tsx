@@ -23,7 +23,7 @@ export const QueueHint: Component = () => {
 	// });
 
 	return (
-		<div class="space-y-6">
+		<div class="space-y-2">
 			<div class="space-y-2">
 				<Item.Hint
 					label={() => (
@@ -45,20 +45,19 @@ export const QueueHint: Component = () => {
 				/>
 			</div>
 
-			<div class="space-y-4" ref={containerElement}>
-				<div class="flex-row-center justify-between space-x-2 md:space-x-4">
+			<div class="space-y-2.5" ref={containerElement}>
+				<div class="flex-row-center justify-between space-x-2 md:space-x-4 sticky py-4 -top-4 left-0 bg-neutral-950 z-10">
 					<Text.Body1 class="font-medium">Recommendations</Text.Body1>
 					<Divider dark />
 					<Button
 						flat
+						theme="secondary"
 						icon="reload"
 						iconSize="md"
-						class="p-2 space-x-2.5"
+						class="p-1.5 space-x-2.5"
 						onClick={recommendation.reload}
 						disabled={recommendation.isLoading()}
-					>
-						Refresh
-					</Button>
+					/>
 				</div>
 
 				<MediaSources.List
