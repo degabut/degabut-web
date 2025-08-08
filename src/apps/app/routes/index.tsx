@@ -3,6 +3,7 @@ import { NotificationProvider } from "@common";
 import { MediaSourceLikeManagerProvider } from "@media-source";
 import { QueueProvider } from "@queue";
 import type { RouteDefinition } from "@solidjs/router";
+import { LibraryProvider } from "@user";
 import { AppLayout } from "../layout";
 import { AppProvider, ErrorBoundaryProvider } from "../providers";
 import {
@@ -53,7 +54,9 @@ export const appRouteDefinitions: RouteDefinition[] = [
 					<QueueProvider>
 						<MediaSourceLikeManagerProvider>
 							<AppProvider>
-								<AppLayout {...props} />
+								<LibraryProvider>
+									<AppLayout {...props} />
+								</LibraryProvider>
 							</AppProvider>
 						</MediaSourceLikeManagerProvider>
 					</QueueProvider>
