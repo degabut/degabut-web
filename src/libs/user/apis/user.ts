@@ -1,5 +1,6 @@
 import type { IMediaSource } from "@media-source";
 import type { AxiosInstance } from "axios";
+import dayjs from "dayjs";
 
 type GetVideosParams = { guild?: boolean } | { voiceChannel?: boolean };
 
@@ -7,10 +8,30 @@ export type GetLastPlayedParams = {
 	last: number;
 } & GetVideosParams;
 
-export type GetMostPlayedParams = {
-	days: number;
-	count: number;
-} & GetVideosParams;
+export type GetMostPlayedParams =
+	| {
+			days: number;
+			count: number;
+	  }
+	| ({
+			from: Date;
+			to: Date;
+			limit: number;
+			excludeFrom?: Date;
+			excludeTo?: Date;
+			excludeTopPercent?: number;
+	  } & GetVideosParams);
+
+export type GetMonthlyPlayActivityParams = {
+	from: Date;
+	to: Date;
+};
+
+export type IMonthlyPlayActivity = {
+	date: Date;
+	playCount: number;
+	uniquePlayCount: number;
+};
 
 export type IRecap = {
 	mostPlayed: IMostPlayed[];
@@ -95,8 +116,46 @@ export class UserApi {
 		else return [];
 	};
 
+	getMonthlyPlayActivity = async (params: GetMonthlyPlayActivityParams): Promise<IMonthlyPlayActivity[]> => {
+		const response = await this.client.get("/me/monthly-play-activity", {
+			params: {
+				from: dayjs(params.from).format("YYYY-MM"),
+				to: dayjs(params.to).format("YYYY-MM"),
+			},
+		});
+
+		if (response.status === 200) {
+			return response.data.map((d: IMonthlyPlayActivity) => ({
+				...d,
+				date: new Date(d.date),
+			}));
+		} else {
+			return [];
+		}
+	};
+
 	getPlayHistory = async (params: GetLastPlayedParams | GetMostPlayedParams): Promise<IMediaSource[]> => {
 		const response = await this.client.get("/me/play-history", { params });
+		if (response.status === 200) return response.data;
+		else return [];
+	};
+
+	getMostPlayed = async (params: GetMostPlayedParams): Promise<IMediaSource[]> => {
+		const response = await this.client.get("/me/most-played", {
+			params: {
+				...params,
+				from: "from" in params && params.from ? dayjs(params.from).format("YYYY-MM-DD") : undefined,
+				to: "to" in params && params.to ? dayjs(params.to).format("YYYY-MM-DD") : undefined,
+				excludeFrom:
+					"excludeFrom" in params && params.excludeFrom
+						? dayjs(params.excludeFrom).format("YYYY-MM-DD")
+						: undefined,
+				excludeTo:
+					"excludeTo" in params && params.excludeTo
+						? dayjs(params.excludeTo).format("YYYY-MM-DD")
+						: undefined,
+			},
+		});
 		if (response.status === 200) return response.data;
 		else return [];
 	};
