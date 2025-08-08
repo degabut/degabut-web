@@ -7,3 +7,4 @@ export * from "./portal-focus.hook";
 export * from "./searchable.hook";
 export * from "./shortcut.hook";
 export * from "./timed-text.hook";
+export * from "./unique.hook";

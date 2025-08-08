@@ -1,6 +1,6 @@
 import { useApp } from "@app/providers";
 import { AppRoutes } from "@app/routes";
-import { Button, Divider, Item, KeyboardHint, Text, useInfiniteScrolling, useNavigate, useScreen } from "@common";
+import { Button, Divider, Item, KeyboardHint, Text, useNavigate, useScreen } from "@common";
 import { MediaSources } from "@media-source";
 import { useQueue } from "@queue";
 import { type Component } from "solid-js";
@@ -16,11 +16,11 @@ export const QueueHint: Component = () => {
 	});
 	let containerElement!: HTMLDivElement;
 
-	useInfiniteScrolling({
-		callback: recommendation.loadNext,
-		disabled: () => recommendation.related.data.loading,
-		container: () => containerElement,
-	});
+	// useInfiniteScrolling({
+	// 	callback: recommendation.loadNext,
+	// 	disabled: () => recommendation.related.data.loading,
+	// 	container: () => containerElement,
+	// });
 
 	return (
 		<div class="space-y-6">
@@ -43,23 +43,27 @@ export const QueueHint: Component = () => {
 					icon="search"
 					onClick={() => (screen.gte.md ? app.setIsQuickSearchModalOpen(true) : navigate(AppRoutes.Search))}
 				/>
-				<Item.Hint
-					label="Look at recommendations"
-					icon="libraryMusicLine"
-					onClick={() => navigate(AppRoutes.Recommendation)}
-				/>
 			</div>
 
 			<div class="space-y-4" ref={containerElement}>
 				<div class="flex-row-center justify-between space-x-2 md:space-x-4">
 					<Text.Body1 class="font-medium">Recommendations</Text.Body1>
 					<Divider dark />
+					<Button
+						flat
+						icon="reload"
+						iconSize="md"
+						class="p-2 space-x-2.5"
+						onClick={recommendation.reload}
+						disabled={recommendation.isLoading()}
+					>
+						Refresh
+					</Button>
 				</div>
 
 				<MediaSources.List
 					data={recommendation.mediaSources()}
-					showWhenLoading
-					isLoading={recommendation.isLoading() || recommendation.related.data.loading}
+					isLoading={recommendation.isLoading()}
 					mediaSourceProps={(mediaSource) => ({
 						mediaSource,
 						hideContextMenuButton: !screen.gte.md,
