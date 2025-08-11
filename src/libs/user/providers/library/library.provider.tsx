@@ -178,7 +178,7 @@ export const LibraryProvider: ParentComponent = (props) => {
 				to: dayjs(to).endOf("month").toDate(),
 				excludeFrom,
 				excludeTo,
-				limit: 20,
+				limit: 30,
 				excludeTopPercent: 0.25,
 			};
 			return user.getMostPlayed(params);
