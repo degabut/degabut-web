@@ -95,12 +95,13 @@ export const useQueueRecommendation = (params: Params) => {
 		key: (item) => item.id,
 	});
 
-	const mediaSources = createMemo(() => {
+	const randomMediaSources = createMemo(() => {
 		if (!iterator()) return [];
+		return unique().sort(() => Math.random() - 0.5);
+	});
 
-		const random = unique().sort(() => Math.random() - 0.5);
-
-		return random.filter((item) => {
+	const mediaSources = createMemo(() => {
+		return randomMediaSources().filter((item) => {
 			return !params.queueTracks().some((track) => track.mediaSource.id === item.id);
 		});
 	});
