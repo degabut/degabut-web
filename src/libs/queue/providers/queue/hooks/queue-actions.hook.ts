@@ -19,6 +19,10 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 		return modifyQueue((queueId) => queueApi.toggleShuffle(queueId));
 	};
 
+	const toggleAutoplay = () => {
+		return modifyQueue((queueId) => queueApi.toggleAutoplay(queueId));
+	};
+
 	const changeLoopMode = (loopMode: LoopMode) => {
 		return modifyQueue((queueId) => queueApi.changeLoopMode(queueId, loopMode));
 	};
@@ -197,6 +201,7 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 
 	return {
 		toggleShuffle,
+		toggleAutoplay,
 		changeLoopMode,
 		changeTrackOrder,
 		skipTrack,

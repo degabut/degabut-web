@@ -1,7 +1,7 @@
 import { NotificationUtil, Text, useNotification } from "@common";
 import { useQueue, type IMember, type ITrack } from "@queue";
 import { useSettings } from "@settings";
-import { createEffect, onCleanup, onMount } from "solid-js";
+import { createEffect, onCleanup, onMount, Show } from "solid-js";
 
 export const useQueueNotification = () => {
 	const { emitter } = useQueue()!;
@@ -48,9 +48,27 @@ export const useQueueNotification = () => {
 				imageUrl: member.avatar,
 				message: () => (
 					<Text.Body2
-						title={`${track.requestedBy.displayName} added ${track.mediaSource.title} to the queue`}
+						title={
+							track.requestedBy
+								? `${track.requestedBy.displayName} added ${track.mediaSource.title} to the queue`
+								: `${track.mediaSource.title} was added to the queue`
+						}
 					>
-						<b>{track.requestedBy.displayName}</b> added <b>{track.mediaSource.title}</b> to the queue
+						<Show
+							when={track.requestedBy}
+							keyed
+							fallback={
+								<>
+									<b>{track.mediaSource.title}</b> was added to the queue
+								</>
+							}
+						>
+							{({ displayName }) => (
+								<>
+									<b>{displayName}</b> added <b>{track.mediaSource.title}</b> to the queue
+								</>
+							)}
+						</Show>
 					</Text.Body2>
 				),
 			});

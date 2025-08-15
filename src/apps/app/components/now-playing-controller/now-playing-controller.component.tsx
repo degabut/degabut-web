@@ -36,13 +36,13 @@ export const NowPlayingController: Component = () => {
 						onStopQueue={queue.stop}
 					/>
 
-					<Show when={queue.data.nowPlaying} keyed>
-						{(track) => (
+					<Show when={queue.data.nowPlaying?.requestedBy} keyed>
+						{(m) => (
 							<div class="flex-row-center space-x-1.5 truncate text-shadow">
-								<Show when={track.requestedBy.avatar} keyed>
+								<Show when={m.avatar} keyed>
 									{(avatar) => <img src={avatar} class="h-5 w-5 rounded-full" />}
 								</Show>
-								<Text.Caption2 class="truncate">{track.requestedBy.displayName}</Text.Caption2>
+								<Text.Caption2 class="truncate">{m.displayName}</Text.Caption2>
 							</div>
 						)}
 					</Show>

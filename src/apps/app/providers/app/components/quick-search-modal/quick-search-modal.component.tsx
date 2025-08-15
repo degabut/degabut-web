@@ -90,7 +90,8 @@ export const QuickSearchModal: Component<Props> = (props) => {
 		minimumKeywordLength: 3,
 		items: () => queue.data.tracks || [],
 		keys: ({ mediaSource, requestedBy }) => {
-			const keys = [mediaSource.title, requestedBy.displayName, requestedBy.nickname, requestedBy.username];
+			const keys = [mediaSource.title];
+			if (requestedBy) keys.push(requestedBy.displayName, requestedBy.nickname, requestedBy.username);
 			if (mediaSource.creator) keys.push(mediaSource.creator);
 			return keys;
 		},

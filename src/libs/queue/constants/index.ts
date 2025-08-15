@@ -10,6 +10,7 @@ export const defaultQueue: QueueResource = {
 	nextTrackIds: [],
 	position: 0,
 	shuffle: false,
+	autoplay: false,
 	textChannel: null,
 	tracks: [],
 	voiceChannel: { id: "", name: "", members: [] },

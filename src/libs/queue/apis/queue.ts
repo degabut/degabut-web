@@ -11,6 +11,7 @@ export interface IQueue {
 	tracks: ITrack[];
 	history: IHistoryTrack[];
 	shuffle: boolean;
+	autoplay: boolean;
 	loopMode: LoopMode;
 	nowPlaying: ITrack | null;
 	nextTrackIds: string[];
@@ -54,7 +55,7 @@ export interface IMember {
 export interface ITrack {
 	id: string;
 	mediaSource: IMediaSource;
-	requestedBy: IGuildMember;
+	requestedBy: IGuildMember | null;
 	playedAt: string | null;
 }
 
@@ -147,6 +148,10 @@ export class QueueApi {
 
 	toggleShuffle = async (queueId: string): Promise<void> => {
 		await this.client.post(`/queues/${queueId}/shuffle`);
+	};
+
+	toggleAutoplay = async (queueId: string): Promise<void> => {
+		await this.client.post(`/queues/${queueId}/autoplay`);
 	};
 
 	jam = async (queueId: string, count: number): Promise<void> => {

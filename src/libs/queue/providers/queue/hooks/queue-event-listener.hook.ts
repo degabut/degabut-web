@@ -32,6 +32,7 @@ export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, em
 		emitter.on("member-updated", updateMember);
 		emitter.on("queue-loop-mode-changed", partialUpdateQueue);
 		emitter.on("queue-shuffle-toggled", partialUpdateQueue);
+		emitter.on("queue-autoplay-toggled", partialUpdateQueue);
 		emitter.on("queue-created", updateQueue);
 		emitter.on("player-pause-state-changed", ({ isPaused }) => partialUpdateQueue({ isPaused }));
 		emitter.on("player-filters-changed", ({ filters }) => updateFilters(filters));

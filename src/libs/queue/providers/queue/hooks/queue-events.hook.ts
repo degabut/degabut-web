@@ -44,6 +44,7 @@ export type QueueEvents = {
 	"queue-destroyed": (data: IQueue) => void;
 	"queue-loop-mode-changed": (data: IQueue) => void;
 	"queue-shuffle-toggled": (data: IQueue) => void;
+	"queue-autoplay-toggled": (data: IQueue) => void;
 	"queue-created": (data: IQueue) => void;
 	"player-pause-state-changed": (data: IPlayer) => void;
 	"player-filters-changed": (data: { filters: IPlayerFilters }) => void;
