@@ -11,6 +11,13 @@ export const defaultQueue: QueueResource = {
 	position: 0,
 	shuffle: false,
 	autoplay: false,
+	autoplayOptions: {
+		includeQueueLastPlayedRelated: true,
+		includeQueueRelated: true,
+		includeUserLibrary: true,
+		maxDuration: 0,
+		minDuration: 0,
+	},
 	textChannel: null,
 	tracks: [],
 	voiceChannel: { id: "", name: "", members: [] },

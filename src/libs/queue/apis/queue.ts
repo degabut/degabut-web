@@ -12,12 +12,21 @@ export interface IQueue {
 	history: IHistoryTrack[];
 	shuffle: boolean;
 	autoplay: boolean;
+	autoplayOptions: IAutoplayOptions;
 	loopMode: LoopMode;
 	nowPlaying: ITrack | null;
 	nextTrackIds: string[];
 	voiceChannel: IVoiceChannel;
 	textChannel: ITextChannel | null;
 	guild: IGuild;
+}
+
+export interface IAutoplayOptions {
+	minDuration: number;
+	maxDuration: number;
+	includeQueueRelated: boolean;
+	includeQueueLastPlayedRelated: boolean;
+	includeUserLibrary: boolean;
 }
 
 export interface IVoiceChannel {
@@ -152,6 +161,10 @@ export class QueueApi {
 
 	toggleAutoplay = async (queueId: string): Promise<void> => {
 		await this.client.post(`/queues/${queueId}/autoplay`);
+	};
+
+	changeAutoplayOptions = async (queueId: string, options: IAutoplayOptions): Promise<void> => {
+		await this.client.put(`/queues/${queueId}/autoplay/options`, options);
 	};
 
 	jam = async (queueId: string, count: number): Promise<void> => {

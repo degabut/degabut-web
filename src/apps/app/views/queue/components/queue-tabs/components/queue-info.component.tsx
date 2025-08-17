@@ -1,11 +1,13 @@
 import { Button, Divider, Icon, Switch, Text, TimeUtil } from "@common";
 import { useQueue } from "@queue";
 import { type Accessor, type Component, For, type JSX, Show, createSignal } from "solid-js";
+import { AutoplayOptionsModal } from "./autoplay-options-modal.component";
 import { MemberListModal } from "./member-list-modal.component";
 
 type Props = {
 	title: string;
 	description: string | number | Accessor<JSX.Element>;
+	extra?: Accessor<JSX.Element>;
 	horizontal?: boolean;
 	extraClass?: string;
 };
@@ -27,6 +29,7 @@ const InfoItem: Component<Props> = (props) => {
 					<Text.Body2 class="my-auto">{props.description}</Text.Body2>
 				)}
 			</div>
+			{props.extra?.()}
 		</div>
 	);
 };
@@ -35,6 +38,7 @@ export const QueueInfo: Component = () => {
 	const queue = useQueue()!;
 
 	const [isListenersModalOpen, setIsListenersModalOpen] = createSignal(false);
+	const [isAutoplayOptionsModalOpen, setIsAutoplayOptionsModalOpen] = createSignal(false);
 
 	const queueDuration = () => {
 		if (queue.data.empty) return "-";
@@ -96,10 +100,17 @@ export const QueueInfo: Component = () => {
 						/>
 					)}
 					extraClass="flex-1 md:flex-grow-0"
+					extra={() => (
+						<Button icon="gear" flat class="p-2.5" onClick={() => setIsAutoplayOptionsModalOpen(true)} />
+					)}
 				/>
 			</div>
 
 			<MemberListModal isOpen={isListenersModalOpen()} handleClose={() => setIsListenersModalOpen(false)} />
+			<AutoplayOptionsModal
+				isOpen={isAutoplayOptionsModalOpen()}
+				handleClose={() => setIsAutoplayOptionsModalOpen(false)}
+			/>
 		</>
 	);
 };

@@ -3,7 +3,14 @@ import type { IMediaSource, MediaUrlId } from "@media-source";
 import { AxiosError } from "axios";
 import type { SetStoreFunction } from "solid-js/store";
 import type { FreezeState, IPlayerFiltersState, QueueResource } from "../";
-import { PlayerApi, QueueApi, type IPlayerFilters, type ITrack, type LoopMode } from "../../../apis";
+import {
+	PlayerApi,
+	QueueApi,
+	type IAutoplayOptions,
+	type IPlayerFilters,
+	type ITrack,
+	type LoopMode,
+} from "../../../apis";
 
 type Params = {
 	queue: QueueResource;
@@ -21,6 +28,10 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 
 	const toggleAutoplay = () => {
 		return modifyQueue((queueId) => queueApi.toggleAutoplay(queueId));
+	};
+
+	const changeAutoplayOptions = (options: IAutoplayOptions) => {
+		return modifyQueue((queueId) => queueApi.changeAutoplayOptions(queueId, options));
 	};
 
 	const changeLoopMode = (loopMode: LoopMode) => {
@@ -202,6 +213,7 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 	return {
 		toggleShuffle,
 		toggleAutoplay,
+		changeAutoplayOptions,
 		changeLoopMode,
 		changeTrackOrder,
 		skipTrack,
