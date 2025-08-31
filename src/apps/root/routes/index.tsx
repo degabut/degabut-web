@@ -24,13 +24,13 @@ export const routes: RouteDefinition[] = [
 					<GlobalShortcutProvider>
 						<NotificationProvider>
 							<ApiProvider>
-								<DesktopProvider>
-									<SettingsProvider>
-										<DiscordProvider>
-											<SpotifyProvider>{props.children}</SpotifyProvider>
-										</DiscordProvider>
-									</SettingsProvider>
-								</DesktopProvider>
+								<SpotifyProvider>
+									<DesktopProvider>
+										<SettingsProvider>
+											<DiscordProvider>{props.children}</DiscordProvider>
+										</SettingsProvider>
+									</DesktopProvider>
+								</SpotifyProvider>
 							</ApiProvider>
 						</NotificationProvider>
 					</GlobalShortcutProvider>

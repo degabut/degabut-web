@@ -3,6 +3,7 @@ import { Spinner, useApi } from "@common";
 import { DISCORD_ACTIVITY_APPLICATION_ID, DISCORD_ACTIVITY_URL_MAPPINGS, IS_DISCORD_EMBEDDED } from "@constants";
 import { RPCCloseCodes, type DiscordSDK } from "@discord/embedded-app-sdk";
 import { type IVoiceChannelMin } from "@queue";
+import { useSpotify } from "@spotify";
 import { Show, createContext, createSignal, onMount, useContext, type Accessor, type ParentComponent } from "solid-js";
 import { type IRichPresence } from "../../hooks";
 import { PatchUrlUtil } from "../../utils";
@@ -24,6 +25,7 @@ export const DiscordProvider: ParentComponent = (props) => {
 
 	const api = useApi();
 	const auth = useAuth();
+	const spotify = useSpotify();
 	let discordSdk: DiscordSDK;
 	const [isReady, setIsReady] = createSignal(false);
 	const [isPip, setIsPip] = createSignal(false);
@@ -36,6 +38,9 @@ export const DiscordProvider: ParentComponent = (props) => {
 
 		if (DISCORD_ACTIVITY_URL_MAPPINGS.length) {
 			patchUrlMappings(DISCORD_ACTIVITY_URL_MAPPINGS);
+			spotify.client.httpClient.interceptors.response.use((r) =>
+				PatchUrlUtil.intercept(r, DISCORD_ACTIVITY_URL_MAPPINGS)
+			);
 			api.client.interceptors.response.use((r) => PatchUrlUtil.intercept(r, DISCORD_ACTIVITY_URL_MAPPINGS));
 			api.youtubeClient.interceptors.response.use((r) =>
 				PatchUrlUtil.intercept(r, DISCORD_ACTIVITY_URL_MAPPINGS)
