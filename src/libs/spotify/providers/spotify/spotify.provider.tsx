@@ -23,6 +23,8 @@ export type SpotifyContextStore = {
 	authenticate: (code?: string) => Promise<void>;
 	logout: () => void;
 	getRedirectUrl: () => Promise<string>;
+	isDataInitialized: Accessor<boolean>;
+	setIsDataInitialized: (value: boolean) => void;
 } & ReturnType<typeof useSpotifyData>;
 
 export const SpotifyContext = createContext<SpotifyContextStore>({} as SpotifyContextStore);
@@ -46,7 +48,8 @@ export const SpotifyProvider: ParentComponent = (props) => {
 	let client = new SpotifySdk(clientId(), SPOTIFY_OAUTH_REDIRECT_URI, scopes);
 	const [isShowCodePrompt, setIsShowCodePrompt] = createSignal(false);
 	const [isConnected, setIsConnected] = createSignal(false);
-	const data = useSpotifyData(isConnected, client);
+	const [isDataInitialized, setIsDataInitialized] = createSignal(false);
+	const data = useSpotifyData(() => isConnected() && isDataInitialized(), client);
 
 	createEffect(() => {
 		if (!settings["spotify.enabled"] && !SPOTIFY_CLIENT_ID) return logout();
@@ -109,6 +112,8 @@ export const SpotifyProvider: ParentComponent = (props) => {
 		initiateManualAuthentication,
 		logout,
 		getRedirectUrl,
+		isDataInitialized,
+		setIsDataInitialized,
 		...data,
 	};
 

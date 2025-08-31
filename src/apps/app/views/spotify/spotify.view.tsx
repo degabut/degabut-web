@@ -4,7 +4,7 @@ import { A, Button, Container, Icon, Text, useScreen } from "@common";
 import { IS_DISCORD_EMBEDDED, SPOTIFY_CLIENT_ID } from "@constants";
 import { useSettings } from "@settings";
 import { useSpotify } from "@spotify";
-import { Show, onMount, type Component } from "solid-js";
+import { Show, createEffect, onMount, type Component } from "solid-js";
 import { Library, Tracks } from "./components";
 
 export const Spotify: Component = () => {
@@ -14,6 +14,12 @@ export const Spotify: Component = () => {
 	const { settings } = useSettings();
 
 	onMount(() => app.setTitle("Spotify"));
+
+	createEffect(() => {
+		if (spotify.isConnected() && !spotify.isDataInitialized()) {
+			spotify.setIsDataInitialized(true);
+		}
+	});
 
 	return (
 		<Show

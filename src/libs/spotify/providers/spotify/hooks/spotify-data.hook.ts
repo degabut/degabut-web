@@ -16,14 +16,14 @@ export type SpotifyData = {
 	currentlyPlaying: ParsedResourceReturn<ISpotifyTrack | null>;
 };
 
-export const useSpotifyData = (isConnected: Accessor<boolean>, client: SpotifySdk): SpotifyData => {
+export const useSpotifyData = (fetch: Accessor<boolean>, client: SpotifySdk): SpotifyData => {
 	const api = new SpotifyApi(client);
 
-	const albums = createResource(isConnected, (c) => c && api.getSelfAlbums(), { initialValue: [] });
-	const playlists = createResource(isConnected, (c) => c && api.getSelfPlaylists(), { initialValue: [] });
-	const recentlyPlayed = createResource(isConnected, (c) => c && api.getRecentlyPlayed(10), { initialValue: [] });
-	const topTracks = createResource(isConnected, (c) => c && api.getTopTracks(0, 10), { initialValue: [] });
-	const currentlyPlaying = createResource(isConnected, (c) => c && api.getCurrentlyPlaying(), { initialValue: null });
+	const albums = createResource(fetch, (f) => f && api.getSelfAlbums(), { initialValue: [] });
+	const playlists = createResource(fetch, (f) => f && api.getSelfPlaylists(), { initialValue: [] });
+	const recentlyPlayed = createResource(fetch, (f) => f && api.getRecentlyPlayed(10), { initialValue: [] });
+	const topTracks = createResource(fetch, (f) => f && api.getTopTracks(0, 10), { initialValue: [] });
+	const currentlyPlaying = createResource(fetch, (f) => f && api.getCurrentlyPlaying(), { initialValue: null });
 
 	const parseReturn = <T>(resource: InitializedResourceReturn<T>): ParsedResourceReturn<T> => ({
 		data: resource[0],
