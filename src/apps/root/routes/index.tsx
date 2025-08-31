@@ -23,15 +23,15 @@ export const routes: RouteDefinition[] = [
 				<ContextMenuProvider>
 					<GlobalShortcutProvider>
 						<NotificationProvider>
-							<ApiProvider>
-								<SpotifyProvider>
-									<DesktopProvider>
-										<SettingsProvider>
+							<DesktopProvider>
+								<SettingsProvider>
+									<ApiProvider>
+										<SpotifyProvider>
 											<DiscordProvider>{props.children}</DiscordProvider>
-										</SettingsProvider>
-									</DesktopProvider>
-								</SpotifyProvider>
-							</ApiProvider>
+										</SpotifyProvider>
+									</ApiProvider>
+								</SettingsProvider>
+							</DesktopProvider>
 						</NotificationProvider>
 					</GlobalShortcutProvider>
 				</ContextMenuProvider>
