@@ -171,7 +171,7 @@ export const LibraryProvider: ParentComponent = (props) => {
 			if (!from || !to) return [];
 
 			const excludeTo = new Date();
-			const excludeFrom = dayjs(excludeTo).subtract(6, "month").add(1, "day").toDate();
+			const excludeFrom = dayjs(excludeTo).subtract(180, "days").toDate();
 
 			const params = {
 				from: dayjs(from).startOf("month").toDate(),
