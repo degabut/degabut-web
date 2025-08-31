@@ -1,5 +1,11 @@
 import { AppRoutes, appRouteDefinitions } from "@app/routes";
-import { ApiProvider, ContextMenuProvider, GlobalShortcutProvider, ScreenProvider } from "@common";
+import {
+	ApiProvider,
+	ContextMenuProvider,
+	GlobalShortcutProvider,
+	NotificationProvider,
+	ScreenProvider,
+} from "@common";
 import { DesktopProvider } from "@desktop";
 import { desktopOverlayRouteDefinitions } from "@desktop-overlay/routes";
 import { DiscordProvider } from "@discord";
@@ -16,15 +22,17 @@ export const routes: RouteDefinition[] = [
 			<ScreenProvider>
 				<ContextMenuProvider>
 					<GlobalShortcutProvider>
-						<ApiProvider>
-							<DesktopProvider>
-								<SettingsProvider>
-									<DiscordProvider>
-										<SpotifyProvider>{props.children}</SpotifyProvider>
-									</DiscordProvider>
-								</SettingsProvider>
-							</DesktopProvider>
-						</ApiProvider>
+						<NotificationProvider>
+							<ApiProvider>
+								<DesktopProvider>
+									<SettingsProvider>
+										<DiscordProvider>
+											<SpotifyProvider>{props.children}</SpotifyProvider>
+										</DiscordProvider>
+									</SettingsProvider>
+								</DesktopProvider>
+							</ApiProvider>
+						</NotificationProvider>
 					</GlobalShortcutProvider>
 				</ContextMenuProvider>
 			</ScreenProvider>

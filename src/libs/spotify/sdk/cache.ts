@@ -11,7 +11,7 @@ export class Cache {
 	private renewWindow: number = 2 * 60 * 1000; // Two minutes
 
 	constructor(
-		private createFunction: () => Promise<Cached & object>,
+		private createFunction: (code?: string) => Promise<Cached & object>,
 		private updateFunction: (item: Cached) => Promise<ICachable>
 	) {}
 
@@ -46,11 +46,11 @@ export class Cache {
 	//#endregion
 
 	//#region token
-	public async getOrCreateToken(): Promise<Cached> {
+	public async getOrCreateToken(code?: string): Promise<Cached> {
 		const item = await this.getToken();
 		if (item) return item;
 
-		const newCacheItem = await this.createFunction();
+		const newCacheItem = await this.createFunction(code);
 		if (!newCacheItem) throw new Error("Could not create cache item");
 		if (!AccessTokenUtil.isEmptyAccessToken(newCacheItem)) this.setCache(Cache.tokenCacheKey, newCacheItem);
 

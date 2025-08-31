@@ -10,8 +10,8 @@ export interface CachedVerifier extends ICachable {
 
 export class Auth {
 	private cache = new Cache(
-		async () => {
-			const token = await this.redirectOrVerifyToken();
+		async (code) => {
+			const token = await this.redirectOrVerifyToken(code);
 			return AccessTokenUtil.toCachable(token);
 		},
 		async (expiring) => {
@@ -21,8 +21,8 @@ export class Auth {
 
 	constructor(protected clientId: string, protected redirectUri: string, protected scopes: string[]) {}
 
-	public async getOrCreateAccessToken(): Promise<AccessToken> {
-		return await this.cache.getOrCreateToken();
+	public async getOrCreateAccessToken(code?: string): Promise<AccessToken> {
+		return await this.cache.getOrCreateToken(code);
 	}
 
 	public async getAccessToken(): Promise<AccessToken | null> {
@@ -33,21 +33,22 @@ export class Auth {
 		this.cache.removeToken();
 	}
 
-	private async redirectOrVerifyToken(): Promise<AccessToken> {
+	private async redirectOrVerifyToken(code?: string): Promise<AccessToken> {
 		const hashParams = new URLSearchParams(window.location.search);
-		const code = hashParams.get("code");
+		const finalCode = code || hashParams.get("code");
 
-		if (code) {
-			const token = await this.verifyAndExchangeCode(code);
+		if (finalCode) {
+			const token = await this.verifyAndExchangeCode(finalCode);
 			this.removeCodeFromUrl();
 			return token;
 		}
 
-		this.redirectToSpotify();
+		if (!code) this.redirectToSpotify();
+
 		return AccessTokenUtil.emptyAccessToken;
 	}
 
-	private async redirectToSpotify() {
+	public async getRedirectUrl() {
 		const verifier = AccessTokenUtil.generateCodeVerifier(128);
 		const challenge = await AccessTokenUtil.generateCodeChallenge(verifier);
 
@@ -57,8 +58,11 @@ export class Auth {
 		};
 		this.cache.setVerifier(singleUseVerifier);
 
-		const redirectTarget = await this.generateRedirectUrlForUser(this.scopes, challenge);
-		window.location.href = redirectTarget;
+		return await this.generateRedirectUrlForUser(this.scopes, challenge);
+	}
+
+	private async redirectToSpotify() {
+		window.location.href = await this.getRedirectUrl();
 	}
 
 	private async verifyAndExchangeCode(code: string) {

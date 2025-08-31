@@ -1,5 +1,4 @@
 import { Filters } from "@app/views/filters";
-import { NotificationProvider } from "@common";
 import { MediaSourceLikeManagerProvider } from "@media-source";
 import { QueueProvider } from "@queue";
 import type { RouteDefinition } from "@solidjs/router";
@@ -10,7 +9,6 @@ import {
 	Join,
 	Liked,
 	Lyrics,
-	OAuthSpotify,
 	PlaylistDetail,
 	Playlists,
 	Queue,
@@ -50,17 +48,15 @@ export const appRouteDefinitions: RouteDefinition[] = [
 		path: "/",
 		component: (props) => (
 			<ErrorBoundaryProvider>
-				<NotificationProvider>
-					<QueueProvider>
-						<MediaSourceLikeManagerProvider>
-							<AppProvider>
-								<LibraryProvider>
-									<AppLayout {...props} />
-								</LibraryProvider>
-							</AppProvider>
-						</MediaSourceLikeManagerProvider>
-					</QueueProvider>
-				</NotificationProvider>
+				<QueueProvider>
+					<MediaSourceLikeManagerProvider>
+						<AppProvider>
+							<LibraryProvider>
+								<AppLayout {...props} />
+							</LibraryProvider>
+						</AppProvider>
+					</MediaSourceLikeManagerProvider>
+				</QueueProvider>
 			</ErrorBoundaryProvider>
 		),
 		children: [
@@ -80,7 +76,6 @@ export const appRouteDefinitions: RouteDefinition[] = [
 			{ path: AppRoutes.RichPresence, component: RichPresenceEditor },
 			{ path: AppRoutes.Search, component: Search },
 			{ path: AppRoutes.Join, component: Join },
-			{ path: AppRoutes.OAuthSpotify, component: OAuthSpotify },
 		],
 	},
 ];

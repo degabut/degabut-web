@@ -1,7 +1,7 @@
 import { useApp } from "@app/providers";
 import { AppRoutes } from "@app/routes";
 import { A, Button, Container, Icon, Text, useScreen } from "@common";
-import { SPOTIFY_CLIENT_ID } from "@constants";
+import { IS_DISCORD_EMBEDDED, SPOTIFY_CLIENT_ID } from "@constants";
 import { useSettings } from "@settings";
 import { useSpotify } from "@spotify";
 import { Show, onMount, type Component } from "solid-js";
@@ -50,7 +50,18 @@ export const Spotify: Component = () => {
 						when={!SPOTIFY_CLIENT_ID && !settings["spotify.clientId"]}
 						fallback={
 							<>
-								<Button rounded class="px-8 py-2.5" onClick={spotify.authenticate}>
+								<Button
+									rounded
+									class="px-8 py-2.5"
+									onClick={() => {
+										if (IS_DISCORD_EMBEDDED) {
+											spotify.initiateManualAuthentication();
+										} else {
+											spotify.initialize();
+											spotify.authenticate();
+										}
+									}}
+								>
 									<Text.Body1>Authenticate</Text.Body1>
 								</Button>
 							</>

@@ -19,12 +19,12 @@ import {
 	KeybindItem,
 	OptionsItem,
 	SliderItem,
+	SpotifyIntegrationTutorialModal,
 	SwitchItem,
 	TextItem,
 	type OptionsItemProps,
 	type SliderItemProps,
 } from "./components";
-import { SpotifyIntegrationTutorialModal } from "./components/spotify-integration-tutorial-modal.component";
 
 type SettingsCategory = {
 	label: string;
@@ -171,7 +171,7 @@ export const Settings: Component = () => {
 		},
 		{
 			label: "Spotify",
-			show: SPOTIFY_INTEGRATION && !SPOTIFY_CLIENT_ID && !IS_DISCORD_EMBEDDED,
+			show: SPOTIFY_INTEGRATION && !SPOTIFY_CLIENT_ID,
 			items: [
 				{
 					label: "Enable Spotify Integration",
@@ -201,7 +201,14 @@ export const Settings: Component = () => {
 					element: () => (
 						<Button
 							class="px-2 py-0.5"
-							onClick={spotify.initialize}
+							onClick={() => {
+								if (IS_DISCORD_EMBEDDED) {
+									spotify.initiateManualAuthentication();
+								} else {
+									spotify.initialize();
+									spotify.authenticate();
+								}
+							}}
 							disabled={!settings["spotify.clientId"]}
 						>
 							<Text.Body2>Authenticate</Text.Body2>

@@ -2,7 +2,6 @@ export * from "./join";
 export * from "./liked";
 export * from "./lyrics";
 export * from "./now-playing";
-export * from "./oauth-spotify";
 export * from "./playlist-detail";
 export * from "./playlists";
 export * from "./queue";

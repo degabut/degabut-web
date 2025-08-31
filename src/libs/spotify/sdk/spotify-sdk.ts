@@ -103,13 +103,17 @@ export class SpotifySdk {
 	/**
 	 * Use this when you're running in a browser and you want to control when first authentication+redirect happens.
 	 */
-	public async authenticate(): Promise<AuthenticationResponse> {
-		const response = await this.auth.getOrCreateAccessToken(); // trigger any redirects
+	public async authenticate(code?: string): Promise<AuthenticationResponse> {
+		const response = await this.auth.getOrCreateAccessToken(code); // trigger any redirects
 
 		return {
 			authenticated: response.expires! > Date.now() && !AccessTokenUtil.isEmptyAccessToken(response),
 			accessToken: response,
 		};
+	}
+
+	public async getRedirectUrl(): Promise<string> {
+		return await this.auth.getRedirectUrl();
 	}
 
 	/**
