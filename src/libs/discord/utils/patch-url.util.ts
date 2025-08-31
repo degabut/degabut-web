@@ -42,7 +42,7 @@ export class PatchUrlUtil {
 		window.WebSocket = InterceptedWebSocket;
 	}
 
-	private static rewriteString(original: string, mappings: Mapping[]): string {
+	public static rewriteString(original: string, mappings: Mapping[]): string {
 		for (const mapping of mappings) {
 			const targetUrl = `https://${mapping.target}`.replace(/%7B/g, "{").replace(/%7D/g, "}");
 			const targetRegEx = PatchUrlUtil.regexFromTarget(targetUrl, "g");
