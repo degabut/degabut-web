@@ -3,6 +3,7 @@ import { AppRoutes } from "@app/routes";
 import { Drawer, RecapUtil, useScreen, type Icons } from "@common";
 import { SPOTIFY_CLIENT_ID } from "@constants";
 import { useDesktop } from "@desktop";
+import { useDiscord } from "@discord";
 import { RecapRoutes } from "@recap/routes";
 import { useSettings } from "@settings";
 import { For, Show, type Component } from "solid-js";
@@ -23,6 +24,7 @@ type AppDrawerProps = {
 
 export const AppDrawer: Component<AppDrawerProps> = (props) => {
 	const app = useApp()!;
+	const discord = useDiscord();
 	const { settings, setSettings } = useSettings();
 	const screen = useScreen();
 	const desktop = useDesktop();
@@ -95,7 +97,7 @@ export const AppDrawer: Component<AppDrawerProps> = (props) => {
 												onConfirm: () => desktop?.ipc.send?.("quit-and-install-update"),
 											});
 										} else {
-											window.location.reload();
+											discord ? discord.reload() : window.location.reload();
 										}
 									}}
 								/>

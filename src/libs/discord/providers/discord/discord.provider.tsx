@@ -1,7 +1,7 @@
 import { useAuth } from "@auth";
 import { Spinner, useApi } from "@common";
 import { DISCORD_ACTIVITY_APPLICATION_ID, DISCORD_ACTIVITY_URL_MAPPINGS, IS_DISCORD_EMBEDDED } from "@constants";
-import { type DiscordSDK } from "@discord/embedded-app-sdk";
+import { RPCCloseCodes, type DiscordSDK } from "@discord/embedded-app-sdk";
 import { type IVoiceChannelMin } from "@queue";
 import { Show, createContext, createSignal, onMount, useContext, type Accessor, type ParentComponent } from "solid-js";
 import { type IRichPresence } from "../../hooks";
@@ -13,6 +13,7 @@ type DiscordContextStore = {
 	isReady: Accessor<boolean>;
 	isPip: Accessor<boolean>;
 	currentChannel: Accessor<IVoiceChannelMin | null>;
+	reload: () => void;
 };
 
 export const DiscordContext = createContext<DiscordContextStore>();
@@ -91,6 +92,10 @@ export const DiscordProvider: ParentComponent = (props) => {
 		}
 	};
 
+	const reload = async () => {
+		discordSdk.close(RPCCloseCodes.CLOSE_NORMAL, "Please reopen the application.");
+	};
+
 	const setActivity = (activity: IRichPresence | null) => {
 		if (!activity) return;
 
@@ -117,6 +122,7 @@ export const DiscordProvider: ParentComponent = (props) => {
 				isReady,
 				isPip,
 				currentChannel,
+				reload,
 			}}
 		>
 			<Show
