@@ -10,7 +10,8 @@ export const QueuePlayHistory: Component = () => {
 			data={queue.data.history}
 			mediaSourceProps={(t) => ({
 				mediaSource: t.mediaSource,
-				requestedBy: t.requestedBy,
+				member: t.requestedBy || t.autoplayData?.member,
+				isAutoplay: !!t.autoplayData,
 				inQueue: queue.data.tracks?.some((qt) => qt.mediaSource.id === t.mediaSource.id),
 			})}
 		/>
