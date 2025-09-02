@@ -11,7 +11,8 @@ export const QueueTrackList: Component = () => {
 
 		return {
 			mediaSource: t.mediaSource,
-			requestedBy: t.requestedBy,
+			member: t.requestedBy || t.autoplayData?.member,
+			isAutoplay: !!t.autoplayData,
 			hideInQueue: true,
 			imageHoverElement: () => (
 				<Show when={nextTrackIndex >= 0}>

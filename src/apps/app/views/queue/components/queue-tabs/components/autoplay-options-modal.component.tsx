@@ -1,5 +1,5 @@
 import { Button, Divider, Modal, Switch, Text } from "@common";
-import { useQueue, type IAutoplayOptions } from "@queue";
+import { useQueue, type QueueAutoplayType } from "@queue";
 import { createEffect, createSignal, Show, type Component } from "solid-js";
 
 type OptionItemProps = {
@@ -29,15 +29,61 @@ type AutoplayOptionsModalProps = {
 	handleClose: () => void;
 };
 
+const autoplayPresets = {
+	queueLastPlayedRelated: ["QUEUE_LAST_PLAYED_RELATED"],
+	queueRelated: ["QUEUE_RELATED"],
+	userLibrary: ["USER_RECENTLY_LIKED", "USER_RECENTLY_PLAYED", "USER_RECENT_MOST_PLAYED", "USER_OLD_MOST_PLAYED"],
+	userLibraryRelated: [
+		"USER_RECENTLY_LIKED_RELATED",
+		"USER_RECENTLY_PLAYED_RELATED",
+		"USER_RECENT_MOST_PLAYED_RELATED",
+		"USER_OLD_MOST_PLAYED_RELATED",
+	],
+} as const;
+
 export const AutoplayOptionsModal: Component<AutoplayOptionsModalProps> = (props) => {
 	const queue = useQueue()!;
-	const [options, setOptions] = createSignal<IAutoplayOptions>({ ...queue.data.autoplayOptions });
+	const [presets, setPresets] = createSignal<
+		Record<keyof typeof autoplayPresets, boolean> & { normalDuration: boolean }
+	>({
+		normalDuration: false,
+		queueLastPlayedRelated: true,
+		queueRelated: true,
+		userLibrary: true,
+		userLibraryRelated: true,
+	});
 
 	createEffect(() => {
 		if (props.isOpen) {
-			setOptions({ ...queue.data.autoplayOptions });
+			const options = queue.data.autoplayOptions;
+
+			const { queueLastPlayedRelated, queueRelated, userLibrary, userLibraryRelated } = autoplayPresets;
+			setPresets({
+				normalDuration: options.minDuration === 60 && options.maxDuration === 600,
+				queueLastPlayedRelated: queueLastPlayedRelated.every((t) => options.types.includes(t)),
+				queueRelated: queueRelated.every((t) => options.types.includes(t)),
+				userLibrary: userLibrary.every((t) => options.types.includes(t)),
+				userLibraryRelated: userLibraryRelated.every((t) => options.types.includes(t)),
+			});
 		}
 	});
+
+	const saveOptions = () => {
+		const types: QueueAutoplayType[] = [];
+		let maxDuration: number | null = null;
+		let minDuration: number | null = null;
+
+		if (presets().queueLastPlayedRelated) types.push(...autoplayPresets.queueLastPlayedRelated);
+		if (presets().queueRelated) types.push(...autoplayPresets.queueRelated);
+		if (presets().userLibrary) types.push(...autoplayPresets.userLibrary);
+		if (presets().userLibraryRelated) types.push(...autoplayPresets.userLibraryRelated);
+		if (presets().normalDuration) {
+			maxDuration = 600;
+			minDuration = 60;
+		}
+
+		queue.changeAutoplayOptions({ maxDuration, minDuration, types });
+	};
 
 	return (
 		<Modal
@@ -55,45 +101,55 @@ export const AutoplayOptionsModal: Component<AutoplayOptionsModalProps> = (props
 				<div class="flex flex-col py-8 px-4 md:px-8 space-y-2.5 overflow-auto">
 					<OptionItem
 						label="Normal Music Duration Only"
-						isEnabled={options().minDuration === 60 && options().maxDuration === 600}
+						isEnabled={presets().normalDuration}
 						onToggle={() =>
-							setOptions((o) => ({
+							setPresets((o) => ({
 								...o,
-								minDuration: 60,
-								maxDuration: 600,
+								normalDuration: !o.normalDuration,
 							}))
 						}
 					/>
 
 					<OptionItem
 						label="Include Song Related to the Queue"
-						isEnabled={options().includeQueueLastPlayedRelated}
+						isEnabled={presets().queueLastPlayedRelated}
 						onToggle={() =>
-							setOptions((o) => ({
+							setPresets((o) => ({
 								...o,
-								includeQueueLastPlayedRelated: !o.includeQueueLastPlayedRelated,
+								queueLastPlayedRelated: !o.queueLastPlayedRelated,
 							}))
 						}
 					/>
 
 					<OptionItem
 						label="Include Random Song"
-						isEnabled={options().includeQueueRelated}
+						isEnabled={presets().queueRelated}
 						onToggle={() =>
-							setOptions((o) => ({
+							setPresets((o) => ({
 								...o,
-								includeQueueRelated: !o.includeQueueRelated,
+								queueRelated: !o.queueRelated,
 							}))
 						}
 					/>
 
 					<OptionItem
 						label="Include Song from User Library"
-						isEnabled={options().includeUserLibrary}
+						isEnabled={presets().userLibrary}
 						onToggle={() =>
-							setOptions((o) => ({
+							setPresets((o) => ({
 								...o,
-								includeUserLibrary: !o.includeUserLibrary,
+								userLibrary: !o.userLibrary,
+							}))
+						}
+					/>
+
+					<OptionItem
+						label="Include Related Song from User Library"
+						isEnabled={presets().userLibraryRelated}
+						onToggle={() =>
+							setPresets((o) => ({
+								...o,
+								userLibraryRelated: !o.userLibraryRelated,
 							}))
 						}
 					/>
@@ -103,7 +159,7 @@ export const AutoplayOptionsModal: Component<AutoplayOptionsModalProps> = (props
 					<Button
 						class="px-6 py-2"
 						onClick={() => {
-							queue.changeAutoplayOptions(options());
+							saveOptions();
 							props.handleClose();
 						}}
 					>

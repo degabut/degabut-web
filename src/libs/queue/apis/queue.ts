@@ -20,13 +20,22 @@ export interface IQueue {
 	textChannel: ITextChannel | null;
 	guild: IGuild;
 }
+export type QueueAutoplayType =
+	| "QUEUE_RELATED"
+	| "QUEUE_LAST_PLAYED_RELATED"
+	| "USER_RECENTLY_LIKED"
+	| "USER_RECENTLY_LIKED_RELATED"
+	| "USER_RECENTLY_PLAYED"
+	| "USER_RECENTLY_PLAYED_RELATED"
+	| "USER_RECENT_MOST_PLAYED"
+	| "USER_RECENT_MOST_PLAYED_RELATED"
+	| "USER_OLD_MOST_PLAYED"
+	| "USER_OLD_MOST_PLAYED_RELATED";
 
 export interface IAutoplayOptions {
-	minDuration: number;
-	maxDuration: number;
-	includeQueueRelated: boolean;
-	includeQueueLastPlayedRelated: boolean;
-	includeUserLibrary: boolean;
+	minDuration: number | null;
+	maxDuration: number | null;
+	types: QueueAutoplayType[];
 }
 
 export interface IVoiceChannel {
@@ -61,10 +70,16 @@ export interface IMember {
 	isInVoiceChannel: boolean;
 }
 
+export interface ITrackAutoplayData {
+	member: IGuildMember | null;
+	type: QueueAutoplayType;
+}
+
 export interface ITrack {
 	id: string;
 	mediaSource: IMediaSource;
 	requestedBy: IGuildMember | null;
+	autoplayData: ITrackAutoplayData | null;
 	playedAt: string | null;
 }
 

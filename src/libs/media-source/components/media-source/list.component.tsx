@@ -8,7 +8,8 @@ import { DurationBadge, LiveBadge, SourceBadge } from "./components";
 
 export type MediaSourceListProps = Partial<Omit<ItemListProps, "contextMenu">> & {
 	mediaSource: IMediaSource;
-	requestedBy?: IGuildMember | null;
+	member?: IGuildMember | null;
+	isAutoplay?: boolean;
 	hideInQueue?: boolean;
 	hideDefaultRight?: boolean;
 	disableActiveTitle?: boolean;
@@ -119,19 +120,23 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 								</Text.Caption1>
 							)}
 						</Show>
-						{props.requestedBy && (
+						{props.member && (
 							<>
 								<Text.Caption2>—</Text.Caption2>
 								<div class="flex-row-center space-x-1 truncate">
-									<Show when={props.requestedBy.avatar} keyed>
+									<Show when={props.isAutoplay}>
+										<Text.Caption2 light={props.lightExtra}>for</Text.Caption2>
+									</Show>
+									<Show when={props.member.avatar} keyed>
 										{(avatar) => <img src={avatar} class="h-4 w-4 rounded-full" />}
 									</Show>
-									<Text.Caption2 light={props.lightExtra}>
-										{props.requestedBy.displayName}
-									</Text.Caption2>
+									<Text.Caption2 light={props.lightExtra}>{props.member.displayName}</Text.Caption2>
 								</div>
 							</>
 						)}
+						<Show when={props.isAutoplay}>
+							<Icon name="stars" size="md" class="text-brand-500" title="Autoplay" />
+						</Show>
 					</div>
 				</div>
 			)}

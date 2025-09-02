@@ -10,7 +10,8 @@ export const TracksCard: Component = () => {
 		const isActive = queue.data.nowPlaying?.id === t.id;
 		return {
 			mediaSource: t.mediaSource,
-			requestedBy: t.requestedBy,
+			member: t.requestedBy || t.autoplayData?.member,
+			isAutoplay: !!t.autoplayData,
 			extraTitleClassList: { "test-brand-600": isActive },
 		};
 	};

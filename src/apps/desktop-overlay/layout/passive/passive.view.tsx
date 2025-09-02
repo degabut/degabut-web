@@ -32,7 +32,7 @@ export const Passive: Component = () => {
 					>
 						<MediaSource.List
 							mediaSource={mediaSource}
-							requestedBy={requestedBy}
+							member={requestedBy}
 							size={settings["overlay.nowPlaying.size"]}
 							extraContainerClass="relative overflow-hidden bg-black/90 text-shadow"
 							extraTitleClassList={{ "text-lg": settings["overlay.nowPlaying.size"] === "lg" }}
