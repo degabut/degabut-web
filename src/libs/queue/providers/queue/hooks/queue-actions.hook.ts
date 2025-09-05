@@ -6,7 +6,7 @@ import type { FreezeState, IPlayerFiltersState, QueueResource } from "../";
 import {
 	PlayerApi,
 	QueueApi,
-	type IAutoplayOptions,
+	type IChangeAutoplayOptions,
 	type IPlayerFilters,
 	type ITrack,
 	type LoopMode,
@@ -30,7 +30,7 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 		return modifyQueue((queueId) => queueApi.toggleAutoplay(queueId));
 	};
 
-	const changeAutoplayOptions = (options: IAutoplayOptions) => {
+	const changeAutoplayOptions = (options: IChangeAutoplayOptions) => {
 		return modifyQueue((queueId) => queueApi.changeAutoplayOptions(queueId, options));
 	};
 

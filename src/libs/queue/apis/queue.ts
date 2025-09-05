@@ -35,6 +35,7 @@ export type QueueAutoplayType =
 export interface IAutoplayOptions {
 	minDuration: number | null;
 	maxDuration: number | null;
+	excludedMemberIds: string[];
 	types: QueueAutoplayType[];
 }
 
@@ -93,6 +94,11 @@ export interface IGuildMember {
 	discriminator: string;
 	avatar: string;
 }
+
+export type IChangeAutoplayOptions = Partial<IAutoplayOptions> & {
+	addExcludedMemberId?: string;
+	removeExcludedMemberId?: string;
+};
 
 export class QueueApi {
 	constructor(private client: AxiosInstance) {}
@@ -178,8 +184,8 @@ export class QueueApi {
 		await this.client.post(`/queues/${queueId}/autoplay`);
 	};
 
-	changeAutoplayOptions = async (queueId: string, options: IAutoplayOptions): Promise<void> => {
-		await this.client.put(`/queues/${queueId}/autoplay/options`, options);
+	changeAutoplayOptions = async (queueId: string, options: IChangeAutoplayOptions): Promise<void> => {
+		await this.client.patch(`/queues/${queueId}/autoplay/options`, options);
 	};
 
 	jam = async (queueId: string, count: number): Promise<void> => {

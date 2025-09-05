@@ -13,6 +13,7 @@ export const defaultQueue: QueueResource = {
 	autoplay: false,
 	autoplayOptions: {
 		types: [],
+		excludedMemberIds: [],
 		maxDuration: null,
 		minDuration: null,
 	},
