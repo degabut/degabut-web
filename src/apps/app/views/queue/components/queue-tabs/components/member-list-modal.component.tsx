@@ -1,5 +1,5 @@
 import { AppRoutes } from "@app/routes";
-import { Divider, Item, Modal, Text, useNavigate } from "@common";
+import { Divider, Icon, Item, Modal, Text, useNavigate } from "@common";
 import { useQueue, type IMember } from "@queue";
 import { For, type Component } from "solid-js";
 
@@ -27,15 +27,28 @@ export const MemberListModal: Component<MemberListModalProps> = (props) => {
 
 				<div class="flex flex-col py-8 px-4 md:p-8 !pt-0 space-y-2 overflow-auto">
 					<For each={[...queue.data.voiceChannel.members].sort((a) => (a.isInVoiceChannel ? -1 : 1))}>
-						{(member) => (
-							<MemberList
-								member={member}
-								onClickRecommendation={() =>
-									navigate(AppRoutes.Recommendation, { params: { id: member.id } })
-								}
-								onRemoveRequestedTracks={() => queue.removeTracksByMemberId(member.id)}
-							/>
-						)}
+						{(member) => {
+							const isExcludedFromAutoplay = () =>
+								queue.data.autoplayOptions.excludedMemberIds.includes(member.id) ||
+								queue.data.voiceChannel.members.some((m) => m.id === member.id && !m.isInVoiceChannel);
+
+							return (
+								<MemberList
+									member={member}
+									isExcludedFromAutoplay={isExcludedFromAutoplay()}
+									onClickRecommendation={() =>
+										navigate(AppRoutes.Recommendation, { params: { id: member.id } })
+									}
+									onRemoveRequestedTracks={() => queue.removeTracksByMemberId(member.id)}
+									onToggleAutoplay={() =>
+										queue.changeAutoplayOptions({
+											addExcludedMemberId: isExcludedFromAutoplay() ? undefined : member.id,
+											removeExcludedMemberId: isExcludedFromAutoplay() ? member.id : undefined,
+										})
+									}
+								/>
+							);
+						}}
 					</For>
 				</div>
 			</div>
@@ -45,8 +58,10 @@ export const MemberListModal: Component<MemberListModalProps> = (props) => {
 
 type MemberListProps = {
 	member: IMember;
+	isExcludedFromAutoplay: boolean;
 	onClickRecommendation: () => void;
 	onRemoveRequestedTracks: () => void;
+	onToggleAutoplay: () => void;
 };
 
 const MemberList: Component<MemberListProps> = (props) => {
@@ -75,10 +90,25 @@ const MemberList: Component<MemberListProps> = (props) => {
 						icon: "closeLine",
 						onClick: () => props.onRemoveRequestedTracks(),
 					},
+					{
+						label: props.isExcludedFromAutoplay ? "Include in Autoplay" : "Exclude from Autoplay",
+						icon: "stars",
+						onClick: () => props.onToggleAutoplay(),
+					},
 				],
 			}}
 			title={props.member.displayName}
-			extra={() => <Text.Caption1>{props.member.username}</Text.Caption1>}
+			extra={() => (
+				<div class="flex-row-center space-x-1.5">
+					<div title="Excluded from Autoplay">
+						<Icon
+							name={props.isExcludedFromAutoplay ? "starsLine" : "stars"}
+							class={props.isExcludedFromAutoplay ? "opacity-25" : "text-brand-500"}
+						/>
+					</div>
+					<Text.Caption1>{props.member.username}</Text.Caption1>
+				</div>
+			)}
 			extraContainerClassList={{
 				"opacity-25 hover:opacity-50": !props.member.isInVoiceChannel,
 			}}

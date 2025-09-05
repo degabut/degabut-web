@@ -42,6 +42,7 @@ import SkipNext from "~icons/mdi/skip-next";
 import SkipPrevious from "~icons/mdi/skip-previous";
 import Spotify from "~icons/mdi/spotify";
 import Stars from "~icons/mdi/stars";
+import StarsLine from "~icons/mdi/stars-outline";
 import Swap from "~icons/mdi/swap-horizontal";
 import TrashBin from "~icons/mdi/trash-can-outline";
 import Download from "~icons/mdi/tray-download";
@@ -99,6 +100,7 @@ export const icons = {
 	soundOff: { component: SoundOff, viewBox: "3 3 18 18" },
 	spotify: { component: Spotify },
 	stars: { component: Stars, viewBox: "1 1 22 22" },
+	starsLine: { component: StarsLine, viewBox: "1 1 22 22" },
 	swap: { component: Swap, viewBox: "3 3 18 18" },
 	trashBin: { component: TrashBin, viewBox: "3 3 18 18" },
 	youtube: { component: Youtube },
