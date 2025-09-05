@@ -17,6 +17,8 @@ export const NowPlayingController: Component = () => {
 	const queue = useQueue()!;
 	const navigate = useNavigate();
 
+	const user = () => queue.data.nowPlaying?.requestedBy || queue.data.nowPlaying?.autoplayData?.member;
+
 	return (
 		<div class="relative flex-col-center w-full h-full">
 			<Show when={queue.data.nowPlaying} keyed>
@@ -36,13 +38,16 @@ export const NowPlayingController: Component = () => {
 						onStopQueue={queue.stop}
 					/>
 
-					<Show when={queue.data.nowPlaying?.requestedBy} keyed>
-						{(m) => (
+					<Show when={user()} keyed>
+						{(u) => (
 							<div class="flex-row-center space-x-1.5 truncate text-shadow">
-								<Show when={m.avatar} keyed>
+								<Show when={queue.data.nowPlaying?.autoplayData}>
+									<Text.Caption2 class="truncate">for</Text.Caption2>
+								</Show>
+								<Show when={u.avatar} keyed>
 									{(avatar) => <img src={avatar} class="h-5 w-5 rounded-full" />}
 								</Show>
-								<Text.Caption2 class="truncate">{m.displayName}</Text.Caption2>
+								<Text.Caption2 class="truncate">{u.displayName}</Text.Caption2>
 							</div>
 						)}
 					</Show>
