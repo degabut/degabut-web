@@ -28,8 +28,8 @@ export const useQueueNotification = () => {
 		emitter.removeListener("tracks-removed", onTracksRemoved);
 	});
 
-	const onTracksAdded = async ({ tracks, member }: { tracks: ITrack[]; member: IMember }) => {
-		if (!settings["notification.inApp"]) return;
+	const onTracksAdded = async ({ tracks, member }: { tracks: ITrack[]; member: IMember | null }) => {
+		if (!settings["notification.inApp"] || !member) return;
 
 		if (tracks.length > 1) {
 			notification.push({
