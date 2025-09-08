@@ -1,43 +1,24 @@
 import { useApi } from "@common";
 import { createResource, type Accessor } from "solid-js";
-import { UserApi } from "../apis";
+import { UserApi, type GetLastPlayedParams, type GetMostPlayedParams } from "../apis";
 
-type BaseProps = {
-	userId: string;
-	guild?: boolean;
-	voiceChannel?: boolean;
-};
+type PropsValue = ((GetMostPlayedParams | GetLastPlayedParams) & { userId?: string }) | undefined;
 
-type PropsValue =
-	| ({ last: number } & BaseProps)
-	| ({
-			days: number;
-			count: number;
-	  } & BaseProps)
-	| undefined;
+type IUsePlayHistoryProps = Accessor<PropsValue> | PropsValue;
 
-type IUseVideosProps = Accessor<PropsValue> | PropsValue;
-
-export const usePlayHistory = (props: IUseVideosProps) => {
+export const usePlayHistory = (props: IUsePlayHistoryProps) => {
 	const api = useApi();
 	const user = new UserApi(api.client);
 
 	const resource = createResource(
 		props,
 		(value) => {
-			if (value.userId !== "me" && ("guild" in value || "voiceChannel" in value)) {
-				return [];
+			if (!value.userId || value.userId === "me") {
+				if ("from" in value) return user.getMostPlayed(value);
+				else return user.getPlayHistory(value);
+			} else if (value.userId) {
+				return user.getUserPlayHistory(value.userId, value);
 			}
-
-			const { guild, voiceChannel } = value;
-			const baseProps = { guild, voiceChannel };
-
-			const params =
-				"last" in value
-					? { last: value.last, ...baseProps }
-					: { count: value.count, days: value.days, ...baseProps };
-
-			return value.userId === "me" ? user.getPlayHistory(params) : user.getUserPlayHistory(value.userId, params);
 		},
 		{ initialValue: [] }
 	);
