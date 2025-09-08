@@ -49,7 +49,7 @@ export const QueueInfo: Component = () => {
 
 	return (
 		<>
-			<div class="flex flex-row flex-wrap justify-between md:justify-start gap-x-3 md:gap-x-0 space-x-0 md:space-x-5 truncate">
+			<div class="flex flex-row flex-wrap justify-between md:justify-start gap-x-3 md:gap-x-0 space-x-0 md:space-x-5 gap-y-1.5 truncate">
 				<InfoItem title="Queue Duration" description={queueDuration()} extraClass="flex-1 md:flex-grow-0" />
 
 				<Divider vertical dark />
@@ -92,7 +92,7 @@ export const QueueInfo: Component = () => {
 				<InfoItem
 					horizontal
 					description={() => (
-						<>
+						<div class="flex-row-center space-x-2">
 							<Button
 								class="px-2.5 py-1.5 space-x-2.5"
 								icon={queue.data.autoplay ? "stars" : "starsLine"}
@@ -119,7 +119,7 @@ export const QueueInfo: Component = () => {
 								class="p-2.5"
 								onClick={() => setIsAutoplayOptionsModalOpen(true)}
 							/>
-						</>
+						</div>
 					)}
 					extraClass="flex-1 md:flex-grow-0"
 				/>
