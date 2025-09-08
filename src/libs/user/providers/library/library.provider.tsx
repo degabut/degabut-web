@@ -87,6 +87,7 @@ const getRandomActivityRange = (data: IMonthlyPlayActivity[], minUniquePlayCount
 
 export type LibraryContextStore = {
 	load: () => void;
+	monthlyPlayActivity: InitializedResource<IMonthlyPlayActivity[] | null>;
 	lastPlayed: InitializedResource<IMediaSource[]>;
 	lastPlayedAction: ResourceActions<IMediaSource[]>;
 	mostPlayed: InitializedResource<IMediaSource[]>;
@@ -210,6 +211,7 @@ export const LibraryProvider: ParentComponent = (props) => {
 
 	const store = {
 		load,
+		monthlyPlayActivity,
 		lastPlayed,
 		lastPlayedAction,
 		mostPlayed,
