@@ -7,7 +7,7 @@ import type { Component } from "solid-js";
 import { ShowMoreTitle } from "./title.component";
 
 type Props = {
-	onClickMore: () => void;
+	onClickMore?: () => void;
 	mediaSources: IMediaSource[];
 	label: string;
 	isLoading: boolean;

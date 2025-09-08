@@ -2,52 +2,69 @@ import { useApp } from "@app/providers";
 import { Divider, Modal, Text, useApi } from "@common";
 import { MediaSources, type IMediaSource, type MediaSourceListProps } from "@media-source";
 import { UserApi, UserConfirmationUtil, usePlayHistory } from "@user";
+import dayjs from "dayjs";
 import { createMemo, type Component } from "solid-js";
 
 export enum ShowMoreType {
 	MostPlayed = 1,
 	RecentlyPlayed = 2,
 	ChannelRelated = 3,
+	MonthlyMostPlayed = 4,
 }
 
-type Props = {
+type BaseProps = {
 	isOpen: boolean;
-	initialUserId: string;
 	type: ShowMoreType | null;
 	onClose: () => void;
 	onAddToQueue?: (mediaSource: IMediaSource) => void;
 	onAddToQueueAndPlay?: (mediaSource: IMediaSource) => void;
 };
 
-export const ShowMoreModal: Component<Props> = (props) => {
+type UserProps = BaseProps & {
+	initialUserId: string;
+};
+
+type MonthProps = BaseProps & {
+	month: string;
+};
+
+export const ShowMoreModal: Component<UserProps | MonthProps> = (props) => {
 	const app = useApp()!;
 	const api = useApi();
 	const userApi = new UserApi(api.client);
 
 	const params = createMemo(() => {
-		switch (props.type) {
-			case ShowMoreType.MostPlayed:
-				return {
-					userId: props.initialUserId,
-					days: 30,
-					count: 20,
-				};
+		if ("initialUserId" in props) {
+			switch (props.type) {
+				case ShowMoreType.MostPlayed:
+					return {
+						userId: props.initialUserId,
+						days: 30,
+						count: 20,
+					};
 
-			case ShowMoreType.RecentlyPlayed:
-				return {
-					userId: props.initialUserId,
-					last: 20,
-				};
+				case ShowMoreType.RecentlyPlayed:
+					return {
+						userId: props.initialUserId,
+						last: 20,
+					};
 
-			case ShowMoreType.ChannelRelated:
-				return {
-					userId: props.initialUserId,
-					voiceChannel: true,
-					days: 14,
-					count: 20,
-				};
-			default:
-				return undefined;
+				case ShowMoreType.ChannelRelated:
+					return {
+						userId: props.initialUserId,
+						voiceChannel: true,
+						days: 14,
+						count: 20,
+					};
+				default:
+					return undefined;
+			}
+		} else if (props.month) {
+			return {
+				from: dayjs(props.month).startOf("month").toDate(),
+				to: dayjs(props.month).endOf("month").toDate(),
+				limit: 25,
+			};
 		}
 	});
 
@@ -61,6 +78,9 @@ export const ShowMoreModal: Component<Props> = (props) => {
 
 			case ShowMoreType.ChannelRelated:
 				return "Queue Recommendations";
+
+			case ShowMoreType.MonthlyMostPlayed:
+				return "month" in props ? `Most Played in ${dayjs(props.month).format("MMMM YYYY")}` : null;
 
 			default:
 				return null;

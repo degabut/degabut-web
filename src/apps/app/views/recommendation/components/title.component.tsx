@@ -17,7 +17,7 @@ export const Title: ParentComponent<TitleProps> = (props) => {
 
 type LabelProps = {
 	isLoading: boolean;
-	onClickMore: () => void;
+	onClickMore?: () => void;
 	label: string;
 };
 
@@ -25,12 +25,12 @@ export const ShowMoreTitle: Component<LabelProps> = (props) => {
 	return (
 		<Title
 			right={() => (
-				<Show when={!props.isLoading}>
+				<Show when={!props.isLoading && props.onClickMore}>
 					<div class="hidden md:block">
-						<SeeMoreTextButton onClick={() => props.onClickMore()} />
+						<SeeMoreTextButton onClick={() => props.onClickMore!()} />
 					</div>
 					<div class="md:hidden">
-						<SeeMoreButton onClick={() => props.onClickMore()} />
+						<SeeMoreButton onClick={() => props.onClickMore!()} />
 					</div>
 				</Show>
 			)}
