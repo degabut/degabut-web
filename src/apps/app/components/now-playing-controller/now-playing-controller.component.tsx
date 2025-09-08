@@ -3,7 +3,7 @@ import { Show, type Component } from "solid-js";
 import { useApp } from "@app/providers";
 import { AppRoutes } from "@app/routes";
 import { QueueTrackList } from "@app/views/queue/components/queue-tabs/components";
-import { Button, ContextMenuButton, DelayUtil, Divider, Text, useNavigate } from "@common";
+import { Button, ContextMenuButton, DelayUtil, Divider, Icon, Text, useNavigate } from "@common";
 import { useDesktop } from "@desktop";
 import { SourceBadge, useLikeMediaSource, useMediaSourceContextMenu } from "@media-source";
 import { QueueActions, QueueButton, QueueSeekSlider, VolumeSlider, useQueue } from "@queue";
@@ -48,6 +48,9 @@ export const NowPlayingController: Component = () => {
 									{(avatar) => <img src={avatar} class="h-5 w-5 rounded-full" />}
 								</Show>
 								<Text.Caption2 class="truncate">{u.displayName}</Text.Caption2>
+								<Show when={queue.data.nowPlaying?.autoplayData}>
+									<Icon name="stars" size="md" class="text-brand-500" />
+								</Show>
 							</div>
 						)}
 					</Show>

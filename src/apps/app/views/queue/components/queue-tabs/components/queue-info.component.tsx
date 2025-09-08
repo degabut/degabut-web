@@ -1,20 +1,19 @@
-import { Button, Divider, Icon, Switch, Text, TimeUtil } from "@common";
+import { Button, Divider, Icon, Text, TimeUtil } from "@common";
 import { useQueue } from "@queue";
 import { type Accessor, type Component, For, type JSX, Show, createSignal } from "solid-js";
 import { AutoplayOptionsModal } from "./autoplay-options-modal.component";
 import { MemberListModal } from "./member-list-modal.component";
 
 type Props = {
-	title: string;
+	title?: string;
 	description: string | number | Accessor<JSX.Element>;
-	extra?: Accessor<JSX.Element>;
 	horizontal?: boolean;
 	extraClass?: string;
 };
 
 const InfoItem: Component<Props> = (props) => {
 	return (
-		<div class="flex space-x-3" classList={{ [props.extraClass || ""]: !!props.extraClass }}>
+		<div class="flex space-x-0" classList={{ [props.extraClass || ""]: !!props.extraClass }}>
 			<div
 				class="flex"
 				classList={{
@@ -22,14 +21,15 @@ const InfoItem: Component<Props> = (props) => {
 					"flex-col": !props.horizontal,
 				}}
 			>
-				<Text.Caption2>{props.title}</Text.Caption2>
+				<Show when={props.title} keyed>
+					{(t) => <Text.Caption2>{t}</Text.Caption2>}
+				</Show>
 				{typeof props.description === "function" ? (
 					props.description()
 				) : (
 					<Text.Body2 class="my-auto">{props.description}</Text.Body2>
 				)}
 			</div>
-			{props.extra?.()}
 		</div>
 	);
 };
@@ -90,19 +90,38 @@ export const QueueInfo: Component = () => {
 
 				<Divider vertical dark />
 				<InfoItem
-					title="Autoplay"
 					horizontal
 					description={() => (
-						<Switch
-							checked={queue.data.autoplay}
-							disabled={queue.freezeState.queue || queue.data.empty}
-							onChange={() => queue.toggleAutoplay()}
-						/>
+						<>
+							<Button
+								class="px-2.5 py-1.5 space-x-2.5"
+								icon={queue.data.autoplay ? "stars" : "starsLine"}
+								iconSize="lg"
+								iconClassList={{
+									"text-brand-500": queue.data.autoplay,
+									"text-neutral-500": !queue.data.autoplay,
+								}}
+								flat
+								disabled={queue.freezeState.queue || queue.data.empty}
+								onClick={() => queue.toggleAutoplay()}
+							>
+								<Text.Caption1
+									classList={{
+										"!text-brand-500": queue.data.autoplay,
+									}}
+								>
+									Autoplay
+								</Text.Caption1>
+							</Button>
+							<Button
+								icon="gear"
+								flat
+								class="p-2.5"
+								onClick={() => setIsAutoplayOptionsModalOpen(true)}
+							/>
+						</>
 					)}
 					extraClass="flex-1 md:flex-grow-0"
-					extra={() => (
-						<Button icon="gear" flat class="p-2.5" onClick={() => setIsAutoplayOptionsModalOpen(true)} />
-					)}
 				/>
 			</div>
 
