@@ -118,12 +118,16 @@ export const useQueueEventListener = ({ queue, setQueue, setFreezeState, fetchQu
 		]);
 	};
 
-	const onQueueProcessed = (track: ITrack) => {
+	const onQueueProcessed = (track: ITrack | null) => {
 		setQueue({ nowPlaying: track });
-		setQueue("history", (history) => {
-			const cloned = mergeProps(history);
-			return [track, ...cloned].splice(0, 50);
-		});
+
+		if (track) {
+			setQueue("history", (history) => {
+				const cloned = mergeProps(history);
+				return [track, ...cloned].splice(0, 50);
+			});
+		}
+
 		setQueue("position", 0);
 	};
 
