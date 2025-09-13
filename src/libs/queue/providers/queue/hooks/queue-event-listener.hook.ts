@@ -27,6 +27,7 @@ export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, em
 		emitter.on("queue-left", resetQueue);
 		emitter.on("queue-joined", fetchQueue);
 		emitter.on("identify", fetchQueue);
+		emitter.on("queue-processed", onQueueProcessed);
 		emitter.on("member-joined", updateMember);
 		emitter.on("member-left", updateMember);
 		emitter.on("member-updated", updateMember);
@@ -45,7 +46,6 @@ export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, em
 		emitter.on("next-track-removed", ({ track }) => removeNextTrack(track));
 		emitter.on("track-order-changed", orderTrack);
 		emitter.on("track-audio-started", onTrackAudioStarted);
-		emitter.on("queue-processed", setNowPlaying);
 		emitter.on("queue-cleared", ({ tracks }) => setTracks(tracks));
 	});
 
@@ -116,13 +116,17 @@ export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, em
 		]);
 	};
 
-	const onTrackAudioStarted = (track: ITrack) => {
-		setQueue("position", 0);
+	const onQueueProcessed = (track: ITrack) => {
 		setQueue("history", (history) => {
 			const cloned = mergeProps(history);
 			return [track, ...cloned].splice(0, 50);
 		});
-		setNowPlaying(track);
+		setQueue("position", 0);
+		setQueue({ nowPlaying: track });
+	};
+
+	const onTrackAudioStarted = () => {
+		setQueue("position", 0);
 		setQueue("nowPlaying", "playedAt", new Date().toISOString());
 		setFreezeState({ seek: false });
 	};
