@@ -113,7 +113,7 @@ export const QueueProvider: ParentComponent = (props) => {
 	const { emitter, listen, close } = useQueueEvents();
 	const queueActions = useQueueActions({ queue, setFreezeState });
 	const voiceChannelHistory = useVoiceChannelHistory({ queue });
-	useQueueEventListener({ setQueue, setFreezeState, fetchQueue, emitter });
+	useQueueEventListener({ queue, setQueue, setFreezeState, fetchQueue, emitter });
 	usePlayerPositionUpdater({ queue, setQueue });
 
 	onMount(() => {

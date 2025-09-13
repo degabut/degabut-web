@@ -81,6 +81,7 @@ export interface ITrack {
 	mediaSource: IMediaSource;
 	requestedBy: IGuildMember | null;
 	autoplayData: ITrackAutoplayData | null;
+	error: string | null;
 	playedAt: string | null;
 }
 

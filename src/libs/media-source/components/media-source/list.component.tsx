@@ -19,6 +19,7 @@ export type MediaSourceListProps = Partial<Omit<ItemListProps, "contextMenu">> &
 		modify?: (current: IContextMenuItem[][]) => IContextMenuItem[][];
 	};
 	lightExtra?: boolean;
+	error?: string;
 };
 
 export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
@@ -98,6 +99,12 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 			)}
 			extra={() => (
 				<div class="flex-row-center space-x-1.5">
+					<Show when={props.error}>
+						<div title={props.error} class="text-red-600">
+							<Icon name="error" size="md" />
+						</div>
+					</Show>
+
 					<Show when={props.mediaSource.duration} fallback={<LiveBadge />}>
 						<DurationBadge duration={props.mediaSource.duration} />
 					</Show>

@@ -13,6 +13,7 @@ export const QueuePlayHistory: Component = () => {
 				member: t.requestedBy || t.autoplayData?.member,
 				isAutoplay: !!t.autoplayData,
 				inQueue: queue.data.tracks?.some((qt) => qt.mediaSource.id === t.mediaSource.id),
+				error: t.error || undefined,
 			})}
 		/>
 	);

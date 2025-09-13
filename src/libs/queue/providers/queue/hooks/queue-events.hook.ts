@@ -57,6 +57,7 @@ export type QueueEvents = {
 	"track-seeked": (data: TrackSeededData) => void;
 	"track-order-changed": (data: string[]) => void;
 	"track-audio-started": (data: ITrack) => void;
+	"track-load-failed": (data: { track: ITrack; error?: string }) => void;
 	"queue-processed": (data: ITrack) => void;
 	"tracks-added": (data: TracksAction) => void;
 	"queue-cleared": (data: TracksAction) => void;

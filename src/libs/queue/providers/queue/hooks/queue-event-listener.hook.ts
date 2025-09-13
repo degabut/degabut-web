@@ -1,5 +1,5 @@
 import { mergeProps, onMount } from "solid-js";
-import type { SetStoreFunction } from "solid-js/store";
+import { type SetStoreFunction } from "solid-js/store";
 import type TypedEventEmitter from "typed-emitter";
 import { type FreezeState, type QueueResource } from "../";
 import { type IMember, type IPlayerFilters, type IQueue, type ITrack } from "../../../apis";
@@ -7,6 +7,7 @@ import { defaultQueue } from "../../../constants";
 import type { QueueEvents } from "./queue-events.hook";
 
 type Params = {
+	queue: QueueResource;
 	setQueue: SetStoreFunction<QueueResource>;
 	setFreezeState: SetStoreFunction<FreezeState>;
 	fetchQueue: () => Promise<void>;
@@ -21,7 +22,7 @@ type Params = {
  * DO: setQueue("voiceChannel", (voiceChannel) => { voiceChannel.mebers })
  */
 
-export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, emitter }: Params) => {
+export const useQueueEventListener = ({ queue, setQueue, setFreezeState, fetchQueue, emitter }: Params) => {
 	onMount(() => {
 		emitter.on("queue-destroyed", resetQueue);
 		emitter.on("queue-left", resetQueue);
@@ -46,6 +47,7 @@ export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, em
 		emitter.on("next-track-removed", ({ track }) => removeNextTrack(track));
 		emitter.on("track-order-changed", orderTrack);
 		emitter.on("track-audio-started", onTrackAudioStarted);
+		emitter.on("track-load-failed", onTrackLoadFailed);
 		emitter.on("queue-cleared", ({ tracks }) => setTracks(tracks));
 	});
 
@@ -117,12 +119,12 @@ export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, em
 	};
 
 	const onQueueProcessed = (track: ITrack) => {
+		setQueue({ nowPlaying: track });
 		setQueue("history", (history) => {
 			const cloned = mergeProps(history);
 			return [track, ...cloned].splice(0, 50);
 		});
 		setQueue("position", 0);
-		setQueue({ nowPlaying: track });
 	};
 
 	const onTrackAudioStarted = () => {
@@ -131,9 +133,12 @@ export const useQueueEventListener = ({ setQueue, setFreezeState, fetchQueue, em
 		setFreezeState({ seek: false });
 	};
 
-	const setNowPlaying = (nowPlaying: ITrack | null) => {
-		setQueue("position", 0);
-		setQueue({ nowPlaying });
+	const onTrackLoadFailed = ({ track, error }: { track: ITrack; error?: string }) => {
+		const trackIndex = queue.tracks.findIndex((t) => t.id === track.id);
+		if (trackIndex >= 0) setQueue("tracks", trackIndex, "error", error || "Unknown error");
+
+		const historyIndex = queue.history.findIndex((t) => t.id === track.id);
+		if (historyIndex >= 0) setQueue("history", historyIndex, "error", error || "Unknown error");
 	};
 
 	const setTracks = (tracks: ITrack[]) => {
