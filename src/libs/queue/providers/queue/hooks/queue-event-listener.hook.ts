@@ -1,5 +1,5 @@
-import { mergeProps, onMount } from "solid-js";
-import { type SetStoreFunction } from "solid-js/store";
+import { onMount } from "solid-js";
+import { produce, type SetStoreFunction } from "solid-js/store";
 import type TypedEventEmitter from "typed-emitter";
 import { type FreezeState, type QueueResource } from "../";
 import { type IMember, type IPlayerFilters, type IQueue, type ITrack } from "../../../apis";
@@ -122,10 +122,13 @@ export const useQueueEventListener = ({ queue, setQueue, setFreezeState, fetchQu
 		setQueue({ nowPlaying: track });
 
 		if (track) {
-			setQueue("history", (history) => {
-				const cloned = mergeProps(history);
-				return [track, ...cloned].splice(0, 50);
-			});
+			setQueue(
+				"history",
+				produce((history) => {
+					history.unshift(track);
+					return history.slice(0, 50);
+				})
+			);
 		}
 
 		setQueue("position", 0);
