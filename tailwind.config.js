@@ -12,7 +12,9 @@ module.exports = {
 			maxWidth: {
 				"8xl": "1408px",
 			},
-
+			fontSize: {
+				xxs: "0.625rem",
+			},
 			colors: {
 				brand: {
 					DEFAULT: "#ECE350",

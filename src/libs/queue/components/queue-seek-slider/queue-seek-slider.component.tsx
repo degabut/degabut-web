@@ -5,6 +5,7 @@ type Props = {
 	max: number;
 	value: number;
 	disabled?: boolean;
+	dense?: boolean;
 	viewOnly?: boolean;
 	onChange?: (value: number) => void;
 };
@@ -34,10 +35,20 @@ export const QueueSeekSlider: Component<Props> = (props) => {
 	};
 
 	return (
-		<div class="w-full text-xs space-y-3 md:space-y-2.5">
+		<div
+			class="w-full text-xs"
+			classList={{
+				"space-y-3 md:space-y-2.5": !props.dense,
+				"space-y-1": props.dense,
+			}}
+		>
 			<div class="flex-row-center justify-between" classList={{ invisible: props.max <= 0 }}>
-				<Text.Caption2 light>{TimeUtil.secondsToTime(Math.round(value()))}</Text.Caption2>
-				<Text.Caption2 light>{TimeUtil.secondsToTime(props.max)}</Text.Caption2>
+				<Text.Caption2 light classList={{ "!text-xxs": props.dense }}>
+					{TimeUtil.secondsToTime(Math.round(value()))}
+				</Text.Caption2>
+				<Text.Caption2 light classList={{ "!text-xxs": props.dense }}>
+					{TimeUtil.secondsToTime(props.max)}
+				</Text.Caption2>
 			</div>
 
 			<div class="flex items-center relative w-full">
