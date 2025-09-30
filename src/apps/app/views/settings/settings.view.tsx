@@ -109,6 +109,13 @@ export const Settings: Component = () => {
 			show: IS_DESKTOP || IS_DISCORD_EMBEDDED,
 			items: [
 				{
+					label: "Use interactive PIP (Picture-in-Picture)",
+					type: "switch",
+					hide: !IS_DISCORD_EMBEDDED,
+					value: () => settings["discord.interactivePip.enabled"],
+					onChange: () => setSettings("discord.interactivePip.enabled", (v) => !v),
+				},
+				{
 					label: "Enable Rich Presence",
 					type: "switch",
 					description: "Show what you are currently listening to on Discord",

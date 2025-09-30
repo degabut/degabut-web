@@ -1,6 +1,7 @@
 import { Icon, Text } from "@common";
 import { SourceBadge } from "@media-source";
-import { QueueSeekSlider, useQueue } from "@queue";
+import { QueueActions, QueueSeekSlider, useQueue } from "@queue";
+import { useSettings } from "@settings";
 import { Show, type Component } from "solid-js";
 
 const EmptyNowPlaying: Component = () => {
@@ -18,6 +19,7 @@ const EmptyNowPlaying: Component = () => {
 
 export const DiscordActivityPip: Component = () => {
 	const queue = useQueue()!;
+	const { settings } = useSettings()!;
 
 	return (
 		<Show when={queue.data.nowPlaying} keyed fallback={<EmptyNowPlaying />}>
@@ -29,7 +31,7 @@ export const DiscordActivityPip: Component = () => {
 					/>
 
 					<div class="flex flex-col justify-center bg-neutral-950 w-full h-full overflow-hidden discord-pip:p-4 p-2 space-y-4 text-shadow">
-						<div class="flex flex-row justify-center discord-pip:justify-start space-x-3 z-10">
+						<div class="flex flex-row justify-center discord-pip:justify-start items-center space-x-3 z-10">
 							<img src={mediaSource.maxThumbnailUrl} class="w-16 aspect-square object-cover rounded-md" />
 							<div class="truncate space-y-1 hidden discord-pip:block">
 								<Text.H3 class="truncate">{mediaSource.title}</Text.H3>
@@ -40,8 +42,19 @@ export const DiscordActivityPip: Component = () => {
 							</div>
 						</div>
 
-						<div class="px-1 z-10">
-							<QueueSeekSlider value={queue.data.position / 1000} max={mediaSource.duration} viewOnly />
+						<div class="space-y-2">
+							<Show when={settings["discord.interactivePip.enabled"]}>
+								<QueueActions extraClass="justify-between" iconSize="md" />
+							</Show>
+
+							<div class="px-1 z-10">
+								<QueueSeekSlider
+									dense={settings["discord.interactivePip.enabled"]}
+									value={queue.data.position / 1000}
+									max={mediaSource.duration}
+									viewOnly
+								/>
+							</div>
 						</div>
 					</div>
 				</div>

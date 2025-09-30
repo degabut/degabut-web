@@ -3,8 +3,18 @@ import { Spinner, useApi } from "@common";
 import { DISCORD_ACTIVITY_APPLICATION_ID, DISCORD_ACTIVITY_URL_MAPPINGS, IS_DISCORD_EMBEDDED } from "@constants";
 import { RPCCloseCodes, type DiscordSDK } from "@discord/embedded-app-sdk";
 import { type IVoiceChannelMin } from "@queue";
+import { useSettings } from "@settings";
 import { useSpotify } from "@spotify";
-import { Show, createContext, createSignal, onMount, useContext, type Accessor, type ParentComponent } from "solid-js";
+import {
+	Show,
+	createContext,
+	createEffect,
+	createSignal,
+	onMount,
+	useContext,
+	type Accessor,
+	type ParentComponent,
+} from "solid-js";
 import { type IRichPresence } from "../../hooks";
 import { PatchUrlUtil } from "../../utils";
 
@@ -30,6 +40,7 @@ export const DiscordProvider: ParentComponent = (props) => {
 	const [isReady, setIsReady] = createSignal(false);
 	const [isPip, setIsPip] = createSignal(false);
 	const [currentChannel, setCurrentChannel] = createSignal<IVoiceChannelMin | null>(null);
+	const { settings } = useSettings()!;
 
 	onMount(async () => {
 		// dynamic import
@@ -72,6 +83,14 @@ export const DiscordProvider: ParentComponent = (props) => {
 				}
 			};
 		})(window.open);
+	});
+
+	createEffect(() => {
+		if (isReady()) {
+			discordSdk.commands.setConfig({
+				use_interactive_pip: settings["discord.interactivePip.enabled"],
+			});
+		}
 	});
 
 	const authorizeAndAuthenticate = async () => {
