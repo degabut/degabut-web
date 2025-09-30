@@ -55,6 +55,10 @@ export const DiscordActivityPip: Component = () => {
 									viewOnly
 								/>
 							</div>
+
+							<Show when={settings["discord.interactivePip.enabled"]}>
+								<div class="h-3" />
+							</Show>
 						</div>
 					</div>
 				</div>
