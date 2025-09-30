@@ -111,7 +111,7 @@ export const AutoplayOptionsModal: Component<AutoplayOptionsModalProps> = (props
 					/>
 
 					<OptionItem
-						label="Include Song Related to the Queue"
+						label="Include Song Related to Previous Song"
 						isEnabled={presets().queueLastPlayedRelated}
 						onToggle={() =>
 							setPresets((o) => ({
@@ -122,7 +122,7 @@ export const AutoplayOptionsModal: Component<AutoplayOptionsModalProps> = (props
 					/>
 
 					<OptionItem
-						label="Include Random Song"
+						label="Include Song Related to Queue History"
 						isEnabled={presets().queueRelated}
 						onToggle={() =>
 							setPresets((o) => ({
@@ -144,7 +144,7 @@ export const AutoplayOptionsModal: Component<AutoplayOptionsModalProps> = (props
 					/>
 
 					<OptionItem
-						label="Include Related Song from User Library"
+						label="Include Song Related to User Library"
 						isEnabled={presets().userLibraryRelated}
 						onToggle={() =>
 							setPresets((o) => ({
