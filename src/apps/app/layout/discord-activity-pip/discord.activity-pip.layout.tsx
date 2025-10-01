@@ -109,6 +109,10 @@ export const DiscordActivityPip: Component = () => {
 							/>
 						</Show>
 					</div>
+
+					<Show when={settings["discord.interactivePip.enabled"]}>
+						<div class="h-3" />
+					</Show>
 				</div>
 			)}
 		</Show>
