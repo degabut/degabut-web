@@ -13,6 +13,7 @@ export type ShowContextMenuParams = ContextMenuDirectiveParams & {
 
 type ContextMenuContextStore = {
 	show: (params: ShowContextMenuParams) => void;
+	setIsShowContextMenu: (v: boolean) => void;
 };
 
 export const ContextMenuContext = createContext<ContextMenuContextStore>();
@@ -63,7 +64,7 @@ export const ContextMenuProvider: ParentComponent = (props) => {
 	};
 
 	return (
-		<ContextMenuContext.Provider value={{ show }}>
+		<ContextMenuContext.Provider value={{ show, setIsShowContextMenu }}>
 			<Portal>
 				<Show when={isShowContextMenu()}>
 					<Show

@@ -8,6 +8,7 @@ type Props = {
 	dense?: boolean;
 	viewOnly?: boolean;
 	onChange?: (value: number) => void;
+	extraLabelClass?: string;
 };
 
 export const QueueSeekSlider: Component<Props> = (props) => {
@@ -42,7 +43,10 @@ export const QueueSeekSlider: Component<Props> = (props) => {
 				"space-y-1": props.dense,
 			}}
 		>
-			<div class="flex-row-center justify-between" classList={{ invisible: props.max <= 0 }}>
+			<div
+				class="flex-row-center justify-between"
+				classList={{ invisible: props.max <= 0, [props.extraLabelClass || ""]: !!props.extraLabelClass }}
+			>
 				<Text.Caption2 light classList={{ "!text-xxs": props.dense }}>
 					{TimeUtil.secondsToTime(Math.round(value()))}
 				</Text.Caption2>
