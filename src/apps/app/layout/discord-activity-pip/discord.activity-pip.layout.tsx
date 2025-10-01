@@ -4,7 +4,11 @@ import { QueueActions, QueueSeekSlider, useQueue } from "@queue";
 import { useSettings } from "@settings";
 import { onMount, Show, type Component } from "solid-js";
 
-const EmptyNowPlaying: Component = () => {
+type Props = {
+	bottomPadding?: boolean;
+};
+
+const EmptyNowPlaying: Component<Props> = (props) => {
 	return (
 		<div class="flex flex-col justify-center bg-neutral-950 w-full h-full">
 			<div class="grow flex items-center justify-center">
@@ -16,6 +20,10 @@ const EmptyNowPlaying: Component = () => {
 			<div class="flex items-center h-14 px-4">
 				<Text.H3 class="truncate text-neutral-500 hidden discord-pip:block">It's lonely here...</Text.H3>
 			</div>
+
+			<Show when={props.bottomPadding}>
+				<div class="h-3 shrink-0" />
+			</Show>
 		</div>
 	);
 };
@@ -34,7 +42,7 @@ export const DiscordActivityPip: Component = () => {
 	const user = () => queue.data.nowPlaying?.requestedBy || queue.data.nowPlaying?.autoplayData?.member;
 
 	return (
-		<Show when={queue.data.nowPlaying} keyed fallback={<EmptyNowPlaying />}>
+		<Show when={queue.data.nowPlaying} keyed fallback={<EmptyNowPlaying bottomPadding />}>
 			{({ mediaSource }) => (
 				<div class="w-full h-full flex flex-col">
 					<div class="group/item-list flex grow items-center justify-center relative w-full h-full">
