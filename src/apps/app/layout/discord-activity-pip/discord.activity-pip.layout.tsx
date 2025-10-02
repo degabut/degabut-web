@@ -17,7 +17,7 @@ const EmptyNowPlaying: Component<Props> = (props) => {
 				</div>
 			</div>
 			<Divider dark />
-			<div class="flex items-center h-14 px-4">
+			<div class="flex items-center h-[3.75rem] px-4">
 				<Text.H3 class="truncate text-neutral-500 hidden discord-pip:block">It's lonely here...</Text.H3>
 			</div>
 
@@ -45,7 +45,7 @@ export const DiscordActivityPip: Component = () => {
 		<Show when={queue.data.nowPlaying} keyed fallback={<EmptyNowPlaying bottomPadding />}>
 			{({ mediaSource }) => (
 				<div class="w-full h-full flex flex-col">
-					<div class="group/item-list flex grow items-center justify-center relative w-full h-full">
+					<div class="group/item-list flex items-center justify-center relative w-full h-full">
 						<img
 							src={mediaSource.minThumbnailUrl}
 							class="absolute blur-2xl top-0 left-0 h-full w-full opacity-50"
@@ -71,7 +71,7 @@ export const DiscordActivityPip: Component = () => {
 						</div>
 					</div>
 
-					<div class="relative flex flex-row w-full bg-neutral-950 space-x-1 px-4 pr-1 py-2">
+					<div class="relative flex flex-row w-full bg-neutral-950 space-x-2 px-4 pr-2 py-2.5">
 						<div class="grow flex flex-col space-y-1 truncate justify-center">
 							<Text.Body1 class="truncate font-medium text-sm" title={mediaSource.title}>
 								{mediaSource.title}
