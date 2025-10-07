@@ -15,10 +15,12 @@ import { UserApi, type IMonthlyPlayActivity } from "../../apis";
 
 const getRandomActivityRange = (data: IMonthlyPlayActivity[], minUniquePlayCount = 100, maxMonthRange = 6) => {
 	const sixMonthsAgo = dayjs().subtract(6, "month").toDate();
-	data = data.filter((a) => {
-		// filter out recent 6 months
-		return a.date < sixMonthsAgo;
-	});
+	data = data
+		.filter((a) => {
+			// filter out recent 6 months
+			return a.date < sixMonthsAgo;
+		})
+		.reverse();
 
 	if (data.length === 0) {
 		return {
