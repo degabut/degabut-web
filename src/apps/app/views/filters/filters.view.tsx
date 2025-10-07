@@ -22,100 +22,133 @@ export const Filters: Component = () => {
 
 	const hasChanged = createMemo(() => JSON.stringify(queue.data.filtersState) !== JSON.stringify(currentFilters));
 
-	const categories: Accessor<FiltersCategory[]> = () => [
-		{
-			label: "Timescale",
-			enabled: currentFilters.timescale.enabled,
-			onEnableToggled: () => setCurrentFilters("timescale", { enabled: !currentFilters.timescale.enabled }),
-			items: [
-				{
-					label: "Speed",
-					value: () => currentFilters.timescale.speed,
-					onInput: (v) => setCurrentFilters("timescale", { speed: v }),
-					max: 2,
-					min: 0.05,
-					step: 0.05,
-				},
-				{
-					label: "Pitch",
-					value: () => currentFilters.timescale.pitch,
-					onInput: (v) => setCurrentFilters("timescale", { pitch: v }),
-					max: 2,
-					min: 0.05,
-					step: 0.05,
-				},
-				{
-					label: "Rate",
-					value: () => currentFilters.timescale.rate,
-					onInput: (v) => setCurrentFilters("timescale", { rate: v }),
-					max: 2,
-					min: 0.05,
-					step: 0.05,
-				},
-			],
-		},
-		{
-			label: "Tremolo",
-			enabled: currentFilters.tremolo.enabled,
-			onEnableToggled: () => setCurrentFilters("tremolo", "enabled", !currentFilters.tremolo.enabled),
-			items: [
-				{
-					label: "Frequency",
-					value: () => currentFilters.tremolo.frequency,
-					onInput: (v) => setCurrentFilters("tremolo", "frequency", v),
-					max: 5,
-					min: 0.05,
-					step: 0.05,
-				},
-				{
-					label: "Depth",
-					value: () => currentFilters.tremolo.depth,
-					onInput: (v) => setCurrentFilters("tremolo", "depth", v),
-					max: 1,
-					min: 0.05,
-					step: 0.05,
-				},
-			],
-		},
-		{
-			label: "Vibrato",
-			enabled: currentFilters.vibrato.enabled,
-			onEnableToggled: () => setCurrentFilters("vibrato", { enabled: !currentFilters.vibrato.enabled }),
-			items: [
-				{
-					label: "Frequency",
-					value: () => currentFilters.vibrato.frequency,
-					onInput: (v) => setCurrentFilters("vibrato", { frequency: v }),
-					max: 5,
-					min: 0.05,
-					step: 0.05,
-				},
-				{
-					label: "Depth",
-					value: () => currentFilters.vibrato.depth,
-					onInput: (v) => setCurrentFilters("vibrato", { depth: v }),
-					max: 1,
-					min: 0.05,
-					step: 0.05,
-				},
-			],
-		},
-		{
-			label: "Rotation",
-			enabled: currentFilters.rotation.enabled,
-			onEnableToggled: () => setCurrentFilters("rotation", { enabled: !currentFilters.rotation.enabled }),
-			items: [
-				{
-					label: "Frequency",
-					value: () => currentFilters.rotation.rotationHz,
-					onInput: (v) => setCurrentFilters("rotation", { rotationHz: v }),
-					max: 5,
-					min: 0.05,
-					step: 0.05,
-				},
-			],
-		},
-	];
+	const categories: Accessor<FiltersCategory[]> = () => {
+		const categories: FiltersCategory[] = [
+			{
+				label: "Timescale",
+				enabled: currentFilters.timescale.enabled,
+				onEnableToggled: () => setCurrentFilters("timescale", { enabled: !currentFilters.timescale.enabled }),
+				items: [
+					{
+						label: "Speed",
+						value: () => currentFilters.timescale.speed,
+						onInput: (v) => setCurrentFilters("timescale", { speed: v }),
+						max: 2,
+						min: 0.05,
+						step: 0.05,
+					},
+					{
+						label: "Pitch",
+						value: () => currentFilters.timescale.pitch,
+						onInput: (v) => setCurrentFilters("timescale", { pitch: v }),
+						max: 2,
+						min: 0.05,
+						step: 0.05,
+					},
+					{
+						label: "Rate",
+						value: () => currentFilters.timescale.rate,
+						onInput: (v) => setCurrentFilters("timescale", { rate: v }),
+						max: 2,
+						min: 0.05,
+						step: 0.05,
+					},
+				],
+			},
+			{
+				label: "Tremolo",
+				enabled: currentFilters.tremolo.enabled,
+				onEnableToggled: () => setCurrentFilters("tremolo", "enabled", !currentFilters.tremolo.enabled),
+				items: [
+					{
+						label: "Frequency",
+						value: () => currentFilters.tremolo.frequency,
+						onInput: (v) => setCurrentFilters("tremolo", "frequency", v),
+						max: 5,
+						min: 0.05,
+						step: 0.05,
+					},
+					{
+						label: "Depth",
+						value: () => currentFilters.tremolo.depth,
+						onInput: (v) => setCurrentFilters("tremolo", "depth", v),
+						max: 1,
+						min: 0.05,
+						step: 0.05,
+					},
+				],
+			},
+			{
+				label: "Vibrato",
+				enabled: currentFilters.vibrato.enabled,
+				onEnableToggled: () => setCurrentFilters("vibrato", { enabled: !currentFilters.vibrato.enabled }),
+				items: [
+					{
+						label: "Frequency",
+						value: () => currentFilters.vibrato.frequency,
+						onInput: (v) => setCurrentFilters("vibrato", { frequency: v }),
+						max: 5,
+						min: 0.05,
+						step: 0.05,
+					},
+					{
+						label: "Depth",
+						value: () => currentFilters.vibrato.depth,
+						onInput: (v) => setCurrentFilters("vibrato", { depth: v }),
+						max: 1,
+						min: 0.05,
+						step: 0.05,
+					},
+				],
+			},
+			{
+				label: "Rotation",
+				enabled: currentFilters.rotation.enabled,
+				onEnableToggled: () => setCurrentFilters("rotation", { enabled: !currentFilters.rotation.enabled }),
+				items: [
+					{
+						label: "Frequency",
+						value: () => currentFilters.rotation.rotationHz,
+						onInput: (v) => setCurrentFilters("rotation", { rotationHz: v }),
+						max: 5,
+						min: 0.05,
+						step: 0.05,
+					},
+				],
+			},
+		];
+
+		if (queue.bot().lavalinkFilterPlugins?.includes("LavaDSPX-Plugin")) {
+			categories.push({
+				label: "Echo",
+				enabled: currentFilters.pluginFilters.echo.enabled,
+				onEnableToggled: () =>
+					setCurrentFilters("pluginFilters", "echo", {
+						enabled: !currentFilters.pluginFilters?.echo?.enabled,
+					}),
+				items: [
+					{
+						label: "Echo Length",
+						value: () => currentFilters.pluginFilters.echo.echoLength,
+						onInput: (v) => setCurrentFilters("pluginFilters", "echo", { echoLength: v }),
+						max: 1,
+						min: 0.01,
+						step: 0.01,
+					},
+					{
+						label: "Decay",
+						value: () => currentFilters.pluginFilters.echo.decay,
+						onInput: (v) => setCurrentFilters("pluginFilters", "echo", { decay: v }),
+						max: 1,
+						min: 0.05,
+						step: 0.05,
+					},
+				],
+			});
+		}
+
+		return categories;
+	};
 
 	const onSet = () => {
 		queue.setFilters(currentFilters);

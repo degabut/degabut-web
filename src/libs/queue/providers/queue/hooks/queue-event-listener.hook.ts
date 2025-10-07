@@ -86,6 +86,7 @@ export const useQueueEventListener = ({ queue, setQueue, setFreezeState, fetchQu
 			tremolo: filters.tremolo || undefined,
 			vibrato: filters.vibrato || undefined,
 			rotation: filters.rotation || undefined,
+			pluginFilters: filters.pluginFilters ? { echo: filters.pluginFilters.echo || undefined } : undefined,
 		});
 	};
 

@@ -55,6 +55,9 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 			tremolo: formattedFilters.tremolo.enabled ? formattedFilters.tremolo : undefined,
 			vibrato: formattedFilters.vibrato.enabled ? formattedFilters.vibrato : undefined,
 			rotation: formattedFilters.rotation.enabled ? formattedFilters.rotation : undefined,
+			pluginFilters: {
+				echo: formattedFilters.pluginFilters.echo.enabled ? formattedFilters.pluginFilters.echo : undefined,
+			},
 		};
 
 		return playerApi.setFilters(queue.voiceChannel.id, filters);

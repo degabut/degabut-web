@@ -25,6 +25,12 @@ export interface IPlayerFilters {
 		enabled?: boolean;
 		rotationHz?: number;
 	};
+	pluginFilters?: {
+		echo?: {
+			echoLength?: number;
+			decay?: number;
+		};
+	};
 }
 
 export interface IPlayer {

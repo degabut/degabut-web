@@ -29,6 +29,9 @@ export const defaultQueue: QueueResource = {
 		tremolo: { enabled: false, frequency: 2.5, depth: 0.5 },
 		vibrato: { enabled: false, frequency: 2.5, depth: 0.5 },
 		rotation: { enabled: false, rotationHz: 0.5 },
+		pluginFilters: {
+			echo: { enabled: false, echoLength: 0.25, decay: 0.25 },
+		},
 	},
 	filters: {},
 	empty: true,

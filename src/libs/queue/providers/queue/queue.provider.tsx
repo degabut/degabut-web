@@ -53,6 +53,13 @@ export interface IPlayerFiltersState {
 		enabled: boolean;
 		rotationHz: number;
 	};
+	pluginFilters: {
+		echo: {
+			enabled: boolean;
+			echoLength: number;
+			decay: number;
+		};
+	};
 }
 
 export type QueueResource = IQueue & IPlayer & { empty: boolean; filtersState: IPlayerFiltersState };
@@ -172,6 +179,13 @@ export const QueueProvider: ParentComponent = (props) => {
 				rotation: {
 					enabled: !!queue.filters?.rotation,
 					rotationHz: queue.filters?.rotation?.rotationHz || f.rotation.rotationHz,
+				},
+				pluginFilters: {
+					echo: {
+						enabled: !!queue.filters?.pluginFilters?.echo,
+						echoLength: queue.filters?.pluginFilters?.echo?.echoLength || f.pluginFilters.echo.echoLength,
+						decay: queue.filters?.pluginFilters?.echo?.decay || f.pluginFilters.echo.decay,
+					},
 				},
 			};
 		});
