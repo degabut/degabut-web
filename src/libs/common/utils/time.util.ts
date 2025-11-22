@@ -6,7 +6,7 @@ dayjs.extend(relative);
 export class TimeUtil {
 	static isNearNewYear(): boolean {
 		const now = new Date();
-		return (now.getMonth() === 11 && now.getDate() >= 15) || (now.getMonth() === 0 && now.getDate() <= 15);
+		return now.getMonth() === 11 || (now.getMonth() === 0 && now.getDate() <= 15);
 	}
 
 	static getMonths(month: number): string {
