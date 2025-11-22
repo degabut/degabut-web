@@ -56,7 +56,7 @@ const defaultSettings: Settings = {
 	["app.player.minimized"]: false,
 	["app.textSize"]: 16,
 	["app.snowfall.enabled"]: true,
-	["app.snowfall.amount"]: 10,
+	["app.snowfall.amount"]: 25,
 	["app.snowfall.speed"]: 50,
 	["app.mediaSession.enabled"]: true,
 	["overlay.enabled"]: true,
