@@ -46,7 +46,7 @@ export const SpotifyCodePromptModal: Component<Props> = (props) => {
 						type="password"
 						placeholder="Paste code here"
 					/>
-					<Button class="px-4 py-2" onClick={onAuthenticate} disabled={isAuthenticating()}>
+					<Button class="px-4 py-2" onClick={onAuthenticate} disabled={isAuthenticating() || !code().trim()}>
 						{isAuthenticating() ? "Authenticating..." : "Authenticate"}
 					</Button>
 				</div>
