@@ -1,11 +1,6 @@
 import type { AxiosInstance } from "axios";
 import type { IThumbnail } from "./youtube";
 
-export interface IShelf {
-	title: string;
-	items: IMusicSong[] | IMusicVideo[] | IMusicPlaylist[] | IMusicAlbum[];
-}
-
 export interface IMusicSong {
 	id: string;
 	title: string;
@@ -55,7 +50,7 @@ export interface IMusicLyrics {
 export class YouTubeMusicApi {
 	constructor(private client: AxiosInstance) {}
 
-	search = async (keyword: string): Promise<IShelf[]> => {
+	search = async (keyword: string): Promise<(IMusicSong | IMusicVideo | IMusicPlaylist | IMusicAlbum)[]> => {
 		if (!keyword) return [];
 
 		const response = await this.client.get("/music/search", { params: { keyword } });
