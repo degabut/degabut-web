@@ -1,5 +1,4 @@
-import axios from "axios";
-import type { AccessToken, ICachable } from "../types";
+import type { AccessToken, ICacheable } from "../types";
 
 export class AccessTokenUtil {
 	public static emptyAccessToken: AccessToken = {
@@ -14,12 +13,7 @@ export class AccessTokenUtil {
 		return value === this.emptyAccessToken;
 	}
 
-	public static async refreshCachedAccessToken(clientId: string, item: AccessToken) {
-		const updated = await AccessTokenUtil.refreshToken(clientId, item.refresh_token);
-		return AccessTokenUtil.toCachable(updated);
-	}
-
-	public static toCachable(item: AccessToken): ICachable & AccessToken {
+	public static toCacheable(item: AccessToken): ICacheable & AccessToken {
 		if (item.expires && item.expires === -1) {
 			return item;
 		}
@@ -29,18 +23,6 @@ export class AccessTokenUtil {
 
 	public static calculateExpiry(item: AccessToken) {
 		return Date.now() + item.expires_in * 1000;
-	}
-
-	private static async refreshToken(clientId: string, refreshToken: string): Promise<AccessToken> {
-		const params = new URLSearchParams();
-		params.append("client_id", clientId);
-		params.append("grant_type", "refresh_token");
-		params.append("refresh_token", refreshToken);
-
-		const result = await axios.post("https://accounts.spotify.com/api/token", params);
-		if (result.status !== 200) throw new Error("Failed to refresh token");
-
-		return result.data;
 	}
 
 	public static generateCodeVerifier(length: number) {

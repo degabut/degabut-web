@@ -1,8 +1,8 @@
 import { type CachedVerifier } from "./auth";
-import type { AccessToken, ICachable } from "./types";
+import type { AccessToken, ICacheable } from "./types";
 import { AccessTokenUtil } from "./utils";
 
-type Cached = ICachable & AccessToken;
+type Cached = ICacheable & AccessToken;
 
 export class Cache {
 	public static readonly tokenCacheKey = "spotify-sdk:token";
@@ -12,7 +12,7 @@ export class Cache {
 
 	constructor(
 		private createFunction: (code?: string) => Promise<Cached & object>,
-		private updateFunction: (item: Cached) => Promise<ICachable>
+		private updateFunction: (item: Cached) => Promise<ICacheable>
 	) {}
 
 	//#region cache
@@ -20,7 +20,7 @@ export class Cache {
 		return localStorage.getItem(key);
 	}
 
-	private setCache(cacheKey: string, cacheItem: ICachable): void {
+	private setCache(cacheKey: string, cacheItem: ICacheable): void {
 		const asString = JSON.stringify(cacheItem);
 		localStorage.setItem(cacheKey, asString);
 	}
@@ -87,7 +87,7 @@ export class Cache {
 
 	public setToken(value: object, expiresIn: number): void {
 		const expires = Date.now() + expiresIn;
-		const cacheItem: ICachable = { ...value, expires };
+		const cacheItem: ICacheable = { ...value, expires };
 		this.setCache(Cache.tokenCacheKey, cacheItem);
 	}
 
@@ -95,12 +95,16 @@ export class Cache {
 		this.removeCache(Cache.tokenCacheKey);
 	}
 
-	private itemDueToExpire(item: ICachable): boolean {
+	private itemDueToExpire(item: ICacheable): boolean {
 		if (!item?.expires) return false;
 		return item.expires - Date.now() < this.renewWindow;
 	}
 
-	private async tryUpdateItem(key: string, cachedItem: Cached, updateFunction: (item: Cached) => Promise<ICachable>) {
+	private async tryUpdateItem(
+		key: string,
+		cachedItem: Cached,
+		updateFunction: (item: Cached) => Promise<ICacheable>
+	) {
 		try {
 			const updated = await updateFunction(cachedItem);
 			if (updated) {

@@ -1,9 +1,9 @@
-import axios from "axios";
+import { type AxiosInstance } from "axios";
 import { Cache } from "./cache";
-import type { AccessToken, ICachable } from "./types";
+import type { AccessToken, ICacheable } from "./types";
 import { AccessTokenUtil } from "./utils";
 
-export interface CachedVerifier extends ICachable {
+export interface CachedVerifier extends ICacheable {
 	verifier: string;
 	expiresOnAccess: boolean;
 }
@@ -12,14 +12,19 @@ export class Auth {
 	private cache = new Cache(
 		async (code) => {
 			const token = await this.redirectOrVerifyToken(code);
-			return AccessTokenUtil.toCachable(token);
+			return AccessTokenUtil.toCacheable(token);
 		},
 		async (expiring) => {
-			return AccessTokenUtil.refreshCachedAccessToken(this.clientId, expiring);
+			return this.refreshCachedAccessToken(this.clientId, expiring);
 		}
 	);
 
-	constructor(protected clientId: string, protected redirectUri: string, protected scopes: string[]) {}
+	constructor(
+		protected clientId: string,
+		protected redirectUri: string,
+		protected scopes: string[],
+		protected axios: AxiosInstance
+	) {}
 
 	public async getOrCreateAccessToken(code?: string): Promise<AccessToken> {
 		return await this.cache.getOrCreateToken(code);
@@ -31,6 +36,20 @@ export class Auth {
 
 	public removeAccessToken(): void {
 		this.cache.removeToken();
+	}
+
+	private async refreshCachedAccessToken(clientId: string, item: AccessToken) {
+		const params = new URLSearchParams();
+		params.append("client_id", clientId);
+		params.append("grant_type", "refresh_token");
+		params.append("refresh_token", item.refresh_token);
+
+		const result = await this.axios.post("/token", params);
+		if (result.status !== 200) throw new Error("Failed to refresh token");
+
+		const updated = result.data;
+
+		return AccessTokenUtil.toCacheable(updated);
 	}
 
 	private async redirectOrVerifyToken(code?: string): Promise<AccessToken> {
@@ -104,7 +123,7 @@ export class Auth {
 		params.append("redirect_uri", this.redirectUri);
 		params.append("code_verifier", verifier!);
 
-		const result = await axios.post("https://accounts.spotify.com/api/token", params);
+		const result = await this.axios.post("/token", params);
 		if (result.status !== 200) throw new Error("Failed to exchange code for token");
 
 		return result.data;

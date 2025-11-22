@@ -58,6 +58,12 @@ export const DiscordProvider: ParentComponent = (props) => {
 					DISCORD_ACTIVITY_URL_MAPPINGS
 				);
 			}
+			if (spotify.client.authHttpClient.defaults.baseURL) {
+				spotify.client.authHttpClient.defaults.baseURL = PatchUrlUtil.rewriteString(
+					spotify.client.authHttpClient.defaults.baseURL,
+					DISCORD_ACTIVITY_URL_MAPPINGS
+				);
+			}
 			api.client.interceptors.response.use((r) => PatchUrlUtil.intercept(r, DISCORD_ACTIVITY_URL_MAPPINGS));
 			api.youtubeClient.interceptors.response.use((r) =>
 				PatchUrlUtil.intercept(r, DISCORD_ACTIVITY_URL_MAPPINGS)

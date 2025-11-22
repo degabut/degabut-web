@@ -4,7 +4,7 @@ export interface AuthenticationResponse {
 	accessToken: AccessToken;
 }
 
-export interface ICachable {
+export interface ICacheable {
 	expires?: number;
 	expiresOnAccess?: boolean;
 }

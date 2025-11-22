@@ -23,10 +23,12 @@ import { AccessTokenUtil } from "./utils";
 
 export class SpotifySdk {
 	private static rootUrl: string = "https://api.spotify.com/v1/";
+	private static accountRootUrl: string = "https://accounts.spotify.com/api/";
 
 	private auth: Auth;
 
 	public httpClient: AxiosInstance;
+	public authHttpClient: AxiosInstance;
 
 	public albums: AlbumsEndpoint;
 	public artists: ArtistsEndpoint;
@@ -66,8 +68,11 @@ export class SpotifySdk {
 		this.httpClient = axios.create({
 			baseURL: SpotifySdk.rootUrl,
 		});
+		this.authHttpClient = axios.create({
+			baseURL: SpotifySdk.accountRootUrl,
+		});
 
-		this.auth = new Auth(clientId, redirectUri, scopes);
+		this.auth = new Auth(clientId, redirectUri, scopes, this.authHttpClient);
 	}
 
 	public async makeRequest<TReturnType>(
