@@ -16,18 +16,21 @@ import { SpotifyCodePromptModal } from "./components";
 import { useSpotifyData } from "./hooks";
 
 export type SpotifyContextStore = {
-	isConnected: Accessor<boolean>;
+	state: Accessor<SpotifyConnectionState>;
 	client: SpotifySdk;
 	initialize: () => void;
-	initiateManualAuthentication: () => void;
-	authenticate: (code?: string) => Promise<void>;
+	authenticate: (codeOrManual?: string | boolean) => Promise<void>;
 	logout: () => void;
-	getRedirectUrl: () => Promise<string>;
-	isDataInitialized: Accessor<boolean>;
-	setIsDataInitialized: (value: boolean) => void;
 } & ReturnType<typeof useSpotifyData>;
 
 export const SpotifyContext = createContext<SpotifyContextStore>({} as SpotifyContextStore);
+
+export enum SpotifyConnectionState {
+	Empty,
+	Disconnected,
+	Authenticating,
+	Connected,
+}
 
 const scopes = [
 	"playlist-read-private",
@@ -47,13 +50,11 @@ export const SpotifyProvider: ParentComponent = (props) => {
 	let currentClientId = clientId();
 	let client = new SpotifySdk(clientId(), SPOTIFY_OAUTH_REDIRECT_URI, scopes);
 	const [isShowCodePrompt, setIsShowCodePrompt] = createSignal(false);
-	const [isConnected, setIsConnected] = createSignal(false);
-	const [isDataInitialized, setIsDataInitialized] = createSignal(false);
-	const data = useSpotifyData(() => isConnected() && isDataInitialized(), client);
+	const [state, setState] = createSignal(SpotifyConnectionState.Empty);
+	const data = useSpotifyData(() => state() === SpotifyConnectionState.Connected, client);
 
 	createEffect(() => {
 		if (!settings["spotify.enabled"] && !SPOTIFY_CLIENT_ID) return logout();
-		updateIsConnected();
 	});
 
 	createEffect(
@@ -64,38 +65,31 @@ export const SpotifyProvider: ParentComponent = (props) => {
 		})
 	);
 
-	const updateIsConnected = async () => {
+	const initialize = async () => {
+		setState(SpotifyConnectionState.Authenticating);
 		const token = await client.getAccessToken();
-		setIsConnected(!!token);
+		setState(token ? SpotifyConnectionState.Connected : SpotifyConnectionState.Disconnected);
 	};
 
-	const initialize = () => {
+	const instantiate = () => {
+		logout();
 		const id = clientId();
 		if (!id) return;
 
-		client.logOut();
 		client = new SpotifySdk(id, SPOTIFY_OAUTH_REDIRECT_URI, scopes);
 	};
 
-	const initiateManualAuthentication = async () => {
-		initialize();
-		const url = await getRedirectUrl();
-		window.open(url, "_blank")?.focus();
-		setIsShowCodePrompt(true);
-	};
+	const authenticate = async (codeOrManual?: string | boolean) => {
+		instantiate();
 
-	const authenticate = async (code?: string) => {
-		await client.authenticate(code);
-		updateIsConnected();
-	};
-
-	const getRedirectUrl = async () => {
-		return client.getRedirectUrl();
-	};
-
-	const logout = () => {
-		client.logOut();
-		setIsConnected(false);
+		if (codeOrManual === true) {
+			const url = await client.getRedirectUrl();
+			window.open(url, "_blank")?.focus();
+			setIsShowCodePrompt(true);
+		} else {
+			await client.authenticate(codeOrManual || undefined);
+			initialize();
+		}
 	};
 
 	const onCodeAuthenticate = async (code: string) => {
@@ -104,16 +98,17 @@ export const SpotifyProvider: ParentComponent = (props) => {
 		navigate(AppRoutes.Spotify);
 	};
 
+	const logout = () => {
+		client.logOut();
+		setState(SpotifyConnectionState.Disconnected);
+	};
+
 	const store: SpotifyContextStore = {
 		client,
-		isConnected,
+		state,
 		initialize,
 		authenticate,
-		initiateManualAuthentication,
 		logout,
-		getRedirectUrl,
-		isDataInitialized,
-		setIsDataInitialized,
 		...data,
 	};
 

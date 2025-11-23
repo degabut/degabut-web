@@ -208,14 +208,7 @@ export const Settings: Component = () => {
 					element: () => (
 						<Button
 							class="px-2 py-0.5"
-							onClick={() => {
-								if (IS_DISCORD_EMBEDDED) {
-									spotify.initiateManualAuthentication();
-								} else {
-									spotify.initialize();
-									spotify.authenticate();
-								}
-							}}
+							onClick={() => spotify.authenticate(IS_DISCORD_EMBEDDED)}
 							disabled={!settings["spotify.clientId"]}
 						>
 							<Text.Body2>Authenticate</Text.Body2>
