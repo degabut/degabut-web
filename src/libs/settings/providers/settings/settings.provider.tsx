@@ -16,7 +16,8 @@ export type Settings = {
 	["discord.rpc"]: boolean;
 	["discord.rpcClientId"]: string;
 	["discord.rpcClientSecret"]: string;
-	["discord.interactivePip.enabled"]: boolean;
+	["discord.pip.interactive"]: boolean;
+	["discord.pip.lyrics"]: boolean;
 	["app.drawerSize"]: number;
 	["app.catJam.enabled"]: boolean;
 	["app.player.size"]: number;
@@ -49,7 +50,8 @@ const defaultSettings: Settings = {
 	["discord.rpc"]: false,
 	["discord.rpcClientId"]: "",
 	["discord.rpcClientSecret"]: "",
-	["discord.interactivePip.enabled"]: true,
+	["discord.pip.interactive"]: true,
+	["discord.pip.lyrics"]: false,
 	["app.drawerSize"]: 256,
 	["app.catJam.enabled"]: true,
 	["app.player.size"]: 360,

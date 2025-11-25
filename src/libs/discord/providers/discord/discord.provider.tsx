@@ -94,7 +94,7 @@ export const DiscordProvider: ParentComponent = (props) => {
 	createEffect(() => {
 		if (isReady()) {
 			discordSdk.commands.setConfig({
-				use_interactive_pip: settings["discord.interactivePip.enabled"],
+				use_interactive_pip: settings["discord.pip.interactive"],
 			});
 		}
 	});

@@ -2,7 +2,7 @@ import { Button, Divider, Icon, Spinner, Text, useContextMenu, useTimedText } fr
 import { SourceBadge, useLikeMediaSource } from "@media-source";
 import { LyricsUtil, QueueActions, QueueSeekSlider, useLyrics, useQueue } from "@queue";
 import { useSettings } from "@settings";
-import { createSignal, onMount, Show, type Component } from "solid-js";
+import { onMount, Show, type Component } from "solid-js";
 
 type Props = {
 	bottomPadding?: boolean;
@@ -91,8 +91,7 @@ const Lyrics: Component = () => {
 export const DiscordActivityPip: Component = () => {
 	const queue = useQueue()!;
 	const contextMenu = useContextMenu()!;
-	const { settings } = useSettings()!;
-	const [isShowLyrics, setIsShowLyrics] = createSignal(true);
+	const { settings, setSettings } = useSettings()!;
 
 	const like = useLikeMediaSource(() => queue.data.nowPlaying?.mediaSource.id || "")!;
 
@@ -107,7 +106,7 @@ export const DiscordActivityPip: Component = () => {
 			{({ mediaSource }) => (
 				<div class="w-full h-full flex flex-col">
 					<div class="group/item-list flex items-center justify-center relative w-full h-full overflow-hidden">
-						<Show when={!isShowLyrics()} fallback={<Lyrics />}>
+						<Show when={!settings["discord.pip.lyrics"]} fallback={<Lyrics />}>
 							<img
 								src={mediaSource.minThumbnailUrl}
 								class="absolute blur-2xl top-0 left-0 h-full w-full opacity-50"
@@ -125,7 +124,9 @@ export const DiscordActivityPip: Component = () => {
 						<div class="absolute bottom-0 left-0 w-full z-10">
 							<QueueSeekSlider
 								dense
-								extraLabelClass={`px-2.5 text-shadow ${isShowLyrics() ? "invisible" : "visible"}`}
+								extraLabelClass={`px-2.5 text-shadow ${
+									settings["discord.pip.lyrics"] ? "invisible" : "visible"
+								}`}
 								value={queue.data.position / 1000}
 								onChange={(v) => queue.seek(v * 1000)}
 								max={mediaSource.duration}
@@ -165,7 +166,7 @@ export const DiscordActivityPip: Component = () => {
 							</div>
 						</div>
 
-						<Show when={settings["discord.interactivePip.enabled"]}>
+						<Show when={settings["discord.pip.interactive"]}>
 							<div class="flex space-x-0.5">
 								<Button
 									flat
@@ -184,18 +185,18 @@ export const DiscordActivityPip: Component = () => {
 									icon={"microphone"}
 									iconSize={"md"}
 									class="p-2 visible"
-									theme={isShowLyrics() ? "brand" : "secondary"}
-									title={isShowLyrics() ? "Hide Lyrics" : "Show Lyrics"}
+									theme={settings["discord.pip.lyrics"] ? "brand" : "secondary"}
+									title={settings["discord.pip.lyrics"] ? "Hide Lyrics" : "Show Lyrics"}
 									on:click={(e) => {
 										e.stopImmediatePropagation();
-										setIsShowLyrics(!isShowLyrics());
+										setSettings("discord.pip.lyrics", (v) => !v);
 									}}
 								/>
 							</div>
 						</Show>
 					</div>
 
-					<Show when={settings["discord.interactivePip.enabled"]}>
+					<Show when={settings["discord.pip.interactive"]}>
 						<div class="h-3 shrink-0" />
 					</Show>
 				</div>

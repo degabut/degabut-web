@@ -112,8 +112,8 @@ export const Settings: Component = () => {
 					label: "Use interactive PIP (Picture-in-Picture)",
 					type: "switch",
 					hide: !IS_DISCORD_EMBEDDED,
-					value: () => settings["discord.interactivePip.enabled"],
-					onChange: () => setSettings("discord.interactivePip.enabled", (v) => !v),
+					value: () => settings["discord.pip.interactive"],
+					onChange: () => setSettings("discord.pip.interactive", (v) => !v),
 				},
 				{
 					label: "Enable Rich Presence",
