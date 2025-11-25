@@ -1,8 +1,8 @@
-import { Button, Divider, Icon, Text, useContextMenu } from "@common";
+import { Button, Divider, Icon, Spinner, Text, useContextMenu, useTimedText } from "@common";
 import { SourceBadge, useLikeMediaSource } from "@media-source";
-import { QueueActions, QueueSeekSlider, useQueue } from "@queue";
+import { LyricsUtil, QueueActions, QueueSeekSlider, useLyrics, useQueue } from "@queue";
 import { useSettings } from "@settings";
-import { onMount, Show, type Component } from "solid-js";
+import { createSignal, onMount, Show, type Component } from "solid-js";
 
 type Props = {
 	bottomPadding?: boolean;
@@ -17,7 +17,7 @@ const EmptyNowPlaying: Component<Props> = (props) => {
 				</div>
 			</div>
 			<Divider dark />
-			<div class="flex items-center h-[3.75rem] px-4">
+			<div class="flex items-center h-[3.5rem] px-4">
 				<Text.H3 class="truncate text-neutral-500 hidden discord-pip:block">It's lonely here...</Text.H3>
 			</div>
 
@@ -28,10 +28,71 @@ const EmptyNowPlaying: Component<Props> = (props) => {
 	);
 };
 
+const Lyrics: Component = () => {
+	const queue = useQueue()!;
+	const lyrics = useLyrics();
+	const timedText = useTimedText(() => {
+		const lyrics = syncedLyrics();
+		return {
+			elapsed: queue.data.position / 1000,
+			timedTexts: lyrics || [],
+		};
+	});
+	const syncedLyrics = () => {
+		const nowPlaying = queue.data.nowPlaying;
+		if (!nowPlaying) return null;
+
+		const lyricsOptions = lyrics.data();
+		if (!lyricsOptions?.length) return null;
+
+		const bestMatch = lyricsOptions
+			.sort((a, b) => {
+				const aDiff = Math.abs(a.duration - nowPlaying.mediaSource.duration);
+				const bDiff = Math.abs(b.duration - nowPlaying.mediaSource.duration);
+				return aDiff - bDiff;
+			})
+			.at(0)?.synced;
+
+		return bestMatch ? LyricsUtil.parse(bestMatch).synced : null;
+	};
+
+	const lines = () => {
+		const index = timedText.index();
+		return {
+			previous: syncedLyrics()?.[index - 1]?.text || "",
+			current: syncedLyrics()?.[index]?.text || "",
+			next: syncedLyrics()?.[index + 1]?.text || "",
+		};
+	};
+
+	return (
+		<div
+			class="relative h-full w-full flex flex-col justify-center overflow-hidden"
+			classList={{ "items-center": lyrics.data.loading }}
+		>
+			<Show when={!lyrics.data.loading} fallback={<Spinner />}>
+				<Show
+					when={lyrics.data}
+					fallback={<Text.Body2 class="text-neutral-400 text-center">No Lyrics Found :(</Text.Body2>}
+				>
+					<div class="relative max-h-8">
+						<Text.Caption1 class="absolute bottom-0 left-0 px-4">{lines().previous}</Text.Caption1>
+					</div>
+					<Text.Body1 class="text-white font-medium px-4 py-2">{lines().current}</Text.Body1>
+					<div class="relative max-h-8">
+						<Text.Caption1 class="absolute top-0 left-0 px-4">{lines().next}</Text.Caption1>
+					</div>
+				</Show>
+			</Show>
+		</div>
+	);
+};
+
 export const DiscordActivityPip: Component = () => {
 	const queue = useQueue()!;
 	const contextMenu = useContextMenu()!;
 	const { settings } = useSettings()!;
+	const [isShowLyrics, setIsShowLyrics] = createSignal(true);
 
 	const like = useLikeMediaSource(() => queue.data.nowPlaying?.mediaSource.id || "")!;
 
@@ -45,15 +106,17 @@ export const DiscordActivityPip: Component = () => {
 		<Show when={queue.data.nowPlaying} keyed fallback={<EmptyNowPlaying bottomPadding />}>
 			{({ mediaSource }) => (
 				<div class="w-full h-full flex flex-col">
-					<div class="group/item-list flex items-center justify-center relative w-full h-full">
-						<img
-							src={mediaSource.minThumbnailUrl}
-							class="absolute blur-2xl top-0 left-0 h-full w-full opacity-50"
-						/>
-						<img
-							src={mediaSource.maxThumbnailUrl}
-							class="relative h-20 w-20 rounded-lg object-cover m-2.5"
-						/>
+					<div class="group/item-list flex items-center justify-center relative w-full h-full overflow-hidden">
+						<Show when={!isShowLyrics()} fallback={<Lyrics />}>
+							<img
+								src={mediaSource.minThumbnailUrl}
+								class="absolute blur-2xl top-0 left-0 h-full w-full opacity-50"
+							/>
+							<img
+								src={mediaSource.maxThumbnailUrl}
+								class="relative h-20 w-20 rounded-lg object-cover m-2.5"
+							/>
+						</Show>
 
 						<div class="group-hover/item-list:opacity-100 opacity-0 transition-all absolute flex-row-center justify-center w-full h-full  bg-black/75">
 							<QueueActions extraClass="w-full justify-between max-w-64" iconSize="lg" />
@@ -62,7 +125,7 @@ export const DiscordActivityPip: Component = () => {
 						<div class="absolute bottom-0 left-0 w-full z-10">
 							<QueueSeekSlider
 								dense
-								extraLabelClass="px-2.5 text-shadow"
+								extraLabelClass={`px-2.5 text-shadow ${isShowLyrics() ? "invisible" : "visible"}`}
 								value={queue.data.position / 1000}
 								onChange={(v) => queue.seek(v * 1000)}
 								max={mediaSource.duration}
@@ -71,7 +134,7 @@ export const DiscordActivityPip: Component = () => {
 						</div>
 					</div>
 
-					<div class="relative flex flex-row w-full bg-neutral-950 space-x-2 px-4 pr-2 py-2.5">
+					<div class="relative flex flex-row w-full bg-neutral-950 space-x-2 px-4 pr-2 py-2">
 						<div class="grow flex flex-col space-y-1 truncate justify-center">
 							<Text.Body1 class="truncate font-medium text-sm" title={mediaSource.title}>
 								{mediaSource.title}
@@ -103,18 +166,32 @@ export const DiscordActivityPip: Component = () => {
 						</div>
 
 						<Show when={settings["discord.interactivePip.enabled"]}>
-							<Button
-								flat
-								icon={like.isLiked() ? "heart" : "heartLine"}
-								iconSize={"md"}
-								class="p-2 visible"
-								theme={like.isLiked() ? "brand" : "secondary"}
-								title={like.isLiked() ? "Unlike" : "Like"}
-								on:click={(e) => {
-									e.stopImmediatePropagation();
-									like.toggle();
-								}}
-							/>
+							<div class="flex space-x-0.5">
+								<Button
+									flat
+									icon={like.isLiked() ? "heart" : "heartLine"}
+									iconSize={"md"}
+									class="p-2 visible"
+									theme={like.isLiked() ? "brand" : "secondary"}
+									title={like.isLiked() ? "Unlike" : "Like"}
+									on:click={(e) => {
+										e.stopImmediatePropagation();
+										like.toggle();
+									}}
+								/>
+								<Button
+									flat
+									icon={"microphone"}
+									iconSize={"md"}
+									class="p-2 visible"
+									theme={isShowLyrics() ? "brand" : "secondary"}
+									title={isShowLyrics() ? "Hide Lyrics" : "Show Lyrics"}
+									on:click={(e) => {
+										e.stopImmediatePropagation();
+										setIsShowLyrics(!isShowLyrics());
+									}}
+								/>
+							</div>
 						</Show>
 					</div>
 
