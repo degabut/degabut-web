@@ -72,7 +72,7 @@ const Lyrics: Component = () => {
 		>
 			<Show when={!lyrics.data.loading} fallback={<Spinner />}>
 				<Show
-					when={lyrics.data}
+					when={lyrics.data()?.length}
 					fallback={<Text.Body2 class="text-neutral-400 text-center">No Lyrics Found :(</Text.Body2>}
 				>
 					<div class="relative max-h-8">
