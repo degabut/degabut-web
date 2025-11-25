@@ -1,8 +1,7 @@
 import { useApp } from "@app/providers";
-import { Container, Icon, Spinner } from "@common";
-import { useQueue } from "@queue";
-import { useLyrics } from "@youtube";
-import { For, Match, Switch, createMemo, onMount, type Component } from "solid-js";
+import { Container, Icon, Spinner, useTimedText } from "@common";
+import { LyricsUtil, useLyrics, useQueue } from "@queue";
+import { For, Match, Switch, createEffect, onMount, type Component } from "solid-js";
 import "./lyrics.style.css";
 
 const LyricsNotFound: Component = () => {
@@ -24,39 +23,93 @@ const Loading: Component = () => {
 
 export const Lyrics: Component = () => {
 	let container!: HTMLDivElement;
-	const queue = useQueue()!;
 	const app = useApp()!;
-	const currentId = createMemo(() => queue.data.nowPlaying?.mediaSource.playedYoutubeVideoId || "");
-	const lyrics = useLyrics(currentId);
-	// let initialScroll = true;
-	// let lastScrollTime = 0;
+	const queue = useQueue()!;
+	const lyrics = useLyrics();
+	const timedText = useTimedText(() => {
+		const lyrics = syncedLyrics();
+		return {
+			elapsed: queue.data.position / 1000,
+			timedTexts: lyrics || [],
+		};
+	});
 
 	onMount(() => app.setTitle("Lyrics"));
 
-	// createEffect(() => {
-	// 	if (timedText.index() === -1 && container) {
-	// 		container.scrollTop = 0;
-	// 	} else {
-	// 		if (Date.now() - lastScrollTime < 3000) return;
-	// 		const index = timedText.index();
-	// 		if (initialScroll) {
-	// 			setTimeout(() => scrollTo(index), 200);
-	// 			initialScroll = false;
-	// 		} else {
-	// 			scrollTo(index);
-	// 		}
-	// 	}
-	// });
+	let initialScroll = true;
+	let lastScrollTime = 0;
 
-	// const scrollTo = (index: number) => {
-	// 	const element = container?.childNodes[index] as HTMLDivElement;
-	// 	if (!element) return;
-	// 	container.scrollTop = element.offsetTop - container.offsetHeight / 2.5 + element.offsetHeight / 2;
-	// };
+	const syncedLyrics = () => {
+		const nowPlaying = queue.data.nowPlaying;
+		if (!nowPlaying) return null;
 
-	// const onContainerScrollHandler = () => {
-	// 	lastScrollTime = Date.now();
-	// };
+		const lyricsOptions = lyrics.data();
+		if (!lyricsOptions?.length) return null;
+
+		const bestMatch = lyricsOptions
+			.sort((a, b) => {
+				const aDiff = Math.abs(a.duration - nowPlaying.mediaSource.duration);
+				const bDiff = Math.abs(b.duration - nowPlaying.mediaSource.duration);
+				return aDiff - bDiff;
+			})
+			.at(0)?.synced;
+
+		return bestMatch ? LyricsUtil.parse(bestMatch).synced : null;
+	};
+
+	const normalLyrics = () => {
+		const nowPlaying = queue.data.nowPlaying;
+		if (!nowPlaying) return null;
+
+		const lyricsOptions = lyrics.data();
+		if (!lyricsOptions?.length) return null;
+
+		const unsyncedLyrics = lyricsOptions.find((l) => l.unsynced);
+		if (unsyncedLyrics?.unsynced) {
+			return {
+				content: unsyncedLyrics.unsynced,
+				description: unsyncedLyrics.source,
+			};
+		}
+
+		const synced = lyricsOptions.find((l) => l.synced);
+		if (synced?.synced) {
+			return {
+				content:
+					LyricsUtil.parse(synced.synced)
+						.synced?.map((s) => s.text)
+						.join("\n") || "",
+				description: synced.source,
+			};
+		}
+
+		return null;
+	};
+
+	createEffect(() => {
+		if (timedText.index() === -1 && container) {
+			container.scrollTop = 0;
+		} else {
+			if (Date.now() - lastScrollTime < 3000) return;
+			const index = timedText.index();
+			if (initialScroll) {
+				setTimeout(() => scrollTo(index), 200);
+				initialScroll = false;
+			} else {
+				scrollTo(index);
+			}
+		}
+	});
+
+	const scrollTo = (index: number) => {
+		const element = container?.childNodes[index] as HTMLDivElement;
+		if (!element) return;
+		container.scrollTop = element.offsetTop - container.offsetHeight / 2.5 + element.offsetHeight / 2;
+	};
+
+	const onContainerScrollHandler = () => {
+		lastScrollTime = Date.now();
+	};
 
 	return (
 		<Container
@@ -64,14 +117,14 @@ export const Lyrics: Component = () => {
 			extraClass="h-full flex flex-col items-center space-y-2.5"
 			centered
 			ref={container}
-			// onScroll={onContainerScrollHandler}
+			onScroll={onContainerScrollHandler}
 		>
 			<Switch fallback={<LyricsNotFound />}>
 				<Match when={lyrics.data.loading}>
 					<Loading />
 				</Match>
-				{/* <Match when={videoTranscripts.data().length}>
-					<For each={videoTranscripts.data()}>
+				<Match when={syncedLyrics()} keyed>
+					<For each={syncedLyrics()}>
 						{(t, i) => (
 							<div
 								class="space-y-1 py-2 text"
@@ -84,12 +137,12 @@ export const Lyrics: Component = () => {
 									"font-semibold text-2xl md:text-3xl !text-neutral-100": i() === timedText.index(),
 								}}
 							>
-								<For each={t.texts}>{(text) => <div>{text}</div>}</For>
+								<div>{t.text}</div>
 							</div>
 						)}
 					</For>
-				</Match> */}
-				<Match when={lyrics.data()} keyed>
+				</Match>
+				<Match when={normalLyrics()} keyed>
 					{({ content, description }) => (
 						<>
 							<For each={content.split(/\r?\n/)}>

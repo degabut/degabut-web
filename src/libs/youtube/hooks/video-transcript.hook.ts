@@ -19,18 +19,19 @@ export const useVideoTranscript = (videoId: IUseTranscriptProps) => {
 			let text = transcript.text?.replaceAll("♪", "");
 			if (!text.trim()) text = transcript.text;
 
-			const index = formatted.findIndex((t) => t.start === transcript.start && t.end === transcript.end);
+			const index = formatted.findIndex((t) => t.startTime === transcript.start && t.endTime === transcript.end);
 			if (index === -1) {
 				formatted.push({
-					...transcript,
-					texts: [text],
+					startTime: transcript.start,
+					endTime: transcript.end,
+					text,
 				});
-			} else if (!formatted[index].texts.includes(text)) {
-				formatted[index].texts.push(text);
+			} else if (!formatted[index].text.includes(text)) {
+				formatted[index].text += `\n${text}`;
 			}
 		}
 
-		return formatted.sort((a, b) => a.start - b.start);
+		return formatted.sort((a, b) => a.startTime - b.startTime);
 	});
 
 	const isLoading = () => _data.loading;

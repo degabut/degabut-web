@@ -101,6 +101,14 @@ export type IChangeAutoplayOptions = Partial<IAutoplayOptions> & {
 	removeExcludedMemberId?: string;
 };
 
+export interface ILyrics {
+	source: string;
+	richSynced: string | null;
+	synced: string | null;
+	unsynced: string | null;
+	duration: number;
+}
+
 export class QueueApi {
 	constructor(private client: AxiosInstance) {}
 
@@ -191,5 +199,11 @@ export class QueueApi {
 
 	jam = async (queueId: string, count: number): Promise<void> => {
 		await this.client.post(`/queues/${queueId}/jam`, { count: Math.min(count, 5) });
+	};
+
+	lyrics = async (queueId: string): Promise<ILyrics[]> => {
+		const response = await this.client.get(`/queues/${queueId}/lyrics`);
+		if (response.status !== 200) return [];
+		return response.data;
 	};
 }
