@@ -9,6 +9,8 @@ export type TimedText = {
 type Params = {
 	timedTexts: TimedText[];
 	elapsed: number;
+	speed?: number;
+	offset?: number;
 };
 
 export const useTimedText = (params: Accessor<Params>) => {
@@ -20,8 +22,9 @@ export const useTimedText = (params: Accessor<Params>) => {
 	createEffect(() => {
 		clearUpdateTimeout();
 
-		const elapsed = params().elapsed;
+		const elapsed = params().elapsed + (params().offset ?? 0) / 1000;
 		const data = params().timedTexts;
+		const speed = params().speed ?? 1;
 
 		const indexes = [];
 		for (const [i, t] of data.entries()) {
@@ -44,7 +47,7 @@ export const useTimedText = (params: Accessor<Params>) => {
 		else setIndex(index);
 
 		if (delay < 5000 && elapsed < (data[data.length - 1].endTime ?? Infinity) && !last) {
-			optimisticUpdateTimeout = setTimeout(() => setIndex((v) => v + 1), delay);
+			optimisticUpdateTimeout = setTimeout(() => setIndex((v) => v + 1), delay * speed);
 		}
 	});
 

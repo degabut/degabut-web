@@ -1,6 +1,6 @@
 import { Button, Divider, Icon, Spinner, Text, useContextMenu, useTimedText } from "@common";
 import { SourceBadge, useLikeMediaSource } from "@media-source";
-import { LyricsUtil, QueueActions, QueueSeekSlider, useLyrics, useQueue } from "@queue";
+import { LyricsUtil, QueueActions, QueueSeekSlider, useLyrics, usePlayerSpeed, useQueue } from "@queue";
 import { useSettings } from "@settings";
 import { onMount, Show, type Component } from "solid-js";
 
@@ -30,12 +30,16 @@ const EmptyNowPlaying: Component<Props> = (props) => {
 
 const Lyrics: Component = () => {
 	const queue = useQueue()!;
+	const speed = usePlayerSpeed();
+	const { settings } = useSettings();
 	const lyrics = useLyrics();
 	const timedText = useTimedText(() => {
 		const lyrics = syncedLyrics();
 		return {
+			offset: settings["app.lyrics.offset"],
 			elapsed: queue.data.position / 1000,
 			timedTexts: lyrics || [],
+			speed: speed(),
 		};
 	});
 	const syncedLyrics = () => {

@@ -7,6 +7,8 @@ export type InputProps = Omit<JSX.InputHTMLAttributes<HTMLInputElement>, "prefix
 	focusOnMount?: boolean;
 	prefix?: Accessor<JSX.Element>;
 	suffix?: Accessor<JSX.Element>;
+	inputExtraClass?: string;
+	inputExtraClassList?: Record<string, boolean>;
 };
 
 export const Input: Component<InputProps> = (props) => {
@@ -56,6 +58,7 @@ export const Input: Component<InputProps> = (props) => {
 					"!pr-1.5": !!props.suffix && props.dense,
 					"py-2 px-4": !props.dense,
 					"py-1 px-2": props.dense,
+					[props.inputExtraClass || ""]: !!props.inputExtraClass,
 				}}
 			/>
 			{props.suffix?.()}

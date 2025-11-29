@@ -27,6 +27,7 @@ export type Settings = {
 	["app.snowfall.amount"]: number;
 	["app.snowfall.speed"]: number;
 	["app.mediaSession.enabled"]: boolean;
+	["app.lyrics.offset"]: number;
 	["overlay.enabled"]: boolean;
 	["overlay.shortcut"]: string[];
 	["overlay.nowPlaying.enabled"]: boolean;
@@ -61,6 +62,7 @@ const defaultSettings: Settings = {
 	["app.snowfall.amount"]: 25,
 	["app.snowfall.speed"]: 50,
 	["app.mediaSession.enabled"]: true,
+	["app.lyrics.offset"]: 0,
 	["overlay.enabled"]: true,
 	["overlay.shortcut"]: ["Control", "Shift", "B"],
 	["overlay.nowPlaying.enabled"]: false,
