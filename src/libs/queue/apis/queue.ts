@@ -202,8 +202,20 @@ export class QueueApi {
 	};
 
 	lyrics = async (queueId: string): Promise<ILyrics[]> => {
-		const response = await this.client.get(`/queues/${queueId}/lyrics`);
-		if (response.status !== 200) return [];
-		return response.data;
+		// retries 5xx errors
+		let attempts = 3;
+
+		while (attempts > 0) {
+			try {
+				const response = await this.client.get(`/queues/${queueId}/lyrics`, {});
+				if (response.status !== 200) return [];
+				return response.data;
+			} catch (err) {
+				attempts -= 1;
+				if (attempts === 0) throw err;
+			}
+		}
+
+		return [];
 	};
 }
