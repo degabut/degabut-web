@@ -16,7 +16,12 @@ export const usePlayerPositionUpdater = ({ queue, setQueue }: Params) => {
 	});
 
 	const tick = () => {
-		const multiplier = (queue.filtersState.timescale.speed || 1) * (queue.filtersState.timescale.rate || 1);
+		let multiplier = 1;
+
+		if (queue.filtersState.timescale.enabled) {
+			multiplier = (queue.filtersState.timescale.speed || 1) * (queue.filtersState.timescale.rate || 1);
+		}
+
 		setQueue("position", (p) => p + 250 * multiplier);
 	};
 };
