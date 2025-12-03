@@ -46,7 +46,7 @@ const Lyrics: Component = () => {
 		const nowPlaying = queue.data.nowPlaying;
 		if (!nowPlaying) return null;
 
-		const lyricsOptions = lyrics.data();
+		const lyricsOptions = lyrics();
 		if (!lyricsOptions?.length) return null;
 
 		const bestMatch = lyricsOptions
@@ -72,11 +72,11 @@ const Lyrics: Component = () => {
 	return (
 		<div
 			class="relative h-full w-full flex flex-col justify-center overflow-hidden"
-			classList={{ "items-center": lyrics.data.loading }}
+			classList={{ "items-center": lyrics.loading }}
 		>
-			<Show when={!lyrics.data.loading} fallback={<Spinner />}>
+			<Show when={!lyrics.loading} fallback={<Spinner />}>
 				<Show
-					when={lyrics.data()?.length}
+					when={lyrics()?.length}
 					fallback={<Text.Body2 class="text-neutral-400 text-center">No Lyrics Found :(</Text.Body2>}
 				>
 					<div class="relative max-h-8">

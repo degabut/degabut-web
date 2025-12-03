@@ -1,22 +1,16 @@
-import { useApi } from "@common";
-import { createResource } from "solid-js";
-import { QueueApi } from "../apis";
+import { onCleanup, onMount } from "solid-js";
 import { useQueue } from "../providers";
 
 export const useLyrics = () => {
 	const queue = useQueue()!;
-	const api = useApi();
-	const queueApi = new QueueApi(api.client);
 
-	const [data, { refetch, mutate }] = createResource(
-		() => queue?.data.nowPlaying,
-		(nowPlaying) => (nowPlaying ? queueApi.lyrics(queue.data.voiceChannel.id) : null),
-		{ initialValue: null }
-	);
+	onMount(() => {
+		queue.lyrics.setIsActive(true);
+	});
 
-	return {
-		data,
-		mutate,
-		refetch,
-	};
+	onCleanup(() => {
+		queue.lyrics.setIsActive(false);
+	});
+
+	return queue.lyrics.data;
 };

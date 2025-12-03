@@ -21,6 +21,7 @@ import {
 	useQueueActions,
 	useQueueEventListener,
 	useQueueEvents,
+	useQueueLyrics,
 	useVoiceChannelHistory,
 	type QueueEvents,
 } from "./hooks";
@@ -71,6 +72,7 @@ export type QueueContextStore = {
 	freezeState: FreezeState;
 	bot: Accessor<Bot>;
 	setBot: (index: number) => void;
+	lyrics: ReturnType<typeof useQueueLyrics>;
 	emitter: TypedEventEmitter<QueueEvents>;
 } & ReturnType<typeof useQueueActions>;
 
@@ -120,6 +122,7 @@ export const QueueProvider: ParentComponent = (props) => {
 	const { emitter, listen, close } = useQueueEvents();
 	const queueActions = useQueueActions({ queue, setFreezeState });
 	const voiceChannelHistory = useVoiceChannelHistory({ queue });
+	const lyrics = useQueueLyrics({ queue });
 	useQueueEventListener({ queue, setQueue, setFreezeState, fetchQueue, emitter });
 	usePlayerPositionUpdater({ queue, setQueue });
 
@@ -209,6 +212,7 @@ export const QueueProvider: ParentComponent = (props) => {
 		isInitialLoading,
 		freezeState,
 		emitter,
+		lyrics,
 		...botSelector,
 		...queueActions,
 	};

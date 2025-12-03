@@ -48,7 +48,7 @@ export const Lyrics: Component = () => {
 		const nowPlaying = queue.data.nowPlaying;
 		if (!nowPlaying) return null;
 
-		const lyricsOptions = lyrics.data();
+		const lyricsOptions = lyrics();
 		if (!lyricsOptions?.length) return null;
 
 		const bestMatch = lyricsOptions
@@ -71,7 +71,7 @@ export const Lyrics: Component = () => {
 		const nowPlaying = queue.data.nowPlaying;
 		if (!nowPlaying) return null;
 
-		const lyricsOptions = lyrics.data();
+		const lyricsOptions = lyrics();
 		if (!lyricsOptions?.length) return null;
 
 		const unsyncedLyrics = lyricsOptions.find((l) => l.unsynced);
@@ -135,7 +135,7 @@ export const Lyrics: Component = () => {
 				onScroll={onContainerScrollHandler}
 			>
 				<Switch fallback={<LyricsNotFound />}>
-					<Match when={lyrics.data.loading}>
+					<Match when={lyrics.loading}>
 						<Loading />
 					</Match>
 					<Match when={syncedLyrics()} keyed>
