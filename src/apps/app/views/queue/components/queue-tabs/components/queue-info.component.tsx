@@ -49,15 +49,15 @@ export const QueueInfo: Component = () => {
 
 	return (
 		<>
-			<div class="flex flex-row flex-wrap justify-between md:justify-start gap-x-3 md:gap-x-0 space-x-0 md:space-x-5 gap-y-1.5 truncate">
-				<InfoItem title="Queue Duration" description={queueDuration()} extraClass="flex-1 md:flex-grow-0" />
+			<div class="flex overflow-x-scroll justify-between md:justify-start gap-x-3 md:gap-x-0 space-x-0 md:space-x-5 gap-y-1.5 ">
+				<InfoItem title="Queue Duration" description={queueDuration()} extraClass="flex-shrink-0" />
 
 				<Divider vertical dark />
 
 				<InfoItem
 					title="Track Count"
 					description={!queue.data.empty ? queue.data.tracks?.length || 0 : "-"}
-					extraClass="flex-1 md:flex-grow-0"
+					extraClass="flex-shrink-0"
 				/>
 
 				<Divider vertical dark />
