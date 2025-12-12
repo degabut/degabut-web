@@ -1,4 +1,4 @@
-import { Button, Divider, Icon, Text, TimeUtil } from "@common";
+import { Button, Divider, Text, TimeUtil } from "@common";
 import { useQueue } from "@queue";
 import { type Accessor, type Component, For, type JSX, Show, createSignal } from "solid-js";
 import { AutoplayOptionsModal } from "./autoplay-options-modal.component";
@@ -67,9 +67,10 @@ export const QueueInfo: Component = () => {
 						class="flex-row-center space-x-1.5 px-2 h-full"
 						flat
 						onClick={() => setIsListenersModalOpen(true)}
+						disabled={queue.data.empty}
+						icon="people"
+						iconSize="lg"
 					>
-						<Icon name="people" size="lg" class="text-neutral-400 mx-auto" />
-
 						<Show when={queue.data.voiceChannel.members.length}>
 							<div class="flex-row-center overflow-x-clip -space-x-2">
 								<For each={queue.data.voiceChannel.members.filter((m) => m.isInVoiceChannel)}>
@@ -89,6 +90,7 @@ export const QueueInfo: Component = () => {
 				</div>
 
 				<Divider vertical dark />
+
 				<InfoItem
 					horizontal
 					description={() => (
@@ -116,6 +118,7 @@ export const QueueInfo: Component = () => {
 							<Button
 								icon="gear"
 								flat
+								disabled={queue.data.empty}
 								class="p-2.5"
 								onClick={() => setIsAutoplayOptionsModalOpen(true)}
 							/>
