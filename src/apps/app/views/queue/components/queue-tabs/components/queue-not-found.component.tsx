@@ -1,8 +1,8 @@
 import { useApp } from "@app/providers";
 import { Button, Icon, Text, useApi } from "@common";
 import { useDiscord } from "@discord";
-import { PlayerApi, VoiceChannelList, useQueue, type ITextChannel, type IVoiceChannelMin } from "@queue";
-import { For, Show, type Component } from "solid-js";
+import { PlayerApi, useQueue, VoiceChannelList, type ITextChannel, type IVoiceChannelMin } from "@queue";
+import { createSignal, For, Show, type Component } from "solid-js";
 
 export const QueueNotFound: Component = () => {
 	const app = useApp()!;
@@ -45,15 +45,26 @@ export const QueueNotFound: Component = () => {
 };
 
 type JoinCurrentChannelProps = {
-	onClickChannel: (voiceChannel: IVoiceChannelMin, textChannel?: ITextChannel | null) => void;
+	onClickChannel: (voiceChannel: IVoiceChannelMin, textChannel?: ITextChannel | null) => Promise<void>;
 	channel: IVoiceChannelMin;
 };
 
 const JoinCurrentChannel: Component<JoinCurrentChannelProps> = (props) => {
 	const queue = useQueue()!;
+	const [isLoading, setIsLoading] = createSignal(false);
+
+	const handle = async () => {
+		try {
+			setIsLoading(true);
+			await props.onClickChannel(props.channel);
+		} catch {
+			setIsLoading(false);
+		}
+	};
+
 	return (
 		<div class="flex-row-center justify-center py-4  text-neutral-300">
-			<Button class="px-12 py-2" onClick={() => props.onClickChannel(props.channel)}>
+			<Button disabled={isLoading()} class="px-12 py-2" onClick={() => handle()}>
 				<div class="flex-col-center space-y-0.5">
 					<Text.Body1>Bring {queue.bot().name} to</Text.Body1>
 					<div class="flex-row-center space-x-2">
