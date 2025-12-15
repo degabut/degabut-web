@@ -13,16 +13,17 @@ import {
 } from "./components";
 
 export const Recap: Component = () => {
-	const params = useParams<{ year: string }>();
+	const params = useParams<{ year?: string }>();
 	const yearParam = () => {
 		const now = new Date();
 		const currentYear = now.getFullYear();
+
 		if (!params.year) {
 			if (now.getMonth() < 11) return currentYear - 1;
 			return currentYear;
 		}
 		const year = +params.year;
-		if (year < 2000 || year > now.getFullYear()) return currentYear;
+		if (isNaN(year) || year < 2000 || year > now.getFullYear()) return currentYear;
 		return year;
 	};
 	const recap = useRecap({ year: yearParam() });

@@ -48,7 +48,7 @@ export const AppDrawer: Component<AppDrawerProps> = (props) => {
 		{
 			icon: "stars",
 			label: `Recap ${RecapUtil.getYear()}`,
-			onClick: () => window.open(RecapRoutes.Recap)?.focus(),
+			onClick: () => window.open(RecapRoutes.Recap, "_blank")?.focus(),
 			highlight: true,
 			disabled: !RecapUtil.getYear(),
 		},
