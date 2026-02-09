@@ -119,7 +119,7 @@ export const QueueProvider: ParentComponent = (props) => {
 	};
 
 	const [queue, setQueue] = createStore<QueueResource>(structuredClone(defaultQueue));
-	const { emitter, listen, close } = useQueueEvents();
+	const { emitter, listen, close } = useQueueEvents(() => queue.voiceChannel.id);
 	const queueActions = useQueueActions({ queue, setFreezeState });
 	const voiceChannelHistory = useVoiceChannelHistory({ queue });
 	const lyrics = useQueueLyrics({ queue });

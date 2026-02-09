@@ -1,7 +1,7 @@
 import { AppRoutes } from "@app/routes";
 import { Divider, Icon, Item, Modal, Text, useNavigate } from "@common";
 import { useQueue, type IMember } from "@queue";
-import { For, type Component } from "solid-js";
+import { For, Show, type Component } from "solid-js";
 
 type MemberListModalProps = {
 	isOpen: boolean;
@@ -26,15 +26,24 @@ export const MemberListModal: Component<MemberListModalProps> = (props) => {
 				</div>
 
 				<div class="flex flex-col py-8 px-4 md:p-8 !pt-0 space-y-2 overflow-auto">
-					<For each={[...queue.data.voiceChannel.members].sort((a) => (a.isInVoiceChannel ? -1 : 1))}>
+					<For
+						each={[...queue.data.voiceChannel.members].sort((a) =>
+							a.isInVoiceChannel || a.isLink ? -1 : 1
+						)}
+					>
 						{(member) => {
 							const isExcludedFromAutoplay = () =>
 								queue.data.autoplayOptions.excludedMemberIds.includes(member.id) ||
-								queue.data.voiceChannel.members.some((m) => m.id === member.id && !m.isInVoiceChannel);
+								queue.data.voiceChannel.members.some(
+									(m) => m.id === member.id && !m.isInVoiceChannel && !m.isLink
+								);
+
+							const isInQueue = () => member.isInVoiceChannel || member.isLink;
 
 							return (
 								<MemberList
 									member={member}
+									isInQueue={isInQueue()}
 									isExcludedFromAutoplay={isExcludedFromAutoplay()}
 									onClickRecommendation={() =>
 										navigate(AppRoutes.Recommendation, { params: { id: member.id } })
@@ -59,6 +68,7 @@ export const MemberListModal: Component<MemberListModalProps> = (props) => {
 type MemberListProps = {
 	member: IMember;
 	isExcludedFromAutoplay: boolean;
+	isInQueue: boolean;
 	onClickRecommendation: () => void;
 	onRemoveRequestedTracks: () => void;
 	onToggleAutoplay: () => void;
@@ -82,7 +92,7 @@ const MemberList: Component<MemberListProps> = (props) => {
 					{
 						label: "View Recommendation",
 						icon: "heart",
-						disabled: !props.member.isInVoiceChannel,
+						disabled: !props.isInQueue,
 						onClick: () => props.onClickRecommendation(),
 					},
 					{
@@ -93,6 +103,7 @@ const MemberList: Component<MemberListProps> = (props) => {
 					{
 						label: props.isExcludedFromAutoplay ? "Include in Autoplay" : "Exclude from Autoplay",
 						icon: "stars",
+						disabled: !props.isInQueue,
 						onClick: () => props.onToggleAutoplay(),
 					},
 				],
@@ -100,7 +111,12 @@ const MemberList: Component<MemberListProps> = (props) => {
 			title={props.member.displayName}
 			extra={() => (
 				<div class="flex-row-center space-x-1.5">
-					<div title="Excluded from Autoplay">
+					<Show when={props.member.isLink}>
+						<div title="Link">
+							<Icon name="link" class="text-brand-500" />
+						</div>
+					</Show>
+					<div title={props.isExcludedFromAutoplay ? "Excluded from Autoplay" : "Included in Autoplay"}>
 						<Icon
 							name={props.isExcludedFromAutoplay ? "starsLine" : "stars"}
 							class={props.isExcludedFromAutoplay ? "opacity-25" : "text-brand-500"}
@@ -110,7 +126,7 @@ const MemberList: Component<MemberListProps> = (props) => {
 				</div>
 			)}
 			extraContainerClassList={{
-				"opacity-25 hover:opacity-50": !props.member.isInVoiceChannel,
+				"opacity-25 hover:opacity-50": !props.isInQueue,
 			}}
 			imageUrl={props.member.avatar || "/img/avatar.png"}
 			extraImageClass="rounded-full"

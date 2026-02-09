@@ -69,6 +69,7 @@ export interface IMember {
 	discriminator: string;
 	avatar: null | string;
 	isInVoiceChannel: boolean;
+	isLink: boolean;
 }
 
 export interface ITrackAutoplayData {

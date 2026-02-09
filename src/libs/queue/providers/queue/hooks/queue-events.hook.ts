@@ -1,6 +1,6 @@
 import { useApi } from "@common";
 import { EventEmitter } from "events";
-import { onCleanup } from "solid-js";
+import { type Accessor, onCleanup } from "solid-js";
 import type TypedEmitter from "typed-emitter";
 import {
 	type IGuildMember,
@@ -16,6 +16,7 @@ type Message = {
 	event: keyof QueueEvents;
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	data: any;
+	context?: string;
 };
 
 type TrackAction = {
@@ -65,7 +66,7 @@ export type QueueEvents = {
 	"queue-left": (data: void) => void;
 };
 
-export const useQueueEvents = () => {
+export const useQueueEvents = (id: Accessor<string>) => {
 	const api = useApi();
 	let ws: WebSocket | undefined;
 	let reconnectTimeout: NodeJS.Timeout;
@@ -84,6 +85,8 @@ export const useQueueEvents = () => {
 		ws.onmessage = ({ data }) => {
 			try {
 				const message = JSON.parse(data) as Message;
+				if (message.context && id() && message.context !== id()) return;
+
 				emitter.emit("message", data);
 				emitter.emit(message.event, message.data);
 			} catch {

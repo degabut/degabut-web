@@ -73,7 +73,9 @@ export const QueueInfo: Component = () => {
 					>
 						<Show when={queue.data.voiceChannel.members.length}>
 							<div class="flex-row-center overflow-x-clip -space-x-2">
-								<For each={queue.data.voiceChannel.members.filter((m) => m.isInVoiceChannel)}>
+								<For
+									each={queue.data.voiceChannel.members.filter((m) => m.isInVoiceChannel || m.isLink)}
+								>
 									{(member) => (
 										<div class="rounded-full w-7 h-7 border-neutral-900 border-2">
 											<img
