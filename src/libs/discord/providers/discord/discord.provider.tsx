@@ -108,9 +108,9 @@ export const DiscordProvider: ParentComponent = (props) => {
 			scope: ["identify", "rpc.activities.write", "guilds"],
 		});
 
-		const { token, discordAccessToken } = await auth.getAccessToken(code);
+		const { token, discord } = await auth.getAccessToken(code);
 		api.authManager.setAccessToken(token);
-		await discordSdk.commands.authenticate({ access_token: discordAccessToken });
+		await discordSdk.commands.authenticate({ access_token: discord.accessToken });
 
 		onAuthenticated();
 		setIsReady(true);

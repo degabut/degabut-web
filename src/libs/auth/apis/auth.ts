@@ -2,7 +2,13 @@ import type { AxiosInstance } from "axios";
 
 type AuthResponse = {
 	token: string;
-	discordAccessToken: string;
+	discord: {
+		accessToken: string;
+		tokenType: string;
+		expiresIn: number;
+		refreshToken: string;
+		scope: string;
+	};
 };
 
 export class Auth {
