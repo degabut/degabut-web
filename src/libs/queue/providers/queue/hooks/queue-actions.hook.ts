@@ -1,4 +1,5 @@
 import { useApi } from "@common";
+import { IS_LINK } from "@constants";
 import type { IMediaSource, MediaUrlId } from "@media-source";
 import { AxiosError } from "axios";
 import type { SetStoreFunction } from "solid-js/store";
@@ -172,7 +173,7 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 	};
 
 	const stop = () => {
-		return modifyTrack((queueId) => playerApi.stop(queueId));
+		return modifyTrack((queueId) => (IS_LINK ? queueApi.leave(queueId) : playerApi.stop(queueId)));
 	};
 
 	const jam = async (count: number) => {

@@ -1,4 +1,5 @@
 export * from "./bot-selector.hook";
+export * from "./guild-history.hook";
 export * from "./player-position-updater.hook";
 export * from "./queue-actions.hook";
 export * from "./queue-event-listener.hook";

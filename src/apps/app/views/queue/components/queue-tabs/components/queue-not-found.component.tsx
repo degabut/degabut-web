@@ -143,7 +143,10 @@ const VoiceChannelHistoryList: Component<VoiceChannelHistoryListProps> = (props)
 				}
 			>
 				<div class="flex-col-center space-y-2">
-					<For each={guildList.data()}>
+					<For each={queue.guildHistory.history}>
+						{(history) => <GuildList guild={history} onClick={props.onClickGuild} description="Recent" />}
+					</For>
+					<For each={guildList.data().sort((a, b) => a.name.localeCompare(b.name))}>
 						{(guild) => <GuildList guild={guild} onClick={props.onClickGuild} />}
 					</For>
 				</div>

@@ -17,6 +17,7 @@ import { PlayerApi, QueueApi, type IPlayer, type IQueue } from "../../apis";
 import { defaultQueue } from "../../constants";
 import {
 	useBotSelector,
+	useGuildHistory,
 	usePlayerPositionUpdater,
 	useQueueActions,
 	useQueueEventListener,
@@ -68,6 +69,7 @@ export type QueueResource = IQueue & IPlayer & { empty: boolean; filtersState: I
 export type QueueContextStore = {
 	data: QueueResource;
 	voiceChannelHistory: ReturnType<typeof useVoiceChannelHistory>;
+	guildHistory: ReturnType<typeof useGuildHistory>;
 	isInitialLoading: Accessor<boolean>;
 	freezeState: FreezeState;
 	bot: Accessor<Bot>;
@@ -122,6 +124,7 @@ export const QueueProvider: ParentComponent = (props) => {
 	const { emitter, listen, close } = useQueueEvents(() => queue.voiceChannel.id);
 	const queueActions = useQueueActions({ queue, setFreezeState });
 	const voiceChannelHistory = useVoiceChannelHistory({ queue });
+	const guildHistory = useGuildHistory({ queue });
 	const lyrics = useQueueLyrics({ queue });
 	useQueueEventListener({ queue, setQueue, setFreezeState, fetchQueue, emitter });
 	usePlayerPositionUpdater({ queue, setQueue });
@@ -209,6 +212,7 @@ export const QueueProvider: ParentComponent = (props) => {
 	const store: QueueContextStore = {
 		data: queue,
 		voiceChannelHistory,
+		guildHistory,
 		isInitialLoading,
 		freezeState,
 		emitter,

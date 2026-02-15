@@ -7,7 +7,7 @@ type Params = {
 	queue: QueueResource;
 };
 
-export interface IHistory {
+export interface IVoiceChannelHistory {
 	voiceChannel: {
 		id: string;
 		name: string;
@@ -20,7 +20,7 @@ export interface IHistory {
 }
 
 export const useVoiceChannelHistory = ({ queue }: Params) => {
-	const [history, setHistory] = createStore<IHistory[]>([]);
+	const [history, setHistory] = createStore<IVoiceChannelHistory[]>([]);
 	const key = "voice_channel_history";
 
 	const storedHistory = localStorage.getItem(key);

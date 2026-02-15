@@ -4,6 +4,7 @@ import { type IGuild } from "../../apis";
 
 type GuildListProps = {
 	guild: IGuild;
+	description?: string;
 	onClick: (guild: IGuild) => void;
 };
 
@@ -25,6 +26,7 @@ export const GuildList: Component<GuildListProps> = (props) => {
 					<Text.H4 truncate>{props.guild.name}</Text.H4>
 				</div>
 			)}
+			extra={() => (props.description ? <Text.Body2 truncate>{props.description}</Text.Body2> : undefined)}
 			imageUrl={props.guild.icon || undefined}
 			left={() =>
 				!props.guild.icon ? <AbbreviationIcon text={props.guild.name} extraClass="w-12 h-12" /> : undefined
