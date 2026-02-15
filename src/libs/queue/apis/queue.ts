@@ -113,10 +113,20 @@ export interface ILyrics {
 export class QueueApi {
 	constructor(private client: AxiosInstance) {}
 
-	getQueue = async (): Promise<IQueue | undefined> => {
-		const response = await this.client.get("/me/queue");
+	getQueue = async (id?: string): Promise<IQueue | undefined> => {
+		const response = await this.client.get(id ? `/queues/${id}` : "/me/queue");
 		if (response.status !== 200) return undefined;
 		return response.data;
+	};
+
+	join = async (id: string): Promise<boolean> => {
+		const response = await this.client.post(`/queues/${id}/join`);
+		if (response.status !== 201) return false;
+		return true;
+	};
+
+	leave = async (id: string): Promise<void> => {
+		await this.client.post(`/queues/${id}/leave`);
 	};
 
 	addPlaylist = async (queueId: string, playlistId: string): Promise<string[]> => {

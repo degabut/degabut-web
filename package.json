@@ -47,6 +47,7 @@
 		"@thisbeyond/solid-dnd": "^0.7.4",
 		"autoprefixer": "^10.4.16",
 		"axios": "^0.27.2",
+		"axios-retry": "^4.5.0",
 		"dayjs": "^1.11.10",
 		"dom-to-image": "^2.6.0",
 		"events": "^3.3.0",

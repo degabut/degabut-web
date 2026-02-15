@@ -1,6 +1,7 @@
 import { useApp } from "@app/providers";
 import { AppRoutes } from "@app/routes";
 import { Button, Checkbox, Text, contextMenu, useNavigate, type IContextMenuItem, type IconSize } from "@common";
+import { IS_LINK } from "@constants";
 import type { Component } from "solid-js";
 
 contextMenu;
@@ -50,12 +51,14 @@ export const OptionsButton: Component<Props> = (props) => {
 			},
 		},
 		{
-			label: "Disconnect",
+			label: IS_LINK ? "Leave" : "Disconnect",
 			icon: "closeLine",
 			onClick: () => {
 				app.setConfirmation({
-					title: "Disconnect",
-					message: "Are you sure you want to stop and destroy the queue?",
+					title: IS_LINK ? "Leave" : "Disconnect",
+					message: IS_LINK
+						? "Are you sure you want to leave the queue?"
+						: "Are you sure you want to disconnect?",
 					onConfirm: props.onStopQueue,
 				});
 			},
