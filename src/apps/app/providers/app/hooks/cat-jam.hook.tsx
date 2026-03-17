@@ -1,10 +1,11 @@
 import { DelayUtil, useShortcut } from "@common";
-import { useQueue, type IGuildMember, type IJam, type IJamCollection } from "@queue";
+import { usePlayerSpeed, useQueue, type IGuildMember, type IJam, type IJamCollection } from "@queue";
 import { createEffect, onMount, type Accessor, type Component } from "solid-js";
 import { render } from "solid-js/web";
 
 type CatJamProps = {
 	member: IGuildMember;
+	speedMultiplier: number;
 } & IJam;
 
 const CatJam: Component<CatJamProps> = (props) => {
@@ -39,7 +40,9 @@ const CatJam: Component<CatJamProps> = (props) => {
 			class="flex flex-col space-y-0.5"
 			style={{
 				transform: `translate(${x()}vw, 0px)`,
-				transition: `opacity 3s linear, transform ${Math.round(18000 - props.ySpeed * 12000)}ms linear`,
+				transition: `opacity 3s linear, transform ${Math.round(
+					(18000 - props.ySpeed * 12000) / props.speedMultiplier
+				)}ms linear`,
 			}}
 		>
 			<img src={url()} class="w-10 h-10 md:w-16 md:h-16 mx-auto" />
@@ -57,6 +60,7 @@ type Params = {
 
 export const useCatJam = (params: Params) => {
 	const { emitter, jam } = useQueue()!;
+	const speed = usePlayerSpeed();
 
 	const throttledJam = DelayUtil.countedThrottle(jam, 350);
 	useShortcut({
@@ -78,7 +82,7 @@ export const useCatJam = (params: Params) => {
 	const onJam = async (collection: IJamCollection) => {
 		const length = collection.jams.length;
 		for (const j of collection.jams) {
-			spawnJam({ ...j, member: collection.member });
+			spawnJam({ ...j, member: collection.member, speedMultiplier: speed() });
 			await new Promise((r) => setTimeout(r, 350 / length));
 		}
 	};
@@ -88,6 +92,6 @@ export const useCatJam = (params: Params) => {
 		element.className = "fixed pointer-events-none z-50";
 		render(() => <CatJam {...jam} />, element);
 		document.body.appendChild(element);
-		setTimeout(() => element.remove(), 6000);
+		setTimeout(() => element.remove(), 6000 / speed());
 	};
 };
