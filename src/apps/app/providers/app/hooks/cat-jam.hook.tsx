@@ -12,15 +12,17 @@ const CatJam: Component<CatJamProps> = (props) => {
 	let element!: HTMLDivElement;
 	const x = () => Math.round(props.xOffset * 100);
 	const url = () =>
-		props.jamSpeed < 0.65
+		props.jamSpeed < 0.5
 			? "/img/cat-jam-slow.gif"
-			: props.jamSpeed < 0.8
-			? "/img/cat-jiggy.gif"
-			: props.jamSpeed < 0.95
-			? "/img/cat-jam-fast.gif"
-			: props.jamSpeed < 0.99
-			? "/img/cat-jam-rainbow.gif"
-			: "/img/cat-jam-super-fast.gif";
+			: props.jamSpeed < 0.65
+				? "/img/scuba-cat.gif"
+				: props.jamSpeed < 0.8
+					? "/img/cat-jiggy.gif"
+					: props.jamSpeed < 0.95
+						? "/img/cat-jam-fast.gif"
+						: props.jamSpeed < 0.99
+							? "/img/cat-jam-rainbow.gif"
+							: "/img/cat-jam-super-fast.gif";
 
 	onMount(() => {
 		const screenHeight = window.innerHeight;
