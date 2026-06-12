@@ -34,10 +34,9 @@ jobs:
                   VITE_LAVALINK_FILTER_PLUGINS: ${{ secrets.VITE_LAVALINK_FILTER_PLUGINS }}
 
             - name: Deploy
-              uses: wangyucode/sftp-upload-action@v1.4.8
+              uses: wangyucode/sftp-upload-action@v3.0.0
               with:
                   localDir: ./dist/
-                  exclude: "**/*.png" # TODO fix this, slows down upload: https://github.com/wangyucode/sftp-upload-action/issues/11
                   host: ${{ secrets.FTP_HOST }}
                   username: ${{ secrets.FTP_USERNAME }}
                   password: ${{ secrets.FTP_PASSWORD }}
