@@ -13,3 +13,5 @@ export * from "./spotify";
 export * from "./spotify-album-detail";
 export * from "./spotify-liked";
 export * from "./spotify-playlist-detail";
+export * from "./youtube";
+export * from "./youtube-playlist-detail";

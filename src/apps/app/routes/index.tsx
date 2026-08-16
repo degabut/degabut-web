@@ -1,7 +1,7 @@
 import { Filters } from "@app/views/filters";
 import { MediaSourceLikeManagerProvider } from "@media-source";
 import { QueueProvider } from "@queue";
-import type { RouteDefinition } from "@solidjs/router";
+import type { RouteDefinition, RouteSectionProps } from "@solidjs/router";
 import { LibraryProvider } from "@user";
 import { AppLayout } from "../layout";
 import { AppProvider, ErrorBoundaryProvider } from "../providers";
@@ -21,6 +21,8 @@ import {
 	SpotifyAlbumDetail,
 	SpotifyLiked,
 	SpotifyPlaylistDetail,
+	YouTube,
+	YouTubePlaylistDetail,
 } from "../views";
 
 export enum AppRoutes {
@@ -34,6 +36,8 @@ export enum AppRoutes {
 	SpotifyLiked = "/spotify/liked",
 	SpotifyPlaylist = "/spotify/playlist/:id",
 	SpotifyAlbum = "/spotify/album/:id",
+	Youtube = "/youtube",
+	YoutubePlaylist = "/youtube/playlist/:id",
 	Playlists = "/playlist",
 	PlaylistDetail = "/playlist/:id",
 	Settings = "/settings",
@@ -41,12 +45,13 @@ export enum AppRoutes {
 	Search = "/search",
 	Join = "/join/:voiceChannelId?/:textChannelId?",
 	OAuthSpotify = "/oauth/spotify",
+	OAuthYoutube = "/oauth/youtube",
 }
 
 export const appRouteDefinitions: RouteDefinition[] = [
 	{
 		path: "/",
-		component: (props) => (
+		component: (props: RouteSectionProps) => (
 			<ErrorBoundaryProvider>
 				<QueueProvider>
 					<MediaSourceLikeManagerProvider>
@@ -70,6 +75,8 @@ export const appRouteDefinitions: RouteDefinition[] = [
 			{ path: AppRoutes.SpotifyLiked, component: SpotifyLiked },
 			{ path: AppRoutes.SpotifyPlaylist, component: SpotifyPlaylistDetail },
 			{ path: AppRoutes.SpotifyAlbum, component: SpotifyAlbumDetail },
+			{ path: AppRoutes.Youtube, component: YouTube },
+			{ path: AppRoutes.YoutubePlaylist, component: YouTubePlaylistDetail },
 			{ path: AppRoutes.Playlists, component: Playlists },
 			{ path: AppRoutes.PlaylistDetail, component: PlaylistDetail },
 			{ path: AppRoutes.Settings, component: Settings },

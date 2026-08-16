@@ -12,13 +12,14 @@ import { DiscordProvider } from "@discord";
 import { loginRouteDefinitions } from "@login/routes";
 import { recapRouteDefinitions } from "@recap/routes";
 import { SettingsProvider } from "@settings";
-import { Navigate, type RouteDefinition } from "@solidjs/router";
+import { Navigate, type RouteDefinition, type RouteSectionProps } from "@solidjs/router";
 import { SpotifyProvider } from "@spotify";
+import { YouTubeConnectProvider } from "@youtube";
 
 export const routes: RouteDefinition[] = [
 	{
 		path: "/",
-		component: (props) => (
+		component: (props: RouteSectionProps) => (
 			<ScreenProvider>
 				<ContextMenuProvider>
 					<GlobalShortcutProvider>
@@ -27,7 +28,9 @@ export const routes: RouteDefinition[] = [
 								<SettingsProvider>
 									<ApiProvider>
 										<SpotifyProvider>
-											<DiscordProvider>{props.children}</DiscordProvider>
+											<YouTubeConnectProvider>
+												<DiscordProvider>{props.children}</DiscordProvider>
+											</YouTubeConnectProvider>
 										</SpotifyProvider>
 									</ApiProvider>
 								</SettingsProvider>

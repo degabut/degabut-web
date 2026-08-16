@@ -5,3 +5,5 @@ export * from "./search.hook";
 export * from "./video-transcript.hook";
 export * from "./video.hook";
 export * from "./videos.hook";
+export * from "./youtube-connect-playlist-videos.hook";
+export * from "./youtube-connect-playlist.hook";

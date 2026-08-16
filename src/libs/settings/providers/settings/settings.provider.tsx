@@ -37,6 +37,9 @@ export type Settings = {
 	["overlay.catJam.enabled"]: boolean;
 	["spotify.enabled"]: boolean;
 	["spotify.clientId"]: string;
+	["youtube.enabled"]: boolean;
+	["youtube.clientId"]: string;
+	["youtube.clientSecret"]: string;
 };
 
 const defaultSettings: Settings = {
@@ -72,6 +75,9 @@ const defaultSettings: Settings = {
 	["overlay.catJam.enabled"]: true,
 	["spotify.enabled"]: false,
 	["spotify.clientId"]: "",
+	["youtube.enabled"]: false,
+	["youtube.clientId"]: "",
+	["youtube.clientSecret"]: "",
 };
 
 export type SettingsContextStore = {

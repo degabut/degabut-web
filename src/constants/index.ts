@@ -2,6 +2,7 @@ export * from "./bot";
 export * from "./desktop";
 export * from "./discord";
 export * from "./spotify";
+export * from "./youtube";
 
 export const IS_LINK = !!localStorage.getItem("discord_credentials");
 export const PROD = import.meta.env.PROD;

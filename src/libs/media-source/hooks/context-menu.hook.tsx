@@ -1,6 +1,7 @@
 import { useApp } from "@app/providers";
 import { TimeUtil, type ContextMenuDirectiveParams, type IContextMenuItem } from "@common";
 import { useQueue, type QueueContextStore } from "@queue";
+import { YouTubeConnectionState, useYouTubeConnect } from "@youtube";
 import { Show, createMemo, type Accessor } from "solid-js";
 import { type IMediaSource } from "../apis";
 import { useLikeMediaSource } from "./like-media-source.hook";
@@ -18,6 +19,7 @@ export const useMediaSourceContextMenu = (
 ): Accessor<ContextMenuDirectiveParams | undefined> => {
 	const queueStore = useQueue() as QueueContextStore | undefined;
 	const appStore = useApp();
+	const youtube = useYouTubeConnect();
 	const like = useLikeMediaSource(() => props().mediaSource.id);
 
 	const contextMenu = createMemo(() => {
@@ -79,6 +81,13 @@ export const useMediaSourceContextMenu = (
 					label: "Add to Playlist",
 					icon: "playlistMusic",
 					onClick: () => appStore?.promptAddMediaToPlaylist(mediaSource),
+				});
+
+				secondSection.push({
+					label: "Add to YouTube Playlist",
+					icon: "playlistMusic",
+					disabled: youtube.state() !== YouTubeConnectionState.Connected,
+					onClick: () => youtube.promptAddToPlaylist(mediaSource),
 				});
 			}
 

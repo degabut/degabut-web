@@ -13,6 +13,7 @@ import { useDesktop } from "@desktop";
 import { LoginRoutes } from "@login/routes";
 import { useSettings } from "@settings";
 import { useSpotify } from "@spotify";
+import { useYouTubeConnect } from "@youtube";
 import { For, Show, createSignal, onMount, type Accessor, type Component, type JSX, type JSXElement } from "solid-js";
 import {
 	Item,
@@ -56,9 +57,12 @@ export const Settings: Component = () => {
 	const app = useApp()!;
 	const desktop = useDesktop();
 	const spotify = useSpotify();
+	const youtube = useYouTubeConnect();
 	const { settings, setSettings } = useSettings();
 	const navigate = useNavigate();
 	const [isSpotifyTutorialOpen, setIsSpotifyTutorialOpen] = createSignal(false);
+	// TODO implement YouTube tutorial
+	// const [isYouTubeTutorialOpen, setIsYouTubeTutorialOpen] = createSignal(false);
 
 	onMount(() => app.setTitle("Settings"));
 
@@ -210,6 +214,53 @@ export const Settings: Component = () => {
 							class="px-2 py-0.5"
 							onClick={() => spotify.authenticate(IS_DISCORD_EMBEDDED)}
 							disabled={!settings["spotify.clientId"]}
+						>
+							<Text.Body2>Authenticate</Text.Body2>
+						</Button>
+					),
+				},
+			],
+		},
+		{
+			label: "YouTube",
+			items: [
+				{
+					label: "Enable YouTube Integration",
+					// description: () => (
+					// 	<Text.Caption1
+					// 		class="underline underline-offset-2 cursor-pointer"
+					// 		onClick={() => setIsYouTubeTutorialOpen(true)}
+					// 	>
+					// 		How to use?
+					// 	</Text.Caption1>
+					// ),
+					type: "switch",
+					value: () => settings["youtube.enabled"],
+					onChange: () => setSettings("youtube.enabled", (v) => !v),
+				},
+				{
+					label: "YouTube Client ID",
+					type: "text",
+					hide: !settings["youtube.enabled"],
+					value: () => settings["youtube.clientId"],
+					onChange: (v) => setSettings("youtube.clientId", v),
+				},
+				{
+					label: "YouTube Client Secret",
+					type: "password",
+					hide: !settings["youtube.enabled"],
+					value: () => settings["youtube.clientSecret"],
+					onChange: (v) => setSettings("youtube.clientSecret", v),
+				},
+				{
+					type: "element",
+					label: "",
+					hide: !settings["youtube.enabled"],
+					element: () => (
+						<Button
+							class="px-2 py-0.5"
+							onClick={() => youtube.authenticate(IS_DISCORD_EMBEDDED)}
+							disabled={!settings["youtube.clientId"]}
 						>
 							<Text.Body2>Authenticate</Text.Body2>
 						</Button>
@@ -384,6 +435,10 @@ export const Settings: Component = () => {
 				isOpen={isSpotifyTutorialOpen()}
 				onClose={() => setIsSpotifyTutorialOpen(false)}
 			/>
+			{/* <YouTubeIntegrationTutorialModal
+				isOpen={isYouTubeTutorialOpen()}
+				onClose={() => setIsYouTubeTutorialOpen(false)}
+			/> */}
 		</Container>
 	);
 };

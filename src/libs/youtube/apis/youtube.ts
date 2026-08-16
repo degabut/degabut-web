@@ -52,6 +52,7 @@ export type IYouTubePlaylistCompact = {
 	videoCount: number;
 	thumbnails: IThumbnail[];
 	channel: IChannel | null;
+	isRestricted?: boolean;
 };
 
 export type IYouTubePlaylist = {

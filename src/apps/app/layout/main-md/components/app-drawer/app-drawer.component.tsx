@@ -46,6 +46,12 @@ export const AppDrawer: Component<AppDrawerProps> = (props) => {
 			disabled: !SPOTIFY_CLIENT_ID && !settings["spotify.enabled"],
 		},
 		{
+			icon: "youtube",
+			label: "YouTube",
+			path: AppRoutes.Youtube,
+			disabled: !settings["youtube.enabled"],
+		},
+		{
 			icon: "stars",
 			label: `Recap ${RecapUtil.getYear()}`,
 			onClick: () => window.open(location.origin + RecapRoutes.Recap, "_blank")?.focus(),

@@ -31,6 +31,7 @@ export class YouTubeContextMenuUtil {
 				{
 					label: "Add to Queue",
 					icon: "plus",
+					disabled: !!props.playlist.isRestricted,
 					onClick: () =>
 						props.appStore
 							? promptAddPlaylist(props.playlist)
