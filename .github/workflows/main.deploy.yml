@@ -41,7 +41,7 @@ jobs:
                   username: ${{ secrets.FTP_USERNAME }}
                   password: ${{ secrets.FTP_PASSWORD }}
                   remoteDir: ${{ secrets.VOLUME_PATH }}
-                  removeExtraFilesOnServer: true
+                  removeExtraFilesOnServer: false
                   dryRun: false
 
             - name: Purge cache
