@@ -27,7 +27,7 @@ export const Recommendation: Component = () => {
 					fallback={
 						<Tabs
 							extraContainerClass="h-full"
-							extraTabsClass="md:w-max !px-0"
+							extraTabsClass="md:w-max px-0!"
 							extraContentContainerClass="h-full md:py-8 py-4 pr-4 overflow-y-auto"
 							items={[
 								{

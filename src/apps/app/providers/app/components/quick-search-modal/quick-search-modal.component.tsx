@@ -108,7 +108,7 @@ export const QuickSearchModal: Component<Props> = (props) => {
 
 	return (
 		<Modal
-			extraContainerClass="absolute w-[48rem] top-[15vh]"
+			extraContainerClass="absolute w-3xl top-[15vh]"
 			isOpen={props.isOpen}
 			hideCloseButton
 			closeOnEscape
@@ -144,7 +144,7 @@ export const QuickSearchModal: Component<Props> = (props) => {
 					skeleton={() => <For each={Array(3)}>{() => <Item.ListSkeleton />}</For>}
 				>
 					{(item, isSelected) => {
-						const extraContainerClass = { "!bg-white/10": isSelected };
+						const extraContainerClass = { "bg-white/10!": isSelected };
 
 						if ("mediaSource" in item || "duration" in item) {
 							const mediaSource =

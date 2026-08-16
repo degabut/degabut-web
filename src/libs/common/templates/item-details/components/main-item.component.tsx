@@ -21,7 +21,7 @@ export const MainItem: Component<Props> = (props) => {
 				}
 			</Show>
 
-			<div class="space-y-4 flex-grow truncate">
+			<div class="space-y-4 grow truncate">
 				<div class="flex-row-center justify-between truncate md:justify-start md:space-x-8">
 					<Text.H1 truncate title={props.title}>
 						{props.title}

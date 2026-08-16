@@ -1,4 +1,4 @@
-import type { RouteDefinition } from "@solidjs/router";
+import type { RouteDefinition, RouteSectionProps } from "@solidjs/router";
 import { Main } from "../layout";
 import { Login, OAuth, OAuthSpotify } from "../views";
 
@@ -11,7 +11,7 @@ export enum LoginRoutes {
 export const loginRouteDefinitions: RouteDefinition[] = [
 	{
 		path: "/",
-		component: (props) => <Main {...props} />,
+		component: (props: RouteSectionProps) => <Main {...props} />,
 		children: [
 			{ path: LoginRoutes.Login, component: Login },
 			{ path: LoginRoutes.OAuth, component: OAuth },

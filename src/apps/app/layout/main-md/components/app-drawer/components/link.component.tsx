@@ -36,8 +36,8 @@ export const Link: Component<Props> = (props) => {
 				classList={{
 					"text-neutral-400": !isActive() && !props.highlight,
 					"font-medium": !!isActive(),
-					"text-brand-600 hover:!text-brand-600": props.highlight,
-					"justify-center !py-3.5": props.minimized,
+					"text-brand-600 hover:text-brand-600!": props.highlight,
+					"justify-center py-3.5!": props.minimized,
 				}}
 				onClick={onClick}
 			>

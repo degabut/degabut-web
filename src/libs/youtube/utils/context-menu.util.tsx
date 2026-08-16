@@ -39,7 +39,7 @@ export class YouTubeContextMenuUtil {
 			]);
 		}
 
-		if (!props.appStore) {
+		if (props.appStore) {
 			items.push([
 				{
 					label: "Open on YouTube",
@@ -57,7 +57,7 @@ export class YouTubeContextMenuUtil {
 			openWithClick: props.openWithClick,
 			header: (
 				<div class="flex-col-center justify-center space-y-1">
-					<div class="w-[16rem] h-[9rem] text-center my-4">
+					<div class="w-[16rem] h-36 text-center my-4">
 						<img
 							class="w-full h-full"
 							src={props.playlist.thumbnails.at(-1)?.url}

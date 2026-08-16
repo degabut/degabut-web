@@ -66,7 +66,7 @@ export const InputKeybind: Component<Props> = (props) => {
 			onBlur={stopRecording}
 			outlined
 			readonly
-			class="!bg-transparent text-sm"
+			class="bg-transparent! text-sm"
 			classList={{
 				"border-red-500": isRecording(),
 				[props.class || ""]: !!props.class,

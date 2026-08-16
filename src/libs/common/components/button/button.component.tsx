@@ -29,9 +29,8 @@ export const Button: Component<Props> = (props) => {
 				};
 			} else {
 				return {
-					"outline outline-1 outline-brand-800 text-brand-800": props.disabled,
-					"outline outline-1 outline-brand-600 text-brand-600 hover:bg-white/5 active:bg-white/5":
-						!props.disabled,
+					"outline-1 outline-brand-800 text-brand-800": props.disabled,
+					"outline-1 outline-brand-600 text-brand-600 hover:bg-white/5 active:bg-white/5": !props.disabled,
 				};
 			}
 		} else if (props.theme === "secondary") {
@@ -48,8 +47,8 @@ export const Button: Component<Props> = (props) => {
 				};
 			} else {
 				return {
-					"outline outline-1 outline-neutral-800 bg-white/5 text-neutral-700": props.disabled,
-					"outline outline-1 outline-neutral-600 text-neutral-400 hover:bg-white/5 active:bg-white/5":
+					"outline-1 outline-neutral-800 bg-white/5 text-neutral-700": props.disabled,
+					"outline-1 outline-neutral-600 text-neutral-400 hover:bg-white/5 active:bg-white/5":
 						!props.disabled,
 				};
 			}
@@ -67,8 +66,8 @@ export const Button: Component<Props> = (props) => {
 				};
 			} else {
 				return {
-					"outline outline-1 outline-neutral-600 bg-white/5 text-neutral-500": props.disabled,
-					"outline outline-1 outline-neutral-500 hover:bg-white/5 active:bg-white/5": !props.disabled,
+					"outline-1 outline-neutral-600 bg-white/5 text-neutral-500": props.disabled,
+					"outline-1 outline-neutral-500 hover:bg-white/5 active:bg-white/5": !props.disabled,
 				};
 			}
 		}
@@ -98,7 +97,7 @@ export const Button: Component<Props> = (props) => {
 						/>
 
 						<Show when={props.iconActive}>
-							<div class="absolute -bottom-[80%]">
+							<div class="absolute bottom-[-80%]">
 								<Icon name="dot" size={props.iconSize || "md"} />
 							</div>
 						</Show>

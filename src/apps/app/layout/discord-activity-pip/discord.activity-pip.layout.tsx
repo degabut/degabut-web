@@ -17,7 +17,7 @@ const EmptyNowPlaying: Component<Props> = (props) => {
 				</div>
 			</div>
 			<Divider dark />
-			<div class="flex items-center h-[3.5rem] px-4">
+			<div class="flex items-center h-14 px-4">
 				<Text.H3 class="truncate text-neutral-500 hidden discord-pip:block">It's lonely here...</Text.H3>
 			</div>
 
@@ -147,7 +147,7 @@ export const DiscordActivityPip: Component = () => {
 
 							<div class="flex-row-center w-full truncate space-x-1.5" title={mediaSource.creator}>
 								<SourceBadge type={mediaSource.type} size="md" />
-								<Text.Caption1 class="!text-neutral-400 w-full grow truncate !text-xs">
+								<Text.Caption1 class="text-neutral-400! w-full grow truncate text-xs!">
 									{mediaSource.creator}
 								</Text.Caption1>
 

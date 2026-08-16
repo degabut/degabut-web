@@ -39,11 +39,11 @@ export const ModalContent: Component<ModalContentProps> = (props) => {
 						<div class="flex flex-col h-full">
 							<div class="pt-4 md:pt-8 px-2 md:px-8">
 								<Text.H2 class="text-center mb-4">Add to Playlist</Text.H2>
-								<MediaSource.List mediaSource={m} extraContainerClass={"hover:!bg-white/0"} />
+								<MediaSource.List mediaSource={m} extraContainerClass={"hover:bg-white/0!"} />
 								<Divider extraClass="my-4" />
 							</div>
 
-							<div class="py-8 px-2 md:p-8 !pt-0 space-y-2 overflow-auto">
+							<div class="py-8 px-2 md:p-8 pt-0! space-y-2 overflow-auto">
 								<Show when={(playlists.data().length || 0) < 25 && !isInitialLoading()}>
 									<CreatePlaylistButton onClick={() => setIsCreateModalOpen(true)} />
 								</Show>

@@ -82,7 +82,7 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 									theme={isLiked() ? "brand" : "secondary"}
 									classList={{
 										"md:visible": isLiked(),
-										"!hidden md:!block": !props.alwaysShowLikeButton,
+										"hidden! md:block!": !props.alwaysShowLikeButton,
 										visible: props.alwaysShowLikeButton,
 									}}
 									title={isLiked() ? "Unlike" : "Like"}

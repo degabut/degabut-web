@@ -25,7 +25,7 @@ export const Spinner: Component<Props> = (props) => {
 	};
 
 	return (
-		<div class={`relative rounded-full !border-0 ${sizeClass()}`}>
+		<div class={`relative rounded-full border-0! ${sizeClass()}`}>
 			<div class={`absolute border-neutral-600 rounded-full ${sizeClass()}`} />
 			<div class={`absolute animate-spin border-transparent border-t-brand-600 rounded-full ${sizeClass()}`} />
 		</div>

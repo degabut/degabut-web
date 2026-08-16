@@ -11,11 +11,11 @@ export const SpotifyIntegrationTutorialModal: Component<Props> = (props) => {
 		<Modal
 			isOpen={props.isOpen}
 			handleClose={props.onClose}
-			extraContainerClass="w-[42rem] h-[90vh] md:h-[70vh]"
+			extraContainerClass="w-2xl h-[90vh] md:h-[70vh]"
 			closeOnEscape
 		>
 			<div class="flex flex-col h-full">
-				<div class="py-4 !pb-0">
+				<div class="py-4 pb-0!">
 					<Text.H2 class="text-center mb-4">Spotify Integration</Text.H2>
 					<Divider />
 				</div>

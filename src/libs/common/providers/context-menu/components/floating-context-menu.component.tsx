@@ -41,7 +41,7 @@ export const FloatingContextMenu: Component<FloatingContextMenuProps> = (props) 
 				left: props.params.x + "px",
 				top: props.params.y + "px",
 			}}
-			class="fixed bg-neutral-800 z-50 min-w-[12rem] w-max p-1.5 rounded"
+			class="fixed bg-neutral-800 z-50 min-w-48 w-max p-1.5 rounded"
 			classList={{ [props.params.extraContainerClass || ""]: !!props.params.extraContainerClass }}
 		>
 			<Show

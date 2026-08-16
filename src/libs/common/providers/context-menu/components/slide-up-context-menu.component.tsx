@@ -16,7 +16,7 @@ export const SlideUpContextMenu: Component<SlideUpContextMenuProps> = (props) =>
 		<div class="fixed-screen bg-black/75 z-50">
 			<div
 				use:clickOutside={props.onClickOutside}
-				class="absolute bottom-0 w-full bg-neutral-900 pt-6 flex flex-col min-h-[50vh] max-h-[75vh] mt-72 rounded-t-[1.5rem]"
+				class="absolute bottom-0 w-full bg-neutral-900 pt-6 flex flex-col min-h-[50vh] max-h-[75vh] mt-72 rounded-t-3xl"
 				classList={{ [props.params.extraContainerClass || ""]: !!props.params.extraContainerClass }}
 			>
 				<div class="h-full overflow-y-auto pb-8">

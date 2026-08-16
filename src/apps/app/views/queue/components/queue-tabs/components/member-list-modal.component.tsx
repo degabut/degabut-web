@@ -17,7 +17,7 @@ export const MemberListModal: Component<MemberListModalProps> = (props) => {
 			isOpen={props.isOpen}
 			closeOnEscape
 			handleClose={() => props.handleClose()}
-			extraContainerClass="w-[32rem] h-[90vh] md:h-[70vh]"
+			extraContainerClass="w-lg h-[90vh] md:h-[70vh]"
 		>
 			<div class="flex flex-col h-full">
 				<div class="pt-4 md:pt-8 px-2 md:px-8">
@@ -25,7 +25,7 @@ export const MemberListModal: Component<MemberListModalProps> = (props) => {
 					<Divider extraClass="my-4" />
 				</div>
 
-				<div class="flex flex-col py-8 px-4 md:p-8 !pt-0 space-y-2 overflow-auto">
+				<div class="flex flex-col py-8 px-4 md:p-8 pt-0! space-y-2 overflow-auto">
 					<For
 						each={[...queue.data.voiceChannel.members].sort((a) =>
 							a.isInVoiceChannel || a.isLink ? -1 : 1

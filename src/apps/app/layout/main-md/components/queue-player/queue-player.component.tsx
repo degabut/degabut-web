@@ -12,7 +12,7 @@ const EmptyNowPlaying: Component = () => {
 			href={AppRoutes.Recommendation}
 			class="flex flex-row items-center w-full space-x-4 p-1.5 hover:bg-white/5 rounded"
 		>
-			<div class="!w-12 !h-12 shrink-0 rounded border border-neutral-600" />
+			<div class="w-12! h-12! shrink-0 rounded border border-neutral-600" />
 			<div class="text-neutral-400">It's lonely here...</div>
 		</A>
 	);
@@ -45,7 +45,7 @@ export const QueuePlayer: Component = () => {
 				</div>
 
 				<div class="flex-col-center pt-0.5">
-					<div class="-space-y-3 w-full max-w-[36rem] 2xl:max-w-[40rem]">
+					<div class="-space-y-3 w-full max-w-xl 2xl:max-w-160">
 						<QueueActions
 							iconSize="md"
 							extraClass="justify-center space-x-2 lg:space-x-4"

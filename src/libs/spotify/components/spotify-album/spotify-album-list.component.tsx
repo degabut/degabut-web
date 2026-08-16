@@ -22,7 +22,7 @@ export const SpotifyAlbumList: Component<SpotifyAlbumListProps> = (props) => {
 			onClick={() => props.onClick?.(props.album)}
 			extra={() =>
 				"tracks" in props.album && (
-					<Text.Caption2 class="border border-neutral-600 rounded px-0.5 !text-neutral-300">
+					<Text.Caption2 class="border border-neutral-600 rounded px-0.5 text-neutral-300!">
 						{props.album.tracks.total} tracks
 					</Text.Caption2>
 				)

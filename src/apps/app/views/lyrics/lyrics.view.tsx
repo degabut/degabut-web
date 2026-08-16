@@ -146,10 +146,10 @@ export const Lyrics: Component = () => {
 									classList={{
 										"text-neutral-300": i() < timedText.index(),
 										"text-neutral-500": i() > timedText.index(),
-										"!text-neutral-300": i() === timedText.index() + 1,
-										"!text-neutral-400": i() === timedText.index() + 2,
+										"text-neutral-300!": i() === timedText.index() + 1,
+										"text-neutral-400!": i() === timedText.index() + 2,
 										"text-xl md:text-2xl": i() !== timedText.index(),
-										"font-semibold text-2xl md:text-3xl !text-neutral-100":
+										"font-semibold text-2xl md:text-3xl text-neutral-100!":
 											i() === timedText.index(),
 									}}
 								>
@@ -164,7 +164,7 @@ export const Lyrics: Component = () => {
 								<For each={content.split(/\r?\n/)}>
 									{(t) => (
 										<div
-											class="!text-lg md:!text-xl text-neutral-300 text"
+											class="text-lg! md:text-xl! text-neutral-300 text"
 											classList={{ "py-1": !t }}
 										>
 											{t}

@@ -71,7 +71,7 @@ export const Search: Component = () => {
 				onSelect={onSelect}
 			>
 				{(item, isSelected) => {
-					const extraContainerClass = { "!bg-white/10": isSelected };
+					const extraContainerClass = { "bg-white/10!": isSelected };
 					if ("duration" in item) {
 						const mediaSource = MediaSourceFactory.fromYoutubeVideo(item);
 						return (

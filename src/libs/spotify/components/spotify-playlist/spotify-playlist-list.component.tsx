@@ -21,7 +21,7 @@ export const SpotifyPlaylistList: Component<SpotifyPlaylistListProps> = (props) 
 			imageUrl={props.playlist.images?.at(-1)?.url}
 			onClick={() => props.onClick?.(props.playlist)}
 			extra={() => (
-				<Text.Caption2 class="border border-neutral-600 rounded px-0.5 !text-neutral-300">
+				<Text.Caption2 class="border border-neutral-600 rounded px-0.5 text-neutral-300!">
 					{props.playlist.tracks.total} tracks
 				</Text.Caption2>
 			)}

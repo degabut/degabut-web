@@ -24,7 +24,7 @@ export const DesktopContainer: ParentComponent = (props) => {
 		<div class="bg-neutral-850 h-full" style={{ "padding-top": IS_DESKTOP ? size() : undefined }}>
 			<Show when={IS_DESKTOP}>
 				<div
-					class="absolute top-0 left-0 w-full z-[1000] bg-neutral-850"
+					class="absolute top-0 left-0 w-full z-1000 bg-neutral-850"
 					style={{ "-webkit-app-region": "drag", height: size() }}
 				/>
 			</Show>

@@ -73,7 +73,7 @@ export const QueueSeekSlider: Component<Props> = (props) => {
 				<Slider
 					class="absolute w-full h-0.5 appearance-none accent-brand-600"
 					classList={{
-						"!opacity-0": props.max <= 0,
+						"opacity-0!": props.max <= 0,
 						"opacity-0": props.viewOnly,
 						"md:opacity-0 hover:opacity-100": !props.viewOnly,
 					}}

@@ -50,19 +50,19 @@ export const QueueInfo: Component = () => {
 	return (
 		<>
 			<div class="flex overflow-x-scroll justify-between md:justify-start gap-x-3 md:gap-x-0 space-x-0 md:space-x-5 gap-y-1.5 ">
-				<InfoItem title="Queue Duration" description={queueDuration()} extraClass="flex-shrink-0" />
+				<InfoItem title="Queue Duration" description={queueDuration()} extraClass="shrink-0" />
 
 				<Divider vertical dark />
 
 				<InfoItem
 					title="Track Count"
 					description={!queue.data.empty ? queue.data.tracks?.length || 0 : "-"}
-					extraClass="flex-shrink-0"
+					extraClass="shrink-0"
 				/>
 
 				<Divider vertical dark />
 
-				<div class="flex-1 md:flex-grow-0">
+				<div class="flex-1 md:grow-0">
 					<Button
 						class="flex-row-center space-x-1.5 px-2 h-full"
 						flat
@@ -109,11 +109,7 @@ export const QueueInfo: Component = () => {
 								disabled={queue.freezeState.queue || queue.data.empty}
 								onClick={() => queue.toggleAutoplay()}
 							>
-								<Text.Caption1
-									classList={{
-										"!text-brand-500": queue.data.autoplay,
-									}}
-								>
+								<Text.Caption1 classList={{ "text-brand-500!": queue.data.autoplay }}>
 									Autoplay
 								</Text.Caption1>
 							</Button>
@@ -126,7 +122,7 @@ export const QueueInfo: Component = () => {
 							/>
 						</div>
 					)}
-					extraClass="flex-1 md:flex-grow-0"
+					extraClass="flex-1 md:grow-0"
 				/>
 			</div>
 

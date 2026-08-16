@@ -57,7 +57,7 @@ export const AppDrawer: Component<AppDrawerProps> = (props) => {
 	return (
 		<Drawer
 			resizable
-			extraContainerClass="min-w-[4.25rem] max-w-[75vw] md:max-w-[max(16vw,16rem)] pb-8 rounded-lg"
+			extraContainerClass="min-w-17 max-w-[75vw] md:max-w-[max(16vw,16rem)] pb-8 rounded-lg"
 			initialSize={settings["app.drawerSize"]}
 			onResize={(drawerSize) => setSettings("app.drawerSize", drawerSize)}
 			isOpen={props.isOpen === undefined ? true : props.isOpen}

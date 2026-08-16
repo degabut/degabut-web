@@ -20,7 +20,7 @@ export const MainPlaylist: Component<Props> = (props) => {
 				<img class="w-24 h-24 rounded" src={props.imageUrl} title={props.name} alt={props.name} />
 			</Show>
 
-			<div class="space-y-4 flex-grow truncate">
+			<div class="space-y-4 grow truncate">
 				<div class="flex-row-center justify-between md:justify-start md:space-x-8">
 					<Text.H1 truncate title={props.name}>
 						{props.name}

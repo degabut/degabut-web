@@ -33,7 +33,7 @@ export const BotSelector: Component<Props> = (props) => {
 				href={AppRoutes.Queue}
 				class="flex-row-center space-x-2.5 py-2 m-2"
 				classList={{
-					"hover:bg-white/[7.5%] rounded": !!bots,
+					"hover:bg-white/7.5 rounded": !!bots,
 					"justify-center": props.minimized,
 					"px-2.5 justify-between": !props.minimized,
 				}}

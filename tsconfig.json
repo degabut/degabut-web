@@ -3,7 +3,6 @@
 		"strict": true,
 		"target": "ESNext",
 		"module": "ESNext",
-		"moduleResolution": "node",
 		"allowSyntheticDefaultImports": true,
 		"esModuleInterop": true,
 		"jsx": "preserve",
@@ -13,7 +12,6 @@
 		"noEmit": true,
 		"isolatedModules": true,
 		"skipLibCheck": true,
-		"baseUrl": "./",
 		"resolveJsonModule": true,
 		"paths": {
 			"@root": ["./src/apps/root"],

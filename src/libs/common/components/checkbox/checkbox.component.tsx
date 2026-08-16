@@ -20,7 +20,7 @@ export const Checkbox: Component<CheckboxProps> = (props) => {
 				viewBox="0 0 14 14"
 				fill="none"
 				classList={{
-					"!visible": props.checked,
+					"visible!": props.checked,
 					invisible: !props.checked,
 				}}
 				class="row-start-1 col-start-1 stroke-neutral-200 forced-colors:hidden pointer-events-none p-0.5"

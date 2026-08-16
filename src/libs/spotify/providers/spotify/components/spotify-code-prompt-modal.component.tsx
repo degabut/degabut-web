@@ -28,7 +28,7 @@ export const SpotifyCodePromptModal: Component<Props> = (props) => {
 			closeOnEscape
 		>
 			<div class="flex flex-col h-full">
-				<div class="py-4 !pb-0">
+				<div class="py-4 pb-0!">
 					<Text.H2 class="text-center mb-4">Spotify Code</Text.H2>
 					<Divider />
 				</div>

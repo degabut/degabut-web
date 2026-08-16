@@ -2,9 +2,9 @@ import { type Plugin } from "vite";
 
 export const cyclicHmr: Plugin = {
 	name: "cyclic-hmr",
-	handleHotUpdate({ modules }) {
+	hotUpdate({ modules }) {
 		modules.map((m) => {
-			m.clientImportedModules = new Set();
+			m.importedModules = new Set();
 			m.importers = new Set();
 		});
 

@@ -52,10 +52,10 @@ export const Input: Component<InputProps> = (props) => {
 				class="outline-0 grow w-full bg-transparent font-normal"
 				classList={{
 					"rounded-full": !!props.rounded,
-					"!pl-3": !!props.prefix && !props.dense,
-					"!pr-3": !!props.suffix && !props.dense,
-					"!pl-1.5": !!props.prefix && props.dense,
-					"!pr-1.5": !!props.suffix && props.dense,
+					"pl-3!": !!props.prefix && !props.dense,
+					"pr-3!": !!props.suffix && !props.dense,
+					"pl-1.5!": !!props.prefix && props.dense,
+					"pr-1.5!": !!props.suffix && props.dense,
 					"py-2 px-4": !props.dense,
 					"py-1 px-2": props.dense,
 					[props.inputExtraClass || ""]: !!props.inputExtraClass,

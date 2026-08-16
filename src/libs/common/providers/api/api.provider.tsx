@@ -1,6 +1,6 @@
 import { bots, IS_LINK } from "@constants";
 import { useLocation } from "@solidjs/router";
-import axios, { type AxiosInstance, type AxiosRequestConfig } from "axios";
+import axios, { type AxiosInstance, type InternalAxiosRequestConfig } from "axios";
 import axiosRetry from "axios-retry";
 import { createContext, useContext, type ParentComponent } from "solid-js";
 import { useNavigate } from "../../hooks";
@@ -35,7 +35,7 @@ export const ApiProvider: ParentComponent = (props) => {
 		? axios.create({
 				baseURL: "https://discord.com/api/v10",
 				validateStatus: (s) => validateDiscordStatus(s),
-		  })
+			})
 		: null;
 	if (discordClient) {
 		axiosRetry(discordClient, {
@@ -54,8 +54,7 @@ export const ApiProvider: ParentComponent = (props) => {
 	youtubeClient.interceptors.request.use((r) => requestInterceptor(r));
 	discordClient?.interceptors.request.use((r) => discordRequestInterceptor(r));
 
-	const requestInterceptor = async (req: AxiosRequestConfig) => {
-		req.headers = client.defaults.headers.common || {};
+	const requestInterceptor = async (req: InternalAxiosRequestConfig): Promise<InternalAxiosRequestConfig> => {
 		if (!req.headers.Authorization) {
 			const token = authManager.getAccessToken();
 			if (token) {
@@ -66,8 +65,7 @@ export const ApiProvider: ParentComponent = (props) => {
 		return req;
 	};
 
-	const discordRequestInterceptor = async (req: AxiosRequestConfig) => {
-		req.headers = discordClient?.defaults.headers.common || {};
+	const discordRequestInterceptor = async (req: InternalAxiosRequestConfig): Promise<InternalAxiosRequestConfig> => {
 		const token = discordAuthManager.getDiscordCredentials();
 		if (token) {
 			req.headers.Authorization = `Bearer ${token.accessToken}`;

@@ -39,7 +39,7 @@ export const Search: Component = () => {
 				placeholder="Search for a song"
 				rounded
 				focusOnMount={!query.keyword}
-				class="md:max-w-[32rem]"
+				class="md:max-w-lg"
 				value={query.keyword || ""}
 				onInput={onInput}
 				prefix={() => <Icon name="search" size="lg" />}

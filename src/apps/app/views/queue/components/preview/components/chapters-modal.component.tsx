@@ -14,13 +14,13 @@ type ChaptersModalProps = {
 export const ChaptersModal: Component<ChaptersModalProps> = (props) => {
 	return (
 		<Modal
-			extraContainerClass="w-[42rem] top-[15vh] h-[90vh] md:h-[70vh]"
+			extraContainerClass="w-2xl top-[15vh] h-[90vh] md:h-[70vh]"
 			isOpen={props.isOpen}
 			closeOnEscape
 			handleClose={props.handleClose}
 		>
 			<div class="flex flex-col h-full">
-				<div class="py-4 !pb-0">
+				<div class="py-4 pb-0!">
 					<Text.H2 class="text-center mb-4">Chapters</Text.H2>
 					<Divider />
 				</div>

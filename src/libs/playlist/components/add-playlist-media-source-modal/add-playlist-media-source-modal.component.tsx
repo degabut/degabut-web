@@ -12,7 +12,7 @@ type Props = {
 export const AddPlaylistMediaSourceModal: Component<Props> = (props) => {
 	return (
 		<Modal
-			extraContainerClass="absolute w-[42rem] h-[90vh] md:h-[70vh] overflow-auto"
+			extraContainerClass="absolute w-2xl h-[90vh] md:h-[70vh] overflow-auto"
 			isOpen={props.isOpen}
 			closeOnEscape
 			handleClose={() => props.onClose()}

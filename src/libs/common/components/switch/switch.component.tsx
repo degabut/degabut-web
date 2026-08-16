@@ -9,7 +9,7 @@ export type SwitchProps = {
 export const Switch: Component<SwitchProps> = (props) => {
 	return (
 		<div
-			class="relative rounded-full h-[1.375rem] w-10 "
+			class="relative rounded-full h-5.5 w-10 "
 			classList={{
 				"bg-brand-700": props.checked && !props.disabled,
 				"bg-brand-900": props.checked && props.disabled,

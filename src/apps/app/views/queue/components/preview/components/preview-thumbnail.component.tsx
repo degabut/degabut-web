@@ -27,14 +27,14 @@ type ThumbnailProps = {
 const Thumbnail: Component<ThumbnailProps> = (props) => {
 	return (
 		<div
-			class="relative max-w-[32rem] max-h-[32rem] transition-all"
+			class="relative max-w-lg max-h-128 transition-all"
 			style={{
 				width: `${props.size}px`,
 				height: `${props.size}px`,
 			}}
 		>
 			<div class="absolute w-full h-full opacity-0 hover:opacity-100 transition flex items-end">
-				<div class="w-full flex flex-col justify-end min-h-[50%] bg-gradient-to-t from-black via-black/75 to-black/0">
+				<div class="w-full flex flex-col justify-end min-h-[50%] bg-linear-to-t from-black via-black/75 to-black/0">
 					<div class="text-center space-y-2 truncate text-shadow px-4">
 						<Text.H1 truncate>{props.mediaSource.title}</Text.H1>
 						<Text.Body2 truncate>{props.mediaSource.creator}</Text.Body2>
@@ -54,7 +54,7 @@ type SkeletonProps = {
 const Skeleton: Component<SkeletonProps> = (props) => {
 	return (
 		<div
-			class="max-w-[32rem] max-h-[32rem] transition-all mx-auto border border-neutral-850 flex items-center justify-center rounded"
+			class="max-w-lg max-h-128 transition-all mx-auto border border-neutral-850 flex items-center justify-center rounded"
 			style={{
 				width: `${props.size}px`,
 				height: `${props.size}px`,

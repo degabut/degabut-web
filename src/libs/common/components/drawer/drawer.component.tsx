@@ -26,9 +26,7 @@ export const Drawer: Component<Props> = (props) => {
 
 	return (
 		<div class="h-full absolute md:static top-0 z-50 md:z-0" classList={{ "right-0": props.right }}>
-			{props.isOpen && (
-				<div class="block md:hidden fixed-screen bg-black bg-opacity-50" onClick={props.handleClose} />
-			)}
+			{props.isOpen && <div class="block md:hidden fixed-screen bg-black/50" onClick={props.handleClose} />}
 
 			<div
 				class="relative flex flex-row h-full bg-black overflow-y-auto overflow-x-hidden"
@@ -41,7 +39,7 @@ export const Drawer: Component<Props> = (props) => {
 								onResize,
 								onDragStart: () => setIsResizing(true),
 								onDragEnd: () => setIsResizing(false),
-						  }
+							}
 						: undefined
 				}
 				classList={{

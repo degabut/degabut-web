@@ -40,7 +40,7 @@ export const Main: ParentComponent = (props) => {
 				<Text.H1 class="text-3xl font-brand font-black tracking-wide">{queue.bot().name}</Text.H1>
 			</div>
 
-			<div class="flex flex-row space-x-6 h-[32rem] max-w-[86rem] min-h-0 w-full p-2">
+			<div class="flex flex-row space-x-6 h-128 max-w-344 min-h-0 w-full p-2">
 				<div class="flex-col-center h-full space-y-4">
 					<For each={links}>{(link) => <NavigationCard {...link} />}</For>
 				</div>

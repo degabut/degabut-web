@@ -90,7 +90,7 @@ export const AutoplayOptionsModal: Component<AutoplayOptionsModalProps> = (props
 			isOpen={props.isOpen}
 			closeOnEscape
 			handleClose={() => props.handleClose()}
-			extraContainerClass="w-[32rem]"
+			extraContainerClass="w-lg"
 		>
 			<div class="flex flex-col space-x-2.5 py-4 md:py-8 h-full">
 				<div class="px-2 md:px-8">

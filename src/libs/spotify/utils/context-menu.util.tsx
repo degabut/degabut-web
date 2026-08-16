@@ -72,7 +72,7 @@ export class SpotifyContextMenuUtil {
 						when={props.playlist.images?.length}
 						fallback={<AbbreviationIcon text={props.playlist.name} size="xl" />}
 					>
-						<div class="h-[9rem] text-center my-4">
+						<div class="h-36 text-center my-4">
 							<img
 								class="w-full h-full"
 								src={props.playlist.images?.at(0)?.url}
@@ -132,7 +132,7 @@ export class SpotifyContextMenuUtil {
 						when={props.album.images?.length}
 						fallback={<AbbreviationIcon text={props.album.name} size="xl" />}
 					>
-						<div class="h-[9rem] text-center my-4">
+						<div class="h-36 text-center my-4">
 							<img class="w-full h-full" src={props.album.images?.at(0)?.url} alt={props.album.name} />
 						</div>
 					</Show>

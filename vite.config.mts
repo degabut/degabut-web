@@ -1,10 +1,11 @@
+import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 import { FileSystemIconLoader } from "unplugin-icons/loaders";
 import Icons from "unplugin-icons/vite";
 import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
 import solidPlugin from "vite-plugin-solid";
-import packageJson from "./package.json";
+import packageJson from "./package.json" with { type: "json" };
 import { cyclicHmr, generateAppJson } from "./plugins";
 
 const pwa = VitePWA({
@@ -32,6 +33,7 @@ export default defineConfig({
 				degabut: FileSystemIconLoader("./src/libs/common/components/icon/icons"),
 			},
 		}),
+		tailwindcss(),
 		pwa,
 		generateAppJson,
 		cyclicHmr,
@@ -40,8 +42,10 @@ export default defineConfig({
 		target: "es6",
 		rollupOptions: {
 			output: {
-				manualChunks: {
-					"discord-embedded-app-sdk": ["@discord/embedded-app-sdk"],
+				manualChunks: (id) => {
+					if (id.includes("@discord/embedded-app-sdk")) {
+						return "discord-embedded-app-sdk";
+					}
 				},
 			},
 		},

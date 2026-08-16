@@ -16,7 +16,7 @@ export const Section: ParentComponent<SectionProps> = (props) => {
 	};
 
 	return (
-		<div id={props.id} class="relative h-[100dvh] snap-start">
+		<div id={props.id} class="relative h-dvh snap-start">
 			<div class="flex-col-center justify-center h-full space-y-12 pb-10">
 				<Show when={props.title} keyed>
 					{(title) => <Text.H1 class="text-4xl text-brand text-center">{title}</Text.H1>}

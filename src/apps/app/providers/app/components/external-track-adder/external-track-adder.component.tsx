@@ -155,7 +155,7 @@ export const ExternalTrackAdder = () => {
 			<Show when={dragCounter() > 0 && !queue.data.empty}>
 				<div
 					onClick={() => setDragCounter(0)}
-					class="fixed-screen z-[1000] flex items-center justify-center bg-black/90 text-center p-4"
+					class="fixed-screen z-1000 flex items-center justify-center bg-black/90 text-center p-4"
 				>
 					<div class="w-full max-w-md rounded border-neutral-500 p-4 bg-neutral-850">
 						<div class="flex flex-col space-y-8 justify-center items-center p-6 w-full border border-neutral-600 border-dashed rounded">

@@ -1,6 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../tailwind.config.js";
 
 @font-face {
 	font-family: opificio;
@@ -67,7 +66,7 @@ input:focus {
 }
 
 ::-webkit-scrollbar-track {
-	@apply bg-opacity-0;
+	@apply bg-white/0;
 }
 
 ::-webkit-scrollbar-thumb {

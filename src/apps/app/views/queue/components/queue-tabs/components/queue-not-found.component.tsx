@@ -65,7 +65,7 @@ export const QueueNotFound: Component = () => {
 	};
 
 	return (
-		<div classList={{ "!opacity-50 pointers-event-none cursor-none": isLoading() }}>
+		<div classList={{ "opacity-50! pointers-event-none cursor-none": isLoading() }}>
 			<Show
 				when={discord?.currentChannel()}
 				keyed

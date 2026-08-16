@@ -13,7 +13,7 @@ type Props = {
 export const VideoPlaylistChooser: Component<Props> = (props) => {
 	return (
 		<Modal
-			extraContainerClass="absolute w-[42rem] overflow-auto"
+			extraContainerClass="absolute w-2xl overflow-auto"
 			isOpen={true}
 			closeOnEscape
 			handleClose={() => props.onClose()}

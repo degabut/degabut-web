@@ -27,7 +27,7 @@ export const ConfirmationModal: Component<Props> = (props) => {
 
 	return (
 		<Modal
-			extraContainerClass="absolute w-[32rem] max-h-[70vh] break-words"
+			extraContainerClass="absolute w-lg max-h-[70vh] wrap-break-word"
 			isOpen
 			closeOnEscape
 			handleClose={() => props.onClose()}
