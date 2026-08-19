@@ -2,7 +2,7 @@ import { createResource } from "solid-js";
 import { YouTubeConnectApi } from "../apis";
 import { useYouTubeConnect } from "../providers";
 
-export const useYouTubePlaylist = (id: string) => {
+export const useYouTubeConnectPlaylist = (id: string) => {
 	const youtube = useYouTubeConnect();
 	const api = new YouTubeConnectApi(youtube.client);
 

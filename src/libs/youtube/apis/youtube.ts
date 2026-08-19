@@ -3,11 +3,7 @@ import type { IMusicAlbum, IMusicPlaylist, IMusicSong, IMusicVideo } from "./you
 
 export type IVideoLike = IVideoCompact | IVideo | IMusicVideo | IMusicSong;
 export type IYouTubePlaylistLike =
-	| IYouTubePlaylist
-	| IYouTubePlaylistCompact
-	| IYouTubeMixPlaylist
-	| IMusicAlbum
-	| IMusicPlaylist;
+	IYouTubePlaylist | IYouTubePlaylistCompact | IYouTubeMixPlaylist | IMusicAlbum | IMusicPlaylist;
 
 export type IThumbnail = {
 	url: string;
@@ -22,7 +18,7 @@ export type IChapter = {
 };
 
 export type IContinuable<T> = {
-	token: string | null;
+	continuation: string | null;
 	items: T[];
 };
 

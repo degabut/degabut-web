@@ -3,7 +3,7 @@ import { Button, Container, ItemDetails, Text } from "@common";
 import { MediaSourceFactory, MediaSources } from "@media-source";
 import { useQueue } from "@queue";
 import { useParams } from "@solidjs/router";
-import { useYouTubePlaylist, useYouTubePlaylistVideos } from "@youtube";
+import { useYouTubeConnectPlaylist, useYouTubePlaylistVideos } from "@youtube";
 import { Show, createEffect, type Component } from "solid-js";
 
 export const YouTubePlaylistDetail: Component = () => {
@@ -11,7 +11,7 @@ export const YouTubePlaylistDetail: Component = () => {
 	const queue = useQueue()!;
 
 	const params = useParams<{ id: string }>();
-	const playlist = useYouTubePlaylist(params.id);
+	const playlist = useYouTubeConnectPlaylist(params.id);
 	const videos = useYouTubePlaylistVideos(params.id);
 
 	createEffect(() => {

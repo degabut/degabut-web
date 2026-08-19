@@ -1,5 +1,6 @@
 export * from "./lyrics.hook";
 export * from "./musics.hook";
+export * from "./playlist-videos.hook";
 export * from "./playlist.hook";
 export * from "./search.hook";
 export * from "./video-transcript.hook";

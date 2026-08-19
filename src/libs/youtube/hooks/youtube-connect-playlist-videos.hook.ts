@@ -2,7 +2,7 @@ import { createEffect, createResource, createSignal } from "solid-js";
 import { YouTubeConnectApi, type IVideoCompact } from "../apis";
 import { useYouTubeConnect } from "../providers";
 
-export const useYouTubePlaylistVideos = (id: string) => {
+export const useYouTubeConnectPlaylistVideos = (id: string) => {
 	const youtube = useYouTubeConnect();
 	const api = new YouTubeConnectApi(youtube.client);
 	const [data, setData] = createSignal<IVideoCompact[]>([]);
