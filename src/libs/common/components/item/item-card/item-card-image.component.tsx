@@ -3,6 +3,7 @@ import { Show, type Accessor, type Component, type JSX } from "solid-js";
 type Props = {
 	imageUrl: string | string[];
 	hoverElement?: Accessor<JSX.Element>;
+	overlayElement?: Accessor<JSX.Element>;
 	title?: string;
 	extraClass?: string;
 };
@@ -14,6 +15,10 @@ export const ItemCardImage: Component<Props> = (props) => {
 		<div class="group/item-card-image relative">
 			<Show when={props.hoverElement} keyed>
 				{(e) => <div class="absolute w-full h-full invisible group-hover/item-card-image:visible">{e()}</div>}
+			</Show>
+
+			<Show when={props.overlayElement} keyed>
+				{(e) => <div class="absolute w-full h-full pointer-events-none">{e()}</div>}
 			</Show>
 
 			<img

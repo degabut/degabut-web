@@ -8,7 +8,7 @@ import { Playlist } from "../../playlist";
 import { CreatePlaylistButton } from "./create-playlist-button.component";
 
 type ModalContentProps = {
-	mediaSource: IMediaSource | null;
+	mediaSources: IMediaSource[] | null;
 	onAddToPlaylist: () => void;
 };
 
@@ -21,8 +21,16 @@ export const ModalContent: Component<ModalContentProps> = (props) => {
 	});
 
 	const addToPlaylist = async (playlist: IPlaylist) => {
-		if (!props.mediaSource) return;
-		await playlists.addPlaylistMediaSource(playlist.id, props.mediaSource.id);
+		const mediaSources = props.mediaSources?.length
+			? props.mediaSources
+			: props.mediaSources?.length === 1
+				? props.mediaSources
+				: [];
+		if (!mediaSources.length) return;
+
+		for (const mediaSource of mediaSources) {
+			await playlists.addPlaylistMediaSource(playlist.id, mediaSource.id);
+		}
 		props.onAddToPlaylist();
 	};
 
@@ -33,13 +41,23 @@ export const ModalContent: Component<ModalContentProps> = (props) => {
 
 	return (
 		<>
-			<Show when={props.mediaSource} keyed>
-				{(m) => {
+			<Show when={props.mediaSources && props.mediaSources.length > 0} keyed>
+				{(mediaSources) => {
 					return (
 						<div class="flex flex-col h-full">
 							<div class="pt-4 md:pt-8 px-2 md:px-8">
 								<Text.H2 class="text-center mb-4">Add to Playlist</Text.H2>
-								<MediaSource.List mediaSource={m} extraContainerClass={"hover:bg-white/0!"} />
+								<Show when={props.mediaSources?.length === 1}>
+									<MediaSource.List
+										mediaSource={props.mediaSources![0]}
+										extraContainerClass={"hover:bg-white/0!"}
+									/>
+								</Show>
+								<Show when={props.mediaSources && props.mediaSources.length > 1}>
+									<Text.Caption1 class="text-center mt-2">
+										+{(props.mediaSources?.length ?? 0) - 1} more media sources
+									</Text.Caption1>
+								</Show>
 								<Divider extraClass="my-4" />
 							</div>
 

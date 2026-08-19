@@ -39,6 +39,7 @@ export function contextMenu(el: HTMLElement, accessor: Accessor<ContextMenuDirec
 	};
 
 	const onClickContextMenu = (e: MouseEvent) => {
+		if (e.altKey || e.shiftKey || e.ctrlKey || e.metaKey) return;
 		e.stopPropagation();
 		onContextMenu(e);
 	};

@@ -30,6 +30,59 @@ export const useMediaSourceContextMenu = (
 
 		const mediaSourceId = mediaSource.sourceId;
 
+		const selectedMediaSourceIds = appStore?.mediaSourceSelect.ids() ?? {};
+		const selectedIds = Object.keys(selectedMediaSourceIds);
+		const hasSelection = !!selectedIds.length;
+		const isSelected = !!selectedMediaSourceIds[mediaSource.id];
+
+		if (appStore && queueStore && hasSelection) {
+			const selectionSection: IContextMenuItem[] = [];
+
+			if (
+				Object.keys(selectedMediaSourceIds).some(
+					(id) => !queueStore.data.tracks.some((t) => t.mediaSource.id === id)
+				)
+			) {
+				selectionSection.push({
+					label: "Add Selected to Queue",
+					icon: "plus",
+					onClick: async () => {
+						await queueStore.addTrackByIds(selectedIds);
+						appStore.mediaSourceSelect.clear();
+					},
+					wait: true,
+				});
+			}
+
+			if (queueStore.data.tracks.some((t) => selectedMediaSourceIds[t.mediaSource.id])) {
+				selectionSection.push({
+					label: "Remove Selected from Queue",
+					icon: "trashBin",
+					onClick: async () => {
+						const tracks =
+							queueStore.data.tracks.filter((t) => selectedMediaSourceIds[t.mediaSource.id]) ?? [];
+						await queueStore.removeTracks(tracks.map((t) => t.id));
+						appStore.mediaSourceSelect.clear();
+					},
+					wait: true,
+				});
+			}
+
+			selectionSection.push({
+				label: isSelected ? "Remove from Selection" : "Add to Selection",
+				icon: isSelected ? "closeLine" : "check",
+				onClick: () => appStore.mediaSourceSelect.toggle(mediaSource),
+			});
+
+			selectionSection.push({
+				label: "Clear Selection",
+				icon: "checkboxBlankOff",
+				onClick: () => appStore.mediaSourceSelect.clear(),
+			});
+
+			items.push(selectionSection);
+		}
+
 		if (queueStore && !queueStore.data.empty) {
 			const nowPlaying = queueStore.data.nowPlaying;
 			const trackInQueue = queueStore.data.tracks.findLast((t) => t.mediaSource.sourceId === mediaSourceId);
@@ -92,6 +145,16 @@ export const useMediaSourceContextMenu = (
 			}
 
 			if (secondSection.length) items.push(secondSection);
+		}
+
+		if (appStore && !hasSelection) {
+			items.push([
+				{
+					label: isSelected ? "Remove from Selection" : "Add to Selection",
+					icon: isSelected ? "closeLine" : "check",
+					onClick: () => appStore.mediaSourceSelect.toggle(mediaSource),
+				},
+			]);
 		}
 
 		if (appStore) {

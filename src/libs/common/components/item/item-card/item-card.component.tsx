@@ -1,17 +1,25 @@
 import { Show, type Accessor, type Component, type JSX } from "solid-js";
 import { Text } from "../../";
-import { contextMenu, type ContextMenuDirectiveParams } from "../../../directives";
+import {
+	contextMenu,
+	customClick,
+	type ContextMenuDirectiveParams,
+	type CustomClickDirectiveParams,
+} from "../../../directives";
 import { ItemCardImage } from "./item-card-image.component";
 
 contextMenu;
+customClick;
 
 export type ItemCardProps = {
 	title: string;
 	imageUrl: string | string[];
 	imageHoverElement?: Accessor<JSX.Element>;
+	imageOverlayElement?: Accessor<JSX.Element>;
 	description?: string;
 	extra?: Accessor<JSX.Element>;
 	contextMenu?: ContextMenuDirectiveParams;
+	customClick?: CustomClickDirectiveParams;
 	extraContainerClass?: string;
 	extraContainerClassList?: Record<string, boolean | undefined>;
 	extraImageClass?: string;
@@ -30,12 +38,14 @@ export const ItemCard: Component<ItemCardProps> = (props) => {
 				[props.extraContainerClass || ""]: !!props.extraContainerClass,
 			}}
 			use:contextMenu={props.contextMenu}
+			use:customClick={props.customClick}
 			onClick={() => props.onClick?.()}
 		>
 			<ItemCardImage
 				title={props.title}
 				imageUrl={props.imageUrl}
 				hoverElement={props.imageHoverElement}
+				overlayElement={props.imageOverlayElement}
 				extraClass={props.extraImageClass}
 			/>
 

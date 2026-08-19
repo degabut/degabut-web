@@ -2,6 +2,8 @@ import Degabut from "~icons/degabut/degabut";
 import DegabutThin from "~icons/degabut/degabut-thin";
 import ArrowDown from "~icons/mdi/arrow-down";
 import ArrowUp from "~icons/mdi/arrow-up";
+import Check from "~icons/mdi/check-bold";
+import CheckboxBlankOff from "~icons/mdi/checkbox-blank-off-outline";
 import ChevronDown from "~icons/mdi/chevron-down";
 import ChevronRight from "~icons/mdi/chevron-right";
 import Close from "~icons/mdi/close";
@@ -57,6 +59,8 @@ export const icons = {
 	arrowUp: { component: ArrowUp },
 	chevronDown: { component: ChevronDown, viewBox: "5 5 14 14" },
 	chevronRight: { component: ChevronRight, viewBox: "5 5 14 14" },
+	check: { component: Check },
+	checkboxBlankOff: { component: CheckboxBlankOff },
 	closeLine: { component: Close, viewBox: "5 5 14 14" },
 	copy: { component: Copy, viewBox: "1 1 22 22" },
 	degabutThin: { component: Degabut, viewBox: "0 0 1024 1024" },

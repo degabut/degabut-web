@@ -91,6 +91,12 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 		);
 	};
 
+	const removeTracks = (trackOrIds: ITrack[] | string[]) => {
+		const ids = trackOrIds.map((t) => (typeof t === "string" ? t : t.id));
+
+		return modifyTrack((queueId) => queueApi.removeTracksByIds(queueId, ids));
+	};
+
 	const removeTracksByMemberId = (memberId: string) => {
 		return modifyTrack((queueId) => queueApi.removeTracksByMemberId(queueId, memberId));
 	};
@@ -108,6 +114,10 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 			else if (id.type === "spotifyPlaylistId") await queueApi.addSpotifyPlaylist(queueId, id.value);
 			else if (id.type === "youtubePlaylistId") await queueApi.addYouTubePlaylist(queueId, id.value);
 		});
+	};
+
+	const addTrackByIds = (ids: string[]) => {
+		return modifyTrack(async (queueId) => queueApi.addTrackByIds(queueId, ids));
 	};
 
 	const addTrackByKeyword = (keyword: string) => {
@@ -223,9 +233,11 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 		skipTrack,
 		playTrack,
 		removeTrack,
+		removeTracks,
 		removeTracksByMemberId,
 		addTrack,
 		addTrackById,
+		addTrackByIds,
 		addTrackByKeyword,
 		addAndPlayTrack,
 		addNextTrack,

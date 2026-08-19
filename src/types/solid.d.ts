@@ -1,4 +1,9 @@
-import type { ClickOutsideParams, ContextMenuDirectiveParams, ResizableParams } from "@common";
+import type {
+	ClickOutsideParams,
+	ContextMenuDirectiveParams,
+	CustomClickDirectiveParams,
+	ResizableParams,
+} from "@common";
 import "solid-js";
 
 declare module "solid-js" {
@@ -7,6 +12,7 @@ declare module "solid-js" {
 			sortable: boolean;
 			clickOutside: ClickOutsideParams;
 			contextMenu: ContextMenuDirectiveParams;
+			customClick: CustomClickDirectiveParams;
 			buttonContextMenu: ContextMenuDirectiveParams;
 			resizable: ResizableParams;
 		}

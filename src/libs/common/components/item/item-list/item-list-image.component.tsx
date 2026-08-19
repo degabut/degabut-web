@@ -9,6 +9,7 @@ type Props = {
 	extraClass?: string;
 	extraContainerClass?: string;
 	hoverElement?: Accessor<JSX.Element>;
+	overlayElement?: Accessor<JSX.Element>;
 	imageHoverOnParent?: boolean;
 };
 
@@ -36,6 +37,10 @@ export const ItemListImage: Component<Props> = (props) => {
 						{e()}
 					</div>
 				)}
+			</Show>
+
+			<Show when={props.overlayElement} keyed>
+				{(e) => <div class="absolute w-full h-full pointer-events-none">{e()}</div>}
 			</Show>
 
 			<img

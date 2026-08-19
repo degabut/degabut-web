@@ -1,9 +1,15 @@
 import { Show, type Accessor, type Component, type JSX } from "solid-js";
 import { AbbreviationIcon, ContextMenuButton, Text } from "../../";
-import { contextMenu, type ContextMenuDirectiveParams } from "../../../directives";
+import {
+	contextMenu,
+	customClick,
+	type ContextMenuDirectiveParams,
+	type CustomClickDirectiveParams,
+} from "../../../directives";
 import { ItemListImage } from "./item-list-image.component";
 
 contextMenu;
+customClick;
 
 export type ItemListSize = "sm" | "md" | "lg";
 
@@ -13,8 +19,10 @@ export type ItemListProps = {
 	imageText?: string;
 	imageUrl?: string | string[];
 	imageHoverElement?: Accessor<JSX.Element>;
+	imageOverlayElement?: Accessor<JSX.Element>;
 	extraImageClass?: string;
 	contextMenu?: ContextMenuDirectiveParams;
+	customClick?: CustomClickDirectiveParams;
 	hideContextMenuButton?: boolean;
 	extraContainerClass?: string;
 	extraContainerClassList?: Record<string, boolean | undefined>;
@@ -37,6 +45,7 @@ export const ItemList: Component<ItemListProps> = (props) => {
 				[props.extraContainerClass || ""]: !!props.extraContainerClass,
 			}}
 			use:contextMenu={props.contextMenu}
+			use:customClick={props.customClick}
 			onClick={() => props.onClick?.()}
 			onKeyPress={(e) => e.key === "Enter" && props.onClick?.()}
 			tabIndex={props.onClick || props.contextMenu?.openWithClick ? 0 : undefined}
@@ -53,6 +62,7 @@ export const ItemList: Component<ItemListProps> = (props) => {
 						<ItemListImage
 							imageUrl={imageUrl}
 							hoverElement={props.imageHoverElement}
+							overlayElement={props.imageOverlayElement}
 							size={props.size}
 							imageHoverOnParent={props.imageHoverOnParent}
 							title={typeof props.title === "string" ? props.title : undefined}

@@ -13,12 +13,13 @@ import {
 	type ParentComponent,
 	type Setter,
 } from "solid-js";
-import type { SetStoreFunction } from "solid-js/store";
+import { type SetStoreFunction } from "solid-js/store";
 import { ConfirmationModal, ExternalTrackAdder, QuickSearchModal } from "./components";
 import {
 	useAppRichPresence,
 	useCatJam,
 	useMediaSession,
+	useMediaSourceSelect,
 	useQueueNotification,
 	useSnowfall,
 	useVersionCheck,
@@ -40,6 +41,7 @@ export type AppContextStore = {
 	setConfirmation: <T>(confirmation: Confirmation<T> | null) => void;
 	setIsQuickSearchModalOpen: Setter<boolean>;
 	hasNewVersion: Accessor<boolean>;
+	mediaSourceSelect: ReturnType<typeof useMediaSourceSelect>;
 };
 
 export const AppContext = createContext<AppContextStore>();
@@ -53,9 +55,10 @@ export const AppProvider: ParentComponent = (props) => {
 	useMediaSession();
 	useCatJam({ enabled: () => settings["app.catJam.enabled"] });
 	const { hasNewVersion } = useVersionCheck();
+	const mediaSourceSelect = useMediaSourceSelect();
 
 	const [title, setTitle] = createSignal("");
-	const [mediaPlaylist, setMediaPlaylist] = createSignal<null | IMediaSource>(null);
+	const [mediaPlaylist, setMediaPlaylist] = createSignal<null | IMediaSource[]>(null);
 	const [isQuickSearchModalOpen, setIsQuickSearchModalOpen] = createSignal(false);
 	const [confirmation, setConfirmation] = createSignal<Confirmation | null>(null);
 
@@ -71,6 +74,7 @@ export const AppProvider: ParentComponent = (props) => {
 		setTitle,
 		promptAddMediaToPlaylist: setMediaPlaylist,
 		setConfirmation,
+		mediaSourceSelect,
 		setIsQuickSearchModalOpen,
 		hasNewVersion,
 	};
@@ -84,8 +88,8 @@ export const AppProvider: ParentComponent = (props) => {
 			<QuickSearchModal isOpen={isQuickSearchModalOpen()} onDone={() => setIsQuickSearchModalOpen(false)} />
 
 			<AddPlaylistMediaSourceModal
-				mediaSource={mediaPlaylist()}
-				isOpen={!!mediaPlaylist()}
+				mediaSources={mediaPlaylist()}
+				isOpen={!!mediaPlaylist()?.length}
 				onClose={() => setMediaPlaylist(null)}
 			/>
 

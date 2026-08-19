@@ -1,10 +1,23 @@
-import { Button, Icon, Item, Text, useGlobalShortcut, type IContextMenuItem, type ItemListProps } from "@common";
+import { useApp } from "@app/providers";
+import {
+	Button,
+	Icon,
+	Item,
+	Text,
+	customClick,
+	useGlobalShortcut,
+	type CustomClickDirectiveParams,
+	type IContextMenuItem,
+	type ItemListProps,
+} from "@common";
 import { SPOTIFY_INTEGRATION } from "@constants";
 import { useQueue, type IGuildMember } from "@queue";
 import { Show, createMemo, type Component } from "solid-js";
 import { type IMediaSource } from "../../apis";
 import { useLikeMediaSource, useMediaSourceContextMenu } from "../../hooks";
 import { DurationBadge, LiveBadge, SourceBadge } from "./components";
+
+customClick;
 
 export type MediaSourceListProps = Partial<Omit<ItemListProps, "contextMenu">> & {
 	mediaSource: IMediaSource;
@@ -23,6 +36,7 @@ export type MediaSourceListProps = Partial<Omit<ItemListProps, "contextMenu">> &
 };
 
 export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
+	const app = useApp();
 	const queue = useQueue();
 	const globalShortcut = useGlobalShortcut();
 	const contextMenu = useMediaSourceContextMenu(() => ({
@@ -32,14 +46,30 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 	const like = useLikeMediaSource(() => props.mediaSource.id);
 	const inQueue = createMemo(() => queue?.data.tracks?.find((t) => t.mediaSource.id === props.mediaSource.id));
 	const isNowPlaying = createMemo(() => queue?.data.nowPlaying && queue.data.nowPlaying.id === inQueue()?.id);
+	const isSelected = createMemo(() => !!app?.mediaSourceSelect.ids()[props.mediaSource.id]);
+	const customClickParams = createMemo<CustomClickDirectiveParams>(() => ({
+		onShiftClick: (e) => {
+			e.preventDefault();
+			app?.mediaSourceSelect.toggle(props.mediaSource);
+		},
+	}));
 
 	return (
 		<Item.List
 			{...props}
 			contextMenu={contextMenu()}
+			customClick={customClickParams()}
 			title={props.mediaSource.title}
 			imageUrl={props.mediaSource.minThumbnailUrl}
 			imageHoverOnParent
+			extraImageClass={`${props.extraImageClass || ""} ${isSelected() ? "border-2 border-brand-500" : ""}`.trim()}
+			imageOverlayElement={() => (
+				<Show when={isSelected()}>
+					<div class="absolute bottom-1 right-1">
+						<Icon name="check" class="w-4 h-4 text-neutral-700 bg-brand-500 rounded-full p-0.5" />
+					</div>
+				</Show>
+			)}
 			extraTitleClassList={{
 				"text-brand-600": !props.disableActiveTitle && !!isNowPlaying(),
 				...props.extraTitleClassList,

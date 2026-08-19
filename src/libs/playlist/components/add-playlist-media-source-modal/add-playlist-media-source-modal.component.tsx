@@ -4,7 +4,7 @@ import type { Component } from "solid-js";
 import { ModalContent } from "./components";
 
 type Props = {
-	mediaSource: IMediaSource | null;
+	mediaSources: IMediaSource[] | null;
 	isOpen: boolean;
 	onClose: () => void;
 };
@@ -17,7 +17,7 @@ export const AddPlaylistMediaSourceModal: Component<Props> = (props) => {
 			closeOnEscape
 			handleClose={() => props.onClose()}
 		>
-			<ModalContent mediaSource={props.mediaSource} onAddToPlaylist={props.onClose} />
+			<ModalContent mediaSources={props.mediaSources} onAddToPlaylist={props.onClose} />
 		</Modal>
 	);
 };

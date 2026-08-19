@@ -154,6 +154,11 @@ export class QueueApi {
 		return response.data.trackIds;
 	};
 
+	addTrackByIds = async (queueId: string, mediaSourceIds: string[]): Promise<string[]> => {
+		const response = await this.client.post(`/queues/${queueId}/tracks`, { mediaSourceIds });
+		return response.data.trackIds;
+	};
+
 	addTrackByKeyword = async (queueId: string, keyword: string): Promise<string[]> => {
 		const response = await this.client.post(`/queues/${queueId}/tracks`, { keyword });
 		return response.data.trackIds;
@@ -178,6 +183,10 @@ export class QueueApi {
 
 	removeTracksByMemberId = async (queueId: string, memberId: string): Promise<void> => {
 		await this.client.delete(`/queues/${queueId}/tracks`, { data: { memberId } });
+	};
+
+	removeTracksByIds = async (queueId: string, trackIds: string[]): Promise<void> => {
+		await this.client.delete(`/queues/${queueId}/tracks`, { data: { trackIds } });
 	};
 
 	addNextTrack = async (queueId: string, trackId: string) => {
