@@ -57,7 +57,7 @@ export const MediaSourceCard: Component<MediaSourceCardProps> = (props) => {
 			imageOverlayElement={() => (
 				<Show when={isSelected()}>
 					<div class="absolute bottom-1.5 right-1.5">
-						<Icon name="check" class="w-5 h-5 text-brand-500 bg-black/70 rounded-full p-0.5" />
+						<Icon name="check" class="w-6 h-6 text-brand-500 bg-black/70 rounded-full p-1" />
 					</div>
 				</Show>
 			)}

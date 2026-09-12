@@ -41,7 +41,8 @@ export const useMediaSourceContextMenu = (
 			if (
 				Object.keys(selectedMediaSourceIds).some(
 					(id) => !queueStore.data.tracks.some((t) => t.mediaSource.id === id)
-				)
+				) &&
+				!queueStore.data.empty
 			) {
 				selectionSection.push({
 					label: "Add Selected to Queue",
@@ -54,7 +55,10 @@ export const useMediaSourceContextMenu = (
 				});
 			}
 
-			if (queueStore.data.tracks.some((t) => selectedMediaSourceIds[t.mediaSource.id])) {
+			if (
+				queueStore.data.tracks.some((t) => selectedMediaSourceIds[t.mediaSource.id]) &&
+				!queueStore.data.empty
+			) {
 				selectionSection.push({
 					label: "Remove Selected from Queue",
 					icon: "trashBin",
