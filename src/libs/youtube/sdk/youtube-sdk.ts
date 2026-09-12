@@ -43,7 +43,7 @@ export class YouTubeSdk {
 	}
 
 	public async makeRequest<TReturnType>(
-		method: "GET" | "POST",
+		method: "GET" | "POST" | "PUT" | "DELETE",
 		url: string,
 		params?: Record<string, string | number | boolean | undefined>,
 		body: unknown = undefined

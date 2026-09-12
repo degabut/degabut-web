@@ -4,7 +4,7 @@ export class BaseEndpoint {
 	constructor(protected client: YouTubeSdk) {}
 
 	protected async request<TReturnType>(
-		method: "GET" | "POST",
+		method: "GET" | "POST" | "PUT" | "DELETE",
 		url: string,
 		params?: Record<string, string | number | boolean | undefined>,
 		body?: unknown

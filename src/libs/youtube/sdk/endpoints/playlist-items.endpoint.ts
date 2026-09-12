@@ -31,4 +31,18 @@ export class PlaylistItemsEndpoint extends BaseEndpoint {
 			},
 		});
 	};
+
+	remove = async (playlistItemId: string) => {
+		return await this.request<null>("DELETE", `/playlistItems?id=${playlistItemId}`);
+	};
+
+	update = async (playlistItemId: string, playlistId: string, position: number) => {
+		return await this.request<IGooglePlaylistItemInsertResponse>("PUT", "/playlistItems?part=snippet", undefined, {
+			id: playlistItemId,
+			snippet: {
+				playlistId,
+				position,
+			},
+		});
+	};
 }

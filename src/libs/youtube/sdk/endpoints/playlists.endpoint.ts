@@ -1,4 +1,4 @@
-import type { IGooglePlaylistListResponse } from "../types";
+import type { IGooglePlaylistInsertResponse, IGooglePlaylistListResponse } from "../types";
 import { BaseEndpoint } from "./base";
 
 type PlaylistsListOptions = {
@@ -19,5 +19,17 @@ export class PlaylistsEndpoint extends BaseEndpoint {
 		if (options.pageToken) params.pageToken = options.pageToken;
 
 		return await this.request<IGooglePlaylistListResponse>("GET", "/playlists", params);
+	};
+
+	insert = async (title: string, description = "") => {
+		return await this.request<IGooglePlaylistInsertResponse>("POST", "/playlists?part=snippet,status", undefined, {
+			snippet: {
+				title,
+				description,
+			},
+			status: {
+				privacyStatus: "unlisted",
+			},
+		});
 	};
 }

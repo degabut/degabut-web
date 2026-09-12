@@ -102,3 +102,8 @@ export type IGooglePlaylistItemInsertResponse = {
 	kind: string;
 	id: string;
 };
+
+export type IGooglePlaylistInsertResponse = {
+	kind: string;
+	id: string;
+};
