@@ -23,6 +23,7 @@ import {
 	SpotifyIntegrationTutorialModal,
 	SwitchItem,
 	TextItem,
+	YouTubeIntegrationTutorialModal,
 	type OptionsItemProps,
 	type SliderItemProps,
 } from "./components";
@@ -61,8 +62,7 @@ export const Settings: Component = () => {
 	const { settings, setSettings } = useSettings();
 	const navigate = useNavigate();
 	const [isSpotifyTutorialOpen, setIsSpotifyTutorialOpen] = createSignal(false);
-	// TODO implement YouTube tutorial
-	// const [isYouTubeTutorialOpen, setIsYouTubeTutorialOpen] = createSignal(false);
+	const [isYouTubeTutorialOpen, setIsYouTubeTutorialOpen] = createSignal(false);
 
 	onMount(() => app.setTitle("Settings"));
 
@@ -226,14 +226,14 @@ export const Settings: Component = () => {
 			items: [
 				{
 					label: "Enable YouTube Integration",
-					// description: () => (
-					// 	<Text.Caption1
-					// 		class="underline underline-offset-2 cursor-pointer"
-					// 		onClick={() => setIsYouTubeTutorialOpen(true)}
-					// 	>
-					// 		How to use?
-					// 	</Text.Caption1>
-					// ),
+					description: () => (
+						<Text.Caption1
+							class="underline underline-offset-2 cursor-pointer"
+							onClick={() => setIsYouTubeTutorialOpen(true)}
+						>
+							How to use?
+						</Text.Caption1>
+					),
 					type: "switch",
 					value: () => settings["youtube.enabled"],
 					onChange: () => setSettings("youtube.enabled", (v) => !v),
@@ -435,10 +435,10 @@ export const Settings: Component = () => {
 				isOpen={isSpotifyTutorialOpen()}
 				onClose={() => setIsSpotifyTutorialOpen(false)}
 			/>
-			{/* <YouTubeIntegrationTutorialModal
+			<YouTubeIntegrationTutorialModal
 				isOpen={isYouTubeTutorialOpen()}
 				onClose={() => setIsYouTubeTutorialOpen(false)}
-			/> */}
+			/>
 		</Container>
 	);
 };

@@ -5,3 +5,4 @@ export * from "./slider-item.component";
 export * from "./spotify-integration-tutorial-modal.component";
 export * from "./switch-item.component";
 export * from "./text-item.component";
+export * from "./youtube-integration-tutorial-modal.component";
