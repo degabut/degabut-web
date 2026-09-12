@@ -1,8 +1,14 @@
 import { useApi } from "@common";
 import { createResource, type Accessor } from "solid-js";
-import { UserApi, type GetLastPlayedParams, type GetMostPlayedParams } from "../apis";
+import {
+	UserApi,
+	type GetLastPlayedParams,
+	type GetMostPlayedDeprecatedParams,
+	type GetMostPlayedParams,
+} from "../apis";
 
-type PropsValue = ((GetMostPlayedParams | GetLastPlayedParams) & { userId?: string }) | undefined;
+type PlayHistoryParams = GetLastPlayedParams | GetMostPlayedDeprecatedParams;
+type PropsValue = (PlayHistoryParams & { userId?: string }) | GetMostPlayedParams | undefined;
 
 type IUsePlayHistoryProps = Accessor<PropsValue> | PropsValue;
 
@@ -13,12 +19,15 @@ export const usePlayHistory = (props: IUsePlayHistoryProps) => {
 	const resource = createResource(
 		props,
 		(value) => {
-			if (!value.userId || value.userId === "me") {
-				if ("from" in value) return user.getMostPlayed(value);
-				else return user.getPlayHistory(value);
-			} else if (value.userId) {
+			if (!value) return [];
+
+			if ("from" in value) return user.getMostPlayed(value);
+
+			if (value.userId && value.userId !== "me") {
 				return user.getUserPlayHistory(value.userId, value);
 			}
+
+			return user.getPlayHistory(value);
 		},
 		{ initialValue: [] }
 	);

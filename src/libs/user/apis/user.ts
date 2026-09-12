@@ -8,19 +8,20 @@ export type GetLastPlayedParams = {
 	last: number;
 } & GetVideosParams;
 
-export type GetMostPlayedParams =
-	| {
-			days: number;
-			count: number;
-	  }
-	| ({
-			from: Date;
-			to: Date;
-			limit: number;
-			excludeFrom?: Date;
-			excludeTo?: Date;
-			excludeTopPercent?: number;
-	  } & GetVideosParams);
+// TODO remove this
+export type GetMostPlayedDeprecatedParams = {
+	days: number;
+	count: number;
+} & GetVideosParams;
+
+export type GetMostPlayedParams = {
+	from: Date;
+	to: Date;
+	limit: number;
+	excludeFrom?: Date;
+	excludeTo?: Date;
+	excludeTopPercent?: number;
+};
 
 export type GetMonthlyPlayActivityParams = {
 	from: Date;
@@ -109,7 +110,7 @@ export class UserApi {
 
 	getUserPlayHistory = async (
 		id: string,
-		params: GetLastPlayedParams | GetMostPlayedParams
+		params: GetLastPlayedParams | GetMostPlayedDeprecatedParams
 	): Promise<IMediaSource[]> => {
 		const response = await this.client.get(`/users/${id}/play-history`, { params });
 		if (response.status === 200) return response.data;
@@ -134,7 +135,7 @@ export class UserApi {
 		}
 	};
 
-	getPlayHistory = async (params: GetLastPlayedParams | GetMostPlayedParams): Promise<IMediaSource[]> => {
+	getPlayHistory = async (params: GetLastPlayedParams | GetMostPlayedDeprecatedParams): Promise<IMediaSource[]> => {
 		const response = await this.client.get("/me/play-history", { params });
 		if (response.status === 200) return response.data;
 		else return [];
