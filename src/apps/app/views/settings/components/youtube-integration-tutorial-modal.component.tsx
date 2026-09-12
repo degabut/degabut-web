@@ -123,7 +123,14 @@ export const YouTubeIntegrationTutorialModal: Component<Props> = (props) => {
 							<li>
 								API usage is limited by the daily quota of your Google Cloud project (10,000 units/day
 								by default). Reading playlists is cheap (1 unit), adding / removing a video from a
-								playlist costs 50 units
+								playlist costs 50 units. You may check your quota usage{" "}
+								<A
+									class="underline underline-offset-2 select-text"
+									target="_blank"
+									href="https://console.cloud.google.com/apis/api/youtube.googleapis.com/quotas"
+								>
+									here
+								</A>
 							</li>
 						</ul>
 					</div>
