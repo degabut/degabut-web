@@ -1,10 +1,11 @@
 import { useApp } from "@app/providers";
 import { AppRoutes } from "@app/routes";
-import { Button, Container, Item, ItemDetails, Text, useNavigate } from "@common";
+import { Button, Container, Item, ItemDetails, Text, useApi, useNavigate } from "@common";
 import { MediaSources } from "@media-source";
-import { usePlaylist } from "@playlist";
+import { PlaylistApi, usePlaylist } from "@playlist";
 import { useQueue } from "@queue";
 import { useParams } from "@solidjs/router";
+import { useYouTubeConnect, YouTubeConnectionState } from "@youtube";
 import { createEffect, createSignal, type Component } from "solid-js";
 import { EditPlaylistModal } from "./components";
 
@@ -14,6 +15,8 @@ export const PlaylistDetail: Component = () => {
 	const navigate = useNavigate();
 	const params = useParams<{ id: string }>();
 	const playlist = usePlaylist({ playlistId: params.id });
+	const api = useApi();
+	const youtube = useYouTubeConnect();
 
 	const [isEditModalOpen, setIsEditModalOpen] = createSignal(false);
 
@@ -30,6 +33,20 @@ export const PlaylistDetail: Component = () => {
 
 	const canBeAdded = () => {
 		return !queue.data.empty && !playlist.isPlaylistLoading() && !!playlist.playlist()?.mediaSourceCount;
+	};
+
+	const onSyncToYouTube = () => {
+		youtube.setSyncRequest({
+			videoIds: async () => {
+				const playlistApi = new PlaylistApi(api.client);
+				const mediaSources = await playlistApi.getPlaylistMediaSources(params.id, 1, 100);
+
+				return mediaSources
+					.map((ms) => ms.mediaSource.youtubeVideoId || ms.mediaSource.playedYoutubeVideoId)
+					.filter((id): id is string => !!id);
+			},
+			defaultPlaylistName: `Degabut - ${playlist.playlist()?.name}`,
+		});
 	};
 
 	const descriptionText = () => {
@@ -53,6 +70,16 @@ export const PlaylistDetail: Component = () => {
 							icon: "plus",
 							onClick: () => queue.addPlaylist(params.id),
 						},
+						...(youtube.state() !== YouTubeConnectionState.Disabled
+							? [
+									{
+										label: "Sync to YouTube",
+										icon: "youtube" as const,
+										disabled: youtube.state() !== YouTubeConnectionState.Connected,
+										onClick: onSyncToYouTube,
+									},
+								]
+							: []),
 						{
 							label: "Rename",
 							icon: "editPencil",

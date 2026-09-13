@@ -1,8 +1,16 @@
 import { useApp } from "@app/providers";
 import { AppRoutes } from "@app/routes";
-import { Container, Divider, Item, Text, useNavigate } from "@common";
-import { CreatePlaylistModal, Playlist, PlaylistContextMenuUtil, usePlaylists, type IPlaylist } from "@playlist";
+import { Container, Divider, Item, Text, useApi, useNavigate } from "@common";
+import {
+	CreatePlaylistModal,
+	Playlist,
+	PlaylistApi,
+	PlaylistContextMenuUtil,
+	usePlaylists,
+	type IPlaylist,
+} from "@playlist";
 import { useQueue } from "@queue";
+import { useYouTubeConnect } from "@youtube";
 import { For, Show, createSignal, onMount, type Component } from "solid-js";
 
 export const Playlists: Component = () => {
@@ -10,6 +18,8 @@ export const Playlists: Component = () => {
 	const queue = useQueue()!;
 	const playlists = usePlaylists();
 	const navigate = useNavigate();
+	const api = useApi();
+	const youtube = useYouTubeConnect();
 	const [isShowCreateModal, setIsShowCreateModalOpen] = createSignal(false);
 
 	onMount(() => app.setTitle("Your Playlists"));
@@ -28,6 +38,20 @@ export const Playlists: Component = () => {
 				</div>
 			),
 			onConfirm: () => playlists.deletePlaylist(playlist.id),
+		});
+	};
+
+	const onSyncToYouTube = (playlist: IPlaylist) => {
+		youtube.setSyncRequest({
+			videoIds: async () => {
+				const playlistApi = new PlaylistApi(api.client);
+				const mediaSources = await playlistApi.getPlaylistMediaSources(playlist.id, 1, 100);
+
+				return mediaSources
+					.map((ms) => ms.mediaSource.youtubeVideoId || ms.mediaSource.playedYoutubeVideoId)
+					.filter((id): id is string => !!id);
+			},
+			defaultPlaylistName: `Degabut - ${playlist.name}`,
 		});
 	};
 
@@ -55,8 +79,10 @@ export const Playlists: Component = () => {
 									contextMenu={PlaylistContextMenuUtil.getContextMenu({
 										playlist: p,
 										queueStore: queue,
+										youtubeStore: youtube,
 										onAddToQueue: () => queue.addPlaylist(p.id),
 										onDelete: () => promptDeletePlaylist(p),
+										onSyncToYouTube: () => onSyncToYouTube(p),
 									})}
 									playlist={p}
 								/>

@@ -1,12 +1,15 @@
 import type { ContextMenuDirectiveParams, IContextMenuItem } from "@common";
 import type { QueueContextStore } from "@queue";
+import { YouTubeConnectContextStore, YouTubeConnectionState } from "@youtube";
 import { type IPlaylist } from "../apis";
 
 type PlaylistProps = {
 	playlist: IPlaylist;
 	queueStore: QueueContextStore;
+	youtubeStore: YouTubeConnectContextStore;
 	onDelete?: (playlist: IPlaylist) => void;
 	onAddToQueue?: (playlist: IPlaylist) => void;
+	onSyncToYouTube?: (playlist: IPlaylist) => void;
 };
 
 export class PlaylistContextMenuUtil {
@@ -18,6 +21,15 @@ export class PlaylistContextMenuUtil {
 				onClick: () => props.onDelete?.(props.playlist),
 			},
 		];
+
+		if (props.youtubeStore.state() !== YouTubeConnectionState.Disabled && props.onSyncToYouTube) {
+			items.unshift({
+				label: "Sync to YouTube",
+				icon: "youtube",
+				disabled: props.youtubeStore.state() !== YouTubeConnectionState.Connected,
+				onClick: () => props.onSyncToYouTube?.(props.playlist),
+			});
+		}
 
 		if (!props.queueStore.data.empty) {
 			items.unshift({

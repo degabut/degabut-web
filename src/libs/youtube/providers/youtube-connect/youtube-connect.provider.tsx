@@ -15,9 +15,16 @@ import {
 } from "solid-js";
 import { YouTubeConnectApi } from "../../apis";
 import { YouTubeSdk } from "../../sdk";
-import { AddToYouTubePlaylistModal, YouTubeCodePromptModal } from "./components";
+import { AddToYouTubePlaylistModal, SyncToYouTubeModal, YouTubeCodePromptModal } from "./components";
 import type { YouTubeData } from "./hooks";
 import { useYouTubeData } from "./hooks";
+
+export type SyncVideoIdsInput = string[] | (() => Promise<string[]>);
+
+export type SyncRequest = {
+	videoIds: SyncVideoIdsInput;
+	defaultPlaylistName: string;
+};
 
 export type YouTubeConnectContextStore = {
 	state: Accessor<YouTubeConnectionState>;
@@ -26,15 +33,19 @@ export type YouTubeConnectContextStore = {
 	authenticate: (codeOrManual?: string | boolean) => Promise<void>;
 	logout: () => void;
 	addToPlaylist: (playlistId: string, videoId: string) => Promise<boolean>;
-	promptAddToPlaylist: (media: IMediaSource | null) => void;
+	promptAddToPlaylist: (media: IMediaSource[] | null) => void;
+	setSyncRequest: (request: SyncRequest | null) => void;
 } & YouTubeData;
 
 export enum YouTubeConnectionState {
 	Empty,
+	Disabled,
 	Disconnected,
 	Authenticating,
 	Connected,
 }
+
+const DEFAULT_SYNC_PLAYLIST_NAME = "Degabut Playlist";
 
 const scopes = [
 	"https://www.googleapis.com/auth/youtube.readonly",
@@ -53,8 +64,9 @@ export const YouTubeConnectProvider: ParentComponent = (props) => {
 	let currentClientSecret = clientSecret();
 	let client = new YouTubeSdk(clientId(), YOUTUBE_OAUTH_REDIRECT_URI, scopes, "", clientSecret());
 	const [isShowCodePrompt, setIsShowCodePrompt] = createSignal(false);
-	const [mediaPlaylist, setMediaPlaylist] = createSignal<null | IMediaSource>(null);
+	const [mediaSources, setMediaSources] = createSignal<null | IMediaSource[]>(null);
 	const [state, setState] = createSignal(YouTubeConnectionState.Empty);
+	const [syncRequest, setSyncRequest] = createSignal<SyncRequest | null>(null);
 	const data = useYouTubeData(() => state() === YouTubeConnectionState.Connected, client);
 
 	createEffect(() => {
@@ -72,10 +84,9 @@ export const YouTubeConnectProvider: ParentComponent = (props) => {
 	);
 
 	const initialize = async () => {
-		if (!settings["youtube.enabled"] || !clientId()) {
-			setState(YouTubeConnectionState.Disconnected);
-			return;
-		}
+		if (!settings["youtube.enabled"]) return setState(YouTubeConnectionState.Disabled);
+		if (!clientId()) return setState(YouTubeConnectionState.Disconnected);
+
 		if (state() === YouTubeConnectionState.Authenticating) return;
 
 		setState(YouTubeConnectionState.Authenticating);
@@ -152,7 +163,8 @@ export const YouTubeConnectProvider: ParentComponent = (props) => {
 		authenticate,
 		logout,
 		addToPlaylist,
-		promptAddToPlaylist: setMediaPlaylist,
+		promptAddToPlaylist: setMediaSources,
+		setSyncRequest,
 		...data,
 	};
 
@@ -164,9 +176,15 @@ export const YouTubeConnectProvider: ParentComponent = (props) => {
 				onAuthenticate={onCodeAuthenticate}
 			/>
 			<AddToYouTubePlaylistModal
-				mediaSource={mediaPlaylist()}
-				isOpen={!!mediaPlaylist()}
-				onClose={() => setMediaPlaylist(null)}
+				mediaSources={mediaSources()}
+				isOpen={!!mediaSources()}
+				onClose={() => setMediaSources(null)}
+			/>
+			<SyncToYouTubeModal
+				isOpen={!!syncRequest()}
+				videoIds={syncRequest()?.videoIds ?? []}
+				defaultPlaylistName={syncRequest()?.defaultPlaylistName ?? DEFAULT_SYNC_PLAYLIST_NAME}
+				onClose={() => setSyncRequest(null)}
 			/>
 			{props.children}
 		</YouTubeConnectContext.Provider>

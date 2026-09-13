@@ -3,7 +3,7 @@ import { useApi, type IContextMenuItem } from "@common";
 import { MediaSources, type IMediaSource, type MediaSourceCardProps } from "@media-source";
 import { useQueue } from "@queue";
 import { UserApi, UserConfirmationUtil } from "@user";
-import type { Component } from "solid-js";
+import type { Accessor, Component, JSX } from "solid-js";
 import { ShowMoreTitle } from "./title.component";
 
 type Props = {
@@ -13,6 +13,7 @@ type Props = {
 	isLoading: boolean;
 	removable?: boolean;
 	onRemove?: (media: IMediaSource) => void;
+	extraRight?: Accessor<JSX.Element>;
 };
 
 export const ExpandableMediaSourceGrid: Component<Props> = (props) => {

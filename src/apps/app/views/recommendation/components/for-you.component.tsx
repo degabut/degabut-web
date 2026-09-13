@@ -1,11 +1,12 @@
 import { AppRoutes } from "@app/routes";
-import { Container, Icon, RecapUtil, Text, useInfiniteScrolling, useNavigate } from "@common";
+import { Container, Icon, RecapUtil, Text, useApi, useInfiniteScrolling, useNavigate } from "@common";
 import { MediaSourceFactory, MediaSources } from "@media-source";
 import { useQueue } from "@queue";
 import { useParams } from "@solidjs/router";
-import { type Component, Show, createSignal } from "solid-js";
+import { UserApi } from "@user";
+import { Show, createSignal, type Component } from "solid-js";
 import { useRecommendation } from "../hooks";
-import { ExpandableMediaSourceGrid, ExpandableMediaSourceList, ShowMoreType, Title } from "./";
+import { ExpandableMediaSourceGrid, ExpandableMediaSourceList, ShowMoreType, SyncYouTubeButton, Title } from "./";
 import { RecapBanner } from "./recap-banner.component";
 import { ShowMoreModal } from "./show-more-modal.component";
 
@@ -20,6 +21,8 @@ const RecommendationEmpty: Component = () => {
 
 export const ForYou: Component = () => {
 	const queue = useQueue()!;
+	const api = useApi();
+	const userApi = new UserApi(api.client);
 	const navigate = useNavigate();
 	const params = useParams<{ id?: string }>();
 	const recommendation = useRecommendation({ userId: () => params.id || "me" });
@@ -52,6 +55,17 @@ export const ForYou: Component = () => {
 						recommendation.mostPlayedAction.refetch();
 						recommendation.recentMostPlayedAction.refetch();
 					}}
+					extraRight={() => (
+						<SyncYouTubeButton
+							defaultPlaylistName="Degabut - Most Played"
+							videoIds={async () => {
+								const mediaSources = await userApi.getPlayHistory({ days: 30, count: 20 });
+								return mediaSources
+									.map((ms) => ms.youtubeVideoId || ms.playedYoutubeVideoId)
+									.filter((id): id is string => !!id);
+							}}
+						/>
+					)}
 				/>
 			</Show>
 
@@ -61,6 +75,17 @@ export const ForYou: Component = () => {
 					mediaSources={recommendation.lastLiked().data}
 					isLoading={recommendation.lastLiked().loading}
 					onClickMore={() => navigate(AppRoutes.Liked)}
+					extraRight={() => (
+						<SyncYouTubeButton
+							defaultPlaylistName="Degabut - Recently Liked"
+							videoIds={async () => {
+								const liked = await userApi.getLikedMediaSource(1, 20);
+								return liked
+									.map((l) => l.mediaSource.youtubeVideoId || l.mediaSource.playedYoutubeVideoId)
+									.filter((id): id is string => !!id);
+							}}
+						/>
+					)}
 				/>
 			</Show>
 
@@ -72,6 +97,17 @@ export const ForYou: Component = () => {
 					isLoading={recommendation.lastPlayed().loading}
 					onClickMore={() => setShowMoreType(ShowMoreType.RecentlyPlayed)}
 					onRemove={() => recommendation.lastPlayedAction.refetch()}
+					extraRight={() => (
+						<SyncYouTubeButton
+							defaultPlaylistName="Degabut - Recently Played"
+							videoIds={async () => {
+								const mediaSources = await userApi.getPlayHistory({ last: 20 });
+								return mediaSources
+									.map((ms) => ms.youtubeVideoId || ms.playedYoutubeVideoId)
+									.filter((id): id is string => !!id);
+							}}
+						/>
+					)}
 				/>
 			</Show>
 

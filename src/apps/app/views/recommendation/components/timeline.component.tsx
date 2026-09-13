@@ -1,9 +1,11 @@
-import { Container, Icon, RecapUtil, Text, useInfiniteScrolling } from "@common";
+import { Container, Icon, RecapUtil, Text, useApi, useInfiniteScrolling } from "@common";
 import { useQueue } from "@queue";
 import { useParams } from "@solidjs/router";
+import { UserApi } from "@user";
+import dayjs from "dayjs";
 import { type Component, createSignal, For, Show } from "solid-js";
 import { useTimeline } from "../hooks";
-import { ExpandableMediaSourceGrid, ShowMoreModal, ShowMoreType } from "./";
+import { ExpandableMediaSourceGrid, ShowMoreModal, ShowMoreType, SyncYouTubeButton } from "./";
 import { RecapBanner } from "./recap-banner.component";
 
 const RecommendationEmpty: Component = () => {
@@ -17,6 +19,8 @@ const RecommendationEmpty: Component = () => {
 
 export const Timeline: Component = () => {
 	const queue = useQueue()!;
+	const api = useApi();
+	const userApi = new UserApi(api.client);
 	const params = useParams<{ id?: string }>();
 	const timeline = useTimeline();
 	const [showMoreMonth, setShowMoreMonth] = createSignal<string | null>(null);
@@ -45,6 +49,21 @@ export const Timeline: Component = () => {
 						mediaSources={d.data}
 						isLoading={false}
 						onClickMore={() => setShowMoreMonth(d.month)}
+						extraRight={() => (
+							<SyncYouTubeButton
+								defaultPlaylistName={`Degabut - ${d.month}`}
+								videoIds={async () => {
+									const mediaSources = await userApi.getMostPlayed({
+										from: dayjs(d.month).startOf("month").toDate(),
+										to: dayjs(d.month).endOf("month").toDate(),
+										limit: 25,
+									});
+									return mediaSources
+										.map((ms) => ms.youtubeVideoId || ms.playedYoutubeVideoId)
+										.filter((id): id is string => !!id);
+								}}
+							/>
+						)}
 					/>
 				)}
 			</For>

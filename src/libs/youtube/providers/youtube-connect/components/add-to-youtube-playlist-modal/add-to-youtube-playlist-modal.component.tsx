@@ -1,10 +1,10 @@
 import { Divider, Icon, Item, Modal, Spinner, Text } from "@common";
-import { MediaSource, MediaSourceTypes, type IMediaSource } from "@media-source";
+import { MediaSource, type IMediaSource } from "@media-source";
 import { useYouTubeConnect, YouTubeConnectionState, YouTubePlaylist, type IYouTubePlaylistCompact } from "@youtube";
 import { createEffect, createMemo, createSignal, For, Show, type Component } from "solid-js";
 
 type Props = {
-	mediaSource: IMediaSource | null;
+	mediaSources: IMediaSource[] | null;
 	isOpen: boolean;
 	onClose: () => void;
 };
@@ -25,16 +25,23 @@ export const AddToYouTubePlaylistModal: Component<Props> = (props) => {
 		return !playlists.data()?.playlists.length && playlists.data.loading;
 	});
 
+	const videoIds = createMemo(() => {
+		const sources = props.mediaSources || [];
+		return sources
+			.map((media) => media.youtubeVideoId || media.playedYoutubeVideoId)
+			.filter((id): id is string => !!id);
+	});
+
 	const addToPlaylist = async (playlist: IYouTubePlaylistCompact) => {
-		const id =
-			props.mediaSource?.youtubeVideoId ||
-			(props.mediaSource?.type === MediaSourceTypes.Youtube ? props.mediaSource?.sourceId : null) ||
-			props.mediaSource?.playedYoutubeVideoId;
-		if (!id) return;
+		const ids = videoIds();
+		if (!ids.length) return;
 
 		setIsAdding(playlist.id);
 		try {
-			await youtube.addToPlaylist(playlist.id, id);
+			// TODO filter out existing ids
+			for (const id of ids) {
+				await youtube.addToPlaylist(playlist.id, id);
+			}
 			props.onClose();
 		} finally {
 			setIsAdding(null);
@@ -43,24 +50,39 @@ export const AddToYouTubePlaylistModal: Component<Props> = (props) => {
 
 	return (
 		<Modal isOpen={props.isOpen} handleClose={props.onClose} extraContainerClass="w-xl max-h-[90vh]" closeOnEscape>
-			<Show when={props.mediaSource} keyed>
-				{(m) => (
+			<Show when={props.mediaSources} keyed>
+				{(sources) => (
 					<div class="flex flex-col h-full">
 						<div class="pt-4 md:pt-8 px-2 md:px-8">
 							<Text.H2 class="text-center mb-4">Add to YouTube Playlist</Text.H2>
-							<MediaSource.List mediaSource={m} extraContainerClass={"hover:bg-white/0!"} />
+							<div class="space-y-1">
+								<Show
+									when={sources.length === 1}
+									fallback={
+										<Item.List
+											title={`${sources.length} song(s)`}
+											imageUrl={sources[0].minThumbnailUrl}
+										/>
+									}
+								>
+									<MediaSource.List
+										mediaSource={sources[0]}
+										extraContainerClass={"hover:bg-white/0!"}
+									/>
+								</Show>
+							</div>
 							<Divider extraClass="my-4" />
 						</div>
 
 						<div class="py-8 px-2 md:p-8 pt-0! space-y-2 overflow-auto">
 							<Show
-								when={props.mediaSource?.youtubeVideoId || props.mediaSource?.playedYoutubeVideoId}
+								when={videoIds().length}
 								fallback={
 									<div class="flex-col-center space-y-2 text-center py-4">
 										<Icon name="youtube" class="text-neutral-700 w-12 h-12" />
 										<Text.Body1 class="text-neutral-400">
-											This track has no YouTube video associated with it, so it can't be added to
-											a YouTube playlist.
+											These tracks have no YouTube video associated with them, so they can't be
+											added to a YouTube playlist.
 										</Text.Body1>
 									</div>
 								}

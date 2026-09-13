@@ -19,20 +19,24 @@ type LabelProps = {
 	isLoading: boolean;
 	onClickMore?: () => void;
 	label: string;
+	extraRight?: Accessor<JSX.Element>;
 };
 
 export const ShowMoreTitle: Component<LabelProps> = (props) => {
 	return (
 		<Title
 			right={() => (
-				<Show when={!props.isLoading && props.onClickMore}>
-					<div class="hidden md:block">
-						<SeeMoreTextButton onClick={() => props.onClickMore!()} />
-					</div>
-					<div class="md:hidden">
-						<SeeMoreButton onClick={() => props.onClickMore!()} />
-					</div>
-				</Show>
+				<div class="flex flex-row items-center space-x-2">
+					<Show when={!props.isLoading}>{props.extraRight?.()}</Show>
+					<Show when={!props.isLoading && props.onClickMore}>
+						<div class="hidden md:block">
+							<SeeMoreTextButton onClick={() => props.onClickMore!()} />
+						</div>
+						<div class="md:hidden">
+							<SeeMoreButton onClick={() => props.onClickMore!()} />
+						</div>
+					</Show>
+				</div>
 			)}
 		>
 			{props.label}

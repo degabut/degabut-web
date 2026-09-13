@@ -19,6 +19,7 @@ export const useMediaSourceContextMenu = (
 ): Accessor<ContextMenuDirectiveParams | undefined> => {
 	const queueStore = useQueue() as QueueContextStore | undefined;
 	const appStore = useApp();
+	const youtubeStore = useYouTubeConnect();
 	const youtube = useYouTubeConnect();
 	const like = useLikeMediaSource(() => props().mediaSource.id);
 
@@ -32,6 +33,7 @@ export const useMediaSourceContextMenu = (
 
 		const selectedMediaSourceIds = appStore?.mediaSourceSelect.ids() ?? {};
 		const selectedIds = Object.keys(selectedMediaSourceIds);
+		const selectedMediaSources = Object.values(selectedMediaSourceIds);
 		const hasSelection = !!selectedIds.length;
 		const isSelected = !!selectedMediaSourceIds[mediaSource.id];
 
@@ -45,7 +47,7 @@ export const useMediaSourceContextMenu = (
 				!queueStore.data.empty
 			) {
 				selectionSection.push({
-					label: "Add Selected to Queue",
+					label: `Add ${selectedIds.length} Selected to Queue`,
 					icon: "plus",
 					onClick: async () => {
 						await queueStore.addTrackByIds(selectedIds);
@@ -60,12 +62,26 @@ export const useMediaSourceContextMenu = (
 				!queueStore.data.empty
 			) {
 				selectionSection.push({
-					label: "Remove Selected from Queue",
+					label: `Remove ${selectedIds.length} Selected from Queue`,
 					icon: "trashBin",
 					onClick: async () => {
 						const tracks =
 							queueStore.data.tracks.filter((t) => selectedMediaSourceIds[t.mediaSource.id]) ?? [];
 						await queueStore.removeTracks(tracks.map((t) => t.id));
+						appStore.mediaSourceSelect.clear();
+					},
+					wait: true,
+				});
+			}
+
+			if (youtubeStore.state() !== YouTubeConnectionState.Disabled) {
+				selectionSection.push({
+					label: `Add ${selectedIds.length} Selected to YouTube Playlist`,
+					icon: "trashBin",
+					disabled: youtubeStore.state() !== YouTubeConnectionState.Connected,
+					onClick: async () => {
+						const mediaSources = selectedMediaSources.filter((m): m is IMediaSource => !!m);
+						youtubeStore.promptAddToPlaylist(mediaSources);
 						appStore.mediaSourceSelect.clear();
 					},
 					wait: true,
@@ -140,12 +156,14 @@ export const useMediaSourceContextMenu = (
 					onClick: () => appStore?.promptAddMediaToPlaylist(mediaSource),
 				});
 
-				secondSection.push({
-					label: "Add to YouTube Playlist",
-					icon: "playlistMusic",
-					disabled: youtube.state() !== YouTubeConnectionState.Connected,
-					onClick: () => youtube.promptAddToPlaylist(mediaSource),
-				});
+				if (youtubeStore.state() !== YouTubeConnectionState.Disabled) {
+					secondSection.push({
+						label: "Add to YouTube Playlist",
+						icon: "playlistMusic",
+						disabled: youtube.state() !== YouTubeConnectionState.Connected,
+						onClick: () => youtube.promptAddToPlaylist([mediaSource]),
+					});
+				}
 			}
 
 			if (secondSection.length) items.push(secondSection);

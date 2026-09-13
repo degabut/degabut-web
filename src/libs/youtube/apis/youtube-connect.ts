@@ -48,6 +48,22 @@ export class YouTubeConnectApi {
 		return !!result?.id;
 	};
 
+	findPlaylistByTitle = async (title: string): Promise<string | null> => {
+		let pageToken: string | undefined;
+
+		do {
+			const page = await this.client.playlists.list({ mine: true, pageToken });
+			if (!page) return null;
+
+			const existing = page.items.find((p) => p.snippet?.title === title);
+			if (existing) return existing.id;
+
+			pageToken = page.nextPageToken;
+		} while (pageToken);
+
+		return null;
+	};
+
 	private parsePlaylistItems = async (items: IGooglePlaylistItem[]): Promise<IVideoCompact[]> => {
 		const videoIds = items
 			.map((item) => item.contentDetails?.videoId || item.snippet?.resourceId?.videoId)
