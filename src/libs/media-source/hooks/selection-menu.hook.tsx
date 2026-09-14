@@ -1,5 +1,6 @@
+import { useApp } from "@app/providers";
 import { type IContextMenuItem } from "@common";
-import { useQueue, type QueueContextStore } from "@queue";
+import { useQueue } from "@queue";
 import { YouTubeConnectionState, useYouTubeConnect } from "@youtube";
 import { type IMediaSource } from "../apis";
 import { type MediaSourceSelectStore } from "../providers/media-source-select";
@@ -9,8 +10,9 @@ export type MediaSourceSelectionMenuBuilder = (extras?: IContextMenuItem[]) => I
 export const useMediaSourceSelectionMenu = (
 	selection: MediaSourceSelectStore | undefined
 ): MediaSourceSelectionMenuBuilder => {
-	const queueStore = useQueue() as QueueContextStore | undefined;
+	const queueStore = useQueue();
 	const youtubeStore = useYouTubeConnect();
+	const appStore = useApp();
 
 	return (extras = []) => {
 		const selectedMediaSourceIds = selection?.ids() ?? {};
@@ -41,6 +43,19 @@ export const useMediaSourceSelectionMenu = (
 				onClick: async () => {
 					const selectedTracks = tracks.filter((t) => selectedMediaSourceIds[t.mediaSource.id]);
 					await queueStore.removeTracks(selectedTracks.map((t) => t.id));
+					selection.clear();
+				},
+				wait: true,
+			});
+		}
+
+		if (appStore) {
+			items.push({
+				label: `Add ${selectedIds.length} Selected to Playlist`,
+				icon: "playlistMusic",
+				onClick: () => {
+					const mediaSources = Object.values(selectedMediaSourceIds).filter((m): m is IMediaSource => !!m);
+					appStore.promptAddMediaToPlaylist(mediaSources);
 					selection.clear();
 				},
 				wait: true,

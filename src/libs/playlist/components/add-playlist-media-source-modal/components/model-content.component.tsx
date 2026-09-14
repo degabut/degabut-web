@@ -62,11 +62,6 @@ export const ModalContent: Component<ModalContentProps> = (props) => {
 										extraContainerClass={"hover:bg-white/0!"}
 									/>
 								</Show>
-								<Show when={props.mediaSources && props.mediaSources.length > 1}>
-									<Text.Caption1 class="text-center mt-2">
-										+{(props.mediaSources?.length ?? 0) - 1} more media sources
-									</Text.Caption1>
-								</Show>
 								<Divider extraClass="my-4" />
 							</div>
 
