@@ -40,28 +40,26 @@ export function contextMenu(el: HTMLElement, accessor: Accessor<ContextMenuDirec
 
 	const onClickContextMenu = (e: MouseEvent) => {
 		if (e.altKey || e.shiftKey || e.ctrlKey || e.metaKey) return;
+		if (!accessor()?.openWithClick) return;
 		e.stopPropagation();
 		onContextMenu(e);
 	};
 
 	const onKeyPress = (e: KeyboardEvent) => {
 		if (e.key !== "Enter") return;
+		if (!accessor()?.openWithClick) return;
 		e.stopPropagation();
 		onContextMenu(e);
 	};
 
 	el.addEventListener("contextmenu", onContextMenu);
-	if (params.openWithClick) {
-		el.addEventListener("click", onClickContextMenu);
-		el.addEventListener("keypress", onKeyPress);
-	}
+	el.addEventListener("click", onClickContextMenu);
+	el.addEventListener("keypress", onKeyPress);
 
 	onCleanup(() => {
 		el.removeEventListener("contextmenu", onContextMenu);
-		if (params.openWithClick) {
-			el.removeEventListener("click", onClickContextMenu);
-			el.removeEventListener("keypress", onKeyPress);
-		}
+		el.removeEventListener("click", onClickContextMenu);
+		el.removeEventListener("keypress", onKeyPress);
 	});
 }
 
