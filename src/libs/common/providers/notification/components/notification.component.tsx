@@ -4,10 +4,12 @@ import { createEffect, onCleanup, Show, type Accessor, type Component, type JSX 
 import { Icon } from "../../../components";
 import { useScreen } from "../../screen";
 
-export type Notification = {
-	imageUrl?: string | null;
-	message: Accessor<JSX.Element>;
-};
+export type Notification =
+	| {
+			message: Accessor<JSX.Element>;
+			imageUrl?: string | null;
+	  }
+	| { element: Accessor<JSX.Element> };
 
 type NotificationProps = {
 	onClose?: () => void;
@@ -21,6 +23,7 @@ export const Notification: Component<NotificationProps> = (props) => {
 
 	createEffect(() => {
 		interactable?.unset();
+		if (!props.onClose) return;
 		if (!screen.gte.md) {
 			interactable = interact(ref).draggable({
 				startAxis: "x",
@@ -58,18 +61,24 @@ export const Notification: Component<NotificationProps> = (props) => {
 		props.onClose?.();
 	};
 
-	return (
+	return "element" in props ? (
+		<div ref={ref} class="flex flex-row-center w-full md:w-96 rounded">
+			{props.element()}
+		</div>
+	) : (
 		<div ref={ref} class="flex flex-row-center w-full md:w-96 bg-gray-800 py-2 px-3 space-x-3 rounded touch-none">
 			<Show when={props.imageUrl} keyed>
 				{(url) => <img src={url} class="shrink-0 w-8 h-8 rounded-full" />}
 			</Show>
 			<div class="line-clamp-2 grow">{props.message()}</div>
-			<button
-				class="shrink-0 h-full px-2 py-4 hover:cursor-pointer text-neutral-400 hover:text-white"
-				onClick={onClickClose}
-			>
-				<Icon name="closeLine" size="sm" />
-			</button>
+			<Show when={props.onClose}>
+				<button
+					class="shrink-0 h-full px-2 py-4 hover:cursor-pointer text-neutral-400 hover:text-white"
+					onClick={onClickClose}
+				>
+					<Icon name="closeLine" size="sm" />
+				</button>
+			</Show>
 		</div>
 	);
 };
