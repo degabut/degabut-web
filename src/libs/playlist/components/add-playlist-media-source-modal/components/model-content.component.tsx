@@ -29,6 +29,7 @@ export const ModalContent: Component<ModalContentProps> = (props) => {
 		if (!mediaSources.length) return;
 
 		for (const mediaSource of mediaSources) {
+			// TODO use batch API
 			await playlists.addPlaylistMediaSource(playlist.id, mediaSource.id);
 		}
 		props.onAddToPlaylist();
@@ -41,13 +42,21 @@ export const ModalContent: Component<ModalContentProps> = (props) => {
 
 	return (
 		<>
-			<Show when={props.mediaSources && props.mediaSources.length > 0} keyed>
+			<Show when={props.mediaSources && props.mediaSources.length} keyed>
 				{(mediaSources) => {
 					return (
 						<div class="flex flex-col h-full">
 							<div class="pt-4 md:pt-8 px-2 md:px-8">
 								<Text.H2 class="text-center mb-4">Add to Playlist</Text.H2>
-								<Show when={props.mediaSources?.length === 1}>
+								<Show
+									when={props.mediaSources?.length === 1}
+									fallback={
+										<Item.List
+											title={`${props.mediaSources?.length} song(s)`}
+											imageUrl={props.mediaSources?.[0].minThumbnailUrl}
+										/>
+									}
+								>
 									<MediaSource.List
 										mediaSource={props.mediaSources![0]}
 										extraContainerClass={"hover:bg-white/0!"}

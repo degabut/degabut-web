@@ -128,7 +128,7 @@ export const NowPlayingController: Component = () => {
 							{(track) => (
 								<Button
 									flat
-									onClick={() => app.promptAddMediaToPlaylist(track.mediaSource)}
+									onClick={() => app.promptAddMediaToPlaylist([track.mediaSource])}
 									class="p-2.5"
 									iconSize="md"
 									icon="playlistPlus"

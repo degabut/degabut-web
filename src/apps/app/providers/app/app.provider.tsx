@@ -37,7 +37,7 @@ type Confirmation<T = object> = {
 export type AppContextStore = {
 	title: Accessor<string | null>;
 	setTitle: (title: string | null) => void;
-	promptAddMediaToPlaylist: (media: IMediaSource | null) => void;
+	promptAddMediaToPlaylist: (media: IMediaSource[] | null) => void;
 	setConfirmation: <T>(confirmation: Confirmation<T> | null) => void;
 	setIsQuickSearchModalOpen: Setter<boolean>;
 	hasNewVersion: Accessor<boolean>;
