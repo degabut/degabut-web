@@ -1,9 +1,9 @@
-import { useApp } from "@app/providers";
 import {
 	Icon,
 	Item,
 	contextMenu,
 	customClick,
+	type ContextMenuDirectiveParams,
 	type CustomClickDirectiveParams,
 	type IContextMenuItem,
 	type ItemCardProps,
@@ -13,6 +13,7 @@ import { useQueue } from "@queue";
 import { Show, createMemo, type Component } from "solid-js";
 import { type IMediaSource } from "../../apis";
 import { useMediaSourceContextMenu } from "../../hooks";
+import { useMediaSourceSelect } from "../../providers";
 import { CardImageHover, DurationBadge, LiveBadge, SourceBadge } from "./components";
 
 contextMenu;
@@ -28,7 +29,7 @@ export type MediaSourceCardProps = Partial<Omit<ItemCardProps, "contextMenu">> &
 };
 
 export const MediaSourceCard: Component<MediaSourceCardProps> = (props) => {
-	const app = useApp();
+	const selection = useMediaSourceSelect();
 	const queue = useQueue();
 	const contextMenu = useMediaSourceContextMenu(() => ({
 		mediaSource: props.mediaSource,
@@ -36,19 +37,33 @@ export const MediaSourceCard: Component<MediaSourceCardProps> = (props) => {
 	}));
 	const inQueue = createMemo(() => queue?.data.tracks?.find((t) => t.mediaSource.id === props.mediaSource.id));
 	const isNowPlaying = createMemo(() => queue?.data.nowPlaying && queue.data.nowPlaying.id === inQueue()?.id);
-	const isSelected = createMemo(() => !!app?.mediaSourceSelect.ids()[props.mediaSource.id]);
+
+	const isSelected = createMemo(() => !!selection?.ids()[props.mediaSource.id]);
+	const isSelectionMode = createMemo(() => !!selection?.isSelectionMode());
 	const customClickParams = createMemo<CustomClickDirectiveParams>(() => ({
 		onShiftClick: (e) => {
 			e.preventDefault();
-			app?.mediaSourceSelect.toggle(props.mediaSource);
+			selection?.toggle(props.mediaSource);
 		},
+		onLongPress: () => selection?.startSelection(props.mediaSource),
 	}));
+	const contextMenuParams = createMemo((): ContextMenuDirectiveParams | undefined => {
+		// prevent context menu from opening when in selection mode
+		const params = contextMenu();
+		if (!params || !isSelectionMode()) return params;
+		return { ...params, openWithClick: false };
+	});
+	const onClick = () => {
+		if (isSelectionMode()) return selection?.toggle(props.mediaSource);
+		props.onClick?.();
+	};
 
 	return (
 		<Item.Card
 			{...props}
-			contextMenu={contextMenu()}
+			contextMenu={contextMenuParams()}
 			customClick={customClickParams()}
+			onClick={onClick}
 			title={props.mediaSource.title}
 			description={props.mediaSource.creator}
 			imageUrl={props.mediaSource.maxThumbnailUrl}
@@ -79,7 +94,7 @@ export const MediaSourceCard: Component<MediaSourceCardProps> = (props) => {
 				</div>
 			)}
 			imageHoverElement={() => (
-				<Show when={queue} keyed>
+				<Show when={!isSelectionMode() && queue} keyed>
 					{(q) => (
 						<CardImageHover
 							mediaSource={props.mediaSource}

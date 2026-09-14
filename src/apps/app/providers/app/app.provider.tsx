@@ -19,7 +19,6 @@ import {
 	useAppRichPresence,
 	useCatJam,
 	useMediaSession,
-	useMediaSourceSelect,
 	useQueueNotification,
 	useSnowfall,
 	useVersionCheck,
@@ -41,7 +40,6 @@ export type AppContextStore = {
 	setConfirmation: <T>(confirmation: Confirmation<T> | null) => void;
 	setIsQuickSearchModalOpen: Setter<boolean>;
 	hasNewVersion: Accessor<boolean>;
-	mediaSourceSelect: ReturnType<typeof useMediaSourceSelect>;
 };
 
 export const AppContext = createContext<AppContextStore>();
@@ -55,7 +53,6 @@ export const AppProvider: ParentComponent = (props) => {
 	useMediaSession();
 	useCatJam({ enabled: () => settings["app.catJam.enabled"] });
 	const { hasNewVersion } = useVersionCheck();
-	const mediaSourceSelect = useMediaSourceSelect();
 
 	const [title, setTitle] = createSignal("");
 	const [mediaPlaylist, setMediaPlaylist] = createSignal<null | IMediaSource[]>(null);
@@ -74,7 +71,6 @@ export const AppProvider: ParentComponent = (props) => {
 		setTitle,
 		promptAddMediaToPlaylist: setMediaPlaylist,
 		setConfirmation,
-		mediaSourceSelect,
 		setIsQuickSearchModalOpen,
 		hasNewVersion,
 	};

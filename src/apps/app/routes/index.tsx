@@ -1,5 +1,5 @@
 import { Filters } from "@app/views/filters";
-import { MediaSourceLikeManagerProvider } from "@media-source";
+import { MediaSourceLikeManagerProvider, MediaSourceSelectProvider } from "@media-source";
 import { QueueProvider } from "@queue";
 import type { RouteDefinition, RouteSectionProps } from "@solidjs/router";
 import { LibraryProvider } from "@user";
@@ -56,9 +56,11 @@ export const appRouteDefinitions: RouteDefinition[] = [
 				<QueueProvider>
 					<MediaSourceLikeManagerProvider>
 						<AppProvider>
-							<LibraryProvider>
-								<AppLayout {...props} />
-							</LibraryProvider>
+							<MediaSourceSelectProvider>
+								<LibraryProvider>
+									<AppLayout {...props} />
+								</LibraryProvider>
+							</MediaSourceSelectProvider>
 						</AppProvider>
 					</MediaSourceLikeManagerProvider>
 				</QueueProvider>

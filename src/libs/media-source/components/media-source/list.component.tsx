@@ -1,4 +1,3 @@
-import { useApp } from "@app/providers";
 import {
 	Button,
 	Icon,
@@ -6,6 +5,7 @@ import {
 	Text,
 	customClick,
 	useGlobalShortcut,
+	type ContextMenuDirectiveParams,
 	type CustomClickDirectiveParams,
 	type IContextMenuItem,
 	type ItemListProps,
@@ -15,6 +15,7 @@ import { useQueue, type IGuildMember } from "@queue";
 import { Show, createMemo, type Component } from "solid-js";
 import { type IMediaSource } from "../../apis";
 import { useLikeMediaSource, useMediaSourceContextMenu } from "../../hooks";
+import { useMediaSourceSelect } from "../../providers";
 import { DurationBadge, LiveBadge, SourceBadge } from "./components";
 
 customClick;
@@ -36,7 +37,7 @@ export type MediaSourceListProps = Partial<Omit<ItemListProps, "contextMenu">> &
 };
 
 export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
-	const app = useApp();
+	const selection = useMediaSourceSelect();
 	const queue = useQueue();
 	const globalShortcut = useGlobalShortcut();
 	const contextMenu = useMediaSourceContextMenu(() => ({
@@ -46,19 +47,33 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 	const like = useLikeMediaSource(() => props.mediaSource.id);
 	const inQueue = createMemo(() => queue?.data.tracks?.find((t) => t.mediaSource.id === props.mediaSource.id));
 	const isNowPlaying = createMemo(() => queue?.data.nowPlaying && queue.data.nowPlaying.id === inQueue()?.id);
-	const isSelected = createMemo(() => !!app?.mediaSourceSelect.ids()[props.mediaSource.id]);
+
+	const isSelected = createMemo(() => !!selection?.ids()[props.mediaSource.id]);
+	const isSelectionMode = createMemo(() => !!selection?.isSelectionMode());
 	const customClickParams = createMemo<CustomClickDirectiveParams>(() => ({
 		onShiftClick: (e) => {
 			e.preventDefault();
-			app?.mediaSourceSelect.toggle(props.mediaSource);
+			selection?.toggle(props.mediaSource);
 		},
+		onLongPress: () => selection?.startSelection(props.mediaSource),
 	}));
+	const contextMenuParams = createMemo((): ContextMenuDirectiveParams | undefined => {
+		// prevent context menu from opening when in selection mode
+		const params = contextMenu();
+		if (!params || !isSelectionMode()) return params;
+		return { ...params, openWithClick: false };
+	});
+	const onClick = () => {
+		if (isSelectionMode()) return selection?.toggle(props.mediaSource);
+		props.onClick?.();
+	};
 
 	return (
 		<Item.List
 			{...props}
-			contextMenu={contextMenu()}
+			contextMenu={contextMenuParams()}
 			customClick={customClickParams()}
+			onClick={onClick}
 			title={props.mediaSource.title}
 			imageUrl={props.mediaSource.minThumbnailUrl}
 			imageHoverOnParent
@@ -76,7 +91,10 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 			}}
 			imageHoverElement={() => (
 				<>
-					<Show when={!queue?.data.empty && !isNowPlaying()} fallback={props.imageHoverElement?.()}>
+					<Show
+						when={!isSelectionMode() && !queue?.data.empty && !isNowPlaying()}
+						fallback={props.imageHoverElement?.()}
+					>
 						<button
 							title={globalShortcut.shift || inQueue() ? "Play" : "Add to Queue"}
 							class="flex-row-center justify-center w-full h-full bg-black/60 hover:bg-black/50"
