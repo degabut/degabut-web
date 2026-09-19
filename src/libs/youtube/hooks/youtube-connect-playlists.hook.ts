@@ -8,7 +8,7 @@ export const useYouTubeConnectPlaylists = () => {
 	const [data, setData] = createSignal<IYouTubePlaylistCompact[]>([]);
 	let isInitiated = false;
 	let page = 0;
-	const limit = 5;
+	const limit = 50;
 	let nextPageToken: string | null = null;
 
 	const [_data, { mutate, refetch }] = createResource(() => api.getSelfPlaylists(limit, nextPageToken || undefined), {
