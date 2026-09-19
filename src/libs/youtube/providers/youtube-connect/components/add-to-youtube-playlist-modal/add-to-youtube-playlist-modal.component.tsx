@@ -1,4 +1,4 @@
-import { Divider, Icon, Item, Modal, Spinner, Text } from "@common";
+import { Divider, Icon, Item, Modal, Spinner, Text, useInfiniteScrolling } from "@common";
 import { MediaSource, type IMediaSource } from "@media-source";
 import {
 	useYouTubeConnect,
@@ -19,9 +19,18 @@ export const AddToYouTubePlaylistModal: Component<Props> = (props) => {
 	const youtube = useYouTubeConnect();
 	const youtubePlaylists = useYouTubeConnectPlaylists();
 	const [isAdding, setIsAdding] = createSignal<string | null>(null);
+	const [containerElement, setContainerElement] = createSignal<HTMLDivElement>();
+	const [parentElement, setParentElement] = createSignal<HTMLDivElement>();
+
+	useInfiniteScrolling({
+		callback: () => youtubePlaylists.next(),
+		disabled: () => !props.isOpen || !youtubePlaylists.isFetchable(),
+		container: () => containerElement(),
+		parentContainer: () => parentElement(),
+	});
 
 	createEffect(() => {
-		if (youtube.state?.() === YouTubeConnectionState.Connected) {
+		if (props.isOpen && youtube.state?.() === YouTubeConnectionState.Connected) {
 			youtubePlaylists.next();
 		}
 	});
@@ -58,7 +67,7 @@ export const AddToYouTubePlaylistModal: Component<Props> = (props) => {
 		>
 			<Show when={props.mediaSources} keyed>
 				{(sources) => (
-					<div class="flex flex-col h-full min-h-0">
+					<div class="flex flex-col h-full min-h-0" ref={setParentElement}>
 						<div class="shrink-0 pt-4 md:pt-8 px-2 md:px-8">
 							<Text.H2 class="text-center mb-4">Add to YouTube Playlist</Text.H2>
 							<div class="space-y-1">
@@ -80,7 +89,10 @@ export const AddToYouTubePlaylistModal: Component<Props> = (props) => {
 							<Divider extraClass="my-4" />
 						</div>
 
-						<div class="min-h-0 grow overflow-y-auto py-8 px-2 md:p-8 pt-0! space-y-2">
+						<div
+							ref={setContainerElement}
+							class="min-h-0 grow overflow-y-auto py-8 px-2 md:p-8 pt-0! space-y-2"
+						>
 							<Show
 								when={videoIds().length}
 								fallback={
@@ -109,7 +121,7 @@ export const AddToYouTubePlaylistModal: Component<Props> = (props) => {
 										/>
 									)}
 								</For>
-								<Show when={youtubePlaylists.isInitialLoading()}>
+								<Show when={youtubePlaylists.isLoading()}>
 									<For each={Array(3)}>{() => <Item.ListSkeleton />}</For>
 								</Show>
 							</Show>
