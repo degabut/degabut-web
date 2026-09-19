@@ -14,7 +14,7 @@ export type IYouTubeConnectPlaylistsPage = {
 export class YouTubeConnectApi {
 	constructor(private client: YouTubeSdk) {}
 
-	getSelfPlaylists = async (maxResults = 5, pageToken?: string): Promise<IYouTubeConnectPlaylistsPage | null> => {
+	getSelfPlaylists = async (maxResults = 50, pageToken?: string): Promise<IYouTubeConnectPlaylistsPage | null> => {
 		const playlists = await this.client.playlists.list({ mine: true, pageToken, maxResults });
 
 		if (!playlists) return null;
