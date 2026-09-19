@@ -17,6 +17,7 @@ export class PlaylistsEndpoint extends BaseEndpoint {
 		if (options.mine) params.mine = true;
 		if (options.id) params.id = options.id;
 		if (options.pageToken) params.pageToken = options.pageToken;
+		if (options.maxResults) params.maxResults = options.maxResults;
 
 		return await this.request<IGooglePlaylistListResponse>("GET", "/playlists", params);
 	};

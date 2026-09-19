@@ -8,3 +8,4 @@ export * from "./video.hook";
 export * from "./videos.hook";
 export * from "./youtube-connect-playlist-videos.hook";
 export * from "./youtube-connect-playlist.hook";
+export * from "./youtube-connect-playlists.hook";

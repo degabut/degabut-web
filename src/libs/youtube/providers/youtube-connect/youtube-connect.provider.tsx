@@ -16,8 +16,6 @@ import {
 import { YouTubeConnectApi } from "../../apis";
 import { YouTubeSdk } from "../../sdk";
 import { AddToYouTubePlaylistModal, SyncToYouTubeModal, YouTubeCodePromptModal } from "./components";
-import type { YouTubeData } from "./hooks";
-import { useYouTubeData } from "./hooks";
 
 export type SyncVideoIdsInput = string[] | (() => Promise<string[]>);
 
@@ -35,7 +33,7 @@ export type YouTubeConnectContextStore = {
 	addToPlaylist: (playlistId: string, videoId: string) => Promise<boolean>;
 	promptAddToPlaylist: (media: IMediaSource[] | null) => void;
 	setSyncRequest: (request: SyncRequest | null) => void;
-} & YouTubeData;
+};
 
 export enum YouTubeConnectionState {
 	Empty,
@@ -67,7 +65,6 @@ export const YouTubeConnectProvider: ParentComponent = (props) => {
 	const [mediaSources, setMediaSources] = createSignal<null | IMediaSource[]>(null);
 	const [state, setState] = createSignal(YouTubeConnectionState.Empty);
 	const [syncRequest, setSyncRequest] = createSignal<SyncRequest | null>(null);
-	const data = useYouTubeData(() => state() === YouTubeConnectionState.Connected, client);
 
 	createEffect(() => {
 		if (!settings["youtube.enabled"]) return logout();
@@ -165,7 +162,6 @@ export const YouTubeConnectProvider: ParentComponent = (props) => {
 		addToPlaylist,
 		promptAddToPlaylist: setMediaSources,
 		setSyncRequest,
-		...data,
 	};
 
 	return (
