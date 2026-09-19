@@ -4,17 +4,30 @@ import { DelayUtil } from "../utils";
 type IUseInfiniteScrollingProps = {
 	callback: () => unknown | Promise<unknown>;
 	disabled: () => boolean;
-	container: () => HTMLElement;
+	container: () => HTMLElement | undefined;
+	parentContainer?: () => HTMLElement | undefined;
 	bottomOffset?: number;
 };
 
-export const useInfiniteScrolling = ({ callback, disabled, container, bottomOffset }: IUseInfiniteScrollingProps) => {
+export const useInfiniteScrolling = ({
+	callback,
+	disabled,
+	container,
+	parentContainer,
+	bottomOffset,
+}: IUseInfiniteScrollingProps) => {
 	const observer = new MutationObserver(() => load());
 
 	const load = DelayUtil.throttle(() => {
-		const containerRect = container()?.getBoundingClientRect();
-		if (!disabled() && containerRect && window.innerHeight - containerRect.bottom > (bottomOffset ?? -128)) {
-			callback();
+		const el = container();
+		const containerRect = el?.getBoundingClientRect();
+		const parentRect = parentContainer?.()?.getBoundingClientRect();
+		const viewportBottom = parentRect ? parentRect.bottom : window.innerHeight;
+		if (!disabled() && containerRect) {
+			const contentBottom = containerRect.bottom + (el!.scrollHeight - el!.clientHeight - el!.scrollTop);
+			if (viewportBottom - contentBottom > (bottomOffset ?? -128)) {
+				callback();
+			}
 		}
 	}, 250);
 
