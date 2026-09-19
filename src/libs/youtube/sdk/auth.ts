@@ -66,8 +66,7 @@ export class Auth {
 		if (result.status !== 200) throw new Error("Failed to refresh token");
 
 		const updated = result.data;
-
-		return GoogleTokenUtil.toCacheable(updated);
+		return GoogleTokenUtil.toCacheable({ ...updated, refresh_token: item.refresh_token });
 	}
 
 	private async exchangeCodeForToken(input: string): Promise<GoogleToken> {
