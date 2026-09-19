@@ -29,8 +29,10 @@ img {
 	user-drag: none;
 }
 
-* {
-	@apply focus-within:opacity-100;
+@layer base {
+	* {
+		@apply focus-within:opacity-100;
+	}
 }
 
 a {

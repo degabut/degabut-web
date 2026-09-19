@@ -14,6 +14,7 @@ type ModalContentProps = {
 
 export const ModalContent: Component<ModalContentProps> = (props) => {
 	const [isCreateModalOpen, setIsCreateModalOpen] = createSignal(false);
+	const [isLoading, setIsLoading] = createSignal(false);
 
 	const playlists = usePlaylists();
 	const isInitialLoading = createMemo(() => {
@@ -21,17 +22,15 @@ export const ModalContent: Component<ModalContentProps> = (props) => {
 	});
 
 	const addToPlaylist = async (playlist: IPlaylist) => {
-		const mediaSources = props.mediaSources?.length
-			? props.mediaSources
-			: props.mediaSources?.length === 1
-				? props.mediaSources
-				: [];
+		setIsLoading(true);
+		const mediaSources = props.mediaSources || [];
 		if (!mediaSources.length) return;
 
 		for (const mediaSource of mediaSources) {
 			// TODO use batch API
 			await playlists.addPlaylistMediaSource(playlist.id, mediaSource.id);
 		}
+		setIsLoading(false);
 		props.onAddToPlaylist();
 	};
 
@@ -43,7 +42,7 @@ export const ModalContent: Component<ModalContentProps> = (props) => {
 	return (
 		<>
 			<Show when={props.mediaSources && props.mediaSources.length} keyed>
-				{(mediaSources) => {
+				{(_) => {
 					return (
 						<div class="flex flex-col h-full">
 							<div class="pt-4 md:pt-8 px-2 md:px-8">
@@ -65,7 +64,10 @@ export const ModalContent: Component<ModalContentProps> = (props) => {
 								<Divider extraClass="my-4" />
 							</div>
 
-							<div class="py-8 px-2 md:p-8 pt-0! space-y-2 overflow-auto">
+							<div
+								class="py-8 px-2 md:p-8 pt-0! space-y-2 overflow-auto"
+								classList={{ "opacity-50 pointer-events-none": isLoading() }}
+							>
 								<Show when={(playlists.data().length || 0) < 25 && !isInitialLoading()}>
 									<CreatePlaylistButton onClick={() => setIsCreateModalOpen(true)} />
 								</Show>
