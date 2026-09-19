@@ -1,6 +1,12 @@
 import { Divider, Icon, Item, Modal, Spinner, Text } from "@common";
 import { MediaSource, type IMediaSource } from "@media-source";
-import { useYouTubeConnect, YouTubeConnectionState, YouTubePlaylist, type IYouTubePlaylistCompact } from "@youtube";
+import {
+	useYouTubeConnect,
+	useYouTubeConnectPlaylists,
+	YouTubeConnectionState,
+	YouTubePlaylist,
+	type IYouTubePlaylistCompact,
+} from "@youtube";
 import { createEffect, createMemo, createSignal, For, Show, type Component } from "solid-js";
 
 type Props = {
@@ -11,18 +17,13 @@ type Props = {
 
 export const AddToYouTubePlaylistModal: Component<Props> = (props) => {
 	const youtube = useYouTubeConnect();
+	const youtubePlaylists = useYouTubeConnectPlaylists();
 	const [isAdding, setIsAdding] = createSignal<string | null>(null);
 
 	createEffect(() => {
 		if (youtube.state?.() === YouTubeConnectionState.Connected) {
-			youtube.loadPlaylists?.();
+			youtubePlaylists.next();
 		}
-	});
-
-	const playlists = youtube.playlists;
-	const isInitialLoading = createMemo(() => {
-		if (!playlists) return false;
-		return !playlists.data()?.playlists.length && playlists.data.loading;
 	});
 
 	const videoIds = createMemo(() => {
@@ -49,11 +50,16 @@ export const AddToYouTubePlaylistModal: Component<Props> = (props) => {
 	};
 
 	return (
-		<Modal isOpen={props.isOpen} handleClose={props.onClose} extraContainerClass="w-xl max-h-[90vh]" closeOnEscape>
+		<Modal
+			isOpen={props.isOpen}
+			handleClose={props.onClose}
+			extraContainerClass="w-xl max-h-[90vh] flex flex-col"
+			closeOnEscape
+		>
 			<Show when={props.mediaSources} keyed>
 				{(sources) => (
-					<div class="flex flex-col h-full">
-						<div class="pt-4 md:pt-8 px-2 md:px-8">
+					<div class="flex flex-col h-full min-h-0">
+						<div class="shrink-0 pt-4 md:pt-8 px-2 md:px-8">
 							<Text.H2 class="text-center mb-4">Add to YouTube Playlist</Text.H2>
 							<div class="space-y-1">
 								<Show
@@ -74,7 +80,7 @@ export const AddToYouTubePlaylistModal: Component<Props> = (props) => {
 							<Divider extraClass="my-4" />
 						</div>
 
-						<div class="py-8 px-2 md:p-8 pt-0! space-y-2 overflow-auto">
+						<div class="min-h-0 grow overflow-y-auto py-8 px-2 md:p-8 pt-0! space-y-2">
 							<Show
 								when={videoIds().length}
 								fallback={
@@ -87,7 +93,7 @@ export const AddToYouTubePlaylistModal: Component<Props> = (props) => {
 									</div>
 								}
 							>
-								<For each={playlists?.data()?.playlists || []}>
+								<For each={youtubePlaylists.data()}>
 									{(p) => (
 										<YouTubePlaylist.List
 											playlist={p}
@@ -103,7 +109,7 @@ export const AddToYouTubePlaylistModal: Component<Props> = (props) => {
 										/>
 									)}
 								</For>
-								<Show when={isInitialLoading()}>
+								<Show when={youtubePlaylists.isInitialLoading()}>
 									<For each={Array(3)}>{() => <Item.ListSkeleton />}</For>
 								</Show>
 							</Show>
