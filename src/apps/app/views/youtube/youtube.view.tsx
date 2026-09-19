@@ -1,19 +1,32 @@
 import { useApp } from "@app/providers";
 import { AppRoutes } from "@app/routes";
-import { A, Button, Container, Divider, Icon, Item, Spinner, Text, useNavigate } from "@common";
+import { A, Button, Container, Divider, Icon, Item, Spinner, Text, useInfiniteScrolling, useNavigate } from "@common";
 import { IS_DISCORD_EMBEDDED } from "@constants";
 import { useQueue } from "@queue";
 import { useSettings } from "@settings";
-import { YouTubeConnectionState, YouTubeContextMenuUtil, YouTubePlaylist, useYouTubeConnect } from "@youtube";
-import { For, Match, Show, Switch, createEffect, onMount, type Component } from "solid-js";
-import { RefreshButton } from "./components";
+import {
+	YouTubeConnectionState,
+	YouTubeContextMenuUtil,
+	YouTubePlaylist,
+	useYouTubeConnect,
+	useYouTubeConnectPlaylists,
+} from "@youtube";
+import { For, Match, Show, Switch, createEffect, createSignal, onMount, type Component } from "solid-js";
 
 export const YouTube: Component = () => {
 	const app = useApp()!;
 	const queue = useQueue()!;
 	const youtube = useYouTubeConnect();
+	const youtubePlaylists = useYouTubeConnectPlaylists();
 	const navigate = useNavigate();
 	const { settings } = useSettings();
+	const [containerElement, setContainerElement] = createSignal<HTMLDivElement | undefined>(undefined);
+
+	useInfiniteScrolling({
+		callback: () => youtubePlaylists.next(),
+		disabled: () => !youtubePlaylists.isFetchable(),
+		container: containerElement,
+	});
 
 	onMount(() => app.setTitle("YouTube"));
 
@@ -21,13 +34,9 @@ export const YouTube: Component = () => {
 		if (youtube.state() === YouTubeConnectionState.Empty) {
 			youtube.initialize();
 		} else if (youtube.state() === YouTubeConnectionState.Connected) {
-			youtube.loadPlaylists();
+			youtubePlaylists.next();
 		}
 	});
-
-	const refresh = () => {
-		youtube.playlists.refetch();
-	};
 
 	return (
 		<>
@@ -36,31 +45,27 @@ export const YouTube: Component = () => {
 					<Container size="md" extraClass="space-y-6">
 						<div class="flex flex-row justify-between items-end">
 							<Text.H2 class="text-xl font-medium">Your YouTube Playlists</Text.H2>
-							<RefreshButton disabled={youtube.playlists.data.loading} onClick={refresh} />
 						</div>
 
 						<Divider />
 
-						<div class="space-y-2">
-							<Show
-								when={!youtube.playlists.data.loading}
-								fallback={<For each={Array(5)}>{() => <Item.ListSkeleton />}</For>}
-							>
-								<For each={youtube.playlists.data()?.playlists || []}>
-									{(item) => (
-										<YouTubePlaylist.List
-											onClick={() =>
-												navigate(AppRoutes.YoutubePlaylist, { params: { id: item.id } })
-											}
-											contextMenu={YouTubeContextMenuUtil.getPlaylistContextMenu({
-												playlist: item,
-												queueStore: queue,
-												appStore: app,
-											})}
-											playlist={item}
-										/>
-									)}
-								</For>
+						<div class="space-y-2 overflow-y-auto h-full" ref={setContainerElement}>
+							<For each={youtubePlaylists.data()}>
+								{(item) => (
+									<YouTubePlaylist.List
+										onClick={() => navigate(AppRoutes.YoutubePlaylist, { params: { id: item.id } })}
+										contextMenu={YouTubeContextMenuUtil.getPlaylistContextMenu({
+											playlist: item,
+											queueStore: queue,
+											appStore: app,
+										})}
+										playlist={item}
+									/>
+								)}
+							</For>
+
+							<Show when={youtubePlaylists.isLoading()}>
+								<For each={Array(5)}>{() => <Item.ListSkeleton />}</For>
 							</Show>
 						</div>
 					</Container>
