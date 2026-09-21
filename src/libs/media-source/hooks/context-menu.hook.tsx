@@ -104,14 +104,19 @@ export const useMediaSourceContextMenu = (
 					onClick: () => appStore?.promptAddMediaToPlaylist([mediaSource]),
 				});
 
-				if (youtube.state() !== YouTubeConnectionState.Disabled) {
-					secondSection.push({
-						label: "Add to YouTube Playlist",
-						icon: "playlistMusic",
-						disabled: youtube.state() !== YouTubeConnectionState.Connected,
-						onClick: () => youtube.promptAddToPlaylist([mediaSource]),
-					});
-				}
+				secondSection.push({
+					label: "Add to YouTube Playlist",
+					icon: "playlistMusic",
+					onClick: () =>
+						youtube.state() !== YouTubeConnectionState.Connected
+							? appStore.setConfirmation({
+									title: "YouTube Not Connected",
+									message:
+										"Please connect your YouTube account in Settings to add to a YouTube playlist.",
+									isAlert: true,
+								})
+							: youtube.promptAddToPlaylist([mediaSource]),
+				});
 			}
 
 			if (secondSection.length) items.push(secondSection);
