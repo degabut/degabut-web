@@ -79,7 +79,6 @@ export const Button: Component<Props> = (props) => {
 			{...props}
 			class="flex-row-center"
 			classList={{
-				"pointer-events-none": props.disabled,
 				"cursor-pointer": !props.disabled,
 				"rounded-full": props.rounded,
 				rounded: !props.rounded,
