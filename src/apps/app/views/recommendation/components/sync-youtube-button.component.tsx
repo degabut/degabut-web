@@ -22,6 +22,7 @@ export const SyncYouTubeButton: Component<Props> = (props) => {
 			<Button
 				flat
 				class="px-2 py-1 space-x-1.5"
+				classList={{ "opacity-50": !isConnected() || !props.videoIds }}
 				disabled={!isConnected() || !props.videoIds}
 				onClick={onClick}
 				title={
@@ -31,7 +32,7 @@ export const SyncYouTubeButton: Component<Props> = (props) => {
 				}
 			>
 				<img src="/img/youtube.png" class="w-4 h-4 text-neutral-400" />
-				<Text.Caption1>Sync</Text.Caption1>
+				<Text.Body2>Sync</Text.Body2>
 			</Button>
 		</Show>
 	);
