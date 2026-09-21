@@ -5,6 +5,7 @@ import { RPCCloseCodes, type DiscordSDK } from "@discord/embedded-app-sdk";
 import { type IVoiceChannelMin } from "@queue";
 import { useSettings } from "@settings";
 import { useSpotify } from "@spotify";
+import { useYouTubeConnect } from "@youtube";
 import {
 	Show,
 	createContext,
@@ -36,6 +37,7 @@ export const DiscordProvider: ParentComponent = (props) => {
 	const api = useApi();
 	const auth = useAuth();
 	const spotify = useSpotify();
+	const youtube = useYouTubeConnect();
 	let discordSdk: DiscordSDK;
 	const [isReady, setIsReady] = createSignal(false);
 	const [isPip, setIsPip] = createSignal(false);
@@ -49,6 +51,7 @@ export const DiscordProvider: ParentComponent = (props) => {
 
 		if (DISCORD_ACTIVITY_URL_MAPPINGS.length) {
 			patchUrlMappings(DISCORD_ACTIVITY_URL_MAPPINGS);
+
 			spotify.client.httpClient.interceptors.response.use((r) =>
 				PatchUrlUtil.intercept(r, DISCORD_ACTIVITY_URL_MAPPINGS)
 			);
@@ -64,6 +67,23 @@ export const DiscordProvider: ParentComponent = (props) => {
 					DISCORD_ACTIVITY_URL_MAPPINGS
 				);
 			}
+
+			youtube.client.httpClient.interceptors.response.use((r) =>
+				PatchUrlUtil.intercept(r, DISCORD_ACTIVITY_URL_MAPPINGS)
+			);
+			if (youtube.client.httpClient.defaults.baseURL) {
+				youtube.client.httpClient.defaults.baseURL = PatchUrlUtil.rewriteString(
+					youtube.client.httpClient.defaults.baseURL,
+					DISCORD_ACTIVITY_URL_MAPPINGS
+				);
+			}
+			if (youtube.client.authHttpClient.defaults.baseURL) {
+				youtube.client.authHttpClient.defaults.baseURL = PatchUrlUtil.rewriteString(
+					youtube.client.authHttpClient.defaults.baseURL,
+					DISCORD_ACTIVITY_URL_MAPPINGS
+				);
+			}
+
 			api.client.interceptors.response.use((r) => PatchUrlUtil.intercept(r, DISCORD_ACTIVITY_URL_MAPPINGS));
 			api.youtubeClient.interceptors.response.use((r) =>
 				PatchUrlUtil.intercept(r, DISCORD_ACTIVITY_URL_MAPPINGS)
