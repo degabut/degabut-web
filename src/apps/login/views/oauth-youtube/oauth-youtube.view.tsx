@@ -1,18 +1,29 @@
 import { AppRoutes } from "@app/routes";
 import { Button, Container, Icon, Input, Spinner, Text, useNavigate, useNotification } from "@common";
+import { useYouTubeConnect } from "@youtube";
 import { createSignal, onMount, Show, type Component } from "solid-js";
 
 export const OAuthYouTube: Component = () => {
 	const notification = useNotification();
+	const youtube = useYouTubeConnect();
 	const navigate = useNavigate();
 	const [code, setCode] = createSignal<string | null>(null);
 
-	const isPopup = !!window.opener;
+	const isActivityRedirect = location.hostname.endsWith("discordsays.com");
 
-	onMount(() => {
-		const params = new URLSearchParams(window.location.search);
-		setCode(params.get("code"));
-		if (!isPopup && !params.get("code")) navigate(AppRoutes.Youtube);
+	onMount(async () => {
+		if (isActivityRedirect) {
+			const params = new URLSearchParams(window.location.search);
+			setCode(params.get("code"));
+		} else {
+			try {
+				const params = new URLSearchParams(window.location.search);
+				const code = params.get("code");
+				if (code) await youtube.authenticate(code);
+			} finally {
+				navigate(AppRoutes.Youtube);
+			}
+		}
 	});
 
 	const copyCodeToClipboard = () => {
@@ -24,7 +35,7 @@ export const OAuthYouTube: Component = () => {
 
 	return (
 		<Container size="content" centered extraClass="flex items-center h-full">
-			<Show keyed when={isPopup} fallback={<Spinner size="3xl" />}>
+			<Show keyed when={isActivityRedirect} fallback={<Spinner size="3xl" />}>
 				<div class="flex-col-center sm:bg-neutral-900 bg-transparent sm:px-16 sm:py-24 rounded-2xl space-y-12">
 					<div class="flex-row-center space-x-4">
 						<Icon name="degabut" class="w-24 h-24 text-brand-500" />

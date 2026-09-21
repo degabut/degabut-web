@@ -1,6 +1,6 @@
 import { AppRoutes } from "@app/routes";
 import { useNavigate } from "@common";
-import { YOUTUBE_OAUTH_REDIRECT_URI } from "@constants";
+import { IS_DISCORD_EMBEDDED, YOUTUBE_OAUTH_REDIRECT_URI } from "@constants";
 import type { IMediaSource } from "@media-source";
 import { useSettings } from "@settings";
 import {
@@ -118,28 +118,8 @@ export const YouTubeConnectProvider: ParentComponent = (props) => {
 		navigate(AppRoutes.Youtube);
 	};
 
-	const removeCodeFromUrl = () => {
-		const url = new URL(window.location.href);
-		url.searchParams.delete("code");
-		url.searchParams.delete("scope");
-
-		const newUrl = url.search ? url.href : url.href.replace("?", "");
-		window.history.replaceState({}, document.title, newUrl);
-	};
-
 	onMount(async () => {
-		if (window.opener) return;
-
-		if (window.location.pathname === AppRoutes.OAuthYoutube) {
-			const params = new URLSearchParams(window.location.search);
-			const code = params.get("code");
-			if (code) {
-				await onCodeAuthenticate(code);
-				removeCodeFromUrl();
-				return;
-			}
-		}
-
+		if (window.opener || IS_DISCORD_EMBEDDED) return;
 		initialize();
 	});
 

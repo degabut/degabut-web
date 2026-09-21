@@ -57,6 +57,7 @@ export const YouTubeCodePromptModal: Component<Props> = (props) => {
 						disabled={isAuthenticating()}
 						outlined
 						class="w-full"
+						type="password"
 						placeholder="Paste code here"
 					/>
 					<Show when={error()}>
