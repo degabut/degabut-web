@@ -12,7 +12,6 @@ type Props = {
 	};
 } & JSX.HTMLAttributes<HTMLIFrameElement>;
 
-// TODO discord activity support
 export const VideoEmbed: Component<Props> = (props) => {
 	let iframeRef!: HTMLIFrameElement;
 
@@ -38,7 +37,7 @@ export const VideoEmbed: Component<Props> = (props) => {
 			{...props}
 			ref={iframeRef}
 			class="w-full aspect-video"
-			src={`https://www.youtube.com/embed/${props.initialVideoId}?${params.toString()}`}
+			src={YouTubeIframeUtil.getEmbedUrl(props.initialVideoId || "", params)}
 		/>
 	);
 };
