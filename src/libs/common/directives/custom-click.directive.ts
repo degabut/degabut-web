@@ -67,15 +67,15 @@ export function customClick(el: HTMLElement, accessor: Accessor<CustomClickDirec
 		stopEvent(e);
 	};
 
-	const onClick = (e: MouseEvent) => {
-		if (didLongPress) {
-			clearTimeout(resetTimeout);
-			resetTimeout = undefined;
-			didLongPress = false;
-			stopEvent(e);
-			return;
-		}
+	const onCaptureClick = (e: MouseEvent) => {
+		if (!didLongPress) return;
+		clearTimeout(resetTimeout);
+		resetTimeout = undefined;
+		didLongPress = false;
+		stopEvent(e);
+	};
 
+	const onClick = (e: MouseEvent) => {
 		const params = accessor();
 		if (!params) return;
 
@@ -89,7 +89,8 @@ export function customClick(el: HTMLElement, accessor: Accessor<CustomClickDirec
 	el.addEventListener("touchend", onTouchEnd);
 	el.addEventListener("touchcancel", onTouchCancel);
 	el.addEventListener("touchmove", onTouchMove);
-	el.addEventListener("click", onClick, true);
+	el.addEventListener("click", onCaptureClick, true);
+	el.addEventListener("click", onClick);
 	el.addEventListener("contextmenu", onContextMenu, true);
 
 	onCleanup(() => {
@@ -98,7 +99,8 @@ export function customClick(el: HTMLElement, accessor: Accessor<CustomClickDirec
 		el.removeEventListener("touchend", onTouchEnd);
 		el.removeEventListener("touchcancel", onTouchCancel);
 		el.removeEventListener("touchmove", onTouchMove);
-		el.removeEventListener("click", onClick, true);
+		el.removeEventListener("click", onCaptureClick, true);
+		el.removeEventListener("click", onClick);
 		el.removeEventListener("contextmenu", onContextMenu, true);
 	});
 }
