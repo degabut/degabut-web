@@ -206,8 +206,8 @@ export const Filters: Component = () => {
 					)}
 				</For>
 
-				<div class="space-y-2.5">
-					<Text.Caption2 class="max-w-64" classList={{ "!text-brand-500": !!hasChanged() }}>
+				<div class="flex flex-col space-y-2.5">
+					<Text.Caption2 classList={{ "text-brand-500!": !!hasChanged() }}>
 						Filter will be applied a few seconds after pressing the Set button, please wait.
 					</Text.Caption2>
 					<div class="flex flex-row justify-between">

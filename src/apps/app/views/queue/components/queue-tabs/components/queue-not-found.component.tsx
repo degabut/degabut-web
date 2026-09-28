@@ -117,14 +117,14 @@ const VoiceChannelHistoryList: Component<VoiceChannelHistoryListProps> = (props)
 	const guildList = useUserGuildList();
 
 	return (
-		<div class="space-y-2 h-full overflow-y-auto">
+		<div class="flex flex-col space-y-2.5 h-full overflow-y-auto">
 			<Show
 				when={guildList.data().length || guildList.data.loading}
 				fallback={
 					<>
-						<Text.Body1>
+						<Text.Caption1>
 							Queue not found{queue.voiceChannelHistory.history.length ? ", select voice channel" : ""}
-						</Text.Body1>
+						</Text.Caption1>
 
 						<Show when={queue.voiceChannelHistory.history.length}>
 							<div class="flex-col-center space-y-2">
