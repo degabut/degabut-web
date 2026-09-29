@@ -66,7 +66,7 @@ export const QueueNotFound: Component = () => {
 	};
 
 	return (
-		<div classList={{ "opacity-50! pointers-event-none cursor-none": isLoading() }}>
+		<div class="h-full" classList={{ "opacity-50! pointers-event-none cursor-none": isLoading() }}>
 			<Show
 				when={discord?.currentChannel()}
 				keyed
@@ -93,15 +93,14 @@ const JoinCurrentChannel: Component<JoinCurrentChannelProps> = (props) => {
 	const queue = useQueue()!;
 
 	return (
-		<div class="flex-row-center justify-center py-4 text-neutral-300">
-			<Button class="px-12 py-2" onClick={() => props.onClickChannel(props.channel)}>
-				<div class="flex-col-center space-y-0.5">
-					<Text.Body1>Bring {queue.bot().name} to</Text.Body1>
-					<div class="flex-row-center space-x-2">
-						<Icon size="xl" name="soundFull" class="text-neutral-500" />
-						<Text.H3>{props.channel.name}</Text.H3>
-					</div>
-				</div>
+		<div class="flex-col-center sm:px-16 sm:py-24 space-y-8 rounded-2xl h-full">
+			<img src="/android-chrome-512x512.png" class="w-32 h-32" />
+			<div class="text-4xl font-brand font-semibold">degabut</div>
+			<Button
+				onClick={() => props.onClickChannel(props.channel)}
+				class="border border-neutral-100 px-8 py-2 rounded-full text-lg text-center hover:bg-white/10 transition-colors"
+			>
+				Start Listening
 			</Button>
 		</div>
 	);
@@ -118,41 +117,50 @@ const VoiceChannelHistoryList: Component<VoiceChannelHistoryListProps> = (props)
 	const queues = useJoinableQueue();
 
 	return (
-		<div class="flex flex-col space-y-2.5 h-full overflow-y-auto">
-			<Text.Body2>
-				Queue not found{queue.voiceChannelHistory.history.length ? ", select voice channel you are in" : ""}
-			</Text.Body2>
+		<div class="flex flex-col space-y-3.5 h-full overflow-y-auto">
+			<div class="flex flex-col space-y-2.5">
+				<Text.Body2>
+					Queue not found{queue.voiceChannelHistory.history.length ? ", select voice channel you are in" : ""}
+				</Text.Body2>
 
-			<Show when={queue.voiceChannelHistory.history.length}>
-				<div class="flex-col-center space-y-2">
-					<For each={queue.voiceChannelHistory.history}>
-						{(history) => (
-							<VoiceChannelList
-								{...history}
-								onClick={props.onClickChannel}
-								onClickRemove={props.onRemoveChannel}
-							/>
-						)}
-					</For>
-				</div>
-			</Show>
+				<Show when={queue.voiceChannelHistory.history.length}>
+					<div class="flex-col-center space-y-2">
+						<For each={queue.voiceChannelHistory.history}>
+							{(history) => (
+								<VoiceChannelList
+									{...history}
+									onClick={props.onClickChannel}
+									onClickRemove={props.onRemoveChannel}
+								/>
+							)}
+						</For>
+					</div>
+				</Show>
+			</div>
 
 			<Divider dark />
 
-			<div class="flex-row-center space-x-2">
+			<div class="flex flex-col space-y-2.5">
 				<div class="flex-row-center space-x-2">
-					<Text.Body2>Joinable Queue</Text.Body2>
-					<Icon name="link" size="md" class="text-brand-500"></Icon>
+					<div class="flex-row-center space-x-2">
+						<Text.Body2>Joinable Queue</Text.Body2>
+						<Icon name="link" size="md" class="text-brand-500"></Icon>
+					</div>
+					<Button flat class="px-2 py-1" onClick={() => queues.refetch()} disabled={queues.data.loading}>
+						<Text.Caption2>Refresh</Text.Caption2>
+					</Button>
 				</div>
-				<Button flat class="px-2 py-1" onClick={() => queues.refetch()} disabled={queues.data.loading}>
-					<Text.Caption2>Refresh</Text.Caption2>
-				</Button>
+				<Show
+					when={queues.data().length}
+					fallback={<Text.Caption2>No joinable queues available</Text.Caption2>}
+				>
+					<div class="flex-col-center space-y-2">
+						<For each={queues.data()}>
+							{(queue) => <QueueList {...queue} onClick={props.onClickGuild} />}
+						</For>
+					</div>
+				</Show>
 			</div>
-			<Show when={queues.data().length} fallback={<Text.Caption2>No joinable queues available</Text.Caption2>}>
-				<div class="flex-col-center space-y-2">
-					<For each={queues.data()}>{(queue) => <QueueList {...queue} onClick={props.onClickGuild} />}</For>
-				</div>
-			</Show>
 		</div>
 	);
 };
