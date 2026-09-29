@@ -1,10 +1,11 @@
 import { useApp } from "@app/providers";
-import { Button, Icon, Text, useApi } from "@common";
-import { useDiscord, useUserGuildList } from "@discord";
+import { Button, Divider, Icon, Text, useApi } from "@common";
+import { useDiscord } from "@discord";
 import {
-	GuildList,
 	PlayerApi,
 	QueueApi,
+	QueueList,
+	useJoinableQueue,
 	useQueue,
 	VoiceChannelList,
 	type IGuild,
@@ -22,9 +23,9 @@ export const QueueNotFound: Component = () => {
 	const playerApi = new PlayerApi(api.client);
 	const [isLoading, setIsLoading] = createSignal(false);
 
-	const join = async (voiceChannel: IVoiceChannelMin, textChannel?: ITextChannel | null) => {
+	const createQueue = async (voiceChannel: IVoiceChannelMin, textChannel?: ITextChannel | null) => {
 		setIsLoading(true);
-		const success = await playerApi.join(voiceChannel.id, textChannel?.id);
+		const success = await playerApi.create(voiceChannel.id, textChannel?.id);
 		setIsLoading(false);
 		if (!success) {
 			app.setConfirmation({
@@ -41,7 +42,7 @@ export const QueueNotFound: Component = () => {
 		}
 	};
 
-	const connect = async (guild: IGuild) => {
+	const joinQueue = async (guild: IGuild) => {
 		setIsLoading(true);
 		let success = false;
 		const queue = await queueApi.getQueue(`guildId:${guild.id}`);
@@ -71,13 +72,13 @@ export const QueueNotFound: Component = () => {
 				keyed
 				fallback={
 					<VoiceChannelHistoryList
-						onClickChannel={join}
-						onClickGuild={connect}
+						onClickChannel={createQueue}
+						onClickGuild={joinQueue}
 						onRemoveChannel={(v, t) => queue.voiceChannelHistory.deleteHistory(v.id, t?.id)}
 					/>
 				}
 			>
-				{(channel) => <JoinCurrentChannel onClickChannel={join} channel={channel} />}
+				{(channel) => <JoinCurrentChannel onClickChannel={createQueue} channel={channel} />}
 			</Show>
 		</div>
 	);
@@ -114,41 +115,42 @@ type VoiceChannelHistoryListProps = {
 
 const VoiceChannelHistoryList: Component<VoiceChannelHistoryListProps> = (props) => {
 	const queue = useQueue()!;
-	const guildList = useUserGuildList();
+	const queues = useJoinableQueue();
 
 	return (
 		<div class="flex flex-col space-y-2.5 h-full overflow-y-auto">
-			<Show
-				when={guildList.data().length || guildList.data.loading}
-				fallback={
-					<>
-						<Text.Caption1>
-							Queue not found{queue.voiceChannelHistory.history.length ? ", select voice channel" : ""}
-						</Text.Caption1>
+			<Text.Body2>
+				Queue not found{queue.voiceChannelHistory.history.length ? ", select voice channel you are in" : ""}
+			</Text.Body2>
 
-						<Show when={queue.voiceChannelHistory.history.length}>
-							<div class="flex-col-center space-y-2">
-								<For each={queue.voiceChannelHistory.history}>
-									{(history) => (
-										<VoiceChannelList
-											{...history}
-											onClick={props.onClickChannel}
-											onClickRemove={props.onRemoveChannel}
-										/>
-									)}
-								</For>
-							</div>
-						</Show>
-					</>
-				}
-			>
+			<Show when={queue.voiceChannelHistory.history.length}>
 				<div class="flex-col-center space-y-2">
-					<For each={queue.guildHistory.history}>
-						{(history) => <GuildList guild={history} onClick={props.onClickGuild} description="Recent" />}
+					<For each={queue.voiceChannelHistory.history}>
+						{(history) => (
+							<VoiceChannelList
+								{...history}
+								onClick={props.onClickChannel}
+								onClickRemove={props.onRemoveChannel}
+							/>
+						)}
 					</For>
-					<For each={guildList.data().sort((a, b) => a.name.localeCompare(b.name))}>
-						{(guild) => <GuildList guild={guild} onClick={props.onClickGuild} />}
-					</For>
+				</div>
+			</Show>
+
+			<Divider dark />
+
+			<div class="flex-row-center space-x-2">
+				<div class="flex-row-center space-x-2">
+					<Text.Body2>Joinable Queue</Text.Body2>
+					<Icon name="link" size="md" class="text-brand-500"></Icon>
+				</div>
+				<Button flat class="px-2 py-1" onClick={() => queues.refetch()} disabled={queues.data.loading}>
+					<Text.Caption2>Refresh</Text.Caption2>
+				</Button>
+			</div>
+			<Show when={queues.data().length} fallback={<Text.Caption2>No joinable queues available</Text.Caption2>}>
+				<div class="flex-col-center space-y-2">
+					<For each={queues.data()}>{(queue) => <QueueList {...queue} onClick={props.onClickGuild} />}</For>
 				</div>
 			</Show>
 		</div>

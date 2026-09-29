@@ -13,7 +13,7 @@ import {
 } from "solid-js";
 import { createStore } from "solid-js/store";
 import type TypedEventEmitter from "typed-emitter";
-import { PlayerApi, QueueApi, type IPlayer, type IQueue } from "../../apis";
+import { IMember, PlayerApi, QueueApi, type IPlayer, type IQueue } from "../../apis";
 import { defaultQueue } from "../../constants";
 import {
 	useBotSelector,
@@ -78,6 +78,7 @@ export type QueueContextStore = {
 	lyrics: ReturnType<typeof useQueueLyrics>;
 	stream: ReturnType<typeof useQueuePlayerStream>;
 	emitter: TypedEventEmitter<QueueEvents>;
+	member: Accessor<IMember | null>;
 } & ReturnType<typeof useQueueActions>;
 
 export const QueueContext = createContext<QueueContextStore>();
@@ -122,9 +123,14 @@ export const QueueProvider: ParentComponent = (props) => {
 		}
 	};
 
+	const member = () => {
+		const userId = api.getUserId();
+		return queue.voiceChannel.members.find((member) => member.id === userId) || null;
+	};
+
 	const [queue, setQueue] = createStore<QueueResource>(structuredClone(defaultQueue));
 	const { emitter, listen, close } = useQueueEvents(() => queue.voiceChannel.id);
-	const queueActions = useQueueActions({ queue, setFreezeState });
+	const queueActions = useQueueActions({ queue, setFreezeState, member });
 	const voiceChannelHistory = useVoiceChannelHistory({ queue });
 	const guildHistory = useGuildHistory({ queue });
 	const lyrics = useQueueLyrics({ queue });
@@ -153,6 +159,11 @@ export const QueueProvider: ParentComponent = (props) => {
 				streamToken: player.streamToken,
 			}));
 		});
+
+		setInterval(() => {
+			if (queue.empty) return;
+			queueActions.ping();
+		}, 60000);
 	});
 
 	onCleanup(() => {
@@ -160,11 +171,12 @@ export const QueueProvider: ParentComponent = (props) => {
 		close();
 	});
 
-	const onVisibilityChange = () => {
+	const onVisibilityChange = async () => {
 		// refetch if > 60 seconds after last refetch
 		if (document.visibilityState === "hidden") lastHidden = Date.now();
 		if (document.visibilityState === "visible" && Date.now() - lastHidden > 60 * 1000) {
-			fetchQueue();
+			if (!queue.empty) await queueActions.ping();
+			await fetchQueue();
 		}
 	};
 
@@ -231,6 +243,7 @@ export const QueueProvider: ParentComponent = (props) => {
 		emitter,
 		lyrics,
 		stream,
+		member,
 		...botSelector,
 		...queueActions,
 	};

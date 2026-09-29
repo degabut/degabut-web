@@ -1,14 +1,14 @@
-import { AbbreviationIcon, Item, Text } from "@common";
+import { AbbreviationIcon, Icon, Item, Text } from "@common";
 import { type Component } from "solid-js";
-import { type IGuild } from "../../apis";
+import { ITrack, type IGuild } from "../../apis";
 
-type GuildListProps = {
+type QueueListProps = {
 	guild: IGuild;
-	description?: string;
+	nowPlaying?: ITrack | null;
 	onClick: (guild: IGuild) => void;
 };
 
-export const GuildList: Component<GuildListProps> = (props) => {
+export const QueueList: Component<QueueListProps> = (props) => {
 	return (
 		<Item.List
 			onClick={() => props.onClick(props.guild)}
@@ -26,7 +26,14 @@ export const GuildList: Component<GuildListProps> = (props) => {
 					<Text.H4 truncate>{props.guild.name}</Text.H4>
 				</div>
 			)}
-			extra={() => (props.description ? <Text.Body2 truncate>{props.description}</Text.Body2> : undefined)}
+			extra={() =>
+				props.nowPlaying ? (
+					<div class="flex-row-center space-x-1.5">
+						<Icon name="degabut" size="sm" class="text-brand-500! animate-pulse"></Icon>
+						<Text.Caption1 truncate>{props.nowPlaying.mediaSource.title}</Text.Caption1>
+					</div>
+				) : undefined
+			}
 			imageUrl={props.guild.icon || undefined}
 			left={() =>
 				!props.guild.icon ? <AbbreviationIcon text={props.guild.name} extraClass="w-12 h-12" /> : undefined

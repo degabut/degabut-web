@@ -36,6 +36,7 @@ export const NowPlayingController: Component = () => {
 						disabled={queue.data.empty}
 						onClearQueue={queue.clear}
 						onStopQueue={queue.stop}
+						isLink={!!queue.member()?.isLink}
 					/>
 
 					<Show when={user()} keyed>
@@ -154,7 +155,7 @@ export const NowPlayingController: Component = () => {
 								class="px-2.5 py-1.5 space-x-2.5"
 								classList={{ "animate-pulse": queue.stream.isLoading() }}
 								iconSize="md"
-								icon="soundFull"
+								icon="link"
 								title="Play Stream"
 							>
 								Play Audio

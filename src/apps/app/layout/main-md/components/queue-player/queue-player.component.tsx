@@ -67,6 +67,7 @@ export const QueuePlayer: Component = () => {
 						iconSize="md"
 						onClearQueue={queue.clear}
 						onStopQueue={queue.stop}
+						isLink={!!queue.member()?.isLink}
 					/>
 					<Show when={settings["discord.rpc"]}>
 						<VolumeSlider

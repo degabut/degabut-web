@@ -25,7 +25,7 @@ export const Join: Component = () => {
 		try {
 			if (voiceChannelId) {
 				if (searchParams.bot) queue.setBot(+searchParams.bot);
-				await queue.join(voiceChannelId, textChannelId);
+				await queue.create(voiceChannelId, textChannelId);
 			}
 		} finally {
 			navigate(AppRoutes.Queue);

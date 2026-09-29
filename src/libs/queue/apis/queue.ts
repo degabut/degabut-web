@@ -20,6 +20,27 @@ export interface IQueue {
 	textChannel: ITextChannel | null;
 	guild: IGuild;
 }
+
+export interface IQueueSummary {
+	nowPlaying: ITrack | null;
+	voiceChannel: IVoiceChannel;
+	guild: IGuild;
+}
+
+export interface IQueue {
+	tracks: ITrack[];
+	history: IHistoryTrack[];
+	shuffle: boolean;
+	autoplay: boolean;
+	autoplayOptions: IAutoplayOptions;
+	loopMode: LoopMode;
+	nowPlaying: ITrack | null;
+	nextTrackIds: string[];
+	voiceChannel: IVoiceChannel;
+	textChannel: ITextChannel | null;
+	guild: IGuild;
+}
+
 export type QueueAutoplayType =
 	| "QUEUE_RELATED"
 	| "QUEUE_LAST_PLAYED_RELATED"
@@ -73,20 +94,20 @@ export interface IMember {
 }
 
 export interface ITrackAutoplayData {
-	member: IGuildMember | null;
+	member: IMember | null;
 	type: QueueAutoplayType;
 }
 
 export interface ITrack {
 	id: string;
 	mediaSource: IMediaSource;
-	requestedBy: IGuildMember | null;
+	requestedBy: IMember | null;
 	autoplayData: ITrackAutoplayData | null;
 	error: string | null;
 	playedAt: string | null;
 }
 
-export type IHistoryTrack = Omit<ITrack, "requestedBy"> & { requestedBy: IGuildMember | null };
+export type IHistoryTrack = Omit<ITrack, "requestedBy"> & { requestedBy: IMember | null };
 
 export interface IGuildMember {
 	id: string;
@@ -119,6 +140,12 @@ export class QueueApi {
 		return response.data;
 	};
 
+	getJoinable = async (): Promise<IQueueSummary[]> => {
+		const response = await this.client.get("/me/joinable");
+		if (response.status !== 200) return [];
+		return response.data;
+	};
+
 	join = async (id: string): Promise<boolean> => {
 		const response = await this.client.post(`/queues/${id}/join`);
 		if (response.status !== 201) return false;
@@ -127,6 +154,10 @@ export class QueueApi {
 
 	leave = async (id: string): Promise<void> => {
 		await this.client.post(`/queues/${id}/leave`);
+	};
+
+	ping = async (id: string): Promise<void> => {
+		await this.client.post(`/queues/${id}/ping`);
 	};
 
 	addPlaylist = async (queueId: string, playlistId: string): Promise<string[]> => {

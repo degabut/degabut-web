@@ -12,7 +12,7 @@ export const VoiceChannelsCard: Component = () => {
 					{(c) => (
 						<VoiceChannelList
 							{...c}
-							onClick={(v, t) => queue.join(v.id, t?.id)}
+							onClick={(v, t) => queue.create(v.id, t?.id)}
 							onClickRemove={(v, t) => queue.voiceChannelHistory.deleteHistory(v.id, t?.id)}
 						/>
 					)}

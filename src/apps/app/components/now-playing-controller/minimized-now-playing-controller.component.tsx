@@ -42,6 +42,7 @@ export const MinimizedNowPlayingController: Component = () => {
 					extraClass="w-full justify-center p-2.5"
 					onClearQueue={queue.clear}
 					onStopQueue={queue.stop}
+					isLink={!!queue.member()?.isLink}
 				/>
 			</div>
 		</div>

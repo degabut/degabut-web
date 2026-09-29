@@ -1,10 +1,11 @@
 import { useApi } from "@common";
-import { IS_LINK } from "@constants";
 import type { IMediaSource, MediaUrlId } from "@media-source";
 import { AxiosError } from "axios";
+import { Accessor } from "solid-js";
 import type { SetStoreFunction } from "solid-js/store";
 import type { FreezeState, IPlayerFiltersState, QueueResource } from "../";
 import {
+	IMember,
 	PlayerApi,
 	QueueApi,
 	type IChangeAutoplayOptions,
@@ -16,9 +17,10 @@ import {
 type Params = {
 	queue: QueueResource;
 	setFreezeState: SetStoreFunction<FreezeState>;
+	member: Accessor<IMember | null>;
 };
 
-export const useQueueActions = ({ queue, setFreezeState }: Params) => {
+export const useQueueActions = ({ queue, setFreezeState, member }: Params) => {
 	const api = useApi();
 	const queueApi = new QueueApi(api.client);
 	const playerApi = new PlayerApi(api.client);
@@ -177,13 +179,23 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 		return modifyTrack((queueId) => queueApi.clearQueue(queueId, includeNowPlaying));
 	};
 
-	const join = (voiceChannelId: string, textChannelId?: string) => {
+	const create = (voiceChannelId: string, textChannelId?: string) => {
 		if (!queue.empty) return;
-		return playerApi.join(voiceChannelId, textChannelId);
+		return playerApi.create(voiceChannelId, textChannelId);
+	};
+
+	const join = (voiceChannelId: string) => {
+		if (!queue.empty) return;
+		return queueApi.join(voiceChannelId);
 	};
 
 	const stop = () => {
-		return modifyTrack((queueId) => (IS_LINK ? queueApi.leave(queueId) : playerApi.stop(queueId)));
+		return modifyTrack((queueId) => (member()?.isLink ? queueApi.leave(queueId) : playerApi.stop(queueId)));
+	};
+
+	const ping = () => {
+		if (queue.empty) return;
+		return queueApi.ping(queue.voiceChannel.id);
 	};
 
 	const jam = async (count: number) => {
@@ -249,7 +261,9 @@ export const useQueueActions = ({ queue, setFreezeState }: Params) => {
 		addSpotifyAlbum,
 		seek,
 		clear,
+		create,
 		join,
+		ping,
 		stop,
 		pause,
 		unpause,

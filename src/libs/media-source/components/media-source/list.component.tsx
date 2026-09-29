@@ -11,7 +11,7 @@ import {
 	type ItemListProps,
 } from "@common";
 import { SPOTIFY_INTEGRATION } from "@constants";
-import { useQueue, type IGuildMember } from "@queue";
+import { IMember, useQueue } from "@queue";
 import { Show, createMemo, type Component } from "solid-js";
 import { type IMediaSource } from "../../apis";
 import { useLikeMediaSource, useMediaSourceContextMenu } from "../../hooks";
@@ -22,7 +22,7 @@ customClick;
 
 export type MediaSourceListProps = Partial<Omit<ItemListProps, "contextMenu">> & {
 	mediaSource: IMediaSource;
-	member?: IGuildMember | null;
+	member?: IMember | null;
 	isAutoplay?: boolean;
 	hideInQueue?: boolean;
 	hideDefaultRight?: boolean;
@@ -186,6 +186,9 @@ export const MediaSourceList: Component<MediaSourceListProps> = (props) => {
 										{(avatar) => <img src={avatar} class="h-4 w-4 rounded-full" />}
 									</Show>
 									<Text.Caption2 light={props.lightExtra}>{props.member.displayName}</Text.Caption2>
+									<Show when={props.member.isLink}>
+										<Icon name="link" size="sm" class="text-brand-500 mx-0.5" />
+									</Show>
 								</div>
 							</>
 						)}
