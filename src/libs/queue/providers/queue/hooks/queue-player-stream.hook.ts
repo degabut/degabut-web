@@ -14,6 +14,7 @@ const TARGET_DRIFT_SECONDS = 5;
 const HARD_RESYNC_DRIFT_SECONDS = 10;
 const MAX_CATCH_UP_RATE = 1.01;
 const LIVE_EDGE_CHECK_INTERVAL_MS = 1000;
+const RECONNECT_DELAY_MS = 3000;
 
 export const useQueuePlayerStream = (params: Params) => {
 	const api = useApi();
@@ -21,6 +22,7 @@ export const useQueuePlayerStream = (params: Params) => {
 	const { settings } = useSettings();
 	const audio = new Audio();
 
+	let reconnectTimer: number | undefined;
 	const isAvailable = !IS_DISCORD_EMBEDDED;
 	const [isActive, setIsActive] = createSignal(false);
 	const [isLoading, setIsLoading] = createSignal(false);
@@ -82,23 +84,29 @@ export const useQueuePlayerStream = (params: Params) => {
 
 	const liveEdgeTimer = setInterval(syncToLiveEdge, LIVE_EDGE_CHECK_INTERVAL_MS);
 
-	audio.addEventListener("ended", async () => {
-		// attempt reconnect after 3 seconds;
-		if (!isActive()) return;
-		await new Promise((resolve) => setTimeout(resolve, 3000));
-		void play();
-	});
+	const scheduleReconnect = () => {
+		if (!isActive() || reconnectTimer !== undefined) return;
+		reconnectTimer = window.setTimeout(() => {
+			reconnectTimer = undefined;
+			void play();
+		}, RECONNECT_DELAY_MS);
+	};
 
 	audio.addEventListener("error", () => {
 		const error = audio.error;
-		if (error) console.error(error.code, error.message);
+		if (!error || error.code === 1) return;
+		console.error(`Error playing audio: ${error.message}`);
+		scheduleReconnect();
 	});
+
+	audio.addEventListener("ended", () => scheduleReconnect());
 
 	const stop = () => {
 		audio.playbackRate = 1;
 		audio.pause();
 		audio.removeAttribute("src");
 		audio.load();
+		clearTimeout(reconnectTimer);
 		setIsActive(false);
 	};
 
