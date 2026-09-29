@@ -111,5 +111,9 @@ export const useQueuePlayerStream = (params: Params) => {
 		stop();
 	});
 
+	createEffect(() => {
+		if (params.queue.empty) stop();
+	});
+
 	return { play, stop, setVolume, isActive, isLoading, isAvailable };
 };
