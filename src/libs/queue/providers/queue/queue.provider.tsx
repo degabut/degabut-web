@@ -23,6 +23,7 @@ import {
 	useQueueEventListener,
 	useQueueEvents,
 	useQueueLyrics,
+	useQueuePlayerStream,
 	useVoiceChannelHistory,
 	type QueueEvents,
 } from "./hooks";
@@ -75,6 +76,7 @@ export type QueueContextStore = {
 	bot: Accessor<Bot>;
 	setBot: (index: number) => void;
 	lyrics: ReturnType<typeof useQueueLyrics>;
+	stream: ReturnType<typeof useQueuePlayerStream>;
 	emitter: TypedEventEmitter<QueueEvents>;
 } & ReturnType<typeof useQueueActions>;
 
@@ -126,6 +128,7 @@ export const QueueProvider: ParentComponent = (props) => {
 	const voiceChannelHistory = useVoiceChannelHistory({ queue });
 	const guildHistory = useGuildHistory({ queue });
 	const lyrics = useQueueLyrics({ queue });
+	const stream = useQueuePlayerStream({ queue, bot: botSelector.bot });
 	useQueueEventListener({ queue, setQueue, setFreezeState, fetchQueue, emitter });
 	usePlayerPositionUpdater({ queue, setQueue });
 
@@ -139,6 +142,16 @@ export const QueueProvider: ParentComponent = (props) => {
 				clearTimeout(resetQueueTimeout);
 				resetQueueTimeout = null;
 			}
+		});
+		emitter.on("track-audio-started", async () => {
+			// refetch stream token
+			if (!queue.voiceChannel.id) return;
+			const player = await playerApi.getPlayer(queue.voiceChannel.id);
+			if (!player) return;
+			setQueue((q) => ({
+				...q,
+				streamToken: player.streamToken,
+			}));
 		});
 	});
 
@@ -217,6 +230,7 @@ export const QueueProvider: ParentComponent = (props) => {
 		freezeState,
 		emitter,
 		lyrics,
+		stream,
 		...botSelector,
 		...queueActions,
 	};

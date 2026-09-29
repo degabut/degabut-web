@@ -27,6 +27,7 @@ export const useQueueEventListener = ({ queue, setQueue, setFreezeState, fetchQu
 		emitter.on("queue-destroyed", resetQueue);
 		emitter.on("queue-left", resetQueue);
 		emitter.on("queue-joined", fetchQueue);
+		emitter.on("queue-created", fetchQueue);
 		emitter.on("identify", fetchQueue);
 		emitter.on("queue-processed", onQueueProcessed);
 		emitter.on("member-joined", updateMember);

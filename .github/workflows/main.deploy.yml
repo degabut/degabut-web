@@ -31,7 +31,6 @@ jobs:
                   VITE_YT_IMAGE_PROXY: ${{ secrets.VITE_YT_IMAGE_PROXY }}
                   VITE_SPOTIFY_INTEGRATION: ${{ secrets.VITE_SPOTIFY_INTEGRATION }}
                   VITE_DISCORD_ACTIVITY_URL_MAPPINGS: ${{ secrets.VITE_DISCORD_ACTIVITY_URL_MAPPINGS }}
-                  VITE_LAVALINK_FILTER_PLUGINS: ${{ secrets.VITE_LAVALINK_FILTER_PLUGINS }}
 
             - name: Deploy
               uses: wangyucode/sftp-upload-action@v3.0.0

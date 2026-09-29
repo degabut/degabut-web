@@ -36,16 +36,31 @@ export interface IPlayerFilters {
 export interface IPlayer {
 	position: number;
 	isPaused: boolean;
+	streamToken: string | null;
 	filters?: IPlayerFilters;
+	plugins: string[];
 }
 
 export class PlayerApi {
 	constructor(private client: AxiosInstance) {}
 
 	join = async (voiceChannelId: string, textChannelId?: string): Promise<boolean> => {
-		const response = await this.client.post("/players", { voiceChannelId, textChannelId });
-		if (response.status !== 201) return false;
-		return true;
+		try {
+			const response = await this.client.post("/players", { voiceChannelId, textChannelId });
+			if (response.status !== 201) return false;
+			return true;
+		} catch {
+			return false;
+		}
+	};
+
+	getStreamUrl = (voiceChannelId: string, token: string): string => {
+		const baseUrl = this.client.defaults.baseURL?.startsWith("/")
+			? window.location.origin + this.client.defaults.baseURL
+			: (this.client.defaults.baseURL ?? "");
+		const url = new URL(`/players/${voiceChannelId}/stream`, baseUrl);
+		if (token) url.searchParams.set("token", token);
+		return url.toString();
 	};
 
 	stop = async (voiceChannelId: string): Promise<void> => {

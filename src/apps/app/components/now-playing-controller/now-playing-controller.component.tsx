@@ -139,15 +139,39 @@ export const NowPlayingController: Component = () => {
 					</div>
 
 					<div class="col-span-3 mx-auto">
-						<Show when={settings["discord.rpc"]}>
+						<Show
+							when={
+								queue.stream.isAvailable &&
+								!queue.stream.isActive() &&
+								queue.data.plugins.includes("live-stream")
+							}
+						>
+							<Button
+								theme="brand"
+								flat
+								disabled={queue.stream.isLoading()}
+								onClick={queue.stream.play}
+								class="px-2.5 py-1.5 space-x-2.5"
+								classList={{ "animate-pulse": queue.stream.isLoading() }}
+								iconSize="md"
+								icon="soundFull"
+								title="Play Stream"
+							>
+								Play Audio
+							</Button>
+						</Show>
+
+						<Show when={settings["discord.rpc"] || queue.stream.isActive()}>
 							<VolumeSlider
 								extraContainerClass="max-w-40"
 								value={settings["botVolumes"][queue.bot().id]}
 								onChange={(volume) => {
 									setSettings("botVolumes", { [queue.bot().id]: volume });
+									queue.stream.setVolume(volume / 200);
 									desktop?.ipc.send?.("set-bot-volume", { volume, id: queue.bot().id });
 								}}
 								onMuteToggled={(isMuted) => {
+									queue.stream.stop();
 									desktop?.ipc.send?.("set-bot-volume", {
 										volume: isMuted ? 0 : settings["botVolumes"][queue.bot().id],
 										id: queue.bot().id,

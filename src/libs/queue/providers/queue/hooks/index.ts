@@ -5,4 +5,5 @@ export * from "./queue-actions.hook";
 export * from "./queue-event-listener.hook";
 export * from "./queue-events.hook";
 export * from "./queue-lyrics.hook";
+export * from "./queue-player-stream.hook";
 export * from "./voice-channel-history.hook";

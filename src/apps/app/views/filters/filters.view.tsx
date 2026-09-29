@@ -118,7 +118,7 @@ export const Filters: Component = () => {
 			},
 		];
 
-		if (queue.bot().lavalinkFilterPlugins?.includes("LavaDSPX-Plugin")) {
+		if (queue.data.plugins.includes("lavadspx-plugin")) {
 			categories.push({
 				label: "Echo",
 				enabled: currentFilters.pluginFilters.echo.enabled,

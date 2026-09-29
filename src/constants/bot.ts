@@ -5,15 +5,13 @@ export type Bot = {
 	apiBaseUrl: string;
 	youtubeApiBaseUrl: string;
 	wsUrl: string;
-	lavalinkFilterPlugins?: string[];
 };
 
 export const bots: Bot[] = import.meta.env.VITE_APPLICATIONS
 	? JSON.parse(import.meta.env.VITE_APPLICATIONS).map((b: Bot) => ({
 			...b,
-			lavalinkFilterPlugins: b.lavalinkFilterPlugins || import.meta.env.VITE_LAVALINK_FILTER_PLUGINS?.split(","),
 			youtubeApiBaseUrl: b.youtubeApiBaseUrl || import.meta.env.VITE_YOUTUBE_API_BASE_URL,
-	  }))
+		}))
 	: [
 			{
 				id: import.meta.env.VITE_APPLICATION_ID,
@@ -22,6 +20,5 @@ export const bots: Bot[] = import.meta.env.VITE_APPLICATIONS
 				apiBaseUrl: import.meta.env.VITE_API_BASE_URL,
 				youtubeApiBaseUrl: import.meta.env.VITE_YOUTUBE_API_BASE_URL,
 				wsUrl: import.meta.env.VITE_WS_URL,
-				lavalinkFilterPlugins: import.meta.env.VITE_LAVALINK_FILTER_PLUGINS?.split(","),
 			},
-	  ];
+		];

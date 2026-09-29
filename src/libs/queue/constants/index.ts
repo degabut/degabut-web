@@ -5,6 +5,7 @@ export const defaultQueue: QueueResource = {
 	guild: { icon: null, id: "", name: "" },
 	history: [],
 	isPaused: false,
+	streamToken: null,
 	loopMode: LoopMode.DISABLED,
 	nowPlaying: null,
 	nextTrackIds: [],
@@ -34,5 +35,6 @@ export const defaultQueue: QueueResource = {
 		},
 	},
 	filters: {},
+	plugins: [],
 	empty: true,
 };
