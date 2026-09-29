@@ -58,7 +58,7 @@ export class PlayerApi {
 		const baseUrl = this.client.defaults.baseURL?.startsWith("/")
 			? window.location.origin + this.client.defaults.baseURL
 			: (this.client.defaults.baseURL ?? "");
-		const url = new URL(`/players/${voiceChannelId}/stream`, baseUrl);
+		const url = new URL(baseUrl + `/players/${voiceChannelId}/stream`);
 		if (token) url.searchParams.set("token", token);
 		return url.toString();
 	};
