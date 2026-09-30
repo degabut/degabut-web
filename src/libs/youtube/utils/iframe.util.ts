@@ -1,4 +1,4 @@
-import { DISCORD_ACTIVITY_URL_MAPPINGS } from "@constants";
+import { DISCORD_ACTIVITY_URL_MAPPINGS, IS_DISCORD_EMBEDDED } from "@constants";
 import { PatchUrlUtil } from "@discord";
 
 export class YouTubeIframeUtil {
@@ -7,7 +7,7 @@ export class YouTubeIframeUtil {
 	static EMBED_URL = `${YouTubeIframeUtil.ORIGIN}/embed`;
 
 	static rewriteUrl(url: string): string {
-		if (!DISCORD_ACTIVITY_URL_MAPPINGS.length) return url;
+		if (!DISCORD_ACTIVITY_URL_MAPPINGS.length || !IS_DISCORD_EMBEDDED) return url;
 		return PatchUrlUtil.rewriteString(url, DISCORD_ACTIVITY_URL_MAPPINGS);
 	}
 
