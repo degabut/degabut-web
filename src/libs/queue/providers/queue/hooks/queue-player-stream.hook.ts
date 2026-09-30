@@ -174,8 +174,6 @@ export const useQueuePlayerStream = (params: Params) => {
 		}
 		const actual = normalizedMax * Math.pow(10, db / 20);
 
-		console.log(perceptual, actual);
-
 		audio.volume = actual;
 	};
 
