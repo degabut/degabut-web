@@ -1,6 +1,6 @@
 import { AppRoutes } from "@app/routes";
 import { Divider, Icon, Item, Modal, Text, useNavigate } from "@common";
-import { useQueue, type IMember } from "@queue";
+import { MemberUtil, useQueue, type IMember } from "@queue";
 import { For, Show, type Component } from "solid-js";
 
 type MemberListModalProps = {
@@ -38,7 +38,7 @@ export const MemberListModal: Component<MemberListModalProps> = (props) => {
 									(m) => m.id === member.id && !m.isInVoiceChannel && !m.isLink
 								);
 
-							const isInQueue = () => member.isInVoiceChannel || member.isLink;
+							const isInQueue = () => MemberUtil.isActive(member);
 
 							return (
 								<MemberList

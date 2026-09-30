@@ -1,5 +1,5 @@
 import { Button, Divider, Text, TimeUtil } from "@common";
-import { useQueue } from "@queue";
+import { MemberUtil, useQueue } from "@queue";
 import { type Accessor, type Component, For, type JSX, Show, createSignal } from "solid-js";
 import { AutoplayOptionsModal } from "./autoplay-options-modal.component";
 import { MemberListModal } from "./member-list-modal.component";
@@ -73,9 +73,7 @@ export const QueueInfo: Component = () => {
 					>
 						<Show when={queue.data.voiceChannel.members.length}>
 							<div class="flex-row-center overflow-x-clip -space-x-2">
-								<For
-									each={queue.data.voiceChannel.members.filter((m) => m.isInVoiceChannel || m.isLink)}
-								>
+								<For each={queue.data.voiceChannel.members.filter((m) => MemberUtil.isActive(m))}>
 									{(member) => (
 										<div class="rounded-full w-7 h-7 border-neutral-900 border-2">
 											<img

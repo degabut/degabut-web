@@ -91,6 +91,7 @@ export interface IMember {
 	avatar: null | string;
 	isInVoiceChannel: boolean;
 	isLink: boolean;
+	lastPingTimestamp: number;
 }
 
 export interface ITrackAutoplayData {
