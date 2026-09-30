@@ -1,9 +1,10 @@
 import { AbbreviationIcon, Icon, Item, Text } from "@common";
-import { type Component } from "solid-js";
-import { ITrack, type IGuild } from "../../apis";
+import { Show, type Component } from "solid-js";
+import { ITrack, IVoiceChannel, type IGuild } from "../../apis";
 
 type QueueListProps = {
 	guild: IGuild;
+	voiceChannel: IVoiceChannel;
 	nowPlaying?: ITrack | null;
 	onClick: (guild: IGuild) => void;
 };
@@ -22,18 +23,27 @@ export const QueueList: Component<QueueListProps> = (props) => {
 				],
 			}}
 			title={() => (
-				<div class="flex space-x-2">
-					<Text.H4 truncate>{props.guild.name}</Text.H4>
+				<div class="flex-row-center space-x-2">
+					<Text.H4 truncate>{props.voiceChannel.name}</Text.H4>
 				</div>
 			)}
-			extra={() =>
-				props.nowPlaying ? (
-					<div class="flex-row-center space-x-1.5">
+			extra={() => (
+				<div class="flex-row-center space-x-1.5">
+					<Show when={props.nowPlaying}>
 						<Icon name="degabut" size="sm" class="text-brand-500! animate-pulse"></Icon>
-						<Text.Caption1 truncate>{props.nowPlaying.mediaSource.title}</Text.Caption1>
-					</div>
-				) : undefined
-			}
+					</Show>
+					<Text.Caption1 truncate>{props.guild.name}</Text.Caption1>
+
+					<Show when={props.nowPlaying} keyed>
+						{(nowPlaying) => (
+							<>
+								<Text.Caption1>—</Text.Caption1>
+								<Text.Caption1 truncate>{nowPlaying.mediaSource.title}</Text.Caption1>
+							</>
+						)}
+					</Show>
+				</div>
+			)}
 			imageUrl={props.guild.icon || undefined}
 			left={() =>
 				!props.guild.icon ? <AbbreviationIcon text={props.guild.name} extraClass="w-12 h-12" /> : undefined
