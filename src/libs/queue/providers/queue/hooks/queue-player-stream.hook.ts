@@ -15,6 +15,8 @@ const HARD_RESYNC_DRIFT_SECONDS = 10;
 const MAX_CATCH_UP_RATE = 1.01;
 const LIVE_EDGE_CHECK_INTERVAL_MS = 1000;
 const RECONNECT_DELAY_MS = 3000;
+const DRIFT_SMOOTHING = 0.1;
+const DRIFT_NOTIFY_EPSILON_SECONDS = 0.25;
 
 export const useQueuePlayerStream = (params: Params) => {
 	const api = useApi();
@@ -23,9 +25,13 @@ export const useQueuePlayerStream = (params: Params) => {
 	const audio = new Audio();
 
 	let reconnectTimer: number | undefined;
+	let smoothedDrift: number | null = null;
 	const isAvailable = !IS_DISCORD_EMBEDDED;
 	const [isActive, setIsActive] = createSignal(false);
 	const [isLoading, setIsLoading] = createSignal(false);
+	const [driftSeconds, setDriftSeconds] = createSignal(0, {
+		equals: (prev, next) => Math.abs(next - prev) < DRIFT_NOTIFY_EPSILON_SECONDS,
+	});
 	const streamToken = createMemo(() => params.queue.streamToken);
 
 	createEffect(() => {
@@ -66,16 +72,22 @@ export const useQueuePlayerStream = (params: Params) => {
 		if (!buffered.length) return;
 
 		const edge = buffered.end(buffered.length - 1);
-		const drift = edge - audio.currentTime;
+		const seconds = edge - audio.currentTime;
 
-		if (drift < TARGET_DRIFT_SECONDS) {
+		smoothedDrift = smoothedDrift === null ? seconds : smoothedDrift + (seconds - smoothedDrift) * DRIFT_SMOOTHING;
+		setDriftSeconds(smoothedDrift);
+
+		if (seconds < TARGET_DRIFT_SECONDS) {
 			if (audio.playbackRate !== 1) audio.playbackRate = 1;
 			return;
 		}
 
-		if (drift >= HARD_RESYNC_DRIFT_SECONDS) {
+		if (seconds >= HARD_RESYNC_DRIFT_SECONDS) {
 			audio.playbackRate = 1;
 			audio.currentTime = edge - TARGET_DRIFT_SECONDS;
+			// The seek just set the lag to the target, so restart the average from there.
+			smoothedDrift = TARGET_DRIFT_SECONDS;
+			setDriftSeconds(TARGET_DRIFT_SECONDS);
 			return;
 		}
 
@@ -107,11 +119,22 @@ export const useQueuePlayerStream = (params: Params) => {
 		audio.removeAttribute("src");
 		audio.load();
 		clearTimeout(reconnectTimer);
+		smoothedDrift = null;
+		setDriftSeconds(0);
 		setIsActive(false);
 	};
 
 	const setVolume = (volume: number) => {
 		audio.volume = volume;
+	};
+
+	const position = () => {
+		if (!isActive()) return 0;
+
+		const timescale = params.queue.filtersState.timescale;
+		const speed = timescale.enabled ? (timescale.speed || 1) * (timescale.rate || 1) : 1;
+
+		return Math.max(0, params.queue.position - driftSeconds() * 1000 * speed);
 	};
 
 	onCleanup(() => {
@@ -123,5 +146,5 @@ export const useQueuePlayerStream = (params: Params) => {
 		if (params.queue.empty) stop();
 	});
 
-	return { play, stop, setVolume, isActive, isLoading, isAvailable };
+	return { play, stop, setVolume, position, isActive, isLoading, isAvailable };
 };

@@ -33,7 +33,7 @@ export const Lyrics: Component = () => {
 		const lyrics = syncedLyrics();
 		return {
 			offset: settings["app.lyrics.offset"],
-			elapsed: queue.data.position / 1000,
+			elapsed: (queue.stream.isActive() ? queue.stream.position() : queue.data.position) / 1000,
 			timedTexts: lyrics?.content || [],
 			speed: speed(),
 		};
@@ -63,7 +63,7 @@ export const Lyrics: Component = () => {
 			? {
 					source: bestMatch.source,
 					content: LyricsUtil.parse(bestMatch.synced).synced,
-			  }
+				}
 			: null;
 	};
 
