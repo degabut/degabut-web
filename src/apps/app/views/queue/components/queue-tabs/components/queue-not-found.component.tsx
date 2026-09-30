@@ -143,7 +143,7 @@ const VoiceChannelHistoryList: Component<VoiceChannelHistoryListProps> = (props)
 			<div class="flex flex-col space-y-2.5">
 				<div class="flex-row-center space-x-2">
 					<div class="flex-row-center space-x-2">
-						<Text.Body2>Joinable Queue</Text.Body2>
+						<Text.Body2>Joinable Session</Text.Body2>
 						<Icon name="link" size="md" class="text-brand-500"></Icon>
 					</div>
 					<Button flat class="px-2 py-1" onClick={() => queues.refetch()} disabled={queues.data.loading}>
@@ -152,7 +152,7 @@ const VoiceChannelHistoryList: Component<VoiceChannelHistoryListProps> = (props)
 				</div>
 				<Show
 					when={queues.data().length}
-					fallback={<Text.Caption2>No joinable queues available</Text.Caption2>}
+					fallback={<Text.Caption2>No joinable sessions available</Text.Caption2>}
 				>
 					<div class="flex-col-center space-y-2">
 						<For each={queues.data()}>
