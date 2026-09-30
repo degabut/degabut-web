@@ -155,8 +155,28 @@ export const useQueuePlayerStream = (params: Params) => {
 		setDriftSeconds(0);
 	};
 
-	const setVolume = (volume: number) => {
-		audio.volume = volume;
+	const setVolume = (perceptual: number) => {
+		// convert perceptual volume to amplitude
+		// credit: https://github.com/discord/perceptual
+
+		const normalizedMax = 1;
+		const range = 50;
+		const boostRange = 6;
+
+		if (perceptual === 0) {
+			return 0;
+		}
+		let db;
+		if (perceptual > normalizedMax) {
+			db = ((perceptual - normalizedMax) / normalizedMax) * boostRange;
+		} else {
+			db = (perceptual / normalizedMax) * range - range;
+		}
+		const actual = normalizedMax * Math.pow(10, db / 20);
+
+		console.log(perceptual, actual);
+
+		audio.volume = actual;
 	};
 
 	const position = () => {
