@@ -14,6 +14,7 @@ const TARGET_DRIFT_SECONDS = 5;
 const HARD_RESYNC_DRIFT_SECONDS = 10;
 const MAX_CATCH_UP_RATE = 1.01;
 const LIVE_EDGE_CHECK_INTERVAL_MS = 1000;
+const HEALTH_CHECK_INTERVAL_MS = 3000;
 const RECONNECT_DELAY_MS = 3000;
 const DRIFT_SMOOTHING = 0.1;
 const DRIFT_NOTIFY_EPSILON_SECONDS = 0.25;
@@ -25,7 +26,11 @@ export const useQueuePlayerStream = (params: Params) => {
 	const audio = new Audio();
 
 	let reconnectTimer: number | undefined;
+	let liveEdgeInterval: number | undefined;
+	let healthCheckInterval: number | undefined;
 	let smoothedDrift: number | null = null;
+	let lastAudioTime: number | null = null;
+	let lastAudioTimeCheck: number | null = null;
 	const isAvailable = !IS_DISCORD_EMBEDDED;
 	const [isActive, setIsActive] = createSignal(false);
 	const [isLoading, setIsLoading] = createSignal(false);
@@ -49,11 +54,17 @@ export const useQueuePlayerStream = (params: Params) => {
 	};
 
 	const play = async () => {
+		stop();
+
 		const url = getStreamUrl();
 		if (!url) return;
 
 		setIsLoading(true);
 		audio.src = url;
+
+		liveEdgeInterval = window.setInterval(syncToLiveEdge, LIVE_EDGE_CHECK_INTERVAL_MS);
+		healthCheckInterval = window.setInterval(healthCheck, HEALTH_CHECK_INTERVAL_MS);
+
 		try {
 			await audio.play();
 			setIsActive(true);
@@ -61,8 +72,15 @@ export const useQueuePlayerStream = (params: Params) => {
 			setIsActive(false);
 			if (error instanceof DOMException && error.name === "NotAllowedError") return;
 			console.error("Error playing audio:", error);
+			scheduleReconnect();
+		} finally {
+			setIsLoading(false);
 		}
-		setIsLoading(false);
+	};
+
+	const stop = () => {
+		cleanUp();
+		setIsActive(false);
 	};
 
 	const syncToLiveEdge = () => {
@@ -94,7 +112,17 @@ export const useQueuePlayerStream = (params: Params) => {
 		audio.playbackRate = MAX_CATCH_UP_RATE;
 	};
 
-	const liveEdgeTimer = setInterval(syncToLiveEdge, LIVE_EDGE_CHECK_INTERVAL_MS);
+	const healthCheck = () => {
+		if (!isActive() || isLoading() || !params.queue.nowPlaying || params.queue.isPaused) return;
+
+		const now = Date.now();
+		if (lastAudioTime !== null && audio.currentTime === lastAudioTime && now - lastAudioTimeCheck! >= 3000) {
+			console.error("Audio stream stalled, attempting to reconnect");
+			play();
+		}
+		lastAudioTime = audio.currentTime;
+		lastAudioTimeCheck = now;
+	};
 
 	const scheduleReconnect = () => {
 		if (!isActive() || reconnectTimer !== undefined) return;
@@ -113,15 +141,18 @@ export const useQueuePlayerStream = (params: Params) => {
 
 	audio.addEventListener("ended", () => scheduleReconnect());
 
-	const stop = () => {
+	const cleanUp = () => {
 		audio.playbackRate = 1;
 		audio.pause();
 		audio.removeAttribute("src");
 		audio.load();
-		clearTimeout(reconnectTimer);
 		smoothedDrift = null;
+		lastAudioTime = null;
+		lastAudioTimeCheck = null;
+		clearInterval(healthCheckInterval);
+		clearInterval(liveEdgeInterval);
+		clearTimeout(reconnectTimer);
 		setDriftSeconds(0);
-		setIsActive(false);
 	};
 
 	const setVolume = (volume: number) => {
@@ -137,10 +168,7 @@ export const useQueuePlayerStream = (params: Params) => {
 		return Math.max(0, params.queue.position - driftSeconds() * 1000 * speed);
 	};
 
-	onCleanup(() => {
-		clearInterval(liveEdgeTimer);
-		stop();
-	});
+	onCleanup(() => stop());
 
 	createEffect(() => {
 		if (params.queue.empty) stop();
