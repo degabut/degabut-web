@@ -6,6 +6,7 @@ type VolumeSliderProps = {
 	onChange: (value: number) => void;
 	onMuteToggled: (isMuted: boolean) => void;
 	extraContainerClass?: string;
+	max?: number;
 	extraButtonClass?: string;
 	iconSize?: IconSize;
 };
@@ -36,9 +37,9 @@ export const VolumeSlider: Component<VolumeSliderProps> = (props) => {
 				icon={
 					isMuted() || props.value === 0
 						? "soundOff"
-						: props.value > 0 && props.value <= 100
-						? "soundMedium"
-						: "soundFull"
+						: props.value > 0 && props.value <= (props.max || 200) / 2
+							? "soundMedium"
+							: "soundFull"
 				}
 				iconSize={props.iconSize || "md"}
 				classList={{ [props.extraButtonClass || ""]: !!props.extraButtonClass }}
@@ -46,7 +47,7 @@ export const VolumeSlider: Component<VolumeSliderProps> = (props) => {
 			/>
 			<Slider
 				min={0}
-				max={200}
+				max={props.max || 200}
 				step={1}
 				tooltip
 				value={isMuted() ? 0 : props.value}

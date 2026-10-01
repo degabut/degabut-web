@@ -1,6 +1,7 @@
 import { useApi } from "@common";
 import { Bot, IS_DISCORD_EMBEDDED } from "@constants";
 import { useSettings } from "@settings";
+import { isNumber } from "lodash";
 import { Accessor, createEffect, createMemo, createSignal, onCleanup } from "solid-js";
 import { PlayerApi } from "../../../apis";
 import { type QueueResource } from "../queue.provider";
@@ -40,8 +41,10 @@ export const useQueuePlayerStream = (params: Params) => {
 	const streamToken = createMemo(() => params.queue.streamToken);
 
 	createEffect(() => {
-		if (settings["botVolumes"][params.bot().id]) {
-			setVolume(settings["botVolumes"][params.bot().id] / 200);
+		if (isNumber(settings["botVolumes"][params.bot().id])) {
+			setVolume(settings["botVolumes"][params.bot().id]);
+		} else {
+			setVolume(50);
 		}
 	});
 
@@ -163,14 +166,17 @@ export const useQueuePlayerStream = (params: Params) => {
 	const setVolume = (perceptual: number) => {
 		// convert perceptual volume to amplitude
 		// credit: https://github.com/discord/perceptual
+		perceptual = perceptual / 100;
 
 		const normalizedMax = 1;
 		const range = 50;
 		const boostRange = 6;
 
 		if (perceptual === 0) {
-			return 0;
+			audio.volume = 0;
+			return;
 		}
+
 		let db;
 		if (perceptual > normalizedMax) {
 			db = ((perceptual - normalizedMax) / normalizedMax) * boostRange;

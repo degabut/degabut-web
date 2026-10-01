@@ -164,11 +164,12 @@ export const NowPlayingController: Component = () => {
 
 						<Show when={settings["discord.rpc"] || queue.stream.isActive()}>
 							<VolumeSlider
+								max={queue.stream.isActive() ? 100 : 200}
 								extraContainerClass="max-w-40"
 								value={settings["botVolumes"][queue.bot().id]}
 								onChange={(volume) => {
 									setSettings("botVolumes", { [queue.bot().id]: volume });
-									queue.stream.setVolume(volume / 200);
+									queue.stream.setVolume(volume);
 									desktop?.ipc.send?.("set-bot-volume", { volume, id: queue.bot().id });
 								}}
 								onMuteToggled={(isMuted) => {
