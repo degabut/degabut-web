@@ -185,7 +185,7 @@ export const useQueuePlayerStream = (params: Params) => {
 		}
 		const actual = normalizedMax * Math.pow(10, db / 20);
 
-		audio.volume = actual;
+		audio.volume = Math.min(1, Math.max(0, actual));
 	};
 
 	const position = () => {
